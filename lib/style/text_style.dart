@@ -1,0 +1,21 @@
+// import 'package:flutter/widgets.dart';
+//
+// import '../enums/device_screen_type.dart';
+//
+// /// Returns the style for a page title based on the [deviceScreenType] passed in.
+// TextStyle titleTextStyle(DeviceScreenType deviceScreenType) {
+//   double titleSize = deviceScreenType == DeviceScreenType.mobile ? 50 : 80;
+//   return TextStyle(
+//       fontWeight: FontWeight.w800, height: 0.9, fontSize: titleSize);
+// }
+//
+// /// Return the style for description text on a page based on the [deviceScreenType] passed in.
+// TextStyle descriptionTextStyle(DeviceScreenType deviceScreenType) {
+//   double descriptionSize =
+//   deviceScreenType == DeviceScreenType.mobile ? 16 : 21;
+//
+//   return TextStyle(
+//     fontSize: descriptionSize,
+//     height: 1.7,
+//   );
+// }
