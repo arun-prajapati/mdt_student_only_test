@@ -552,15 +552,17 @@ class _TheoryTabState extends State<TheoryTab> {
                                           SizedBox(
                                             width: 15,
                                           ),
-                                          Text(
-                                            cards[index]["title"],
-                                            style: TextStyle(
-                                              fontSize: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  4,
-                                              fontWeight: FontWeight.bold,
+                                          Expanded(
+                                            child: Text(
+                                              cards[index]["title"],
+                                              style: TextStyle(
+                                                fontSize: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    4,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
                                       ),

@@ -63,13 +63,13 @@ class AuthProvider with ChangeNotifier {
     );
     if (response.statusCode == 200) {
       Map<String, dynamic> apiResponse = json.decode(response.body);
-      print("userData");
-      print(apiResponse);
+      print("userData ${jsonEncode(body)}");
+      print("RESSS **************************           $apiResponse");
       _status = Status.Authenticated;
       _token = apiResponse['token'];
       _userType = apiResponse['user_type'];
-      _userName = apiResponse['first_name'];
-      _eMail = apiResponse['email'];
+      _userName = apiResponse['user_name'];
+      _eMail = apiResponse['e_mail'];
       //print(_token);
       await storeUserData(apiResponse);
       _navigationService.goBack();

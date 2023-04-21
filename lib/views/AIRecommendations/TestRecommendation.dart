@@ -240,7 +240,7 @@ class _TestRecommendationState extends State<TestRecommendation> {
                                                   mute: false,
                                                   showControls: true,
                                                   showFullscreenButton: false),
-                                            )..loadVideo(element["yt_links"][0]),
+                                            )..loadVideo(element["yt_link"][0]),
                                             // width: 250,
                                           ),
                                         )

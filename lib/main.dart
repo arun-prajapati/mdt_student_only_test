@@ -19,12 +19,12 @@ const bool debugEnableDeviceSimulator = true;
 //final storage = FlutterSecureStorage();
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   // ignore: invalid_use_of_visible_for_testing_member
   // SharedPreferences.setMockInitialValues({});
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocator();
-  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

@@ -242,7 +242,7 @@ class _LessonRecommendationState extends State<LessonRecommendation> {
                                                   mute: false,
                                                   showControls: true,
                                                   showFullscreenButton: false),
-                                            )..loadVideo(element["yt_links"]),
+                                            )..loadVideo(element["yt_link"]),
                                             // width: 250,
                                           ),
                                         )

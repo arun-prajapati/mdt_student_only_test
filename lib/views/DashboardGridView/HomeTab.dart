@@ -799,7 +799,7 @@ class _HomeTabState extends State<HomeTab> {
                                           elevation: 5.0,
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
-                                              horizontal: 10,
+                                              horizontal: 5,
                                               vertical: 18,
                                             ),
                                             child: isLoading
@@ -913,17 +913,42 @@ class _HomeTabState extends State<HomeTab> {
                                                                       children: [
                                                                         data[index]["postcode"] !=
                                                                                 null
-                                                                            ? InkWell(
-                                                                                onTap: () async {
-                                                                                  // print(bookingList[index]);
-                                                                                  // _map.openMap(
-                                                                                  //     "${bookingList[index]["location"]},${bookingList[index]["postcode"]}");
-                                                                                },
+                                                                            ? Expanded(
+                                                                                flex: 0,
+                                                                                child: InkWell(
+                                                                                  onTap: () async {
+                                                                                    // print(bookingList[index]);
+                                                                                    // _map.openMap(
+                                                                                    //     "${bookingList[index]["location"]},${bookingList[index]["postcode"]}");
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    margin: const EdgeInsets.symmetric(vertical: 5),
+                                                                                    child: Text(
+                                                                                      data[index]["postcode"],
+                                                                                      style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
+                                                                                    ),
+                                                                                    decoration: BoxDecoration(
+                                                                                      borderRadius: BorderRadius.circular(15.0),
+                                                                                      color: Dark,
+                                                                                    ),
+                                                                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                                                                  ),
+                                                                                ),
+                                                                              )
+                                                                            : SizedBox(),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              SizeConfig.blockSizeHorizontal * 1,
+                                                                        ),
+                                                                        data[index]["name"].length >
+                                                                                2
+                                                                            ? Expanded(
+                                                                                flex: 0,
                                                                                 child: Container(
                                                                                   margin: const EdgeInsets.symmetric(vertical: 5),
                                                                                   child: Text(
-                                                                                    data[index]["postcode"],
-                                                                                    style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
+                                                                                    data[index]["name"],
+                                                                                    style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
                                                                                   ),
                                                                                   decoration: BoxDecoration(
                                                                                     borderRadius: BorderRadius.circular(15.0),
@@ -932,38 +957,20 @@ class _HomeTabState extends State<HomeTab> {
                                                                                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                                                                 ),
                                                                               )
-                                                                            : Text(
-                                                                                '',
-                                                                              ),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              SizeConfig.blockSizeHorizontal * 1,
-                                                                        ),
-                                                                        data[index]["name"].length >
-                                                                                2
-                                                                            ? Container(
-                                                                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                                                                child: Text(
-                                                                                  data[index]["name"],
-                                                                                  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
+                                                                            : Expanded(
+                                                                                flex: 0,
+                                                                                child: Container(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                                                                  child: Text(
+                                                                                    "Not assigned yet",
+                                                                                    style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
+                                                                                  ),
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.circular(15.0),
+                                                                                    color: Dark,
+                                                                                  ),
+                                                                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                                                                 ),
-                                                                                decoration: BoxDecoration(
-                                                                                  borderRadius: BorderRadius.circular(15.0),
-                                                                                  color: Dark,
-                                                                                ),
-                                                                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                                                                              )
-                                                                            : Container(
-                                                                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                                                                child: Text(
-                                                                                  "Not assigned yet",
-                                                                                  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
-                                                                                ),
-                                                                                decoration: BoxDecoration(
-                                                                                  borderRadius: BorderRadius.circular(15.0),
-                                                                                  color: Dark,
-                                                                                ),
-                                                                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                                                               ),
                                                                       ],
                                                                     ),
