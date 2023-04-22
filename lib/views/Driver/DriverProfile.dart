@@ -6,7 +6,6 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -71,6 +70,8 @@ class _driverProfile extends State<DriverProfile> {
     Map response =
         await Provider.of<AuthProvider>(context, listen: false).getUserData();
     _userId = response['id'];
+    print('USER ID *************************  $_userId');
+    print('USER ID *************************  ${response['user_type']}');
     return _userId;
   }
 
@@ -119,21 +120,28 @@ class _driverProfile extends State<DriverProfile> {
     log("Desc : ${p.description!}");
     log("Place id : ${p.placeId!}");
     log("Place details : ${detail.result.toJson()}");
-    String postalCode = detail.result.addressComponents.where((element)=>element.types.contains("postal_code")).first.longName;
-    String townName = detail.result.addressComponents.where((element)=>element.types.contains("postal_town")).first.longName;
-    Iterable street = detail.result.addressComponents.where((element)=>element.types.contains("route"));
+    String postalCode = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_code"))
+        .first
+        .longName;
+    String townName = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_town"))
+        .first
+        .longName;
+    Iterable street = detail.result.addressComponents
+        .where((element) => element.types.contains("route"));
     setState(() {
       town?.text = townName;
       postcode = postalCode;
       _address = detail.result.formattedAddress!;
     });
-    if(street.length > 0){
+    if (street.length > 0) {
       String streetAdd = street.first.longName;
       log("Street Code : ${streetAdd}");
       setState(() {
         address_line_2?.text = streetAdd;
       });
-    }else{
+    } else {
       setState(() {
         address_line_2?.text = "";
       });
@@ -165,21 +173,25 @@ class _driverProfile extends State<DriverProfile> {
     getUserDetail().then((user_id) {
       getProfileDetail().then((records) {
         Map userProfileDetail = records;
-        print(records);
+        log("RECORDSSSS **************            $records");
         setState(() {
           first_name = TextEditingController(
               text: checkForNull(userProfileDetail['first_name']));
           last_name = TextEditingController(
               text: checkForNull(userProfileDetail['last_name']));
           phone_number = TextEditingController(
-              text: checkForNull(userProfileDetail['phone'] == null ? '':userProfileDetail['phone'].contains("+44") ?userProfileDetail['phone'].replaceAll("+44",'') : userProfileDetail['phone']));
+              text: checkForNull(userProfileDetail['phone_number'] == null
+                  ? ''
+                  : userProfileDetail['phone'].contains("+44")
+                      ? userProfileDetail['phone'].replaceAll("+44", '')
+                      : userProfileDetail['phone']));
           vehiclePreference =
               checkForNull(userProfileDetail['vehicle_preference']);
-          _address = userProfileDetail['address'];
+          // _address = userProfileDetail['address'];
           address_line_1 = TextEditingController(
               text: checkForNull(userProfileDetail['address_line_1']));
-          address_line_2 = TextEditingController(
-              text: checkForNull(userProfileDetail['address_line_2']));
+          // address_line_2 = TextEditingController(
+          //     text: checkForNull(userProfileDetail['address_line_2']));
           town = TextEditingController(
               text: checkForNull(userProfileDetail['town']));
           postcode = checkForNull(userProfileDetail['postcode']);
@@ -403,8 +415,7 @@ class _driverProfile extends State<DriverProfile> {
                                                       value: 'own',
                                                       groupValue:
                                                           vehiclePreference,
-                                                      activeColor:
-                                                          Dark,
+                                                      activeColor: Dark,
                                                       onChanged: (val) {
                                                         setState(() {
                                                           vehiclePreference =
@@ -457,8 +468,7 @@ class _driverProfile extends State<DriverProfile> {
                                                         value: 'instructor',
                                                         groupValue:
                                                             vehiclePreference,
-                                                        activeColor:
-                                                            Dark,
+                                                        activeColor: Dark,
                                                         onChanged: (val) {
                                                           setState(() {
                                                             vehiclePreference =
@@ -502,7 +512,8 @@ class _driverProfile extends State<DriverProfile> {
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.only(bottom: 10, top: 8),
                           child: Text('Address:',
-                              style: inputLabelStyleDark(SizeConfig.labelFontSize)),
+                              style: inputLabelStyleDark(
+                                  SizeConfig.labelFontSize)),
                         ),
                         Container(
                             width: Responsive.width(100, context),
@@ -520,18 +531,17 @@ class _driverProfile extends State<DriverProfile> {
                                 GestureDetector(
                                   onTap: _handlePressButton,
                                   child: Container(
-                                      width: Responsive.width(100, context),
-                                      height: SizeConfig.inputHeight,
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                                      decoration: textAreaBorderLikeAsInput(),
-                                      child: AutoSizeText(
-                                          _address != null ? _address : '',
-                                          style: TextStyle(
-                                            fontSize: SizeConfig.inputFontSize,
-                                            color: Colors.blueGrey
-                                          ),
-                                      ),
+                                    width: Responsive.width(100, context),
+                                    height: SizeConfig.inputHeight,
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                    decoration: textAreaBorderLikeAsInput(),
+                                    child: AutoSizeText(
+                                      _address != null ? _address : '',
+                                      style: TextStyle(
+                                          fontSize: SizeConfig.inputFontSize,
+                                          color: Colors.blueGrey),
+                                    ),
                                   ),
                                 )
                               ],
@@ -744,12 +754,16 @@ class _driverProfile extends State<DriverProfile> {
                                               data: Theme.of(context).copyWith(
                                                 colorScheme: ColorScheme.light(
                                                   primary: Dark, // <-- SEE HERE
-                                                  onPrimary: Colors.white, // <-- SEE HERE
-                                                  onSurface: Colors.black, // <-- SEE HERE
+                                                  onPrimary: Colors
+                                                      .white, // <-- SEE HERE
+                                                  onSurface: Colors
+                                                      .black, // <-- SEE HERE
                                                 ),
-                                                textButtonTheme: TextButtonThemeData(
+                                                textButtonTheme:
+                                                    TextButtonThemeData(
                                                   style: TextButton.styleFrom(
-                                                    foregroundColor: Dark, // button text color
+                                                    foregroundColor:
+                                                        Dark, // button text color
                                                   ),
                                                 ),
                                               ),
@@ -1023,8 +1037,7 @@ class _driverProfile extends State<DriverProfile> {
       Map response = await api_services.updateProfileDetail(formData);
       if (response['message'] != null) {
         Toast.show(response['message'],
-            duration: Toast.lengthLong,
-            gravity: Toast.center);
+            duration: Toast.lengthLong, gravity: Toast.center);
         if (response['success'] == true) {
           SharedPreferences storage = await SharedPreferences.getInstance();
           await storage.setString('userName',

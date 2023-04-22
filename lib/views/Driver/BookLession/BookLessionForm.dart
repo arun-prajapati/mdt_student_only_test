@@ -105,8 +105,6 @@ class _bookLessionForm extends State<BookLessionForm> {
   String _address = "Search Postcode";
   Mode _mode = Mode.overlay;
 
-
-
   Future<void> _handlePressButton() async {
     void onError(PlacesAutocompleteResponse response) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -146,21 +144,28 @@ class _bookLessionForm extends State<BookLessionForm> {
     log("Desc : ${p.description!}");
     log("Place id : ${p.placeId!}");
     log("Place details : ${detail.result.toJson()}");
-    String postalCode = detail.result.addressComponents.where((element)=>element.types.contains("postal_code")).first.longName;
-    String townName = detail.result.addressComponents.where((element)=>element.types.contains("postal_town")).first.longName;
-    Iterable street = detail.result.addressComponents.where((element)=>element.types.contains("route"));
+    String postalCode = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_code"))
+        .first
+        .longName;
+    String townName = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_town"))
+        .first
+        .longName;
+    Iterable street = detail.result.addressComponents
+        .where((element) => element.types.contains("route"));
     setState(() {
       town.text = townName;
       postcode = postalCode;
       _address = detail.result.formattedAddress!;
     });
-    if(street.length > 0){
+    if (street.length > 0) {
       String streetAdd = street.first.longName;
       log("Street Code : ${streetAdd}");
       setState(() {
         address_line_2.text = streetAdd;
       });
-    }else{
+    } else {
       setState(() {
         address_line_2.text = "";
       });
@@ -200,7 +205,8 @@ class _bookLessionForm extends State<BookLessionForm> {
     log("Display Cost : $displayCost");
     log("Postal Code : ${postalCode}");
     log("Town name : ${townName}");
-    detail.result.addressComponents.forEach((e)=>log("Address Components : ${e.toJson()}"));
+    detail.result.addressComponents
+        .forEach((e) => log("Address Components : ${e.toJson()}"));
     //log("Address Components : ${detail.result.addressComponents[1].toJson()}");
     log("-------------------------------------------------");
   }
@@ -421,15 +427,13 @@ class _bookLessionForm extends State<BookLessionForm> {
                               textAlign: TextAlign.left),
                         ),
                         Container(
-                            width: Responsive.width(100, context),
-                            //height: SizeConfig.inputHeight,
-                            child: Text(
-                              course_nameDropContr.text,
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
+                          width: Responsive.width(100, context),
+                          //height: SizeConfig.inputHeight,
+                          child: Text(
+                            course_nameDropContr.text,
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
                         )
                       ],
                     )),
@@ -477,12 +481,15 @@ class _bookLessionForm extends State<BookLessionForm> {
                                         data: Theme.of(context).copyWith(
                                           colorScheme: ColorScheme.light(
                                             primary: Dark, // <-- SEE HERE
-                                            onPrimary: Colors.white, // <-- SEE HERE
-                                            onSurface: Colors.black, // <-- SEE HERE
+                                            onPrimary:
+                                                Colors.white, // <-- SEE HERE
+                                            onSurface:
+                                                Colors.black, // <-- SEE HERE
                                           ),
                                           textButtonTheme: TextButtonThemeData(
                                             style: TextButton.styleFrom(
-                                              foregroundColor: Dark, // button text color
+                                              foregroundColor:
+                                                  Dark, // button text color
                                             ),
                                           ),
                                         ),
@@ -829,8 +836,7 @@ class _bookLessionForm extends State<BookLessionForm> {
                               _address != null ? _address : '',
                               style: TextStyle(
                                   fontSize: SizeConfig.inputFontSize,
-                                  color: Colors.blueGrey
-                              ),
+                                  color: Colors.blueGrey),
                             ),
                           ),
                         )
@@ -1161,12 +1167,15 @@ class _bookLessionForm extends State<BookLessionForm> {
                                         data: Theme.of(context).copyWith(
                                           colorScheme: ColorScheme.light(
                                             primary: Dark, // <-- SEE HERE
-                                            onPrimary: Colors.white, // <-- SEE HERE
-                                            onSurface: Colors.black, // <-- SEE HERE
+                                            onPrimary:
+                                                Colors.white, // <-- SEE HERE
+                                            onSurface:
+                                                Colors.black, // <-- SEE HERE
                                           ),
                                           textButtonTheme: TextButtonThemeData(
                                             style: TextButton.styleFrom(
-                                              foregroundColor: Dark, // button text color
+                                              foregroundColor:
+                                                  Dark, // button text color
                                             ),
                                           ),
                                         ),
@@ -1325,12 +1334,15 @@ class _bookLessionForm extends State<BookLessionForm> {
                                         data: Theme.of(context).copyWith(
                                           colorScheme: ColorScheme.light(
                                             primary: Dark, // <-- SEE HERE
-                                            onPrimary: Colors.white, // <-- SEE HERE
-                                            onSurface: Colors.black, // <-- SEE HERE
+                                            onPrimary:
+                                                Colors.white, // <-- SEE HERE
+                                            onSurface:
+                                                Colors.black, // <-- SEE HERE
                                           ),
                                           textButtonTheme: TextButtonThemeData(
                                             style: TextButton.styleFrom(
-                                              foregroundColor: Dark, // button text color
+                                              foregroundColor:
+                                                  Dark, // button text color
                                             ),
                                           ),
                                         ),
@@ -1575,8 +1587,7 @@ class _bookLessionForm extends State<BookLessionForm> {
                                         fontSize:
                                             2 * SizeConfig.blockSizeVertical),
                                   ),
-                                  onPressed: (discount_code.text == null ||
-                                          discount_code.text.trim() == '')
+                                  onPressed: (discount_code.text.trim() == '')
                                       ? null
                                       : () {
                                           Map<String, String> params = {
@@ -1595,14 +1606,25 @@ class _bookLessionForm extends State<BookLessionForm> {
                                                   Colors.lightGreenAccent;
                                               discountApplied = 1;
                                               setState(() {
-                                                print(response['data']["new_cost"].runtimeType);
-                                                if(response['data']["new_cost"].runtimeType == int){
-                                                  discounted_cost = double.parse(response['data']["new_cost"].toString());
-                                                }else{
-                                                  discounted_cost = response['data']["new_cost"];
+                                                print(response['data']
+                                                        ["new_cost"]
+                                                    .runtimeType);
+                                                if (response['data']["new_cost"]
+                                                        .runtimeType ==
+                                                    int) {
+                                                  discounted_cost =
+                                                      double.parse(
+                                                          response['data']
+                                                                  ["new_cost"]
+                                                              .toString());
+                                                } else {
+                                                  discounted_cost =
+                                                      response['data']
+                                                          ["new_cost"];
                                                 }
 
-                                                print(discounted_cost.runtimeType);
+                                                print(discounted_cost
+                                                    .runtimeType);
                                                 displayCost = (discounted_cost)
                                                     .toStringAsFixed(2);
                                               });
@@ -1799,8 +1821,7 @@ class _bookLessionForm extends State<BookLessionForm> {
                       height: Responsive.height(4, context),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Dark)
-                        ),
+                            backgroundColor: MaterialStateProperty.all(Dark)),
                         child: AutoSizeText(
                           'Previous',
                           style: TextStyle(
@@ -1832,8 +1853,7 @@ class _bookLessionForm extends State<BookLessionForm> {
                     height: Responsive.height(4, context),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Dark)
-                      ),
+                          backgroundColor: MaterialStateProperty.all(Dark)),
                       child: AutoSizeText(
                         'Next',
                         style: TextStyle(
@@ -1885,8 +1905,7 @@ class _bookLessionForm extends State<BookLessionForm> {
                     buttonColor: Color(0xFFed1c24),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Dark)
-                      ),
+                          backgroundColor: MaterialStateProperty.all(Dark)),
                       child: AutoSizeText(
                         'Pay Now',
                         style: TextStyle(
@@ -1947,34 +1966,37 @@ class _bookLessionForm extends State<BookLessionForm> {
         'test_time': lessonTimeDropContr.text == "Any Time"
             ? 'any_time'
             : lessonTimeDropContr.text,
-        'location': this._addressController.text == null && this.address_line_1.text == null ? '' : '${this.address_line_1.text},${this._addressController.text}',
+        'location': this._addressController.text.isEmpty &&
+                this.address_line_1.text.isEmpty
+            ? ''
+            : '${this.address_line_1.text},${this._addressController.text}',
         'vehicle_preference': vehicle_preference,
         'carType': carType,
         'address_line_1':
-            address_line_1.text == null ? '' : address_line_1.text,
+            address_line_1.text.isEmpty ? '' : address_line_1.text,
         'address_line_2':
-            address_line_2.text == null ? '' : address_line_2.text,
-        'town': town.text == null ? '' : town.text,
-        'postcode': postcode == null ? '' : postcode,
-        'country': country.text == null ? '' : country.text,
-        'phone': phone.text == null ? '' : phone.text,
+            address_line_2.text.isEmpty ? '' : address_line_2.text,
+        'town': town.text.isEmpty ? '' : town.text,
+        'postcode': postcode.isEmpty ? '' : postcode,
+        'country': country.text.isEmpty ? '' : country.text,
+        'phone': phone.text.isEmpty ? '' : phone.text,
         'birth_date':
-            birth_date_picker.text == null ? '' : birth_date_picker.text,
+            birth_date_picker.text.isEmpty ? '' : birth_date_picker.text,
         // 'first_name': first_name.text == null ? '' : first_name.text,
         // 'last_name': last_name.text == null ? '' : last_name.text,
         //'email': email.text == null ? '' : email.text,
-        'lesson_taken_before': lesson_taken_beforeDropCtrl.text == null
+        'lesson_taken_before': lesson_taken_beforeDropCtrl.text.isEmpty
             ? ''
             : lesson_taken_beforeDropCtrl.text,
         'learner_license_no':
-            learner_license_no.text == null ? '' : learner_license_no.text,
-        'user_license_expiry': license_expiry_date_picker.text == null
+            learner_license_no.text.isEmpty ? '' : learner_license_no.text,
+        'user_license_expiry': license_expiry_date_picker.text.isEmpty
             ? ''
             : license_expiry_date_picker.text,
         'license_photo': licenceBase64,
         'cost': discounted_cost.toString(),
-        'orignal_cost': cost.text == null ? '' : cost.text,
-        'discount_code': discount_code.text == null ? '' : discount_code.text,
+        'orignal_cost': cost.text.isEmpty ? '' : cost.text,
+        'discount_code': discount_code.text.isEmpty ? '' : discount_code.text,
         //'discounted_cost':discounted_cost.toString()
       };
       showLoader("Course Submitting...");
@@ -1998,7 +2020,15 @@ class _bookLessionForm extends State<BookLessionForm> {
             };
             Stripe.publishableKey = stripePublic;
             showLoader("Processing...");
-            _paymentService.makePayment(amount: displayCost, currency: 'GBP', desc: 'Lesson-${this.first_name.text} ${this.last_name.text}-${this.lesson_date_picker.text}-${this.postcode}', context: context, metaData: params).then((value) => closeLoader());
+            _paymentService
+                .makePayment(
+                    amount: displayCost,
+                    currency: 'GBP',
+                    desc:
+                        'Lesson-${this.first_name.text} ${this.last_name.text}-${this.lesson_date_picker.text}-${this.postcode}',
+                    context: context,
+                    metaData: params)
+                .then((value) => closeLoader());
           } catch (e) {
             print(e);
             Toast.show('Failed request! please try again.',
@@ -2014,47 +2044,38 @@ class _bookLessionForm extends State<BookLessionForm> {
   }
 
   bool validateStep_1() {
-    if (this.course_nameDropContr.text == null ||
-        this.course_nameDropContr.text.trim() == "")
+    if (this.course_nameDropContr.text.trim() == "")
       return false;
-    else if (this.lesson_date_picker.text == null ||
-        this.lesson_date_picker.text.trim() == "")
+    else if (this.lesson_date_picker.text.trim() == "")
       return false;
-    else if (this.lessonTimeDropContr.text == null ||
-        this.lessonTimeDropContr.text.trim() == "")
+    else if (this.lessonTimeDropContr.text.trim() == "")
       return false;
-    else if (this.address_line_1.text == null ||
-        this.address_line_1.text.trim() == "")
+    else if (this.address_line_1.text.trim() == "")
       return false;
-    else if (this.town.text == null || this.town.text.trim() == "")
+    else if (this.town.text.trim() == "")
       return false;
-    else if (postcode == null || postcode.trim() == "")
+    else if (postcode.trim() == "")
       return false;
     else
       return true;
   }
 
   bool validateStep_2() {
-    if (first_name.text == null || first_name.text.trim() == "")
+    if (first_name.text.trim() == "")
       return false;
-    else if (last_name.text == null || last_name.text.trim() == "")
+    else if (last_name.text.trim() == "")
       return false;
-    else if (email.text == null || email.text.trim() == "")
+    else if (email.text.trim() == "")
       return false;
-    else if (phone.text == null || phone.text.trim() == "")
+    else if (phone.text.trim() == "")
       return false;
-    else if (birth_date_picker.text == null ||
-        birth_date_picker.text.trim() == "" ||
-        age < 16)
+    else if (birth_date_picker.text.trim() == "" || age < 16)
       return false;
-    else if (lesson_taken_beforeDropCtrl.text == null ||
-        lesson_taken_beforeDropCtrl.text.trim() == "")
+    else if (lesson_taken_beforeDropCtrl.text.trim() == "")
       return false;
-    else if (learner_license_no.text == null ||
-        learner_license_no.text.trim() == "")
+    else if (learner_license_no.text.trim() == "")
       return false;
-    else if (license_expiry_date_picker.text == null ||
-        license_expiry_date_picker.text.trim() == "")
+    else if (license_expiry_date_picker.text.trim() == "")
       return false;
     else
       return true;
@@ -2121,7 +2142,7 @@ class _bookLessionForm extends State<BookLessionForm> {
       "type": "lesson",
       "course_id": this.course_id
     };
-    if (course_id == '' || course_id == null) {
+    if (course_id == '') {
       setState(() {
         addressSuggestion = '';
       });

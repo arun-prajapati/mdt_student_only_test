@@ -15,6 +15,8 @@ class DriverProfileServices {
         _userType.toString());
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
+    print('TOKEN ******************  $token');
+
     Map<String, String> header = {
       'token': token,
     };

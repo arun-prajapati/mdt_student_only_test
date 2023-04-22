@@ -37,6 +37,7 @@ class AuthProvider with ChangeNotifier {
     } else {
       _status = Status.Unauthenticated;
     }
+
     notifyListeners();
   }
 
