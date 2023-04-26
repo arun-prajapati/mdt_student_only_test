@@ -99,7 +99,7 @@ class _RegisterState extends State<Register> {
               deviceId!);
       if (Provider.of<AuthProvider>(context, listen: false).notification.text !=
           '') {
-        Spinner.close(context);
+        // Spinner.close(context);
         showValidationDialog(
             context,
             Provider.of<AuthProvider>(context, listen: false)
@@ -162,7 +162,10 @@ class _RegisterState extends State<Register> {
     );
     TextStyle linkStyle =
         const TextStyle(color: Dark, fontSize: 16, fontWeight: FontWeight.w500);
-
+/*
+reg data
+{name: newww, email_phone: new@gmail.com, password: 123456, password_confirmation: 123456, user_type: 2, device_type: android, device_id: e5d24768ae0746ea}
+*/
     return new Scaffold(
       key: _key,
       backgroundColor: Colors.white,
@@ -329,8 +332,7 @@ class _RegisterState extends State<Register> {
                                     ),
                                     validator: (value) {
                                       name = value!.trim();
-                                      return Validate.requiredField(
-                                          name, "Name is required");
+                                      return Validate.nameValidation(name);
                                     },
                                     onFieldSubmitted: (_) => setFocus(context,
                                         focusNode: _emailPhoneFocusNode),
@@ -420,8 +422,7 @@ class _RegisterState extends State<Register> {
                                     ),
                                     validator: (value) {
                                       email = value!.trim();
-                                      return Validate.requiredField(
-                                          value, "Email is required");
+                                      return Validate.emailValidation(value);
                                     },
                                     onFieldSubmitted: (_) => setFocus(context,
                                         focusNode: _passwordFocusNode),
@@ -510,8 +511,7 @@ class _RegisterState extends State<Register> {
                                     ),
                                     validator: (value) {
                                       password = value!.trim();
-                                      return Validate.requiredField(
-                                          value, 'Password is required');
+                                      return Validate.passwordValidation(value);
                                     },
                                     obscureText: true,
                                     onFieldSubmitted: (_) => setFocus(context,
@@ -601,8 +601,7 @@ class _RegisterState extends State<Register> {
                                     ),
                                     validator: (value) {
                                       passwordConfirm = value!.trim();
-                                      return Validate.requiredField(value,
-                                          'Confirm Password is required');
+                                      return Validate.passwordValidation(value);
                                     },
                                     obscureText: true,
                                     onFieldSubmitted: (_) => submit(),

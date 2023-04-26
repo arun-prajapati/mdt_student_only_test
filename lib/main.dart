@@ -11,6 +11,7 @@ import 'package:student_app/routing/route.dart' as router;
 //import 'locater.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:toast/toast.dart';
 
 import 'enums/Autentication_status.dart';
 import 'locater.dart';
@@ -19,10 +20,9 @@ const bool debugEnableDeviceSimulator = true;
 //final storage = FlutterSecureStorage();
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   // ignore: invalid_use_of_visible_for_testing_member
   // SharedPreferences.setMockInitialValues({});
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocator();
   runApp(MyApp());
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));

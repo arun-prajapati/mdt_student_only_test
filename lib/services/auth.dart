@@ -129,6 +129,7 @@ class AuthProvider with ChangeNotifier {
         _status = Status.Unauthenticated;
         notifyListeners();
       }
+      log('RESPONSE PARRRRRRRRRRRRRRRRRRRRRRR       *****************        $responseParse');
       return responseParse;
     } else {
       if (response.statusCode == 200) {
@@ -140,7 +141,7 @@ class AuthProvider with ChangeNotifier {
         _userType = apiResponse['user_type'];
         _userName =
             apiResponse['user_name'] == null ? '' : apiResponse['user_name'];
-        _eMail = apiResponse['email'];
+        _eMail = apiResponse['e_mail'];
         await storeUserData(apiResponse);
         //check why this condition is implemented??
         if (params['accessType'] == 'register') _navigationService.goBack();
@@ -151,6 +152,7 @@ class AuthProvider with ChangeNotifier {
         // _status = Status.Unauthenticated;
         // _notification = NotificationText(apiResponse['message']);
         // notifyListeners();
+        print('ELSE **************           ');
         return responseParse;
       }
     }

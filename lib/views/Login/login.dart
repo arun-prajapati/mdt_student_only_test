@@ -30,7 +30,7 @@ class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   late String email;
-  late String password;
+  // late String password;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
   static final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -41,6 +41,8 @@ class _SignInFormState extends State<SignInForm> {
 
     return androidInfo.toMap();
   }
+
+  TextEditingController password = TextEditingController();
 
   Future<String?> getId() async {
     deviceId = await PlatformDeviceId.getDeviceId;
@@ -123,7 +125,7 @@ class _SignInFormState extends State<SignInForm> {
     final form = _formKey.currentState;
     if (form!.validate()) {
       await Provider.of<AuthProvider>(context, listen: false)
-          .login(email, password, usertype, deviceId!);
+          .login(email, password.text, usertype, deviceId!);
       if (Provider.of<AuthProvider>(context, listen: false).notification.text !=
               'device-exist' &&
           Provider.of<AuthProvider>(context, listen: false).notification.text !=
@@ -152,6 +154,13 @@ class _SignInFormState extends State<SignInForm> {
     getDeviceInfo()
         .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
     getId().then((value) => log('Running on ${value}'));
+  }
+
+  @override
+  void dispose() {
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -242,295 +251,290 @@ class _SignInFormState extends State<SignInForm> {
                   //color: Colors.black12,
                   child: ListView(
                     children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            //alignment: Alignment.centerLeft,
+                      Container(
+                        //alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Welcome back!',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: SizeConfig.blockSizeHorizontal * 5.5,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      //Field 1
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal * 80,
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 3,
+                        ),
+                        child: TextFormField(
+                          cursorColor: Dark,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide: BorderSide(
+                                color: Dark,
+                                width: 2,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide: const BorderSide(
+                                color: Dark,
+                                width: 2,
+                              ),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide:
+                                  const BorderSide(color: Dark, width: 2),
+                            ),
+                            labelText: 'Email/Phone Number',
+                            labelStyle: TextStyle(
+                              color: Colors.blueGrey,
+                            ),
+                            floatingLabelStyle: TextStyle(color: Dark),
+                            // errorStyle: TextStyle(
+                            //     fontSize: constraints.maxWidth * 0.05),
+                            prefixIcon: const Icon(
+                              Icons.mail,
+                              color: Dark,
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide:
+                                  const BorderSide(color: Dark, width: 2),
+                            ),
+                            focusColor: Dark,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide:
+                                  const BorderSide(color: Dark, width: 2),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide:
+                                  const BorderSide(color: Dark, width: 2),
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                          ),
+                          validator: (value) {
+                            email = value!.trim();
+                            return Validate.validateEmail(value);
+                          },
+                          onFieldSubmitted: (_) =>
+                              setFocus(context, focusNode: _passwordFocusNode),
+                          focusNode: _emailFocusNode,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          //textAlignVertical: TextAlignVertical.center,
+                        ),
+                      ),
+                      //Field 2
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal * 80,
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 2,
+                        ),
+                        child: TextFormField(
+                          cursorColor: Dark,
+                          controller: password,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide: BorderSide(
+                                color: Dark,
+                                width: 2,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide: const BorderSide(
+                                color: Dark,
+                                width: 2,
+                              ),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                            ),
+                            labelText: 'Password',
+                            labelStyle: TextStyle(
+                              color: Colors.blueGrey,
+                            ),
+                            floatingLabelStyle: TextStyle(color: Dark),
+                            // errorStyle: TextStyle(
+                            //     fontSize: constraints.maxWidth * 0.05),
+                            prefixIcon: const Icon(
+                              Icons.key,
+                              color: Dark,
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide:
+                                  const BorderSide(color: Dark, width: 2),
+                            ),
+                            focusColor: Dark,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide:
+                                  const BorderSide(color: Dark, width: 2),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              borderSide:
+                                  const BorderSide(color: Dark, width: 2),
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                          ),
+                          validator: (value) {
+                            password.text = value!.trim();
+                            return Validate.passwordValidation(password.text);
+                          },
+                          onFieldSubmitted: (_) => submit(),
+                          focusNode: _passwordFocusNode,
+                          obscureText: true,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          //textAlignVertical: TextAlignVertical.center,
+                        ),
+                      ),
+                      //Forgot Password
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ForgotPassword(),
+                              ),
+                            );
+                            print('FORGOT T*/////');
+                            password.clear();
+                          },
+                          child: Container(
+                            //color: Colors.red,
+                            //width: constraints.maxWidth * 0.45,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 1,
+                              right: SizeConfig.blockSizeHorizontal * 5,
+                            ),
+                            //alignment: Alignment.bottomRight,
                             child: Text(
-                              'Welcome back!',
+                              'Forgot password?',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: SizeConfig.blockSizeHorizontal * 5.5,
-                                fontWeight: FontWeight.w600,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.8,
                                 color: Colors.black,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
-                          //Field 1
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 80,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 3,
-                            ),
-                            child: TextFormField(
-                              cursorColor: Dark,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: SizeConfig.blockSizeVertical * 2,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                labelText: 'Email/Phone Number',
-                                labelStyle: TextStyle(
-                                  color: Colors.blueGrey,
-                                ),
-                                floatingLabelStyle: TextStyle(color: Dark),
-                                // errorStyle: TextStyle(
-                                //     fontSize: constraints.maxWidth * 0.05),
-                                prefixIcon: const Icon(
-                                  Icons.mail,
-                                  color: Dark,
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusColor: Dark,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                              ),
-                              validator: (value) {
-                                email = value!.trim();
-                                return Validate.validateEmail(value);
-                              },
-                              onFieldSubmitted: (_) => setFocus(context,
-                                  focusNode: _passwordFocusNode),
-                              focusNode: _emailFocusNode,
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
-                              //textAlignVertical: TextAlignVertical.center,
-                            ),
-                          ),
-                          //Field 2
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 80,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                            ),
-                            child: TextFormField(
-                              cursorColor: Dark,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: SizeConfig.blockSizeVertical * 2,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 2),
-                                ),
-                                labelText: 'Password',
-                                labelStyle: TextStyle(
-                                  color: Colors.blueGrey,
-                                ),
-                                floatingLabelStyle: TextStyle(color: Dark),
-                                // errorStyle: TextStyle(
-                                //     fontSize: constraints.maxWidth * 0.05),
-                                prefixIcon: const Icon(
-                                  Icons.key,
-                                  color: Dark,
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusColor: Dark,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                              ),
-                              validator: (value) {
-                                password = value!.trim();
-                                return Validate.requiredField(
-                                    password, "Password is required");
-                              },
-                              onFieldSubmitted: (_) => submit(),
-                              focusNode: _passwordFocusNode,
-                              obscureText: true,
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.done,
-                              //textAlignVertical: TextAlignVertical.center,
-                            ),
-                          ),
-                          //Forgot Password
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => ForgotPassword(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                //color: Colors.red,
-                                //width: constraints.maxWidth * 0.45,
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 1,
-                                  right: SizeConfig.blockSizeHorizontal * 5,
-                                ),
-                                //alignment: Alignment.bottomRight,
-                                child: Text(
-                                  'Forgot password?',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize:
-                                        SizeConfig.blockSizeHorizontal * 4.8,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                        ),
+                      ),
 
-                          Provider.of<AuthProvider>(context).status ==
-                                  Status.Authenticating
-                              ? const Center(child: CircularProgressIndicator())
-                              : Container(
-                                  // height: constraints.maxHeight * 0.11,
-                                  width: SizeConfig.blockSizeHorizontal * 50,
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 5),
-                                  child: Material(
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(25),
-                                      topRight: Radius.circular(25),
-                                      bottomLeft: Radius.circular(25),
-                                    ),
-                                    color: Dark,
-                                    elevation: 5.0,
-                                    child: MaterialButton(
-                                      onPressed: submit,
-                                      child: Text(
-                                        'Login',
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  5,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color.fromRGBO(
-                                              255, 255, 255, 1.0),
-                                        ),
-                                      ),
+                      Provider.of<AuthProvider>(context).status ==
+                              Status.Authenticating
+                          ? const Center(child: CircularProgressIndicator())
+                          : Container(
+                              // height: constraints.maxHeight * 0.11,
+                              width: SizeConfig.blockSizeHorizontal * 50,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5),
+                              child: Material(
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(25),
+                                  topRight: Radius.circular(25),
+                                  bottomLeft: Radius.circular(25),
+                                ),
+                                color: Dark,
+                                elevation: 5.0,
+                                child: MaterialButton(
+                                  onPressed: submit,
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 5,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color.fromRGBO(255, 255, 255, 1.0),
                                     ),
                                   ),
                                 ),
-                          Container(
-                            //color: Colors.black26,
-                            //width: constraints.maxWidth * 0.8,
-                            margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 2.5,
-                              top: SizeConfig.blockSizeVertical * 3,
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: RichText(
-                              text: TextSpan(
-                                text: 'Don\'t have an account yet?',
-                                style: defaultStyle,
                               ),
                             ),
+                      Container(
+                        //color: Colors.black26,
+                        //width: constraints.maxWidth * 0.8,
+                        margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 2.5,
+                          top: SizeConfig.blockSizeVertical * 3,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Don\'t have an account yet?',
+                            style: defaultStyle,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 2.5,
-                              top: SizeConfig.blockSizeVertical * 0.5,
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: RichText(
-                              text: TextSpan(
-                                  text: 'Register here',
-                                  style: linkStyle,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) => Register('1'),
-                                        ),
-                                      );
-                                    }),
-                            ),
-                          )
-                        ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 2.5,
+                          top: SizeConfig.blockSizeVertical * 0.5,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Register here',
+                              style: linkStyle,
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => Register('1'),
+                                    ),
+                                  );
+                                }),
+                        ),
                       ),
                     ],
                   ),
@@ -541,12 +545,5 @@ class _SignInFormState extends State<SignInForm> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    super.dispose();
   }
 }

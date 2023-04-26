@@ -347,7 +347,11 @@ class Welcome extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: _socialLoginService.googleSignIn,
+                        onTap: () {
+                          _socialLoginService.googleSignIn();
+                          print(
+                              'Click ***********************************     ---------------- ');
+                        },
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
                           radius: SizeConfig.blockSizeHorizontal * 5,
@@ -360,7 +364,9 @@ class Welcome extends StatelessWidget {
                         width: SizeConfig.blockSizeHorizontal * 6,
                       ),
                       InkWell(
-                        onTap: _socialLoginService.signInWithApple,
+                        onTap: () {
+                          _socialLoginService.signInWithApple(context);
+                        },
                         child: CircleAvatar(
                             backgroundColor: Colors.blue,
                             radius: 23,

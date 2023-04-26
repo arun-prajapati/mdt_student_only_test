@@ -1,0 +1,178 @@
+{
+  "project_info": {
+    "project_number": "414376827573",
+    "project_id": "mock-driving-test-672b8",
+    "storage_bucket": "mock-driving-test-672b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414376827573:android:0c467b35e8ee3a3943bcfc",
+        "android_client_info": {
+          "package_name": "com.mdt.main_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414376827573-3jl3dfuu7ql4gqd5n2phmmogd5af3b08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.main_flutter",
+            "certificate_hash": "90710a24cc2cbefd49ad215e7786b245c4c44aa1"
+          }
+        },
+        {
+          "client_id": "414376827573-b6d0niaul41t9286g5epnucmsve0pkct.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.main_flutter",
+            "certificate_hash": "22671360d979e9d51682960c98aa3d1948cbffb8"
+          }
+        },
+        {
+          "client_id": "414376827573-e0mbhcpn19rprk0ked72t3v7823bruth.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.main_flutter",
+            "certificate_hash": "7aad38dcbcbc550074165f6f7962957aeb5ca04a"
+          }
+        },
+        {
+          "client_id": "414376827573-kk47v9afhphs8suvi5mgkdnegb3an82e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.main_flutter",
+            "certificate_hash": "c10ecf92097979cf97e5770dd7b49bf05ae7c96d"
+          }
+        },
+        {
+          "client_id": "414376827573-q66s81ors7a9mrqulnmmgo7gfdck1fpk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.main_flutter",
+            "certificate_hash": "28539b23b6a59053099824be7f71da7ea7c2fb70"
+          }
+        },
+        {
+          "client_id": "414376827573-r9ldjcvkr2nhdb8rr5ksocfhja299qn2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.main_flutter",
+            "certificate_hash": "f1faedf93867b7ff6ed186b49733f2f20d0abbe4"
+          }
+        },
+        {
+          "client_id": "414376827573-uuugpq61cvamls9lacfia4qif8klhs3i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.main_flutter",
+            "certificate_hash": "5b711a5b3d699c0ac8d7b205ca4c5bf13a654720"
+          }
+        },
+        {
+          "client_id": "414376827573-4qol1s9bduadpmiec1cg6nnfhmt22uji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDriE8xg1CoLQk116SThpBa2dA0HiyxEa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414376827573-4qol1s9bduadpmiec1cg6nnfhmt22uji.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "414376827573-d6p9qmc8cm8c54rsengs2v2bdjt5j2a2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mdt.student"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414376827573:android:f59c27c2279aab4a43bcfc",
+        "android_client_info": {
+          "package_name": "com.mdt.student_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414376827573-bb99qjhc9cnf29sku24oib19bmtfgivi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.student_app",
+            "certificate_hash": "90710a24cc2cbefd49ad215e7786b245c4c44aa1"
+          }
+        },
+        {
+          "client_id": "414376827573-d63tofsrc6crg5dtsc9nkv5e32jlfhmg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.student_app",
+            "certificate_hash": "55d296edb9763ab63ddf52b7b32eb36ea7c03f77"
+          }
+        },
+        {
+          "client_id": "414376827573-t8ljmb487mifg5s3lc57eq1rj3e8ceo4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.student_app",
+            "certificate_hash": "c89d69dba0d23965ecfd39e4d034772131cf9ad1"
+          }
+        },
+        {
+          "client_id": "414376827573-ua2t090q06akqu8dcsc04umt9ucki7lp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.student_app",
+            "certificate_hash": "7aad38dcbcbc550074165f6f7962957aeb5ca04a"
+          }
+        },
+        {
+          "client_id": "414376827573-uikt9bhs9dj2n965v7qb6lrs5c95vjp6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdt.student_app",
+            "certificate_hash": "9595f68a2bdb47cb7c4f4d0f5611ff1ff5f302f0"
+          }
+        },
+        {
+          "client_id": "414376827573-4qol1s9bduadpmiec1cg6nnfhmt22uji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDriE8xg1CoLQk116SThpBa2dA0HiyxEa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414376827573-4qol1s9bduadpmiec1cg6nnfhmt22uji.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "414376827573-d6p9qmc8cm8c54rsengs2v2bdjt5j2a2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mdt.student"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

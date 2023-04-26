@@ -55,9 +55,9 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
 
       Map? apiResponse = await Provider.of<AuthProvider>(context, listen: false)
           .socialLoginWithMdtRegister(formParams);
-      print("Response from registrant : $apiResponse");
+      print("Response from registrant 1: $apiResponse");
       if (apiResponse != null && apiResponse['success'] == false) {
-        //print("Response from registrant : $apiResponse");
+        print("Response from registrant 2 : $apiResponse");
         Toast.show(apiResponse['message'],
             duration: Toast.lengthLong, gravity: Toast.center);
       }
@@ -87,21 +87,24 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
 
   @override
   void didChangeDependencies() {
+    print('DID CHANGE */////////////////////////        ');
     final arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    print('ARGUE 1 ******************       $arguments');
     try {
-      if (arguments != null && arguments['email'] != '')
+      print('ARGUE 2 /////////////////////////    $arguments');
+      if (arguments.isNotEmpty && arguments['email'] != '')
         this.emailTextControl.text = arguments['email'];
-      if (arguments != null && arguments['phone'] != '')
+      if (arguments.isNotEmpty && arguments['phone'] != null)
         this.phoneTextControl.text = arguments['phone'];
       setState(() {
         paramArguments = arguments;
-        if (arguments != null &&
+        if (arguments.isNotEmpty &&
             arguments['email'] != '' &&
             arguments['email'] != null)
           isSocialEmail = true;
         else
           isSocialEmail = false;
-        if (arguments != null &&
+        if (arguments.isNotEmpty &&
             arguments['phone'] != '' &&
             arguments['phone'] != null)
           isSocialPhone = true;
@@ -109,7 +112,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
           isSocialPhone = false;
       });
     } catch (e) {
-      print(e);
+      print("ELSE ///***/// $e");
     } finally {
       super.didChangeDependencies();
     }
@@ -633,7 +636,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
   }
 }
 
- // if (isSocialEmail)
+// if (isSocialEmail)
 //   Container(
 //       alignment: Alignment.center,
 //       width: constraints.maxWidth * 0.90,

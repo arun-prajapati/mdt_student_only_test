@@ -18,6 +18,7 @@ class ForgotPassword extends StatelessWidget {
   final _passwordService = PasswordServices();
 
   late String email;
+
   showValidationDialog(BuildContext context, String message) {
     //print("valid");
     return showDialog(
@@ -242,6 +243,7 @@ class ForgotPassword extends StatelessWidget {
                           ),
                           validator: (value) {
                             email = value!.trim();
+                            print('VALL  //////      $value');
                             return Validate.validateEmail(email);
                           },
                           onFieldSubmitted: (_) {

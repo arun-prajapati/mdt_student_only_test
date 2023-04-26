@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,6 +12,7 @@ import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toast/toast.dart';
 import '../Constants/global.dart';
+import '../views/spinner.dart';
 import '../widget/CustomSpinner.dart';
 import 'auth.dart';
 import 'navigation_service.dart';
@@ -71,7 +71,7 @@ class SocialLoginService {
               'phone': _user?.phoneNumber != null ? _user?.phoneNumber : null,
               'accessType': 'login'
             };
-            // print("Goggle Email..:");
+            print("Goggle Email..:");
             devtools.log("Social user: $params");
             socialLoginApi(params);
           } catch (e, s) {
@@ -81,12 +81,15 @@ class SocialLoginService {
 
             devtools.log("Google Exception 1: $e");
             if (e == 'account-exists-with-different-credential') {
-              Toast.show("Account exists with different credential",
-                  duration: Toast.lengthLong, gravity: Toast.bottom);
+              // Toast.show("Account exists with different credential",
+              //     duration: Toast.lengthLong, gravity: Toast.bottom);
+              Fluttertoast.showToast(
+                  msg: 'Account exists with different credential');
             } else {
               if (e == 'invalid-credential') {
-                Toast.show("Invalid credential",
-                    duration: Toast.lengthLong, gravity: Toast.bottom);
+                // Toast.show("Invalid credential",
+                //     duration: Toast.lengthLong, gravity: Toast.bottom);
+                Fluttertoast.showToast(msg: 'Invalid credential');
               }
             }
           }
@@ -100,6 +103,82 @@ class SocialLoginService {
       devtools.log("Google Exception: $e");
     }
   }
+
+  /* googleSignIn({
+
+    bool isUser = false,
+  }) async {
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: <String>[
+        'email',
+      ],
+    );
+    final googleUser = await googleSignIn.signIn();
+
+    try {
+      devtools.log("In sign in method:");
+      showLoader("Loading...");
+      final googleAuth = await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth?.idToken,
+        accessToken: googleAuth?.accessToken,
+      );
+      await FirebaseAuth.instance
+          .signInWithCredential(credential)
+          .then((value) async {
+        if (value.user != null) {
+          Map params = {
+            'token': credential.accessToken,
+            'social_type': 'google',
+            'social_site_id': googleUser?.id,
+            'email': googleUser?.email,
+            'phone': value.user?.phoneNumber != null ? value.user?.phoneNumber : null,
+            'accessType': 'login'
+          };
+          socialLoginApi(params);
+          // ApiResponse response =
+          // await authRepository.checkUser(value.user!.email.toString());
+          // if (response.response.statusCode == 200) {
+          //   login(
+          //       email: value.user!.email,
+          //       isUser: isUser,
+          //       password: value.user!.uid);
+          // } else {
+          //   registerEmp(
+          //     email: value.user!.email,
+          //     isUser: isUser,
+          //     password: value.user!.uid,
+          //     name: value.user!.displayName,
+          //   );
+          // }
+          // var userModel = UserModel.fromJson(response.response.data['data']);
+          // Global.userModel = userModel;
+          // await sharedPreferences.setString(
+          //     "user", jsonEncode(response.response.data['data']));
+          // emit(AuthState(userModel: userModel));
+          // navigationKey.currentState?.pushAndRemoveUntil(
+          //     MaterialPageRoute(builder: (_) => const BottomNavScreen()),
+          //         (route) => false);
+          print('USERRRR ------------------           ${value.user}');
+        }
+      });
+    } catch (e, s) {
+      closeLoader();
+      showValidationDialog(globalContext, e.toString());
+      await sendErrorLogs("Google Sigin error(First): $e $s");
+
+      devtools.log("Google Exception 1: $e");
+      if (e == 'account-exists-with-different-credential') {
+        Toast.show("Account exists with different credential",
+            duration: Toast.lengthLong, gravity: Toast.bottom);
+      } else {
+        if (e == 'invalid-credential') {
+          Toast.show("Invalid credential",
+              duration: Toast.lengthLong, gravity: Toast.bottom);
+        }
+      }
+    }
+  }*/
 
   Future<void> sendErrorLogs(String msg) async {
     final url = Uri.parse("$api/api/error-logs");
@@ -160,7 +239,7 @@ class SocialLoginService {
     return digest.toString();
   }
 
-  Future<UserCredential?> signInWithApple() async {
+  Future<UserCredential?> signInWithApple(context) async {
     // To prevent replay attacks with the credential returned from Apple, we
     // include a nonce in the credential request. When signing in with
     // Firebase, the nonce in the id token returned by Apple, is expected to
@@ -204,18 +283,24 @@ class SocialLoginService {
           };
           socialLoginApi(params);
         } else {
+          print('PRINT ');
           closeLoader();
-          Toast.show(
-            "Apple sign-in not allowed with this device.",
-            duration: 3,
-            gravity: Toast.bottom,
-          );
+          // Toast.show(
+          //   "Apple sign-in not allowed with this device.",
+          //   duration: 3,
+          //   gravity: Toast.bottom,
+          // );
+          Fluttertoast.showToast(
+              msg: 'Apple sign-in not allowed with this device.');
         }
       });
-
       //SignInWithApple.isAvailable();
     } catch (e) {
+      // closeLoader();
+      Spinner.close(context);
       print("Apple signin exception : $e");
+      Fluttertoast.showToast(
+          msg: 'Apple sign-in not allowed with this device.');
       return null;
     }
   }
