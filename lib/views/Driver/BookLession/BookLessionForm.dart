@@ -131,6 +131,7 @@ class _bookLessionForm extends State<BookLessionForm> {
   Future<void> displayPrediction(
       Prediction? p, ScaffoldMessengerState messengerState) async {
     if (p == null) {
+      print('NULLL ///////////////  ');
       return;
     }
 

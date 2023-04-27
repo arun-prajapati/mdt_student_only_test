@@ -107,8 +107,6 @@ class _bookTestForm extends State<BookTestForm> {
   String _address = "Search Postcode";
   Mode _mode = Mode.overlay;
 
-
-
   Future<void> _handlePressButton() async {
     void onError(PlacesAutocompleteResponse response) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -116,6 +114,7 @@ class _bookTestForm extends State<BookTestForm> {
           content: Text(response.errorMessage ?? 'Unknown error'),
         ),
       );
+      print('RESPONSE *****  $response');
     }
 
     // show input autocomplete with selected mode
@@ -148,21 +147,28 @@ class _bookTestForm extends State<BookTestForm> {
     log("Desc : ${p.description!}");
     log("Place id : ${p.placeId!}");
     log("Place details : ${detail.result.toJson()}");
-    String postalCode = detail.result.addressComponents.where((element)=>element.types.contains("postal_code")).first.longName;
-    String townName = detail.result.addressComponents.where((element)=>element.types.contains("postal_town")).first.longName;
-    Iterable street = detail.result.addressComponents.where((element)=>element.types.contains("route"));
+    String postalCode = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_code"))
+        .first
+        .longName;
+    String townName = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_town"))
+        .first
+        .longName;
+    Iterable street = detail.result.addressComponents
+        .where((element) => element.types.contains("route"));
     setState(() {
       town.text = townName;
       postcode = postalCode;
       _address = detail.result.formattedAddress!;
     });
-    if(street.length > 0){
+    if (street.length > 0) {
       String streetAdd = street.first.longName;
       log("Street Code : ${streetAdd}");
       setState(() {
         address_line_2.text = streetAdd;
       });
-    }else{
+    } else {
       setState(() {
         address_line_2.text = "";
       });
@@ -202,12 +208,11 @@ class _bookTestForm extends State<BookTestForm> {
     log("Display Cost : $displayCost");
     log("Postal Code : ${postalCode}");
     log("Town name : ${townName}");
-    detail.result.addressComponents.forEach((e)=>log("Address Components : ${e.toJson()}"));
+    detail.result.addressComponents
+        .forEach((e) => log("Address Components : ${e.toJson()}"));
     //log("Address Components : ${detail.result.addressComponents[1].toJson()}");
     log("-------------------------------------------------");
   }
-
-
 
   @override
   void initState() {
@@ -232,7 +237,6 @@ class _bookTestForm extends State<BookTestForm> {
   void dispose() {
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -387,12 +391,15 @@ class _bookTestForm extends State<BookTestForm> {
                                         data: Theme.of(context).copyWith(
                                           colorScheme: ColorScheme.light(
                                             primary: Dark, // <-- SEE HERE
-                                            onPrimary: Colors.white, // <-- SEE HERE
-                                            onSurface: Colors.black, // <-- SEE HERE
+                                            onPrimary:
+                                                Colors.white, // <-- SEE HERE
+                                            onSurface:
+                                                Colors.black, // <-- SEE HERE
                                           ),
                                           textButtonTheme: TextButtonThemeData(
                                             style: TextButton.styleFrom(
-                                              foregroundColor: Dark, // button text color
+                                              foregroundColor:
+                                                  Dark, // button text color
                                             ),
                                           ),
                                         ),
@@ -404,6 +411,7 @@ class _bookTestForm extends State<BookTestForm> {
                                     initialDate: currentValue ??
                                         DateTime.now()
                                             .add(const Duration(days: 5)),
+                                    currentDate: DateTime.now(),
                                     lastDate: DateTime(
                                         DateTime.now().year + 10, 12, 31));
                               },
@@ -742,11 +750,10 @@ class _bookTestForm extends State<BookTestForm> {
                             padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
                             decoration: textAreaBorderLikeAsInput(),
                             child: AutoSizeText(
-                              _address != null ? _address : '',
+                              _address.isNotEmpty ? _address : '',
                               style: TextStyle(
                                   fontSize: SizeConfig.inputFontSize,
-                                  color: Colors.blueGrey
-                              ),
+                                  color: Colors.blueGrey),
                             ),
                           ),
                         )
@@ -1048,12 +1055,15 @@ class _bookTestForm extends State<BookTestForm> {
                                         data: Theme.of(context).copyWith(
                                           colorScheme: ColorScheme.light(
                                             primary: Dark, // <-- SEE HERE
-                                            onPrimary: Colors.white, // <-- SEE HERE
-                                            onSurface: Colors.black, // <-- SEE HERE
+                                            onPrimary:
+                                                Colors.white, // <-- SEE HERE
+                                            onSurface:
+                                                Colors.black, // <-- SEE HERE
                                           ),
                                           textButtonTheme: TextButtonThemeData(
                                             style: TextButton.styleFrom(
-                                              foregroundColor: Dark, // button text color
+                                              foregroundColor:
+                                                  Dark, // button text color
                                             ),
                                           ),
                                         ),
@@ -1542,12 +1552,15 @@ class _bookTestForm extends State<BookTestForm> {
                                         data: Theme.of(context).copyWith(
                                           colorScheme: ColorScheme.light(
                                             primary: Dark, // <-- SEE HERE
-                                            onPrimary: Colors.white, // <-- SEE HERE
-                                            onSurface: Colors.black, // <-- SEE HERE
+                                            onPrimary:
+                                                Colors.white, // <-- SEE HERE
+                                            onSurface:
+                                                Colors.black, // <-- SEE HERE
                                           ),
                                           textButtonTheme: TextButtonThemeData(
                                             style: TextButton.styleFrom(
-                                              foregroundColor: Dark, // button text color
+                                              foregroundColor:
+                                                  Dark, // button text color
                                             ),
                                           ),
                                         ),
@@ -1809,14 +1822,25 @@ class _bookTestForm extends State<BookTestForm> {
                                                   Colors.lightGreenAccent;
                                               discountApplied = 1;
                                               setState(() {
-                                                print(response['data']["new_cost"].runtimeType);
-                                                if(response['data']["new_cost"].runtimeType == int){
-                                                  discounted_cost = double.parse(response['data']["new_cost"].toString());
-                                                }else{
-                                                  discounted_cost = response['data']["new_cost"];
+                                                print(response['data']
+                                                        ["new_cost"]
+                                                    .runtimeType);
+                                                if (response['data']["new_cost"]
+                                                        .runtimeType ==
+                                                    int) {
+                                                  discounted_cost =
+                                                      double.parse(
+                                                          response['data']
+                                                                  ["new_cost"]
+                                                              .toString());
+                                                } else {
+                                                  discounted_cost =
+                                                      response['data']
+                                                          ["new_cost"];
                                                 }
 
-                                                print(discounted_cost.runtimeType);
+                                                print(discounted_cost
+                                                    .runtimeType);
                                                 displayCost = (discounted_cost)
                                                     .toStringAsFixed(2);
                                               });
@@ -2011,8 +2035,7 @@ class _bookTestForm extends State<BookTestForm> {
                       height: Responsive.height(4, context),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Dark)
-                        ),
+                            backgroundColor: MaterialStateProperty.all(Dark)),
                         child: new AutoSizeText(
                           'Previous',
                           style: TextStyle(
@@ -2043,8 +2066,7 @@ class _bookTestForm extends State<BookTestForm> {
                     height: Responsive.height(4, context),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Dark)
-                      ),
+                          backgroundColor: MaterialStateProperty.all(Dark)),
                       child: AutoSizeText(
                         'Next',
                         style: TextStyle(
@@ -2083,8 +2105,7 @@ class _bookTestForm extends State<BookTestForm> {
                     height: Responsive.height(4, context),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Dark)
-                      ),
+                          backgroundColor: MaterialStateProperty.all(Dark)),
                       child: AutoSizeText(
                         'Request Booking',
                         style: TextStyle(
@@ -2133,8 +2154,7 @@ class _bookTestForm extends State<BookTestForm> {
                     //buttonColor: Color(0xFFed1c24),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Dark)
-                      ),
+                          backgroundColor: MaterialStateProperty.all(Dark)),
                       child: AutoSizeText(
                         'Pay',
                         style: TextStyle(
@@ -2161,8 +2181,10 @@ class _bookTestForm extends State<BookTestForm> {
                                     : this.lessonTimeDropContr.text,
                             'vehicle_preference': this.vehicle_preference,
                             'carType': this.carType,
-                            'location':
-                                this._addressController.text == null && this.address_line_1.text == null ? '' : '${this.address_line_1.text},${this._addressController.text}',
+                            'location': this._addressController.text == null &&
+                                    this.address_line_1.text == null
+                                ? ''
+                                : '${this.address_line_1.text},${this._addressController.text}',
                             'address_line_1': this.address_line_1.text == null
                                 ? ''
                                 : this.address_line_1.text,
@@ -2241,7 +2263,15 @@ class _bookTestForm extends State<BookTestForm> {
                                   'parentPageName': "Test"
                                 };
                                 showLoader("Processing...");
-                                _paymentService.makePayment(amount: displayCost, currency: 'GBP', context: context, desc: 'MDT-${this.first_name.text} ${this.last_name.text}-${this.test_date_picker.text}-${this.postcode}', metaData: params).then((value) => closeLoader());
+                                _paymentService
+                                    .makePayment(
+                                        amount: displayCost,
+                                        currency: 'GBP',
+                                        context: context,
+                                        desc:
+                                            'MDT-${this.first_name.text} ${this.last_name.text}-${this.test_date_picker.text}-${this.postcode}',
+                                        metaData: params)
+                                    .then((value) => closeLoader());
                                 // _navigationService.navigateToReplacement(
                                 //     routes.CardPaymentRoute,
                                 //     arguments: params);
