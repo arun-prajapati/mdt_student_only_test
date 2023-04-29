@@ -1,10 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_app/locater.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -25,6 +27,8 @@ class _ContactUs extends State<ContactUs> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final AdiDriverCommonAPI _adiDriverCommonAPI = new AdiDriverCommonAPI();
   bool _checkval = false;
+  Uri gmailUrl = Uri.parse('mailto:feedback@geeksforgeeks.org');
+
   late Map userDetail;
   final TextEditingController name = new TextEditingController(),
       email = new TextEditingController(),
@@ -146,6 +150,7 @@ class _ContactUs extends State<ContactUs> {
                                 contentPadding:
                                     EdgeInsets.fromLTRB(5, 0, 3, 16),
                               ),
+                              readOnly: true,
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {})),
                       Card(
@@ -339,20 +344,26 @@ class _ContactUs extends State<ContactUs> {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: constraints.maxWidth * 0.6,
-                              child: FittedBox(
-                                fit: BoxFit.contain,
-                                child: Text(
-                                  'info@mockdrivingtest.com',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 18,
-                                    color: const Color(0xad0e9bcf),
-                                    letterSpacing: 0.132,
-                                    fontWeight: FontWeight.w600,
+                            InkWell(
+                              onTap: () {
+                                print('TAPP $gmailUrl');
+                                openGmailApp(gmailUrl);
+                              },
+                              child: Container(
+                                width: constraints.maxWidth * 0.6,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    'info@mockdrivingtest.com',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 18,
+                                      color: const Color(0xad0e9bcf),
+                                      letterSpacing: 0.132,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.left,
                                   ),
-                                  textAlign: TextAlign.left,
                                 ),
                               ),
                             ),
@@ -445,25 +456,13 @@ class _ContactUs extends State<ContactUs> {
   //call api for save form data
   Future<void> updateUserDetail() async {
     if (name == null || name.text.trim() == '') {
-      Toast.show("Please! Enter your name.",
-          textStyle: context,
-          duration: Toast.lengthLong,
-          gravity: Toast.center);
+      Fluttertoast.showToast(msg: 'Please! Enter your name.');
     } else if (email == null || email.text.trim() == '') {
-      Toast.show("Please! Enter your email id.",
-          textStyle: context,
-          duration: Toast.lengthLong,
-          gravity: Toast.center);
+      Fluttertoast.showToast(msg: 'Please! Enter your email id.');
     } else if (phone == null || phone.text.trim() == '') {
-      Toast.show("Please! Enter your phone number.",
-          textStyle: context,
-          duration: Toast.lengthLong,
-          gravity: Toast.center);
+      Fluttertoast.showToast(msg: 'Please! Enter your phone number.');
     } else if (message == null || message.text.trim() == '') {
-      Toast.show("Please! Type your message.",
-          textStyle: context,
-          duration: Toast.lengthLong,
-          gravity: Toast.center);
+      Fluttertoast.showToast(msg: 'Please! Type your message.');
     } else {
       showLoader("Submitting...");
       try {
@@ -477,10 +476,7 @@ class _ContactUs extends State<ContactUs> {
             .submitContactUsMessage(formData)
             .catchError((onError) => closeLoader());
         if (response['message'] != null) {
-          Toast.show(response['message'],
-              textStyle: context,
-              duration: Toast.lengthLong,
-              gravity: Toast.center);
+          Fluttertoast.showToast(msg: response['message']);
           if (response['success'] == true) {
             _navigationService.goBack();
           }
@@ -510,5 +506,11 @@ class _ContactUs extends State<ContactUs> {
       return true;
     }
     return false;
+  }
+
+  openGmailApp(Uri url) async {
+    await canLaunchUrl(url)
+        ? await launchUrl(url)
+        : Fluttertoast.showToast(msg: 'Could not open the app ');
   }
 }

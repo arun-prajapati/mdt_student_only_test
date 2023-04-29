@@ -457,7 +457,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
               // RoundedRectangleBorder(
               //     borderRadius: BorderRadius.circular(12.0)),
               insetAnimationCurve: Curves.easeOutBack,
-              insetPadding: EdgeInsets.zero,
+              insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               backgroundColor: Colors.transparent,
               child: Container(
@@ -466,22 +466,22 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Container(
-                      color: Colors.red,
-                      child: IconButton(
-                          color: Colors.white,
-                          icon: Icon(Icons.close_rounded,
-                              size: 2 * SizeConfig.blockSizeVertical,
-                              color: Colors.white),
-                          onPressed: () {
-                            Navigator.of(context_).pop();
-                          }),
-                      //transform: Matrix4.translationValues(0, 0, 0),
-                    ),
+                    // Container(
+                    //   color: Colors.red,
+                    //   child: IconButton(
+                    //       color: Colors.white,
+                    //       icon: Icon(Icons.close_rounded,
+                    //           size: 2 * SizeConfig.blockSizeVertical,
+                    //           color: Colors.white),
+                    //       onPressed: () {
+                    //         Navigator.of(context_).pop();
+                    //       }),
+                    //   //transform: Matrix4.translationValues(0, 0, 0),
+                    // ),
                     Container(
                       height: Responsive.height(70, context),
                       alignment: Alignment.topCenter,
-                      padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                      // padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.0),
                         color: Colors.white,
@@ -490,6 +490,26 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         physics: const AlwaysScrollableScrollPhysics(),
                         shrinkWrap: true,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: IconButton(
+                                    color: Colors.white,
+                                    icon: Icon(Icons.close_rounded,
+                                        size: 4 * SizeConfig.blockSizeVertical,
+                                        color: Colors.white),
+                                    onPressed: () {
+                                      Navigator.of(context_).pop();
+                                    }),
+                                //transform: Matrix4.translationValues(0, 0, 0),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
                           walletDetail != null &&
                                   walletDetail!['dvsa_subscription'] > 0
                               ? Container()

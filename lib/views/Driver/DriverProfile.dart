@@ -174,48 +174,48 @@ class _driverProfile extends State<DriverProfile> {
       getProfileDetail().then((records) {
         Map userProfileDetail = records;
         log("RECORDSSSS **************            $records");
-        setState(() {
-          first_name = TextEditingController(
-              text: checkForNull(userProfileDetail['first_name']));
-          last_name = TextEditingController(
-              text: checkForNull(userProfileDetail['last_name'] ?? ""));
-          phone_number = TextEditingController(
-              text: checkForNull(userProfileDetail['phone_number'] == null
-                  ? ''
-                  : userProfileDetail['phone'].contains("+44")
-                      ? userProfileDetail['phone'].replaceAll("+44", '')
-                      : userProfileDetail['phone']));
-          vehiclePreference =
-              checkForNull(userProfileDetail['vehicle_preference']);
-          _address = userProfileDetail['address'];
-          address_line_1 = TextEditingController(
-              text: checkForNull(userProfileDetail['address_line_1'] ?? ''));
-          address_line_2 = TextEditingController(
-              text: checkForNull(userProfileDetail['address_line_2'] ?? ""));
-          town = TextEditingController(
-              text: checkForNull(userProfileDetail['town'] ?? ""));
-          postcode = checkForNull(userProfileDetail['postcode'] ?? "");
-          license_no = TextEditingController(
-              text: checkForNull(userProfileDetail['driver_license_no'] ?? ""));
-          if (userProfileDetail['driver_license_expiry'] != null &&
-              userProfileDetail['driver_license_expiry'] != '') {
-            var dateOfLicenseExpire =
-                userProfileDetail['driver_license_expiry'].split('-');
-            license_exp_date = TextEditingController(
-                text: dateOfLicenseExpire[2] +
-                    '-' +
-                    dateOfLicenseExpire[1] +
-                    '-' +
-                    dateOfLicenseExpire[0]);
-          }
-          if (userProfileDetail['img_url'] != null &&
-              userProfileDetail['img_url'] != '')
-            licenceHttpPath = userProfileDetail['img_url'];
-        });
-
-        closeLoader();
+        // setState(() {
+        first_name = TextEditingController(
+            text: checkForNull(userProfileDetail['first_name']));
+        last_name = TextEditingController(
+            text: checkForNull(userProfileDetail['last_name'] ?? ""));
+        phone_number = TextEditingController(
+            text: checkForNull(userProfileDetail['phone_number'] == null
+                ? ''
+                : userProfileDetail['phone'].contains("+44")
+                    ? userProfileDetail['phone'].replaceAll("+44", "")
+                    : userProfileDetail['phone'] ?? ""));
+        vehiclePreference =
+            checkForNull(userProfileDetail['vehicle_preference'] ?? "");
+        _address = userProfileDetail['address'] ?? "";
+        address_line_1 = TextEditingController(
+            text: checkForNull(userProfileDetail['address_line_1'] ?? ""));
+        address_line_2 = TextEditingController(
+            text: checkForNull(userProfileDetail['address_line_2'] ?? ""));
+        town = TextEditingController(
+            text: checkForNull(userProfileDetail['town'] ?? ""));
+        postcode = checkForNull(userProfileDetail['postcode'] ?? "");
+        license_no = TextEditingController(
+            text: checkForNull(userProfileDetail['driver_license_no'] ?? ""));
+        if (userProfileDetail['driver_license_expiry'] != null &&
+            userProfileDetail['driver_license_expiry'] != "") {
+          var dateOfLicenseExpire =
+              userProfileDetail['driver_license_expiry'].split('-') ?? "";
+          license_exp_date = TextEditingController(
+              text: dateOfLicenseExpire[2] +
+                  '-' +
+                  dateOfLicenseExpire[1] +
+                  '-' +
+                  dateOfLicenseExpire[0]);
+        }
+        if (userProfileDetail['img_url'] != null &&
+            userProfileDetail['img_url'] != '')
+          licenceHttpPath = userProfileDetail['img_url'];
       });
+
+      closeLoader();
     });
+    // });
   }
 
   String checkForNull(String text) {

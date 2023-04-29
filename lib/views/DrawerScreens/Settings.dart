@@ -44,6 +44,107 @@ class _Settings extends State<Settings> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: LayoutBuilder(builder: (context, constraints) {
+                      return Row(
+                        children: [
+                          Container(
+                            width: constraints.maxWidth * 0.16,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: IconButton(
+                                icon: Icon(Icons.supervised_user_circle),
+                                onPressed: () {},
+                                color: Color.fromRGBO(0, 0, 0, 0.34),
+                                iconSize: 26,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: constraints.maxWidth * 0.27,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                'Account',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18,
+                                  color: const Color(0xad060606),
+                                  letterSpacing: 0.176,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                ),
+                Divider(height: constraints.maxHeight * 0.014),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: constraints.maxWidth * 0.07),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        width: constraints.maxWidth * 0.44,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            'Change Password',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              color: const Color(0xad060606),
+                              letterSpacing: 0.176,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: constraints.maxWidth * 0.13,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: IconButton(
+                            icon: Icon(Icons.keyboard_arrow_right),
+                            onPressed: () {
+                              _navigationService.navigateToReplacement(
+                                routes.ChangePasswordRoute,
+                              );
+                            },
+                            color: Color.fromRGBO(0, 0, 0, 0.34),
+                            iconSize: 26,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          })
+        ],
+      ),
+    );
+  }
+}
+
+/// For V2 USE This LayoutBuilder
+/*
+
+   LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: constraints.maxWidth * 0.03),
+                  margin: EdgeInsetsDirectional.fromSTEB(
+                      0.0, constraints.maxHeight * 0.23, 0.0, 0.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: LayoutBuilder(builder: (context, constraints) {
                       return Container(
                         width: constraints.maxWidth * 0.25,
                         margin: EdgeInsets.symmetric(
@@ -266,8 +367,5 @@ class _Settings extends State<Settings> {
               ],
             );
           })
-        ],
-      ),
-    );
-  }
-}
+
+ */

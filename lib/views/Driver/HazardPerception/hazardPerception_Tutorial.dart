@@ -13,6 +13,9 @@ import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
 import '../../../widget/CustomAppBar.dart';
 
+//29
+//30 potrait
+
 class HazardPerceptionTutorial extends StatefulWidget {
   HazardPerceptionTutorial({Key? key}) : super(key: key);
 
@@ -24,7 +27,8 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   final PageController pageViewCtrl = new PageController();
-  List<FlutterGifController> gifControls = []..length = 3;
+  // List<FlutterGifController> gifControls = []..length = 3;
+  late FlutterGifController controller0, controller1, controller2;
   String secondStepVideo = "", thirdStepVideo = "";
   //GifController secondStepGifControls, thirdStepGifControls;
   List<bool> isAnimationCompleted = [false, false, false];
@@ -39,6 +43,9 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
 
   @override
   void initState() {
+    controller0 = FlutterGifController(vsync: this);
+    controller1 = FlutterGifController(vsync: this);
+    controller2 = FlutterGifController(vsync: this);
     currentIndexPage = 0;
     pageLength = 3;
     secondStepVideoPlayer = new BetterPlayerController(
@@ -87,17 +94,14 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
         isAnimationCompleted[i] = false;
       });
     }
-    if (gifControls[0] != null && gifControls[0].isAnimating)
-      gifControls[0].reset();
-    if (gifControls[1] != null && gifControls[1].isAnimating)
-      gifControls[1].reset();
-    if (gifControls[2] != null && gifControls[2].isAnimating)
-      gifControls[2].reset();
-    gifControls[0] = new FlutterGifController(vsync: this);
-    gifControls[1] = new FlutterGifController(vsync: this);
-    gifControls[2] = new FlutterGifController(vsync: this);
+    if (controller0 != null && controller0.isAnimating) controller0.reset();
+    if (controller1 != null && controller1.isAnimating) controller1.reset();
+    if (controller2 != null && controller2.isAnimating) controller2.reset();
+    // controller0 = new FlutterGifController(vsync: this);
+    // controller1 = new FlutterGifController(vsync: this);
+    // controller2 = new FlutterGifController(vsync: this);
     Future.delayed(Duration(milliseconds: 500), () {
-      playGiOfFirstStep(gifControls[0], 5.0, 500);
+      playGiOfFirstStep(controller0, 5.0, 500);
     });
   }
 
@@ -125,8 +129,8 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
         setState(() {
           currentGifAnimationIndex += 1;
         });
-        playGiOfFirstStep(gifControls[currentGifAnimationIndex],
-            currentGifAnimationIndex == 1 ? 19.0 : 16.0, 3000);
+        // playGiOfFirstStep(controller[currentGifAnimationIndex],
+        //     currentGifAnimationIndex == 1 ? 19.0 : 16.0, 3000);
       });
     }
     if (currentGifAnimationIndex == 2 && controller.isCompleted) {
@@ -221,9 +225,9 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
 
   @override
   void dispose() {
-    gifControls[0].dispose();
-    gifControls[1].dispose();
-    gifControls[2].dispose();
+    controller0.dispose();
+    controller1.dispose();
+    controller2.dispose();
     secondStepVideoPlayer?.dispose();
     thirdStepVideoPlayer?.dispose();
     super.dispose();
@@ -327,7 +331,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                                   Responsive.width(27, context),
                                               height: Responsive.height(
                                                   30, context),
-                                              controller: gifControls[0],
+                                              controller: controller0,
                                               image:
                                                   AssetImage("assets/stop.gif"),
                                             ),
@@ -352,7 +356,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                                   Responsive.width(27, context),
                                               height: Responsive.height(
                                                   30, context),
-                                              controller: gifControls[1],
+                                              controller: controller1,
                                               image: AssetImage(
                                                   "assets/slow-down.gif"),
                                             ),
@@ -377,7 +381,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                                   Responsive.width(27, context),
                                               height: Responsive.height(
                                                   30, context),
-                                              controller: gifControls[2],
+                                              controller: controller2,
                                               image: AssetImage(
                                                   "assets/change-direction.gif"),
                                             ),

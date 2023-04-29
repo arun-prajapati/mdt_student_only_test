@@ -115,16 +115,16 @@ class NavigationDrawerHeader extends StatelessWidget {
                           ),
                         );
                       }),
-                  Container(
-                    width: constraints.maxWidth * 0.15,
-                    child: FittedBox(
-                      fit: BoxFit.contain,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 14.0,
-                      ),
-                    ),
-                  )
+                  // Container(
+                  //   width: constraints.maxWidth * 0.15,
+                  //   child: FittedBox(
+                  //     fit: BoxFit.contain,
+                  //     child: Icon(
+                  //       Icons.arrow_forward_ios,
+                  //       size: 14.0,
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             )

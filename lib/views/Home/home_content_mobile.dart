@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/views/DashboardGridView/Dashboard.dart';
-import 'package:student_app/widget/navigation_drawer/navigation_drawer.dart' as NB;
+import 'package:student_app/widget/navigation_drawer/navigation_drawer.dart'
+    as NB;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../locater.dart';
@@ -84,20 +85,19 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
               fontSize: SizeConfig.blockSizeHorizontal * 6,
               fontWeight: FontWeight.w500,
-            color: Colors.black
-          ),
+              color: Colors.black),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              //Navigator.pushNamed(context, routes.NotificationsRoute);
-            },
-            icon: const Icon(FontAwesomeIcons.solidBell),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       //Navigator.pushNamed(context, routes.NotificationsRoute);
+        //     },
+        //     icon: const Icon(FontAwesomeIcons.solidBell),
+        //   ),
+        // ],
         elevation: 0.0,
         flexibleSpace: Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment(0.0, -1.0),
               end: Alignment(0.0, 1.0),
