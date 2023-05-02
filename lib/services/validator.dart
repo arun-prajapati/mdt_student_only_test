@@ -136,4 +136,14 @@ class Validate {
     // emit(ValidState("valid"));
     return null;
   }
+
+  static String? confirmPasswordValidation(String s, val) {
+    if (s.isEmpty || s == "") {
+      return "Please enter password";
+    } else if (s != val) {
+      return "Password and confirm password doesn't match";
+    }
+    // emit(ValidState("valid"));
+    return null;
+  }
 }

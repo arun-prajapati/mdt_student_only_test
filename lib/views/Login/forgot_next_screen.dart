@@ -279,6 +279,12 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                                 return Validate.requiredField(
                                     code, "Code is required");
                               },
+                              onChanged: (val) {
+                                if (!_formKey.currentState!.validate()) {
+                                  Validate.requiredField(
+                                      val, "Code is required");
+                                }
+                              },
                               onFieldSubmitted: (_) {
                                 setFocus(context,
                                     focusNode: _newPasswordFocusNode);
@@ -383,6 +389,12 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                                 newPassword = value!.trim();
                                 return Validate.requiredField(
                                     newPassword, "Password is required");
+                              },
+                              onChanged: (val) {
+                                if (!_formKey.currentState!.validate()) {
+                                  Validate.requiredField(
+                                      val, "Password is required");
+                                }
                               },
                               onFieldSubmitted: (_) {
                                 setFocus(context,
@@ -490,6 +502,12 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                                 return Validate.requiredField(
                                     confirmNewPassword,
                                     "Confirm password is required");
+                              },
+                              onChanged: (val) {
+                                if (!_formKey.currentState!.validate()) {
+                                  Validate.requiredField(
+                                      val, "confirm password is required");
+                                }
                               },
                               onFieldSubmitted: (_) {
                                 setFocus(context, focusNode: null);

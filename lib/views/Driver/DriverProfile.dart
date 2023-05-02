@@ -174,6 +174,7 @@ class _driverProfile extends State<DriverProfile> {
       getProfileDetail().then((records) {
         Map userProfileDetail = records;
         log("RECORDSSSS **************            $records");
+        setState(() {});
         // setState(() {
         first_name = TextEditingController(
             text: checkForNull(userProfileDetail['first_name']));
@@ -361,7 +362,10 @@ class _driverProfile extends State<DriverProfile> {
                                     height: SizeConfig.inputHeight,
                                     child: TextField(
                                       controller: phone_number,
+                                      keyboardType: TextInputType.number,
+                                      maxLength: 10,
                                       decoration: InputDecoration(
+                                        counterText: "",
                                         focusedBorder:
                                             inputFocusedBorderStyle(),
                                         enabledBorder: inputBorderStyle(),

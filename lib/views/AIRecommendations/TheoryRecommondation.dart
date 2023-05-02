@@ -430,6 +430,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           ),
                                           ListTile(
                                             title: YoutubePlayer(
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               controller:
                                                   YoutubePlayerController(
                                                 params: YoutubePlayerParams(

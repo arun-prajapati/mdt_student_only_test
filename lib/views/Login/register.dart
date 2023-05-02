@@ -334,6 +334,11 @@ reg data
                                       name = value!.trim();
                                       return Validate.nameValidation(name);
                                     },
+                                    onChanged: (val) {
+                                      if (!_formKey.currentState!.validate()) {
+                                        Validate.nameValidation(val);
+                                      }
+                                    },
                                     onFieldSubmitted: (_) => setFocus(context,
                                         focusNode: _emailPhoneFocusNode),
                                     focusNode: _nameFocusNode,
@@ -424,6 +429,11 @@ reg data
                                       email = value!.trim();
                                       return Validate.emailValidation(value);
                                     },
+                                    onChanged: (val) {
+                                      if (!_formKey.currentState!.validate()) {
+                                        Validate.emailValidation(val);
+                                      }
+                                    },
                                     onFieldSubmitted: (_) => setFocus(context,
                                         focusNode: _passwordFocusNode),
                                     focusNode: _emailPhoneFocusNode,
@@ -513,6 +523,11 @@ reg data
                                       password = value!.trim();
                                       return Validate.passwordValidation(value);
                                     },
+                                    onChanged: (val) {
+                                      if (!_formKey.currentState!.validate()) {
+                                        Validate.passwordValidation(val);
+                                      }
+                                    },
                                     obscureText: true,
                                     onFieldSubmitted: (_) => setFocus(context,
                                         focusNode: _confirmPasswordFocusNode),
@@ -601,7 +616,14 @@ reg data
                                     ),
                                     validator: (value) {
                                       passwordConfirm = value!.trim();
-                                      return Validate.passwordValidation(value);
+                                      return Validate.confirmPasswordValidation(
+                                          value, password);
+                                    },
+                                    onChanged: (val) {
+                                      if (!_formKey.currentState!.validate()) {
+                                        Validate.confirmPasswordValidation(
+                                            val, password);
+                                      }
                                     },
                                     obscureText: true,
                                     onFieldSubmitted: (_) => submit(),

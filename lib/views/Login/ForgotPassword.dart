@@ -246,6 +246,11 @@ class ForgotPassword extends StatelessWidget {
                             print('VALL  //////      $value');
                             return Validate.validateEmail(email);
                           },
+                          onChanged: (val) {
+                            if (!_formKey.currentState!.validate()) {
+                              Validate.validateEmail(val);
+                            }
+                          },
                           onFieldSubmitted: (_) {
                             setFocus(context, focusNode: null);
                             submit(context);

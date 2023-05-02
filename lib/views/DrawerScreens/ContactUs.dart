@@ -27,7 +27,6 @@ class _ContactUs extends State<ContactUs> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final AdiDriverCommonAPI _adiDriverCommonAPI = new AdiDriverCommonAPI();
   bool _checkval = false;
-  Uri gmailUrl = Uri.parse('mailto:feedback@geeksforgeeks.org');
 
   late Map userDetail;
   final TextEditingController name = new TextEditingController(),
@@ -129,7 +128,8 @@ class _ContactUs extends State<ContactUs> {
                                 contentPadding:
                                     EdgeInsets.fromLTRB(5, 0, 3, 16),
                               ),
-                              keyboardType: TextInputType.emailAddress,
+                              readOnly: true,
+                              keyboardType: TextInputType.number,
                               onChanged: (value) {})),
                       Container(
                           width: constraints.maxWidth * 0.99,
@@ -227,7 +227,7 @@ class _ContactUs extends State<ContactUs> {
                       //   height: constraints.maxHeight*0.02,
                       // ),
                       Container(
-                        height: constraints.maxHeight * 0.1,
+                        height: 50,
                         width: constraints.maxWidth * 0.6,
                         margin:
                             EdgeInsets.only(top: constraints.maxHeight * 0.05),
@@ -253,7 +253,7 @@ class _ContactUs extends State<ContactUs> {
                                     'Submit',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w700,
                                       color: Color.fromRGBO(255, 255, 255, 1.0),
                                     ),
@@ -346,8 +346,9 @@ class _ContactUs extends State<ContactUs> {
                             ),
                             InkWell(
                               onTap: () {
-                                print('TAPP $gmailUrl');
-                                openGmailApp(gmailUrl);
+                                // print('TAPP $gmailUrl');
+                                // openGmailApp(gmailUrl);
+                                openGmailApp();
                               },
                               child: Container(
                                 width: constraints.maxWidth * 0.6,
@@ -508,9 +509,18 @@ class _ContactUs extends State<ContactUs> {
     return false;
   }
 
-  openGmailApp(Uri url) async {
-    await canLaunchUrl(url)
-        ? await launchUrl(url)
-        : Fluttertoast.showToast(msg: 'Could not open the app ');
+  void openGmailApp() {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: "feedback@geeksforgeeks.org",
+    );
+    launchUrl(emailLaunchUri);
+    print("EMAIL TAP: $emailLaunchUri");
   }
+
+  // openGmailApp(Uri url) async {
+  //   await canLaunchUrl(url)
+  //       ? await launchUrl(url)
+  //       : Fluttertoast.showToast(msg: 'Could not open the app ');
+  // }
 }

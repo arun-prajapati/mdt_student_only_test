@@ -2,6 +2,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/views/Login/register.dart';
 import '../../responsive/percentage_mediaquery.dart';
@@ -169,11 +170,11 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
 }
 
 class Welcome extends StatelessWidget {
-  late final SocialLoginService _socialLoginService;
+  // late final SocialLoginService socialLoginService;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    _socialLoginService = SocialLoginService(context);
+    // _socialLoginService = SocialLoginService(context);
     var width = MediaQuery.of(context).size.width;
     var height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
@@ -347,8 +348,8 @@ class Welcome extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () {
-                          _socialLoginService.googleSignIn();
+                        onTap: () async {
+                          SocialLoginService(context).googleSignIn();
                           print(
                               'Click ***********************************     ---------------- ');
                         },
@@ -365,7 +366,7 @@ class Welcome extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          _socialLoginService.signInWithApple(context);
+                          SocialLoginService(context).signInWithApple(context);
                         },
                         child: CircleAvatar(
                             backgroundColor: Colors.blue,

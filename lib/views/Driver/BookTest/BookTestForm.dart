@@ -182,6 +182,7 @@ class _bookTestForm extends State<BookTestForm> {
     };
     getDynamicRateApiCall(params).then((dynamicRateResponse) {
       if (dynamicRateResponse['success'] == true) {
+        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
         setState(() {
           if (dynamicRateResponse['data']['max_adi_rate'] is double ||
               dynamicRateResponse['data']['max_adi_rate'] is int)
@@ -193,6 +194,9 @@ class _bookTestForm extends State<BookTestForm> {
           closeLoader();
         });
       } else {
+        print(
+            '``````````````````````````````````````````````````````````````````');
+
         closeLoader();
         setState(() {
           addressSuggestion = "";

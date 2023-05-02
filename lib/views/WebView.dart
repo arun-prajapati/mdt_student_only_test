@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:student_app/locater.dart';
+import 'package:student_app/responsive/percentage_mediaquery.dart';
+import 'package:student_app/services/navigation_service.dart';
+import 'package:student_app/widget/CustomAppBar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../Constants/app_colors.dart';
@@ -25,7 +30,8 @@ class _WebViewContainerState extends State<WebViewContainer> {
     // TODO: implement initState
     super.initState();
     final WebViewController controller =
-    WebViewController.fromPlatformCreationParams(PlatformWebViewControllerCreationParams());
+        WebViewController.fromPlatformCreationParams(
+            PlatformWebViewControllerCreationParams());
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -71,40 +77,56 @@ Page resource error:
 
     _controller = controller;
   }
+
   @override
   Widget build(BuildContext context) {
+    final NavigationService _navigationService = locator<NavigationService>();
+
     SizeConfig().init(context);
     return Scaffold(
-        appBar: AppBar(
-          //automaticallyImplyLeading: true,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Text(
-            heading,
-            style: TextStyle(
-                fontSize: SizeConfig.blockSizeHorizontal * 6,
-                fontWeight: FontWeight.w500,
-                color: Colors.black
-            ),
-          ),
-          elevation: 0.0,
-          flexibleSpace: Container(
-            decoration:  BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.0, -1.0),
-                end: Alignment(0.0, 1.0),
-                colors: [Dark, Light],
-                stops: [0.0, 1.0],
-              ),
-            ),
-          ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: CustomAppBar(
+              preferedHeight: Responsive.height(10, context),
+              iconLeft: FontAwesomeIcons.arrowLeft,
+              title: heading,
+              textWidth: Responsive.width(12, context),
+              onTap1: () {
+                _navigationService.goBack();
+              },
+              iconRight: null),
         ),
+        // AppBar(
+        //   //automaticallyImplyLeading: true,
+        //   iconTheme: IconThemeData(color: Colors.black),
+        //   title: Text(
+        //     heading,
+        //     style: TextStyle(
+        //         fontSize: SizeConfig.blockSizeHorizontal * 6,
+        //         fontWeight: FontWeight.w500,
+        //         color: Colors.black
+        //     ),
+        //   ),
+        //   elevation: 0.0,
+        //   flexibleSpace: Container(
+        //     decoration:  BoxDecoration(
+        //       gradient: LinearGradient(
+        //         begin: Alignment(0.0, -1.0),
+        //         end: Alignment(0.0, 1.0),
+        //         colors: [Dark, Light],
+        //         stops: [0.0, 1.0],
+        //       ),
+        //     ),
+        //   ),
+        // ),
         body: Column(
           children: [
             Expanded(
-                child: WebViewWidget(
-                    key: _key,
-                  controller: _controller,
-                    ),)
+              child: WebViewWidget(
+                key: _key,
+                controller: _controller,
+              ),
+            )
           ],
         ));
   }
