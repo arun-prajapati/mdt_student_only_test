@@ -13,9 +13,6 @@ import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
 import '../../../widget/CustomAppBar.dart';
 
-//29
-//30 potrait
-
 class HazardPerceptionTutorial extends StatefulWidget {
   HazardPerceptionTutorial({Key? key}) : super(key: key);
 
@@ -33,6 +30,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
   //GifController secondStepGifControls, thirdStepGifControls;
   List<bool> isAnimationCompleted = [false, false, false];
   late int currentGifAnimationIndex;
+
   late double currentIndexPage;
   late int pageLength;
   late Timer secondStepTextTimer;
