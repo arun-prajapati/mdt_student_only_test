@@ -325,7 +325,7 @@ class _PracticalTabState extends State<PracticalTab> {
                                                 //   height: 10,
                                                 // ),
                                                 Text(
-                                                  courses[index]['short_description'],
+                                                  courses[index]['short_description'] ?? "",
                                                   style: TextStyle(
                                                     fontSize: SizeConfig.blockSizeHorizontal*3.5,
                                                     //fontWeight: FontWeight.bold
