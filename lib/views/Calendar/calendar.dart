@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -306,6 +307,20 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      width: constraints.maxWidth * 1,
+                      margin: EdgeInsets.fromLTRB(0, constraints.maxHeight * 0.035, 0.0, 0.0),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.list,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 Positioned(

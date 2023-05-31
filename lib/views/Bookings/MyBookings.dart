@@ -31,7 +31,7 @@ class MyBooking extends StatefulWidget {
   State<StatefulWidget> createState() => _MyBooking();
 }
 
-enum FilterType { Accepted, Rejected, Completed, Assigned }
+enum FilterType { All,Accepted, Rejected, Completed, Assigned }
 
 class _MyBooking extends State<MyBooking> {
   final GlobalKey<State> _keyPopupMenu = new GlobalKey<State>();
@@ -42,7 +42,7 @@ class _MyBooking extends State<MyBooking> {
   int pageNumber = 1;
   String filterType = 'accepted';
   ValueNotifier<FilterType> _selectedItem =
-      new ValueNotifier<FilterType>(FilterType.Accepted);
+      new ValueNotifier<FilterType>(FilterType.All);
   late Map data;
   late ScrollController controller;
   bool isDataLoading = false;
@@ -267,6 +267,9 @@ class _MyBooking extends State<MyBooking> {
 
   String getSelectedFilter(FilterType filterValue) {
     switch (filterValue) {
+      case FilterType.All:
+        return 'all';
+        break;
       case FilterType.Accepted:
         return 'accepted';
         break;

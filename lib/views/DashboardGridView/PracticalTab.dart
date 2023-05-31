@@ -36,7 +36,7 @@ class _PracticalTabState extends State<PracticalTab> {
   List cards = [
     {
       'icon': MyFlutterApp.ai_hand,
-      'title':'Improve your driving with our AI assessment',
+      'title':'AI assessment',
       'subTitle':'Using our smart AI engine get tailored assessment on how to improve your driving.',
       'type':'aiRecommendations',
       'buttonText':'Start'

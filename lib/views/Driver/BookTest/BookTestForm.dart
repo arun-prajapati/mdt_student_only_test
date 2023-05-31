@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:google_api_headers/google_api_headers.dart';
@@ -359,7 +360,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: AutoSizeText("Requested Test Date*",
+                          child: AutoSizeText("Requested Test Date",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -506,7 +507,7 @@ class _bookTestForm extends State<BookTestForm> {
                     children: [
                       Container(
                         width: Responsive.width(100, context),
-                        child: AutoSizeText('Vehicle Preference*',
+                        child: AutoSizeText('Vehicle Preference',
                             style: inputLabelStyle(SizeConfig.labelFontSize)),
                       ),
                       Container(
@@ -771,7 +772,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: AutoSizeText("Address Line One*",
+                          child: AutoSizeText("Address Line One",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -829,7 +830,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: AutoSizeText("Town*",
+                          child: AutoSizeText("Town",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -858,7 +859,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: AutoSizeText("Postcode*",
+                          child: AutoSizeText("Postcode",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -972,6 +973,7 @@ class _bookTestForm extends State<BookTestForm> {
                             height: SizeConfig.inputHeight,
                             child: TextField(
                                 controller: email,
+                                readOnly: true,
                                 style: inputTextStyle(SizeConfig.inputFontSize),
                                 decoration: InputDecoration(
                                   focusedBorder: inputFocusedBorderStyle(),
@@ -1023,7 +1025,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: AutoSizeText("Date of Birth*",
+                          child: AutoSizeText("Date of Birth",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -1111,7 +1113,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: Text("Number of driving lessons taken so far*",
+                          child: Text("Number of driving lessons taken so far",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -1222,7 +1224,7 @@ class _bookTestForm extends State<BookTestForm> {
                                       },
                                       itemBuilder: (context, suggestion) {
                                         suggestion as dynamic;
-                                        String name = suggestion['first_name'] +
+                                        String name = suggestion['first_name'] != null ? suggestion['first_name'] : "" +
                                             " " +
                                             (suggestion['last_name'] != null
                                                 ? suggestion['last_name']
@@ -1377,7 +1379,7 @@ class _bookTestForm extends State<BookTestForm> {
                       Container(
                         width: Responsive.width(100, context),
                         child: AutoSizeText(
-                            'Would you like to inform your current instructor that you are taking this test?*',
+                            'Would you like to inform your current instructor that you are taking this test?',
                             style: inputLabelStyle(SizeConfig.labelFontSize)),
                       ),
                       Container(
@@ -1491,7 +1493,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: AutoSizeText("Provisional License No*",
+                          child: AutoSizeText("Provisional License No",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -1520,7 +1522,7 @@ class _bookTestForm extends State<BookTestForm> {
                         Container(
                           width: Responsive.width(100, context),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: Text("License Expiry*",
+                          child: Text("License Expiry",
                               style: inputLabelStyle(SizeConfig.labelFontSize),
                               textAlign: TextAlign.left),
                         ),
@@ -2080,12 +2082,12 @@ class _bookTestForm extends State<BookTestForm> {
                       ),
                       onPressed: () {
                         if (this.current_step < 2) {
-                          if (this.current_step == 0 && !validateStep_1()) {
-                            Toast.show("Please filled all required(*) field.",
-                                //textStyle: context,
-                                duration: Toast.lengthLong,
-                                gravity: Toast.bottom);
-                          } else {
+                          // if (this.current_step == 0 && !validateStep_1()) {
+                          //  Toast.show("Please filled all required(*) field.",
+                          //       //textStyle: context,
+                          //       duration: Toast.lengthLong,
+                          //       gravity: Toast.bottom);
+                          // } else {
                             setState(() {
                               this.current_step = this.current_step + 1;
                               _multiStepperWidget.currentState!
@@ -2095,7 +2097,7 @@ class _bookTestForm extends State<BookTestForm> {
                               } catch (e) {}
                             });
                           }
-                        }
+                        // }
                       },
                     ),
                   ),
@@ -2120,19 +2122,19 @@ class _bookTestForm extends State<BookTestForm> {
                       onPressed: () {
                         print(age);
                         if (this.current_step < 2) {
-                          if (this.current_step == 1 && !validateStep_2()) {
-                            if (age < 16) {
-                              Toast.show("You must be above 16 to book test",
-                                  //textStyle: context,
-                                  duration: Toast.lengthLong,
-                                  gravity: Toast.bottom);
-                            } else {
-                              Toast.show("Please filled all required(*) field.",
-                                  // textStyle: context,
-                                  duration: Toast.lengthLong,
-                                  gravity: Toast.bottom);
-                            }
-                          } else {
+                          // if (this.current_step == 1 && !validateStep_2()) {
+                          //   if (age < 16) {
+                          //     Toast.show("You must be above 16 to book test",
+                          //         //textStyle: context,
+                          //         duration: Toast.lengthLong,
+                          //         gravity: Toast.bottom);
+                          //   } else {
+                          //     Toast.show("Please filled all required(*) field.",
+                          //         // textStyle: context,
+                          //         duration: Toast.lengthLong,
+                          //         gravity: Toast.bottom);
+                          //   }
+                          // } else {
                             setState(() {
                               this.current_step = this.current_step + 1;
                               _multiStepperWidget.currentState!
@@ -2142,7 +2144,7 @@ class _bookTestForm extends State<BookTestForm> {
                               } catch (e) {}
                             });
                           }
-                        }
+                        // }
                       },
                     ),
                   ),
@@ -2420,7 +2422,7 @@ class _bookTestForm extends State<BookTestForm> {
     showLoader(loaderMessage);
     getUserDetail().then((userDetail) {
       setState(() {
-        print("User data....$userDetail");
+        log("User data....${jsonEncode(userDetail)}");
         first_name.text = userDetail['first_name'];
         last_name.text =
             userDetail['last_name'] != null ? userDetail['last_name'] : '';

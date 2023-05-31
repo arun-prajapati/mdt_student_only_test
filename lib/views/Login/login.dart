@@ -4,12 +4,13 @@ import 'dart:developer';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:platform_device_id/platform_device_id.dart';
+//import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/views/Login/ForgotPassword.dart';
 import 'package:student_app/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../enums/Autentication_status.dart';
 import '../../locater.dart';
@@ -45,7 +46,9 @@ class _SignInFormState extends State<SignInForm> {
   TextEditingController password = TextEditingController();
 
   Future<String?> getId() async {
-    deviceId = await PlatformDeviceId.getDeviceId;
+    ///Add UDID here
+    //deviceId = await PlatformDeviceId.getDeviceId;
+    deviceId = Uuid().v4();
     return deviceId;
   }
 
