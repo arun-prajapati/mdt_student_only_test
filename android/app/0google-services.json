@@ -22,14 +22,6 @@
           }
         },
         {
-          "client_id": "414376827573-7ujmr92nlcffsrmvvh1ttrcv7tibnm5g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mdt.student_app",
-            "certificate_hash": "68bbf4825429b7c98a62cf97298e34f08f809ea5"
-          }
-        },
-        {
           "client_id": "414376827573-b6d0niaul41t9286g5epnucmsve0pkct.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -113,14 +105,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "414376827573-50lk54b53c3gn6229vvbv6v0cfm916n8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mdt.student_app",
-            "certificate_hash": "641b026818161ac21c798cf25a3e61d59d799fd0"
-          }
-        },
         {
           "client_id": "414376827573-bb99qjhc9cnf29sku24oib19bmtfgivi.apps.googleusercontent.com",
           "client_type": 1,
