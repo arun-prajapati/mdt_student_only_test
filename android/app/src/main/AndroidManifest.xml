@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mdt.main_flutter">
+    package="com.mdt.student_app">
    <application
         android:label="mdt_student"
         android:name="${applicationName}"
