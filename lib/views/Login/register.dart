@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
-import 'package:provider/provider.dart';
 import 'package:student_app/views/Login/login.dart';
-import 'package:student_app/views/spinner.dart';
 import 'package:toast/toast.dart';
 import 'package:uuid/uuid.dart';
 
@@ -67,10 +67,7 @@ class _RegisterState extends State<Register> {
             actions: [
               TextButton(
                 onPressed: () {
-                  if (Provider.of<AuthProvider>(context, listen: false)
-                          .notification
-                          .text ==
-                      'Registration successful, please verify your account.') {
+                  if (Provider.of<AuthProvider>(context, listen: false).notification.text == 'Registration successful, please verify your account.') {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
@@ -95,17 +92,10 @@ class _RegisterState extends State<Register> {
     print('good');
     final form = _formKey.currentState;
     if (form!.validate()) {
-      response = await Provider.of<AuthProvider>(context, listen: false)
-          .register(name, email, password, passwordConfirm, user, deviceType,
-              deviceId!);
-      if (Provider.of<AuthProvider>(context, listen: false).notification.text !=
-          '') {
+      response = await Provider.of<AuthProvider>(context, listen: false).register(name, email, password, passwordConfirm, user, deviceType, deviceId!);
+      if (Provider.of<AuthProvider>(context, listen: false).notification.text != '') {
         // Spinner.close(context);
-        showValidationDialog(
-            context,
-            Provider.of<AuthProvider>(context, listen: false)
-                .notification
-                .text);
+        showValidationDialog(context, Provider.of<AuthProvider>(context, listen: false).notification.text);
       }
     }
   }
@@ -119,7 +109,7 @@ class _RegisterState extends State<Register> {
   }
 
   Future<String?> getId() async {
-  //  deviceId = await PlatformDeviceId.getDeviceId;
+    //  deviceId = await PlatformDeviceId.getDeviceId;
     deviceId = Uuid().v4();
     return deviceId;
   }
@@ -130,13 +120,13 @@ class _RegisterState extends State<Register> {
     if (Platform.isAndroid) {
       print("android");
       deviceType = "android";
-      getDeviceInfo()
-          .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
+      getDeviceInfo().then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
       getId().then((value) => log('Running on ${value}'));
     }
     if (Platform.isIOS) {
       print("iOS");
       deviceType = "iOS";
+      getId().then((value) => log('Running on ${value}'));
     }
     //deviceType = "";
     _nameFocusNode = new FocusNode();
@@ -150,8 +140,7 @@ class _RegisterState extends State<Register> {
     ToastContext().init(context);
 
     var width = MediaQuery.of(context).size.width;
-    var height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     print("Register through $deviceType");
     SizeConfig().init(context);
 
@@ -162,8 +151,7 @@ class _RegisterState extends State<Register> {
       fontWeight: FontWeight.w600,
       color: Colors.black,
     );
-    TextStyle linkStyle =
-        const TextStyle(color: Dark, fontSize: 16, fontWeight: FontWeight.w500);
+    TextStyle linkStyle = const TextStyle(color: Dark, fontSize: 16, fontWeight: FontWeight.w500);
 /*
 reg data
 {name: newww, email_phone: new@gmail.com, password: 123456, password_confirmation: 123456, user_type: 2, device_type: android, device_id: e5d24768ae0746ea}
@@ -223,11 +211,7 @@ reg data
                     //alignment: Alignment.centerLeft,
                     child: Text(
                       'Welcome!',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 23,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black),
+                      style: TextStyle(fontFamily: 'Poppins', fontSize: 23, fontWeight: FontWeight.w600, color: Colors.black),
                     ),
                   ),
                 ),
@@ -249,9 +233,7 @@ reg data
                         height: SizeConfig.blockSizeVertical * 43,
                         //SizeConfig.blockSizeVertical * 55,
                         child: ListView(
-                          padding: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 0.5,
-                              bottom: SizeConfig.blockSizeVertical * 1),
+                          padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5, bottom: SizeConfig.blockSizeVertical * 1),
                           children: [
                             Column(
                               children: [
@@ -265,8 +247,7 @@ reg data
                                     cursorColor: Dark,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
-                                        vertical:
-                                            SizeConfig.blockSizeVertical * 2,
+                                        vertical: SizeConfig.blockSizeVertical * 2,
                                       ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -291,15 +272,13 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 2),
+                                        borderSide: const BorderSide(color: Colors.black, width: 2),
                                       ),
                                       labelText: 'Full Name',
                                       labelStyle: TextStyle(
                                         color: Colors.blueGrey,
                                       ),
-                                      floatingLabelStyle:
-                                          TextStyle(color: Dark),
+                                      floatingLabelStyle: TextStyle(color: Dark),
                                       // errorStyle: TextStyle(
                                       //     fontSize: constraints.maxWidth * 0.05),
                                       prefixIcon: const Icon(
@@ -310,23 +289,20 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       focusColor: Dark,
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 2),
+                                        borderSide: const BorderSide(color: Colors.black, width: 2),
                                       ),
                                     ),
                                     style: TextStyle(
@@ -341,8 +317,7 @@ reg data
                                         Validate.nameValidation(val);
                                       }
                                     },
-                                    onFieldSubmitted: (_) => setFocus(context,
-                                        focusNode: _emailPhoneFocusNode),
+                                    onFieldSubmitted: (_) => setFocus(context, focusNode: _emailPhoneFocusNode),
                                     focusNode: _nameFocusNode,
                                     keyboardType: TextInputType.text,
                                     textInputAction: TextInputAction.next,
@@ -360,8 +335,7 @@ reg data
 
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
-                                        vertical:
-                                            SizeConfig.blockSizeVertical * 2,
+                                        vertical: SizeConfig.blockSizeVertical * 2,
                                       ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -386,15 +360,13 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 2),
+                                        borderSide: const BorderSide(color: Colors.black, width: 2),
                                       ),
                                       labelText: 'Email',
                                       labelStyle: TextStyle(
                                         color: Colors.blueGrey,
                                       ),
-                                      floatingLabelStyle:
-                                          TextStyle(color: Dark),
+                                      floatingLabelStyle: TextStyle(color: Dark),
                                       // errorStyle: TextStyle(
                                       //     fontSize: constraints.maxWidth * 0.05),
                                       prefixIcon: const Icon(
@@ -405,23 +377,20 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       focusColor: Dark,
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                     ),
                                     style: TextStyle(
@@ -436,8 +405,7 @@ reg data
                                         Validate.emailValidation(val);
                                       }
                                     },
-                                    onFieldSubmitted: (_) => setFocus(context,
-                                        focusNode: _passwordFocusNode),
+                                    onFieldSubmitted: (_) => setFocus(context, focusNode: _passwordFocusNode),
                                     focusNode: _emailPhoneFocusNode,
                                     keyboardType: TextInputType.emailAddress,
                                     textInputAction: TextInputAction.next,
@@ -454,8 +422,7 @@ reg data
                                     cursorColor: Dark,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
-                                        vertical:
-                                            SizeConfig.blockSizeVertical * 2,
+                                        vertical: SizeConfig.blockSizeVertical * 2,
                                       ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -479,15 +446,13 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 2),
+                                        borderSide: const BorderSide(color: Colors.black, width: 2),
                                       ),
                                       labelText: 'Password',
                                       labelStyle: TextStyle(
                                         color: Colors.blueGrey,
                                       ),
-                                      floatingLabelStyle:
-                                          TextStyle(color: Dark),
+                                      floatingLabelStyle: TextStyle(color: Dark),
                                       // errorStyle: TextStyle(
                                       //     fontSize: constraints.maxWidth * 0.05),
                                       prefixIcon: const Icon(
@@ -498,8 +463,7 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       errorStyle: validationStyle,
                                       focusColor: Dark,
@@ -507,15 +471,13 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 2),
+                                        borderSide: const BorderSide(color: Colors.black, width: 2),
                                       ),
                                     ),
                                     style: TextStyle(
@@ -531,8 +493,7 @@ reg data
                                       }
                                     },
                                     obscureText: true,
-                                    onFieldSubmitted: (_) => setFocus(context,
-                                        focusNode: _confirmPasswordFocusNode),
+                                    onFieldSubmitted: (_) => setFocus(context, focusNode: _confirmPasswordFocusNode),
                                     focusNode: _passwordFocusNode,
                                     keyboardType: TextInputType.text,
                                     textInputAction: TextInputAction.next,
@@ -549,8 +510,7 @@ reg data
                                     cursorColor: Dark,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
-                                        vertical:
-                                            SizeConfig.blockSizeVertical * 2,
+                                        vertical: SizeConfig.blockSizeVertical * 2,
                                       ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -574,15 +534,13 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 2),
+                                        borderSide: const BorderSide(color: Colors.black, width: 2),
                                       ),
                                       labelText: 'Confirm Password',
                                       labelStyle: TextStyle(
                                         color: Colors.blueGrey,
                                       ),
-                                      floatingLabelStyle:
-                                          TextStyle(color: Dark),
+                                      floatingLabelStyle: TextStyle(color: Dark),
                                       // errorStyle: TextStyle(
                                       //     fontSize: constraints.maxWidth * 0.05),
                                       prefixIcon: const Icon(
@@ -593,8 +551,7 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       errorStyle: validationStyle,
                                       focusColor: Dark,
@@ -602,15 +559,13 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide: const BorderSide(color: Dark, width: 2),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 2),
+                                        borderSide: const BorderSide(color: Colors.black, width: 2),
                                       ),
                                     ),
                                     style: TextStyle(
@@ -618,13 +573,11 @@ reg data
                                     ),
                                     validator: (value) {
                                       passwordConfirm = value!.trim();
-                                      return Validate.confirmPasswordValidation(
-                                          value, password);
+                                      return Validate.confirmPasswordValidation(value, password);
                                     },
                                     onChanged: (val) {
                                       if (!_formKey.currentState!.validate()) {
-                                        Validate.confirmPasswordValidation(
-                                            val, password);
+                                        Validate.confirmPasswordValidation(val, password);
                                       }
                                     },
                                     obscureText: true,
@@ -638,8 +591,7 @@ reg data
                                 Container(
                                   // height: constraints.maxHeight * 0.11,
                                   width: SizeConfig.blockSizeHorizontal * 50,
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 3),
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                                   child: Material(
                                     borderRadius: BorderRadius.only(
                                       bottomRight: Radius.circular(25),
@@ -656,8 +608,7 @@ reg data
                                           fontFamily: 'Poppins',
                                           fontSize: 22,
                                           fontWeight: FontWeight.w700,
-                                          color: Color.fromRGBO(
-                                              255, 255, 255, 1.0),
+                                          color: Color.fromRGBO(255, 255, 255, 1.0),
                                         ),
                                       ),
                                     ),
@@ -741,8 +692,7 @@ class RegisterHeaderPainter extends CustomPainter {
     Path path0 = Path();
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
-    path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.52, size.width, size.height * 0.25);
+    path0.quadraticBezierTo(size.width * 0.15, size.height * 0.52, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();
@@ -763,8 +713,7 @@ class RegisterHeaderPainter extends CustomPainter {
     Path path1 = Path();
     path1.moveTo(0, 0);
     path1.lineTo(0, size.height * 0.20);
-    path1.quadraticBezierTo(
-        size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
+    path1.quadraticBezierTo(size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
     path1.quadraticBezierTo(size.width, size.height * 0.22, size.width, 0);
     path1.lineTo(0, 0);
     path1.close();

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
-import 'package:provider/provider.dart';
 import 'package:student_app/views/Login/ForgotPassword.dart';
 import 'package:student_app/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -84,13 +85,11 @@ class _SignInFormState extends State<SignInForm> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    "Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}"),
+                Text("Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}"),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
-                Text(
-                    'You seem to have changed your phone. Please contact our support team to connect your new phone to the app.'),
+                Text('You seem to have changed your phone. Please contact our support team to connect your new phone to the app.'),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
@@ -127,24 +126,13 @@ class _SignInFormState extends State<SignInForm> {
   Future<void> submit() async {
     final form = _formKey.currentState;
     if (form!.validate()) {
-      await Provider.of<AuthProvider>(context, listen: false)
-          .login(email, password.text, usertype, deviceId!);
-      if (Provider.of<AuthProvider>(context, listen: false).notification.text !=
-              'device-exist' &&
-          Provider.of<AuthProvider>(context, listen: false).notification.text !=
-              '') {
-        showValidationDialog(
-            context,
-            Provider.of<AuthProvider>(context, listen: false)
-                .notification
-                .text);
+      await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
+      if (Provider.of<AuthProvider>(context, listen: false).notification.text != 'device-exist' &&
+          Provider.of<AuthProvider>(context, listen: false).notification.text != '') {
+        showValidationDialog(context, Provider.of<AuthProvider>(context, listen: false).notification.text);
       }
-      if (Provider.of<AuthProvider>(context, listen: false).notification.text ==
-          'device-exist') {
-        showDeviceExistDialog(
-            context,
-            Provider.of<AuthProvider>(context, listen: false).userName,
-            Provider.of<AuthProvider>(context, listen: false).contact);
+      if (Provider.of<AuthProvider>(context, listen: false).notification.text == 'device-exist') {
+        showDeviceExistDialog(context, Provider.of<AuthProvider>(context, listen: false).userName, Provider.of<AuthProvider>(context, listen: false).contact);
       }
     }
   }
@@ -154,8 +142,9 @@ class _SignInFormState extends State<SignInForm> {
     super.initState();
     _emailFocusNode = new FocusNode();
     _passwordFocusNode = new FocusNode();
-    getDeviceInfo()
-        .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
+    if (Platform.isAndroid) {
+      getDeviceInfo().then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
+    }
     getId().then((value) => log('Running on ${value}'));
   }
 
@@ -183,8 +172,7 @@ class _SignInFormState extends State<SignInForm> {
       fontWeight: FontWeight.w500,
     );
     var width = MediaQuery.of(context).size.width;
-    var height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return new Scaffold(
       backgroundColor: Colors.white,
       key: _key,
@@ -300,8 +288,7 @@ class _SignInFormState extends State<SignInForm> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25),
                               ),
-                              borderSide:
-                                  const BorderSide(color: Dark, width: 2),
+                              borderSide: const BorderSide(color: Dark, width: 2),
                             ),
                             labelText: 'Email/Phone Number',
                             labelStyle: TextStyle(
@@ -318,23 +305,20 @@ class _SignInFormState extends State<SignInForm> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25),
                               ),
-                              borderSide:
-                                  const BorderSide(color: Dark, width: 2),
+                              borderSide: const BorderSide(color: Dark, width: 2),
                             ),
                             focusColor: Dark,
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25),
                               ),
-                              borderSide:
-                                  const BorderSide(color: Dark, width: 2),
+                              borderSide: const BorderSide(color: Dark, width: 2),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25),
                               ),
-                              borderSide:
-                                  const BorderSide(color: Dark, width: 2),
+                              borderSide: const BorderSide(color: Dark, width: 2),
                             ),
                           ),
                           style: TextStyle(
@@ -349,8 +333,7 @@ class _SignInFormState extends State<SignInForm> {
                               Validate.validateEmail(val);
                             }
                           },
-                          onFieldSubmitted: (_) =>
-                              setFocus(context, focusNode: _passwordFocusNode),
+                          onFieldSubmitted: (_) => setFocus(context, focusNode: _passwordFocusNode),
                           focusNode: _emailFocusNode,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
@@ -391,8 +374,7 @@ class _SignInFormState extends State<SignInForm> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide: const BorderSide(
-                                    color: Colors.black, width: 2),
+                                borderSide: const BorderSide(color: Colors.black, width: 2),
                               ),
                               labelText: 'Password',
                               labelStyle: TextStyle(
@@ -409,8 +391,7 @@ class _SignInFormState extends State<SignInForm> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide:
-                                    const BorderSide(color: Dark, width: 2),
+                                borderSide: const BorderSide(color: Dark, width: 2),
                               ),
                               // errorStyle: validationStyle,
                               focusColor: Dark,
@@ -418,15 +399,13 @@ class _SignInFormState extends State<SignInForm> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide:
-                                    const BorderSide(color: Dark, width: 2),
+                                borderSide: const BorderSide(color: Dark, width: 2),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide:
-                                    const BorderSide(color: Dark, width: 2),
+                                borderSide: const BorderSide(color: Dark, width: 2),
                               ),
                             ),
                             style: TextStyle(
@@ -567,14 +546,12 @@ class _SignInFormState extends State<SignInForm> {
                         ),
                       ),
 
-                      Provider.of<AuthProvider>(context).status ==
-                              Status.Authenticating
+                      Provider.of<AuthProvider>(context).status == Status.Authenticating
                           ? const Center(child: CircularProgressIndicator())
                           : Container(
                               // height: constraints.maxHeight * 0.11,
                               width: SizeConfig.blockSizeHorizontal * 50,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 5),
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
                               child: Material(
                                 borderRadius: BorderRadius.only(
                                   bottomRight: Radius.circular(25),
@@ -589,8 +566,7 @@ class _SignInFormState extends State<SignInForm> {
                                     'Login',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 5,
+                                      fontSize: SizeConfig.blockSizeHorizontal * 5,
                                       fontWeight: FontWeight.w700,
                                       color: Color.fromRGBO(255, 255, 255, 1.0),
                                     ),
