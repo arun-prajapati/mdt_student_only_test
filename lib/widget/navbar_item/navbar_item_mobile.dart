@@ -18,10 +18,8 @@ class NavBarItemMobile extends ViewModelWidget<NavBarItemModel> {
           children: <Widget>[
             Container(
               width: constraints.maxWidth * 0.09,
-              child: LayoutBuilder(builder: (context, constraints) {
-                return FittedBox(
-                    fit: BoxFit.contain, child: Icon(model.iconData));
-              }),
+              child: FittedBox(
+                  fit: BoxFit.contain, child: Icon(model.iconData,size: 20,)),
             ),
             SizedBox(
               width: constraints.maxWidth * 0.1,
@@ -33,7 +31,7 @@ class NavBarItemMobile extends ViewModelWidget<NavBarItemModel> {
                   fit: BoxFit.contain,
                   child: Text(
                     model.title,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 14),
                   ),
                 );
               }),

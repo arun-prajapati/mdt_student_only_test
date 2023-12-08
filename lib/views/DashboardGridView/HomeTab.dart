@@ -552,7 +552,8 @@ class _HomeTabState extends State<HomeTab> {
                                                   horizontal: 10, vertical: 18),
                                               child: Column(
                                                 children: <Widget>[
-                                                  Container(
+                                                  /// Disabling the Practical Module
+                                                /*  Container(
                                                     margin: EdgeInsets.fromLTRB(
                                                         0, 0, 0, 10),
                                                     child: Row(
@@ -602,7 +603,7 @@ class _HomeTabState extends State<HomeTab> {
                                                   ),
                                                   SizedBox(
                                                     height: 15,
-                                                  ),
+                                                  ),*/
                                                   Container(
                                                     margin: EdgeInsets.fromLTRB(
                                                         0, 0, 0, 10),

@@ -93,7 +93,8 @@ class NavigationDrawer extends StatelessWidget {
                           SizedBox(
                             height: constraints.maxHeight * 0.025,
                           ),
-                          GestureDetector(
+                         ///commented by Khushali
+                         /* GestureDetector(
                             onTap: () {
                               _pricingUrl = "$api/pricing";
                               print(_pricingUrl);
@@ -140,7 +141,7 @@ class NavigationDrawer extends StatelessWidget {
                           ),
                           SizedBox(
                             height: constraints.maxHeight * 0.025,
-                          ),
+                          ),*/
                           NavBarItem(
                             'Mock Test Structure',
                             '/testStructure',
@@ -286,6 +287,7 @@ class NavigationDrawer extends StatelessWidget {
                               ),
                             ),
                           ),
+
                         ],
                       ))
                     ],

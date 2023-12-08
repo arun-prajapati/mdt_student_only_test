@@ -25,7 +25,7 @@ class NavigationFotter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Responsive.width(100, context),
-      height: Responsive.height(12, context),
+      height: Responsive.height(15, context),
       decoration: BoxDecoration(
         color: Color(0xff76DECD),
         borderRadius: BorderRadius.only(
@@ -35,6 +35,7 @@ class NavigationFotter extends StatelessWidget {
       ),
       child: LayoutBuilder(builder: (context, constraints) {
         return Container(
+          color: Colors.red,
           width: constraints.maxWidth * 0.9,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -56,72 +57,77 @@ class NavigationFotter extends StatelessWidget {
                 margin: EdgeInsets.fromLTRB(
                     0.0, constraints.maxHeight * 0.05, 0.0, 0.0),
                 child: LayoutBuilder(builder: (context, constraints) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                        width: constraints.maxWidth * 0.22,
-                        //color: Colors.black26,
-                        child: IconButton(
-                          icon: Icon(FontAwesomeIcons.facebook,
-                              color: Colors.white),
-                          iconSize: 3.5 * SizeConfig.blockSizeVertical,
-                          onPressed: () {
-                            _facebookUrl =
-                                "https://www.facebook.com/mockdrivingtest/";
-                            print(_facebookUrl);
-                            _launchURL(_facebookUrl);
-                          },
-                          //color: Colors.white,
-                        ),
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            width: constraints.maxWidth * 0.22,
+                            //color: Colors.black26,
+                            child: IconButton(
+                              icon: Icon(FontAwesomeIcons.facebook,
+                                  color: Colors.white),
+                              iconSize: 3.5 * SizeConfig.blockSizeVertical,
+                              onPressed: () {
+                                _facebookUrl =
+                                    "https://www.facebook.com/mockdrivingtest/";
+                                print(_facebookUrl);
+                                _launchURL(_facebookUrl);
+                              },
+                              //color: Colors.white,
+                            ),
+                          ),
+                          Container(
+                            width: constraints.maxWidth * 0.22,
+                            //color: Colors.black26,
+                            child: IconButton(
+                              icon: Icon(FontAwesomeIcons.twitter,
+                                  color: Colors.white),
+                              iconSize: 3.5 * SizeConfig.blockSizeVertical,
+                              onPressed: () {
+                                _twitterUrl = "https://twitter.com/DrivingMock";
+                                print(_twitterUrl);
+                                _launchURL(_twitterUrl);
+                              },
+                              //color: Colors.white,
+                            ),
+                          ),
+                          Container(
+                            width: constraints.maxWidth * 0.22,
+                            //color: Colors.black26,
+                            child: IconButton(
+                              icon: Icon(FontAwesomeIcons.instagram,
+                                  color: Colors.white),
+                              iconSize: 3.5 * SizeConfig.blockSizeVertical,
+                              onPressed: () {
+                                _instaGramUrl =
+                                    "https://www.instagram.com/mockdrivingtest/";
+                                print(_instaGramUrl);
+                                _launchURL(_instaGramUrl);
+                              },
+                              //color: Colors.white,
+                            ),
+                          ),
+                          Container(
+                            width: constraints.maxWidth * 0.22,
+                            //color: Colors.black26,
+                            child: IconButton(
+                              icon: Icon(FontAwesomeIcons.youtube,
+                                  color: Colors.white),
+                              iconSize: 3.5 * SizeConfig.blockSizeVertical,
+                              onPressed: () {
+                                _youTubeUrl =
+                                    "https://www.youtube.com/channel/UCMCwdFLChj6etWXLwoLmZWw";
+                                print(_youTubeUrl);
+                                _launchURL(_youTubeUrl);
+                              },
+                              //color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        width: constraints.maxWidth * 0.22,
-                        //color: Colors.black26,
-                        child: IconButton(
-                          icon: Icon(FontAwesomeIcons.twitter,
-                              color: Colors.white),
-                          iconSize: 3.5 * SizeConfig.blockSizeVertical,
-                          onPressed: () {
-                            _twitterUrl = "https://twitter.com/DrivingMock";
-                            print(_twitterUrl);
-                            _launchURL(_twitterUrl);
-                          },
-                          //color: Colors.white,
-                        ),
-                      ),
-                      Container(
-                        width: constraints.maxWidth * 0.22,
-                        //color: Colors.black26,
-                        child: IconButton(
-                          icon: Icon(FontAwesomeIcons.instagram,
-                              color: Colors.white),
-                          iconSize: 3.5 * SizeConfig.blockSizeVertical,
-                          onPressed: () {
-                            _instaGramUrl =
-                                "https://www.instagram.com/mockdrivingtest/";
-                            print(_instaGramUrl);
-                            _launchURL(_instaGramUrl);
-                          },
-                          //color: Colors.white,
-                        ),
-                      ),
-                      Container(
-                        width: constraints.maxWidth * 0.22,
-                        //color: Colors.black26,
-                        child: IconButton(
-                          icon: Icon(FontAwesomeIcons.youtube,
-                              color: Colors.white),
-                          iconSize: 3.5 * SizeConfig.blockSizeVertical,
-                          onPressed: () {
-                            _youTubeUrl =
-                                "https://www.youtube.com/channel/UCMCwdFLChj6etWXLwoLmZWw";
-                            print(_youTubeUrl);
-                            _launchURL(_youTubeUrl);
-                          },
-                          //color: Colors.white,
-                        ),
-                      ),
+                      SizedBox(height: 20,)
                     ],
                   );
                 }),

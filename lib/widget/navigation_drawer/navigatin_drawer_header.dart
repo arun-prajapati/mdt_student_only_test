@@ -81,7 +81,7 @@ class NavigationDrawerHeader extends StatelessWidget {
                           name.toString(),
                           style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 28.0,
+                              fontSize: 24.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
@@ -110,7 +110,7 @@ class NavigationDrawerHeader extends StatelessWidget {
                             email.toString(),
                             style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: 3 * SizeConfig.blockSizeVertical,
+                                fontSize: 2.2 * SizeConfig.blockSizeVertical,
                                 color: Colors.white),
                           ),
                         );

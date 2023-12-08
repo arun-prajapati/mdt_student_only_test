@@ -70,10 +70,10 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                             text: 'Theory',
                             icon: Icon(FontAwesomeIcons.pencilAlt),
                           ),
-                          Tab(
+                      /*    Tab(
                             text: 'Practical',
                             icon: Icon(FontAwesomeIcons.car),
-                          ),
+                          ),*/
                         ]),
                   ),
                   Container(
@@ -90,7 +90,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                           }
                         },),
                         TheoryTab(),
-                        PracticalTab(),
+                      /*  PracticalTab(),*/
                       ],
                     ),
                   ),

@@ -58,10 +58,18 @@ class AuthProvider with ChangeNotifier {
       'user_type': usertype,
       'device_id': deviceId,
     };
+
+
+    print(url);
+
+
+    print(jsonEncode(body));
+
     final response = await http.post(
       url,
       body: body,
     );
+    print(response);
     if (response.statusCode == 200) {
       Map<String, dynamic> apiResponse = json.decode(response.body);
       print("userData ${jsonEncode(body)}");
