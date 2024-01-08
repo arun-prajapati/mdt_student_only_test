@@ -1,4 +1,5 @@
-import 'package:flutter_gif/flutter_gif.dart';
+
+import 'package:gif/gif.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,7 +26,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  late FlutterGifController controller;
+  late GifController controller;
   LocalServices _localServices = LocalServices();
   List<String> videosName = [
     'clip1mdt.mp4',
@@ -134,7 +135,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
   @override
   void initState() {
     super.initState();
-    controller = new FlutterGifController(vsync: this);
+    controller = new GifController(vsync: this);
     Future.delayed(Duration(milliseconds: 500), () {
       if (_localServices.getVideosList().length == 0) {
         transferVideoToAppDocPath();
@@ -185,7 +186,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
                 Container(
                   transform: Matrix4.translationValues(
                       0, -Responsive.height(05, context), 0),
-                  child: GifImage(
+                  child: Gif(
                     width: Responsive.width(60, context),
                     height: Responsive.height(40, context),
                     controller: controller,

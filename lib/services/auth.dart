@@ -46,7 +46,7 @@ class AuthProvider with ChangeNotifier {
 //    notifyListeners();
 //  }
   Future<bool> login(
-      String email, String password, String usertype, String deviceId) async {
+  {required String email,required  String password,required  String usertype,required  String deviceId}) async {
     _status = Status.Authenticating;
     _notification = NotificationText('', '');
     notifyListeners();
@@ -130,6 +130,7 @@ class AuthProvider with ChangeNotifier {
           params['social_site_id'] +
           "&email=" +
           email_);
+    print(url);
     final response = await http.get(url);
     final responseParse = json.decode(response.body);
     if (responseParse['success'] == false) {
@@ -166,14 +167,14 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<Map> register(
-      String name,
-      String email,
-      String password,
-      String passwordConfirm,
-      String userType,
-      String deviceType,
-      String deviceId) async {
+  Future<Map> register({
+      required String name,
+    required String email,
+    required String password,
+    required String passwordConfirm,
+    required String userType,
+    required String deviceType,
+    required String deviceId}) async {
     //print(userType);
     final url = Uri.parse('$api/api/register');
     Map<String, String> body = {

@@ -47,9 +47,18 @@ class _SignInFormState extends State<SignInForm> {
   TextEditingController password = TextEditingController();
 
   Future<String?> getId() async {
-    ///Add UDID here
-    //deviceId = await PlatformDeviceId.getDeviceId;
-    deviceId = Uuid().v4();
+    //  deviceId = await PlatformDeviceId.getDeviceId;
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      deviceId = await iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else if(Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      deviceId = await androidDeviceInfo.id; // unique ID on Android
+    }
+
+    //deviceId = Uuid().v4();
+
     return deviceId;
   }
 
@@ -126,7 +135,13 @@ class _SignInFormState extends State<SignInForm> {
   Future<void> submit() async {
     final form = _formKey.currentState;
     if (form!.validate()) {
-      await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
+      //await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
+      await Provider.of<AuthProvider>(context, listen: false).login(
+        deviceId: deviceId!,
+        email: email,
+        usertype: "2",
+        password: password.text
+      );
       if (Provider.of<AuthProvider>(context, listen: false).notification.text != 'device-exist' &&
           Provider.of<AuthProvider>(context, listen: false).notification.text != '') {
         showValidationDialog(context, Provider.of<AuthProvider>(context, listen: false).notification.text);

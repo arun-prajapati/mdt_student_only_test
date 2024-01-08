@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<int?> getUserType() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
-    int? userType = 1; // storage.getInt('userType');
+    int? userType = 2; // storage.getInt('userType');
     return userType;
   }
 

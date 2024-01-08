@@ -92,7 +92,16 @@ class _RegisterState extends State<Register> {
     print('good');
     final form = _formKey.currentState;
     if (form!.validate()) {
-      response = await Provider.of<AuthProvider>(context, listen: false).register(name, email, password, passwordConfirm, user, deviceType, deviceId!);
+      //response = await Provider.of<AuthProvider>(context, listen: false).register(name, email, password, passwordConfirm, user, deviceType, deviceId!);
+      response = await Provider.of<AuthProvider>(context, listen: false)
+          .register(
+          name: name,
+          email: email,
+          password: password,
+          passwordConfirm: passwordConfirm,
+          userType: "2",
+          deviceType: deviceType,
+          deviceId: deviceId!);
       if (Provider.of<AuthProvider>(context, listen: false).notification.text != '') {
         // Spinner.close(context);
         showValidationDialog(context, Provider.of<AuthProvider>(context, listen: false).notification.text);
@@ -110,7 +119,17 @@ class _RegisterState extends State<Register> {
 
   Future<String?> getId() async {
     //  deviceId = await PlatformDeviceId.getDeviceId;
-    deviceId = Uuid().v4();
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      deviceId = await iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else if(Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      deviceId = await androidDeviceInfo.id; // unique ID on Android
+    }
+
+    //deviceId = Uuid().v4();
+
     return deviceId;
   }
 

@@ -14,7 +14,7 @@ import 'package:toast/toast.dart';
 import '../Constants/global.dart';
 import '../views/spinner.dart';
 import '../widget/CustomSpinner.dart';
-import 'auth.dart';
+import 'auth.dart' as auth;
 import 'navigation_service.dart';
 import '../locater.dart';
 import 'dart:convert';
@@ -577,7 +577,7 @@ class SocialLoginService {
   Future<void> socialLoginApi(Map params) async {
     try {
       Map? loginResponse =
-          await Provider.of<AuthProvider>(globalContext, listen: false)
+          await Provider.of<auth.AuthProvider>(globalContext, listen: false)
               .socialLoginWithMdtRegister(params);
       closeLoader();
       if (loginResponse != null) {

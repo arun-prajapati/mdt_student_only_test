@@ -1,4 +1,5 @@
-import 'package:better_player/better_player.dart';
+
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import '../../../Constants/hazard_perception_data.dart';

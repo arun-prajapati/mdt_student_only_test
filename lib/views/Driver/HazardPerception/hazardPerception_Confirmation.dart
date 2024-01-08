@@ -1,4 +1,5 @@
-import 'package:flutter_gif/flutter_gif.dart';
+
+import 'package:gif/gif.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter/services.dart';
@@ -21,9 +22,9 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   LocalServices _localServices = LocalServices();
-  late FlutterGifController gifControl;
+  late GifController gifControl;
 
- // late FlutterGifController gifControl;
+ // late GifController gifControl;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
   }
 
   void initializeGifAnimation() {
-    gifControl = FlutterGifController(vsync: this);
+    gifControl = GifController(vsync: this);
    // gifControl = new GifController(vsync: this);
     gifControl.value = 0;
     gifControl.animateTo(15,
@@ -93,7 +94,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                         "Now it's your turn",
                         style: labelStyle(),
                       ),
-                      GifImage(
+                      Gif(
                         width: Responsive.width(70, context),
                         height: Responsive.height(30, context),
                         controller: gifControl,

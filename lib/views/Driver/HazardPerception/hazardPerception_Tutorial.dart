@@ -1,8 +1,10 @@
-import 'package:flutter_gif/flutter_gif.dart';
+
+import 'package:better_player_plus/better_player_plus.dart';
+import 'package:gif/gif.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:better_player/better_player.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../../../locater.dart';
@@ -24,8 +26,8 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   final PageController pageViewCtrl = new PageController();
-  // List<FlutterGifController> gifControls = []..length = 3;
-  late FlutterGifController controller0, controller1, controller2;
+  // List<GifController> gifControls = []..length = 3;
+  late GifController controller0, controller1, controller2;
   String secondStepVideo = "", thirdStepVideo = "";
   //GifController secondStepGifControls, thirdStepGifControls;
   List<bool> isAnimationCompleted = [false, false, false];
@@ -41,11 +43,12 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
 
   @override
   void initState() {
-    controller0 = FlutterGifController(vsync: this);
-    controller1 = FlutterGifController(vsync: this);
-    controller2 = FlutterGifController(vsync: this);
+    controller0 = GifController(vsync: this);
+    controller1 = GifController(vsync: this);
+    controller2 = GifController(vsync: this);
     currentIndexPage = 0;
     pageLength = 3;
+
     secondStepVideoPlayer = new BetterPlayerController(
       BetterPlayerConfiguration(
         autoPlay: true,
@@ -95,16 +98,16 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
     if (controller0 != null && controller0.isAnimating) controller0.reset();
     if (controller1 != null && controller1.isAnimating) controller1.reset();
     if (controller2 != null && controller2.isAnimating) controller2.reset();
-    // controller0 = new FlutterGifController(vsync: this);
-    // controller1 = new FlutterGifController(vsync: this);
-    // controller2 = new FlutterGifController(vsync: this);
+    // controller0 = new GifController(vsync: this);
+    // controller1 = new GifController(vsync: this);
+    // controller2 = new GifController(vsync: this);
     Future.delayed(Duration(milliseconds: 500), () {
       playGiOfFirstStep(controller0, 5.0, 500);
     });
   }
 
   void playGiOfFirstStep(
-      FlutterGifController controller, double animation_time, int period_time) {
+      GifController controller, double animation_time, int period_time) {
     try {
       setState(() {
         isAnimationCompleted[currentGifAnimationIndex] = true;
@@ -121,7 +124,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
     }
   }
 
-  detectAnimation(FlutterGifController controller) {
+  detectAnimation(GifController controller) {
     if (currentGifAnimationIndex < 2 && controller.isCompleted) {
       Future.delayed(Duration(milliseconds: 1000), () {
         setState(() {
@@ -324,7 +327,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            GifImage(
+                                            Gif(
                                               width:
                                                   Responsive.width(27, context),
                                               height: Responsive.height(
@@ -349,7 +352,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            GifImage(
+                                            Gif(
                                               width:
                                                   Responsive.width(27, context),
                                               height: Responsive.height(
@@ -374,7 +377,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            GifImage(
+                                            Gif(
                                               width:
                                                   Responsive.width(27, context),
                                               height: Responsive.height(
