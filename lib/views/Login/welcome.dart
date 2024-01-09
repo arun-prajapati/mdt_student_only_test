@@ -1,15 +1,15 @@
+import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/views/Login/register.dart';
+
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/social_login.dart';
-import 'dart:ui' as ui;
-
 import 'login.dart';
 
 class Tabs extends StatefulWidget {
@@ -190,21 +190,17 @@ class Welcome extends StatelessWidget {
             painter: LandingPagePainter(),
           ),
           Positioned(
-            top: SizeConfig.blockSizeVertical * 22,
-            left: SizeConfig.blockSizeHorizontal * 30,
+            top: SizeConfig.blockSizeVertical * 20,
+            left: SizeConfig.blockSizeHorizontal * 28,
             child: CircleAvatar(
-              radius: SizeConfig.blockSizeHorizontal * 20,
+              radius: SizeConfig.blockSizeHorizontal * 22,
               backgroundColor: Colors.white,
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: SizeConfig.blockSizeHorizontal * 18,
-                child: Container(
-                  child: Image.asset(
-                    "assets/logo_app.png",
-                    height: SizeConfig.blockSizeVertical * 33,
-                    width: SizeConfig.blockSizeHorizontal * 33,
-                    fit: BoxFit.contain,
-                  ),
+              child: Container(
+                child: Image.asset(
+                  "assets/stt_s_logo.png",
+                  height: SizeConfig.blockSizeVertical * 45,
+                  width: SizeConfig.blockSizeHorizontal * 45,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
@@ -218,73 +214,75 @@ class Welcome extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Material(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(25),
-                        topRight: Radius.circular(25),
-                        bottomLeft: Radius.circular(25),
-                      ),
-                      color: Dark,
-                      elevation: 5.0,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => Register('2'),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: SizeConfig.blockSizeHorizontal * 4.8,
-                              fontWeight: FontWeight.w700,
-                              color: Color.fromRGBO(255, 255, 255, 1.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Material(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(25),
-                        topRight: Radius.circular(25),
-                        bottomLeft: Radius.circular(25),
-                      ),
-                      borderOnForeground: true,
-                      color: Dark,
-                      elevation: 5.0,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => SignInForm(),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: SizeConfig.blockSizeHorizontal * 4.8,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Material(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Dark,
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Register('2'),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: Text(
+                                'Register',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal * 4.8,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color.fromRGBO(255, 255, 255, 1.0),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Material(
+                          borderRadius: BorderRadius.circular(10),
+                          borderOnForeground: true,
+                          color: Dark,
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => SignInForm(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal * 4.8,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   width: SizeConfig.blockSizeHorizontal * 30,
@@ -386,6 +384,12 @@ class Welcome extends StatelessWidget {
       ),
     );
   }
+}
+
+callDialog() async {
+  var sharedPref = await SharedPreferences.getInstance();
+  sharedPref.setBool('theoryTestPractice', true);
+  print(sharedPref);
 }
 
 class LandingPagePainter extends CustomPainter {

@@ -11,7 +11,6 @@ import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/views/Login/ForgotPassword.dart';
 import 'package:student_app/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../enums/Autentication_status.dart';
 import '../../locater.dart';
@@ -38,9 +37,10 @@ class _SignInFormState extends State<SignInForm> {
   static final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   String usertype = '2';
   String? deviceId;
+  //= "TP1A.220624.014";
   Future<Map> getDeviceInfo() async {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-
+    print("deviceId $deviceId");
     return androidInfo.toMap();
   }
 
@@ -49,12 +49,15 @@ class _SignInFormState extends State<SignInForm> {
   Future<String?> getId() async {
     //  deviceId = await PlatformDeviceId.getDeviceId;
     var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) { // import 'dart:io'
+    if (Platform.isIOS) {
+      // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
       deviceId = await iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else if(Platform.isAndroid) {
+    } else if (Platform.isAndroid) {
+      print("deviceId $deviceId");
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      deviceId = await androidDeviceInfo.id; // unique ID on Android
+      deviceId;
+      //= "TP1A.220624.014"; // unique ID on Android
     }
 
     //deviceId = Uuid().v4();
@@ -69,7 +72,7 @@ class _SignInFormState extends State<SignInForm> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Mock Driving Test'),
+            title: const Text('Smart Theory Test'),
             content: Text(message),
             actions: [
               TextButton(
@@ -89,16 +92,18 @@ class _SignInFormState extends State<SignInForm> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Mock Driving Test'),
+            title: const Text('Smart Theory Test'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}"),
+                Text(
+                    "Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}"),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
-                Text('You seem to have changed your phone. Please contact our support team to connect your new phone to the app.'),
+                Text(
+                    'You seem to have changed your phone. Please contact our support team to connect your new phone to the app.'),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
@@ -137,17 +142,26 @@ class _SignInFormState extends State<SignInForm> {
     if (form!.validate()) {
       //await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
       await Provider.of<AuthProvider>(context, listen: false).login(
-        deviceId: deviceId!,
-        email: email,
-        usertype: "2",
-        password: password.text
-      );
-      if (Provider.of<AuthProvider>(context, listen: false).notification.text != 'device-exist' &&
-          Provider.of<AuthProvider>(context, listen: false).notification.text != '') {
-        showValidationDialog(context, Provider.of<AuthProvider>(context, listen: false).notification.text);
+          deviceId: deviceId!,
+          email: email,
+          usertype: "2",
+          password: password.text);
+      if (Provider.of<AuthProvider>(context, listen: false).notification.text !=
+              'device-exist' &&
+          Provider.of<AuthProvider>(context, listen: false).notification.text !=
+              '') {
+        showValidationDialog(
+            context,
+            Provider.of<AuthProvider>(context, listen: false)
+                .notification
+                .text);
       }
-      if (Provider.of<AuthProvider>(context, listen: false).notification.text == 'device-exist') {
-        showDeviceExistDialog(context, Provider.of<AuthProvider>(context, listen: false).userName, Provider.of<AuthProvider>(context, listen: false).contact);
+      if (Provider.of<AuthProvider>(context, listen: false).notification.text ==
+          'device-exist') {
+        showDeviceExistDialog(
+            context,
+            Provider.of<AuthProvider>(context, listen: false).userName,
+            Provider.of<AuthProvider>(context, listen: false).contact);
       }
     }
   }
@@ -158,7 +172,8 @@ class _SignInFormState extends State<SignInForm> {
     _emailFocusNode = new FocusNode();
     _passwordFocusNode = new FocusNode();
     if (Platform.isAndroid) {
-      getDeviceInfo().then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
+      getDeviceInfo()
+          .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
     }
     getId().then((value) => log('Running on ${value}'));
   }
@@ -187,7 +202,8 @@ class _SignInFormState extends State<SignInForm> {
       fontWeight: FontWeight.w500,
     );
     var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var height =
+        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return new Scaffold(
       backgroundColor: Colors.white,
       key: _key,
@@ -206,20 +222,17 @@ class _SignInFormState extends State<SignInForm> {
                 ),
                 Positioned(
                   top: SizeConfig.blockSizeVertical * 20,
-                  left: SizeConfig.blockSizeHorizontal * 30,
+                  left: SizeConfig.blockSizeHorizontal * 28,
                   child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 20,
+                    radius: SizeConfig.blockSizeHorizontal * 22,
                     backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: SizeConfig.blockSizeHorizontal * 18,
-                      child: Container(
-                          child: Image.asset(
-                        "assets/logo_app.png",
-                        height: SizeConfig.blockSizeVertical * 33,
-                        width: SizeConfig.blockSizeHorizontal * 33,
+                    child: Container(
+                      child: Image.asset(
+                        "assets/stt_s_logo.png",
+                        height: SizeConfig.blockSizeVertical * 45,
+                        width: SizeConfig.blockSizeHorizontal * 45,
                         fit: BoxFit.contain,
-                      )),
+                      ),
                     ),
                   ),
                 ),
@@ -256,9 +269,8 @@ class _SignInFormState extends State<SignInForm> {
                   ),
                   //color: Colors.black12,
                   child: ListView(
-                    children: <Widget>[
-                      Container(
-                        //alignment: Alignment.centerLeft,
+                    children: [
+                      Center(
                         child: Text(
                           'Welcome back!',
                           style: TextStyle(
@@ -269,91 +281,87 @@ class _SignInFormState extends State<SignInForm> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 15),
                       //Field 1
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 80,
-                        margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 3,
-                        ),
-                        child: TextFormField(
-                          cursorColor: Dark,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: SizeConfig.blockSizeVertical * 2,
+                      TextFormField(
+                        cursorColor: Dark,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: SizeConfig.blockSizeVertical * 1,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
                             ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: BorderSide(
-                                color: Dark,
-                                width: 2,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: const BorderSide(
-                                color: Dark,
-                                width: 2,
-                              ),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: const BorderSide(color: Dark, width: 2),
-                            ),
-                            labelText: 'Email/Phone Number',
-                            labelStyle: TextStyle(
-                              color: Colors.blueGrey,
-                            ),
-                            floatingLabelStyle: TextStyle(color: Dark),
-                            // errorStyle: TextStyle(
-                            //     fontSize: constraints.maxWidth * 0.05),
-                            prefixIcon: const Icon(
-                              Icons.mail,
+                            borderSide: BorderSide(
                               color: Dark,
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: const BorderSide(color: Dark, width: 2),
-                            ),
-                            focusColor: Dark,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: const BorderSide(color: Dark, width: 2),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: const BorderSide(color: Dark, width: 2),
+                              width: 2,
                             ),
                           ),
-                          style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                            borderSide: const BorderSide(
+                              color: Dark,
+                              width: 2,
+                            ),
                           ),
-                          validator: (value) {
-                            email = value!.trim();
-                            return Validate.validateEmail(value);
-                          },
-                          onChanged: (val) {
-                            if (!_formKey.currentState!.validate()) {
-                              Validate.validateEmail(val);
-                            }
-                          },
-                          onFieldSubmitted: (_) => setFocus(context, focusNode: _passwordFocusNode),
-                          focusNode: _emailFocusNode,
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          //textAlignVertical: TextAlignVertical.center,
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                            borderSide: const BorderSide(color: Dark, width: 2),
+                          ),
+                          labelText: 'Email/Phone Number',
+                          labelStyle: TextStyle(
+                            color: Colors.blueGrey,
+                          ),
+                          floatingLabelStyle: TextStyle(color: Dark),
+                          // errorStyle: TextStyle(
+                          //     fontSize: constraints.maxWidth * 0.05),
+                          prefixIcon: const Icon(
+                            Icons.mail,
+                            color: Dark,
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                            borderSide: const BorderSide(color: Dark, width: 2),
+                          ),
+                          focusColor: Dark,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                            borderSide: const BorderSide(color: Dark, width: 2),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                            borderSide: const BorderSide(color: Dark, width: 2),
+                          ),
                         ),
+                        style: TextStyle(
+                          fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                        ),
+                        validator: (value) {
+                          email = value!.trim();
+                          return Validate.validateEmail(value);
+                        },
+                        onChanged: (val) {
+                          if (!_formKey.currentState!.validate()) {
+                            Validate.validateEmail(val);
+                          }
+                        },
+                        onFieldSubmitted: (_) =>
+                            setFocus(context, focusNode: _passwordFocusNode),
+                        focusNode: _emailFocusNode,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        //textAlignVertical: TextAlignVertical.center,
                       ),
                       //Field 2
                       Container(
@@ -365,7 +373,7 @@ class _SignInFormState extends State<SignInForm> {
                             cursorColor: Dark,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.blockSizeVertical * 2,
+                                vertical: SizeConfig.blockSizeVertical * 1,
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
@@ -389,7 +397,8 @@ class _SignInFormState extends State<SignInForm> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide: const BorderSide(color: Colors.black, width: 2),
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
                               ),
                               labelText: 'Password',
                               labelStyle: TextStyle(
@@ -406,7 +415,8 @@ class _SignInFormState extends State<SignInForm> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide: const BorderSide(color: Dark, width: 2),
+                                borderSide:
+                                    const BorderSide(color: Dark, width: 2),
                               ),
                               // errorStyle: validationStyle,
                               focusColor: Dark,
@@ -414,13 +424,15 @@ class _SignInFormState extends State<SignInForm> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide: const BorderSide(color: Dark, width: 2),
+                                borderSide:
+                                    const BorderSide(color: Dark, width: 2),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                borderSide: const BorderSide(color: Dark, width: 2),
+                                borderSide:
+                                    const BorderSide(color: Dark, width: 2),
                               ),
                             ),
                             style: TextStyle(
@@ -561,18 +573,16 @@ class _SignInFormState extends State<SignInForm> {
                         ),
                       ),
 
-                      Provider.of<AuthProvider>(context).status == Status.Authenticating
+                      Provider.of<AuthProvider>(context).status ==
+                              Status.Authenticating
                           ? const Center(child: CircularProgressIndicator())
                           : Container(
                               // height: constraints.maxHeight * 0.11,
                               width: SizeConfig.blockSizeHorizontal * 50,
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5),
                               child: Material(
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(25),
-                                  topRight: Radius.circular(25),
-                                  bottomLeft: Radius.circular(25),
-                                ),
+                                borderRadius: BorderRadius.circular(10),
                                 color: Dark,
                                 elevation: 5.0,
                                 child: MaterialButton(
@@ -581,7 +591,8 @@ class _SignInFormState extends State<SignInForm> {
                                     'Login',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
-                                      fontSize: SizeConfig.blockSizeHorizontal * 5,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 5,
                                       fontWeight: FontWeight.w700,
                                       color: Color.fromRGBO(255, 255, 255, 1.0),
                                     ),
@@ -589,6 +600,8 @@ class _SignInFormState extends State<SignInForm> {
                                 ),
                               ),
                             ),
+
+                      SizedBox(height: 35),
                       Container(
                         //color: Colors.black26,
                         //width: constraints.maxWidth * 0.8,

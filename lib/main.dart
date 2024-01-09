@@ -1,16 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:student_app/routing/route.dart' as router;
 import 'package:student_app/services/auth.dart';
 import 'package:student_app/services/navigation_service.dart';
 import 'package:student_app/views/Home/home_content_mobile.dart';
 import 'package:student_app/views/Login/welcome.dart';
 import 'package:student_app/views/Splash/splash.dart';
-import 'package:provider/provider.dart';
-import 'package:student_app/routing/route.dart' as router;
-//import 'locater.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:toast/toast.dart';
 
 import 'enums/Autentication_status.dart';

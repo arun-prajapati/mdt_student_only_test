@@ -1,18 +1,18 @@
 import 'dart:developer';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:toast/toast.dart';
-import '../../Constants/global.dart';
-import '../../locater.dart';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:student_app/Constants/app_colors.dart';
+import 'package:toast/toast.dart';
+
+import '../../Constants/global.dart';
+import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
@@ -388,43 +388,43 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   ),
                 ),
               ),
-              if (walletDetail != null &&
-                  walletDetail!['dvsa_subscription'] <= 0)
-                Container(
-                  width: constraints.maxWidth * .45,
-                  height: 5 * SizeConfig.blockSizeVertical,
-                  margin: EdgeInsets.only(left: constraints.maxWidth * .08),
-                  child: Material(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    color: Dark,
-                    elevation: 5.0,
-                    child: MaterialButton(
-                      onPressed: () {
-                        subscriptionConfirmAlert(context);
-                      },
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          return Container(
-                              width: constraints.maxWidth * 1,
-                              height: constraints.maxHeight * 1,
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                width: constraints.maxWidth * 1,
-                                child: AutoSizeText(
-                                  "Subscribe for DVSA",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize:
-                                          2 * SizeConfig.blockSizeVertical,
-                                      color: Colors.white),
-                                ),
-                              ));
-                        },
-                      ),
-                    ),
-                  ),
-                ),
+              // if (walletDetail != null &&
+              //     walletDetail!['dvsa_subscription'] <= 0)
+              //   Container(
+              //     width: constraints.maxWidth * .45,
+              //     height: 5 * SizeConfig.blockSizeVertical,
+              //     margin: EdgeInsets.only(left: constraints.maxWidth * .08),
+              //     child: Material(
+              //       borderRadius: BorderRadius.all(Radius.circular(5)),
+              //       color: Dark,
+              //       elevation: 5.0,
+              //       child: MaterialButton(
+              //         onPressed: () {
+              //           subscriptionConfirmAlert(context);
+              //         },
+              //         child: LayoutBuilder(
+              //           builder: (context, constraints) {
+              //             return Container(
+              //                 width: constraints.maxWidth * 1,
+              //                 height: constraints.maxHeight * 1,
+              //                 alignment: Alignment.center,
+              //                 child: SizedBox(
+              //                   width: constraints.maxWidth * 1,
+              //                   child: AutoSizeText(
+              //                     "Subscribe for DVSA",
+              //                     textAlign: TextAlign.center,
+              //                     style: TextStyle(
+              //                         fontFamily: 'Poppins',
+              //                         fontSize:
+              //                             2 * SizeConfig.blockSizeVertical,
+              //                         color: Colors.white),
+              //                   ),
+              //                 ));
+              //           },
+              //         ),
+              //       ),
+              //     ),
+              //   ),
             ],
           )
         ],

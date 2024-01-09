@@ -1,15 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/card.dart' as MCard;
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
-import 'package:flutter/src/material/card.dart' as MCard;
-import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
+import 'package:student_app/views/Login/welcome.dart';
 
 import '../../Constants/app_colors.dart';
 import '../../Constants/global.dart';
@@ -48,13 +50,13 @@ class _TheoryTabState extends State<TheoryTab> {
     {
       'icon': FontAwesomeIcons.robot,
       'title': 'AI Learn',
-      'subTitle': 'To learn theory test topics.',
+      'subTitle': 'To learn theory test topics using AI.',
       'type': 'aiLearn',
       'buttonText': 'Learn'
     },
     {
       'icon': FontAwesomeIcons.clipboardCheck,
-      'title': 'Practice Theory Test questions',
+      'title': 'Practice',
       'subTitle':
           'Understand the questions you will likely be\nasked in DVSA theory test',
       'type': 'theoryTest',
@@ -111,9 +113,21 @@ class _TheoryTabState extends State<TheoryTab> {
     return bookings;
   }
 
+  // getStatus() async {
+  //   var sharedPref = await SharedPreferences.getInstance();
+  //   var data = sharedPref.getBool('theoryTestPractice');
+  //
+  //   if (data == null) {
+  //     setState(() {});
+  //     theoryTestPractice();
+  //   }
+  //   log('SharedPref Data $data');
+  // }
+
   @override
   void initState() {
     super.initState();
+    //getStatus();
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
@@ -124,9 +138,17 @@ class _TheoryTabState extends State<TheoryTab> {
     return response;
   }
 
-  initializeApi(String loaderMessage) {
+  initializeApi(String loaderMessage) async {
     checkInternet();
     showLoader(loaderMessage);
+    // var sharedPref = await SharedPreferences.getInstance();
+    // var data = sharedPref.getBool('theoryTestPractice');
+    //
+    // if (data == null) {
+    //   setState(() {});
+    //   theoryTestPractice();
+    // }
+    // log('SharedPref Data $data');
     getUserDetail().then((res) async {
       userId = res['id'];
       await getAllRecordsFromApi().then((records_list) {
@@ -210,251 +232,7 @@ class _TheoryTabState extends State<TheoryTab> {
               //color: Colors.amber,
               child: SingleChildScrollView(
                 child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(16, 25, 25, 0),
-                      child: Visibility(
-                        visible: !isSubscribed,
-                        child: Container(
-                          width: constraints.maxWidth,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            gradient: LinearGradient(
-                              begin: Alignment(0.0, -1.0),
-                              end: Alignment(0.0, 1.0),
-                              colors: [Dark, Light],
-                              stops: [0.0, 1.0],
-                            ),
-                          ),
-                          child: MCard.Card(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            elevation: 0.0,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              //color: Dark,
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  return Column(
-                                    children: [
-                                      Container(
-                                        width: constraints.maxWidth,
-                                        alignment: Alignment.centerLeft,
-                                        //color: Colors.redAccent,
-                                        child: Text(
-                                          "Theory Test Practice Module",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  4.5),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: constraints.maxWidth,
-                                        margin: EdgeInsets.only(top: 10),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              width: constraints.maxWidth,
-                                              //color: Colors.black38,
-                                              margin:
-                                                  EdgeInsets.only(bottom: 8),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    //width: constraints.maxWidth*0.1,
-                                                    //color: Colors.yellowAccent,
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Icon(
-                                                      Icons.check_circle,
-                                                      size: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          4,
-                                                      color: Colors.green,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        constraints.maxWidth *
-                                                            0.02,
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      width:
-                                                          constraints.maxWidth *
-                                                              0.9,
-                                                      //color: Colors.cyanAccent,
-                                                      child: Text(
-                                                        "2000+ Questions from 14 official question categories set by DVSA.",
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              width: constraints.maxWidth,
-                                              //color: Colors.black38,
-                                              margin:
-                                                  EdgeInsets.only(bottom: 8),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    //width: constraints.maxWidth*0.1,
-                                                    //color: Colors.yellowAccent,
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Icon(
-                                                      Icons.check_circle,
-                                                      size: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          4,
-                                                      color: Colors.green,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        constraints.maxWidth *
-                                                            0.02,
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      width:
-                                                          constraints.maxWidth *
-                                                              0.9,
-                                                      //color: Colors.cyanAccent,
-                                                      child: Text(
-                                                        "Free Mock Theory tests to check your test readiness.",
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              width: constraints.maxWidth,
-                                              //color: Colors.black38,
-                                              margin:
-                                                  EdgeInsets.only(bottom: 8),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    //width: constraints.maxWidth*0.1,
-                                                    //color: Colors.yellowAccent,
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Icon(
-                                                      Icons.check_circle,
-                                                      size: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          4,
-                                                      color: Colors.green,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        constraints.maxWidth *
-                                                            0.02,
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      width:
-                                                          constraints.maxWidth *
-                                                              0.9,
-                                                      //color: Colors.cyanAccent,
-                                                      child: Text(
-                                                        "For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        margin: EdgeInsets.only(top: 10),
-                                        child: GestureDetector(
-                                          onTap: () async {
-                                            print("payment");
-                                            showLoader("Processing payment");
-
-                                            Stripe.publishableKey =
-                                                stripePublic;
-                                            Map params = {
-                                              'total_cost': walletDetail![
-                                                  'subscription_cost'],
-                                              'user_type': 2,
-                                              'parentPageName':
-                                                  "dvsaSubscriptionHome"
-                                            };
-                                            log("Called before payment");
-                                            await _paymentService
-                                                .makePayment(
-                                                    amount: walletDetail![
-                                                        'subscription_cost'],
-                                                    currency: 'GBP',
-                                                    context: context,
-                                                    desc:
-                                                        'DVSA Subscription by ${userName} (App)',
-                                                    metaData: params)
-                                                .then((value) => closeLoader());
-                                            log("Called after payment");
-                                          },
-                                          child: Container(
-                                            width: constraints.maxWidth * 0.8,
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 12),
-                                            decoration: BoxDecoration(
-                                              color: Dark,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Buy now",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      4),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  children: [
                     Container(
                       padding: EdgeInsets.fromLTRB(16, 25, 25, 0),
                       width: constraints.maxWidth,
@@ -516,10 +294,11 @@ class _TheoryTabState extends State<TheoryTab> {
                     ),
                     Container(
                       width: Responsive.width(100, context),
-                      height: Responsive.height(24, context),
+                      height: Responsive.height(26, context),
                       //height: constraints.maxHeight * 0.8,
                       padding: EdgeInsets.fromLTRB(16, 25, 25, 0),
                       child: ListView.builder(
+                          shrinkWrap: true,
                           itemCount: cards.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
@@ -535,99 +314,114 @@ class _TheoryTabState extends State<TheoryTab> {
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    //mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceBetween,
+                                    //mainAxisSize: MainAxisSize.max,
+
                                     children: [
-                                      Row(
+                                      Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Icon(
-                                            cards[index]["icon"],
-                                            color: Dark,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              cards[index]["title"],
-                                              style: TextStyle(
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    4,
-                                                fontWeight: FontWeight.bold,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                cards[index]["icon"],
+                                                color: Dark,
+                                                size: 22,
                                               ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        cards[index]["subTitle"],
-                                        style: TextStyle(
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  3.5,
-                                          //fontWeight: FontWeight.bold
-                                        ),
-                                        softWrap: true,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          if (cards[index]["type"] ==
-                                              'theoryTest') {
-                                            _navigationService.navigateTo(
-                                                routes.PracticeTheoryTestRoute);
-                                          } else if (cards[index]["type"] ==
-                                              'hazard') {
-                                            _navigationService.navigateTo(routes
-                                                .HazardPerceptionOptionsRoute);
-                                          } else if (cards[index]["type"] ==
-                                              'dvsaMock') {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WebViewContainer(
-                                                  'https://www.gov.uk/take-practice-theory-test',
-                                                  'DVSA Mock Theory Test',
+                                              SizedBox(width: 15),
+                                              Expanded(
+                                                child: Text(
+                                                  cards[index]["title"],
+                                                  style: TextStyle(
+                                                    fontSize: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        4,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
-                                            );
-                                          } else {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    TheoryRecommendations(),
-                                              ),
-                                            ).then((value) {
-                                              if (value) {
-                                                initializeApi("Loading...");
-                                              }
-                                            });
-                                          }
-                                        },
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    Dark)),
-                                        child: Text(
-                                          cards[index]["buttonText"],
-                                          style: TextStyle(
+                                            ],
+                                          ),
+                                          SizedBox(width: 15),
+                                          Text(
+                                            cards[index]["subTitle"],
+                                            style: TextStyle(
                                               fontSize: SizeConfig
                                                       .blockSizeHorizontal *
                                                   3.5,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600
                                               //fontWeight: FontWeight.bold
-                                              ),
-                                        ),
+                                            ),
+                                            softWrap: true,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          SizedBox(width: 15),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              if (cards[index]["type"] ==
+                                                  'theoryTest') {
+                                                _navigationService.navigateTo(
+                                                    routes
+                                                        .PracticeTheoryTestRoute);
+                                              } else if (cards[index]["type"] ==
+                                                  'hazard') {
+                                                _navigationService.navigateTo(routes
+                                                    .HazardPerceptionOptionsRoute);
+                                              } else if (cards[index]["type"] ==
+                                                  'dvsaMock') {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        WebViewContainer(
+                                                      'https://www.gov.uk/take-practice-theory-test',
+                                                      'DVSA Mock Theory Test',
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TheoryRecommendations(),
+                                                  ),
+                                                ).then((value) {
+                                                  if (value) {
+                                                    initializeApi("Loading...");
+                                                  }
+                                                });
+                                              }
+                                            },
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Dark)),
+                                            child: Text(
+                                              cards[index]["buttonText"],
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  // fontSize: SizeConfig
+                                                  //         .blockSizeHorizontal *
+                                                  //     3.5,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600
+                                                  //fontWeight: FontWeight.bold
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -788,6 +582,234 @@ class _TheoryTabState extends State<TheoryTab> {
         ),
       ),
     );
+  }
+
+  theoryTestPractice() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Dialog(
+              insetPadding: EdgeInsets.all(20),
+              child: Visibility(
+                visible: !isSubscribed,
+                child: Container(
+                  // width: constraints.maxWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, -1.0),
+                      end: Alignment(0.0, 1.0),
+                      colors: [Dark, Light],
+                      stops: [0.0, 1.0],
+                    ),
+                  ),
+                  child: MCard.Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 0.0,
+                    child: Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        //color: Dark,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              //width: constraints.maxWidth,
+                              alignment: Alignment.centerLeft,
+                              //color: Colors.redAccent,
+                              child: Text(
+                                "Theory Test Practice Module",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 4.5),
+                              ),
+                            ),
+                            Container(
+                              //width: constraints.maxWidth,
+                              margin: EdgeInsets.only(top: 10),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle,
+                                        size:
+                                            SizeConfig.blockSizeHorizontal * 4,
+                                        color: Colors.green,
+                                      ),
+                                      SizedBox(width: 5),
+                                      // SizedBox(
+                                      //   width:
+                                      //       constraints.maxWidth * 0.02
+                                      // ),
+                                      Expanded(
+                                        child: Text(
+                                            //"2000+ Questions from 14 official question categories set by DVSA.",
+                                            "2000+ Questions "),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle,
+                                        size:
+                                            SizeConfig.blockSizeHorizontal * 4,
+                                        color: Colors.green,
+                                      ),
+                                      SizedBox(width: 5),
+                                      // SizedBox(
+                                      //   width:
+                                      //       constraints.maxWidth * 0.02
+                                      // ),
+                                      Expanded(
+                                        child: Text(
+                                          "Free Mock Theory tests to check your test readiness.",
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle,
+                                        size:
+                                            SizeConfig.blockSizeHorizontal * 4,
+                                        color: Colors.green,
+                                      ),
+                                      // SizedBox(
+                                      //   width:
+                                      //       constraints.maxWidth * 0.02,
+                                      // ),
+                                      SizedBox(width: 5),
+                                      Expanded(
+                                        child: Text(
+                                            'The Only AI powered App In The Market'
+                                            //"For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
+                                            ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        print("payment");
+                                        showLoader("Processing payment");
+
+                                        Stripe.publishableKey = stripePublic;
+                                        Map params = {
+                                          'total_cost': walletDetail![
+                                              'subscription_cost'],
+                                          'user_type': 2,
+                                          'parentPageName':
+                                              "dvsaSubscriptionHome"
+                                        };
+                                        log("Called before payment");
+                                        await _paymentService
+                                            .makePayment(
+                                                amount: walletDetail![
+                                                    'subscription_cost'],
+                                                currency: 'GBP',
+                                                context: context,
+                                                desc:
+                                                    'DVSA Subscription by ${userName} (App)',
+                                                metaData: params)
+                                            .then((value) => closeLoader());
+                                        log("Called after payment");
+                                      },
+                                      child: Container(
+                                        // width: constraints.maxWidth * 0.8,
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 12),
+                                        decoration: BoxDecoration(
+                                          color: Dark,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Buy now",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  4),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        callDialog();
+                                      },
+                                      child: Container(
+                                        // width: constraints.maxWidth * 0.8,
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 12),
+                                        decoration: BoxDecoration(
+                                          color: Dark,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Cancle",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  4),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                  ),
+                ),
+              ),
+            ));
   }
 }
 
