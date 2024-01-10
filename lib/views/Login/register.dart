@@ -47,8 +47,7 @@ class _RegisterState extends State<Register> {
   late String passwordConfirm;
   late String message = '';
   late String deviceType;
-  String? deviceId;
-//  = 'TP1A.220624.014';
+  String? deviceId = 'TP1A.220624.014';
   // Declare this variable
   String user;
   static final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -95,17 +94,19 @@ class _RegisterState extends State<Register> {
     print('good');
     final form = _formKey.currentState;
     if (form!.validate()) {
-      //response = await Provider.of<AuthProvider>(context, listen: false).register(name, email, password, passwordConfirm, user, deviceType, deviceId!);
-      response = await Provider.of<AuthProvider>(context, listen: false)
-          .register(
+      //response = await Provider.of<AuthProvider>(context, listen: false).register
+      // (name, email, password, passwordConfirm, user, deviceType, deviceId!);
+      response =
+          await Provider.of<AuthProvider>(context, listen: false).register(
               name: name,
               email: email,
               password: password,
               passwordConfirm: passwordConfirm,
               userType: "2",
               deviceType: deviceType,
-              deviceId: deviceId!);
-      //'TP1A.220624.014'!);
+              deviceId:
+                  //deviceId!);
+                  'TP1A.220624.014'!);
       if (Provider.of<AuthProvider>(context, listen: false).notification.text !=
           '') {
         // Spinner.close(context);

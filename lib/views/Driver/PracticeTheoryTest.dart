@@ -1993,7 +1993,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(bottom: 0, top: 0),
                 child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    physics: AlwaysScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children: [
                       ...categories.map((category) {
@@ -2049,11 +2049,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                 top: Responsive.height(2, context),
               ),
               child: Material(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                ),
+                borderRadius: BorderRadius.circular(10),
                 color: Dark,
                 elevation: 5.0,
                 child: MaterialButton(

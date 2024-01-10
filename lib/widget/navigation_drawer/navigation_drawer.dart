@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../Constants/global.dart';
+
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -75,26 +75,17 @@ class NavigationDrawer extends StatelessWidget {
                           SizedBox(
                             height: constraints.maxHeight * 0.025,
                           ),
-                          NavBarItem(
-                            'Dashboard',
-                            '/home',
-                            context,
-                            icon: Icons.dashboard,
-                          ),
+                          NavBarItem('Dashboard', '/home', context,
+                              icon: Icons.dashboard),
                           SizedBox(
                             height: constraints.maxHeight * 0.025,
                           ),
-                          NavBarItem(
-                            'Profile',
-                            '/driver_profile',
-                            context,
-                            icon: FontAwesomeIcons.userCircle,
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),
-                         ///commented by Khushali
-                         /* GestureDetector(
+                          NavBarItem('Profile', '/driver_profile', context,
+                              icon: FontAwesomeIcons.userCircle),
+                          SizedBox(height: constraints.maxHeight * 0.025),
+
+                          ///commented by Khushali
+                          /* GestureDetector(
                             onTap: () {
                               _pricingUrl = "$api/pricing";
                               print(_pricingUrl);
@@ -143,14 +134,9 @@ class NavigationDrawer extends StatelessWidget {
                             height: constraints.maxHeight * 0.025,
                           ),*/
                           NavBarItem(
-                            'Mock Test Structure',
-                            '/testStructure',
-                            context,
-                            icon: FontAwesomeIcons.list,
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),
+                              'Mock Test Structure', '/testStructure', context,
+                              icon: FontAwesomeIcons.list),
+                          SizedBox(height: constraints.maxHeight * 0.025),
                           // GestureDetector(
                           //   onTap: () {
                           //     _aboutUsUrl = "$api/static/about-us";
@@ -206,43 +192,22 @@ class NavigationDrawer extends StatelessWidget {
                           // ),
 
                           Divider(
-                            height: constraints.maxHeight * 0.02,
-                            endIndent: constraints.maxWidth * 0.035,
-                            indent: constraints.maxWidth * 0.035,
-                            color: Colors.grey[350],
-                            thickness: 2.0,
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.015,
-                          ),
-                          NavBarItem(
-                            'Settings',
-                            '/setting',
-                            context,
-                            icon: Icons.settings,
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),
-                          NavBarItem(
-                            'Help',
-                            '/help',
-                            context,
-                            icon: Icons.help,
-                          ),
+                              height: constraints.maxHeight * 0.02,
+                              endIndent: constraints.maxWidth * 0.035,
+                              indent: constraints.maxWidth * 0.035,
+                              color: Colors.grey[350],
+                              thickness: 2.0),
+                          SizedBox(height: constraints.maxHeight * 0.015),
+                          NavBarItem('Settings', '/setting', context,
+                              icon: Icons.settings),
+                          SizedBox(height: constraints.maxHeight * 0.025),
+                          NavBarItem('Help', '/help', context,
+                              icon: Icons.help),
 
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),
-                          NavBarItem(
-                            'Contact Us',
-                            '/contact',
-                            context,
-                            icon: FontAwesomeIcons.phone,
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),
+                          SizedBox(height: constraints.maxHeight * 0.025),
+                          NavBarItem('Contact Us', '/contact', context,
+                              icon: FontAwesomeIcons.phone),
+                          SizedBox(height: constraints.maxHeight * 0.025),
                           GestureDetector(
                             onTap: () {
                               // Navigator.pop(context);
@@ -258,7 +223,7 @@ class NavigationDrawer extends StatelessWidget {
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    width: constraints.maxWidth * 0.09,
+                                    width: constraints.maxWidth * 0.08,
                                     child: LayoutBuilder(
                                         builder: (context, constraints) {
                                       return FittedBox(
@@ -268,7 +233,7 @@ class NavigationDrawer extends StatelessWidget {
                                     }),
                                   ),
                                   SizedBox(
-                                    width: constraints.maxWidth * 0.1,
+                                    width: constraints.maxWidth * 0.05,
                                   ),
                                   Container(
                                     //width:textWidth,
@@ -278,7 +243,7 @@ class NavigationDrawer extends StatelessWidget {
                                         fit: BoxFit.contain,
                                         child: Text(
                                           'Sign Out',
-                                          style: TextStyle(fontSize: 18),
+                                          style: TextStyle(fontSize: 14),
                                         ),
                                       );
                                     }),
@@ -287,7 +252,6 @@ class NavigationDrawer extends StatelessWidget {
                               ),
                             ),
                           ),
-
                         ],
                       ))
                     ],

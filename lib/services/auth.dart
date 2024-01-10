@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 import '../Constants/global.dart';
 import '../enums/Autentication_status.dart';
@@ -46,7 +46,10 @@ class AuthProvider with ChangeNotifier {
 //    notifyListeners();
 //  }
   Future<bool> login(
-  {required String email,required  String password,required  String usertype,required  String deviceId}) async {
+      {required String email,
+      required String password,
+      required String usertype,
+      required String deviceId}) async {
     _status = Status.Authenticating;
     _notification = NotificationText('', '');
     notifyListeners();
@@ -59,9 +62,7 @@ class AuthProvider with ChangeNotifier {
       'device_id': deviceId,
     };
 
-
     print(url);
-
 
     print(jsonEncode(body));
 
@@ -167,14 +168,14 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<Map> register({
-      required String name,
-    required String email,
-    required String password,
-    required String passwordConfirm,
-    required String userType,
-    required String deviceType,
-    required String deviceId}) async {
+  Future<Map> register(
+      {required String name,
+      required String email,
+      required String password,
+      required String passwordConfirm,
+      required String userType,
+      required String deviceType,
+      required String deviceId}) async {
     //print(userType);
     final url = Uri.parse('$api/api/register');
     Map<String, String> body = {
@@ -246,9 +247,21 @@ class AuthProvider with ChangeNotifier {
       url,
       headers: header,
     );
+    print('Response....... ${response.body}');
     Map data = jsonDecode(response.body);
-    Map userDetails = data['message'];
-    return userDetails;
+    try {
+      if (response.statusCode == 200) {
+        print('.....200............');
+        Map userDetails = data['message'];
+        return userDetails;
+      } else {
+        print('.....500............');
+        return {};
+      }
+    } catch (e) {
+      print(e);
+      return {};
+    }
   }
 
   storeUserData(apiResponse) async {

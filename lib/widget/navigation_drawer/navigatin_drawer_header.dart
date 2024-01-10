@@ -32,7 +32,7 @@ class NavigationDrawerHeader extends StatelessWidget {
     _userEMail = getEMail();
     return Container(
       width: Responsive.width(100, context),
-      height: Responsive.height(23, context),
+      height: Responsive.height(20, context),
       decoration: BoxDecoration(
         color: Color(0xff76DECD),
         borderRadius: BorderRadius.only(
@@ -46,24 +46,18 @@ class NavigationDrawerHeader extends StatelessWidget {
             Row(
               children: <Widget>[
                 Container(
-                  width: constraints.maxWidth * 0.3,
+                  //width: constraints.maxWidth * 0.3,
                   margin:
                       EdgeInsets.fromLTRB(constraints.maxWidth * 0.05, 0, 0, 0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      radius: constraints.maxWidth * 0.12,
-                      child: Container(
-                        width: constraints.maxWidth * 0.17,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Icon(
-                            Icons.person,
-                            size: 50.0,
-                            color: Color(0xff0e9bcf),
-                          ),
-                        ),
+                      radius: constraints.maxWidth * 0.07,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Icon(Icons.person,
+                            size: 30, color: Color(0xff0e9bcf)),
                       ),
                     ),
                   ),
@@ -75,8 +69,7 @@ class NavigationDrawerHeader extends StatelessWidget {
                       return Container(
                         width: constraints.maxWidth * 0.6,
                         //color: Colors.black12,
-                        padding: EdgeInsets.fromLTRB(
-                            constraints.maxWidth * 0.01, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: Text(
                           name.toString(),
                           style: TextStyle(
@@ -92,14 +85,12 @@ class NavigationDrawerHeader extends StatelessWidget {
 //
             Container(
               width: constraints.maxWidth * 0.99,
-              margin: EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.8, 0.0,
+              margin: EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.7, 0.0,
                   constraints.maxHeight * 0.04),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    width: constraints.maxWidth * 0.03,
-                  ),
+                  // SizedBox(width: constraints.maxWidth * 0.03),
                   FutureBuilder(
                       future: _userEMail,
                       builder: (context, snapshot) {

@@ -34,9 +34,7 @@ class CustomSpinner {
                                     Colors.black),
                                 strokeWidth: 2.0,
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
+                              SizedBox(height: 10),
                               Text(
                                 message,
                                 style: TextStyle(color: Colors.black),

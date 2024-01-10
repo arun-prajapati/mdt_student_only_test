@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../Constants/app_colors.dart';
@@ -63,6 +64,7 @@ class _LessonRecommendationState extends State<LessonRecommendation> {
     showLoader(loaderMessage);
 
     getUserDetail().then((res) async {
+      print('getUserDetail $res');
       _userId = res['id'];
       _aIRecommendationService
           .getrecommondedlesson(_userId!)

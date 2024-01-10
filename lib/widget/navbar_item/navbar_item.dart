@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../datamodels/navbar_item_model.dart';
 import '../../locater.dart';
 import '../../responsive/screen_type_layout.dart';
@@ -30,8 +31,10 @@ class NavBarItem extends StatelessWidget {
       child: Provider.value(
         value: model,
         child: ScreenTypeLayout(
-          mobile: NavBarItemMobile(), key: null,tablet: NavBarItemMobile(),desktop: NavBarItemMobile(),
-        ),
+            mobile: NavBarItemMobile(),
+            key: null,
+            tablet: NavBarItemMobile(),
+            desktop: NavBarItemMobile()),
       ),
     );
   }

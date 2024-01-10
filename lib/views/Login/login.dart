@@ -36,8 +36,7 @@ class _SignInFormState extends State<SignInForm> {
   late FocusNode _passwordFocusNode;
   static final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   String usertype = '2';
-  String? deviceId;
-  //= "TP1A.220624.014";
+  String? deviceId = "TP1A.220624.014";
   Future<Map> getDeviceInfo() async {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     print("deviceId $deviceId");
@@ -56,8 +55,7 @@ class _SignInFormState extends State<SignInForm> {
     } else if (Platform.isAndroid) {
       print("deviceId $deviceId");
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      deviceId;
-      //= "TP1A.220624.014"; // unique ID on Android
+      deviceId = "TP1A.220624.014"; // unique ID on Android
     }
 
     //deviceId = Uuid().v4();
@@ -552,22 +550,13 @@ class _SignInFormState extends State<SignInForm> {
                             print('FORGOT T*/////');
                             password.clear();
                           },
-                          child: Container(
-                            //color: Colors.red,
-                            //width: constraints.maxWidth * 0.45,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 1,
-                              right: SizeConfig.blockSizeHorizontal * 5,
-                            ),
-                            //alignment: Alignment.bottomRight,
-                            child: Text(
-                              'Forgot password?',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.8,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          child: Text(
+                            'Forgot password?',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: SizeConfig.blockSizeHorizontal * 4.8,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
