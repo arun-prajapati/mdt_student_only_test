@@ -1,25 +1,24 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
-import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
-import 'package:google_api_headers/google_api_headers.dart';
-
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
-import 'package:intl/intl.dart';
-import '../../Constants/global.dart';
-import '../../locater.dart';
 import 'dart:io' as Io;
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/Constants/app_colors.dart';
+import 'package:toast/toast.dart';
+
+import '../../Constants/global.dart';
+import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
@@ -272,206 +271,156 @@ class _driverProfile extends State<DriverProfile> {
               padding: EdgeInsets.fromLTRB(3, 20, 3, 20),
               child: LayoutBuilder(builder: (context, constraints) {
                 return Container(
-                    child: Column(children: [
-                  Container(
-                    width: constraints.maxWidth * 1,
-                    height: constraints.maxHeight * .87,
-                    child: ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: EdgeInsets.fromLTRB(10, 2, 10, 10),
-                      children: [
-                        Container(
+                    child: SingleChildScrollView(
+                  child: Column(children: [
+                    Container(
+                      width: constraints.maxWidth * 1,
+                      height: constraints.maxHeight * .87,
+                      child: ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.fromLTRB(10, 2, 10, 10),
+                        children: [
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("First Name*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      child: TextField(
+                                        controller: first_name,
+                                        style: inputTextStyle(
+                                            SizeConfig.inputFontSize),
+                                        decoration: InputDecoration(
+                                          focusedBorder:
+                                              inputFocusedBorderStyle(),
+                                          enabledBorder: inputBorderStyle(),
+                                          hintStyle: placeholderStyle(
+                                              SizeConfig.labelFontSize),
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                        ),
+                                      ))
+                                ],
+                              )),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("Last Name*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      child: TextField(
+                                        controller: last_name,
+                                        style: inputTextStyle(
+                                            SizeConfig.inputFontSize),
+                                        decoration: InputDecoration(
+                                          focusedBorder:
+                                              inputFocusedBorderStyle(),
+                                          enabledBorder: inputBorderStyle(),
+                                          hintStyle: placeholderStyle(
+                                              SizeConfig.labelFontSize),
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                        ),
+                                      ))
+                                ],
+                              )),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("Phone Number*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      child: TextField(
+                                        controller: phone_number,
+                                        keyboardType: TextInputType.number,
+                                        maxLength: 10,
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                          focusedBorder:
+                                              inputFocusedBorderStyle(),
+                                          enabledBorder: inputBorderStyle(),
+                                          hintStyle: placeholderStyle(
+                                              SizeConfig.labelFontSize),
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                        ),
+                                      ))
+                                ],
+                              )),
+                          Container(
                             width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                            color: Colors.grey[100],
+                            padding: EdgeInsets.all(5),
+                            margin: EdgeInsets.only(bottom: 10),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("First Name*",
+                                  child: AutoSizeText('Vehicle Preference*',
                                       style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
+                                          SizeConfig.labelFontSize)),
                                 ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    child: TextField(
-                                      controller: first_name,
-                                      style: inputTextStyle(
-                                          SizeConfig.inputFontSize),
-                                      decoration: InputDecoration(
-                                        focusedBorder:
-                                            inputFocusedBorderStyle(),
-                                        enabledBorder: inputBorderStyle(),
-                                        hintStyle: placeholderStyle(
-                                            SizeConfig.labelFontSize),
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                      ),
-                                    ))
-                              ],
-                            )),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
                                 Container(
                                   width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("Last Name*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    child: TextField(
-                                      controller: last_name,
-                                      style: inputTextStyle(
-                                          SizeConfig.inputFontSize),
-                                      decoration: InputDecoration(
-                                        focusedBorder:
-                                            inputFocusedBorderStyle(),
-                                        enabledBorder: inputBorderStyle(),
-                                        hintStyle: placeholderStyle(
-                                            SizeConfig.labelFontSize),
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                      ),
-                                    ))
-                              ],
-                            )),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("Phone Number*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    child: TextField(
-                                      controller: phone_number,
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 10,
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                        focusedBorder:
-                                            inputFocusedBorderStyle(),
-                                        enabledBorder: inputBorderStyle(),
-                                        hintStyle: placeholderStyle(
-                                            SizeConfig.labelFontSize),
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                      ),
-                                    ))
-                              ],
-                            )),
-                        Container(
-                          width: Responsive.width(100, context),
-                          color: Colors.grey[100],
-                          padding: EdgeInsets.all(5),
-                          margin: EdgeInsets.only(bottom: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: Responsive.width(100, context),
-                                child: AutoSizeText('Vehicle Preference*',
-                                    style: inputLabelStyle(
-                                        SizeConfig.labelFontSize)),
-                              ),
-                              Container(
-                                width: Responsive.width(100, context),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: Responsive.width(30, context),
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return Row(
-                                            children: [
-                                              Container(
-                                                  width: constraints.maxWidth *
-                                                      0.3,
-                                                  height: 4 *
-                                                      SizeConfig
-                                                          .blockSizeVertical,
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  padding: EdgeInsets.all(0),
-                                                  child: Transform.scale(
-                                                    scale: .15 *
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          width: Responsive.width(30, context),
+                                          child: LayoutBuilder(
+                                              builder: (context, constraints) {
+                                            return Row(
+                                              children: [
+                                                Container(
+                                                    width:
+                                                        constraints.maxWidth *
+                                                            0.3,
+                                                    height: 4 *
                                                         SizeConfig
                                                             .blockSizeVertical,
-                                                    child: Radio(
-                                                      value: 'own',
-                                                      groupValue:
-                                                          vehiclePreference,
-                                                      activeColor: Dark,
-                                                      onChanged: (val) {
-                                                        setState(() {
-                                                          vehiclePreference =
-                                                              val.toString();
-                                                        });
-                                                      },
-                                                    ),
-                                                  )),
-                                              Container(
-                                                width:
-                                                    constraints.maxWidth * 0.7,
-                                                height: 4 *
-                                                    SizeConfig
-                                                        .blockSizeVertical,
-                                                alignment: Alignment.centerLeft,
-                                                child: LayoutBuilder(
-                                                  builder:
-                                                      (context, constraints) {
-                                                    return Container(
-                                                        child: AutoSizeText(
-                                                            'Own Car',
-                                                            style: inputLabelStyleDark(
-                                                                SizeConfig
-                                                                    .labelFontSize)));
-                                                  },
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        })),
-                                    Container(
-                                        width: Responsive.width(40, context),
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return Row(
-                                            children: [
-                                              Container(
-                                                  width: constraints.maxWidth *
-                                                      0.3,
-                                                  height: 4 *
-                                                      SizeConfig
-                                                          .blockSizeVertical,
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Transform.scale(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    padding: EdgeInsets.all(0),
+                                                    child: Transform.scale(
                                                       scale: .15 *
                                                           SizeConfig
                                                               .blockSizeVertical,
                                                       child: Radio(
-                                                        value: 'instructor',
+                                                        value: 'own',
                                                         groupValue:
                                                             vehiclePreference,
                                                         activeColor: Dark,
@@ -481,465 +430,530 @@ class _driverProfile extends State<DriverProfile> {
                                                                 val.toString();
                                                           });
                                                         },
-                                                      ))),
-                                              Container(
-                                                width:
-                                                    constraints.maxWidth * 0.7,
-                                                height: 4 *
-                                                    SizeConfig
-                                                        .blockSizeVertical,
-                                                alignment: Alignment.centerLeft,
-                                                child: LayoutBuilder(
-                                                  builder:
-                                                      (context, constraints) {
-                                                    return Container(
-                                                      width:
-                                                          constraints.maxWidth *
-                                                              0.9,
-                                                      child: AutoSizeText(
-                                                          'Instructor car',
-                                                          style: inputLabelStyleDark(
-                                                              SizeConfig
-                                                                  .labelFontSize)),
-                                                    );
-                                                  },
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        })),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: Responsive.width(100, context),
-                          margin: EdgeInsets.only(bottom: 10, top: 8),
-                          child: Text('Address:',
-                              style: inputLabelStyleDark(
-                                  SizeConfig.labelFontSize)),
-                        ),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("Address Search*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                GestureDetector(
-                                  onTap: _handlePressButton,
-                                  child: Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    alignment: Alignment.centerLeft,
-                                    padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                                    decoration: textAreaBorderLikeAsInput(),
-                                    child: AutoSizeText(
-                                      _address != null ? _address : '',
-                                      style: TextStyle(
-                                          fontSize: SizeConfig.inputFontSize,
-                                          color: Colors.blueGrey),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("Address Line One*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    child: TextField(
-                                      controller: address_line_1,
-                                      style: inputTextStyle(
-                                          SizeConfig.inputFontSize),
-                                      decoration: InputDecoration(
-                                        focusedBorder:
-                                            inputFocusedBorderStyle(),
-                                        enabledBorder: inputBorderStyle(),
-                                        hintStyle: placeholderStyle(
-                                            SizeConfig.labelFontSize),
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                      ),
-                                    ))
-                              ],
-                            )),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("Address Line two",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    child: TextField(
-                                      controller: address_line_2,
-                                      style: inputTextStyle(
-                                          SizeConfig.inputFontSize),
-                                      decoration: InputDecoration(
-                                        focusedBorder:
-                                            inputFocusedBorderStyle(),
-                                        enabledBorder: inputBorderStyle(),
-                                        hintStyle: placeholderStyle(
-                                            SizeConfig.labelFontSize),
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                      ),
-                                    ))
-                              ],
-                            )),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("Town*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    child: TextField(
-                                      controller: town,
-                                      style: inputTextStyle(
-                                          SizeConfig.inputFontSize),
-                                      decoration: InputDecoration(
-                                        focusedBorder:
-                                            inputFocusedBorderStyle(),
-                                        enabledBorder: inputBorderStyle(),
-                                        hintStyle: placeholderStyle(
-                                            SizeConfig.labelFontSize),
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                      ),
-                                    ))
-                              ],
-                            )),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: AutoSizeText("Postcode*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    alignment: Alignment.centerLeft,
-                                    padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                                    decoration: textAreaBorderLikeAsInput(),
-                                    child: AutoSizeText(
-                                        postcode != null ? postcode : '',
-                                        style: inputTextStyle(
-                                            SizeConfig.inputFontSize)))
-                              ],
-                            )),
-                        Container(
-                          width: Responsive.width(100, context),
-                          margin: EdgeInsets.only(bottom: 10, top: 8),
-                          child: Text('Learner License Details',
-                              style:
-                                  inputLabelStyleDark(SizeConfig.labelFontSize),
-                              textAlign: TextAlign.left),
-                        ),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: Text("Provisional License No*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: SizeConfig.inputHeight,
-                                    child: TextField(
-                                      controller: license_no,
-                                      style: inputTextStyle(
-                                          SizeConfig.inputFontSize),
-                                      decoration: InputDecoration(
-                                        focusedBorder:
-                                            inputFocusedBorderStyle(),
-                                        enabledBorder: inputBorderStyle(),
-                                        hintStyle: placeholderStyle(
-                                            SizeConfig.labelFontSize),
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                      ),
-                                    ))
-                              ],
-                            )),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: Text("License Expiry*",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  height: SizeConfig.inputHeight,
-                                  child: DateTimeField(
-                                    controller: license_exp_date,
-                                    textAlign: TextAlign.left,
-                                    format: DateFormat('dd-MM-yyyy'),
-                                    readOnly: true,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      hintText: "DD-MM-YYY",
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      suffixIcon: Container(
-                                        child: Icon(Icons.calendar_today,
-                                            size: SizeConfig.labelFontSize,
-                                            color: Colors.black38),
-                                        margin:
-                                            EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                      ),
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 10, 0, 0),
-                                    ),
-                                    onShowPicker: (context, currentValue) {
-                                      return showDatePicker(
-                                          context: context,
-                                          builder: (context, child) {
-                                            return Theme(
-                                              data: Theme.of(context).copyWith(
-                                                colorScheme: ColorScheme.light(
-                                                  primary: Dark, // <-- SEE HERE
-                                                  onPrimary: Colors
-                                                      .white, // <-- SEE HERE
-                                                  onSurface: Colors
-                                                      .black, // <-- SEE HERE
-                                                ),
-                                                textButtonTheme:
-                                                    TextButtonThemeData(
-                                                  style: TextButton.styleFrom(
-                                                    foregroundColor:
-                                                        Dark, // button text color
-                                                  ),
-                                                ),
-                                              ),
-                                              child: child!,
-                                            );
-                                          },
-                                          firstDate: DateTime.now(),
-                                          initialDate:
-                                              currentValue ?? DateTime.now(),
-                                          lastDate: DateTime(
-                                              DateTime.now().year + 35,
-                                              12,
-                                              31));
-                                    },
-                                  ),
-                                )
-                              ],
-                            )),
-                        Container(
-                          width: Responsive.width(100, context),
-                          margin: EdgeInsets.only(bottom: 0),
-                          child: Text('License Image',
-                              style: inputLabelStyle(SizeConfig.labelFontSize)),
-                        ),
-                        Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.symmetric(vertical: 15),
-                            child: Row(
-                              children: [
-                                if (license != null || licenceHttpPath != null)
-                                  Container(
-                                      width: 30 * SizeConfig.blockSizeVertical,
-                                      height: 30 * SizeConfig.blockSizeVertical,
-                                      // alignment: Alignment(0, -Responsive.width(.1, context)),
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                              margin: EdgeInsets.fromLTRB(
-                                                  0,
-                                                  2 *
+                                                      ),
+                                                    )),
+                                                Container(
+                                                  width: constraints.maxWidth *
+                                                      0.7,
+                                                  height: 4 *
                                                       SizeConfig
                                                           .blockSizeVertical,
-                                                  0,
-                                                  0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  Navigator.of(context).push(PageRouteBuilder(
-                                                      opaque: false,
-                                                      pageBuilder: (BuildContext
-                                                                  context,
-                                                              _,
-                                                              __) =>
-                                                          ZoomView(
-                                                              licenceHttpPath ??
-                                                                  license!.path,
-                                                              licenceHttpPath !=
-                                                                      null
-                                                                  ? 'http'
-                                                                  : 'file')));
-                                                },
-                                                child: licenceHttpPath != null
-                                                    ? Image.network(
-                                                        licenceHttpPath!,
-                                                        width: 20 *
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: LayoutBuilder(
+                                                    builder:
+                                                        (context, constraints) {
+                                                      return Container(
+                                                          child: AutoSizeText(
+                                                              'Own Car',
+                                                              style: inputLabelStyleDark(
+                                                                  SizeConfig
+                                                                      .labelFontSize)));
+                                                    },
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          })),
+                                      Container(
+                                          width: Responsive.width(40, context),
+                                          child: LayoutBuilder(
+                                              builder: (context, constraints) {
+                                            return Row(
+                                              children: [
+                                                Container(
+                                                    width:
+                                                        constraints.maxWidth *
+                                                            0.3,
+                                                    height: 4 *
+                                                        SizeConfig
+                                                            .blockSizeVertical,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Transform.scale(
+                                                        scale: .15 *
                                                             SizeConfig
                                                                 .blockSizeVertical,
-                                                        height: 20 *
-                                                            SizeConfig
-                                                                .blockSizeVertical,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : Image.file(
-                                                        File(license!.path),
-                                                        width: 20 *
-                                                            SizeConfig
-                                                                .blockSizeVertical,
-                                                        height: 20 *
-                                                            SizeConfig
-                                                                .blockSizeVertical,
-                                                        fit: BoxFit.cover),
-                                              )),
-                                          Positioned(
-                                            top: -Responsive.width(1, context),
-                                            right:
-                                                Responsive.width(12, context),
-                                            child: IconButton(
-                                              icon: Icon(Icons.remove_circle),
-                                              iconSize: 30,
-                                              color: Colors.red,
-                                              onPressed: () => {
-                                                this.setState(() {
-                                                  license = null;
-                                                  licenceHttpPath = null;
-                                                  licenceBase64 = "";
-                                                })
-                                              },
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                if (license == null && licenceHttpPath == null)
-                                  Container(
-                                    child: IconButton(
-                                      icon: Icon(Icons.camera_alt),
-                                      iconSize:
-                                          5 * SizeConfig.blockSizeVertical,
-                                      color: Colors.blue,
-                                      tooltip: 'Add Image By Camera',
-                                      onPressed: _openCamera,
-                                    ),
+                                                        child: Radio(
+                                                          value: 'instructor',
+                                                          groupValue:
+                                                              vehiclePreference,
+                                                          activeColor: Dark,
+                                                          onChanged: (val) {
+                                                            setState(() {
+                                                              vehiclePreference =
+                                                                  val.toString();
+                                                            });
+                                                          },
+                                                        ))),
+                                                Container(
+                                                  width: constraints.maxWidth *
+                                                      0.7,
+                                                  height: 4 *
+                                                      SizeConfig
+                                                          .blockSizeVertical,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: LayoutBuilder(
+                                                    builder:
+                                                        (context, constraints) {
+                                                      return Container(
+                                                        width: constraints
+                                                                .maxWidth *
+                                                            0.9,
+                                                        child: AutoSizeText(
+                                                            'Instructor car',
+                                                            style: inputLabelStyleDark(
+                                                                SizeConfig
+                                                                    .labelFontSize)),
+                                                      );
+                                                    },
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          })),
+                                    ],
                                   ),
-                                if (license == null && licenceHttpPath == null)
-                                  Container(
-                                    child: IconButton(
-                                      icon: Icon(Icons.folder_open),
-                                      iconSize:
-                                          5 * SizeConfig.blockSizeVertical,
-                                      color: Colors.blue,
-                                      tooltip: 'Add Image/File By Gallery',
-                                      onPressed: _openGallery,
-                                    ),
-                                  ),
-                              ],
-                            )),
-                        Container(
-                          width: Responsive.width(100, context),
-                          margin: EdgeInsets.only(bottom: 3, top: 0),
-                          child: Text(
-                              'Note: License image should show license number, expiry date, address and your picture clearly.',
-                              style: inputLabelStyle(SizeConfig.labelFontSize)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    //height: constraints.maxHeight * 0.08,
-                    width: constraints.maxWidth * 0.65,
-                    margin: EdgeInsets.only(top: constraints.maxHeight * 0.05),
-                    child: Material(
-                      borderRadius: BorderRadius.only(
-                        bottomRight:
-                            Radius.circular(constraints.maxHeight * 0.5),
-                        topRight: Radius.circular(constraints.maxHeight * 0.5),
-                        bottomLeft:
-                            Radius.circular(constraints.maxHeight * 0.5),
-                      ),
-                      color: Dark,
-                      elevation: 5.0,
-                      child: MaterialButton(
-                        onPressed: () => updateUserDetail(),
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            return Container(
-                              //width: constraints.maxWidth * 0.35,
-                              child: Text(
-                                'Update',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(255, 255, 255, 1.0),
                                 ),
-                              ),
-                            );
-                          },
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: Responsive.width(100, context),
+                            margin: EdgeInsets.only(bottom: 10, top: 8),
+                            child: Text('Address:',
+                                style: inputLabelStyleDark(
+                                    SizeConfig.labelFontSize)),
+                          ),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("Address Search*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  GestureDetector(
+                                    onTap: _handlePressButton,
+                                    child: Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                      decoration: textAreaBorderLikeAsInput(),
+                                      child: AutoSizeText(
+                                        _address != null ? _address : '',
+                                        style: TextStyle(
+                                            fontSize: SizeConfig.inputFontSize,
+                                            color: Colors.blueGrey),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("Address Line One*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      child: TextField(
+                                        controller: address_line_1,
+                                        style: inputTextStyle(
+                                            SizeConfig.inputFontSize),
+                                        decoration: InputDecoration(
+                                          focusedBorder:
+                                              inputFocusedBorderStyle(),
+                                          enabledBorder: inputBorderStyle(),
+                                          hintStyle: placeholderStyle(
+                                              SizeConfig.labelFontSize),
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                        ),
+                                      ))
+                                ],
+                              )),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("Address Line two",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      child: TextField(
+                                        controller: address_line_2,
+                                        style: inputTextStyle(
+                                            SizeConfig.inputFontSize),
+                                        decoration: InputDecoration(
+                                          focusedBorder:
+                                              inputFocusedBorderStyle(),
+                                          enabledBorder: inputBorderStyle(),
+                                          hintStyle: placeholderStyle(
+                                              SizeConfig.labelFontSize),
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                        ),
+                                      ))
+                                ],
+                              )),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("Town*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      child: TextField(
+                                        controller: town,
+                                        style: inputTextStyle(
+                                            SizeConfig.inputFontSize),
+                                        decoration: InputDecoration(
+                                          focusedBorder:
+                                              inputFocusedBorderStyle(),
+                                          enabledBorder: inputBorderStyle(),
+                                          hintStyle: placeholderStyle(
+                                              SizeConfig.labelFontSize),
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                        ),
+                                      ))
+                                ],
+                              )),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: AutoSizeText("Postcode*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                      decoration: textAreaBorderLikeAsInput(),
+                                      child: AutoSizeText(
+                                          postcode != null ? postcode : '',
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize)))
+                                ],
+                              )),
+                          Container(
+                            width: Responsive.width(100, context),
+                            margin: EdgeInsets.only(bottom: 10, top: 8),
+                            child: Text('Learner License Details',
+                                style: inputLabelStyleDark(
+                                    SizeConfig.labelFontSize),
+                                textAlign: TextAlign.left),
+                          ),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: Text("Provisional License No*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                      width: Responsive.width(100, context),
+                                      height: SizeConfig.inputHeight,
+                                      child: TextField(
+                                        controller: license_no,
+                                        style: inputTextStyle(
+                                            SizeConfig.inputFontSize),
+                                        decoration: InputDecoration(
+                                          focusedBorder:
+                                              inputFocusedBorderStyle(),
+                                          enabledBorder: inputBorderStyle(),
+                                          hintStyle: placeholderStyle(
+                                              SizeConfig.labelFontSize),
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                        ),
+                                      ))
+                                ],
+                              )),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                                    child: Text("License Expiry*",
+                                        style: inputLabelStyle(
+                                            SizeConfig.labelFontSize),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                    width: Responsive.width(100, context),
+                                    height: SizeConfig.inputHeight,
+                                    child: DateTimeField(
+                                      controller: license_exp_date,
+                                      textAlign: TextAlign.left,
+                                      format: DateFormat('dd-MM-yyyy'),
+                                      readOnly: true,
+                                      style: inputTextStyle(
+                                          SizeConfig.inputFontSize),
+                                      decoration: InputDecoration(
+                                        hintText: "DD-MM-YYY",
+                                        hintStyle: placeholderStyle(
+                                            SizeConfig.labelFontSize),
+                                        suffixIcon: Container(
+                                          child: Icon(Icons.calendar_today,
+                                              size: SizeConfig.labelFontSize,
+                                              color: Colors.black38),
+                                          margin:
+                                              EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        ),
+                                        focusedBorder:
+                                            inputFocusedBorderStyle(),
+                                        enabledBorder: inputBorderStyle(),
+                                        contentPadding:
+                                            EdgeInsets.fromLTRB(5, 10, 0, 0),
+                                      ),
+                                      onShowPicker: (context, currentValue) {
+                                        return showDatePicker(
+                                            context: context,
+                                            builder: (context, child) {
+                                              return Theme(
+                                                data:
+                                                    Theme.of(context).copyWith(
+                                                  colorScheme:
+                                                      ColorScheme.light(
+                                                    primary:
+                                                        Dark, // <-- SEE HERE
+                                                    onPrimary: Colors
+                                                        .white, // <-- SEE HERE
+                                                    onSurface: Colors
+                                                        .black, // <-- SEE HERE
+                                                  ),
+                                                  textButtonTheme:
+                                                      TextButtonThemeData(
+                                                    style: TextButton.styleFrom(
+                                                      foregroundColor:
+                                                          Dark, // button text color
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: child!,
+                                              );
+                                            },
+                                            firstDate: DateTime.now(),
+                                            initialDate:
+                                                currentValue ?? DateTime.now(),
+                                            lastDate: DateTime(
+                                                DateTime.now().year + 35,
+                                                12,
+                                                31));
+                                      },
+                                    ),
+                                  )
+                                ],
+                              )),
+                          Container(
+                            width: Responsive.width(100, context),
+                            margin: EdgeInsets.only(bottom: 0),
+                            child: Text('License Image',
+                                style:
+                                    inputLabelStyle(SizeConfig.labelFontSize)),
+                          ),
+                          Container(
+                              width: Responsive.width(100, context),
+                              margin: EdgeInsets.symmetric(vertical: 15),
+                              child: Row(
+                                children: [
+                                  if (license != null ||
+                                      licenceHttpPath != null)
+                                    Container(
+                                        width:
+                                            30 * SizeConfig.blockSizeVertical,
+                                        height:
+                                            30 * SizeConfig.blockSizeVertical,
+                                        // alignment: Alignment(0, -Responsive.width(.1, context)),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                                margin: EdgeInsets.fromLTRB(
+                                                    0,
+                                                    2 *
+                                                        SizeConfig
+                                                            .blockSizeVertical,
+                                                    0,
+                                                    0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context).push(PageRouteBuilder(
+                                                        opaque: false,
+                                                        pageBuilder: (BuildContext
+                                                                    context,
+                                                                _,
+                                                                __) =>
+                                                            ZoomView(
+                                                                licenceHttpPath ??
+                                                                    license!
+                                                                        .path,
+                                                                licenceHttpPath !=
+                                                                        null
+                                                                    ? 'http'
+                                                                    : 'file')));
+                                                  },
+                                                  child: licenceHttpPath != null
+                                                      ? Image.network(
+                                                          licenceHttpPath!,
+                                                          width: 20 *
+                                                              SizeConfig
+                                                                  .blockSizeVertical,
+                                                          height: 20 *
+                                                              SizeConfig
+                                                                  .blockSizeVertical,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Image.file(
+                                                          File(license!.path),
+                                                          width: 20 *
+                                                              SizeConfig
+                                                                  .blockSizeVertical,
+                                                          height: 20 *
+                                                              SizeConfig
+                                                                  .blockSizeVertical,
+                                                          fit: BoxFit.cover),
+                                                )),
+                                            Positioned(
+                                              top:
+                                                  -Responsive.width(1, context),
+                                              right:
+                                                  Responsive.width(12, context),
+                                              child: IconButton(
+                                                icon: Icon(Icons.remove_circle),
+                                                iconSize: 30,
+                                                color: Colors.red,
+                                                onPressed: () => {
+                                                  this.setState(() {
+                                                    license = null;
+                                                    licenceHttpPath = null;
+                                                    licenceBase64 = "";
+                                                  })
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        )),
+                                  if (license == null &&
+                                      licenceHttpPath == null)
+                                    Container(
+                                      child: IconButton(
+                                        icon: Icon(Icons.camera_alt),
+                                        iconSize:
+                                            5 * SizeConfig.blockSizeVertical,
+                                        color: Colors.blue,
+                                        tooltip: 'Add Image By Camera',
+                                        onPressed: _openCamera,
+                                      ),
+                                    ),
+                                  if (license == null &&
+                                      licenceHttpPath == null)
+                                    Container(
+                                      child: IconButton(
+                                        icon: Icon(Icons.folder_open),
+                                        iconSize:
+                                            5 * SizeConfig.blockSizeVertical,
+                                        color: Colors.blue,
+                                        tooltip: 'Add Image/File By Gallery',
+                                        onPressed: _openGallery,
+                                      ),
+                                    ),
+                                ],
+                              )),
+                          Container(
+                            width: Responsive.width(100, context),
+                            margin: EdgeInsets.only(bottom: 3, top: 0),
+                            child: Text(
+                                'Note: License image should show license number, expiry date, address and your picture clearly.',
+                                style:
+                                    inputLabelStyle(SizeConfig.labelFontSize)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      //height: constraints.maxHeight * 0.08,
+                      width: constraints.maxWidth * 0.65,
+                      margin:
+                          EdgeInsets.only(top: constraints.maxHeight * 0.05),
+                      child: Material(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Dark,
+                        elevation: 5.0,
+                        child: MaterialButton(
+                          onPressed: () => updateUserDetail(),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              return Container(
+                                //width: constraints.maxWidth * 0.35,
+                                child: Text(
+                                  'Update',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color.fromRGBO(255, 255, 255, 1.0),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ]));
+                  ]),
+                ));
               })),
         ],
       ),

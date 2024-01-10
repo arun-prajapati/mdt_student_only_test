@@ -76,7 +76,7 @@ class NavigationDrawerHeader extends StatelessWidget {
                               fontFamily: 'Poppins',
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: Colors.black),
                         ),
                       );
                     }),
@@ -85,8 +85,8 @@ class NavigationDrawerHeader extends StatelessWidget {
 //
             Container(
               width: constraints.maxWidth * 0.99,
-              margin: EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.7, 0.0,
-                  constraints.maxHeight * 0.04),
+              margin:
+                  EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.7, 0.0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -102,7 +102,7 @@ class NavigationDrawerHeader extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 2.2 * SizeConfig.blockSizeVertical,
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                         );
                       }),

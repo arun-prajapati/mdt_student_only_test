@@ -449,11 +449,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 right: parentConstraints.maxWidth * .10),
             child: Dialog(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      bottomLeft: Radius.circular(12.0),
-                      bottomRight: Radius.circular(12.0),
-                      topRight: Radius.zero)),
+                  borderRadius: BorderRadius.circular(10)),
               // RoundedRectangleBorder(
               //     borderRadius: BorderRadius.circular(12.0)),
               insetAnimationCurve: Curves.easeOutBack,
@@ -493,20 +489,14 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: IconButton(
-                                    color: Colors.white,
-                                    icon: Icon(Icons.close_rounded,
-                                        size: 4 * SizeConfig.blockSizeVertical,
-                                        color: Colors.white),
-                                    onPressed: () {
-                                      Navigator.of(context_).pop();
-                                    }),
-                                //transform: Matrix4.translationValues(0, 0, 0),
-                              ),
+                              IconButton(
+                                  color: Colors.white,
+                                  icon: Icon(Icons.close_rounded,
+                                      size: 4 * SizeConfig.blockSizeVertical,
+                                      color: Colors.black),
+                                  onPressed: () {
+                                    Navigator.of(context_).pop();
+                                  }),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -1095,11 +1085,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       alignment: Alignment.topCenter,
                       margin: EdgeInsets.only(top: 10),
                       child: Material(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                        ),
+                        borderRadius: BorderRadius.circular(10),
                         color: Dark,
                         elevation: 5.0,
                         child: MaterialButton(
@@ -1434,11 +1420,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       width: constraints.maxWidth * .4,
       alignment: Alignment.center,
       child: Material(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(constraints.maxHeight * 0.5),
-          topRight: Radius.circular(constraints.maxHeight * 0.5),
-          bottomLeft: Radius.circular(constraints.maxHeight * 0.5),
-        ),
+        borderRadius: BorderRadius.circular(10),
         color: (selectedOptionIndex == null &&
                 (questionsList[selectedQuestionIndex]['type'] == 0 ||
                     (questionsList[selectedQuestionIndex]['type'] == 1 &&

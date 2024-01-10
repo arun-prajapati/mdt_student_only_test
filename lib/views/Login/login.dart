@@ -36,7 +36,7 @@ class _SignInFormState extends State<SignInForm> {
   late FocusNode _passwordFocusNode;
   static final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   String usertype = '2';
-  String? deviceId = "TP1A.220624.014";
+  String? deviceId = "";
   Future<Map> getDeviceInfo() async {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     print("deviceId $deviceId");
@@ -55,7 +55,8 @@ class _SignInFormState extends State<SignInForm> {
     } else if (Platform.isAndroid) {
       print("deviceId $deviceId");
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      deviceId = "TP1A.220624.014"; // unique ID on Android
+      deviceId = deviceId;
+      //"TP1A.220624.014"; // unique ID on Android
     }
 
     //deviceId = Uuid().v4();

@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../services/auth.dart';
@@ -241,13 +242,7 @@ class _ChangePassword extends State<ChangePassword> {
                     width: constraints.maxWidth * 0.65,
                     alignment: Alignment.center,
                     child: Material(
-                      borderRadius: BorderRadius.only(
-                        bottomRight:
-                            Radius.circular(constraints.maxHeight * 0.5),
-                        topRight: Radius.circular(constraints.maxHeight * 0.5),
-                        bottomLeft:
-                            Radius.circular(constraints.maxHeight * 0.5),
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                       color: Color(0xFFed1c24),
                       elevation: 5.0,
                       child: MaterialButton(

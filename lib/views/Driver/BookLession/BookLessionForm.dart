@@ -1,29 +1,27 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:developer';
-import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
-import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
-import 'package:google_api_headers/google_api_headers.dart';
+import 'dart:io' as Io;
+import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
-
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:flutter/src/material/card.dart' as MCard;
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/card.dart' as MCard;
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:student_app/Constants/app_colors.dart';
 import 'package:toast/toast.dart';
+
 import '../../../Constants/const_data.dart';
 import '../../../Constants/global.dart';
 import '../../../locater.dart';
-import 'dart:io' as Io;
-import 'dart:io';
-import 'dart:async';
-
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../responsive/size_config.dart';
 import '../../../services/auth.dart';
@@ -407,7 +405,7 @@ class _bookLessionForm extends State<BookLessionForm> {
         padding: EdgeInsets.all(0),
         margin: EdgeInsets.fromLTRB(0.0, 0, 0.0, 0.0),
         child: Container(
-          width: Responsive.width(100, context),
+          //width: Responsive.width(100, context),
           margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: MCard.Card(
             margin: EdgeInsets.all(0.0),
@@ -417,28 +415,29 @@ class _bookLessionForm extends State<BookLessionForm> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    width: Responsive.width(100, context),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: Responsive.width(100, context),
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                          child: AutoSizeText("Course*",
-                              style: inputLabelStyle(SizeConfig.labelFontSize),
-                              textAlign: TextAlign.left),
+                  width: Responsive.width(100, context),
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: Responsive.width(100, context),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                        child: AutoSizeText("Course*",
+                            style: inputLabelStyle(SizeConfig.labelFontSize),
+                            textAlign: TextAlign.left),
+                      ),
+                      Container(
+                        width: Responsive.width(100, context),
+                        //height: SizeConfig.inputHeight,
+                        child: Text(
+                          course_nameDropContr.text,
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
                         ),
-                        Container(
-                          width: Responsive.width(100, context),
-                          //height: SizeConfig.inputHeight,
-                          child: Text(
-                            course_nameDropContr.text,
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    )),
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                     width: Responsive.width(100, context),
                     margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
