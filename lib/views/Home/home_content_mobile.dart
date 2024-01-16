@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/views/DashboardGridView/Dashboard.dart';
 import 'package:student_app/widget/navigation_drawer/navigation_drawer.dart'
     as NB;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
@@ -14,11 +13,15 @@ import '../../services/auth.dart';
 import '../../services/booking_test.dart';
 import '../../services/navigation_service.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget implements PreferredSizeWidget {
   //final FirebaseUser user;
   //const HomeScreen({Key key, this.user}) : super( key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(150);
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -76,37 +79,76 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       drawer: NB.NavigationDrawer(),
       key: _scaffoldKey,
-      //backgroundColor: Light,
-      appBar: AppBar(
-        //automaticallyImplyLeading: true,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          'Welcome $_userName',
-          style: TextStyle(
-              fontSize: SizeConfig.blockSizeHorizontal * 6,
-              fontWeight: FontWeight.w500,
-              color: Colors.black),
-        ),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       //Navigator.pushNamed(context, routes.NotificationsRoute);
-        //     },
-        //     icon: const Icon(FontAwesomeIcons.solidBell),
-        //   ),
-        // ],
-        elevation: 0.0,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(0.0, -1.0),
-              end: Alignment(0.0, 1.0),
-              colors: [Dark, Light],
-              stops: [0.0, 1.0],
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(110),
+          child: Container(
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(Responsive.height(3.5, context)),
+                bottomRight: Radius.circular(Responsive.height(3.5, context)),
+              ),
+              gradient: LinearGradient(
+                begin: Alignment(0.0, -1.0),
+                end: Alignment(0.0, 1.0),
+                colors: [Dark, Light],
+                stops: [0.0, 1.0],
+              ),
             ),
-          ),
-        ),
-      ),
+            child: Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      _scaffoldKey.currentState?.openDrawer();
+                    },
+                  ),
+                  Text(
+                    'Welcome $_userName',
+                    style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal * 6,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+          )),
+      //backgroundColor: Light,
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(100),
+      //   child:
+      //
+      //         //automaticallyImplyLeading: true,
+      //
+      //         // actions: [
+      //         //   IconButton(
+      //         //     onPressed: () {
+      //         //       //Navigator.pushNamed(context, routes.NotificationsRoute);
+      //         //     },
+      //         //     icon: const Icon(FontAwesomeIcons.solidBell),
+      //         //   ),
+      //         // ],
+      //
+      //         // flexibleSpace: Container(
+      //         //   decoration: BoxDecoration(
+      //         //     gradient: LinearGradient(
+      //         //       begin: Alignment(0.0, -1.0),
+      //         //       end: Alignment(0.0, 1.0),
+      //         //       colors: [Dark, Light],
+      //         //       stops: [0.0, 1.0],
+      //         //     ),
+      //         //   ),
+      //         // ),
+      //         // ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         child: Container(
           width: Responsive.width(100, context),
@@ -137,8 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blue, width: 1.0),
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(Responsive.height(0, context)),
-                topRight: Radius.circular(Responsive.height(0, context))),
+                bottomRight: Radius.circular(Responsive.height(0, context)),
+                bottomLeft: Radius.circular(Responsive.height(0, context))),
             gradient: LinearGradient(
               begin: Alignment(0.0, -1.0),
               end: Alignment(0.0, 1.0),

@@ -72,14 +72,10 @@ class NavigationDrawer extends StatelessWidget {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         children: [
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),
-                          NavBarItem('Dashboard', '/home', context,
+                          SizedBox(height: constraints.maxHeight * 0.025),
+                          NavBarItem('Home', '/home', context,
                               icon: Icons.dashboard),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),
+                          SizedBox(height: constraints.maxHeight * 0.025),
                           NavBarItem('Profile', '/driver_profile', context,
                               icon: FontAwesomeIcons.userCircle),
                           SizedBox(height: constraints.maxHeight * 0.025),
@@ -133,10 +129,10 @@ class NavigationDrawer extends StatelessWidget {
                           SizedBox(
                             height: constraints.maxHeight * 0.025,
                           ),*/
-                          NavBarItem(
-                              'Mock Test Structure', '/testStructure', context,
-                              icon: FontAwesomeIcons.list),
-                          SizedBox(height: constraints.maxHeight * 0.025),
+                          // NavBarItem(
+                          //     'Mock Test Structure', '/testStructure', context,
+                          //     icon: FontAwesomeIcons.list),
+                          //SizedBox(height: constraints.maxHeight * 0.025),
                           // GestureDetector(
                           //   onTap: () {
                           //     _aboutUsUrl = "$api/static/about-us";

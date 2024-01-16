@@ -280,8 +280,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       Container(
                         child: Column(
                           children: [
-                            if (!isTestStarted)
-                              cardHeader(context, constraints),
+                            // if (!isTestStarted)
+                            //   cardHeader(context, constraints),
                             Container(
                               width: constraints.maxWidth * 1,
                               padding: isTestStarted
@@ -335,102 +335,98 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     );
   }
 
-  Widget cardHeader(BuildContext context, BoxConstraints constraints) {
-    return Container(
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
-      margin: EdgeInsets.only(top: constraints.maxHeight * .02),
-      width: constraints.maxWidth * 1,
-      height: constraints.maxHeight * .10,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 5 * SizeConfig.blockSizeVertical,
-                width: constraints.maxWidth * .45,
-                child: Material(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  color: Dark,
-                  elevation: 5.0,
-                  child: MaterialButton(
-                    onPressed: () => {walletUI(context, constraints)},
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Container(
-                            width: constraints.maxWidth * 1,
-                            height: constraints.maxHeight * 1,
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              width: constraints.maxWidth * 1,
-                              child: AutoSizeText(
-                                "My Tokens: " +
-                                    ((walletDetail != null
-                                                ? walletDetail!['mdt_bal']
-                                                : 0) +
-                                            ((walletDetail != null &&
-                                                    walletDetail![
-                                                            'dvsa_subscription'] >
-                                                        0)
-                                                ? (walletDetail!['dvsa_bal'])
-                                                : 0))
-                                        .toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 2 * SizeConfig.blockSizeVertical,
-                                    color: Colors.white),
-                              ),
-                            ));
-                      },
-                    ),
-                  ),
-                ),
-              ),
-              // if (walletDetail != null &&
-              //     walletDetail!['dvsa_subscription'] <= 0)
-              //   Container(
-              //     width: constraints.maxWidth * .45,
-              //     height: 5 * SizeConfig.blockSizeVertical,
-              //     margin: EdgeInsets.only(left: constraints.maxWidth * .08),
-              //     child: Material(
-              //       borderRadius: BorderRadius.all(Radius.circular(5)),
-              //       color: Dark,
-              //       elevation: 5.0,
-              //       child: MaterialButton(
-              //         onPressed: () {
-              //           subscriptionConfirmAlert(context);
-              //         },
-              //         child: LayoutBuilder(
-              //           builder: (context, constraints) {
-              //             return Container(
-              //                 width: constraints.maxWidth * 1,
-              //                 height: constraints.maxHeight * 1,
-              //                 alignment: Alignment.center,
-              //                 child: SizedBox(
-              //                   width: constraints.maxWidth * 1,
-              //                   child: AutoSizeText(
-              //                     "Subscribe for DVSA",
-              //                     textAlign: TextAlign.center,
-              //                     style: TextStyle(
-              //                         fontFamily: 'Poppins',
-              //                         fontSize:
-              //                             2 * SizeConfig.blockSizeVertical,
-              //                         color: Colors.white),
-              //                   ),
-              //                 ));
-              //           },
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+  // Widget cardHeader(BuildContext context, BoxConstraints constraints) {
+  //   return Container(
+  //     alignment: Alignment.topCenter,
+  //     padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+  //     margin: EdgeInsets.only(top: constraints.maxHeight * .02),
+  //     width: constraints.maxWidth * 1,
+  //     height: constraints.maxHeight * .10,
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         Container(
+  //           height: 5 * SizeConfig.blockSizeVertical,
+  //           width: constraints.maxWidth * .45,
+  //           child: Material(
+  //             borderRadius: BorderRadius.all(Radius.circular(5)),
+  //             color: Dark,
+  //             elevation: 5.0,
+  //             child: MaterialButton(
+  //               onPressed: () => {walletUI(context, constraints)},
+  //               child: LayoutBuilder(
+  //                 builder: (context, constraints) {
+  //                   return Container(
+  //                       width: constraints.maxWidth * 1,
+  //                       height: constraints.maxHeight * 1,
+  //                       alignment: Alignment.center,
+  //                       child: SizedBox(
+  //                         width: constraints.maxWidth * 1,
+  //                         child: AutoSizeText(
+  //                           "My Tokens: " +
+  //                               ((walletDetail != null
+  //                                           ? walletDetail!['mdt_bal']
+  //                                           : 0) +
+  //                                       ((walletDetail != null &&
+  //                                               walletDetail![
+  //                                                       'dvsa_subscription'] >
+  //                                                   0)
+  //                                           ? (walletDetail!['dvsa_bal'])
+  //                                           : 0))
+  //                                   .toString(),
+  //                           textAlign: TextAlign.center,
+  //                           style: TextStyle(
+  //                               fontFamily: 'Poppins',
+  //                               fontSize: 2 * SizeConfig.blockSizeVertical,
+  //                               color: Colors.white),
+  //                         ),
+  //                       ));
+  //                 },
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         // if (walletDetail != null &&
+  //         //     walletDetail!['dvsa_subscription'] <= 0)
+  //         //   Container(
+  //         //     width: constraints.maxWidth * .45,
+  //         //     height: 5 * SizeConfig.blockSizeVertical,
+  //         //     margin: EdgeInsets.only(left: constraints.maxWidth * .08),
+  //         //     child: Material(
+  //         //       borderRadius: BorderRadius.all(Radius.circular(5)),
+  //         //       color: Dark,
+  //         //       elevation: 5.0,
+  //         //       child: MaterialButton(
+  //         //         onPressed: () {
+  //         //           subscriptionConfirmAlert(context);
+  //         //         },
+  //         //         child: LayoutBuilder(
+  //         //           builder: (context, constraints) {
+  //         //             return Container(
+  //         //                 width: constraints.maxWidth * 1,
+  //         //                 height: constraints.maxHeight * 1,
+  //         //                 alignment: Alignment.center,
+  //         //                 child: SizedBox(
+  //         //                   width: constraints.maxWidth * 1,
+  //         //                   child: AutoSizeText(
+  //         //                     "Subscribe for DVSA",
+  //         //                     textAlign: TextAlign.center,
+  //         //                     style: TextStyle(
+  //         //                         fontFamily: 'Poppins',
+  //         //                         fontSize:
+  //         //                             2 * SizeConfig.blockSizeVertical,
+  //         //                         color: Colors.white),
+  //         //                   ),
+  //         //                 ));
+  //         //           },
+  //         //         ),
+  //         //       ),
+  //         //     ),
+  //         //   ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Future<void> walletUI(
       BuildContext context, BoxConstraints parentConstraints) async {
@@ -832,10 +828,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       children: [
         Container(
           color: Colors.black12,
-          padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+          padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
           margin: EdgeInsets.only(bottom: 10),
           width: constraints.maxWidth * 1,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 width: constraints.maxWidth * .30,
@@ -859,17 +856,17 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       color: Colors.black),
                 ),
               ),
-              Container(
-                width: constraints.maxWidth * .225,
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: AutoSizeText(
-                  'DVSA S.',
-                  style: TextStyle(
-                      fontSize: 2 * SizeConfig.blockSizeVertical,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-              ),
+              // Container(
+              //   width: constraints.maxWidth * .225,
+              //   padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+              //   child: AutoSizeText(
+              //     'DVSA S.',
+              //     style: TextStyle(
+              //         fontSize: 2 * SizeConfig.blockSizeVertical,
+              //         fontWeight: FontWeight.w600,
+              //         color: Colors.black),
+              //   ),
+              // ),
               Container(
                 width: constraints.maxWidth * .23,
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -910,9 +907,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget scoreRecordRow(BoxConstraints constraints, Map record) {
     return Container(
       color: Colors.black12,
-      padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+      padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
       margin: EdgeInsets.only(bottom: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             width: constraints.maxWidth * .30,
@@ -940,19 +938,19 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   color: Colors.black),
             ),
           ),
-          Container(
-            width: constraints.maxWidth * .225,
-            padding: EdgeInsets.fromLTRB(0, 5, 3, 5),
-            child: AutoSizeText(
-              record['dvsa_score'] != null
-                  ? (record['dvsa_score']).toString()
-                  : '---',
-              style: TextStyle(
-                  fontSize: 2 * SizeConfig.blockSizeVertical,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.black),
-            ),
-          ),
+          // Container(
+          //   width: constraints.maxWidth * .225,
+          //   padding: EdgeInsets.fromLTRB(0, 5, 3, 5),
+          //   child: AutoSizeText(
+          //     record['dvsa_score'] != null
+          //         ? (record['dvsa_score']).toString()
+          //         : '---',
+          //     style: TextStyle(
+          //         fontSize: 2 * SizeConfig.blockSizeVertical,
+          //         fontWeight: FontWeight.w300,
+          //         color: Colors.black),
+          //   ),
+          // ),
           Container(
             width: constraints.maxWidth * .23,
             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -1017,18 +1015,18 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       question['title'],
                       style: _questionTextStyle,
                     ),
-                  Container(
-                      width: constraints.maxWidth * 1,
-                      margin: EdgeInsets.only(top: 5),
-                      child: AutoSizeText(
-                        question['type'] == 0
-                            ? 'Question Source: MDT'
-                            : 'Question Source: DVSA',
-                        style: TextStyle(
-                            fontSize: 2 * SizeConfig.blockSizeVertical,
-                            color: Colors.black26,
-                            fontWeight: FontWeight.w500),
-                      ))
+                  // Container(
+                  //     width: constraints.maxWidth * 1,
+                  //     margin: EdgeInsets.only(top: 5),
+                  //     child: AutoSizeText(
+                  //       question['type'] == 0
+                  //           ? 'Question Source: MDT'
+                  //           : 'Question Source: DVSA',
+                  //       style: TextStyle(
+                  //           fontSize: 2 * SizeConfig.blockSizeVertical,
+                  //           color: Colors.black26,
+                  //           fontWeight: FontWeight.w500),
+                  //     ))
                 ],
               )),
           ...question['options'].map((option) => radioSingleOptionUI(
@@ -1123,27 +1121,23 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: constraints.maxWidth * 0.18,
-                            alignment: Alignment.topCenter,
-                            child: Text(
-                              "NOTE: ",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 1.8 * SizeConfig.blockSizeVertical,
-                              ),
-                            ),
-                          ),
+                              width: constraints.maxWidth * 0.18,
+                              alignment: Alignment.topCenter,
+                              child: Text("NOTE: ",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          1.8 * SizeConfig.blockSizeVertical))),
                           Container(
-                            width: constraints.maxWidth * 0.72,
-                            child: Text(
-                              "You can now either subscribe to DVSA module to get full access to the app or skip next 10 questions to move forwards.",
-                              style: TextStyle(
-                                //fontWeight: FontWeight.bold,
-                                fontSize: 2 * SizeConfig.blockSizeVertical,
-                              ),
-                            ),
-                          )
+                              width: constraints.maxWidth * 0.72,
+                              child: Text(
+                                  "You can now either subscribe to DVSA module to get "
+                                  "full access to the app or skip next 10 questions to move forwards.",
+                                  style: TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          2 * SizeConfig.blockSizeVertical))),
                         ],
                       ),
                     ),

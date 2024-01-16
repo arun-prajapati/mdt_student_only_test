@@ -1,7 +1,10 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:better_player_plus/better_player_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 
-import 'package:flutter/material.dart';
 import '../../../Constants/hazard_perception_data.dart';
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
@@ -26,6 +29,11 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
   List<int> flagList = [];
   bool isContinueTaped = false;
 
+  bool isPause = false;
+  bool _onTouch = false;
+
+  Timer? _timer;
+
   List<Map<String, int>> clickDurationSlot = [];
 
   static int currentTimeInSeconds() {
@@ -49,6 +57,16 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
   }
 
   void tapEvent() {
+    _onTouch = true;
+    setState(() {});
+    Future.delayed(const Duration(seconds: 5), () {
+      if (this.mounted) {
+        setState(() {
+          _onTouch = false;
+        });
+      }
+    });
+    log(' KKKKKKKK ========== $_onTouch');
     if (!isContinueTaped) {
       setState(() {
         flagList.add(currentTimeInMilliseconds());
@@ -151,6 +169,8 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
           // Image.asset("assets/spinner.gif",width: 100,height: 100)
         ),
         betterPlayerDataSource: betterPlayerDataSource);
+    isPause = true;
+    setState(() {});
     _betterPlayerController.play();
   }
 
@@ -178,6 +198,29 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
                 ),
               ),
             ),
+          Positioned(
+            // bottom: 100,
+            child: Container(
+                // transform: Matrix4.translationValues(Responsive.width(2, context),
+                //     Responsive.height(42, context), 0),
+                child: Visibility(
+              visible: _onTouch,
+              child: IconButton(
+                icon: isPause ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                iconSize: 35,
+                color: Colors.white,
+                onPressed: () {
+                  isPause = !isPause;
+                  setState(() {});
+                  if (isPause) {
+                    _betterPlayerController.play();
+                  } else {
+                    _betterPlayerController.pause();
+                  }
+                },
+              ),
+            )),
+          ),
           Container(
             transform: Matrix4.translationValues(
                 -(Responsive.width(46, context)),
@@ -197,7 +240,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
                 children: flagList
                     .map((e) => Icon(Icons.flag, size: 27, color: Colors.red))
                     .toList(),
-              ))
+              )),
         ]));
   }
 }

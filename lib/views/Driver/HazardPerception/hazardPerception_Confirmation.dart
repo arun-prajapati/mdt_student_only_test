@@ -1,9 +1,7 @@
-
-import 'package:gif/gif.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:flutter/material.dart';
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
+import 'package:student_app/routing/route_names.dart' as routes;
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
@@ -22,29 +20,29 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   LocalServices _localServices = LocalServices();
-  late GifController gifControl;
+  // late GifController gifControl;
 
- // late GifController gifControl;
+  // late GifController gifControl;
 
   @override
   void initState() {
-    initializeGifAnimation();
+    // initializeGifAnimation();
     super.initState();
   }
 
   void initializeGifAnimation() {
-    gifControl = GifController(vsync: this);
-   // gifControl = new GifController(vsync: this);
-    gifControl.value = 0;
-    gifControl.animateTo(15,
-        duration: Duration(milliseconds: 100), curve: Curves.linear);
-    gifControl.repeat(
-        min: 0, max: 15, reverse: false, period: Duration(milliseconds: 3000));
+    // gifControl = GifController(vsync: this);
+    // gifControl = new GifController(vsync: this);
+    //  gifControl.value = 0;
+    //  gifControl.animateTo(15,
+    //      duration: Duration(milliseconds: 100), curve: Curves.linear);
+    //  gifControl.repeat(
+    //      min: 0, max: 15, reverse: false, period: Duration(milliseconds: 3000));
   }
 
   @override
   void dispose() {
-    gifControl.dispose();
+    // gifControl.dispose();
     super.dispose();
   }
 
@@ -94,11 +92,14 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                         "Now it's your turn",
                         style: labelStyle(),
                       ),
-                      Gif(
+                      Container(
                         width: Responsive.width(70, context),
                         height: Responsive.height(30, context),
-                        controller: gifControl,
-                        image: AssetImage("assets/road-in-eye.gif"),
+                        // controller: gifControl,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("assets/road-in-eye.gif")),
+                        ),
                       ),
                       Container(
                         height: Responsive.height(27, context),

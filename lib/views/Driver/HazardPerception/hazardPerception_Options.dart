@@ -1,14 +1,13 @@
-
-import 'package:gif/gif.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
-// import 'package:flutter_gifimage/flutter_gifimage.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import '../../../locater.dart';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+// import 'package:flutter_gifimage/flutter_gifimage.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:student_app/routing/route_names.dart' as routes;
+
+import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
@@ -26,7 +25,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  late GifController controller;
+  // late GifController controller;
   LocalServices _localServices = LocalServices();
   List<String> videosName = [
     'clip1mdt.mp4',
@@ -135,26 +134,26 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
   @override
   void initState() {
     super.initState();
-    controller = new GifController(vsync: this);
+    // controller = new GifController(vsync: this);
     Future.delayed(Duration(milliseconds: 500), () {
       if (_localServices.getVideosList().length == 0) {
         transferVideoToAppDocPath();
       }
-      animationStart();
+      // animationStart();
     });
   }
 
-  void animationStart() {
-    controller.value = 0;
-    controller.animateTo(15,
-        duration: Duration(milliseconds: 100), curve: Curves.linear);
-    controller.repeat(
-        min: 0, max: 15, reverse: false, period: Duration(milliseconds: 3000));
-  }
+  // void animationStart() {
+  //   controller.value = 0;
+  //   controller.animateTo(15,
+  //       duration: Duration(milliseconds: 100), curve: Curves.linear);
+  //   controller.repeat(
+  //       min: 0, max: 15, reverse: false, period: Duration(milliseconds: 3000));
+  // }
 
   @override
   void dispose() {
-    controller.dispose();
+    // controller.dispose();
     super.dispose();
   }
 
@@ -165,9 +164,9 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
         backgroundColor: Color(0xFFe1e1e1),
         body: Stack(children: <Widget>[
           CustomAppBar(
-              preferedHeight: Responsive.height(15, context),
+              preferedHeight: Responsive.height(12, context),
               title: 'Hazard Perception Test',
-              textWidth: Responsive.width(40, context),
+              textWidth: Responsive.width(45, context),
               iconLeft: Icons.arrow_back,
               onTap1: () {
                 _navigationService.goBack();
@@ -181,18 +180,29 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
             padding: EdgeInsets.only(bottom: Responsive.height(5, context)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
+              // mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Spacer(),
+                // Container(
+                //   transform: Matrix4.translationValues(
+                //       0, -Responsive.height(05, context), 0),
+                //   child: Gif(
+                //     width: Responsive.width(40, context),
+                //     height: Responsive.height(30, context),
+                //     // controller: controller,
+                //     image: AssetImage("assets/road-in-fulleye.gif"),
+                //   ),
+                // ),
                 Container(
-                  transform: Matrix4.translationValues(
-                      0, -Responsive.height(05, context), 0),
-                  child: Gif(
-                    width: Responsive.width(60, context),
-                    height: Responsive.height(40, context),
-                    controller: controller,
-                    image: AssetImage("assets/road-in-fulleye.gif"),
+                  width: Responsive.width(50, context),
+                  height: Responsive.height(30, context),
+                  // controller: gifControl,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/road-in-fulleye.gif")),
                   ),
                 ),
+                Spacer(),
                 ElevatedButton(
                   onPressed: () {
                     SystemChrome.setPreferredOrientations(
@@ -216,10 +226,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
                     });
                   },
                   style: buttonStyle(),
-                  child: Text(
-                    'HAZARD PERCEPTION',
-                    style: textStyle(),
-                  ),
+                  child: Text('HAZARD PERCEPTION', style: textStyle()),
                 ),
                 // SizedBox(height: 10),
                 // ElevatedButton(
@@ -261,29 +268,3 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
         color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600);
   }
 }
-
-//
-// Future<void> downloadFile(String url, String dir) async {
-//   HttpClient httpClient = new HttpClient();
-//   File file;
-//   String filePath = '';
-//   String myUrl = '';
-//   String fileName = ;
-//   try {url.substring(url.lastIndexOf('/'), url.length)
-//     myUrl = url;
-//     print("start Downloading...");
-//     var request = await httpClient.getUrl(Uri.parse(myUrl));
-//     var response = await request.close();
-//     if(response.statusCode == 200) {
-//       var bytes = await consolidateHttpClientResponseBytes(response);
-//       filePath = '$dir/$fileName';
-//       file = File(filePath);
-//       await file.writeAsBytes(bytes);
-//     }
-//     else
-//       filePath = 'Error code: '+response.statusCode.toString();
-//   }
-//   catch(ex){
-//     filePath = 'Can not fetch url';
-//   }
-// }

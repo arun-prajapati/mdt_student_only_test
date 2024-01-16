@@ -1,10 +1,11 @@
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import '../../../locater.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/routing/route_names.dart' as routes;
+
+import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
@@ -250,6 +251,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                                 style: textStyle(),
                               ),
                             ),
+                            SizedBox(width: 20),
                             if (testComplete)
                               ElevatedButton(
                                 onPressed: () {

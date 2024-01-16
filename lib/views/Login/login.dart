@@ -345,6 +345,7 @@ class _SignInFormState extends State<SignInForm> {
                         ),
                         style: TextStyle(
                           fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                          fontWeight: FontWeight.w400,
                         ),
                         validator: (value) {
                           email = value!.trim();

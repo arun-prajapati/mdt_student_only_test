@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         //locale: DevicePreview.ofDeviceOrientation(context).locale, // <--- Add the locale
         //builder: DevicePreview.appBuilder,
         theme: ThemeData(
+          useMaterial3: false,
           primarySwatch: Colors.blue,
           textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
         ),

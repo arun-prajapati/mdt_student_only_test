@@ -59,7 +59,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'icon': FontAwesomeIcons.clipboardCheck,
       'title': 'Practice',
       'subTitle':
-          'Understand the questions you will likely be\nasked in DVSA theory test',
+          'Understand the questions you will likely be asked in DVSA theory test',
       'type': 'theoryTest',
       'buttonText': 'Start'
     },
@@ -67,7 +67,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'icon': FontAwesomeIcons.car,
       'title': 'Practice Hazard Perception',
       'subTitle':
-          'Understand the questions you will likely be asked \nin a hazard perception test',
+          'Understand the questions you will likely be asked in a hazard perception test',
       'type': 'hazard',
       'buttonText': 'Start'
     },
@@ -83,8 +83,8 @@ class _TheoryTabState extends State<TheoryTab> {
   List _resourceCards = [
     {
       'title': 'Highway Code',
-      'subTitle':
-          'The Highway Code is a rule book issues by the DVSA. The DVSA theory test tests learner drivers for understanding of these rules.',
+      'subTitle': 'The Highway Code is a rule book issues by the DVSA.'
+          'The DVSA theory test tests learner drivers for understanding of these rules.',
       'type': 'highwayCode',
       'buttonText': 'Read now'
     },
@@ -215,6 +215,24 @@ class _TheoryTabState extends State<TheoryTab> {
     return false;
   }
 
+  String? _userName;
+  Future<String> getUserName() async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String userName = storage.getString('userName').toString();
+    return userName;
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    getUserName().then((value) {
+      setState(() {
+        _userName = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -275,7 +293,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               minHeight: 5,
                               backgroundColor: Light,
                               valueColor:
-                                  new AlwaysStoppedAnimation<Color>(Dark),
+                                  new AlwaysStoppedAnimation<Color>(Colors.red),
                               value: _progressValue,
                             ),
                           ),
@@ -286,7 +304,7 @@ class _TheoryTabState extends State<TheoryTab> {
                 ),
                 Container(
                   width: Responsive.width(100, context),
-                  height: Responsive.height(26, context),
+                  height: Responsive.height(18, context),
                   //height: constraints.maxHeight * 0.8,
                   padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
                   child: ListView.builder(
@@ -296,124 +314,97 @@ class _TheoryTabState extends State<TheoryTab> {
                       itemBuilder: (context, index) {
                         return Container(
                           width: SizeConfig.blockSizeHorizontal * 70,
-                          child: MCard.Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            elevation: 3.0,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                //mainAxisSize: MainAxisSize.max,
-
-                                children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            cards[index]["icon"],
-                                            color: Dark,
-                                            size: 22,
-                                          ),
-                                          SizedBox(width: 15),
-                                          Expanded(
-                                            child: Text(cards[index]["title"],
-                                                style: TextStyle(
-                                                    fontSize: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        4,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 15),
-                                      Text(
-                                        cards[index]["subTitle"],
-                                        style: TextStyle(
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  3.5,
-                                          //fontWeight: FontWeight.bold
-                                        ),
-                                        softWrap: true,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      SizedBox(width: 15),
-                                    ],
+                          child: GestureDetector(
+                            onTap: () {
+                              if (cards[index]["type"] == 'theoryTest') {
+                                _navigationService
+                                    .navigateTo(routes.PracticeTheoryTestRoute);
+                              } else if (cards[index]["type"] == 'hazard') {
+                                _navigationService.navigateTo(
+                                    routes.HazardPerceptionOptionsRoute);
+                              } else if (cards[index]["type"] == 'dvsaMock') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => WebViewContainer(
+                                      'https://www.gov.uk/take-practice-theory-test',
+                                      'DVSA Mock Theory Test',
+                                    ),
                                   ),
-                                  Column(
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          if (cards[index]["type"] ==
-                                              'theoryTest') {
-                                            _navigationService.navigateTo(
-                                                routes.PracticeTheoryTestRoute);
-                                          } else if (cards[index]["type"] ==
-                                              'hazard') {
-                                            _navigationService.navigateTo(routes
-                                                .HazardPerceptionOptionsRoute);
-                                          } else if (cards[index]["type"] ==
-                                              'dvsaMock') {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WebViewContainer(
-                                                  'https://www.gov.uk/take-practice-theory-test',
-                                                  'DVSA Mock Theory Test',
-                                                ),
-                                              ),
-                                            );
-                                          } else {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    TheoryRecommendations(),
-                                              ),
-                                            ).then((value) {
-                                              if (value) {
-                                                initializeApi("Loading...");
-                                              }
-                                            });
-                                          }
-                                        },
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    Dark)),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TheoryRecommendations(),
+                                  ),
+                                ).then((value) {
+                                  if (value) {
+                                    initializeApi("Loading...");
+                                  }
+                                });
+                              }
+                            },
+                            child: MCard.Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              elevation: 3.0,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          cards[index]["icon"],
+                                          color: Dark,
+                                          size: 22,
+                                        ),
+                                        SizedBox(width: 15),
+                                        Expanded(
+                                          child: Text(cards[index]["title"],
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      4,
+                                                  fontWeight: FontWeight.bold),
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    Center(
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 8),
                                         child: Text(
-                                          cards[index]["buttonText"],
+                                          cards[index]["subTitle"],
+                                          maxLines: 3,
                                           style: TextStyle(
-                                              fontSize: 15,
-                                              // fontSize: SizeConfig
-                                              //         .blockSizeHorizontal *
-                                              //     3.5,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600
+                                              height: 1.2,
+                                              fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  3.5,
+                                              overflow: TextOverflow.ellipsis
                                               //fontWeight: FontWeight.bold
                                               ),
+                                          softWrap: true,
+                                          //  textAlign: TextAlign.justify,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                    //SizedBox(width: 15),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -759,7 +750,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        "Cancle",
+                                        "Cancel",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
