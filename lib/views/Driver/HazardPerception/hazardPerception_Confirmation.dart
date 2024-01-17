@@ -142,6 +142,23 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                                 style: textStyle(),
                               ),
                             ),
+                            SizedBox(width: Responsive.width(3, context)),
+                            ElevatedButton(
+                              onPressed: () {
+                                // SystemChrome.setPreferredOrientations(
+                                //         [DeviceOrientation.landscapeLeft])
+                                //     .then((_) {
+                                //   _localServices.setIndexOfVideo(0);
+                                //   _navigationService.navigateTo(
+                                //       routes.HazardPerceptionVideosListRoute);
+                                // });
+                              },
+                              style: buttonStyle(),
+                              child: Text(
+                                'SEE CORRECT ANSWER',
+                                style: textStyle(),
+                              ),
+                            ),
                           ],
                         ),
                       )

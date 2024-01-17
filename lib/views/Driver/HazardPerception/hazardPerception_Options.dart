@@ -226,7 +226,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
                     });
                   },
                   style: buttonStyle(),
-                  child: Text('HAZARD PERCEPTION', style: textStyle()),
+                  child: Text('START TEST', style: textStyle()),
                 ),
                 // SizedBox(height: 10),
                 // ElevatedButton(

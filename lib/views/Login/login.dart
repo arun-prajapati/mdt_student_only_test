@@ -267,373 +267,403 @@ class _SignInFormState extends State<SignInForm> {
                     0.0,
                   ),
                   //color: Colors.black12,
-                  child: ListView(
-                    children: [
-                      Center(
-                        child: Text(
-                          'Welcome back!',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: SizeConfig.blockSizeHorizontal * 5.5,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      //Field 1
-                      TextFormField(
-                        cursorColor: Dark,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            borderSide: BorderSide(
-                              color: Dark,
-                              width: 2,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            borderSide: const BorderSide(
-                              color: Dark,
-                              width: 2,
-                            ),
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            borderSide: const BorderSide(color: Dark, width: 2),
-                          ),
-                          labelText: 'Email/Phone Number',
-                          labelStyle: TextStyle(
-                            color: Colors.blueGrey,
-                          ),
-                          floatingLabelStyle: TextStyle(color: Dark),
-                          // errorStyle: TextStyle(
-                          //     fontSize: constraints.maxWidth * 0.05),
-                          prefixIcon: const Icon(
-                            Icons.mail,
-                            color: Dark,
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            borderSide: const BorderSide(color: Dark, width: 2),
-                          ),
-                          focusColor: Dark,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            borderSide: const BorderSide(color: Dark, width: 2),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            borderSide: const BorderSide(color: Dark, width: 2),
-                          ),
-                        ),
-                        style: TextStyle(
-                          fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        validator: (value) {
-                          email = value!.trim();
-                          return Validate.validateEmail(value);
-                        },
-                        onChanged: (val) {
-                          if (!_formKey.currentState!.validate()) {
-                            Validate.validateEmail(val);
-                          }
-                        },
-                        onFieldSubmitted: (_) =>
-                            setFocus(context, focusNode: _passwordFocusNode),
-                        focusNode: _emailFocusNode,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        //textAlignVertical: TextAlignVertical.center,
-                      ),
-                      //Field 2
-                      Container(
-                          width: SizeConfig.blockSizeHorizontal * 80,
-                          margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          child: TextFormField(
-                            cursorColor: Dark,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.blockSizeVertical * 1,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Dark,
-                                  width: 2,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: const BorderSide(
-                                  color: Dark,
-                                  width: 2,
-                                ),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: const BorderSide(
-                                    color: Colors.black, width: 2),
-                              ),
-                              labelText: 'Password',
-                              labelStyle: TextStyle(
-                                color: Colors.blueGrey,
-                              ),
-                              floatingLabelStyle: TextStyle(color: Dark),
-                              // errorStyle: TextStyle(
-                              //     fontSize: constraints.maxWidth * 0.05),
-                              prefixIcon: const Icon(
-                                Icons.key,
-                                color: Dark,
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide:
-                                    const BorderSide(color: Dark, width: 2),
-                              ),
-                              // errorStyle: validationStyle,
-                              focusColor: Dark,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide:
-                                    const BorderSide(color: Dark, width: 2),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide:
-                                    const BorderSide(color: Dark, width: 2),
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                            validator: (value) {
-                              password.text = value!.trim();
-                              return Validate.passwordValidation(value);
-                            },
-                            onChanged: (val) {
-                              if (!_formKey.currentState!.validate()) {
-                                Validate.passwordValidation(val);
-                              }
-                            },
-                            obscureText: true,
-                            onFieldSubmitted: (_) => submit(),
-                            focusNode: _passwordFocusNode,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.done,
-                          )
-                          // TextFormField(
-                          //   cursorColor: Dark,
-                          //   controller: password,
-                          //   decoration: InputDecoration(
-                          //     contentPadding: EdgeInsets.symmetric(
-                          //       vertical: SizeConfig.blockSizeVertical * 2,
-                          //     ),
-                          //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.all(
-                          //         Radius.circular(25),
-                          //       ),
-                          //       borderSide: BorderSide(
-                          //         color: Dark,
-                          //         width: 2,
-                          //       ),
-                          //     ),
-                          //     enabledBorder: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.all(
-                          //         Radius.circular(25),
-                          //       ),
-                          //       borderSide: const BorderSide(
-                          //         color: Dark,
-                          //         width: 2,
-                          //       ),
-                          //     ),
-                          //     disabledBorder: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.all(
-                          //         Radius.circular(25),
-                          //       ),
-                          //       borderSide: const BorderSide(
-                          //           color: Colors.black, width: 2),
-                          //     ),
-                          //     labelText: 'Password',
-                          //     labelStyle: TextStyle(
-                          //       color: Colors.blueGrey,
-                          //     ),
-                          //     floatingLabelStyle: TextStyle(color: Dark),
-                          //     // errorStyle: TextStyle(
-                          //     //     fontSize: constraints.maxWidth * 0.05),
-                          //     prefixIcon: const Icon(
-                          //       Icons.key,
-                          //       color: Dark,
-                          //     ),
-                          //     errorBorder: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.all(
-                          //         Radius.circular(25),
-                          //       ),
-                          //       borderSide:
-                          //           const BorderSide(color: Dark, width: 2),
-                          //     ),
-                          //     focusColor: Dark,
-                          //     focusedBorder: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.all(
-                          //         Radius.circular(25),
-                          //       ),
-                          //       borderSide:
-                          //           const BorderSide(color: Dark, width: 2),
-                          //     ),
-                          //     focusedErrorBorder: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.all(
-                          //         Radius.circular(25),
-                          //       ),
-                          //       borderSide:
-                          //           const BorderSide(color: Dark, width: 2),
-                          //     ),
-                          //   ),
-                          //   style: TextStyle(
-                          //     fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                          //   ),
-                          //   validator: (value) {
-                          //     password.text = value!.trim();
-                          //     return Validate.passwordValidation(password.text);
-                          //   },
-                          //   onChanged: (val) {
-                          //     if (!_formKey.currentState!.validate()) {
-                          //       Validate.passwordValidation(val);
-                          //     }
-                          //   },
-                          //   onFieldSubmitted: (_) => submit(),
-                          //   focusNode: _passwordFocusNode,
-                          //   obscureText: true,
-                          //   keyboardType: TextInputType.text,
-                          //   textInputAction: TextInputAction.done,
-                          //   //textAlignVertical: TextAlignVertical.center,
-                          // ),
-                          ),
-                      //Forgot Password
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ForgotPassword(),
-                              ),
-                            );
-                            print('FORGOT T*/////');
-                            password.clear();
-                          },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: ListView(
+                      children: [
+                        Center(
                           child: Text(
-                            'Forgot password?',
+                            'Welcome back!',
                             style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: SizeConfig.blockSizeHorizontal * 4.8,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
+                              fontWeight: FontWeight.w600,
                               color: Colors.black,
-                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
-                      ),
+                        SizedBox(height: 15),
+                        //Field 1
+                        CustomTextField(
+                          label: 'Email/Phone Number',
+                          prefixIcon: Icon(Icons.mail, color: Dark),
+                          validator: (value) {
+                            email = value!.trim();
+                            return Validate.validateEmail(value);
+                          },
+                          onChange: (val) {
+                            if (!_formKey.currentState!.validate()) {
+                              Validate.validateEmail(val);
+                            }
+                          },
+                          onFieldSubmitted: (_) =>
+                              setFocus(context, focusNode: _passwordFocusNode),
+                          focusNode: _emailFocusNode,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                        ),
 
-                      Provider.of<AuthProvider>(context).status ==
-                              Status.Authenticating
-                          ? const Center(child: CircularProgressIndicator())
-                          : Container(
-                              // height: constraints.maxHeight * 0.11,
-                              width: SizeConfig.blockSizeHorizontal * 50,
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 5),
-                              child: Material(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Dark,
-                                elevation: 5.0,
-                                child: MaterialButton(
-                                  onPressed: submit,
-                                  child: Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 5,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color.fromRGBO(255, 255, 255, 1.0),
+                        //Field 2
+                        CustomTextField(
+                          label: 'Password',
+                          prefixIcon: Icon(Icons.key, color: Dark),
+                          validator: (value) {
+                            password.text = value!.trim();
+                            return Validate.passwordValidation(value);
+                          },
+                          onChange: (val) {
+                            if (!_formKey.currentState!.validate()) {
+                              Validate.passwordValidation(val);
+                            }
+                          },
+                          obscureText: true,
+                          onFieldSubmitted: (_) => submit(),
+                          focusNode: _passwordFocusNode,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                        ),
+
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotPassword(),
+                                ),
+                              );
+                              print('FORGOT T*/////');
+                              password.clear();
+                            },
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.8,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Provider.of<AuthProvider>(context).status ==
+                                Status.Authenticating
+                            ? const Center(child: CircularProgressIndicator())
+                            : Container(
+                                // height: constraints.maxHeight * 0.11,
+                                width: SizeConfig.blockSizeHorizontal * 50,
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 5),
+                                child: Material(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Dark,
+                                  elevation: 5.0,
+                                  child: MaterialButton(
+                                    onPressed: submit,
+                                    child: Text(
+                                      'Login',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal * 5,
+                                        fontWeight: FontWeight.w700,
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
 
-                      SizedBox(height: 35),
-                      Container(
-                        //color: Colors.black26,
-                        //width: constraints.maxWidth * 0.8,
-                        margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 3,
-                        ),
-                        alignment: Alignment.centerLeft,
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Don\'t have an account yet?',
-                            style: defaultStyle,
+                        SizedBox(height: 35),
+                        Container(
+                          //color: Colors.black26,
+                          //width: constraints.maxWidth * 0.8,
+                          margin: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2.5,
+                            top: SizeConfig.blockSizeVertical * 3,
+                          ),
+                          alignment: Alignment.centerLeft,
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Don\'t have an account yet?',
+                              style: defaultStyle,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 0.5,
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 2.5,
+                            top: SizeConfig.blockSizeVertical * 0.5,
+                          ),
+                          alignment: Alignment.centerLeft,
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Register here',
+                                style: linkStyle,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) => Register('1'),
+                                      ),
+                                    );
+                                  }),
+                          ),
                         ),
-                        alignment: Alignment.centerLeft,
-                        child: RichText(
-                          text: TextSpan(
-                              text: 'Register here',
-                              style: linkStyle,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => Register('1'),
-                                    ),
-                                  );
-                                }),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+// Container(
+//     child: TextFormField(
+//   cursorColor: Dark,
+//   decoration: InputDecoration(
+//     contentPadding: EdgeInsets.symmetric(
+//       vertical: SizeConfig.blockSizeVertical * 1,
+//     ),
+//     border: OutlineInputBorder(
+//       borderRadius: BorderRadius.all(
+//         Radius.circular(25),
+//       ),
+//       borderSide: BorderSide(
+//         color: Dark,
+//         width: 2,
+//       ),
+//     ),
+//     enabledBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.all(
+//         Radius.circular(25),
+//       ),
+//       borderSide: const BorderSide(
+//         color: Dark,
+//         width: 2,
+//       ),
+//     ),
+//     disabledBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.all(
+//         Radius.circular(25),
+//       ),
+//       borderSide:
+//           const BorderSide(color: Colors.black, width: 2),
+//     ),
+//     labelText: 'Password',
+//     labelStyle: TextStyle(
+//       color: Colors.blueGrey,
+//     ),
+//     floatingLabelStyle: TextStyle(color: Dark),
+//     // errorStyle: TextStyle(
+//     //     fontSize: constraints.maxWidth * 0.05),
+//     prefixIcon: const Icon(
+//       Icons.key,
+//       color: Dark,
+//     ),
+//     errorBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.all(
+//         Radius.circular(25),
+//       ),
+//       borderSide: const BorderSide(color: Dark, width: 2),
+//     ),
+//     // errorStyle: validationStyle,
+//     focusColor: Dark,
+//     focusedBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.all(
+//         Radius.circular(25),
+//       ),
+//       borderSide: const BorderSide(color: Dark, width: 2),
+//     ),
+//     focusedErrorBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.all(
+//         Radius.circular(25),
+//       ),
+//       borderSide: const BorderSide(color: Dark, width: 2),
+//     ),
+//   ),
+//   style: TextStyle(
+//     fontSize: 20,
+//   ),
+// )
+//     // TextFormField(
+//     //   cursorColor: Dark,
+//     //   controller: password,
+//     //   decoration: InputDecoration(
+//     //     contentPadding: EdgeInsets.symmetric(
+//     //       vertical: SizeConfig.blockSizeVertical * 2,
+//     //     ),
+//     //     border: OutlineInputBorder(
+//     //       borderRadius: BorderRadius.all(
+//     //         Radius.circular(25),
+//     //       ),
+//     //       borderSide: BorderSide(
+//     //         color: Dark,
+//     //         width: 2,
+//     //       ),
+//     //     ),
+//     //     enabledBorder: OutlineInputBorder(
+//     //       borderRadius: BorderRadius.all(
+//     //         Radius.circular(25),
+//     //       ),
+//     //       borderSide: const BorderSide(
+//     //         color: Dark,
+//     //         width: 2,
+//     //       ),
+//     //     ),
+//     //     disabledBorder: OutlineInputBorder(
+//     //       borderRadius: BorderRadius.all(
+//     //         Radius.circular(25),
+//     //       ),
+//     //       borderSide: const BorderSide(
+//     //           color: Colors.black, width: 2),
+//     //     ),
+//     //     labelText: 'Password',
+//     //     labelStyle: TextStyle(
+//     //       color: Colors.blueGrey,
+//     //     ),
+//     //     floatingLabelStyle: TextStyle(color: Dark),
+//     //     // errorStyle: TextStyle(
+//     //     //     fontSize: constraints.maxWidth * 0.05),
+//     //     prefixIcon: const Icon(
+//     //       Icons.key,
+//     //       color: Dark,
+//     //     ),
+//     //     errorBorder: OutlineInputBorder(
+//     //       borderRadius: BorderRadius.all(
+//     //         Radius.circular(25),
+//     //       ),
+//     //       borderSide:
+//     //           const BorderSide(color: Dark, width: 2),
+//     //     ),
+//     //     focusColor: Dark,
+//     //     focusedBorder: OutlineInputBorder(
+//     //       borderRadius: BorderRadius.all(
+//     //         Radius.circular(25),
+//     //       ),
+//     //       borderSide:
+//     //           const BorderSide(color: Dark, width: 2),
+//     //     ),
+//     //     focusedErrorBorder: OutlineInputBorder(
+//     //       borderRadius: BorderRadius.all(
+//     //         Radius.circular(25),
+//     //       ),
+//     //       borderSide:
+//     //           const BorderSide(color: Dark, width: 2),
+//     //     ),
+//     //   ),
+//     //   style: TextStyle(
+//     //     fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+//     //   ),
+//     //   validator: (value) {
+//     //     password.text = value!.trim();
+//     //     return Validate.passwordValidation(password.text);
+//     //   },
+//     //   onChanged: (val) {
+//     //     if (!_formKey.currentState!.validate()) {
+//     //       Validate.passwordValidation(val);
+//     //     }
+//     //   },
+//     //   onFieldSubmitted: (_) => submit(),
+//     //   focusNode: _passwordFocusNode,
+//     //   obscureText: true,
+//     //   keyboardType: TextInputType.text,
+//     //   textInputAction: TextInputAction.done,
+//     //   //textAlignVertical: TextAlignVertical.center,
+//     // ),
+//     ),
+//Forgot Password
+}
+
+class CustomTextField extends StatelessWidget {
+  final String? label;
+  final ValueChanged? onChange;
+  final FormFieldValidator<String>? validator;
+  final ValueChanged<String>? onFieldSubmitted;
+  final Icon? prefixIcon;
+  final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
+  final bool? obscureText;
+  final FocusNode? focusNode;
+  final TextAlignVertical? textAlignVertical;
+  final Null Function(dynamic _)? onSubmitted;
+  final List<dynamic>? inputFormatters;
+  final bool? showCountryFlag;
+  final String? initialCountryCode;
+  final TextEditingController? controller;
+  const CustomTextField({
+    super.key,
+    required this.label,
+    this.onChange,
+    this.validator,
+    this.prefixIcon,
+    this.onFieldSubmitted,
+    this.focusNode,
+    this.keyboardType,
+    this.textInputAction,
+    this.obscureText,
+    this.textAlignVertical,
+    this.onSubmitted,
+    this.inputFormatters,
+    this.showCountryFlag,
+    this.initialCountryCode,
+    this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: SizeConfig.blockSizeHorizontal * 80,
+      margin: EdgeInsets.only(
+        top: SizeConfig.blockSizeVertical * 1.5,
+      ),
+      child: TextFormField(
+        validator: validator,
+        onChanged: onChange,
+        obscureText: obscureText ?? false,
+        cursorColor: Dark,
+        onFieldSubmitted: onFieldSubmitted,
+        keyboardType: keyboardType ?? TextInputType.text,
+        decoration: InputDecoration(
+          contentPadding:
+              EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical * 1),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(25)),
+            borderSide: BorderSide(color: Dark, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              borderSide: BorderSide(color: Dark, width: 2)),
+          disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              borderSide: BorderSide(color: Dark, width: 2)),
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.blueGrey),
+          floatingLabelStyle: TextStyle(color: Dark),
+          // errorStyle: TextStyle(
+          //     fontSize: constraints.maxWidth * 0.05),
+          prefixIcon: prefixIcon,
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              borderSide: BorderSide(color: Dark, width: 2)),
+          focusColor: Dark,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(25)),
+            borderSide: BorderSide(color: Dark, width: 2),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(25)),
+            borderSide: BorderSide(color: Dark, width: 2),
+          ),
+        ),
+        style: TextStyle(
+          fontSize: 20,
+          //fontWeight: FontWeight.w400,
         ),
       ),
     );

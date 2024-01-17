@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'dart:math';
 import 'dart:developer' as dev;
+import 'dart:math';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -192,7 +193,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
           iconTheme: IconThemeData(color: Colors.black),
           title: Text(
             'AI Learning : To Learn Concepts',
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.w500,
                 color: Colors.black),
@@ -248,26 +249,16 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                       return Container(
                         width: double.infinity,
                         //height: constraints.maxHeight * 0.11,
-                        margin: EdgeInsets.fromLTRB(
-                          10,
-                          5,
-                          10,
-                          5,
-                        ),
+                        margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
+                          borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.16),
-                              blurRadius: 6.0, // soften the shadow
-                              spreadRadius: 1.0, //extend the shadow
-                              offset: Offset(
-                                3.0, // Move to right 10  horizontally
-                                0.0, // Move to bottom 10 Vertically
-                              ),
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 6.0,
+                              spreadRadius: 1.0,
+                              offset: Offset(3, 0),
                             )
                           ],
                         ),
@@ -302,7 +293,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     .substring(1),
                             style: TextStyle(
                                 color: Dark,
-                                fontSize: 1.8 * SizeConfig.blockSizeVertical,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
                           children: [
@@ -341,7 +332,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                             text: TextSpan(
                                                 text: "Read AI article",
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Dark,
                                                 ),
                                                 recognizer:
@@ -369,14 +361,13 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                         });
                                                       }),
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
+                                          SizedBox(height: 3),
                                           RichText(
                                             text: TextSpan(
                                                 text: "Watch Video",
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Dark,
                                                 ),
                                                 recognizer:
@@ -417,10 +408,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     ? Column(
                                         children: [
                                           ListTile(
-                                            title: Text(
-                                              "Read article",
-                                              style: TextStyle(color: Dark),
-                                            ),
+                                            title: Text("Read article",
+                                                style: TextStyle(color: Dark)),
                                             onTap: () {
                                               _handleURLButtonPress(
                                                   context,
@@ -455,7 +444,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             ),
                             Container(
                               width: double.infinity,
-                              margin: EdgeInsets.only(top: 10),
+                              margin: EdgeInsets.only(top: 5),
                               //alignment: Alignment.center,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -491,9 +480,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
+                                  SizedBox(width: 10),
                                   Text(
                                     "I have read the content",
                                     style: TextStyle(
@@ -512,26 +499,18 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                     return Container(
                       width: double.infinity,
                       //height: constraints.maxHeight * 0.11,
-                      margin: EdgeInsets.fromLTRB(
-                        10,
-                        5,
-                        10,
-                        5,
-                      ),
+                      margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(
-                          Radius.circular(15),
+                          Radius.circular(10),
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.16),
-                            blurRadius: 6.0, // soften the shadow
-                            spreadRadius: 1.0, //extend the shadow
-                            offset: Offset(
-                              3.0, // Move to right 10  horizontally
-                              0.0, // Move to bottom 10 Vertically
-                            ),
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 6.0,
+                            spreadRadius: 1.0,
+                            offset: Offset(3, 0),
                           )
                         ],
                       ),
@@ -555,26 +534,18 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                     return Container(
                       width: double.infinity,
                       //height: constraints.maxHeight * 0.11,
-                      margin: EdgeInsets.fromLTRB(
-                        10,
-                        5,
-                        10,
-                        5,
-                      ),
+                      margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(
-                          Radius.circular(15),
+                          Radius.circular(10),
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.16),
-                            blurRadius: 6.0, // soften the shadow
-                            spreadRadius: 1.0, //extend the shadow
-                            offset: Offset(
-                              3.0, // Move to right 10  horizontally
-                              0.0, // Move to bottom 10 Vertically
-                            ),
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 6.0,
+                            spreadRadius: 1.0,
+                            offset: Offset(3, 0),
                           )
                         ],
                       ),
@@ -675,9 +646,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                   });
                                                 }),
                                         ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
+                                        SizedBox(height: 10),
                                         RichText(
                                           text: TextSpan(
                                               text: "Watch Video",

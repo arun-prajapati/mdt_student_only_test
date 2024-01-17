@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/views/Login/register.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -170,6 +171,16 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
 }
 
 class Welcome extends StatelessWidget {
+  late String _facebookUrl;
+  void _launchURL(String _url) async {
+    print("hello");
+    try {
+      await launch(_url);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   // late final SocialLoginService socialLoginService;
   @override
   Widget build(BuildContext context) {
@@ -179,9 +190,8 @@ class Welcome extends StatelessWidget {
     var height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
+        backgroundColor: Colors.white,
+        body: Stack(children: [
           CustomPaint(
             size: Size(
               width,
@@ -359,9 +369,7 @@ class Welcome extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 6,
-                      ),
+                      SizedBox(width: 10),
                       InkWell(
                         onTap: () {
                           SocialLoginService(context).signInWithApple(context);
@@ -373,16 +381,30 @@ class Welcome extends StatelessWidget {
                               FontAwesomeIcons.apple,
                               color: Colors.white,
                             )),
-                      )
+                      ),
+                      SizedBox(width: 10),
+                      InkWell(
+                        onTap: () {
+                          _facebookUrl =
+                              "https://www.facebook.com/mockdrivingtest/";
+                          print(_facebookUrl);
+                          _launchURL(_facebookUrl);
+                        },
+                        child: CircleAvatar(
+                            backgroundColor: Colors.blue,
+                            radius: 23,
+                            child: Icon(
+                              FontAwesomeIcons.facebook,
+                              color: Colors.white,
+                            )),
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
-        ],
-      ),
-    );
+        ]));
   }
 }
 

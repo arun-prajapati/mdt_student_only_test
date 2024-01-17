@@ -260,42 +260,39 @@ class _TheoryTabState extends State<TheoryTab> {
                           EdgeInsets.symmetric(horizontal: 10, vertical: 18),
                       child: Column(
                         children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Text("$api"),
-                                Text(
-                                  'THEORY LEARNING PROGRESS',
-                                  style: TextStyle(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Text("$api"),
+                              Text(
+                                'THEORY LEARNING PROGRESS',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                  color: Dark,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              Text(
+                                '${(_progressValue * 100).round()}%',
+                                style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 14,
                                     color: Dark,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Text(
-                                  '${(_progressValue * 100).round()}%',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14,
-                                      color: Dark,
-                                      fontWeight: FontWeight.w700),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
-                            ),
+                                    fontWeight: FontWeight.w700),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
                           ),
-                          Container(
-                            child: LinearProgressIndicator(
-                              minHeight: 5,
-                              backgroundColor: Light,
-                              valueColor:
-                                  new AlwaysStoppedAnimation<Color>(Colors.red),
-                              value: _progressValue,
-                            ),
+                          SizedBox(height: 8),
+                          LinearProgressIndicator(
+                            borderRadius: BorderRadius.circular(5),
+                            minHeight: 5,
+                            backgroundColor: Dark.withOpacity(0.2),
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.red),
+                            value: _progressValue,
                           ),
                         ],
                       ),
@@ -319,6 +316,29 @@ class _TheoryTabState extends State<TheoryTab> {
                               if (cards[index]["type"] == 'theoryTest') {
                                 _navigationService
                                     .navigateTo(routes.PracticeTheoryTestRoute);
+                                // showDialog(
+                                //     context: context,
+                                //     builder: (context) {
+                                //       return Dialog(
+                                //           child: Container(
+                                //               width: constraints.maxWidth * 9,
+                                //               color: Colors.blue,
+                                //               height: 80,
+                                //               child: Text(
+                                //                 'Start Test',
+                                //                 textAlign: TextAlign.center,
+                                //                 style: TextStyle(
+                                //                   fontFamily: 'Poppins',
+                                //                   fontSize: 2.5 *
+                                //                       SizeConfig
+                                //                           .blockSizeVertical,
+                                //                   fontWeight: FontWeight.w700,
+                                //                   color: Color.fromRGBO(
+                                //                       255, 255, 255, 1.0),
+                                //                 ),
+                                //               )));
+                                //       // return
+                                //     });
                               } else if (cards[index]["type"] == 'hazard') {
                                 _navigationService.navigateTo(
                                     routes.HazardPerceptionOptionsRoute);
@@ -562,7 +582,9 @@ class _TheoryTabState extends State<TheoryTab> {
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              insetPadding: EdgeInsets.all(20),
+              backgroundColor: Colors.transparent,
+              //shape: Border.all(color: Colors.black),
+              //insetPadding: EdgeInsets.all(20),
               child: Container(
                 // width: constraints.maxWidth,
                 decoration: BoxDecoration(
@@ -609,11 +631,10 @@ class _TheoryTabState extends State<TheoryTab> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      Icons.check_circle,
-                                      size: SizeConfig.blockSizeHorizontal * 4,
-                                      color: Colors.green,
-                                    ),
+                                    Icon(Icons.check_circle,
+                                        size:
+                                            SizeConfig.blockSizeHorizontal * 4,
+                                        color: Colors.green),
                                     SizedBox(width: 5),
                                     Expanded(
                                       child: Text(
@@ -628,11 +649,10 @@ class _TheoryTabState extends State<TheoryTab> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      Icons.check_circle,
-                                      size: SizeConfig.blockSizeHorizontal * 4,
-                                      color: Colors.green,
-                                    ),
+                                    Icon(Icons.check_circle,
+                                        size:
+                                            SizeConfig.blockSizeHorizontal * 4,
+                                        color: Colors.green),
                                     SizedBox(width: 5),
                                     // SizedBox(
                                     //   width:

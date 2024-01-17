@@ -5,11 +5,12 @@ import '../../responsive/percentage_mediaquery.dart';
 
 class NavigationFotter extends StatelessWidget {
   NavigationFotter({Key? key}) : super(key: key);
-  late String _facebookUrl;
+
   late String _twitterUrl;
   late String _instaGramUrl;
   late String _youTubeUrl;
-
+  late String _facebookUrl;
+  late String _tandc;
   void _launchURL(String _url) async {
     print("hello");
     try {
@@ -38,15 +39,23 @@ class NavigationFotter extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                't & c',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    //3 * SizeConfig.blockSizeVertical,
-                    color: Colors.white),
+              GestureDetector(
+                onTap: () {
+                  _tandc =
+                      "https://mockdrivingtest.com/static/terms-and-conditions-of-use";
+                  print(_tandc);
+                  _launchURL(_tandc);
+                },
+                child: Text(
+                  'Terms & Conditions',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      //3 * SizeConfig.blockSizeVertical,
+                      color: Colors.white),
+                ),
               ),
               // Container(
               //   //width: constraints.maxWidth * 0.7,

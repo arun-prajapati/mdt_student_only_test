@@ -255,9 +255,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
           Container(
               margin: EdgeInsets.fromLTRB(
                   Responsive.width(3, context),
-                  Responsive.height(15, context),
+                  Responsive.height(20, context),
                   Responsive.width(3, context),
-                  0),
+                  Responsive.height(3, context)),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -297,8 +297,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 padding: EdgeInsets.only(top: 10),
                                 shrinkWrap: true,
                                 children: [
-                                  if (!isTestStarted)
-                                    scoreRecordsGrid(context, constraints),
+                                  // if (!isTestStarted)
+                                  //   scoreRecordsGrid(context, constraints),
                                   if (isTestStarted)
                                     Container(
                                         padding:
@@ -821,88 +821,88 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     );
   }
 
-  Widget scoreRecordsGrid(BuildContext context, BoxConstraints constraints) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          color: Colors.black12,
-          padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-          margin: EdgeInsets.only(bottom: 10),
-          width: constraints.maxWidth * 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: constraints.maxWidth * .30,
-                padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-                child: AutoSizeText(
-                  'Category',
-                  style: TextStyle(
-                      fontSize: 2 * SizeConfig.blockSizeVertical,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-              ),
-              Container(
-                width: constraints.maxWidth * .225,
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: AutoSizeText(
-                  'MDT S.',
-                  style: TextStyle(
-                      fontSize: 2 * SizeConfig.blockSizeVertical,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-              ),
-              // Container(
-              //   width: constraints.maxWidth * .225,
-              //   padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              //   child: AutoSizeText(
-              //     'DVSA S.',
-              //     style: TextStyle(
-              //         fontSize: 2 * SizeConfig.blockSizeVertical,
-              //         fontWeight: FontWeight.w600,
-              //         color: Colors.black),
-              //   ),
-              // ),
-              Container(
-                width: constraints.maxWidth * .23,
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: AutoSizeText(
-                  'Date',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 2 * SizeConfig.blockSizeVertical,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (resultRecordsList.length == 0)
-          Container(
-            margin: EdgeInsets.only(
-              top: Responsive.height(5, context),
-            ),
-            child: Text(
-              "No Record",
-              style: TextStyle(
-                fontSize: 2 * SizeConfig.blockSizeVertical,
-              ),
-            ),
-          ),
-        ...resultRecordsList.map(
-          (record) => scoreRecordRow(
-            constraints,
-            record,
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget scoreRecordsGrid(BuildContext context, BoxConstraints constraints) {
+  //   return Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //     children: [
+  //       Container(
+  //         color: Colors.black12,
+  //         padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+  //         margin: EdgeInsets.only(bottom: 10),
+  //         width: constraints.maxWidth * 1,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Container(
+  //               width: constraints.maxWidth * .30,
+  //               padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+  //               child: AutoSizeText(
+  //                 'Category',
+  //                 style: TextStyle(
+  //                     fontSize: 2 * SizeConfig.blockSizeVertical,
+  //                     fontWeight: FontWeight.w600,
+  //                     color: Colors.black),
+  //               ),
+  //             ),
+  //             Container(
+  //               width: constraints.maxWidth * .225,
+  //               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+  //               child: AutoSizeText(
+  //                 'MDT S.',
+  //                 style: TextStyle(
+  //                     fontSize: 2 * SizeConfig.blockSizeVertical,
+  //                     fontWeight: FontWeight.w600,
+  //                     color: Colors.black),
+  //               ),
+  //             ),
+  //             // Container(
+  //             //   width: constraints.maxWidth * .225,
+  //             //   padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+  //             //   child: AutoSizeText(
+  //             //     'DVSA S.',
+  //             //     style: TextStyle(
+  //             //         fontSize: 2 * SizeConfig.blockSizeVertical,
+  //             //         fontWeight: FontWeight.w600,
+  //             //         color: Colors.black),
+  //             //   ),
+  //             // ),
+  //             Container(
+  //               width: constraints.maxWidth * .23,
+  //               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+  //               child: AutoSizeText(
+  //                 'Date',
+  //                 textAlign: TextAlign.left,
+  //                 style: TextStyle(
+  //                     fontSize: 2 * SizeConfig.blockSizeVertical,
+  //                     fontWeight: FontWeight.w600,
+  //                     color: Colors.black),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       if (resultRecordsList.length == 0)
+  //         Container(
+  //           margin: EdgeInsets.only(
+  //             top: Responsive.height(5, context),
+  //           ),
+  //           child: Text(
+  //             "No Record",
+  //             style: TextStyle(
+  //               fontSize: 2 * SizeConfig.blockSizeVertical,
+  //             ),
+  //           ),
+  //         ),
+  //       ...resultRecordsList.map(
+  //         (record) => scoreRecordRow(
+  //           constraints,
+  //           record,
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget scoreRecordRow(BoxConstraints constraints, Map record) {
     return Container(
@@ -971,14 +971,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget testQuestionWidget(
       BuildContext context, BoxConstraints constraints, question) {
     TextStyle _questionTextStyle = TextStyle(
-        fontSize: 2.5 * SizeConfig.blockSizeVertical,
-        color: Colors.redAccent,
-        fontWeight: FontWeight.w500);
+        fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold);
     return Stack(children: <Widget>[
       Column(
         children: [
           Container(
-              margin: EdgeInsets.only(bottom: 25),
+              margin: EdgeInsets.only(bottom: 15),
               width: constraints.maxWidth * 1,
               alignment: Alignment.topLeft,
               child: Column(
@@ -1151,9 +1149,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget radioSingleOptionUI(
       BoxConstraints constraints, option, int option_no, question) {
     TextStyle _answerTextStyle = TextStyle(
-        fontSize: 2.5 * SizeConfig.blockSizeVertical,
-        color: Colors.black87,
-        fontWeight: FontWeight.normal);
+        fontSize: 18, color: Colors.black, fontWeight: FontWeight.normal);
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: Row(
@@ -1285,6 +1281,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget answerExplanation(Map question) {
     TextStyle _headingText = TextStyle(
         fontSize: 2.2 * SizeConfig.blockSizeVertical,
+        height: 1.2,
         color: Colors.black,
         fontWeight: FontWeight.w600);
     TextStyle _explanationText = TextStyle(
@@ -1342,12 +1339,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         width: constraints.maxWidth * .4,
         alignment: Alignment.center,
         child: Material(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(20),
-            topRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-            topLeft: Radius.circular(20),
-          ),
+          borderRadius: BorderRadius.circular(20),
           color: Dark,
           elevation: 5.0,
           child: MaterialButton(
@@ -1824,7 +1816,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
       child: Container(
         height: Responsive.height(55, context),
         alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.fromLTRB(10, 20, 10, 5),
+        padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -1921,47 +1913,49 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             // ),
             Container(
               width: Responsive.width(100, context),
-              height: Responsive.height(4, context),
+              height: Responsive.height(5.5, context),
               alignment: Alignment.centerLeft,
-              child: AutoSizeText('Note: Select either all or at least one',
-                  style: TextStyle(
-                      fontSize: 2 * SizeConfig.blockSizeVertical,
-                      color: Colors.redAccent)),
+              child: Text('Note: Select the topic you would like to revise',
+                  style: TextStyle(fontSize: 16, color: Colors.redAccent)),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Container(
-                  width: Responsive.width(37, context),
-                  height: Responsive.height(4, context),
-                  margin: EdgeInsets.only(top: Responsive.height(0, context)),
-                  alignment: Alignment.centerLeft,
-                  child: AutoSizeText("Select Category*",
-                      style: TextStyle(
-                          fontSize: 2.2 * SizeConfig.blockSizeVertical,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black38)),
-                ),
-                Container(
-                  width: Responsive.width(37, context),
-                  height: Responsive.height(4, context),
-                  margin: EdgeInsets.only(top: Responsive.height(0, context)),
-                  alignment: Alignment.centerRight,
-                  transform: Matrix4.translationValues(10, 0, 0),
-                  child: TextButton(
-                    child: AutoSizeText('Select All',
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: Responsive.width(37, context),
+                    height: Responsive.height(3, context),
+                    // margin: EdgeInsets.only(top: Responsive.height(0, context)),
+                    alignment: Alignment.centerLeft,
+                    child: AutoSizeText("Select Category*",
                         style: TextStyle(
                             fontSize: 2.2 * SizeConfig.blockSizeVertical,
-                            fontWeight: FontWeight.w600)),
-                    onPressed: isAllCategoriesSelected
-                        ? null
-                        : () {
-                            resetAll(true);
-                            seledtedCategoryId = 0;
-                          },
+                            fontWeight: FontWeight.w300,
+                            color: Colors.black38)),
                   ),
-                )
-              ],
+                  Container(
+                    width: Responsive.width(37, context),
+                    height: Responsive.height(4, context),
+                    //margin: EdgeInsets.only(top: Responsive.height(0, context)),
+                    alignment: Alignment.centerRight,
+                    transform: Matrix4.translationValues(10, 0, 0),
+                    child: TextButton(
+                      child: AutoSizeText('Select All',
+                          style: TextStyle(
+                              fontSize: 2.2 * SizeConfig.blockSizeVertical,
+                              fontWeight: FontWeight.w600)),
+                      onPressed: isAllCategoriesSelected
+                          ? null
+                          : () {
+                              resetAll(true);
+                              seledtedCategoryId = 0;
+                            },
+                    ),
+                  )
+                ],
+              ),
             ),
             Container(
                 height: Responsive.height(35, context),
