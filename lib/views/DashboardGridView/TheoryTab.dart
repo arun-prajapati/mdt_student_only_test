@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/card.dart' as MCard;
@@ -36,6 +37,13 @@ class TheoryTab extends StatefulWidget {
 
 class _TheoryTabState extends State<TheoryTab> {
   var _progressValue = 0.0;
+  int seledtedCategoryId = 0;
+  List categories = [];
+  bool isAllCategoriesSelected = true;
+  TextStyle _categoryTextStyle = TextStyle(
+      fontSize: 2 * SizeConfig.blockSizeVertical,
+      color: Colors.black,
+      fontWeight: FontWeight.normal);
   final NavigationService _navigationService = locator<NavigationService>();
   late Future<List>? _recentBooking = null;
   final BookingService _bookingService = BookingService();
@@ -244,57 +252,119 @@ class _TheoryTabState extends State<TheoryTab> {
           return SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
-                  width: constraints.maxWidth,
-                  //color: Colors.black26,
-                  child: MCard.Card(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    elevation: 8.0,
-                    child: Container(
-                      width: constraints.maxWidth,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Text("$api"),
-                              Text(
-                                'THEORY LEARNING PROGRESS',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14,
-                                  color: Dark,
-                                  fontWeight: FontWeight.w700,
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              insetAnimationCurve: Curves.easeOutBack,
+                              insetPadding: EdgeInsets.all(20),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: Container(
+                                height: Responsive.height(55, context),
+                                alignment: Alignment.bottomCenter,
+                                padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: Responsive.height(35, context),
+                                      width: Responsive.width(80, context),
+                                      alignment: Alignment.topLeft,
+                                      margin:
+                                          EdgeInsets.only(bottom: 0, top: 0),
+                                      child: Column(children: [
+                                        // )),
+                                        Text(
+                                          'Your Progress:',
+                                          style: _categoryTextStyle,
+                                        ),
+                                        ListView(
+                                            physics:
+                                                AlwaysScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            children: [
+                                              ...categories.map((category) {
+                                                // var index = categories
+                                                //     .indexOf(category);
+                                                return Container(
+                                                  width: Responsive.width(
+                                                      80, context),
+                                                  alignment: Alignment.topLeft,
+                                                  child: Container(
+                                                    width: Responsive.width(
+                                                      57,
+                                                      context,
+                                                    ),
+                                                    child: SizedBox(
+                                                      width: Responsive.width(
+                                                          55, context),
+                                                      child: AutoSizeText(
+                                                          category['name'],
+                                                          style:
+                                                              _categoryTextStyle),
+                                                    ),
+                                                  ),
+                                                );
+                                              }).toList()
+                                            ])
+                                      ]),
+                                    )
+                                  ],
                                 ),
-                                textAlign: TextAlign.left,
                               ),
-                              Text(
-                                '${(_progressValue * 100).round()}%',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    color: Dark,
-                                    fontWeight: FontWeight.w700),
-                                textAlign: TextAlign.left,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8),
-                          LinearProgressIndicator(
-                            borderRadius: BorderRadius.circular(5),
-                            minHeight: 5,
-                            backgroundColor: Dark.withOpacity(0.2),
-                            valueColor:
-                                new AlwaysStoppedAnimation<Color>(Colors.red),
-                            value: _progressValue,
-                          ),
-                        ],
+                            ));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
+                    width: constraints.maxWidth,
+                    //color: Colors.black26,
+                    child: MCard.Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 8.0,
+                      child: Container(
+                        width: constraints.maxWidth,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 18),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Text("$api"),
+                                Text('THEORY LEARNING PROGRESS',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 14,
+                                        color: Dark,
+                                        fontWeight: FontWeight.w700),
+                                    textAlign: TextAlign.left),
+                                Text(
+                                  '${(_progressValue * 100).round()}%',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14,
+                                      color: Dark,
+                                      fontWeight: FontWeight.w700),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            LinearProgressIndicator(
+                              borderRadius: BorderRadius.circular(5),
+                              minHeight: 5,
+                              backgroundColor: Dark.withOpacity(0.2),
+                              valueColor:
+                                  new AlwaysStoppedAnimation<Color>(Colors.red),
+                              value: _progressValue,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -577,50 +647,48 @@ class _TheoryTabState extends State<TheoryTab> {
     );
   }
 
+  resetAll(bool isAllSelect) {
+    isAllCategoriesSelected = isAllSelect;
+    categories.asMap().forEach((index, category) {
+      setState(() {
+        categories[index]['selected'] = isAllSelect ? true : false;
+      });
+    });
+  }
+
   theoryTestPractice() {
     return showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => Dialog(
-              backgroundColor: Colors.transparent,
-              //shape: Border.all(color: Colors.black),
-              //insetPadding: EdgeInsets.all(20),
-              child: Container(
-                // width: constraints.maxWidth,
+            backgroundColor: Colors.transparent,
+            child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    begin: Alignment(0.0, -1.0),
-                    end: Alignment(0.0, 1.0),
-                    colors: [Dark, Light],
-                    stops: [0.0, 1.0],
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, -1.0),
+                      end: Alignment(0.0, 1.0),
+                      colors: [Dark, Light],
+                      stops: [0.0, 1.0],
+                    )),
                 child: MCard.Card(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+                      borderRadius: BorderRadius.circular(10.0)),
                   elevation: 0.0,
                   child: Container(
                       margin:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      //color: Dark,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            //width: constraints.maxWidth,
-                            alignment: Alignment.centerLeft,
-                            //color: Colors.redAccent,
-                            child: Text(
-                              "Theory Test Practice Module",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal * 4.5),
-                            ),
-                          ),
+                              alignment: Alignment.centerLeft,
+                              child: Text("Theory Test Practice Module",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: SizeConfig.blockSizeHorizontal *
+                                          4.5))),
                           Container(
                             //width: constraints.maxWidth,
                             margin: EdgeInsets.only(top: 10),
@@ -654,15 +722,10 @@ class _TheoryTabState extends State<TheoryTab> {
                                             SizeConfig.blockSizeHorizontal * 4,
                                         color: Colors.green),
                                     SizedBox(width: 5),
-                                    // SizedBox(
-                                    //   width:
-                                    //       constraints.maxWidth * 0.02
-                                    // ),
                                     Expanded(
-                                      child: Text(
-                                        "Free Mock Theory tests to check your test readiness.",
-                                      ),
-                                    )
+                                        child: Text(
+                                      "Free Mock Theory tests to check your test readiness.",
+                                    ))
                                   ],
                                 ),
                                 SizedBox(height: 5),
@@ -688,7 +751,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                           ),
                                     )
                                   ],
-                                ),
+                                )
                               ],
                             ),
                           ),
@@ -697,98 +760,90 @@ class _TheoryTabState extends State<TheoryTab> {
                             children: [
                               Expanded(
                                 child: Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      print("payment");
-                                      showLoader("Processing payment");
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: GestureDetector(
+                                        onTap: () async {
+                                          print("payment");
+                                          showLoader("Processing payment");
 
-                                      Stripe.publishableKey = stripePublic;
-                                      Map params = {
-                                        'total_cost':
-                                            walletDetail!['subscription_cost'],
-                                        'user_type': 2,
-                                        'parentPageName': "dvsaSubscriptionHome"
-                                      };
-                                      log("Called before payment");
-                                      await _paymentService
-                                          .makePayment(
-                                              amount: walletDetail![
-                                                  'subscription_cost'],
-                                              currency: 'GBP',
-                                              context: context,
-                                              desc:
-                                                  'DVSA Subscription by ${userName} (App)',
-                                              metaData: params)
-                                          .then((value) => closeLoader());
-                                      log("Called after payment");
-                                    },
-                                    child: Container(
-                                      // width: constraints.maxWidth * 0.8,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: Dark,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(5),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Buy now",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                          Stripe.publishableKey = stripePublic;
+                                          Map params = {
+                                            'total_cost': walletDetail![
+                                                'subscription_cost'],
+                                            'user_type': 2,
+                                            'parentPageName':
+                                                "dvsaSubscriptionHome"
+                                          };
+                                          log("Called before payment");
+                                          await _paymentService
+                                              .makePayment(
+                                                  amount: walletDetail![
+                                                      'subscription_cost'],
+                                                  currency: 'GBP',
+                                                  context: context,
+                                                  desc:
+                                                      'DVSA Subscription by ${userName} (App)',
+                                                  metaData: params)
+                                              .then((value) => closeLoader());
+                                          log("Called after payment");
+                                        },
+                                        child: Container(
+                                            // width: constraints.maxWidth * 0.8,
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 12),
+                                            decoration: BoxDecoration(
+                                              color: Dark,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5)),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Buy now",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      4),
+                                            )))),
                               ),
                               SizedBox(width: 10),
                               Expanded(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      callDialog();
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      // width: constraints.maxWidth * 0.8,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: Dark,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(5),
-                                        ),
-                                      ),
+                                  child: Container(
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            callDialog();
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            // width: constraints.maxWidth * 0.8,
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 12),
+                                            decoration: BoxDecoration(
+                                              color: Dark,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      4),
+                                            ),
+                                          ))))
                             ],
-                          ),
+                          )
                         ],
                       )),
-                ),
-              ),
-            ));
+                ))));
   }
 }
 

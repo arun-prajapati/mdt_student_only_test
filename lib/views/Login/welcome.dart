@@ -376,7 +376,7 @@ class Welcome extends StatelessWidget {
                         },
                         child: CircleAvatar(
                             backgroundColor: Colors.blue,
-                            radius: 23,
+                            radius: 22,
                             child: Icon(
                               FontAwesomeIcons.apple,
                               color: Colors.white,
@@ -392,10 +392,11 @@ class Welcome extends StatelessWidget {
                         },
                         child: CircleAvatar(
                             backgroundColor: Colors.blue,
-                            radius: 23,
+                            radius: 20,
                             child: Icon(
                               FontAwesomeIcons.facebook,
                               color: Colors.white,
+                              size: 35,
                             )),
                       ),
                     ],
@@ -422,7 +423,7 @@ class LandingPagePainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..strokeWidth = 1.0;
     paint0.shader = ui.Gradient.linear(
-      Offset(size.width * 0.5, -size.height * 0.05),
+      Offset(size.width * 0.5, -size.height * 0.06),
       Offset(size.width, size.height * 0.10),
       [Light, Dark],
       [0.00, 0.70],
@@ -432,7 +433,7 @@ class LandingPagePainter extends CustomPainter {
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
     path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.52, size.width, size.height * 0.25);
+        size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();

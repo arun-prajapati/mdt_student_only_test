@@ -4,6 +4,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:student_app/views/Login/login.dart';
 import 'package:toast/toast.dart';
 
 import '../../enums/Autentication_status.dart';
@@ -236,98 +237,116 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                   ],
                                                 ),
                                               )),
-                                        Container(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  80,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                1,
-                                          ),
-                                          // width: constraints.maxWidth * 0.9,
-                                          // margin: EdgeInsets.fromLTRB(
-                                          //     0.0,
-                                          //     constraints.maxHeight * 0.02,
-                                          //     0.0,
-                                          //     0.0),
-                                          child: TextFormField(
-                                            controller: emailTextControl,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      vertical: constraints
-                                                              .maxHeight *
-                                                          0.01),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        constraints.maxHeight)),
-                                                borderSide: BorderSide(
-                                                    color: Dark,
-                                                    width:
-                                                        constraints.maxHeight),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        constraints.maxHeight)),
-                                                borderSide: BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
-                                              disabledBorder:
-                                                  OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        constraints.maxHeight)),
-                                                borderSide: BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
-                                              labelText: 'Enter email',
-                                              errorStyle: TextStyle(
-                                                fontSize:
-                                                    constraints.maxWidth * 0.04,
-                                                decorationColor: Dark,
-                                              ),
-                                              prefixIcon: Icon(
-                                                Icons.mail,
-                                                color: Dark,
-                                                size: 20,
-                                              ),
-                                              errorBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        constraints.maxHeight)),
-                                                borderSide: BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
-                                              focusedErrorBorder:
-                                                  OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        constraints.maxHeight)),
-                                                borderSide: BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
-                                            ),
-                                            style: TextStyle(
-                                                fontSize: constraints.maxWidth *
-                                                    0.05),
-                                            validator: (value) {
-                                              email = value!.trim();
-                                              return Validate.validateEmail(
-                                                  value);
-                                            },
-                                            onFieldSubmitted: (_) => setFocus(
-                                                context,
-                                                focusNode: _phoneFocusNode),
-                                            focusNode: _emailFocusNode,
-                                            enabled: !isSocialEmail,
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                          ),
+                                        CustomTextField(
+                                          label: 'Enter email',
+                                          prefixIcon: Icon(Icons.mail,
+                                              color: Dark, size: 20),
+                                          validator: (value) {
+                                            email = value!.trim();
+                                            return Validate.validateEmail(
+                                                value);
+                                          },
+                                          onFieldSubmitted: (_) => setFocus(
+                                              context,
+                                              focusNode: _phoneFocusNode),
+                                          focusNode: _emailFocusNode,
+                                          enabled: !isSocialEmail,
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          textInputAction: TextInputAction.next,
                                         ),
+                                        // Container(
+                                        //   width:
+                                        //       SizeConfig.blockSizeHorizontal *
+                                        //           80,
+                                        //   margin: EdgeInsets.only(
+                                        //     top: SizeConfig.blockSizeVertical *
+                                        //         1,
+                                        //   ),
+                                        //   // width: constraints.maxWidth * 0.9,
+                                        //   // margin: EdgeInsets.fromLTRB(
+                                        //   //     0.0,
+                                        //   //     constraints.maxHeight * 0.02,
+                                        //   //     0.0,
+                                        //   //     0.0),
+                                        //   child: TextFormField(
+                                        //     controller: emailTextControl,
+                                        //     decoration: InputDecoration(
+                                        //       contentPadding:
+                                        //           EdgeInsets.symmetric(
+                                        //               vertical: constraints
+                                        //                       .maxHeight *
+                                        //                   0.01),
+                                        //       border: OutlineInputBorder(
+                                        //         borderRadius: BorderRadius.all(
+                                        //             Radius.circular(
+                                        //                 constraints.maxHeight)),
+                                        //         borderSide: BorderSide(
+                                        //             color: Dark,
+                                        //             width:
+                                        //                 constraints.maxHeight),
+                                        //       ),
+                                        //       enabledBorder: OutlineInputBorder(
+                                        //         borderRadius: BorderRadius.all(
+                                        //             Radius.circular(
+                                        //                 constraints.maxHeight)),
+                                        //         borderSide: BorderSide(
+                                        //             color: Dark, width: 2),
+                                        //       ),
+                                        //       disabledBorder:
+                                        //           OutlineInputBorder(
+                                        //         borderRadius: BorderRadius.all(
+                                        //             Radius.circular(
+                                        //                 constraints.maxHeight)),
+                                        //         borderSide: BorderSide(
+                                        //             color: Dark, width: 2),
+                                        //       ),
+                                        //       labelText: 'Enter email',
+                                        //       errorStyle: TextStyle(
+                                        //         fontSize:
+                                        //             constraints.maxWidth * 0.04,
+                                        //         decorationColor: Dark,
+                                        //       ),
+                                        //       prefixIcon: Icon(
+                                        //         Icons.mail,
+                                        //         color: Dark,
+                                        //         size: 20,
+                                        //       ),
+                                        //       errorBorder: OutlineInputBorder(
+                                        //         borderRadius: BorderRadius.all(
+                                        //             Radius.circular(
+                                        //                 constraints.maxHeight)),
+                                        //         borderSide: BorderSide(
+                                        //             color: Dark, width: 2),
+                                        //       ),
+                                        //       focusedErrorBorder:
+                                        //           OutlineInputBorder(
+                                        //         borderRadius: BorderRadius.all(
+                                        //             Radius.circular(
+                                        //                 constraints.maxHeight)),
+                                        //         borderSide: BorderSide(
+                                        //             color: Dark, width: 2),
+                                        //       ),
+                                        //     ),
+                                        //     style: TextStyle(
+                                        //         fontSize: constraints.maxWidth *
+                                        //             0.05),
+                                        //     validator: (value) {
+                                        //       email = value!.trim();
+                                        //       return Validate.validateEmail(
+                                        //           value);
+                                        //     },
+                                        //     onFieldSubmitted: (_) => setFocus(
+                                        //         context,
+                                        //         focusNode: _phoneFocusNode),
+                                        //     focusNode: _emailFocusNode,
+                                        //     enabled: !isSocialEmail,
+                                        //     keyboardType:
+                                        //         TextInputType.emailAddress,
+                                        //     textInputAction:
+                                        //         TextInputAction.next,
+                                        //   ),
+                                        // ),
                                         Container(
                                           width:
                                               SizeConfig.blockSizeHorizontal *

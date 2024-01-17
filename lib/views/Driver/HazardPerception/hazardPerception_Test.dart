@@ -13,7 +13,6 @@ import '../../../services/navigation_service.dart';
 
 class HazardPerceptionTest extends StatefulWidget {
   HazardPerceptionTest({Key? key}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _HazardPerceptionTest();
 }
@@ -28,7 +27,6 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
   int videoEndTime = 0;
   List<int> flagList = [];
   bool isContinueTaped = false;
-
   bool isPause = false;
   bool _onTouch = false;
 

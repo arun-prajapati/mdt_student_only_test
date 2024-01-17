@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'package:student_app/Constants/app_colors.dart';
 
+import 'package:flutter/material.dart';
+import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/views/Login/forgot_next_screen.dart';
+import 'package:student_app/views/Login/login.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -123,21 +124,17 @@ class ForgotPassword extends StatelessWidget {
                 ),
                 Positioned(
                   top: SizeConfig.blockSizeVertical * 20,
-                  left: SizeConfig.blockSizeHorizontal * 30,
+                  left: SizeConfig.blockSizeHorizontal * 28,
                   child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 20,
+                    radius: SizeConfig.blockSizeHorizontal * 22,
                     backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: SizeConfig.blockSizeHorizontal * 18,
-                      child: Container(
-                          child: Image.asset(
-                        "assets/logo_app.png",
-                        height: SizeConfig.blockSizeVertical * 33,
-                        width: SizeConfig.blockSizeHorizontal * 33,
-                        fit: BoxFit.contain,
-                      )),
-                    ),
+                    child: Container(
+                        child: Image.asset(
+                      "assets/stt_s_logo.png",
+                      height: SizeConfig.blockSizeVertical * 45,
+                      width: SizeConfig.blockSizeHorizontal * 45,
+                      fit: BoxFit.contain,
+                    )),
                   ),
                 ),
                 // Positioned(
@@ -160,118 +157,43 @@ class ForgotPassword extends StatelessWidget {
                   //color: Colors.black12,
                   margin: EdgeInsets.fromLTRB(
                     SizeConfig.blockSizeHorizontal * 7.5,
-                    SizeConfig.blockSizeVertical * 40,
+                    SizeConfig.blockSizeVertical * 45,
                     SizeConfig.blockSizeHorizontal * 7.5,
                     0.0,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 80,
-                        margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
+                      CustomTextField(
+                        label: 'Email',
+                        prefixIcon: const Icon(
+                          Icons.mail,
+                          color: Dark,
                         ),
-                        child: TextFormField(
-                          cursorColor: Dark,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: SizeConfig.blockSizeVertical * 2,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: BorderSide(
-                                color: Dark,
-                                width: 2,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: const BorderSide(
-                                color: Dark,
-                                width: 2,
-                              ),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: const BorderSide(
-                                  color: Colors.black, width: 2),
-                            ),
-                            labelText: 'Email',
-                            labelStyle: TextStyle(
-                              color: Colors.blueGrey,
-                            ),
-                            errorStyle: TextStyle(fontSize: 16),
-                            floatingLabelStyle: TextStyle(color: Dark),
-                            // errorStyle: TextStyle(
-                            //     fontSize: constraints.maxWidth * 0.05),
-                            prefixIcon: const Icon(
-                              Icons.mail,
-                              color: Dark,
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide:
-                                  const BorderSide(color: Dark, width: 2),
-                            ),
-                            focusColor: TestColor,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide:
-                                  const BorderSide(color: Dark, width: 2),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide:
-                                  const BorderSide(color: Dark, width: 2),
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                          ),
-                          validator: (value) {
-                            email = value!.trim();
-                            print('VALL  //////      $value');
-                            return Validate.validateEmail(email);
-                          },
-                          onChanged: (val) {
-                            if (!_formKey.currentState!.validate()) {
-                              Validate.validateEmail(val);
-                            }
-                          },
-                          onFieldSubmitted: (_) {
-                            setFocus(context, focusNode: null);
-                            submit(context);
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.done,
-                          //textAlignVertical: TextAlignVertical.center,
-                        ),
+                        validator: (value) {
+                          email = value!.trim();
+                          print('VALL  //////      $value');
+                          return Validate.validateEmail(email);
+                        },
+                        onChange: (val) {
+                          if (!_formKey.currentState!.validate()) {
+                            Validate.validateEmail(val);
+                          }
+                        },
+                        onFieldSubmitted: (_) {
+                          setFocus(context, focusNode: null);
+                          submit(context);
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.done,
                       ),
                       Container(
                         //width: SizeConfig.blockSizeHorizontal * 50,
                         margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 4.8,
-                        ),
+                            top: SizeConfig.blockSizeVertical * 4.8),
                         //color: Colors.black12,
                         child: Material(
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(25),
-                            topRight: Radius.circular(25),
-                            bottomLeft: Radius.circular(25),
-                          ),
+                          borderRadius: BorderRadius.circular(25),
                           borderOnForeground: true,
                           color: Dark,
                           elevation: 5.0,
@@ -325,7 +247,7 @@ class HeaderPainter extends CustomPainter {
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
     path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.52, size.width, size.height * 0.25);
+        size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();

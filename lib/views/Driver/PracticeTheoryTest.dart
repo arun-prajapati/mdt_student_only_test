@@ -6,12 +6,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:toast/toast.dart';
 
 import '../../Constants/global.dart';
+import '../../custom_practice_theory_test/answer_correct_wrong.dart';
+import '../../custom_practice_theory_test/test_setting_dialog.dart';
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -120,100 +121,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     Map response = await test_api_services.submitTest(
         2, _userId, testQuestionsForResult, category_id);
     return response;
-  }
-
-  showCorrectAnswerDialog(BuildContext context, String explanation) {
-    //print("valid");
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 30,
-              height: SizeConfig.blockSizeHorizontal * 30,
-              child: Image.asset("assets/good_job.png"),
-            ),
-            actionsAlignment: MainAxisAlignment.center,
-            contentPadding: EdgeInsets.fromLTRB(24.0, 15.0, 24.0, 5.0),
-            content: Text(
-              explanation,
-              style: TextStyle(
-                fontSize: 2 * SizeConfig.blockSizeVertical,
-                color: Colors.black87,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Ok",
-                  style: TextStyle(color: Dark, fontSize: 18),
-                ),
-              ),
-            ],
-          );
-        });
-  }
-
-  showWrongAnswerDialog(BuildContext context, String explanation) {
-    //print("valid");
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 30,
-              height: SizeConfig.blockSizeHorizontal * 30,
-              child: Image.asset(
-                "assets/ohh-no.png",
-                fit: BoxFit.contain,
-              ),
-            ),
-            actionsAlignment: MainAxisAlignment.center,
-            contentPadding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 5.0),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Ohh no!',
-                  style: GoogleFonts.caveat(
-                    fontSize: 50,
-                    color: Colors.redAccent,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 1,
-                ),
-                Text(
-                  explanation,
-                  style: TextStyle(
-                    fontSize: 2 * SizeConfig.blockSizeVertical,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.normal,
-                  ),
-                )
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Ok",
-                  style: TextStyle(color: Dark, fontSize: 18),
-                ),
-              ),
-            ],
-          );
-        });
   }
 
   initializeApi(String loaderMessage) {
@@ -972,178 +879,181 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       BuildContext context, BoxConstraints constraints, question) {
     TextStyle _questionTextStyle = TextStyle(
         fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold);
-    return Stack(children: <Widget>[
-      Column(
-        children: [
-          Container(
-              margin: EdgeInsets.only(bottom: 15),
-              width: constraints.maxWidth * 1,
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (question['questionImg'] != '')
-                    Container(
-                      transform: Matrix4.translationValues(0, -5, 0),
-                      alignment: Alignment.center,
-                      height: 17 * SizeConfig.blockSizeVertical,
-                      width: constraints.maxWidth * 1,
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/spinner.gif',
-                        image: question['questionImg'],
-                        imageErrorBuilder: (context, url, error) => Container(
-                          child: Column(
-                            children: [
-                              new Icon(Icons.error,
-                                  color: Colors.grey,
-                                  size: 5 * SizeConfig.blockSizeVertical),
-                              Text(
-                                "Image not found!",
-                                style: TextStyle(
-                                    fontSize: 2 * SizeConfig.blockSizeVertical,
-                                    color: Colors.redAccent),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (question['title'] != '')
-                    AutoSizeText(
-                      question['title'],
-                      style: _questionTextStyle,
-                    ),
-                  // Container(
-                  //     width: constraints.maxWidth * 1,
-                  //     margin: EdgeInsets.only(top: 5),
-                  //     child: AutoSizeText(
-                  //       question['type'] == 0
-                  //           ? 'Question Source: MDT'
-                  //           : 'Question Source: DVSA',
-                  //       style: TextStyle(
-                  //           fontSize: 2 * SizeConfig.blockSizeVertical,
-                  //           color: Colors.black26,
-                  //           fontWeight: FontWeight.w500),
-                  //     ))
-                ],
-              )),
-          ...question['options'].map((option) => radioSingleOptionUI(
-              constraints,
-              option,
-              question['options'].indexOf(option),
-              question)),
-        ],
-      ),
-      if (question['type'] == 1 && walletDetail!['dvsa_subscription'] <= 0)
-        Container(
-          width: Responsive.height(100, context),
-          height: Responsive.height(100, context),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 1),
-            child: Container(
-                color: Colors.white.withOpacity(0.8),
-                padding: EdgeInsets.only(
-                  top: Responsive.height(20, context),
-                ),
-                alignment: Alignment.topCenter,
+    return Stack(
+      children: <Widget>[
+        Column(
+          children: [
+            Container(
+                margin: EdgeInsets.only(bottom: 15),
+                width: constraints.maxWidth * 1,
+                alignment: Alignment.topLeft,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      alignment: Alignment.topCenter,
-                      margin: EdgeInsets.only(top: 3),
-                      width: constraints.maxWidth * 0.90,
-                      child: AutoSizeText(
-                        'Question Source: DVSA',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                            color: Dark),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topCenter,
-                      margin: EdgeInsets.only(top: 20),
-                      width: constraints.maxWidth * 0.90,
-                      child: AutoSizeText(
-                        'Please subscribe for DVSA questions.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                            color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      height: 6 * SizeConfig.blockSizeVertical,
-                      width: constraints.maxWidth * 0.50,
-                      alignment: Alignment.topCenter,
-                      margin: EdgeInsets.only(top: 10),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Dark,
-                        elevation: 5.0,
-                        child: MaterialButton(
-                          onPressed: () {
-                            subscriptionConfirmAlert(context);
-                          },
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return Container(
-                                  width: constraints.maxWidth * 1,
-                                  height: constraints.maxHeight * 1,
-                                  alignment: Alignment.center,
-                                  child: SizedBox(
-                                    width: constraints.maxWidth * 1,
-                                    child: AutoSizeText(
-                                      'Subscribe',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize:
-                                              2 * SizeConfig.blockSizeVertical,
-                                          color: Colors.white),
-                                    ),
-                                  ));
-                            },
+                    if (question['questionImg'] != '')
+                      Container(
+                        transform: Matrix4.translationValues(0, -5, 0),
+                        alignment: Alignment.center,
+                        height: 17 * SizeConfig.blockSizeVertical,
+                        width: constraints.maxWidth * 1,
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/spinner.gif',
+                          image: question['questionImg'],
+                          imageErrorBuilder: (context, url, error) => Container(
+                            child: Column(
+                              children: [
+                                new Icon(Icons.error,
+                                    color: Colors.grey,
+                                    size: 5 * SizeConfig.blockSizeVertical),
+                                Text(
+                                  "Image not found!",
+                                  style: TextStyle(
+                                      fontSize:
+                                          2 * SizeConfig.blockSizeVertical,
+                                      color: Colors.redAccent),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment.topCenter,
-                      margin: EdgeInsets.only(top: 20),
-                      width: constraints.maxWidth * 0.90,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              width: constraints.maxWidth * 0.18,
-                              alignment: Alignment.topCenter,
-                              child: Text("NOTE: ",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          1.8 * SizeConfig.blockSizeVertical))),
-                          Container(
-                              width: constraints.maxWidth * 0.72,
-                              child: Text(
-                                  "You can now either subscribe to DVSA module to get "
-                                  "full access to the app or skip next 10 questions to move forwards.",
-                                  style: TextStyle(
-                                      //fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          2 * SizeConfig.blockSizeVertical))),
-                        ],
+                    if (question['title'] != '')
+                      AutoSizeText(
+                        question['title'],
+                        style: _questionTextStyle,
                       ),
-                    ),
+                    // Container(
+                    //     width: constraints.maxWidth * 1,
+                    //     margin: EdgeInsets.only(top: 5),
+                    //     child: AutoSizeText(
+                    //       question['type'] == 0
+                    //           ? 'Question Source: MDT'
+                    //           : 'Question Source: DVSA',
+                    //       style: TextStyle(
+                    //           fontSize: 2 * SizeConfig.blockSizeVertical,
+                    //           color: Colors.black26,
+                    //           fontWeight: FontWeight.w500),
+                    //     ))
                   ],
                 )),
-          ),
-        )
-    ]);
+            ...question['options'].map((option) => radioSingleOptionUI(
+                constraints,
+                option,
+                question['options'].indexOf(option),
+                question)),
+          ],
+        ),
+        if (question['type'] == 1 && walletDetail!['dvsa_subscription'] <= 0)
+          Container(
+            width: Responsive.height(100, context),
+            height: Responsive.height(100, context),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 1),
+              child: Container(
+                  color: Colors.white.withOpacity(0.8),
+                  padding: EdgeInsets.only(
+                    top: Responsive.height(20, context),
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.topCenter,
+                        margin: EdgeInsets.only(top: 3),
+                        width: constraints.maxWidth * 0.90,
+                        child: AutoSizeText(
+                          'Question Source: DVSA',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 2.5 * SizeConfig.blockSizeVertical,
+                              color: Dark),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topCenter,
+                        margin: EdgeInsets.only(top: 20),
+                        width: constraints.maxWidth * 0.90,
+                        child: AutoSizeText(
+                          'Please subscribe for DVSA questions.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 2.5 * SizeConfig.blockSizeVertical,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Container(
+                        height: 6 * SizeConfig.blockSizeVertical,
+                        width: constraints.maxWidth * 0.50,
+                        alignment: Alignment.topCenter,
+                        margin: EdgeInsets.only(top: 10),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Dark,
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              subscriptionConfirmAlert(context);
+                            },
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return Container(
+                                    width: constraints.maxWidth * 1,
+                                    height: constraints.maxHeight * 1,
+                                    alignment: Alignment.center,
+                                    child: SizedBox(
+                                      width: constraints.maxWidth * 1,
+                                      child: AutoSizeText(
+                                        'Subscribe',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 2 *
+                                                SizeConfig.blockSizeVertical,
+                                            color: Colors.white),
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topCenter,
+                        margin: EdgeInsets.only(top: 20),
+                        width: constraints.maxWidth * 0.90,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                width: constraints.maxWidth * 0.18,
+                                alignment: Alignment.topCenter,
+                                child: Text("NOTE: ",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 1.8 *
+                                            SizeConfig.blockSizeVertical))),
+                            Container(
+                                width: constraints.maxWidth * 0.72,
+                                child: Text(
+                                    "You can now either subscribe to DVSA module to get "
+                                    "full access to the app or skip next 10 questions to move forwards.",
+                                    style: TextStyle(
+                                        //fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            2 * SizeConfig.blockSizeVertical))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          )
+      ],
+    );
   }
 
   Widget radioSingleOptionUI(
@@ -1380,18 +1290,20 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             },
             child: LayoutBuilder(
               builder: (context, constraints) {
-                return Container(
-                    width: constraints.maxWidth * .9,
-                    child: AutoSizeText(
-                      'Start Test',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromRGBO(255, 255, 255, 1.0),
-                      ),
-                    ));
+                return Center(
+                  child: Container(
+                      width: constraints.maxWidth * .9,
+                      child: AutoSizeText(
+                        'Start Test',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 2.5 * SizeConfig.blockSizeVertical,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromRGBO(255, 255, 255, 1.0),
+                        ),
+                      )),
+                );
               },
             ),
           ),
@@ -1535,19 +1447,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     fontWeight: FontWeight.w400,
                                     fontSize: 15),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
+                              SizedBox(height: 20),
                               Container(
                                 height: 40,
                                 width: 100,
                                 alignment: Alignment.bottomCenter,
                                 child: Material(
-                                  borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(30),
-                                    topRight: Radius.circular(30),
-                                    bottomLeft: Radius.circular(30),
-                                  ),
+                                  borderRadius: BorderRadius.circular(10),
                                   color: Dark,
                                   elevation: 5.0,
                                   child: MaterialButton(
@@ -1650,11 +1556,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     width: 100,
                                     alignment: Alignment.bottomCenter,
                                     child: Material(
-                                      borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(30),
-                                        topRight: Radius.circular(30),
-                                        bottomLeft: Radius.circular(30),
-                                      ),
+                                      borderRadius: BorderRadius.circular(10),
                                       color: Dark,
                                       elevation: 5.0,
                                       child: MaterialButton(
@@ -1704,19 +1606,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 30,
-                                  ),
+                                  SizedBox(width: 30),
                                   Container(
                                     height: 40,
                                     width: 100,
                                     alignment: Alignment.bottomCenter,
                                     child: Material(
-                                      borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(30),
-                                        topRight: Radius.circular(30),
-                                        bottomLeft: Radius.circular(30),
-                                      ),
+                                      borderRadius: BorderRadius.circular(10),
                                       color: Colors.black45,
                                       elevation: 5.0,
                                       child: MaterialButton(
@@ -1766,300 +1662,3 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 }
 
 typedef IntCallback = Function(int num);
-
-class TestSettingDialogBox extends StatefulWidget {
-  final BoxConstraints parentConstraints;
-  final IntCallback onSetValue;
-  final List categories_list;
-
-  const TestSettingDialogBox(
-      {Key? key,
-      required this.parentConstraints,
-      required this.onSetValue,
-      required this.categories_list})
-      : super(key: key);
-
-  @override
-  _TestSettingDialogBox createState() => _TestSettingDialogBox();
-}
-
-class _TestSettingDialogBox extends State<TestSettingDialogBox> {
-  TextStyle _answerTextStyle = TextStyle(
-      fontSize: 18, color: Colors.black87, fontWeight: FontWeight.normal);
-  TextStyle _categoryTextStyle = TextStyle(
-      fontSize: 2 * SizeConfig.blockSizeVertical,
-      color: Colors.black87,
-      fontWeight: FontWeight.normal);
-  int seledtedCategoryId = 0;
-  List categories = [];
-  bool isAllCategoriesSelected = true;
-  final PractiseTheoryTestServices test_api_services =
-      new PractiseTheoryTestServices();
-
-  @override
-  void initState() {
-    super.initState();
-    for (var e in widget.categories_list) {
-      Map category = e;
-      category['selected'] = true;
-      categories.add(category);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      insetAnimationCurve: Curves.easeOutBack,
-      insetPadding: EdgeInsets.all(20),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Container(
-        height: Responsive.height(55, context),
-        alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            // Container(
-            //   width: Responsive.width(100, context),
-            //   alignment: Alignment.centerLeft,
-            //   margin: EdgeInsets.only(bottom: 10),
-            //   child: Text("Select Mode Type*",
-            //       style: TextStyle(
-            //           fontSize: 15,
-            //           fontWeight: FontWeight.w300,
-            //           color: Colors.black38)),
-            // ),
-            // Row(
-            //   children: [
-            //     Container(
-            //       width: Responsive.width(25, context),
-            //       height: Responsive.height(5, context),
-            //       alignment: Alignment.topLeft,
-            //       child: Row(
-            //         children: [
-            //           Container(
-            //             alignment: Alignment.centerLeft,
-            //             width: 30,
-            //             height: 30,
-            //             child: Radio<String>(
-            //               activeColor: Dark,
-            //               value: 'mdt',
-            //               groupValue: _modeType,
-            //               onChanged: (val) {
-            //                 setState(() {
-            //                   _modeType = val;
-            //                 });
-            //               },
-            //             ),
-            //           ),
-            //           Container(
-            //             alignment: Alignment.centerLeft,
-            //             child: FlatButton(
-            //               padding: EdgeInsets.all(0),
-            //               height: 20,
-            //               minWidth: 30,
-            //               child: Text('MDT', style: _answerTextStyle),
-            //               onPressed: () => {
-            //                 setState(() {
-            //                   _modeType = 'mdt';
-            //                 })
-            //               },
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //     Container(
-            //       width: Responsive.width(25, context),
-            //       height: Responsive.height(5, context),
-            //       alignment: Alignment.topLeft,
-            //       child: Row(
-            //         children: [
-            //           Container(
-            //             alignment: Alignment.centerLeft,
-            //             width: 30,
-            //             height: 30,
-            //             child: Radio<String>(
-            //               activeColor: Dark,
-            //               value: 'dvsa',
-            //               groupValue: _modeType,
-            //               onChanged: (val) {
-            //                 setState(() {
-            //                   _modeType = val;
-            //                 });
-            //               },
-            //             ),
-            //           ),
-            //           Container(
-            //             alignment: Alignment.centerLeft,
-            //             child: FlatButton(
-            //               padding: EdgeInsets.all(0),
-            //               height: 20,
-            //               minWidth: 30,
-            //               child: Text('DVSA', style: _answerTextStyle),
-            //               onPressed: () => {
-            //                 setState(() {
-            //                   _modeType = 'dvsa';
-            //                 })
-            //               },
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            Container(
-              width: Responsive.width(100, context),
-              height: Responsive.height(5.5, context),
-              alignment: Alignment.centerLeft,
-              child: Text('Note: Select the topic you would like to revise',
-                  style: TextStyle(fontSize: 16, color: Colors.redAccent)),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: Responsive.width(37, context),
-                    height: Responsive.height(3, context),
-                    // margin: EdgeInsets.only(top: Responsive.height(0, context)),
-                    alignment: Alignment.centerLeft,
-                    child: AutoSizeText("Select Category*",
-                        style: TextStyle(
-                            fontSize: 2.2 * SizeConfig.blockSizeVertical,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.black38)),
-                  ),
-                  Container(
-                    width: Responsive.width(37, context),
-                    height: Responsive.height(4, context),
-                    //margin: EdgeInsets.only(top: Responsive.height(0, context)),
-                    alignment: Alignment.centerRight,
-                    transform: Matrix4.translationValues(10, 0, 0),
-                    child: TextButton(
-                      child: AutoSizeText('Select All',
-                          style: TextStyle(
-                              fontSize: 2.2 * SizeConfig.blockSizeVertical,
-                              fontWeight: FontWeight.w600)),
-                      onPressed: isAllCategoriesSelected
-                          ? null
-                          : () {
-                              resetAll(true);
-                              seledtedCategoryId = 0;
-                            },
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-                height: Responsive.height(35, context),
-                width: Responsive.width(80, context),
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(bottom: 0, top: 0),
-                child: ListView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    children: [
-                      ...categories.map((category) {
-                        var index = categories.indexOf(category);
-                        return Container(
-                          width: Responsive.width(80, context),
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(top: 10),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                alignment: Alignment.topLeft,
-                                width: Responsive.width(57, context),
-                                child: SizedBox(
-                                  width: Responsive.width(55, context),
-                                  child: AutoSizeText(category['name'],
-                                      style: _categoryTextStyle),
-                                ),
-                              ),
-                              Container(
-                                  alignment: Alignment.topRight,
-                                  height: 25,
-                                  width: Responsive.width(19, context),
-                                  child: IconButton(
-                                    iconSize: 3 * SizeConfig.blockSizeVertical,
-                                    padding: EdgeInsets.all(0),
-                                    icon: Icon(
-                                        category['selected'] == true
-                                            ? Icons.check_box
-                                            : Icons.check_box_outline_blank,
-                                        color: category['selected'] == true
-                                            ? Dark
-                                            : Colors.black),
-                                    onPressed: () => {
-                                      setState(() {
-                                        resetAll(false);
-                                        seledtedCategoryId = category['id'];
-                                        categories[index]['selected'] = true;
-                                      })
-                                    },
-                                  ))
-                            ],
-                          ),
-                        );
-                      }).toList()
-                    ])),
-            Container(
-              height: 5 * SizeConfig.blockSizeVertical,
-              width: Responsive.width(30, context),
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(
-                top: Responsive.height(2, context),
-              ),
-              child: Material(
-                borderRadius: BorderRadius.circular(10),
-                color: Dark,
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                    this.widget.onSetValue(seledtedCategoryId);
-                  },
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Container(
-                        width: constraints.maxWidth * 1,
-                        height: constraints.maxHeight * 1,
-                        alignment: Alignment.center,
-                        child: AutoSizeText(
-                          'Continue',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 2.2 * SizeConfig.blockSizeVertical,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(255, 255, 255, 1.0),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  resetAll(bool isAllSelect) {
-    isAllCategoriesSelected = isAllSelect;
-    categories.asMap().forEach((index, category) {
-      setState(() {
-        categories[index]['selected'] = isAllSelect ? true : false;
-      });
-    });
-  }
-}

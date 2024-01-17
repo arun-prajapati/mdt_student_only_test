@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../services/navigation_service.dart';
@@ -99,7 +100,7 @@ class _HazardPerceptionVideosList extends State<HazardPerceptionVideosList> {
       width: Responsive.width(80, context),
       height: 50,
       padding: EdgeInsets.symmetric(horizontal: Responsive.width(2, context)),
-      color: Colors.black12,
+      //color: Colors.black12,
       margin: EdgeInsets.only(bottom: 5),
       child: Row(
         children: [

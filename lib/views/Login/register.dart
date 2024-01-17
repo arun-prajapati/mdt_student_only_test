@@ -244,7 +244,7 @@ reg data
                 //   ),
                 // ),
                 Positioned(
-                  top: SizeConfig.blockSizeVertical * 40,
+                  top: SizeConfig.blockSizeVertical * 38,
                   child: Container(
                     //alignment: Alignment.centerLeft,
                     child: Text(
@@ -262,7 +262,7 @@ reg data
                   height: SizeConfig.blockSizeVertical * 53,
                   margin: EdgeInsets.fromLTRB(
                     SizeConfig.blockSizeHorizontal * 7.5,
-                    SizeConfig.blockSizeVertical * 43,
+                    SizeConfig.blockSizeVertical * 41,
                     SizeConfig.blockSizeHorizontal * 7.5,
                     0.0,
                   ),
@@ -272,8 +272,8 @@ reg data
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 85,
-                        height: SizeConfig.blockSizeVertical * 46,
+                        //width: SizeConfig.blockSizeHorizontal * 85,
+                        height: SizeConfig.blockSizeVertical * 48,
                         //SizeConfig.blockSizeVertical * 55,
                         child: ListView(
                           padding: EdgeInsets.only(
@@ -325,15 +325,16 @@ reg data
                                   textInputAction: TextInputAction.next,
                                 ),
                                 SizedBox(height: 10),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 80,
+                                  // margin: EdgeInsets.only(
+                                  //   top: SizeConfig.blockSizeVertical * 1.5,
+                                  // ),
                                   child: IntlPhoneField(
                                     autofocus: false,
                                     textAlign: TextAlign.left,
-                                    dropdownIcon: Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Dark,
-                                    ),
+                                    dropdownIcon: Icon(Icons.arrow_drop_down,
+                                        color: Dark),
                                     //disableLengthCheck: true,
                                     autovalidateMode: AutovalidateMode.disabled,
                                     //disableLengthCheck: true,
@@ -358,34 +359,30 @@ reg data
                                           Radius.circular(25),
                                         ),
                                         borderSide: const BorderSide(
-                                          color: Dark,
-                                          width: 2,
-                                        ),
+                                            color: Dark, width: 2),
                                       ),
                                       disabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
-                                          Radius.circular(25),
-                                        ),
+                                            Radius.circular(25)),
                                         borderSide: const BorderSide(
                                             color: Dark, width: 2),
                                       ),
                                       labelText: 'Mobile',
-
                                       errorStyle: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 12,
                                         decorationColor: Dark,
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(25)),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide:
+                                            BorderSide(color: Dark, width: 2),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(25)),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide:
+                                            BorderSide(color: Dark, width: 2),
                                       ),
                                       floatingLabelStyle:
                                           TextStyle(color: Dark),
@@ -396,8 +393,8 @@ reg data
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
                                         ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
+                                        borderSide:
+                                            BorderSide(color: Dark, width: 2),
                                       ),
                                     ),
                                     initialCountryCode: 'GB',
@@ -509,36 +506,75 @@ reg data
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 0.5,
-                        ),
-                        child: Text(
+                      // Column(
+                      //   children: [
+                      //     Padding(
+                      //       padding: EdgeInsets.only(
+                      //         left: SizeConfig.blockSizeHorizontal * 2.5,
+                      //         top: SizeConfig.blockSizeVertical * 0.5,
+                      //       ),
+                      //       child: Text(
+                      //         'Already have an account?',
+                      //         style: defaultStyle,
+                      //       ),
+                      //     ),
+                      //     Padding(
+                      //       padding: EdgeInsets.only(
+                      //         left: SizeConfig.blockSizeHorizontal * 2.5,
+                      //         top: SizeConfig.blockSizeVertical * 0.5,
+                      //       ),
+                      //       child: RichText(
+                      //         text: TextSpan(
+                      //             text: 'Login here',
+                      //             style: linkStyle,
+                      //             recognizer: TapGestureRecognizer()
+                      //               ..onTap = () {
+                      //                 Navigator.of(context).pushReplacement(
+                      //                   MaterialPageRoute(
+                      //                     builder: (context) => SignInForm(),
+                      //                   ),
+                      //                 );
+                      //               }),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 15),
+                  child: Container(
+                    width: SizeConfig.blockSizeHorizontal * 80,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
                           'Already have an account?',
                           style: defaultStyle,
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 0.5,
+                        Padding(
+                          padding: EdgeInsets.only(
+                            //left: SizeConfig.blockSizeHorizontal * 2.5,
+                            top: SizeConfig.blockSizeVertical * 0.5,
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Login here',
+                                style: linkStyle,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) => SignInForm(),
+                                      ),
+                                    );
+                                  }),
+                          ),
                         ),
-                        child: RichText(
-                          text: TextSpan(
-                              text: 'Login here',
-                              style: linkStyle,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => SignInForm(),
-                                    ),
-                                  );
-                                }),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -578,7 +614,7 @@ class RegisterHeaderPainter extends CustomPainter {
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
     path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.52, size.width, size.height * 0.25);
+        size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();

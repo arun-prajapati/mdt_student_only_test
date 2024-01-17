@@ -302,7 +302,6 @@ class _SignInFormState extends State<SignInForm> {
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                         ),
-
                         //Field 2
                         CustomTextField(
                           label: 'Password',
@@ -322,7 +321,6 @@ class _SignInFormState extends State<SignInForm> {
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                         ),
-
                         Align(
                           alignment: Alignment.centerRight,
                           child: InkWell(
@@ -376,7 +374,7 @@ class _SignInFormState extends State<SignInForm> {
                                 ),
                               ),
 
-                        SizedBox(height: 35),
+                        SizedBox(height: 12),
                         Container(
                           //color: Colors.black26,
                           //width: constraints.maxWidth * 0.8,
@@ -596,6 +594,7 @@ class CustomTextField extends StatelessWidget {
   final bool? showCountryFlag;
   final String? initialCountryCode;
   final TextEditingController? controller;
+  final bool? enabled;
   const CustomTextField({
     super.key,
     required this.label,
@@ -613,6 +612,7 @@ class CustomTextField extends StatelessWidget {
     this.showCountryFlag,
     this.initialCountryCode,
     this.controller,
+    this.enabled,
   });
 
   @override
