@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
+import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
 import '../../../widget/CustomAppBar.dart';
 
@@ -13,6 +14,7 @@ class HazardPerceptionVideosList extends StatefulWidget {
 }
 
 class _HazardPerceptionVideosList extends State<HazardPerceptionVideosList> {
+  LocalServices _localServices = LocalServices();
   final NavigationService _navigationService = locator<NavigationService>();
   List<int> items_ = [
     1,
@@ -104,45 +106,51 @@ class _HazardPerceptionVideosList extends State<HazardPerceptionVideosList> {
       margin: EdgeInsets.only(bottom: 5),
       child: Row(
         children: [
+          // Container(
+          //     width: Responsive.width(20, context),
+          //     child: Image.asset("assets/video_thumbnail.png")),
           Container(
-              width: Responsive.width(20, context),
-              child: Image.asset("assets/video_thumbnail.png")),
-          Container(
-              width: Responsive.width(75, context),
-              child: Column(
-                children: [
-                  Container(
-                    width: Responsive.width(75, context),
-                    padding: EdgeInsets.only(left: 10, top: 5),
-                    child: Text("Video Name"),
-                    alignment: Alignment.topLeft,
+            width: Responsive.width(75, context),
+            child: Column(
+              children: [
+                ListView.builder(
+                  itemBuilder: (context, index) => Column(
+                    children: [],
                   ),
-                  (option % 2) == 0
-                      ? Container(
-                          width: Responsive.width(75, context),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(Icons.check_sharp,
-                                  size: 17, color: Colors.green),
-                              SizedBox(width: 2),
-                              Text("Test Done",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.green))
-                            ],
-                          ),
-                          alignment: Alignment.bottomRight,
-                        )
-                      : Container(
-                          width: Responsive.width(60, context),
-                          child: Text(""),
-                          alignment: Alignment.topRight,
-                        ),
-                ],
-              )),
+                ),
+                Container(
+                  width: Responsive.width(75, context),
+                  padding: EdgeInsets.only(left: 10, top: 5),
+                  child: Text("Video Name"),
+                  alignment: Alignment.center,
+                ),
+                // (option % 2) == 0
+                //     ? Container(
+                //         width: Responsive.width(75, context),
+                //         child: Row(
+                //           crossAxisAlignment: CrossAxisAlignment.end,
+                //           mainAxisAlignment: MainAxisAlignment.end,
+                //           children: [
+                //             Icon(Icons.check_sharp,
+                //                 size: 17, color: Colors.green),
+                //             SizedBox(width: 2),
+                //             Text("Test Done",
+                //                 style: TextStyle(
+                //                     fontSize: 12,
+                //                     fontWeight: FontWeight.w600,
+                //                     color: Colors.green))
+                //           ],
+                //         ),
+                //         alignment: Alignment.bottomRight,
+                //       )
+                //     : Container(
+                //         width: Responsive.width(60, context),
+                //         child: Text(""),
+                //         alignment: Alignment.topRight,
+                //       ),
+              ],
+            ),
+          ),
         ],
       ),
     );

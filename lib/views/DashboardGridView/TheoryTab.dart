@@ -25,10 +25,11 @@ import '../../services/navigation_service.dart';
 import '../../services/payment_services.dart';
 import '../../services/practise_theory_test_services.dart';
 import '../../widget/CustomSpinner.dart';
+import '../Driver/PracticeTheoryTest.dart';
 import '../Login/welcome.dart';
 import '../WebView.dart';
 
-class TheoryTab extends StatefulWidget {
+class TheoryTab extends PracticeTheoryTest {
   //final FirebaseUser user;
   //const HomeScreen({Key key, this.user}) : super( key: key);
   @override
@@ -36,6 +37,22 @@ class TheoryTab extends StatefulWidget {
 }
 
 class _TheoryTabState extends State<TheoryTab> {
+  final _controller = ScrollController();
+
+  final AuthProvider auth_services = new AuthProvider();
+  bool isTestStarted = false;
+  int selectedQuestionIndex = 0;
+  int? selectedOptionIndex;
+  int gainPoint = 0;
+  late int _userId;
+  int category_id = 0;
+
+  static int? selectedCategoryIndex;
+  List questionsList = [];
+  List testQuestionsForResult = [];
+  List resultRecordsList = [];
+  late Map recordOtherData;
+
   var _progressValue = 0.0;
   int seledtedCategoryId = 0;
   List categories = [];
@@ -230,6 +247,18 @@ class _TheoryTabState extends State<TheoryTab> {
     return userName;
   }
 
+  Future<List> getCategoriesFromApi() async {
+    List response = await test_api_services.getCategories();
+    return response;
+  }
+
+  //call api for getQuestions
+  Future<List> getQuestionsFromApi() async {
+    List response = await test_api_services.getTestQuestions(category_id);
+    print(response);
+    return response;
+  }
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -276,10 +305,8 @@ class _TheoryTabState extends State<TheoryTab> {
                                           EdgeInsets.only(bottom: 0, top: 0),
                                       child: Column(children: [
                                         // )),
-                                        Text(
-                                          'Your Progress:',
-                                          style: _categoryTextStyle,
-                                        ),
+                                        Text('Your Progress:',
+                                            style: _categoryTextStyle),
                                         ListView(
                                             physics:
                                                 AlwaysScrollableScrollPhysics(),
@@ -384,31 +411,80 @@ class _TheoryTabState extends State<TheoryTab> {
                           child: GestureDetector(
                             onTap: () {
                               if (cards[index]["type"] == 'theoryTest') {
-                                _navigationService
-                                    .navigateTo(routes.PracticeTheoryTestRoute);
-                                // showDialog(
-                                //     context: context,
-                                //     builder: (context) {
-                                //       return Dialog(
-                                //           child: Container(
-                                //               width: constraints.maxWidth * 9,
-                                //               color: Colors.blue,
-                                //               height: 80,
-                                //               child: Text(
-                                //                 'Start Test',
-                                //                 textAlign: TextAlign.center,
-                                //                 style: TextStyle(
-                                //                   fontFamily: 'Poppins',
-                                //                   fontSize: 2.5 *
-                                //                       SizeConfig
-                                //                           .blockSizeVertical,
-                                //                   fontWeight: FontWeight.w700,
-                                //                   color: Color.fromRGBO(
-                                //                       255, 255, 255, 1.0),
-                                //                 ),
-                                //               )));
-                                //       // return
-                                //     });
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                        child: TextButton(
+                                            child: Text('Start Test'),
+                                            onPressed: () {
+                                              _navigationService.navigateTo(
+                                                  routes
+                                                      .PracticeTheoryTestRoute);
+                                              // CustomSpinner.showLoadingDialog(
+                                              //     context,
+                                              //     _keyLoader,
+                                              //     "Loading...");
+                                              // getCategoriesFromApi()
+                                              //     .then((response_list) {
+                                              //   log("Category : $response_list");
+                                              //
+                                              //   // Navigator.of(
+                                              //   //         _keyLoader
+                                              //   //             .currentContext!,
+                                              //   //         rootNavigator: true)
+                                              //   //     .pop();
+                                              //   showDialog(
+                                              //       context: context,
+                                              //       builder:
+                                              //           (BuildContext context) {
+                                              //         return TestSettingDialogBox(
+                                              //           parentConstraints:
+                                              //               constraints,
+                                              //           categories_list:
+                                              //               response_list,
+                                              //           onSetValue:
+                                              //               (_categoryId) {
+                                              //             log("Category id : $_categoryId");
+                                              //             gainPoint = 0;
+                                              //             questionsList = [];
+                                              //             testQuestionsForResult =
+                                              //                 [];
+                                              //             selectedQuestionIndex =
+                                              //                 0;
+                                              //             selectedOptionIndex =
+                                              //                 null;
+                                              //             category_id =
+                                              //                 _categoryId;
+                                              //             CustomSpinner
+                                              //                 .showLoadingDialog(
+                                              //                     context,
+                                              //                     _keyLoader,
+                                              //                     "Test loading...");
+                                              //             getQuestionsFromApi()
+                                              //                 .then(
+                                              //                     (response_list) {
+                                              //               Navigator.of(
+                                              //                       _keyLoader
+                                              //                           .currentContext!,
+                                              //                       rootNavigator:
+                                              //                           true)
+                                              //                   .pop();
+                                              //               questionsList =
+                                              //                   response_list;
+                                              //               setState(() => {
+                                              //                     isTestStarted =
+                                              //                         true
+                                              //                   });
+                                              //             });
+                                              //           },
+                                              //         );
+                                              //       });
+                                              // });
+                                            }),
+                                      );
+                                      // return
+                                    });
                               } else if (cards[index]["type"] == 'hazard') {
                                 _navigationService.navigateTo(
                                     routes.HazardPerceptionOptionsRoute);
@@ -658,192 +734,188 @@ class _TheoryTabState extends State<TheoryTab> {
 
   theoryTestPractice() {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Dialog(
-            backgroundColor: Colors.transparent,
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              gradient: LinearGradient(
+                begin: Alignment(0.0, -1.0),
+                end: Alignment(0.0, 1.0),
+                colors: [Dark, Light],
+                stops: [0.0, 1.0],
+              )),
+          child: MCard.Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            elevation: 0.0,
             child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    gradient: LinearGradient(
-                      begin: Alignment(0.0, -1.0),
-                      end: Alignment(0.0, 1.0),
-                      colors: [Dark, Light],
-                      stops: [0.0, 1.0],
-                    )),
-                child: MCard.Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  elevation: 0.0,
-                  child: Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Theory Test Practice Module",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: SizeConfig.blockSizeHorizontal *
-                                          4.5))),
-                          Container(
-                            //width: constraints.maxWidth,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Theory Test Practice Module",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: SizeConfig.blockSizeHorizontal * 4.5))),
+                  Container(
+                    //width: constraints.maxWidth,
+                    margin: EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.check_circle,
+                                size: SizeConfig.blockSizeHorizontal * 4,
+                                color: Colors.green),
+                            SizedBox(width: 5),
+                            Expanded(
+                              child: Text(
+                                  //"2000+ Questions from 14 official question categories set by DVSA.",
+                                  "2000+ Questions "),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.check_circle,
+                                size: SizeConfig.blockSizeHorizontal * 4,
+                                color: Colors.green),
+                            SizedBox(width: 5),
+                            Expanded(
+                                child: Text(
+                              "Free Mock Theory tests to check your test readiness.",
+                            ))
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.check_circle,
+                              size: SizeConfig.blockSizeHorizontal * 4,
+                              color: Colors.green,
+                            ),
+                            // SizedBox(
+                            //   width:
+                            //       constraints.maxWidth * 0.02,
+                            // ),
+                            SizedBox(width: 5),
+                            Expanded(
+                              child: Text(
+                                  'The Only AI powered App In The Market'
+                                  //"For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
+                                  ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            alignment: Alignment.center,
                             margin: EdgeInsets.only(top: 10),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.check_circle,
-                                        size:
-                                            SizeConfig.blockSizeHorizontal * 4,
-                                        color: Colors.green),
-                                    SizedBox(width: 5),
-                                    Expanded(
-                                      child: Text(
-                                          //"2000+ Questions from 14 official question categories set by DVSA.",
-                                          "2000+ Questions "),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.check_circle,
-                                        size:
-                                            SizeConfig.blockSizeHorizontal * 4,
-                                        color: Colors.green),
-                                    SizedBox(width: 5),
-                                    Expanded(
-                                        child: Text(
-                                      "Free Mock Theory tests to check your test readiness.",
-                                    ))
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.check_circle,
-                                      size: SizeConfig.blockSizeHorizontal * 4,
-                                      color: Colors.green,
+                            child: GestureDetector(
+                                onTap: () async {
+                                  print("payment");
+                                  showLoader("Processing payment");
+
+                                  Stripe.publishableKey = stripePublic;
+                                  Map params = {
+                                    'total_cost':
+                                        walletDetail!['subscription_cost'],
+                                    'user_type': 2,
+                                    'parentPageName': "dvsaSubscriptionHome"
+                                  };
+                                  log("Called before payment");
+                                  await _paymentService
+                                      .makePayment(
+                                          amount: walletDetail![
+                                              'subscription_cost'],
+                                          currency: 'GBP',
+                                          context: context,
+                                          desc:
+                                              'DVSA Subscription by ${userName} (App)',
+                                          metaData: params)
+                                      .then((value) => closeLoader());
+                                  log("Called after payment");
+                                },
+                                child: Container(
+                                    // width: constraints.maxWidth * 0.8,
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    decoration: BoxDecoration(
+                                      color: Dark,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
                                     ),
-                                    // SizedBox(
-                                    //   width:
-                                    //       constraints.maxWidth * 0.02,
-                                    // ),
-                                    SizedBox(width: 5),
-                                    Expanded(
-                                      child: Text(
-                                          'The Only AI powered App In The Market'
-                                          //"For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
-                                          ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Buy now",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  4),
+                                    )))),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(top: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              callDialog();
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              // width: constraints.maxWidth * 0.8,
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              decoration: BoxDecoration(
+                                color: Dark,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 4),
+                              ),
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(top: 10),
-                                    child: GestureDetector(
-                                        onTap: () async {
-                                          print("payment");
-                                          showLoader("Processing payment");
-
-                                          Stripe.publishableKey = stripePublic;
-                                          Map params = {
-                                            'total_cost': walletDetail![
-                                                'subscription_cost'],
-                                            'user_type': 2,
-                                            'parentPageName':
-                                                "dvsaSubscriptionHome"
-                                          };
-                                          log("Called before payment");
-                                          await _paymentService
-                                              .makePayment(
-                                                  amount: walletDetail![
-                                                      'subscription_cost'],
-                                                  currency: 'GBP',
-                                                  context: context,
-                                                  desc:
-                                                      'DVSA Subscription by ${userName} (App)',
-                                                  metaData: params)
-                                              .then((value) => closeLoader());
-                                          log("Called after payment");
-                                        },
-                                        child: Container(
-                                            // width: constraints.maxWidth * 0.8,
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 12),
-                                            decoration: BoxDecoration(
-                                              color: Dark,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Buy now",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      4),
-                                            )))),
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      margin: EdgeInsets.only(top: 10),
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            callDialog();
-                                            Navigator.pop(context);
-                                          },
-                                          child: Container(
-                                            // width: constraints.maxWidth * 0.8,
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 12),
-                                            decoration: BoxDecoration(
-                                              color: Dark,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Cancel",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      4),
-                                            ),
-                                          ))))
-                            ],
-                          )
-                        ],
-                      )),
-                ))));
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

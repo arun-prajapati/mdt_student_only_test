@@ -1,11 +1,11 @@
-
-import 'package:better_player_plus/better_player_plus.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter/material.dart';
-import '../../../Constants/hazard_perception_data.dart';
-import '../../../locater.dart';
 import 'dart:async';
 
+import 'package:better_player_plus/better_player_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../../Constants/hazard_perception_data.dart';
+import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
@@ -214,7 +214,7 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
           height: Responsive.height(100, context),
           width: Responsive.width(100, context),
           alignment: Alignment.center,
-          child: Stack(alignment: Alignment.center, children: <Widget>[
+          child: Stack(alignment: Alignment.center, children: [
             Container(
               width: Responsive.width(85, context),
               height: Responsive.height(100, context),
@@ -303,18 +303,17 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
             GestureDetector(
               onTap: moveVideo,
               child: Container(
-                transform: Matrix4.translationValues(
-                    (Responsive.width(cursorPosition, context)),
-                    Responsive.height(42, context),
-                    0),
-                width: 8,
-                height: 32,
-                decoration: new BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.all(Radius.circular(2)),
-                    border: Border.all(width: 5, color: Colors.black)),
-              ),
+                  transform: Matrix4.translationValues(
+                      (Responsive.width(cursorPosition, context)),
+                      Responsive.height(42, context),
+                      0),
+                  width: 8,
+                  height: 32,
+                  decoration: new BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.all(Radius.circular(2)),
+                      border: Border.all(width: 5, color: Colors.black))),
             ),
           ]),
         ));

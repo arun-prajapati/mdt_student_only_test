@@ -277,10 +277,19 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                                 SystemChrome.setPreferredOrientations(
                                         [DeviceOrientation.landscapeLeft])
                                     .then((_) {
-                                  _localServices.setIndexOfVideo(0);
+                                  _localServices.getRevVideosList();
                                   _navigationService.navigateTo(
                                       routes.HazardPerceptionVideosListRoute);
+                                  // _navigationService.navigateTo(
+                                  //     routes.HazardPerceptionTestRoute);
                                 });
+                                // SystemChrome.setPreferredOrientations(
+                                //         [DeviceOrientation.landscapeLeft])
+                                //     .then((_) {
+                                //   _localServices.setIndexOfVideo(0);
+                                //   _navigationService.navigateTo(
+                                //       routes.HazardPerceptionVideosListRoute);
+                                // });
                               },
                               style: buttonStyle(),
                               child: Text(

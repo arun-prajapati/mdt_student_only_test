@@ -1,15 +1,14 @@
-
-import 'package:better_player_plus/better_player_plus.dart';
-import 'package:gif/gif.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
-// import 'package:flutter_gifimage/flutter_gifimage.dart';
-import 'package:dots_indicator/dots_indicator.dart';
-
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import '../../../locater.dart';
 import 'dart:async';
 
+import 'package:better_player_plus/better_player_plus.dart';
+// import 'package:flutter_gifimage/flutter_gifimage.dart';
+import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gif/gif.dart';
+import 'package:student_app/routing/route_names.dart' as routes;
+
+import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
@@ -304,7 +303,8 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                               height: Responsive.height(5, context),
                               alignment: Alignment.topCenter,
                               child: Text(
-                                "Look for clues that might turn into a hazard and force you to...",
+                                "Look for clues that might turn into a hazard and "
+                                "force you to...",
                                 style: labelStyle(),
                               ),
                             ),

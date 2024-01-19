@@ -359,9 +359,8 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                             autofocus: false,
                                             textAlign: TextAlign.left,
                                             dropdownIcon: Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Dark,
-                                            ),
+                                                Icons.arrow_drop_down,
+                                                color: Dark),
                                             autovalidateMode:
                                                 AutovalidateMode.disabled,
                                             //disableLengthCheck: true,
@@ -381,18 +380,14 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                   Radius.circular(25),
                                                 ),
                                                 borderSide: BorderSide(
-                                                  color: Dark,
-                                                  width: 2,
-                                                ),
+                                                    color: Dark, width: 2),
                                               ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(25),
                                                 ),
                                                 borderSide: const BorderSide(
-                                                  color: Dark,
-                                                  width: 2,
-                                                ),
+                                                    color: Dark, width: 2),
                                               ),
                                               disabledBorder:
                                                   OutlineInputBorder(
@@ -403,7 +398,10 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                     color: Dark, width: 2),
                                               ),
                                               labelText: 'Mobile',
-
+                                              labelStyle: TextStyle(
+                                                  color: Colors.blueGrey,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400),
                                               errorStyle: TextStyle(
                                                 fontSize:
                                                     constraints.maxWidth * 0.05,
@@ -427,6 +425,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                               // errorStyle: TextStyle(
                                               //     fontSize: constraints.maxWidth * 0.05),
                                               focusColor: Dark,
+
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(25),
@@ -443,8 +442,9 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                   .digitsOnly
                                             ],
                                             style: TextStyle(
-                                                fontSize: constraints.maxWidth *
-                                                    0.05),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                             onSubmitted: (_) {
                                               setFocus(context,
                                                   focusNode: null);

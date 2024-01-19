@@ -354,6 +354,10 @@ reg data
                                           width: 2,
                                         ),
                                       ),
+                                      labelStyle: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(25),
@@ -403,7 +407,9 @@ reg data
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
-                                    style: TextStyle(fontSize: 20),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400),
                                     onSubmitted: (_) {
                                       setFocus(context, focusNode: null);
                                       submit();
@@ -447,7 +453,7 @@ reg data
                                 ),
                                 CustomTextField(
                                   label: 'Confirm Password',
-                                  prefixIcon: const Icon(
+                                  prefixIcon: Icon(
                                     Icons.password,
                                     color: Dark,
                                   ),

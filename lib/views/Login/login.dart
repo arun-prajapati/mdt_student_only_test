@@ -321,6 +321,7 @@ class _SignInFormState extends State<SignInForm> {
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                         ),
+                        SizedBox(height: 10),
                         Align(
                           alignment: Alignment.centerRight,
                           child: InkWell(
@@ -337,8 +338,11 @@ class _SignInFormState extends State<SignInForm> {
                               'Forgot password?',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.8,
-                                color: Colors.black,
+                                fontSize: 15,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Dark,
+                                decorationThickness: 2,
+                                color: Dark,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -643,7 +647,10 @@ class CustomTextField extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(25)),
               borderSide: BorderSide(color: Dark, width: 2)),
           labelText: label,
-          labelStyle: TextStyle(color: Colors.blueGrey),
+          labelStyle: TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 16,
+              fontWeight: FontWeight.w400),
           floatingLabelStyle: TextStyle(color: Dark),
           // errorStyle: TextStyle(
           //     fontSize: constraints.maxWidth * 0.05),
@@ -662,8 +669,8 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
         style: TextStyle(
-          fontSize: 20,
-          //fontWeight: FontWeight.w400,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );

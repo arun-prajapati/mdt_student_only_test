@@ -355,49 +355,85 @@ class Welcome extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () async {
-                          SocialLoginService(context).googleSignIn();
-                          print(
-                              'Click ***********************************     ---------------- ');
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: SizeConfig.blockSizeHorizontal * 5,
-                          child: SvgPicture.asset(
-                            "assets/google-color.svg",
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  blurRadius: 6,
+                                  offset: Offset(4, 2))
+                            ]),
+                        child: InkWell(
+                          onTap: () async {
+                            SocialLoginService(context).googleSignIn();
+                            print(
+                                'Click ***********************************     ---------------- ');
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: SizeConfig.blockSizeHorizontal * 5,
+                            child: SvgPicture.asset(
+                              "assets/google-color.svg",
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          SocialLoginService(context).signInWithApple(context);
-                        },
-                        child: CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 22,
-                            child: Icon(
-                              FontAwesomeIcons.apple,
-                              color: Colors.white,
-                            )),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  blurRadius: 6,
+                                  offset: Offset(4, 2))
+                            ]),
+                        child: InkWell(
+                          onTap: () {
+                            SocialLoginService(context)
+                                .signInWithApple(context);
+                          },
+                          child: CircleAvatar(
+                              backgroundColor: Colors.blue,
+                              radius: 20,
+                              child: Icon(
+                                FontAwesomeIcons.apple,
+                                color: Colors.white,
+                                size: 25,
+                              )),
+                        ),
                       ),
                       SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          _facebookUrl =
-                              "https://www.facebook.com/mockdrivingtest/";
-                          print(_facebookUrl);
-                          _launchURL(_facebookUrl);
-                        },
-                        child: CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 20,
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  blurRadius: 6,
+                                  offset: Offset(4, 2))
+                            ]),
+                        child: InkWell(
+                            onTap: () {
+                              _facebookUrl =
+                                  "https://www.facebook.com/mockdrivingtest/";
+                              print(_facebookUrl);
+                              _launchURL(_facebookUrl);
+                            },
                             child: Icon(
                               FontAwesomeIcons.facebook,
-                              color: Colors.white,
-                              size: 35,
-                            )),
+                              color: Colors.blue,
+                              size: 38,
+                            )
+                            // CircleAvatar(
+                            //     backgroundColor: Colors.transparent,
+                            //     radius: 18,
+                            //     child: ),
+                            ),
                       ),
                     ],
                   ),
