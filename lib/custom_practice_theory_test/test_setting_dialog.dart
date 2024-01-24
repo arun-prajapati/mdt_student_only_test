@@ -1,25 +1,23 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Constants/app_colors.dart';
 import '../locater.dart';
 import '../responsive/percentage_mediaquery.dart';
 import '../responsive/size_config.dart';
+import '../services/auth.dart';
 import '../services/navigation_service.dart';
 import '../services/practise_theory_test_services.dart';
 import '../views/Driver/PracticeTheoryTest.dart';
 
 class TestSettingDialogBox extends PracticeTheoryTest {
-  final BoxConstraints parentConstraints;
-
   final IntCallback onSetValue;
   final List categories_list;
 
   TestSettingDialogBox(
-      {Key? key,
-      required this.parentConstraints,
-      required this.onSetValue,
-      required this.categories_list});
+      {Key? key, required this.onSetValue, required this.categories_list});
+
   // : super(key: key);
 
   @override
@@ -39,6 +37,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   bool isAllCategoriesSelected = true;
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
+  final AuthProvider auth_services = new AuthProvider();
 
   @override
   void initState() {
@@ -279,6 +278,12 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                     //         builder: (context) => PracticeTheoryTest()));
                     Navigator.pop(context, true);
                     this.widget.onSetValue(seledtedCategoryId);
+                    // auth_services.changeView = false;
+                    context.read<AuthProvider>().changeView = false;
+                    setState(() {});
+                    // setState(() {});
+                    print(
+                        'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
                   },
                   child: LayoutBuilder(
                     builder: (context, constraints) {

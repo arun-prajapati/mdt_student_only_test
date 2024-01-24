@@ -20,13 +20,21 @@ class AuthProvider with ChangeNotifier {
   late String _contact;
   late int _userType;
   NotificationText _notification = NotificationText('', '');
+
   int get userType => _userType;
+
   Status get status => _status;
+
   String get token => _token;
+
   String get userName => _userName;
+
   String get eMail => _eMail;
+
   String get contact => _contact;
+
   NotificationText get notification => _notification;
+
   //final String api = 'https://mockdrivingtest.com';
   initAuthProvider() async {
     String? token = await getToken();
@@ -40,6 +48,8 @@ class AuthProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  bool changeView = false;
 
 //  loginRoutes() async {
 //    _status = Status.RouteLogin;

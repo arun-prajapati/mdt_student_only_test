@@ -78,14 +78,15 @@ class _HazardPerceptionVideosList extends State<HazardPerceptionVideosList> {
         body: WillPopScope(
             onWillPop: _onBackPressed,
             child: Stack(children: <Widget>[
-              CustomAppBar(
-                  preferedHeight: Responsive.height(15, context),
-                  title: 'Videos For Test',
-                  textWidth: Responsive.width(70, context),
-                  iconLeft: Icons.arrow_back_ios,
-                  onTap1: () {
-                    _onBackPressed();
-                  }),
+              // CustomAppBar(
+              //     preferedHeight: Responsive.height(15, context),
+              //     title: 'Videos For Test',
+              //     textWidth: Responsive.width(70, context),
+              //     iconLeft: Icons.arrow_back_ios,
+              //     onTap1: () {
+              //       _onBackPressed();
+              //     }),
+              
               Container(
                   height: Responsive.height(85, context),
                   width: Responsive.width(100, context),
@@ -113,11 +114,11 @@ class _HazardPerceptionVideosList extends State<HazardPerceptionVideosList> {
             width: Responsive.width(75, context),
             child: Column(
               children: [
-                ListView.builder(
-                  itemBuilder: (context, index) => Column(
-                    children: [],
-                  ),
-                ),
+                // ListView.builder(
+                //   itemBuilder: (context, index) => Column(
+                //     children: [],
+                //   ),
+                // ),
                 Container(
                   width: Responsive.width(75, context),
                   padding: EdgeInsets.only(left: 10, top: 5),

@@ -58,19 +58,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
     getUserName().then((value) {
       setState(() {
         _userName = value;
       });
     });
+
+    super.initState();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   TODO: implement didChangeDependencies
+  // super.didChangeDependencies();
+  // getUserName().then((value) {
+  //   setState(() {
+  //     _userName = value;
+  //   });
+  // });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   Text(
-                    'Welcome $_userName',
+                    'Welcome ${_userName ?? ""}',
                     style: TextStyle(
                         fontSize: SizeConfig.blockSizeHorizontal * 6,
                         fontWeight: FontWeight.w500,

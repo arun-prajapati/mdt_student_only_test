@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path/path.dart' as p;
+
 //import 'package:sign_in_apple/sign_in_apple.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
@@ -18,7 +20,7 @@ import 'auth.dart' as auth;
 import 'navigation_service.dart';
 import '../locater.dart';
 import 'dart:convert';
-import 'dart:math';
+import 'dart:math' as math;
 import 'package:provider/provider.dart';
 import 'dart:developer' as devtools;
 
@@ -98,6 +100,7 @@ class SocialLoginService {
         }
       });
     } catch (e, s) {
+      print("||||||||||||||||||||||||||| $e");
       closeLoader();
       await sendErrorLogs("Google Sigin error(Second): $e $s");
       devtools.log("Google Exception: $e");
@@ -227,7 +230,7 @@ class SocialLoginService {
   String generateNonce([int length = 32]) {
     final charset =
         '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
-    final random = Random.secure();
+    final random = math.Random.secure();
     return List.generate(length, (_) => charset[random.nextInt(charset.length)])
         .join();
   }

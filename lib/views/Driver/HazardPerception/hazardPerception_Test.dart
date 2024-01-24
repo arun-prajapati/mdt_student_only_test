@@ -13,6 +13,7 @@ import '../../../services/navigation_service.dart';
 
 class HazardPerceptionTest extends StatefulWidget {
   HazardPerceptionTest({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _HazardPerceptionTest();
 }
@@ -147,6 +148,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
     });
     super.initState();
     initializeVideoPlayer(videoPaths[videoIndex]);
+    log(" ${videoPaths[videoIndex]}");
   }
 
   initializeVideoPlayer(String videoPath) {
@@ -154,7 +156,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
         BetterPlayerDataSource(BetterPlayerDataSourceType.file, videoPath);
     _betterPlayerController = BetterPlayerController(
         BetterPlayerConfiguration(
-          eventListener: getVideoEvent,
+          // eventListener: getVideoEvent,
           autoPlay: true,
           fit: BoxFit.fill,
           startAt: Duration(minutes: 0, seconds: 00),
@@ -215,6 +217,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
                   } else {
                     _betterPlayerController.pause();
                   }
+                  // print('${_betterPlayerController.videoPlayerController.videoEventStreamController.}');
                 },
               ),
             )),

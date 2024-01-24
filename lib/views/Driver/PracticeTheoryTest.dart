@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
@@ -8,6 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/main.dart';
+import 'package:student_app/views/DashboardGridView/Dashboard.dart';
+import 'package:student_app/views/DashboardGridView/TheoryTab.dart';
 import 'package:toast/toast.dart';
 
 import '../../Constants/global.dart';
@@ -35,7 +39,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
   final PaymentService _paymentService = new PaymentService();
-  final AuthProvider auth_services = new AuthProvider();
+
+  // final AuthProvider auth_services = new AuthProvider();
   bool isTestStarted = false;
   int selectedQuestionIndex = 0;
   int? selectedOptionIndex;
@@ -45,11 +50,21 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Map? walletDetail = null;
   static int? selectedCategoryIndex;
   List questionsList = [];
+  List responseList = [];
   List testQuestionsForResult = [];
   List resultRecordsList = [];
   late Map recordOtherData;
 
   String userName = '';
+
+  getData() async {
+    return getCategoriesFromApi().then((response_list) {
+      responseList.clear();
+      responseList.addAll(response_list);
+      print("------------ responseList ${jsonEncode(responseList)}");
+      setState(() {});
+    });
+  }
 
   @override
   void initState() {
@@ -58,6 +73,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
+    getData();
   }
 
   @override
@@ -124,6 +140,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   }
 
   initializeApi(String loaderMessage) {
+    // auth_services.changeView = false;
+    // setState(() {});
     checkInternet();
     CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
     getUserDetail().then((user_id) {
@@ -141,96 +159,160 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     ToastContext().init(context);
-    log(userName);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          CustomAppBar(
-            preferedHeight: Responsive.height(24, context),
-            title: 'Practice Theory Test Questions',
-            textWidth: Responsive.width(35, context),
-            iconLeft: Icons.arrow_back,
-            iconRight: Icons.refresh_rounded,
-            onTap1: () {
-              _navigationService.goBack();
-            },
-            onTapRightbtn: () {
-              initializeApi("Refreshing...");
-            },
-          ),
-          Container(
-              margin: EdgeInsets.fromLTRB(
-                Responsive.width(3, context),
-                Responsive.height(20, context),
-                Responsive.width(3, context),
-                Responsive.height(3, context),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                      offset: Offset(1, 2),
-                      blurRadius: 5.0)
-                ],
-              ),
-              height: Responsive.height(83, context),
-              width: Responsive.width(100, context),
-              padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
-              child: LayoutBuilder(builder: (context, constraints) {
-                return Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Container(
-                        child: Container(
-                          width: constraints.maxWidth * 1,
-                          padding: isTestStarted
-                              ? EdgeInsets.only(
-                                  top: constraints.maxHeight * .03)
-                              : EdgeInsets.all(0),
-                          height: isTestStarted
-                              ? constraints.maxHeight * .91
-                              : constraints.maxHeight * .78,
-                          child: ListView(
-                            controller: _controller,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            padding: EdgeInsets.only(top: 10),
-                            shrinkWrap: true,
-                            children: [
-                              // if (!isTestStarted)
-                              //   scoreRecordsGrid(context, constraints),
-                              if (isTestStarted)
-                                Container(
-                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 2),
-                                    child: LayoutBuilder(
-                                        builder: (context, _constraints) {
-                                      return testQuestionWidget(
-                                          context,
-                                          _constraints,
-                                          questionsList[selectedQuestionIndex]);
-                                    })),
-                              if (selectedOptionIndex != null && isTestStarted)
-                                answerExplanation(
-                                    questionsList[selectedQuestionIndex]),
-                              if (selectedOptionIndex != null && isTestStarted)
-                                answerStatus(
-                                    questionsList[selectedQuestionIndex]),
-                            ],
+    print(
+        "auth_services.changeView ${context.read<AuthProvider>().changeView}");
+    if (context.read<AuthProvider>().changeView) {
+      getCategoriesFromApi().then((response_list) {
+        // Navigator.pop(context);
+        log("Category : $response_list");
+        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // Navigator.pop(context);
+              return TestSettingDialogBox(
+                categories_list: response_list,
+                onSetValue: (_categoryId) {
+                  log("Category id : $_categoryId");
+                  gainPoint = 0;
+                  questionsList = [];
+                  testQuestionsForResult = [];
+                  selectedQuestionIndex = 0;
+                  selectedOptionIndex = null;
+                  category_id = _categoryId;
+                  CustomSpinner.showLoadingDialog(
+                      context, _keyLoader, "Test loading...");
+                  getQuestionsFromApi().then((response_list) {
+                    Navigator.of(_keyLoader.currentContext!,
+                            rootNavigator: true)
+                        .pop();
+                    questionsList = response_list;
+                    setState(() => isTestStarted = true);
+                  });
+                },
+              );
+            });
+      });
+      // getCategoriesFromApi().then((value) {
+      //   responseList = value;
+      //   return TestSettingDialogBox(
+      //     categories_list: value,
+      //     onSetValue: (_categoryId) {
+      //       log("Category id : $_categoryId");
+      //       gainPoint = 0;
+      //       questionsList = [];
+      //       testQuestionsForResult = [];
+      //       selectedQuestionIndex = 0;
+      //       selectedOptionIndex = null;
+      //       category_id = _categoryId;
+      //       CustomSpinner.showLoadingDialog(
+      //           context, _keyLoader, "Test loading...");
+      //       getQuestionsFromApi().then((response_list) {
+      //         Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
+      //             .pop();
+      //         questionsList = response_list;
+      //         setState(() => isTestStarted = true);
+      //       });
+      //     },
+      //   );
+      // });
+      return SizedBox();
+    } else {
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: <Widget>[
+            CustomAppBar(
+              preferedHeight: Responsive.height(24, context),
+              title: 'Practice Theory Test Questions',
+              textWidth: Responsive.width(35, context),
+              iconLeft: Icons.arrow_back,
+              iconRight: Icons.refresh_rounded,
+              onTap1: () {
+                _navigationService.goBack();
+              },
+              onTapRightbtn: () {
+                initializeApi("Refreshing...");
+              },
+            ),
+            Container(
+                margin: EdgeInsets.fromLTRB(
+                  Responsive.width(3, context),
+                  Responsive.height(20, context),
+                  Responsive.width(3, context),
+                  Responsive.height(3, context),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        offset: Offset(1, 2),
+                        blurRadius: 5.0)
+                  ],
+                ),
+                height: Responsive.height(83, context),
+                width: Responsive.width(100, context),
+                padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Container(
+                          child: Container(
+                            width: constraints.maxWidth * 1,
+                            padding: isTestStarted
+                                ? EdgeInsets.only(
+                                    top: constraints.maxHeight * .03)
+                                : EdgeInsets.all(0),
+                            height: isTestStarted
+                                ? constraints.maxHeight * .91
+                                : constraints.maxHeight * .78,
+                            child: ListView(
+                              controller: _controller,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.only(top: 10),
+                              shrinkWrap: true,
+                              children: [
+                                // if (!isTestStarted)
+                                //   scoreRecordsGrid(context, constraints),
+                                if (isTestStarted)
+                                  Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 10, 20, 2),
+                                      child: LayoutBuilder(
+                                          builder: (context, _constraints) {
+                                        return testQuestionWidget(
+                                            context,
+                                            _constraints,
+                                            questionsList[
+                                                selectedQuestionIndex]);
+                                      })),
+                                if (selectedOptionIndex != null &&
+                                    isTestStarted)
+                                  answerExplanation(
+                                      questionsList[selectedQuestionIndex]),
+                                if (selectedOptionIndex != null &&
+                                    isTestStarted)
+                                  answerStatus(
+                                      questionsList[selectedQuestionIndex]),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      if (!isTestStarted)
-                        startButtonWidget(context, constraints),
-                      if (isTestStarted) nextButtonWidget(context, constraints),
-                    ]));
-              })),
-        ],
-      ),
-    );
+                        if (!isTestStarted)
+                          startButtonWidget(context, constraints),
+                        if (isTestStarted)
+                          nextButtonWidget(context, constraints),
+                      ]));
+                })),
+          ],
+        ),
+      );
+    }
   }
 
   // Widget cardHeader(BuildContext context, BoxConstraints constraints) {
@@ -1205,6 +1287,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             onPressed: () {
               CustomSpinner.showLoadingDialog(
                   context, _keyLoader, "Loading...");
+              context.read<AuthProvider>().changeView = true;
+              setState(() {});
               getCategoriesFromApi().then((response_list) {
                 log("Category : $response_list");
                 Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
@@ -1213,7 +1297,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     context: context,
                     builder: (BuildContext context) {
                       return TestSettingDialogBox(
-                        parentConstraints: constraints,
                         categories_list: response_list,
                         onSetValue: (_categoryId) {
                           log("Category id : $_categoryId");
@@ -1230,7 +1313,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     rootNavigator: true)
                                 .pop();
                             questionsList = response_list;
-                            setState(() => {isTestStarted = true});
+                            setState(() => isTestStarted = true);
                           });
                         },
                       );
@@ -1301,7 +1384,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       selectedOptionIndex = null;
                       selectedQuestionIndex += 1;
                     });
-                  } else {
+                  }
+                  // else if (questionsList[selectedQuestionIndex]['type'] ==
+                  //     1) {
+                  //   context.read<AuthProvider>().changeView = false;
+                  //   setState(() {});
+                  // }
+                  else {
                     CustomSpinner.showLoadingDialog(
                         context, _keyLoader, "Test Submitting...");
                     submitTestByApi().then((value) {
@@ -1408,7 +1497,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   child: MaterialButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
-                                      setState(() => {isTestStarted = false});
+                                      Navigator.of(context).pop();
+                                      setState(() => isTestStarted = false);
+                                      context.read<AuthProvider>().changeView =
+                                          true;
+                                      setState(() {});
                                       Future.delayed(
                                           Duration(microseconds: 300), () {
                                         this.initializeApi("Updating...");
@@ -1601,12 +1694,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     ),
                   )));
         });
-  }
-
-  @override
-  void didChangeDependencies() {
-    print("dependendcies");
-    super.didChangeDependencies();
   }
 }
 

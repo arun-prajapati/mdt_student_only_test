@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/card.dart' as MCard;
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -11,6 +13,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/custom_practice_theory_test/answer_correct_wrong.dart';
+import 'package:student_app/custom_practice_theory_test/test_setting_dialog.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
 
@@ -37,22 +41,6 @@ class TheoryTab extends PracticeTheoryTest {
 }
 
 class _TheoryTabState extends State<TheoryTab> {
-  final _controller = ScrollController();
-
-  final AuthProvider auth_services = new AuthProvider();
-  bool isTestStarted = false;
-  int selectedQuestionIndex = 0;
-  int? selectedOptionIndex;
-  int gainPoint = 0;
-  late int _userId;
-  int category_id = 0;
-
-  static int? selectedCategoryIndex;
-  List questionsList = [];
-  List testQuestionsForResult = [];
-  List resultRecordsList = [];
-  late Map recordOtherData;
-
   var _progressValue = 0.0;
   int seledtedCategoryId = 0;
   List categories = [];
@@ -186,7 +174,7 @@ class _TheoryTabState extends State<TheoryTab> {
           });
         }
       } else {
-        closeLoader();
+        // closeLoader();
         if (mounted) {
           setState(() {
             isSubscribed = false;
@@ -241,6 +229,7 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   String? _userName;
+
   Future<String> getUserName() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String userName = storage.getString('userName').toString();
@@ -249,13 +238,6 @@ class _TheoryTabState extends State<TheoryTab> {
 
   Future<List> getCategoriesFromApi() async {
     List response = await test_api_services.getCategories();
-    return response;
-  }
-
-  //call api for getQuestions
-  Future<List> getQuestionsFromApi() async {
-    List response = await test_api_services.getTestQuestions(category_id);
-    print(response);
     return response;
   }
 
@@ -411,80 +393,101 @@ class _TheoryTabState extends State<TheoryTab> {
                           child: GestureDetector(
                             onTap: () {
                               if (cards[index]["type"] == 'theoryTest') {
-                                showDialog(
+                                context.read<AuthProvider>().changeView = true;
+                                setState(() {});
+                                print(
+                                    "auth_services.changeView ${context.read<AuthProvider>().changeView}");
+                                if (context.read<AuthProvider>().changeView) {
+                                  // getCategoriesFromApi().then((response_list) {
+                                  //  responseList = response_list;
+                                  //  print("------------ responseList $responseList");
+                                  //  setState(() {});
+                                  // });
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) =>
+                                          PracticeTheoryTest());
+                                } else {
+                                  _navigationService.navigateTo(
+                                      routes.PracticeTheoryTestRoute);
+                                }
+                                /*showDialog(
                                     context: context,
                                     builder: (context) {
                                       return Dialog(
-                                        child: TextButton(
-                                            child: Text('Start Test'),
-                                            onPressed: () {
-                                              _navigationService.navigateTo(
-                                                  routes
-                                                      .PracticeTheoryTestRoute);
-                                              // CustomSpinner.showLoadingDialog(
-                                              //     context,
-                                              //     _keyLoader,
-                                              //     "Loading...");
-                                              // getCategoriesFromApi()
-                                              //     .then((response_list) {
-                                              //   log("Category : $response_list");
-                                              //
-                                              //   // Navigator.of(
-                                              //   //         _keyLoader
-                                              //   //             .currentContext!,
-                                              //   //         rootNavigator: true)
-                                              //   //     .pop();
-                                              //   showDialog(
-                                              //       context: context,
-                                              //       builder:
-                                              //           (BuildContext context) {
-                                              //         return TestSettingDialogBox(
-                                              //           parentConstraints:
-                                              //               constraints,
-                                              //           categories_list:
-                                              //               response_list,
-                                              //           onSetValue:
-                                              //               (_categoryId) {
-                                              //             log("Category id : $_categoryId");
-                                              //             gainPoint = 0;
-                                              //             questionsList = [];
-                                              //             testQuestionsForResult =
-                                              //                 [];
-                                              //             selectedQuestionIndex =
-                                              //                 0;
-                                              //             selectedOptionIndex =
-                                              //                 null;
-                                              //             category_id =
-                                              //                 _categoryId;
-                                              //             CustomSpinner
-                                              //                 .showLoadingDialog(
-                                              //                     context,
-                                              //                     _keyLoader,
-                                              //                     "Test loading...");
-                                              //             getQuestionsFromApi()
-                                              //                 .then(
-                                              //                     (response_list) {
-                                              //               Navigator.of(
-                                              //                       _keyLoader
-                                              //                           .currentContext!,
-                                              //                       rootNavigator:
-                                              //                           true)
-                                              //                   .pop();
-                                              //               questionsList =
-                                              //                   response_list;
-                                              //               setState(() => {
-                                              //                     isTestStarted =
-                                              //                         true
-                                              //                   });
-                                              //             });
-                                              //           },
-                                              //         );
-                                              //       });
-                                              // });
-                                            }),
+                                        child: startButtonWidget(
+                                            context, constraints),
+                                        // TextButton(
+                                        //     child: Text('Start Test'),
+                                        //     onPressed: () {
+                                        //       _navigationService.navigateTo(
+                                        //           routes
+                                        //               .PracticeTheoryTestRoute);
+                                        //       // CustomSpinner.showLoadingDialog(
+                                        //       //     context,
+                                        //       //     _keyLoader,
+                                        //       //     "Loading...");
+                                        //       // getCategoriesFromApi()
+                                        //       //     .then((response_list) {
+                                        //       //   log("Category : $response_list");
+                                        //       //
+                                        //       //   // Navigator.of(
+                                        //       //   //         _keyLoader
+                                        //       //   //             .currentContext!,
+                                        //       //   //         rootNavigator: true)
+                                        //       //   //     .pop();
+                                        //       //   showDialog(
+                                        //       //       context: context,
+                                        //       //       builder:
+                                        //       //           (BuildContext context) {
+                                        //       //         return TestSettingDialogBox(
+                                        //       //           parentConstraints:
+                                        //       //               constraints,
+                                        //       //           categories_list:
+                                        //       //               response_list,
+                                        //       //           onSetValue:
+                                        //       //               (_categoryId) {
+                                        //       //             log("Category id : $_categoryId");
+                                        //       //             gainPoint = 0;
+                                        //       //             questionsList = [];
+                                        //       //             testQuestionsForResult =
+                                        //       //                 [];
+                                        //       //             selectedQuestionIndex =
+                                        //       //                 0;
+                                        //       //             selectedOptionIndex =
+                                        //       //                 null;
+                                        //       //             category_id =
+                                        //       //                 _categoryId;
+                                        //       //             CustomSpinner
+                                        //       //                 .showLoadingDialog(
+                                        //       //                     context,
+                                        //       //                     _keyLoader,
+                                        //       //                     "Test loading...");
+                                        //       //             getQuestionsFromApi()
+                                        //       //                 .then(
+                                        //       //                     (response_list) {
+                                        //       //               Navigator.of(
+                                        //       //                       _keyLoader
+                                        //       //                           .currentContext!,
+                                        //       //                       rootNavigator:
+                                        //       //                           true)
+                                        //       //                   .pop();
+                                        //       //               questionsList =
+                                        //       //                   response_list;
+                                        //       //               setState(() => {
+                                        //       //                     isTestStarted =
+                                        //       //                         true
+                                        //       //                   });
+                                        //       //             });
+                                        //       //           },
+                                        //       //         );
+                                        //       //       });
+                                        //       // });
+                                        //     }),
                                       );
                                       // return
-                                    });
+                                    });*/
                               } else if (cards[index]["type"] == 'hazard') {
                                 _navigationService.navigateTo(
                                     routes.HazardPerceptionOptionsRoute);
@@ -506,6 +509,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                         TheoryRecommendations(),
                                   ),
                                 ).then((value) {
+                                  print('QQQQQQQ $value');
                                   if (value) {
                                     initializeApi("Loading...");
                                   }
@@ -722,6 +726,9 @@ class _TheoryTabState extends State<TheoryTab> {
       ),
     );
   }
+
+  /// PRACTICE THEORY TAB FUNCTION ///
+  /// =========================== ///
 
   resetAll(bool isAllSelect) {
     isAllCategoriesSelected = isAllSelect;

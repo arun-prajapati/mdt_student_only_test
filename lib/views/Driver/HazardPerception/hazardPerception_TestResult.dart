@@ -279,7 +279,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                                     .then((_) {
                                   _localServices.getRevVideosList();
                                   _navigationService.navigateTo(
-                                      routes.HazardPerceptionVideosListRoute);
+                                      routes.HazardPerceptionTestReplayRoute);
                                   // _navigationService.navigateTo(
                                   //     routes.HazardPerceptionTestRoute);
                                 });

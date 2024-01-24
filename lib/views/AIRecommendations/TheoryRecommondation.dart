@@ -33,6 +33,7 @@ class TheoryRecommendations extends StatefulWidget {
 
 class _TheoryRecommendations extends State<TheoryRecommendations> {
   final NavigationService _navigationService = locator<NavigationService>();
+
   //List<Entry> changingData = List.empty();
   int? _userId;
   final PractiseTheoryTestServices test_api_services =
@@ -54,6 +55,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   String userName = '';
 
   Map? dataSub;
+
   @override
   void initState() {
     //changingData = changingData.toList();
@@ -148,8 +150,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   Future<Map> getTopicAiContent(String topic) async {
     final url = Uri.parse('$api/api/ai_provideAI_data/${topic}');
     final response = await http.get(url);
-    // print(jsonDecode(response.body));
-    return jsonDecode(response.body)['data'][topic.replaceAll("_", " ")];
+    if (response.statusCode == 200) {
+      // print(jsonDecode(response.body));
+      return jsonDecode(response.body)['data'][topic.replaceAll("_", " ")];
+    } else {
+      return {};
+    }
   }
 
   Future<Map> updateTopicProgress(String driverId, String topicId) async {
@@ -197,6 +203,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                 fontSize: 24.0,
                 fontWeight: FontWeight.w500,
                 color: Colors.black),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
           ),
           actions: [
             IconButton(
