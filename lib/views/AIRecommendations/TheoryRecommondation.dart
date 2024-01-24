@@ -315,7 +315,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                 theoryContent[index]["topic_description"],
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontSize: 1.5 * SizeConfig.blockSizeVertical,
+                                  fontSize: 1.6 * SizeConfig.blockSizeVertical,
                                 ),
                               ),
                             ),

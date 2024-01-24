@@ -21,12 +21,13 @@ class CustomAppBar extends StatelessWidget {
       this.rightBtnLabel,
       this.textWidth,
       this.onTap1,
+      this.hasIcon,
       this.onTapRightbtn})
       : super(key: key);
   final double? preferedHeight;
   final String? title;
   final String? subtitle;
-
+  final bool? hasIcon;
   final IconData? iconLeft;
   final IconData? iconRight;
   final bool isRightBtn;
@@ -165,13 +166,43 @@ class CustomAppBar extends StatelessWidget {
                               onTap: () {
                                 this.onTapRightbtn!();
                               },
-                              child: Icon(
-                                iconRight,
-                                color: Colors.white,
-                                size: currentOrientation == Orientation.portrait
-                                    ? (4 * SizeConfig.blockSizeVertical)
-                                    : (4 * SizeConfig.blockSizeHorizontal),
-                              ),
+                              child: hasIcon == true
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Next',
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Icon(
+                                          iconRight,
+                                          color: Colors.white,
+                                          size: currentOrientation ==
+                                                  Orientation.portrait
+                                              ? (4 *
+                                                  SizeConfig.blockSizeVertical)
+                                              : (4 *
+                                                  SizeConfig
+                                                      .blockSizeHorizontal),
+                                        ),
+                                      ],
+                                    )
+                                  : Icon(
+                                      iconRight,
+                                      color: Colors.white,
+                                      size: currentOrientation ==
+                                              Orientation.portrait
+                                          ? (4 * SizeConfig.blockSizeVertical)
+                                          : (4 *
+                                              SizeConfig.blockSizeHorizontal),
+                                    ),
                             ),
                           ),
                         ),

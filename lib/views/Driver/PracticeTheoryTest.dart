@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/main.dart';
-import 'package:student_app/views/DashboardGridView/Dashboard.dart';
-import 'package:student_app/views/DashboardGridView/TheoryTab.dart';
 import 'package:toast/toast.dart';
 
 import '../../Constants/global.dart';
@@ -39,7 +36,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
   final PaymentService _paymentService = new PaymentService();
-
   // final AuthProvider auth_services = new AuthProvider();
   bool isTestStarted = false;
   int selectedQuestionIndex = 0;
@@ -167,6 +163,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         log("Category : $response_list");
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
         showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (BuildContext context) {
               // Navigator.pop(context);
@@ -238,7 +235,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             Container(
                 margin: EdgeInsets.fromLTRB(
                   Responsive.width(3, context),
-                  Responsive.height(20, context),
+                  Responsive.height(15, context),
                   Responsive.width(3, context),
                   Responsive.height(3, context),
                 ),
@@ -259,7 +256,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   return Container(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                         Container(
                           child: Container(
@@ -269,12 +266,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     top: constraints.maxHeight * .03)
                                 : EdgeInsets.all(0),
                             height: isTestStarted
-                                ? constraints.maxHeight * .91
+                                ? constraints.maxHeight * .85
                                 : constraints.maxHeight * .78,
                             child: ListView(
                               controller: _controller,
                               physics: const AlwaysScrollableScrollPhysics(),
-                              padding: EdgeInsets.only(top: 10),
+                              //padding: EdgeInsets.only(top: 10),
                               shrinkWrap: true,
                               children: [
                                 // if (!isTestStarted)
@@ -413,7 +410,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black45,
+      barrierColor: Colors.transparent,
       builder: (BuildContext context_) {
         return new WillPopScope(
           onWillPop: () {
@@ -1041,7 +1038,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget testQuestionWidget(
       BuildContext context, BoxConstraints constraints, question) {
     TextStyle _questionTextStyle = TextStyle(
-        fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold);
+        fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500);
     return Stack(
       children: <Widget>[
         Column(
@@ -1129,9 +1126,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           'Question Source: DVSA',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                              color: Dark),
+                              fontFamily: 'Poppins', fontSize: 18, color: Dark),
                         ),
                       ),
                       Container(
@@ -1143,7 +1138,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 2.5 * SizeConfig.blockSizeVertical,
+                              fontSize: 18,
                               color: Colors.black),
                         ),
                       ),
@@ -1197,17 +1192,16 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 1.8 *
-                                            SizeConfig.blockSizeVertical))),
+                                        fontSize: 15))),
                             Container(
                                 width: constraints.maxWidth * 0.72,
                                 child: Text(
+                                    textAlign: TextAlign.justify,
                                     "You can now either subscribe to DVSA module to get "
                                     "full access to the app or skip next 10 questions to move forwards.",
                                     style: TextStyle(
                                         //fontWeight: FontWeight.bold,
-                                        fontSize:
-                                            2 * SizeConfig.blockSizeVertical))),
+                                        fontSize: 15))),
                           ],
                         ),
                       ),
@@ -1349,79 +1343,86 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       height: 5.5 * SizeConfig.blockSizeVertical,
       width: constraints.maxWidth * .4,
       alignment: Alignment.center,
-      child: Material(
-        borderRadius: BorderRadius.circular(10),
-        color: (selectedOptionIndex == null &&
-                (questionsList[selectedQuestionIndex]['type'] == 0 ||
-                    (questionsList[selectedQuestionIndex]['type'] == 1 &&
-                        walletDetail!['dvsa_subscription'] > 0)))
-            ? Colors.black26
-            : Dark,
-        elevation: selectedOptionIndex == null ? 0 : 5.0,
-        child: MaterialButton(
-          onPressed: (selectedOptionIndex == null &&
+      child: Padding(
+        padding: EdgeInsets.only(top: 5),
+        child: Material(
+          borderRadius: BorderRadius.circular(10),
+          color: (selectedOptionIndex == null &&
                   (questionsList[selectedQuestionIndex]['type'] == 0 ||
                       (questionsList[selectedQuestionIndex]['type'] == 1 &&
                           walletDetail!['dvsa_subscription'] > 0)))
-              ? null
-              : () {
-                  testQuestionsForResult.add({
-                    'questionId': questionsList[selectedQuestionIndex]['id'],
-                    'type': questionsList[selectedQuestionIndex]['type'],
-                    'question': questionsList[selectedQuestionIndex]['title'],
-                    'correct': (selectedOptionIndex != null &&
-                            questionsList[selectedQuestionIndex]['options']
-                                    [selectedOptionIndex]['correct'] ==
-                                true)
-                        ? 'Correct Answer'
-                        : 'Wrong Answer'
-                  });
-                  if ((selectedQuestionIndex + 1) < questionsList.length) {
-                    _controller.animateTo(0,
-                        duration: Duration(microseconds: 1000),
-                        curve: Curves.slowMiddle);
-                    setState(() {
-                      selectedOptionIndex = null;
-                      selectedQuestionIndex += 1;
+              ? Colors.black26
+              : Dark,
+          elevation: selectedOptionIndex == null ? 0 : 5.0,
+          child: MaterialButton(
+            onPressed: (selectedOptionIndex == null &&
+                    (questionsList[selectedQuestionIndex]['type'] == 0 ||
+                        (questionsList[selectedQuestionIndex]['type'] == 1 &&
+                            walletDetail!['dvsa_subscription'] > 0)))
+                ? null
+                : () {
+                    testQuestionsForResult.add({
+                      'questionId': questionsList[selectedQuestionIndex]['id'],
+                      'type': questionsList[selectedQuestionIndex]['type'],
+                      'question': questionsList[selectedQuestionIndex]['title'],
+                      'correct': (selectedOptionIndex != null &&
+                              questionsList[selectedQuestionIndex]['options']
+                                      [selectedOptionIndex]['correct'] ==
+                                  true)
+                          ? 'Correct Answer'
+                          : 'Wrong Answer'
                     });
-                  }
-                  // else if (questionsList[selectedQuestionIndex]['type'] ==
-                  //     1) {
-                  //   context.read<AuthProvider>().changeView = false;
-                  //   setState(() {});
-                  // }
-                  else {
-                    CustomSpinner.showLoadingDialog(
-                        context, _keyLoader, "Test Submitting...");
-                    submitTestByApi().then((value) {
-                      Navigator.of(_keyLoader.currentContext!,
-                              rootNavigator: true)
-                          .pop();
-                      testCompleAlertBox(context);
-                    });
-                  }
-                },
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Container(
-                width: constraints.maxWidth * 0.9,
-                child: AutoSizeText(
-                  selectedQuestionIndex < questionsList.length - 1
-                      ? walletDetail!['dvsa_subscription'] <= 0 &&
-                              questionsList[selectedQuestionIndex]['type'] == 1
-                          ? 'Skip'
-                          : 'Next'
-                      : 'Test Submit',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(255, 255, 255, 1.0),
+                    if ((selectedQuestionIndex + 1) < questionsList.length) {
+                      _controller.animateTo(0,
+                          duration: Duration(microseconds: 1000),
+                          curve: Curves.slowMiddle);
+                      setState(() {
+                        selectedOptionIndex = null;
+                        selectedQuestionIndex += 1;
+                      });
+                    }
+                    // else if (questionsList[selectedQuestionIndex]['type'] ==
+                    //     1) {
+                    //   context.read<AuthProvider>().changeView = false;
+                    //   setState(() {});
+                    // }
+                    else {
+                      CustomSpinner.showLoadingDialog(
+                          context, _keyLoader, "Test Submitting...");
+                      submitTestByApi().then((value) {
+                        Navigator.of(_keyLoader.currentContext!,
+                                rootNavigator: true)
+                            .pop();
+                        testCompleAlertBox(context);
+                      });
+                    }
+                  },
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                print('index: $selectedQuestionIndex');
+                print('Length: ${questionsList.length}');
+                print('walletDetail: ${walletDetail}');
+                return Container(
+                  width: constraints.maxWidth * 0.9,
+                  child: AutoSizeText(
+                    selectedQuestionIndex < questionsList.length - 1
+                        ? walletDetail!['dvsa_subscription'] <= 0 &&
+                                questionsList[selectedQuestionIndex]['type'] ==
+                                    1
+                            ? 'Skip'
+                            : 'Next'
+                        : 'Test Submit',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 2.5 * SizeConfig.blockSizeVertical,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromRGBO(255, 255, 255, 1.0),
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),

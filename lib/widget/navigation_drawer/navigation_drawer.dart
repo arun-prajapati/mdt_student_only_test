@@ -273,76 +273,58 @@ class NavigationDrawer extends StatelessWidget {
             child: Container(
               height: Responsive.height(20, context),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 25, 15, 5),
+                padding: EdgeInsets.fromLTRB(15, 25, 15, 5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'SignOut',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87,
-                            fontSize: 2.5 * SizeConfig.blockSizeVertical),
-                      ),
+                    Text(
+                      'SignOut',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                          fontSize: 2.5 * SizeConfig.blockSizeVertical),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 20),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Are you sure! You want to SignOut?',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            color: Colors.black45,
-                            fontSize: 2 * SizeConfig.blockSizeVertical),
-                      ),
+                    Text(
+                      'Are you sure! You want to SignOut?',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black45,
+                          letterSpacing: 0.58,
+                          fontSize: 2 * SizeConfig.blockSizeVertical),
                     ),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          child: SizedBox(
-                            width: Responsive.width(20, context),
-                            //height: 25,
-                            child: TextButton(
-                              child: Text(
-                                "No",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        2.3 * SizeConfig.blockSizeVertical,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context, false);
-                              },
-                            ),
+                        TextButton(
+                          child: Text(
+                            "No",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 2.3 * SizeConfig.blockSizeVertical,
+                                fontWeight: FontWeight.w500),
                           ),
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
                         ),
-                        Container(),
-                        SizedBox(
-                          width: Responsive.width(20, context),
-                          //height: 25,
-                          child: TextButton(
-                            child: Text(
-                              "Yes",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 2.3 * SizeConfig.blockSizeVertical,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onPressed: () {
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .logOut();
-                              Navigator.pop(context);
-                              _navigationService
-                                  .navigateToReplacement('/Authorization');
-                            },
+                        TextButton(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 2.3 * SizeConfig.blockSizeVertical,
+                                fontWeight: FontWeight.w500),
                           ),
+                          onPressed: () {
+                            Provider.of<AuthProvider>(context, listen: false)
+                                .logOut();
+                            Navigator.pop(context);
+                            _navigationService
+                                .navigateToReplacement('/Authorization');
+                          },
                         )
                       ],
                     )

@@ -164,7 +164,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
         backgroundColor: Color(0xFFe1e1e1),
         body: Stack(children: <Widget>[
           CustomAppBar(
-              preferedHeight: Responsive.height(12, context),
+              preferedHeight: Responsive.height(10, context),
               title: 'Hazard Perception Test',
               textWidth: Responsive.width(45, context),
               iconLeft: Icons.arrow_back,

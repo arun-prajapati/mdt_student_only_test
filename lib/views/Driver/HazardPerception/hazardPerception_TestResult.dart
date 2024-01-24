@@ -129,6 +129,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
             onWillPop: _onBackPressed,
             child: Stack(children: <Widget>[
               CustomAppBar(
+                  hasIcon: true,
                   preferedHeight: Responsive.height(15, context),
                   title: 'Results - CGI Video 1',
                   textWidth: Responsive.width(70, context),

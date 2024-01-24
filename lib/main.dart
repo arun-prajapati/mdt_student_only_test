@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/routing/route.dart' as router;
 import 'package:student_app/services/auth.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
         ),
+        builder: EasyLoading.init(),
         navigatorKey: locator<NavigationService>().navigatorKey,
         home: HomePage(),
         onGenerateRoute: router.generateRoute,

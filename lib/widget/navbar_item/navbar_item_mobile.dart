@@ -25,9 +25,7 @@ class NavBarItemMobile extends ViewModelWidget<NavBarItemModel> {
                     size: 20,
                   )),
             ),
-            SizedBox(
-              width: constraints.maxWidth * 0.05,
-            ),
+            SizedBox(width: constraints.maxWidth * 0.05),
             LayoutBuilder(builder: (context, constraints) {
               return FittedBox(
                 fit: BoxFit.contain,

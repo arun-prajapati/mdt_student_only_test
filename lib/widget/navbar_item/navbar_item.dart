@@ -23,9 +23,12 @@ class NavBarItem extends StatelessWidget {
     );
     return GestureDetector(
       onTap: () {
+        print('Push/Pop');
         // DON'T EVER USE A SERVICE DIRECTLY IN THE UI TO CHANGE ANY KIND OF STATE
         // SERVICES SHOULD ONLY BE USED FROM A VIEW MODEL
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        // Navigator.push(
+        //   context, MaterialPageRoute(builder: (context) => TheoryTab()));
         locator<NavigationService>().navigateTo(navigationPath);
       },
       child: Provider.value(

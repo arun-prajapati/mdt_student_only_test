@@ -1,20 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/card.dart' as MCard;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/custom_practice_theory_test/answer_correct_wrong.dart';
-import 'package:student_app/custom_practice_theory_test/test_setting_dialog.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
 
@@ -28,7 +25,6 @@ import '../../services/booking_test.dart';
 import '../../services/navigation_service.dart';
 import '../../services/payment_services.dart';
 import '../../services/practise_theory_test_services.dart';
-import '../../widget/CustomSpinner.dart';
 import '../Driver/PracticeTheoryTest.dart';
 import '../Login/welcome.dart';
 import '../WebView.dart';
@@ -153,13 +149,13 @@ class _TheoryTabState extends State<TheoryTab> {
 
   initializeApi(String loaderMessage) async {
     checkInternet();
-    showLoader(loaderMessage);
+    loading(value: true);
     var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('theoryTestPractice');
 
-    if (data == null) {
-      theoryTestPractice();
-    }
+    // if (data == null) {
+    //   theoryTestPractice();
+    // }
     // log('SharedPref Data $data');
     getUserDetail().then((res) async {
       userId = res['id'];
@@ -185,7 +181,7 @@ class _TheoryTabState extends State<TheoryTab> {
         setState(() {
           _progressValue = res["progress"].toDouble();
         });
-        closeLoader();
+        loading(value: false);
       });
     });
     if (this.mounted) {
@@ -198,9 +194,9 @@ class _TheoryTabState extends State<TheoryTab> {
     //closeLoader();
   }
 
-  void showLoader(String message) {
-    CustomSpinner.showLoadingDialog(context, _keyLoader, message);
-  }
+  // void showLoader(String message) {
+  //   CustomSpinner.showLoadingDialog(context, _keyLoader, message);
+  // }
 
   Future<Map> fetchUserTheoryProgress(int driverId) async {
     final url = Uri.parse('$api/api/fetch/progress/${driverId}');
@@ -209,11 +205,41 @@ class _TheoryTabState extends State<TheoryTab> {
     return jsonDecode(response.body);
   }
 
-  void closeLoader() {
-    try {
-      Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-    } catch (e) {}
+  dynamic loading(
+      {@required bool? value, String? title, bool closeOverlays = false}) {
+    if (value!) {
+      EasyLoading.instance
+        ..indicatorType = EasyLoadingIndicatorType.ring
+        ..backgroundColor = Colors.white
+        ..displayDuration = Duration(seconds: 2)
+        ..maskColor = Colors.grey.withOpacity(.2)
+
+        /// custom style
+        ..loadingStyle = EasyLoadingStyle.custom
+        ..indicatorColor = Colors.black
+        ..textColor = Colors.black
+        ..contentPadding = EdgeInsets.symmetric(
+          horizontal: Responsive.width(15, context),
+          vertical: Responsive.width(5, context),
+        )
+
+        ///
+        ..userInteractions = false
+        ..animationStyle = EasyLoadingAnimationStyle.offset;
+      EasyLoading.show(
+        maskType: EasyLoadingMaskType.black,
+        status: "Loading..",
+        dismissOnTap: true,
+      );
+    } else {
+      EasyLoading.dismiss();
+    }
   }
+  // void closeLoader() {
+  //   try {
+  //     Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+  //   } catch (e) {}
+  // }
 
   Future<bool> checkInternet() async {
     print("internet check..1.");
@@ -256,473 +282,489 @@ class _TheoryTabState extends State<TheoryTab> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                              insetAnimationCurve: Curves.easeOutBack,
-                              insetPadding: EdgeInsets.all(20),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Container(
-                                height: Responsive.height(55, context),
-                                alignment: Alignment.bottomCenter,
-                                padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height: Responsive.height(35, context),
-                                      width: Responsive.width(80, context),
-                                      alignment: Alignment.topLeft,
-                                      margin:
-                                          EdgeInsets.only(bottom: 0, top: 0),
-                                      child: Column(children: [
-                                        // )),
-                                        Text('Your Progress:',
-                                            style: _categoryTextStyle),
-                                        ListView(
-                                            physics:
-                                                AlwaysScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            children: [
-                                              ...categories.map((category) {
-                                                // var index = categories
-                                                //     .indexOf(category);
-                                                return Container(
-                                                  width: Responsive.width(
-                                                      80, context),
-                                                  alignment: Alignment.topLeft,
-                                                  child: Container(
+    return PopScope(
+      onPopInvoked: (val) {
+        print('PopInvoke');
+        Navigator.pop(context);
+        Navigator.pop(context);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
+                                insetAnimationCurve: Curves.easeOutBack,
+                                insetPadding: EdgeInsets.all(20),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Container(
+                                  height: Responsive.height(55, context),
+                                  alignment: Alignment.bottomCenter,
+                                  padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: Responsive.height(35, context),
+                                        width: Responsive.width(80, context),
+                                        alignment: Alignment.topLeft,
+                                        margin:
+                                            EdgeInsets.only(bottom: 0, top: 0),
+                                        child: Column(children: [
+                                          // )),
+                                          Text('Your Progress:',
+                                              style: _categoryTextStyle),
+                                          ListView(
+                                              physics:
+                                                  AlwaysScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              children: [
+                                                ...categories.map((category) {
+                                                  // var index = categories
+                                                  //     .indexOf(category);
+                                                  return Container(
                                                     width: Responsive.width(
-                                                      57,
-                                                      context,
-                                                    ),
-                                                    child: SizedBox(
+                                                        80, context),
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: Container(
                                                       width: Responsive.width(
-                                                          55, context),
-                                                      child: AutoSizeText(
-                                                          category['name'],
-                                                          style:
-                                                              _categoryTextStyle),
+                                                        57,
+                                                        context,
+                                                      ),
+                                                      child: SizedBox(
+                                                        width: Responsive.width(
+                                                            55, context),
+                                                        child: AutoSizeText(
+                                                            category['name'],
+                                                            style:
+                                                                _categoryTextStyle),
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              }).toList()
-                                            ])
-                                      ]),
-                                    )
-                                  ],
+                                                  );
+                                                }).toList()
+                                              ])
+                                        ]),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ));
-                  },
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
-                    width: constraints.maxWidth,
-                    //color: Colors.black26,
-                    child: MCard.Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      elevation: 8.0,
-                      child: Container(
-                        width: constraints.maxWidth,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Text("$api"),
-                                Text('THEORY LEARNING PROGRESS',
+                              ));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
+                      width: constraints.maxWidth,
+                      //color: Colors.black26,
+                      child: MCard.Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 8.0,
+                        child: Container(
+                          width: constraints.maxWidth,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 18),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Text("$api"),
+                                  Text('THEORY LEARNING PROGRESS',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 14,
+                                          color: Dark,
+                                          fontWeight: FontWeight.w700),
+                                      textAlign: TextAlign.left),
+                                  Text(
+                                    '${(_progressValue * 100).round()}%',
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 14,
                                         color: Dark,
                                         fontWeight: FontWeight.w700),
-                                    textAlign: TextAlign.left),
-                                Text(
-                                  '${(_progressValue * 100).round()}%',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14,
-                                      color: Dark,
-                                      fontWeight: FontWeight.w700),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            LinearProgressIndicator(
-                              borderRadius: BorderRadius.circular(5),
-                              minHeight: 5,
-                              backgroundColor: Dark.withOpacity(0.2),
-                              valueColor:
-                                  new AlwaysStoppedAnimation<Color>(Colors.red),
-                              value: _progressValue,
-                            ),
-                          ],
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              LinearProgressIndicator(
+                                borderRadius: BorderRadius.circular(5),
+                                minHeight: 5,
+                                backgroundColor: Dark.withOpacity(0.2),
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Colors.red),
+                                value: _progressValue,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  width: Responsive.width(100, context),
-                  height: Responsive.height(18, context),
-                  //height: constraints.maxHeight * 0.8,
-                  padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: cards.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: SizeConfig.blockSizeHorizontal * 70,
-                          child: GestureDetector(
-                            onTap: () {
-                              if (cards[index]["type"] == 'theoryTest') {
-                                context.read<AuthProvider>().changeView = true;
-                                setState(() {});
-                                print(
-                                    "auth_services.changeView ${context.read<AuthProvider>().changeView}");
-                                if (context.read<AuthProvider>().changeView) {
-                                  // getCategoriesFromApi().then((response_list) {
-                                  //  responseList = response_list;
-                                  //  print("------------ responseList $responseList");
-                                  //  setState(() {});
-                                  // });
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      context: context,
-                                      builder: (context) =>
-                                          PracticeTheoryTest());
-                                } else {
-                                  _navigationService.navigateTo(
-                                      routes.PracticeTheoryTestRoute);
-                                }
-                                /*showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        child: startButtonWidget(
-                                            context, constraints),
-                                        // TextButton(
-                                        //     child: Text('Start Test'),
-                                        //     onPressed: () {
-                                        //       _navigationService.navigateTo(
-                                        //           routes
-                                        //               .PracticeTheoryTestRoute);
-                                        //       // CustomSpinner.showLoadingDialog(
-                                        //       //     context,
-                                        //       //     _keyLoader,
-                                        //       //     "Loading...");
-                                        //       // getCategoriesFromApi()
-                                        //       //     .then((response_list) {
-                                        //       //   log("Category : $response_list");
-                                        //       //
-                                        //       //   // Navigator.of(
-                                        //       //   //         _keyLoader
-                                        //       //   //             .currentContext!,
-                                        //       //   //         rootNavigator: true)
-                                        //       //   //     .pop();
-                                        //       //   showDialog(
-                                        //       //       context: context,
-                                        //       //       builder:
-                                        //       //           (BuildContext context) {
-                                        //       //         return TestSettingDialogBox(
-                                        //       //           parentConstraints:
-                                        //       //               constraints,
-                                        //       //           categories_list:
-                                        //       //               response_list,
-                                        //       //           onSetValue:
-                                        //       //               (_categoryId) {
-                                        //       //             log("Category id : $_categoryId");
-                                        //       //             gainPoint = 0;
-                                        //       //             questionsList = [];
-                                        //       //             testQuestionsForResult =
-                                        //       //                 [];
-                                        //       //             selectedQuestionIndex =
-                                        //       //                 0;
-                                        //       //             selectedOptionIndex =
-                                        //       //                 null;
-                                        //       //             category_id =
-                                        //       //                 _categoryId;
-                                        //       //             CustomSpinner
-                                        //       //                 .showLoadingDialog(
-                                        //       //                     context,
-                                        //       //                     _keyLoader,
-                                        //       //                     "Test loading...");
-                                        //       //             getQuestionsFromApi()
-                                        //       //                 .then(
-                                        //       //                     (response_list) {
-                                        //       //               Navigator.of(
-                                        //       //                       _keyLoader
-                                        //       //                           .currentContext!,
-                                        //       //                       rootNavigator:
-                                        //       //                           true)
-                                        //       //                   .pop();
-                                        //       //               questionsList =
-                                        //       //                   response_list;
-                                        //       //               setState(() => {
-                                        //       //                     isTestStarted =
-                                        //       //                         true
-                                        //       //                   });
-                                        //       //             });
-                                        //       //           },
-                                        //       //         );
-                                        //       //       });
-                                        //       // });
-                                        //     }),
-                                      );
-                                      // return
-                                    });*/
-                              } else if (cards[index]["type"] == 'hazard') {
-                                _navigationService.navigateTo(
-                                    routes.HazardPerceptionOptionsRoute);
-                              } else if (cards[index]["type"] == 'dvsaMock') {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WebViewContainer(
-                                      'https://www.gov.uk/take-practice-theory-test',
-                                      'DVSA Mock Theory Test',
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        TheoryRecommendations(),
-                                  ),
-                                ).then((value) {
-                                  print('QQQQQQQ $value');
-                                  if (value) {
-                                    initializeApi("Loading...");
-                                  }
-                                });
-                              }
-                            },
-                            child: MCard.Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              elevation: 3.0,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          cards[index]["icon"],
-                                          color: Dark,
-                                          size: 22,
-                                        ),
-                                        SizedBox(width: 15),
-                                        Expanded(
-                                          child: Text(cards[index]["title"],
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      4,
-                                                  fontWeight: FontWeight.bold),
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 5),
-                                    Center(
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: 8),
-                                        child: Text(
-                                          cards[index]["subTitle"],
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                              height: 1.2,
-                                              fontSize: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  3.5,
-                                              overflow: TextOverflow.ellipsis
-                                              //fontWeight: FontWeight.bold
-                                              ),
-                                          softWrap: true,
-                                          //  textAlign: TextAlign.justify,
-                                        ),
-                                      ),
-                                    ),
-                                    //SizedBox(width: 15),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-                Container(
-                    height: Responsive.height(35, context),
+                  Container(
                     width: Responsive.width(100, context),
-                    //padding: EdgeInsets.all(8.0),
-
-                    child: LayoutBuilder(builder: (context, constraints) {
-                      return Column(
-                        children: <Widget>[
-                          Container(
-                            //color: Colors.red,
-                            width: constraints.maxWidth * 0.95,
-                            margin: EdgeInsets.fromLTRB(
-                                constraints.maxWidth * 0.04,
-                                constraints.maxHeight * 0.04,
-                                constraints.maxWidth * 0.025,
-                                0.0),
-
-                            child: Text(
-                              'RESOURCES',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                color: Dark,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Container(
-                            width: Responsive.width(100, context),
-                            height: Responsive.height(28, context),
-                            //height: constraints.maxHeight * 0.8,
-                            padding: EdgeInsets.fromLTRB(16, 5, 25, 5),
-                            child: ListView.builder(
-                                itemCount: _resourceCards.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    width: SizeConfig.blockSizeHorizontal * 80,
-                                    child: MCard.Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      elevation: 3.0,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 15, horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          //mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              _resourceCards[index]["title"],
-                                              style: TextStyle(
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    4,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              _resourceCards[index]["subTitle"],
-                                              style: TextStyle(
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3.5,
-                                                //fontWeight: FontWeight.bold
-                                              ),
-                                              softWrap: true,
-                                              textAlign: _resourceCards[index]
-                                                          ["type"] ==
-                                                      'highwayCode'
-                                                  ? TextAlign.left
-                                                  : TextAlign.center,
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                if (_resourceCards[index]
-                                                        ["type"] ==
-                                                    'highwayCode') {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebViewContainer(
-                                                                  'https://www.gov.uk/guidance/the-highway-code',
-                                                                  'Highway Code')));
-                                                } else if (_resourceCards[index]
-                                                        ["type"] ==
-                                                    'theoryTestGuidance') {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebViewContainer(
-                                                                  'https://mockdrivingtest.com/static/practice-theory-test',
-                                                                  'Theory Test Guidance')));
-                                                } else {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebViewContainer(
-                                                                  'https://www.gov.uk/book-theory-test',
-                                                                  'Book DVSA Theory Test')));
-                                                }
-                                              },
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Dark)),
-                                              child: Text(
-                                                _resourceCards[index]
-                                                    ["buttonText"],
-                                                style: TextStyle(
-                                                    fontSize: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        3.5,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w600
-                                                    //fontWeight: FontWeight.bold
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                    height: Responsive.height(18, context),
+                    //height: constraints.maxHeight * 0.8,
+                    padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: cards.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: SizeConfig.blockSizeHorizontal * 70,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (cards[index]["type"] == 'theoryTest') {
+                                  context.read<AuthProvider>().changeView =
+                                      true;
+                                  setState(() {});
+                                  print(
+                                      "auth_services.changeView ${context.read<AuthProvider>().changeView}");
+                                  if (context.read<AuthProvider>().changeView) {
+                                    // getCategoriesFromApi().then((response_list) {
+                                    //  responseList = response_list;
+                                    //  print("------------ responseList $responseList");
+                                    //  setState(() {});
+                                    // });
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (context) =>
+                                            PracticeTheoryTest());
+                                  } else {
+                                    _navigationService.navigateTo(
+                                        routes.PracticeTheoryTestRoute);
+                                  }
+                                  /*showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          child: startButtonWidget(
+                                              context, constraints),
+                                          // TextButton(
+                                          //     child: Text('Start Test'),
+                                          //     onPressed: () {
+                                          //       _navigationService.navigateTo(
+                                          //           routes
+                                          //               .PracticeTheoryTestRoute);
+                                          //       // CustomSpinner.showLoadingDialog(
+                                          //       //     context,
+                                          //       //     _keyLoader,
+                                          //       //     "Loading...");
+                                          //       // getCategoriesFromApi()
+                                          //       //     .then((response_list) {
+                                          //       //   log("Category : $response_list");
+                                          //       //
+                                          //       //   // Navigator.of(
+                                          //       //   //         _keyLoader
+                                          //       //   //             .currentContext!,
+                                          //       //   //         rootNavigator: true)
+                                          //       //   //     .pop();
+                                          //       //   showDialog(
+                                          //       //       context: context,
+                                          //       //       builder:
+                                          //       //           (BuildContext context) {
+                                          //       //         return TestSettingDialogBox(
+                                          //       //           parentConstraints:
+                                          //       //               constraints,
+                                          //       //           categories_list:
+                                          //       //               response_list,
+                                          //       //           onSetValue:
+                                          //       //               (_categoryId) {
+                                          //       //             log("Category id : $_categoryId");
+                                          //       //             gainPoint = 0;
+                                          //       //             questionsList = [];
+                                          //       //             testQuestionsForResult =
+                                          //       //                 [];
+                                          //       //             selectedQuestionIndex =
+                                          //       //                 0;
+                                          //       //             selectedOptionIndex =
+                                          //       //                 null;
+                                          //       //             category_id =
+                                          //       //                 _categoryId;
+                                          //       //             CustomSpinner
+                                          //       //                 .showLoadingDialog(
+                                          //       //                     context,
+                                          //       //                     _keyLoader,
+                                          //       //                     "Test loading...");
+                                          //       //             getQuestionsFromApi()
+                                          //       //                 .then(
+                                          //       //                     (response_list) {
+                                          //       //               Navigator.of(
+                                          //       //                       _keyLoader
+                                          //       //                           .currentContext!,
+                                          //       //                       rootNavigator:
+                                          //       //                           true)
+                                          //       //                   .pop();
+                                          //       //               questionsList =
+                                          //       //                   response_list;
+                                          //       //               setState(() => {
+                                          //       //                     isTestStarted =
+                                          //       //                         true
+                                          //       //                   });
+                                          //       //             });
+                                          //       //           },
+                                          //       //         );
+                                          //       //       });
+                                          //       // });
+                                          //     }),
+                                        );
+                                        // return
+                                      });*/
+                                } else if (cards[index]["type"] == 'hazard') {
+                                  _navigationService.navigateTo(
+                                      routes.HazardPerceptionOptionsRoute);
+                                } else if (cards[index]["type"] == 'dvsaMock') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => WebViewContainer(
+                                        'https://www.gov.uk/take-practice-theory-test',
+                                        'DVSA Mock Theory Test',
                                       ),
                                     ),
                                   );
-                                }),
-                          ),
-                        ],
-                      );
-                    })),
-              ],
-            ),
-          );
-        },
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          TheoryRecommendations(),
+                                    ),
+                                  ).then((value) {
+                                    print('QQQQQQQ $value');
+                                    if (value) {
+                                      initializeApi("Loading...");
+                                    }
+                                  });
+                                }
+                              },
+                              child: MCard.Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            cards[index]["icon"],
+                                            color: Dark,
+                                            size: 22,
+                                          ),
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Text(cards[index]["title"],
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        4,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Text(
+                                            cards[index]["subTitle"],
+                                            maxLines: 3,
+                                            style: TextStyle(
+                                                height: 1.2,
+                                                fontSize: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    3.5,
+                                                overflow: TextOverflow.ellipsis
+                                                //fontWeight: FontWeight.bold
+                                                ),
+                                            softWrap: true,
+                                            //  textAlign: TextAlign.justify,
+                                          ),
+                                        ),
+                                      ),
+                                      //SizedBox(width: 15),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                  Container(
+                      height: Responsive.height(35, context),
+                      width: Responsive.width(100, context),
+                      //padding: EdgeInsets.all(8.0),
+
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        return Column(
+                          children: <Widget>[
+                            Container(
+                              //color: Colors.red,
+                              width: constraints.maxWidth * 0.95,
+                              margin: EdgeInsets.fromLTRB(
+                                  constraints.maxWidth * 0.04,
+                                  constraints.maxHeight * 0.04,
+                                  constraints.maxWidth * 0.025,
+                                  0.0),
+
+                              child: Text(
+                                'RESOURCES',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  color: Dark,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Container(
+                              width: Responsive.width(100, context),
+                              height: Responsive.height(28, context),
+                              //height: constraints.maxHeight * 0.8,
+                              padding: EdgeInsets.fromLTRB(16, 5, 25, 5),
+                              child: ListView.builder(
+                                  itemCount: _resourceCards.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 80,
+                                      child: MCard.Card(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        elevation: 3.0,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            //mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                _resourceCards[index]["title"],
+                                                style: TextStyle(
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      4,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Text(
+                                                _resourceCards[index]
+                                                    ["subTitle"],
+                                                style: TextStyle(
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3.5,
+                                                  //fontWeight: FontWeight.bold
+                                                ),
+                                                softWrap: true,
+                                                textAlign: _resourceCards[index]
+                                                            ["type"] ==
+                                                        'highwayCode'
+                                                    ? TextAlign.left
+                                                    : TextAlign.center,
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  if (_resourceCards[index]
+                                                          ["type"] ==
+                                                      'highwayCode') {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                WebViewContainer(
+                                                                    'https://www.gov.uk/guidance/the-highway-code',
+                                                                    'Highway Code')));
+                                                  } else if (_resourceCards[
+                                                          index]["type"] ==
+                                                      'theoryTestGuidance') {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                WebViewContainer(
+                                                                    'https://mockdrivingtest.com/static/practice-theory-test',
+                                                                    'Theory Test Guidance')));
+                                                  } else {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                WebViewContainer(
+                                                                    'https://www.gov.uk/book-theory-test',
+                                                                    'Book DVSA Theory Test')));
+                                                  }
+                                                },
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(Dark)),
+                                                child: Text(
+                                                  _resourceCards[index]
+                                                      ["buttonText"],
+                                                  style: TextStyle(
+                                                      fontSize: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          3.5,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600
+                                                      //fontWeight: FontWeight.bold
+                                                      ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ],
+                        );
+                      })),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -841,7 +883,8 @@ class _TheoryTabState extends State<TheoryTab> {
                             child: GestureDetector(
                                 onTap: () async {
                                   print("payment");
-                                  showLoader("Processing payment");
+                                  //
+                                  loading(value: true);
 
                                   Stripe.publishableKey = stripePublic;
                                   Map params = {
@@ -860,7 +903,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                           desc:
                                               'DVSA Subscription by ${userName} (App)',
                                           metaData: params)
-                                      .then((value) => closeLoader());
+                                      .then((value) => loading(value: false));
                                   log("Called after payment");
                                 },
                                 child: Container(
