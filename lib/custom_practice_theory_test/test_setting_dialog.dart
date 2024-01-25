@@ -54,8 +54,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
     return PopScope(
       onPopInvoked: (val) {
         print('PopInvokeStartTest');
-        Navigator.pop(context);
-        // Navigator.pop(context);
+        // Navigator.of(context).pop();
+        // Navigator.of(context).pop();
       },
       child: Dialog(
         shape:
@@ -73,8 +73,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             children: <Widget>[
               GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
-                    //  Navigator.pop(context);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
 
                     // Navigator.push(
                     //     context,

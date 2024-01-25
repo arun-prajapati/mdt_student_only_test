@@ -285,8 +285,8 @@ class _TheoryTabState extends State<TheoryTab> {
     return PopScope(
       onPopInvoked: (val) {
         print('PopInvoke');
-        Navigator.pop(context);
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        // Navigator.pop(context);
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,

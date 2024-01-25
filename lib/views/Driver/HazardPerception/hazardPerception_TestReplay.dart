@@ -178,6 +178,7 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
   }
 
   playToggle() {
+    print('PAlying ==========');
     try {
       if (_betterPlayerController.isPlaying()!) {
         _betterPlayerController.pause();
@@ -228,7 +229,7 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
             ),
             if (!isVideoPlaying)
               Container(
-                transform: Matrix4.translationValues(-20, -20, 0),
+                // transform: Matrix4.translationValues(-20, -20, 0),
                 alignment: Alignment.center,
                 child: IconButton(
                   icon: Icon(Icons.pause_circle_outline,
@@ -236,60 +237,94 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
                   onPressed: () {},
                 ),
               ),
-            Container(
-              transform: Matrix4.translationValues(
-                  -(Responsive.width(46, context)),
-                  -(Responsive.height(34, context)),
-                  0),
-              child: IconButton(
-                icon: const Icon(Icons.cancel, size: 35, color: Colors.white),
-                onPressed: () {
-                  _navigationService.goBack();
-                },
+
+            // child: Container(
+            // transform: Matrix4.translationValues(
+            //     -(Responsive.width(46, context)),
+            //     -(Responsive.height(34, context)),
+            //     0),
+
+            ///------------------------------
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.cancel,
+                          size: 35, color: Colors.white),
+                      onPressed: () {
+                        print("Cancel Video");
+
+                        // Navigator.pop(context);
+                        _navigationService.goBack();
+                      },
+                    ),
+                    IconButton(
+                      icon:
+                          const Icon(Icons.help, size: 35, color: Colors.white),
+                      onPressed: () {
+                        _betterPlayerController.pause();
+                        cursor.cancel();
+                        helpScreen(context);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-            Container(
-              transform: Matrix4.translationValues(
-                  (Responsive.width(46, context)),
-                  -(Responsive.height(34, context)),
-                  0),
-              child: IconButton(
-                icon: const Icon(Icons.help, size: 35, color: Colors.white),
-                onPressed: () {
-                  _betterPlayerController.pause();
-                  cursor.cancel();
-                  helpScreen(context);
-                },
-              ),
+
+            ///------------------------------
+            // Container(
+            //   // transform: Matrix4.translationValues(
+            //   //     (Responsive.width(46, context)),
+            //   //     -(Responsive.height(34, context)),
+            //   //     0),
+            //   child:
+
+            // ),
+
+            Align(
+              //alignment: Alignment.bottomCenter,
+              child: Container(
+                  height: 60,
+                  width: Responsive.width(95, context),
+                  alignment: Alignment.center,
+                  color: Color.fromRGBO(191, 190, 188, .6),
+                  transform: Matrix4.translationValues(
+                      0, Responsive.height(42, context), 0),
+                  child: Container(
+                    height: 10,
+                    width: Responsive.width(progressBarLength, context),
+                    decoration: new BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(width: 5, color: Colors.white)),
+                  )),
             ),
-            Container(
-                height: 60,
-                width: Responsive.width(95, context),
-                alignment: Alignment.center,
-                color: Color.fromRGBO(191, 190, 188, .6),
-                transform: Matrix4.translationValues(
-                    0, Responsive.height(42, context), 0),
-                child: Container(
-                  height: 10,
-                  width: Responsive.width(progressBarLength, context),
-                  decoration: new BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(width: 5, color: Colors.white)),
-                )),
             ...warningSlot
-                .map((slot) => Container(
-                      transform: Matrix4.translationValues(
-                          Responsive.width(slot['width_start']!, context),
-                          Responsive.height(42, context),
-                          0),
-                      width: Responsive.width(slot['width']!, context),
-                      height: 10,
-                      decoration: new BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.rectangle,
-                          border: Border.all(width: 5, color: Colors.red)),
+                .map((slot) => GestureDetector(
+                      onTap: () {
+                        print('${slot['width']}.............');
+                      },
+                      child: Align(
+                        //  alignment: Alignment.bottomCenter,
+                        child: Container(
+                          transform:
+                              Matrix4.translationValues(double.infinity, 42, 0),
+                          width: 100,
+                          height: 10,
+                          decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.rectangle,
+                              border: Border.all(width: 5, color: Colors.red)),
+                        ),
+                      ),
                     ))
                 .toList(),
             ...clickDurationSlot
