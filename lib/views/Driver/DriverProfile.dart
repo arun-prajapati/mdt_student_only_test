@@ -61,6 +61,7 @@ class _driverProfile extends State<DriverProfile> {
   File? license;
   String licenceBase64 = '';
   String? licenceHttpPath;
+
   // late GooglePlace googlePlace;
   // List<AutocompletePrediction> predictions = [];
   Timer? debounce;
@@ -255,17 +256,17 @@ class _driverProfile extends State<DriverProfile> {
               iconRight: null),
           Container(
               margin: EdgeInsets.fromLTRB(
-                  20, Responsive.height(15, context), 20, 0),
+                  0, Responsive.height(10.8, context), 0, 0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 // border: BoxBorder(),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                      offset: Offset(1, 2),
-                      blurRadius: 5.0)
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: Color.fromRGBO(0, 0, 0, 1),
+                //       offset: Offset(1, 2),
+                //       blurRadius: 5.0)
+                // ],
               ),
               height: Responsive.height(83, context),
               padding: EdgeInsets.fromLTRB(3, 20, 3, 20),
@@ -289,7 +290,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: AutoSizeText("First Name*",
+                                    child: AutoSizeText("First Name",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -321,7 +322,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: AutoSizeText("Last Name*",
+                                    child: AutoSizeText("Last Name",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -353,7 +354,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: AutoSizeText("Phone Number*",
+                                    child: AutoSizeText("Phone Number",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -380,7 +381,7 @@ class _driverProfile extends State<DriverProfile> {
                               )),
                           Container(
                             width: Responsive.width(100, context),
-                            color: Colors.grey[100],
+                            // color: Colors.grey[100],
                             padding: EdgeInsets.all(5),
                             margin: EdgeInsets.only(bottom: 10),
                             child: Column(
@@ -388,7 +389,7 @@ class _driverProfile extends State<DriverProfile> {
                               children: [
                                 Container(
                                   width: Responsive.width(100, context),
-                                  child: AutoSizeText('Vehicle Preference*',
+                                  child: AutoSizeText('Vehicle Preference',
                                       style: inputLabelStyle(
                                           SizeConfig.labelFontSize)),
                                 ),
@@ -534,7 +535,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: AutoSizeText("Address Search*",
+                                    child: AutoSizeText("Address Search",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -565,7 +566,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: AutoSizeText("Address Line One*",
+                                    child: AutoSizeText("Address Line One",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -629,7 +630,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: AutoSizeText("Town*",
+                                    child: AutoSizeText("Town",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -661,7 +662,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: AutoSizeText("Postcode*",
+                                    child: AutoSizeText("Postcode",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -694,7 +695,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: Text("Provisional License No*",
+                                    child: Text("Provisional License No",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -726,7 +727,7 @@ class _driverProfile extends State<DriverProfile> {
                                   Container(
                                     width: Responsive.width(100, context),
                                     margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                    child: Text("License Expiry*",
+                                    child: Text("License Expiry",
                                         style: inputLabelStyle(
                                             SizeConfig.labelFontSize),
                                         textAlign: TextAlign.left),
@@ -767,10 +768,10 @@ class _driverProfile extends State<DriverProfile> {
                                                     Theme.of(context).copyWith(
                                                   colorScheme:
                                                       ColorScheme.light(
-                                                    primary:
-                                                        Dark, // <-- SEE HERE
-                                                    onPrimary: Colors
-                                                        .white, // <-- SEE HERE
+                                                    primary: Dark,
+                                                    // <-- SEE HERE
+                                                    onPrimary: Colors.white,
+                                                    // <-- SEE HERE
                                                     onSurface: Colors
                                                         .black, // <-- SEE HERE
                                                   ),

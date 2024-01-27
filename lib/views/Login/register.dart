@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
+
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/views/Login/login.dart';
@@ -24,18 +25,23 @@ import '../../services/validator.dart';
 
 class Register extends StatefulWidget {
   late String user;
+
   Register(this.user);
+
   @override
   _RegisterState createState() => _RegisterState(this.user);
 }
 
 class _RegisterState extends State<Register> {
   final NavigationService _navigationService = locator<NavigationService>();
+
   _RegisterState(this.user);
+
   final TextEditingController phoneTextControl = TextEditingController();
   var mobile = '';
   var countryCode = '+44';
   late FocusNode _phoneFocusNode;
+
 //  TextEditingController _name;
 //  TextEditingController _email;
   TextEditingController _password = TextEditingController();
@@ -54,6 +60,7 @@ class _RegisterState extends State<Register> {
   late String message = '';
   late String deviceType;
   String? deviceId = '';
+
   //'TP1A.220624.014';
   // Declare this variable
   String user;
@@ -285,7 +292,8 @@ reg data
                               children: [
                                 CustomTextField(
                                   label: 'Full Name',
-                                  prefixIcon: Icon(Icons.person, color: Dark),
+                                  heading: 'Full Name',
+                                  // prefixIcon: Icon(Icons.person, color: Dark),
                                   validator: (value) {
                                     name = value!.trim();
                                     return Validate.nameValidation(name);
@@ -305,10 +313,11 @@ reg data
                                 //Field 2
                                 CustomTextField(
                                   label: 'Email',
-                                  prefixIcon: Icon(
-                                    Icons.email,
-                                    color: Dark,
-                                  ),
+                                  heading: 'Email',
+                                  // prefixIcon: Icon(
+                                  //   Icons.email,
+                                  //   color: Dark,
+                                  // ),
                                   validator: (value) {
                                     email = value!.trim();
                                     return Validate.emailValidation(value);
@@ -324,7 +333,21 @@ reg data
                                   keyboardType: TextInputType.emailAddress,
                                   textInputAction: TextInputAction.next,
                                 ),
-                                SizedBox(height: 10),
+                                // SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, bottom: 5),
+                                    child: Text(
+                                      "Mobile number",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal * 80,
                                   // margin: EdgeInsets.only(
@@ -333,76 +356,79 @@ reg data
                                   child: IntlPhoneField(
                                     autofocus: false,
                                     textAlign: TextAlign.left,
-                                    dropdownIcon: Icon(Icons.arrow_drop_down,
-                                        color: Dark),
+                                    dropdownIcon: Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: Colors.black38),
+                                    dropdownIconPosition: IconPosition.trailing,
+                                    flagsButtonMargin:
+                                        EdgeInsets.only(left: 10),
                                     //disableLengthCheck: true,
                                     autovalidateMode: AutovalidateMode.disabled,
                                     //disableLengthCheck: true,
                                     controller: phoneTextControl,
                                     focusNode: _phoneFocusNode,
                                     cursorColor: Dark,
+
                                     textInputAction: TextInputAction.next,
                                     decoration: InputDecoration(
+                                      counterText: "",
                                       contentPadding:
                                           EdgeInsets.symmetric(horizontal: 20),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
-                                          Radius.circular(25),
-                                        ),
+                                            Radius.circular(10)),
                                         borderSide: BorderSide(
-                                          color: Dark,
-                                          width: 2,
-                                        ),
+                                            color: Colors.black38, width: 1.1),
                                       ),
-                                      labelStyle: TextStyle(
-                                          color: Colors.blueGrey,
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                              color: Colors.black38,
+                                              width: 1.1)),
+                                      disabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                              color: Colors.black38,
+                                              width: 1.1)),
+                                      errorBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                              color: Colors.black38,
+                                              width: 1.1)),
+                                      focusColor: Dark,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        borderSide: BorderSide(
+                                            color: Colors.black38, width: 1.1),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        borderSide: BorderSide(
+                                            color: Colors.black38, width: 1.1),
+                                      ),
+                                      hintStyle: TextStyle(
+                                          color: Colors.grey,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(25),
-                                        ),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
-                                      ),
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(25)),
-                                        borderSide: const BorderSide(
-                                            color: Dark, width: 2),
-                                      ),
-                                      labelText: 'Mobile',
+
+                                      hintText: 'Mobile',
                                       errorStyle: TextStyle(
                                         fontSize: 12,
                                         decorationColor: Dark,
                                       ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(25)),
-                                        borderSide:
-                                            BorderSide(color: Dark, width: 2),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(25)),
-                                        borderSide:
-                                            BorderSide(color: Dark, width: 2),
-                                      ),
+
                                       floatingLabelStyle:
                                           TextStyle(color: Dark),
                                       // errorStyle: TextStyle(
                                       //     fontSize: constraints.maxWidth * 0.05),
-                                      focusColor: Dark,
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(25),
-                                        ),
-                                        borderSide:
-                                            BorderSide(color: Dark, width: 2),
-                                      ),
                                     ),
                                     initialCountryCode: 'GB',
-                                    showCountryFlag: false,
+                                    // showCountryFlag: false,
                                     keyboardType: TextInputType.text,
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly
@@ -431,10 +457,12 @@ reg data
                                     },
                                   ),
                                 ),
+                                SizedBox(height: 10),
                                 CustomTextField(
                                   label: 'Password',
-                                  prefixIcon:
-                                      const Icon(Icons.password, color: Dark),
+                                  heading: 'Password',
+                                  // prefixIcon:
+                                  //     const Icon(Icons.password, color: Dark),
                                   validator: (value) {
                                     password = value!.trim();
                                     return Validate.passwordValidation(value);
@@ -453,10 +481,11 @@ reg data
                                 ),
                                 CustomTextField(
                                   label: 'Confirm Password',
-                                  prefixIcon: Icon(
-                                    Icons.password,
-                                    color: Dark,
-                                  ),
+                                  heading: 'Confirm Password',
+                                  // prefixIcon: Icon(
+                                  //   Icons.password,
+                                  //   color: Dark,
+                                  // ),
                                   validator: (value) {
                                     passwordConfirm = value!.trim();
                                     return Validate.confirmPasswordValidation(
@@ -548,38 +577,52 @@ reg data
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 15),
-                  child: Container(
-                    width: SizeConfig.blockSizeHorizontal * 80,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Already have an account?',
-                          style: defaultStyle,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            //left: SizeConfig.blockSizeHorizontal * 2.5,
-                            top: SizeConfig.blockSizeVertical * 0.5,
+                Positioned(
+                  bottom: 10,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 15),
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 80,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Already have an account? ',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
                           ),
-                          child: RichText(
-                            text: TextSpan(
-                                text: 'Login here',
-                                style: linkStyle,
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) => SignInForm(),
-                                      ),
-                                    );
-                                  }),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                //left: SizeConfig.blockSizeHorizontal * 2.5,
+                                // top: SizeConfig.blockSizeVertical * 0.5,
+                                ),
+                            child: RichText(
+                              text: TextSpan(
+                                  text: 'Login here',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                    color: Dark,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) => SignInForm(),
+                                        ),
+                                      );
+                                    }),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -39,7 +39,7 @@ class _DashboardState extends State<Dashboard>
       child: Container(
         width: double.infinity,
         height: Responsive.height(100, context),
-        //color: Colors.black26,
+        color: Colors.black26,
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             print(constraints);

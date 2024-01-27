@@ -22,6 +22,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   LocalServices _localServices = LocalServices();
   late Timer rattingAnimation;
+  int videoIndex = 0;
 
   // GifController gifControl;
   bool testComplete = true;
@@ -37,6 +38,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
 
   @override
   void initState() {
+    videoIndex = _localServices.getIndexOfVideo();
     // initializeGifAnimation();
     super.initState();
   }
@@ -131,7 +133,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
               CustomAppBar(
                   hasIcon: true,
                   preferedHeight: Responsive.height(15, context),
-                  title: 'Results - CGI Video 1',
+                  title: 'Results - CGI Video ${videoIndex + 1}',
                   textWidth: Responsive.width(70, context),
                   iconLeft: Icons.close,
                   onTap1: () {

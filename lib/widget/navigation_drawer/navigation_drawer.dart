@@ -20,6 +20,7 @@ class NavigationDrawer extends StatelessWidget {
   late Future<int?> _userType;
   late String _aboutUsUrl;
   late String _pricingUrl;
+
   Future<int?> getUserType() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     int? userType = storage.getInt('userType');
@@ -47,10 +48,22 @@ class NavigationDrawer extends StatelessWidget {
           width: Responsive.width(80, context),
           height: Responsive.height(100, context),
           decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(color: Colors.black12, blurRadius: 16),
-            ],
+            color: Colors.red,
+            // boxShadow: [
+            //   BoxShadow(color: Colors.black12, blurRadius: 16),
+            // ],
+            gradient: LinearGradient(
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              colors: [
+                Color(0xFF79e6c9),
+                // Color(0xFF79e6c9),
+                // Color(0xFF79e6c9),
+                // Color(0xFF38b8cd),
+                Color(0xFF38b8cd),
+              ],
+              stops: [0.0, 1.0],
+            ),
           ),
           child: LayoutBuilder(builder: (context, constraints) {
             return Container(
@@ -65,190 +78,203 @@ class NavigationDrawer extends StatelessWidget {
                       // The UI for the current DrawerItem shows when it's in mobile, else it shows the NavBarItem ui.
                       Expanded(
                           // ignore: unnecessary_new
+                          child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              color: Colors.white),
                           child: new ListView(
-                        padding:
-                            EdgeInsets.only(bottom: constraints.maxWidth * .35),
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        children: [
-                          SizedBox(height: constraints.maxHeight * 0.025),
-                          NavBarItem('Home', '/home', context,
-                              icon: Icons.dashboard),
-                          SizedBox(height: constraints.maxHeight * 0.025),
-                          NavBarItem('Profile', '/driver_profile', context,
-                              icon: FontAwesomeIcons.userCircle),
-                          SizedBox(height: constraints.maxHeight * 0.025),
+                            padding: EdgeInsets.only(
+                                bottom: constraints.maxWidth * .35),
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            children: [
+                              SizedBox(height: constraints.maxHeight * 0.025),
+                              NavBarItem('Home', '/home', context,
+                                  icon: Icons.space_dashboard_outlined),
+                              SizedBox(height: constraints.maxHeight * 0.025),
+                              NavBarItem('Profile', '/driver_profile', context,
+                                  icon: FontAwesomeIcons.userCircle),
+                              SizedBox(height: constraints.maxHeight * 0.025),
 
-                          ///commented by Khushali
-                          /* GestureDetector(
-                            onTap: () {
-                              _pricingUrl = "$api/pricing";
-                              print(_pricingUrl);
-                              _launchURL(_pricingUrl);
-                            },
-                            child: Container(
-                              //color: Colors.red,
-                              margin: EdgeInsets.fromLTRB(
-                                  constraints.maxWidth * 0.05,
-                                  0,
-                                  constraints.maxWidth * 0.05,
-                                  0),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: constraints.maxWidth * 0.09,
-                                    child: LayoutBuilder(
-                                        builder: (context, constraints) {
-                                      return FittedBox(
-                                          fit: BoxFit.contain,
-                                          child: Icon(
-                                              FontAwesomeIcons.dollarSign));
-                                    }),
+                              ///commented by Khushali
+                              /* GestureDetector(
+                                onTap: () {
+                                  _pricingUrl = "$api/pricing";
+                                  print(_pricingUrl);
+                                  _launchURL(_pricingUrl);
+                                },
+                                child: Container(
+                                  //color: Colors.red,
+                                  margin: EdgeInsets.fromLTRB(
+                                      constraints.maxWidth * 0.05,
+                                      0,
+                                      constraints.maxWidth * 0.05,
+                                      0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: constraints.maxWidth * 0.09,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: Icon(
+                                                  FontAwesomeIcons.dollarSign));
+                                        }),
+                                      ),
+                                      SizedBox(
+                                        width: constraints.maxWidth * 0.1,
+                                      ),
+                                      Container(
+                                        //width:textWidth,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                              'Pricing',
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          );
+                                        }),
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: constraints.maxWidth * 0.1,
-                                  ),
-                                  Container(
-                                    //width:textWidth,
-                                    child: LayoutBuilder(
-                                        builder: (context, constraints) {
-                                      return FittedBox(
-                                        fit: BoxFit.contain,
-                                        child: Text(
-                                          'Pricing',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      );
-                                    }),
-                                  )
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.025,
-                          ),*/
-                          // NavBarItem(
-                          //     'Mock Test Structure', '/testStructure', context,
-                          //     icon: FontAwesomeIcons.list),
-                          //SizedBox(height: constraints.maxHeight * 0.025),
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     _aboutUsUrl = "$api/static/about-us";
-                          //     print(_aboutUsUrl);
-                          //     _launchURL(_aboutUsUrl);
-                          //   },
-                          //   child: Container(
-                          //     //color: Colors.red,
-                          //     margin: EdgeInsets.fromLTRB(
-                          //         constraints.maxWidth * 0.05, 0,
-                          //         constraints.maxWidth * 0.05, 0),
-                          //     child: Row(
-                          //       children: <Widget>[
-                          //         Container(
-                          //           width: constraints.maxWidth *
-                          //               0.09,
-                          //           child: LayoutBuilder(
-                          //               builder: (context,
-                          //                   constraints) {
-                          //                 return FittedBox(
-                          //                     fit: BoxFit.contain,
-                          //                     child: Icon(
-                          //                         FontAwesomeIcons
-                          //                             .user));
-                          //               }),
-                          //         ),
-                          //         SizedBox(
-                          //           width: constraints.maxWidth *
-                          //               0.1,
-                          //         ),
-                          //         Container(
-                          //           //width:textWidth,
-                          //           child: LayoutBuilder(
-                          //               builder: (context,
-                          //                   constraints) {
-                          //                 return FittedBox(
-                          //                   fit: BoxFit.contain,
-                          //                   child: Text(
-                          //                     'About us',
-                          //                     style: TextStyle(
-                          //                         fontSize: 18),
-                          //                   ),
-                          //                 );
-                          //               }
-                          //           ),
-                          //         )
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: constraints.maxHeight * 0.02,
-                          // ),
+                              SizedBox(
+                                height: constraints.maxHeight * 0.025,
+                              ),*/
+                              // NavBarItem(
+                              //     'Mock Test Structure', '/testStructure', context,
+                              //     icon: FontAwesomeIcons.list),
+                              //SizedBox(height: constraints.maxHeight * 0.025),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     _aboutUsUrl = "$api/static/about-us";
+                              //     print(_aboutUsUrl);
+                              //     _launchURL(_aboutUsUrl);
+                              //   },
+                              //   child: Container(
+                              //     //color: Colors.red,
+                              //     margin: EdgeInsets.fromLTRB(
+                              //         constraints.maxWidth * 0.05, 0,
+                              //         constraints.maxWidth * 0.05, 0),
+                              //     child: Row(
+                              //       children: <Widget>[
+                              //         Container(
+                              //           width: constraints.maxWidth *
+                              //               0.09,
+                              //           child: LayoutBuilder(
+                              //               builder: (context,
+                              //                   constraints) {
+                              //                 return FittedBox(
+                              //                     fit: BoxFit.contain,
+                              //                     child: Icon(
+                              //                         FontAwesomeIcons
+                              //                             .user));
+                              //               }),
+                              //         ),
+                              //         SizedBox(
+                              //           width: constraints.maxWidth *
+                              //               0.1,
+                              //         ),
+                              //         Container(
+                              //           //width:textWidth,
+                              //           child: LayoutBuilder(
+                              //               builder: (context,
+                              //                   constraints) {
+                              //                 return FittedBox(
+                              //                   fit: BoxFit.contain,
+                              //                   child: Text(
+                              //                     'About us',
+                              //                     style: TextStyle(
+                              //                         fontSize: 18),
+                              //                   ),
+                              //                 );
+                              //               }
+                              //           ),
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: constraints.maxHeight * 0.02,
+                              // ),
 
-                          Divider(
-                              height: constraints.maxHeight * 0.02,
-                              endIndent: constraints.maxWidth * 0.035,
-                              indent: constraints.maxWidth * 0.035,
-                              color: Colors.grey[350],
-                              thickness: 2.0),
-                          SizedBox(height: constraints.maxHeight * 0.015),
-                          NavBarItem('Settings', '/setting', context,
-                              icon: Icons.settings),
-                          SizedBox(height: constraints.maxHeight * 0.025),
-                          NavBarItem('Help', '/help', context,
-                              icon: Icons.help),
+                              Divider(
+                                  height: constraints.maxHeight * 0.02,
+                                  endIndent: constraints.maxWidth * 0.035,
+                                  indent: constraints.maxWidth * 0.035,
+                                  color: Colors.grey[350],
+                                  thickness: 2.0),
+                              SizedBox(height: constraints.maxHeight * 0.015),
+                              NavBarItem('Settings', '/setting', context,
+                                  icon: Icons.settings),
+                              SizedBox(height: constraints.maxHeight * 0.025),
+                              NavBarItem('Help', '/help', context,
+                                  icon: Icons.help),
 
-                          SizedBox(height: constraints.maxHeight * 0.025),
-                          NavBarItem('Contact Us', '/contact', context,
-                              icon: FontAwesomeIcons.phone),
-                          SizedBox(height: constraints.maxHeight * 0.025),
-                          GestureDetector(
-                            onTap: () {
-                              // Navigator.pop(context);
-                              LogOut(context);
-                            },
-                            child: Container(
-                              //color: Colors.red,
-                              margin: EdgeInsets.fromLTRB(
-                                  constraints.maxWidth * 0.05,
-                                  0,
-                                  constraints.maxWidth * 0.05,
-                                  0),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: constraints.maxWidth * 0.08,
-                                    child: LayoutBuilder(
-                                        builder: (context, constraints) {
-                                      return FittedBox(
-                                          fit: BoxFit.contain,
-                                          child: Icon(
-                                              FontAwesomeIcons.signOutAlt));
-                                    }),
+                              SizedBox(height: constraints.maxHeight * 0.025),
+                              NavBarItem('Contact Us', '/contact', context,
+                                  icon: Icons.phone),
+                              SizedBox(height: constraints.maxHeight * 0.025),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.pop(context);
+                                  LogOut(context);
+                                },
+                                child: Container(
+                                  //color: Colors.red,
+                                  margin: EdgeInsets.fromLTRB(
+                                      constraints.maxWidth * 0.05,
+                                      0,
+                                      constraints.maxWidth * 0.05,
+                                      0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: constraints.maxWidth * 0.08,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: Icon(Icons.logout));
+                                        }),
+                                      ),
+                                      SizedBox(
+                                        width: constraints.maxWidth * 0.05,
+                                      ),
+                                      Container(
+                                        //width:textWidth,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                              'Sign Out',
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          );
+                                        }),
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: constraints.maxWidth * 0.05,
-                                  ),
-                                  Container(
-                                    //width:textWidth,
-                                    child: LayoutBuilder(
-                                        builder: (context, constraints) {
-                                      return FittedBox(
-                                        fit: BoxFit.contain,
-                                        child: Text(
-                                          'Sign Out',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      );
-                                    }),
-                                  )
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ))
                     ],
                   ),
@@ -270,66 +296,64 @@ class NavigationDrawer extends StatelessWidget {
           return Dialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
-            child: Container(
-              height: Responsive.height(20, context),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 25, 15, 5),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'SignOut',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                          fontSize: 2.5 * SizeConfig.blockSizeVertical),
-                    ),
-                    Text(
-                      'Are you sure! You want to SignOut?',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black45,
-                          letterSpacing: 0.58,
-                          fontSize: 2 * SizeConfig.blockSizeVertical),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          child: Text(
-                            "No",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 2.3 * SizeConfig.blockSizeVertical,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'SignOut',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                        fontSize: 2.5 * SizeConfig.blockSizeVertical),
+                  ),
+                  Text(
+                    'Are you sure! You want to SignOut?',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black,
+                        letterSpacing: 0.58,
+                        fontSize: 14),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        child: Text(
+                          "No",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 2.3 * SizeConfig.blockSizeVertical,
+                              fontWeight: FontWeight.w500),
                         ),
-                        TextButton(
-                          child: Text(
-                            "Yes",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 2.3 * SizeConfig.blockSizeVertical,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onPressed: () {
-                            Provider.of<AuthProvider>(context, listen: false)
-                                .logOut();
-                            Navigator.pop(context);
-                            _navigationService
-                                .navigateToReplacement('/Authorization');
-                          },
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          "Yes",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 2.3 * SizeConfig.blockSizeVertical,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        onPressed: () {
+                          Provider.of<AuthProvider>(context, listen: false)
+                              .logOut();
+                          Navigator.pop(context);
+                          _navigationService
+                              .navigateToReplacement('/Authorization');
+                        },
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
           );

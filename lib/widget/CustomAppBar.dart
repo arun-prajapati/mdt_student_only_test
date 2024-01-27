@@ -42,55 +42,103 @@ class CustomAppBar extends StatelessWidget {
     SizeConfig().init(context);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
     return Container(
-      child: Stack(
-        children: <Widget>[
-          Container(
-              width: Responsive.width(100, context),
-              height: preferedHeight! + MediaQuery.of(context).padding.top,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(Responsive.height(3.5, context)),
-                  bottomRight: Radius.circular(Responsive.height(3.5, context)),
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment(0.0, -1.0),
-                  end: Alignment(0.0, 1.0),
-                  colors: [Dark, Light],
-                  stops: [0.0, 1.0],
-                ),
-              ),
-              child: LayoutBuilder(builder: (context, constraints) {
-                return SafeArea(
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        width: Responsive.width(15, context),
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(
-                            left: Responsive.width(5, context),
-                            top: Responsive.width(2, context)),
+      child: Container(
+          width: Responsive.width(100, context),
+          height: preferedHeight! + MediaQuery.of(context).padding.top,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.only(
+            //   bottomLeft: Radius.circular(Responsive.height(3.5, context)),
+            //   bottomRight: Radius.circular(Responsive.height(3.5, context)),
+            // ),
+            // gradient: LinearGradient(
+            //   begin: Alignment(0.0, -1.0),
+            //   end: Alignment(0.0, 1.0),
+            //   colors: [Dark, Light],
+            //   stops: [0.0, 1.0],
+            // ),
+            gradient: LinearGradient(
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              colors: [
+                Color(0xFF79e6c9),
+                // Color(0xFF79e6c9),
+                // Color(0xFF79e6c9),
+                // Color(0xFF38b8cd),
+                Color(0xFF38b8cd),
+              ],
+              stops: [0.0, 1.0],
+            ),
+          ),
+          child: LayoutBuilder(builder: (context, constraints) {
+            return SafeArea(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black12),
                         child: GestureDetector(
                           onTap: () {
                             this.onTap1!();
                           },
                           child: Icon(
                             iconLeft,
-                            color: Colors.white,
+                            color: Colors.black,
                             size: currentOrientation == Orientation.portrait
-                                ? (4 * SizeConfig.blockSizeVertical)
-                                : (4 * SizeConfig.blockSizeHorizontal),
+                                ? (3.4 * SizeConfig.blockSizeVertical)
+                                : (3.4 * SizeConfig.blockSizeHorizontal),
                           ),
                         ),
                       ),
-                      if (isRightBtn)
-                        Align(
+                    ),
+                    SizedBox(width: 14),
+                    Expanded(
+                      flex: 0,
+                      child: Container(
+                        // width: Responsive.width(65, context),
+                        // margin: EdgeInsets.fromLTRB(
+                        //     Responsive.width(5, context),
+                        //     Responsive.height(
+                        //         currentOrientation == Orientation.portrait
+                        //             ? 1
+                        //             : 1,
+                        //         context),
+                        //     0.0,
+                        //     0.0),
+                        alignment: Alignment.topLeft,
+                        child: AutoSizeText(
+                          '$title',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Poppins',
+                            fontSize: 2.5 *
+                                (currentOrientation == Orientation.portrait
+                                    ? SizeConfig.blockSizeVertical
+                                    : SizeConfig.blockSizeHorizontal),
+                            decoration: null,
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (isRightBtn)
+                      Expanded(
+                        flex: 0,
+                        child: Align(
                           alignment: Alignment.topRight,
                           child: Container(
                               height: 45,
-                              width: constraints.maxWidth * .50,
+                              // width: constraints.maxWidth * .50,
                               alignment: Alignment.centerRight,
-                              margin: EdgeInsets.only(
-                                  top: constraints.maxWidth * 0.07),
+                              // margin: EdgeInsets.only(
+                              //     top: constraints.maxWidth * 0.07),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -98,7 +146,7 @@ class CustomAppBar extends StatelessWidget {
                                   Container(
                                     height: 30,
                                     alignment: Alignment.topRight,
-                                    margin: EdgeInsets.only(right: 10),
+                                    // margin: EdgeInsets.only(right: 10),
                                     width: constraints.maxWidth * 0.25,
                                     child: Material(
                                       borderRadius: BorderRadius.only(
@@ -152,16 +200,19 @@ class CustomAppBar extends StatelessWidget {
                                 ],
                               )),
                         ),
-                      if (!isRightBtn)
-                        Align(
+                      ),
+                    if (!isRightBtn)
+                      Expanded(
+                        flex: 1,
+                        child: Align(
                           alignment: Alignment.topRight,
                           child: Container(
-                            width: Responsive.width(19, context),
-                            height: constraints.maxHeight * .90,
+                            // width: Responsive.width(19, context),
+                            // height: constraints.maxHeight * .90,
                             alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(
-                                right: Responsive.width(2, context),
-                                top: Responsive.width(2, context)),
+                            // margin: EdgeInsets.only(
+                            //     right: Responsive.width(2, context),
+                            //     top: Responsive.width(2, context)),
                             child: GestureDetector(
                               onTap: () {
                                 this.onTapRightbtn!();
@@ -169,26 +220,26 @@ class CustomAppBar extends StatelessWidget {
                               child: hasIcon == true
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Next',
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontSize: 18,
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               fontWeight: FontWeight.w500),
                                         ),
                                         SizedBox(width: 10),
                                         Icon(
                                           iconRight,
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           size: currentOrientation ==
                                                   Orientation.portrait
-                                              ? (4 *
+                                              ? (3 *
                                                   SizeConfig.blockSizeVertical)
-                                              : (4 *
+                                              : (3 *
                                                   SizeConfig
                                                       .blockSizeHorizontal),
                                         ),
@@ -196,72 +247,47 @@ class CustomAppBar extends StatelessWidget {
                                     )
                                   : Icon(
                                       iconRight,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       size: currentOrientation ==
                                               Orientation.portrait
-                                          ? (4 * SizeConfig.blockSizeVertical)
-                                          : (4 *
+                                          ? (3 * SizeConfig.blockSizeVertical)
+                                          : (3 *
                                               SizeConfig.blockSizeHorizontal),
                                     ),
                             ),
                           ),
                         ),
-                      Container(
-                        width: Responsive.width(65, context),
-                        margin: EdgeInsets.fromLTRB(
-                            Responsive.width(15, context),
-                            Responsive.height(
-                                currentOrientation == Orientation.portrait
-                                    ? 1
-                                    : 4,
-                                context),
-                            0.0,
-                            0.0),
-                        alignment: Alignment.topLeft,
-                        child: AutoSizeText(
-                          '$title',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Poppins',
-                            fontSize: 3.2 *
-                                (currentOrientation == Orientation.portrait
-                                    ? SizeConfig.blockSizeVertical
-                                    : SizeConfig.blockSizeHorizontal),
-                            decoration: null,
-                          ),
-                        ),
                       ),
-                      Container(
-                        width: Responsive.width(65, context),
-                        margin: EdgeInsets.fromLTRB(
-                            Responsive.width(15, context),
-                            Responsive.height(
-                                currentOrientation == Orientation.portrait
-                                    ? 1
-                                    : 4,
-                                context),
-                            0.0,
-                            0.0),
-                        alignment: Alignment.bottomLeft,
-                        child: AutoSizeText(
-                          '$subtitle',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 8, 31, 14),
-                              fontFamily: 'Poppins',
-                              fontSize: 1.85 *
-                                  (currentOrientation == Orientation.portrait
-                                      ? SizeConfig.blockSizeVertical
-                                      : SizeConfig.blockSizeHorizontal),
-                              decoration: null,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }))
-        ],
-      ),
+                    // Container(
+                    //   width: Responsive.width(65, context),
+                    //   margin: EdgeInsets.fromLTRB(
+                    //       Responsive.width(15, context),
+                    //       Responsive.height(
+                    //           currentOrientation == Orientation.portrait
+                    //               ? 1
+                    //               : 4,
+                    //           context),
+                    //       0.0,
+                    //       0.0),
+                    //   alignment: Alignment.bottomLeft,
+                    //   child: AutoSizeText(
+                    //     '$subtitle',
+                    //     style: TextStyle(
+                    //         color: Color.fromARGB(255, 8, 31, 14),
+                    //         fontFamily: 'Poppins',
+                    //         fontSize: 1.85 *
+                    //             (currentOrientation == Orientation.portrait
+                    //                 ? SizeConfig.blockSizeVertical
+                    //                 : SizeConfig.blockSizeHorizontal),
+                    //         decoration: null,
+                    //         fontStyle: FontStyle.italic),
+                    //   ),
+                    // )
+                  ],
+                ),
+              ),
+            );
+          })),
     );
   }
 }

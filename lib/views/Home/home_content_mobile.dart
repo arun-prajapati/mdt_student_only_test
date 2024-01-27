@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/views/DashboardGridView/Dashboard.dart';
+import 'package:student_app/views/DashboardGridView/TheoryTab.dart';
 import 'package:student_app/widget/navigation_drawer/navigation_drawer.dart'
     as NB;
 
@@ -83,48 +84,55 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
 
     return Scaffold(
+      backgroundColor: Colors.grey,
       drawer: NB.NavigationDrawer(),
       key: _scaffoldKey,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(110),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(Responsive.height(3.5, context)),
-                bottomRight: Radius.circular(Responsive.height(3.5, context)),
-              ),
-              gradient: LinearGradient(
-                begin: Alignment(0.0, -1.0),
-                end: Alignment(0.0, 1.0),
-                colors: [Dark, Light],
-                stops: [0.0, 1.0],
-              ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      _scaffoldKey.currentState?.openDrawer();
-                    },
-                  ),
-                  Text(
-                    'Welcome ${_userName ?? ""}',
-                    style: TextStyle(
-                        fontSize: SizeConfig.blockSizeHorizontal * 6,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
-                ],
-              ),
-            ),
-          )),
-      //backgroundColor: Light,
+      // appBar: PreferredSize(
+      //     preferredSize: Size.fromHeight(110),
+      //     child: Container(
+      //       height: 100,
+      //       decoration: BoxDecoration(
+      //         // borderRadius: BorderRadius.only(
+      //         //   bottomLeft: Radius.circular(Responsive.height(3.5, context)),
+      //         //   bottomRight: Radius.circular(Responsive.height(3.5, context)),
+      //         // ),
+      //         gradient: LinearGradient(
+      //           begin: Alignment(0.0, -1.0),
+      //           end: Alignment(0.0, 1.0),
+      //           colors: [Dark, Light],
+      //           stops: [0.0, 1.0],
+      //         ),
+      //       ),
+      //       child: Padding(
+      //         padding: EdgeInsets.only(top: 30, left: 20),
+      //         child: Row(
+      //           // crossAxisAlignment: CrossAxisAlignment.end,
+      //           mainAxisAlignment: MainAxisAlignment.start,
+      //           children: [
+      //             GestureDetector(
+      //               onTap: () {
+      //                 _scaffoldKey.currentState?.openDrawer();
+      //               },
+      //               child: Container(
+      //                 padding: EdgeInsets.all(8),
+      //                 decoration: BoxDecoration(
+      //                     borderRadius: BorderRadius.circular(10),
+      //                     color: Colors.black12),
+      //                 child: Icon(Icons.menu),
+      //               ),
+      //             ),
+      //             SizedBox(width: 15),
+      //             Text(
+      //               'Welcome ${_userName ?? ""}',
+      //               style: TextStyle(
+      //                   fontSize: SizeConfig.blockSizeHorizontal * 6,
+      //                   fontWeight: FontWeight.w500,
+      //                   color: Colors.black),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     )),
       // appBar: PreferredSize(
       //   preferredSize: Size.fromHeight(100),
       //   child:
@@ -155,22 +163,71 @@ class _HomeScreenState extends State<HomeScreen> {
       //     ),
       //   ),
       // ),
-      body: SafeArea(
-        child: Container(
-          width: Responsive.width(100, context),
-          height: Responsive.height(100, context),
-          //color: Colors.amberAccent,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Container(
-                height: constraints.maxHeight,
-                width: double.infinity,
-                //color: Colors.amber,
-                child: Dashboard(),
-              );
-            },
+      body: Stack(
+        // fit: StackFit.expand,
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                // borderRadius: BorderRadius.only(
+                //   bottomLeft: Radius.circular(Responsive.height(3.5, context)),
+                //   bottomRight: Radius.circular(Responsive.height(3.5, context)),
+                // ),
+
+                gradient: LinearGradient(
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(1.0, 0.0),
+                  colors: [
+                    Color(0xFF79e6c9),
+                    // Color(0xFF79e6c9),
+                    // Color(0xFF79e6c9),
+                    // Color(0xFF38b8cd),
+                    Color(0xFF38b8cd),
+                  ],
+                  stops: [0.0, 1.0],
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 55, left: 20, top: 20),
+                child: Row(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _scaffoldKey.currentState?.openDrawer();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black12),
+                        child: Icon(Icons.menu),
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      'Welcome ${_userName ?? ""}',
+                      style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
+          Positioned(
+              top: 90,
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: TheoryTab())),
+        ],
       ),
     );
   }

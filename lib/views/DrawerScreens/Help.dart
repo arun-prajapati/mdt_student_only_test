@@ -25,6 +25,7 @@ class _Help extends State<Help> {
 
   late String _termConditionUrl;
   late int _userType = 2;
+
   void _launchURL(String _url) async {
     print("hello");
     try {
@@ -44,258 +45,278 @@ class _Help extends State<Help> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          CustomAppBar(
-              title: 'Help',
-              textWidth: Responsive.width(18, context),
-              iconLeft: FontAwesomeIcons.arrowLeft,
-              preferedHeight: Responsive.height(16, context),
-              onTap1: () {
-                _navigationService.goBack();
-              },
-              iconRight: null),
-          LayoutBuilder(builder: (context, constraints) {
-            return Column(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    _termConditionUrl =
-                        "$api/static/terms-and-conditions-of-use";
-                    print(_termConditionUrl);
-                    _launchURL(_termConditionUrl);
-                  },
-                  child: Container(
-                    width: constraints.maxWidth * 0.99,
-                    margin: EdgeInsetsDirectional.fromSTEB(
-                        constraints.maxWidth * 0.04,
-                        constraints.maxHeight * 0.21,
-                        constraints.maxWidth * 0.01,
-                        0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: constraints.maxWidth * 0.54,
-                          child: Text(
-                            'Terms and Conditions',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                              color: const Color(0xad060606),
-                              letterSpacing: 0.132,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        Container(
-                          width: constraints.maxWidth * 0.13,
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: IconButton(
-                              icon: Icon(Icons.keyboard_arrow_right),
-                              onPressed: () {
-                                _termConditionUrl =
-                                    "$api/static/terms-and-conditions-of-use";
-                                print(_termConditionUrl);
-                                _launchURL(_termConditionUrl);
-                              },
-                              color: Color.fromRGBO(0, 0, 0, 0.34),
-                              iconSize: 26,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          Positioned(
+            top: 0,
+            right: 0,
+            left: 0,
+            child: CustomAppBar(
+                title: 'Help',
+                textWidth: Responsive.width(18, context),
+                iconLeft: Icons.arrow_back,
+                preferedHeight: Responsive.height(9, context),
+                onTap1: () {
+                  _navigationService.goBack();
+                },
+                iconRight: null),
+          ),
+          Positioned(
+            top: 90,
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
-                ),
-                Container(
-                  width: constraints.maxWidth * 0.95,
-                  child: Divider(
-                      height: constraints.maxHeight * 0.03, color: Colors.grey),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WebViewContainer('https://mockdrivingtest.com/static/privacy-policy', 'Privacy Policy')
+                  color: Colors.white),
+              child: LayoutBuilder(builder: (context, constraints) {
+                return Column(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        _termConditionUrl =
+                            "$api/static/terms-and-conditions-of-use";
+                        print(_termConditionUrl);
+                        _launchURL(_termConditionUrl);
+                      },
+                      child: Container(
+                        width: constraints.maxWidth * 0.99,
+                        margin: EdgeInsetsDirectional.fromSTEB(
+                            constraints.maxWidth * 0.04,
+                            15,
+                            constraints.maxWidth * 0.01,
+                            0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Terms and Conditions',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 2.2 * SizeConfig.blockSizeVertical,
+                                color: const Color(0xad060606),
+                                letterSpacing: 0.132,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            Container(
+                              // width: constraints.maxWidth * 0.13,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_right),
+                                  onPressed: () {
+                                    _termConditionUrl =
+                                        "$api/static/terms-and-conditions-of-use";
+                                    print(_termConditionUrl);
+                                    _launchURL(_termConditionUrl);
+                                  },
+                                  color: Color.fromRGBO(0, 0, 0, 0.34),
+                                  iconSize: 26,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    );
-                  },
-                  child: Container(
-                    width: constraints.maxWidth * 0.99,
-                    margin: EdgeInsetsDirectional.fromSTEB(
-                        constraints.maxWidth * 0.04,
-                        0,
-                        constraints.maxWidth * 0.01,
-                        0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
+                    ),
+                    Container(
+                      width: constraints.maxWidth * 0.95,
+                      child: Divider(
+                          height: constraints.maxHeight * 0.03,
+                          color: Colors.grey),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WebViewContainer(
+                                  'https://mockdrivingtest.com/static/privacy-policy',
+                                  'Privacy Policy')),
+                        );
+                      },
+                      child: Container(
+                        // width: constraints.maxWidth * 0.99,
+                        margin: EdgeInsetsDirectional.fromSTEB(
+                            constraints.maxWidth * 0.04,
+                            0,
+                            constraints.maxWidth * 0.01,
+                            0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: constraints.maxWidth * 0.55,
+                              child: Text(
+                                'Privacy Policy',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 2.2 * SizeConfig.blockSizeVertical,
+                                  color: const Color(0xad060606),
+                                  letterSpacing: 0.132,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Container(
+                              // width: constraints.maxWidth * 0.13,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_right),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WebViewContainer(
+                                              'https://mockdrivingtest.com/static/privacy-policy',
+                                              'Privacy Policy')),
+                                    );
+                                  },
+                                  color: Color.fromRGBO(0, 0, 0, 0.34),
+                                  iconSize: 26,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: constraints.maxWidth * 0.95,
+                      child: Divider(
+                          height: constraints.maxHeight * 0.03,
+                          color: Colors.grey),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        print("userType....$_userType");
+                        _userType == 2
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TileApp(),
+                                ),
+                              )
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AdiFaq(),
+                                ),
+                              );
+                      },
+                      child: Container(
+                        width: constraints.maxWidth * 0.99,
+                        margin: EdgeInsetsDirectional.fromSTEB(
+                            constraints.maxWidth * 0.04,
+                            0,
+                            constraints.maxWidth * 0.01,
+                            0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              // width: constraints.maxWidth * 0.34,
+                              child: Text(
+                                'FAQs',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 2.2 * SizeConfig.blockSizeVertical,
+                                  color: const Color(0xad060606),
+                                  letterSpacing: 0.132,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Container(
+                              width: constraints.maxWidth * 0.13,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_right),
+                                  onPressed: () {
+                                    print("userType....$_userType");
+                                    _userType == 2
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => TileApp(),
+                                            ),
+                                          )
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => AdiFaq(),
+                                            ),
+                                          );
+                                  },
+                                  color: Color.fromRGBO(0, 0, 0, 0.34),
+                                  iconSize: 26,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: constraints.maxWidth * 0.95,
+                      child: Divider(
+                          height: constraints.maxHeight * 0.03,
+                          color: Colors.grey),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        return Container(
                           width: constraints.maxWidth * 0.55,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: constraints.maxWidth * 0.045),
                           child: Text(
-                            'Privacy Policy',
+                            'Version',
                             style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 2.5 * SizeConfig.blockSizeVertical,
+                              fontSize: 2.2 * SizeConfig.blockSizeVertical,
                               color: const Color(0xad060606),
                               letterSpacing: 0.132,
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.left,
                           ),
-                        ),
-                        Container(
-                          width: constraints.maxWidth * 0.13,
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: IconButton(
-                              icon: Icon(Icons.keyboard_arrow_right),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer('https://mockdrivingtest.com/static/privacy-policy', 'Privacy Policy')
-                                  ),
-                                );
-                              },
-                              color: Color.fromRGBO(0, 0, 0, 0.34),
-                              iconSize: 26,
-                            ),
-                          ),
-                        ),
-                      ],
+                        );
+                      }),
                     ),
-                  ),
-                ),
-                Container(
-                  width: constraints.maxWidth * 0.95,
-                  child: Divider(
-                      height: constraints.maxHeight * 0.03, color: Colors.grey),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    print("userType....$_userType");
-                    _userType == 2
-                        ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TileApp(),
-                            ),
-                          )
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AdiFaq(),
-                            ),
-                          );
-                  },
-                  child: Container(
-                    width: constraints.maxWidth * 0.99,
-                    margin: EdgeInsetsDirectional.fromSTEB(
-                        constraints.maxWidth * 0.04,
-                        0,
-                        constraints.maxWidth * 0.01,
-                        0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: constraints.maxWidth * 0.34,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        return Container(
+                          // width: constraints.maxWidth * 0.55,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: constraints.maxWidth * 0.05),
                           child: Text(
-                            'FAQs',
+                            '1.0.0',
                             style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 2.5 * SizeConfig.blockSizeVertical,
+                              fontSize: 1.6 * SizeConfig.blockSizeVertical,
                               color: const Color(0xad060606),
                               letterSpacing: 0.132,
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.left,
                           ),
-                        ),
-                        Container(
-                          width: constraints.maxWidth * 0.13,
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: IconButton(
-                              icon: Icon(Icons.keyboard_arrow_right),
-                              onPressed: () {
-                                print("userType....$_userType");
-                                _userType == 2
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => TileApp(),
-                                        ),
-                                      )
-                                    : Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => AdiFaq(),
-                                        ),
-                                      );
-                              },
-                              color: Color.fromRGBO(0, 0, 0, 0.34),
-                              iconSize: 26,
-                            ),
-                          ),
-                        ),
-                      ],
+                        );
+                      }),
                     ),
-                  ),
-                ),
-                Container(
-                  width: constraints.maxWidth * 0.95,
-                  child: Divider(
-                      height: constraints.maxHeight * 0.03, color: Colors.grey),
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: LayoutBuilder(builder: (context, constraints) {
-                    return Container(
-                      width: constraints.maxWidth * 0.55,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth * 0.045),
-                      child: Text(
-                        'Version',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                          color: const Color(0xad060606),
-                          letterSpacing: 0.132,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    );
-                  }),
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: LayoutBuilder(builder: (context, constraints) {
-                    return Container(
-                      width: constraints.maxWidth * 0.55,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth * 0.06),
-                      child: Text(
-                        '1.0.0',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 2 * SizeConfig.blockSizeVertical,
-                          color: const Color(0xad060606),
-                          letterSpacing: 0.132,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    );
-                  }),
-                ),
-              ],
-            );
-          })
+                  ],
+                );
+              }),
+            ),
+          )
         ],
       ),
     );

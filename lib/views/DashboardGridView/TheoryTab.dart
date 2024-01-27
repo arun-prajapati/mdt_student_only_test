@@ -12,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/custom_practice_theory_test/test_setting_dialog.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
 
@@ -235,6 +236,7 @@ class _TheoryTabState extends State<TheoryTab> {
       EasyLoading.dismiss();
     }
   }
+
   // void closeLoader() {
   //   try {
   //     Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
@@ -288,9 +290,17 @@ class _TheoryTabState extends State<TheoryTab> {
         // Navigator.pop(context);
         // Navigator.pop(context);
       },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: LayoutBuilder(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            // color: Colors.green,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            color: Colors.white),
+        child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
               child: Column(
@@ -359,7 +369,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               ));
                     },
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
+                      padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
                       width: constraints.maxWidth,
                       //color: Colors.black26,
                       child: MCard.Card(
@@ -413,41 +423,51 @@ class _TheoryTabState extends State<TheoryTab> {
                     ),
                   ),
                   Container(
-                    width: Responsive.width(100, context),
-                    height: Responsive.height(18, context),
+                    // width: Responsive.width(100, context),
+                    // height: Responsive.height(44, context),
+
                     //height: constraints.maxHeight * 0.8,
-                    padding: EdgeInsets.fromLTRB(16, 25, 16, 0),
-                    child: ListView.builder(
+                    padding: EdgeInsets.fromLTRB(16, 20, 16, 5),
+                    child: GridView.builder(
+                        padding: EdgeInsets.all(0),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 2.3),
+                          // childAspectRatio: 2 / 3,
+                        ),
                         shrinkWrap: true,
                         itemCount: cards.length,
-                        scrollDirection: Axis.horizontal,
+                        // scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Container(
-                            width: SizeConfig.blockSizeHorizontal * 70,
-                            child: GestureDetector(
-                              onTap: () {
-                                if (cards[index]["type"] == 'theoryTest') {
-                                  context.read<AuthProvider>().changeView =
-                                      true;
-                                  setState(() {});
-                                  print(
-                                      "auth_services.changeView ${context.read<AuthProvider>().changeView}");
-                                  if (context.read<AuthProvider>().changeView) {
-                                    // getCategoriesFromApi().then((response_list) {
-                                    //  responseList = response_list;
-                                    //  print("------------ responseList $responseList");
-                                    //  setState(() {});
-                                    // });
-                                    showDialog(
-                                        barrierDismissible: false,
-                                        context: context,
-                                        builder: (context) =>
-                                            PracticeTheoryTest());
-                                  } else {
-                                    _navigationService.navigateTo(
-                                        routes.PracticeTheoryTestRoute);
-                                  }
-                                  /*showDialog(
+                          return GestureDetector(
+                            onTap: () {
+                              if (cards[index]["type"] == 'theoryTest') {
+                                context.read<AuthProvider>().changeView = true;
+                                setState(() {});
+                                print(
+                                    "auth_services.changeView ${context.read<AuthProvider>().changeView}");
+                                if (context.read<AuthProvider>().changeView) {
+                                  // getCategoriesFromApi().then((response_list) {
+                                  //  responseList = response_list;
+                                  //  print("------------ responseList $responseList");
+                                  //  setState(() {});
+                                  // });
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) =>
+                                          PracticeTheoryTest());
+
+                                  // _navigationService.navigateTo(
+                                  //     routes.PracticeTheoryTestRoute);
+                                } else {
+                                  _navigationService.navigateTo(
+                                      routes.PracticeTheoryTestRoute);
+                                }
+                                /*showDialog(
                                       context: context,
                                       builder: (context) {
                                         return Dialog(
@@ -523,96 +543,86 @@ class _TheoryTabState extends State<TheoryTab> {
                                         );
                                         // return
                                       });*/
-                                } else if (cards[index]["type"] == 'hazard') {
-                                  _navigationService.navigateTo(
-                                      routes.HazardPerceptionOptionsRoute);
-                                } else if (cards[index]["type"] == 'dvsaMock') {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                        'https://www.gov.uk/take-practice-theory-test',
-                                        'DVSA Mock Theory Test',
-                                      ),
+                              } else if (cards[index]["type"] == 'hazard') {
+                                _navigationService.navigateTo(
+                                    routes.HazardPerceptionOptionsRoute);
+                              } else if (cards[index]["type"] == 'dvsaMock') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => WebViewContainer(
+                                      'https://www.gov.uk/take-practice-theory-test',
+                                      'DVSA Mock Theory Test',
                                     ),
-                                  );
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          TheoryRecommendations(),
-                                    ),
-                                  ).then((value) {
-                                    print('QQQQQQQ $value');
-                                    if (value) {
-                                      initializeApi("Loading...");
-                                    }
-                                  });
-                                }
-                              },
-                              child: MCard.Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        // mainAxisAlignment:
-                                        //     MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            cards[index]["icon"],
-                                            color: Dark,
-                                            size: 22,
-                                          ),
-                                          SizedBox(width: 15),
-                                          Expanded(
-                                            child: Text(cards[index]["title"],
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                        4,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
-                                      Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8),
-                                          child: Text(
-                                            cards[index]["subTitle"],
-                                            maxLines: 3,
-                                            style: TextStyle(
-                                                height: 1.2,
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3.5,
-                                                overflow: TextOverflow.ellipsis
-                                                //fontWeight: FontWeight.bold
-                                                ),
-                                            softWrap: true,
-                                            //  textAlign: TextAlign.justify,
-                                          ),
-                                        ),
-                                      ),
-                                      //SizedBox(width: 15),
-                                    ],
                                   ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TheoryRecommendations(),
+                                  ),
+                                ).then((value) {
+                                  print('QQQQQQQ $value');
+                                  if (value) {
+                                    initializeApi("Loading...");
+                                  }
+                                });
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                    color: Colors.blueGrey.withOpacity(.30),
+                                    width: 1),
+                              ),
+                              // shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(10)),
+                              // elevation: 3.0,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      cards[index]["icon"],
+                                      color: Dark,
+                                      size: 22,
+                                    ),
+                                    SizedBox(height: 15),
+                                    Expanded(
+                                      flex: 0,
+                                      child: Text(
+                                        "${cards[index]["title"]}",
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4,
+                                            fontWeight: FontWeight.bold),
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      cards[index]["subTitle"],
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                          height: 1.2,
+                                          fontSize: 13,
+                                          overflow: TextOverflow.ellipsis,
+                                          color: Colors.black45
+                                          //fontWeight: FontWeight.bold
+                                          ),
+                                      softWrap: true,
+                                      //  textAlign: TextAlign.justify,
+                                    ),
+                                    //SizedBox(width: 15),
+                                  ],
                                 ),
                               ),
                             ),

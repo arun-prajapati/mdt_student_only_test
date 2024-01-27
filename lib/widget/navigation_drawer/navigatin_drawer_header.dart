@@ -34,11 +34,23 @@ class NavigationDrawerHeader extends StatelessWidget {
       width: Responsive.width(100, context),
       height: Responsive.height(20, context),
       decoration: BoxDecoration(
-        color: Color(0xff76DECD),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(Responsive.width(5, context)),
-          bottomRight: Radius.circular(Responsive.width(5, context)),
+        gradient: LinearGradient(
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(1.0, 0.0),
+          colors: [
+            Color(0xFF79e6c9),
+            // Color(0xFF79e6c9),
+            // Color(0xFF79e6c9),
+            // Color(0xFF38b8cd),
+            Color(0xFF38b8cd),
+          ],
+          stops: [0.0, 1.0],
         ),
+        // color: Color(0xff76DECD),
+        // borderRadius: BorderRadius.only(
+        //   bottomLeft: Radius.circular(Responsive.width(5, context)),
+        //   bottomRight: Radius.circular(Responsive.width(5, context)),
+        // ),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
         return Stack(
@@ -96,12 +108,12 @@ class NavigationDrawerHeader extends StatelessWidget {
                       builder: (context, snapshot) {
                         Object? email = snapshot.data;
                         return Container(
-                          width: constraints.maxWidth * 0.8,
+                          width: constraints.maxWidth * 0.87,
                           child: AutoSizeText(
                             email.toString(),
                             style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: 2.2 * SizeConfig.blockSizeVertical,
+                                fontSize: 16,
                                 color: Colors.black),
                           ),
                         );

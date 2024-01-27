@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter/services.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
@@ -20,6 +21,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   LocalServices _localServices = LocalServices();
+
   // late GifController gifControl;
 
   // late GifController gifControl;
@@ -62,7 +64,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
             onWillPop: _onBackPressed,
             child: Stack(children: <Widget>[
               CustomAppBar(
-                  preferedHeight: Responsive.height(15, context),
+                  preferedHeight: Responsive.height(20, context),
                   title: 'Practice test',
                   textWidth: Responsive.width(70, context),
                   iconLeft: Icons.close,
@@ -88,6 +90,12 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                   width: Responsive.width(100, context),
                   margin: EdgeInsets.fromLTRB(
                       0, Responsive.height(23, context), 0, 0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      color: Colors.white),
                   child: Column(
                     children: [
                       Text(

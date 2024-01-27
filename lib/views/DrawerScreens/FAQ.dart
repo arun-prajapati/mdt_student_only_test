@@ -10,6 +10,7 @@ import '../../widget/CustomAppBar.dart';
 
 class TileApp extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -21,23 +22,40 @@ class TileApp extends StatelessWidget {
           child: LayoutBuilder(builder: (context, constraints) {
             return Container(
               height: constraints.maxHeight,
-              child: Column(
+              child: Stack(
                 children: <Widget>[
-                  CustomAppBar(
-                      preferedHeight: Responsive.height(10, context),
-                      iconLeft: FontAwesomeIcons.arrowLeft,
-                      title: 'FAQ',
-                      textWidth: Responsive.width(12, context),
-                      onTap1: () {
-                        _navigationService.goBack();
-                      },
-                      iconRight: null),
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) {
-                        return new StuffInTiles(listOfTiles[index]);
-                      },
-                      itemCount: listOfTiles.length,
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    child: CustomAppBar(
+                        preferedHeight: Responsive.height(10, context),
+                        iconLeft: Icons.arrow_back,
+                        title: 'FAQ',
+                        textWidth: Responsive.width(12, context),
+                        onTap1: () {
+                          _navigationService.goBack();
+                        },
+                        iconRight: null),
+                  ),
+                  Positioned(
+                    top: 90,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.88,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                          color: Colors.white),
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(top: 5),
+                        itemBuilder: (BuildContext context, int index) {
+                          return new StuffInTiles(listOfTiles[index]);
+                        },
+                        itemCount: listOfTiles.length,
+                      ),
                     ),
                   )
                 ],
@@ -52,6 +70,7 @@ class TileApp extends StatelessWidget {
 
 class StuffInTiles extends StatelessWidget {
   final MyTile myTile;
+
   StuffInTiles(this.myTile);
 
   @override
@@ -60,29 +79,33 @@ class StuffInTiles extends StatelessWidget {
   }
 
   Widget _buildTiles(MyTile t) {
-    return new ExpansionTile(
-      key: new PageStorageKey<int>(3),
-      initiallyExpanded: true,
-      expandedAlignment: Alignment.centerLeft,
-      tilePadding: EdgeInsets.only(left: 15, right: 15, bottom: 5),
-      childrenPadding: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 0),
-      title: new Text(
-        t.title,
-        style: TextStyle(
-            color: Dark,
-            fontSize: 2 * SizeConfig.blockSizeVertical,
-            fontWeight: FontWeight.w500),
-      ),
-      children: [
-        new Text(
-          t.description,
+    return Theme(
+      data: ThemeData(dividerColor: Colors.transparent),
+      child: new ExpansionTile(
+        key: new PageStorageKey<int>(3),
+        initiallyExpanded: true,
+        expandedAlignment: Alignment.centerLeft,
+        tilePadding: EdgeInsets.only(left: 15, right: 15, bottom: 5),
+        childrenPadding:
+            EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 0),
+        title: new Text(
+          t.title,
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 1.5 * SizeConfig.blockSizeVertical,
-            fontWeight: FontWeight.w500,
-          ),
+              color: Dark,
+              fontSize: 2 * SizeConfig.blockSizeVertical,
+              fontWeight: FontWeight.w500),
         ),
-      ],
+        children: [
+          new Text(
+            t.description,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 1.5 * SizeConfig.blockSizeVertical,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -90,6 +113,7 @@ class StuffInTiles extends StatelessWidget {
 class MyTile {
   final String title;
   final String description;
+
   MyTile({required this.title, required this.description});
 }
 

@@ -103,6 +103,7 @@ class _ChangePassword extends State<ChangePassword> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
           CustomAppBar(
@@ -115,128 +116,114 @@ class _ChangePassword extends State<ChangePassword> {
               },
               iconRight: null),
           Container(
-              margin: EdgeInsets.fromLTRB(
-                  20, Responsive.height(15, context), 20, 0),
+              margin:
+                  EdgeInsets.fromLTRB(0, Responsive.height(11, context), 0, 0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 // border: BoxBorder(),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                      offset: Offset(1, 2),
-                      blurRadius: 5.0)
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: Color.fromRGBO(0, 0, 0, 1),
+                //       offset: Offset(1, 2),
+                //       blurRadius: 5.0)
+                // ],
               ),
               height: Responsive.height(47, context),
-              padding: EdgeInsets.fromLTRB(3, 20, 3, 20),
+              padding: EdgeInsets.fromLTRB(14, 20, 14, 20),
               child: LayoutBuilder(builder: (context, constraints) {
-                return Container(
-                    child: Column(children: [
+                return Column(children: [
                   Container(
-                    width: constraints.maxWidth * 1,
-                    height: constraints.maxHeight * .80,
-                    child: ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: EdgeInsets.fromLTRB(10, 2, 10, 10),
-                      children: [
-                        Container(
+                      width: Responsive.width(100, context),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                      child: Column(
+                        children: [
+                          Container(
                             width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: Text("Old Password*",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black54,
-                                          fontWeight: FontWeight.w500),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: 40,
-                                    child: TextField(
-                                        controller: old_password,
-                                        decoration: InputDecoration(
-                                          focusedBorder:
-                                              inputFocusedBorderStyle(),
-                                          enabledBorder: inputBorderStyle(),
-                                          hintText: 'Enter old password',
-                                          hintStyle: placeholderStyle(15),
-                                          contentPadding:
-                                              EdgeInsets.fromLTRB(5, 10, 3, 10),
-                                        )))
-                              ],
-                            )),
-                        Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                            child: Text("Old Password*",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.left),
+                          ),
+                          Container(
+                              width: Responsive.width(100, context),
+                              height: 40,
+                              child: TextField(
+                                  controller: old_password,
+                                  decoration: InputDecoration(
+                                    focusedBorder: inputFocusedBorderStyle(),
+                                    enabledBorder: inputBorderStyle(),
+                                    hintText: 'Enter old password',
+                                    hintStyle: placeholderStyle(15),
+                                    contentPadding:
+                                        EdgeInsets.fromLTRB(5, 10, 3, 10),
+                                  )))
+                        ],
+                      )),
+                  Container(
+                      width: Responsive.width(100, context),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                      child: Column(
+                        children: [
+                          Container(
                             width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: Text("New Password*",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black54,
-                                          fontWeight: FontWeight.w500),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: 40,
-                                    child: TextField(
-                                        controller: new_password,
-                                        decoration: InputDecoration(
-                                          focusedBorder:
-                                              inputFocusedBorderStyle(),
-                                          enabledBorder: inputBorderStyle(),
-                                          hintText: 'Enter new password',
-                                          hintStyle: placeholderStyle(15),
-                                          contentPadding:
-                                              EdgeInsets.fromLTRB(5, 10, 3, 10),
-                                        )))
-                              ],
-                            )),
-                        Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                            child: Text("New Password*",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.left),
+                          ),
+                          Container(
+                              width: Responsive.width(100, context),
+                              height: 40,
+                              child: TextField(
+                                  controller: new_password,
+                                  decoration: InputDecoration(
+                                    focusedBorder: inputFocusedBorderStyle(),
+                                    enabledBorder: inputBorderStyle(),
+                                    hintText: 'Enter new password',
+                                    hintStyle: placeholderStyle(15),
+                                    contentPadding:
+                                        EdgeInsets.fromLTRB(5, 10, 3, 10),
+                                  )))
+                        ],
+                      )),
+                  Container(
+                      width: Responsive.width(100, context),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                      child: Column(
+                        children: [
+                          Container(
                             width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: Responsive.width(100, context),
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                  child: Text("Confirm Password*",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black54,
-                                          fontWeight: FontWeight.w500),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                    width: Responsive.width(100, context),
-                                    height: 40,
-                                    child: TextField(
-                                        controller: cnf_password,
-                                        decoration: InputDecoration(
-                                          focusedBorder:
-                                              inputFocusedBorderStyle(),
-                                          enabledBorder: inputBorderStyle(),
-                                          hintText: 'Enter confirm password',
-                                          hintStyle: placeholderStyle(15),
-                                          contentPadding:
-                                              EdgeInsets.fromLTRB(5, 10, 3, 10),
-                                        )))
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                            child: Text("Confirm Password*",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.left),
+                          ),
+                          Container(
+                              width: Responsive.width(100, context),
+                              height: 40,
+                              child: TextField(
+                                  controller: cnf_password,
+                                  decoration: InputDecoration(
+                                    focusedBorder: inputFocusedBorderStyle(),
+                                    enabledBorder: inputBorderStyle(),
+                                    hintText: 'Enter confirm password',
+                                    hintStyle: placeholderStyle(15),
+                                    contentPadding:
+                                        EdgeInsets.fromLTRB(5, 10, 3, 10),
+                                  )))
+                        ],
+                      )),
+                  SizedBox(height: 50),
                   Container(
                     height: 40,
                     width: constraints.maxWidth * 0.65,
@@ -244,7 +231,7 @@ class _ChangePassword extends State<ChangePassword> {
                     child: Material(
                       borderRadius: BorderRadius.circular(10),
                       color: Color(0xFFed1c24),
-                      elevation: 5.0,
+                      // elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
                           if (this.old_password.text == null ||
@@ -256,7 +243,7 @@ class _ChangePassword extends State<ChangePassword> {
                           } else if (this.new_password.text == null ||
                               this.new_password.text.trim() == '') {
                             Toast.show('Please enter new password!',
-//textStyle: context,
+                                //textStyle: context,
                                 duration: Toast.lengthLong,
                                 gravity: Toast.center);
                           } else if (this.cnf_password.text == null ||
@@ -324,7 +311,7 @@ class _ChangePassword extends State<ChangePassword> {
                       ),
                     ),
                   ),
-                ]));
+                ]);
               })),
         ],
       ),

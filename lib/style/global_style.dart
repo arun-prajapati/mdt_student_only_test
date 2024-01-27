@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 InputBorder inputBorderStyle() {
   return OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(2)),
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(
           color: Colors.black26, style: BorderStyle.solid, width: 1.0));
 }
 
 InputBorder inputFocusedBorderStyle() {
   return OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(2)),
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(
           color: Colors.blue[200]!, style: BorderStyle.solid, width: 1.0));
 }
@@ -18,7 +18,7 @@ Decoration textAreaBorderLikeAsInput() {
   return BoxDecoration(
     border:
         Border.all(color: Colors.black26, style: BorderStyle.solid, width: 1.0),
-    borderRadius: BorderRadius.all(Radius.circular(2)),
+    borderRadius: BorderRadius.all(Radius.circular(10)),
   );
 }
 

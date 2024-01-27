@@ -44,7 +44,9 @@ class _SignInFormState extends State<SignInForm> {
     return androidInfo.toMap();
   }
 
-  TextEditingController password = TextEditingController();
+  TextEditingController password = TextEditingController(text: "Diya@123");
+  TextEditingController emailController =
+      TextEditingController(text: "diya.saurabhinfosys@gmail.com");
 
   Future<String?> getId() async {
     //  deviceId = await PlatformDeviceId.getDeviceId;
@@ -286,6 +288,7 @@ class _SignInFormState extends State<SignInForm> {
                         SizedBox(height: 15),
                         //Field 1
                         CustomTextField(
+                          controller: emailController,
                           label: 'Email/Phone Number',
                           prefixIcon: Icon(Icons.mail, color: Dark),
                           validator: (value) {
@@ -306,6 +309,7 @@ class _SignInFormState extends State<SignInForm> {
                         //Field 2
                         CustomTextField(
                           label: 'Password',
+                          controller: password,
                           prefixIcon: Icon(Icons.key, color: Dark),
                           validator: (value) {
                             password.text = value!.trim();
@@ -379,41 +383,57 @@ class _SignInFormState extends State<SignInForm> {
                                 ),
                               ),
 
-                        SizedBox(height: 12),
-                        Container(
-                          //color: Colors.black26,
-                          //width: constraints.maxWidth * 0.8,
-                          margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 2.5,
-                            top: SizeConfig.blockSizeVertical * 3,
-                          ),
-                          alignment: Alignment.centerLeft,
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'Don\'t have an account yet?',
-                              style: defaultStyle,
+                        SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              //color: Colors.black26,
+                              //width: constraints.maxWidth * 0.8,
+                              // margin: EdgeInsets.only(
+                              //   left: SizeConfig.blockSizeHorizontal * 2.5,
+                              //   top: SizeConfig.blockSizeVertical * 3,
+                              // ),
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Don\'t have an account yet? ',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 2.5,
-                            top: SizeConfig.blockSizeVertical * 0.5,
-                          ),
-                          alignment: Alignment.centerLeft,
-                          child: RichText(
-                            text: TextSpan(
-                                text: 'Register here',
-                                style: linkStyle,
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) => Register('1'),
-                                      ),
-                                    );
-                                  }),
-                          ),
+                            Container(
+                              // margin: EdgeInsets.only(
+                              //   left: SizeConfig.blockSizeHorizontal * 2.5,
+                              //   top: SizeConfig.blockSizeVertical * 0.5,
+                              // ),
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                    text: 'Register here',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.underline,
+                                      color: Dark,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) => Register('1'),
+                                          ),
+                                        );
+                                      }),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -585,6 +605,7 @@ class _SignInFormState extends State<SignInForm> {
 
 class CustomTextField extends StatelessWidget {
   final String? label;
+  final String? heading;
   final ValueChanged? onChange;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
@@ -619,62 +640,83 @@ class CustomTextField extends StatelessWidget {
     this.initialCountryCode,
     this.controller,
     this.enabled,
+    this.heading,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: SizeConfig.blockSizeHorizontal * 80,
-      margin: EdgeInsets.only(
-        top: SizeConfig.blockSizeVertical * 1.5,
-      ),
-      child: TextFormField(
-        validator: validator,
-        onChanged: onChange,
-        obscureText: obscureText ?? false,
-        cursorColor: Dark,
-        onFieldSubmitted: onFieldSubmitted,
-        keyboardType: keyboardType ?? TextInputType.text,
-        decoration: InputDecoration(
-          contentPadding:
-              EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical * 1),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-            borderSide: BorderSide(color: Dark, width: 2),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25)),
-              borderSide: BorderSide(color: Dark, width: 2)),
-          disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25)),
-              borderSide: BorderSide(color: Dark, width: 2)),
-          labelText: label,
-          labelStyle: TextStyle(
-              color: Colors.blueGrey,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        heading == null
+            ? SizedBox()
+            : Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  "$heading",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+        Container(
+          width: SizeConfig.blockSizeHorizontal * 80,
+          margin: EdgeInsets.only(top: 3, bottom: 10),
+          child: TextFormField(
+            validator: validator,
+            onChanged: onChange,
+            obscureText: obscureText ?? false,
+            cursorColor: Dark,
+            onFieldSubmitted: onFieldSubmitted,
+            keyboardType: keyboardType ?? TextInputType.text,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.blockSizeVertical * 1, horizontal: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.black38, width: 1.1),
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: Colors.black38, width: 1.1)),
+              disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: Colors.black38, width: 1.1)),
+              // labelText: label,
+              // labelStyle: TextStyle(
+              //     color: Colors.blueGrey,
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w400),
+              hintText: label,
+              hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+              floatingLabelStyle: TextStyle(color: Dark),
+              // errorStyle: TextStyle(
+              //     fontSize: constraints.maxWidth * 0.05),
+              prefixIcon: prefixIcon,
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: Colors.black38, width: 1.1)),
+              focusColor: Dark,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.black38, width: 1.1),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.black38, width: 1.1),
+              ),
+            ),
+            style: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.w400),
-          floatingLabelStyle: TextStyle(color: Dark),
-          // errorStyle: TextStyle(
-          //     fontSize: constraints.maxWidth * 0.05),
-          prefixIcon: prefixIcon,
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25)),
-              borderSide: BorderSide(color: Dark, width: 2)),
-          focusColor: Dark,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-            borderSide: BorderSide(color: Dark, width: 2),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-            borderSide: BorderSide(color: Dark, width: 2),
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      ],
     );
   }
 }

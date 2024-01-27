@@ -14,6 +14,7 @@ class WebViewContainer extends StatefulWidget {
   final heading;
 
   WebViewContainer(this.url, this.heading);
+
   @override
   createState() => _WebViewContainerState(this.url, this.heading);
 }
@@ -25,6 +26,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
   late final WebViewController _controller;
 
   _WebViewContainerState(this._url, this.heading);
+
   @override
   void initState() {
     // TODO: implement initState
@@ -84,18 +86,18 @@ Page resource error:
 
     SizeConfig().init(context);
     return Scaffold(
-        appBar: PreferredSize(
+        /*appBar: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: CustomAppBar(
               preferedHeight: Responsive.height(10, context),
-              iconLeft: FontAwesomeIcons.arrowLeft,
+              iconLeft: Icons.arrow_back,
               title: heading,
               textWidth: Responsive.width(12, context),
               onTap1: () {
                 _navigationService.goBack();
               },
               iconRight: null),
-        ),
+        ),*/
         // AppBar(
         //   //automaticallyImplyLeading: true,
         //   iconTheme: IconThemeData(color: Colors.black),
@@ -119,15 +121,46 @@ Page resource error:
         //     ),
         //   ),
         // ),
-        body: Column(
-          children: [
-            Expanded(
+        body: Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBar(
+              preferedHeight: Responsive.height(10, context),
+              iconLeft: Icons.arrow_back,
+              title: heading,
+              textWidth: Responsive.width(12, context),
+              onTap1: () {
+                _navigationService.goBack();
+              },
+              iconRight: null),
+        ),
+        Positioned(
+          top: 90,
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                  color: Colors.white),
               child: WebViewWidget(
                 key: _key,
                 controller: _controller,
               ),
-            )
-          ],
-        ));
+            ),
+          ),
+        )
+      ],
+    ));
   }
 }

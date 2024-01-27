@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
@@ -25,6 +26,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
     with TickerProviderStateMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
   // late GifController controller;
   LocalServices _localServices = LocalServices();
   List<String> videosName = [
@@ -163,84 +165,98 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
         resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFe1e1e1),
         body: Stack(children: <Widget>[
-          CustomAppBar(
-              preferedHeight: Responsive.height(10, context),
-              title: 'Hazard Perception Test',
-              textWidth: Responsive.width(45, context),
-              iconLeft: Icons.arrow_back,
-              onTap1: () {
-                _navigationService.goBack();
-              },
-              iconRight: null),
-          Container(
-            height: Responsive.height(82, context),
-            width: Responsive.width(100, context),
-            margin:
-                EdgeInsets.fromLTRB(0, Responsive.height(18, context), 0, 0),
-            padding: EdgeInsets.only(bottom: Responsive.height(5, context)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Spacer(),
-                // Container(
-                //   transform: Matrix4.translationValues(
-                //       0, -Responsive.height(05, context), 0),
-                //   child: Gif(
-                //     width: Responsive.width(40, context),
-                //     height: Responsive.height(30, context),
-                //     // controller: controller,
-                //     image: AssetImage("assets/road-in-fulleye.gif"),
-                //   ),
-                // ),
-                Container(
-                  width: Responsive.width(50, context),
-                  height: Responsive.height(30, context),
-                  // controller: gifControl,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/road-in-fulleye.gif")),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: CustomAppBar(
+                preferedHeight: Responsive.height(10, context),
+                title: 'Hazard Perception Test',
+                textWidth: Responsive.width(45, context),
+                iconLeft: Icons.arrow_back,
+                onTap1: () {
+                  _navigationService.goBack();
+                },
+                iconRight: null),
+          ),
+          Positioned(
+            top: 90,
+            child: Container(
+              height: Responsive.height(82, context),
+              width: Responsive.width(100, context),
+              // margin:
+              //     EdgeInsets.fromLTRB(0, Responsive.height(18, context), 0, 0),
+              // padding: EdgeInsets.only(bottom: Responsive.height(5, context)),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
-                ),
-                Spacer(),
-                ElevatedButton(
-                  onPressed: () {
-                    SystemChrome.setPreferredOrientations(
-                        [DeviceOrientation.landscapeLeft]);
-                    _navigationService
-                        .navigateTo(routes.HazardPerceptionTutorialRoute);
-                  },
-                  style: buttonStyle(),
-                  child: Text(
-                    'WATCH TUTORIAL',
-                    style: textStyle(),
+                  color: Color(0xFFe1e1e1)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Spacer(),
+                  // Container(
+                  //   transform: Matrix4.translationValues(
+                  //       0, -Responsive.height(05, context), 0),
+                  //   child: Gif(
+                  //     width: Responsive.width(40, context),
+                  //     height: Responsive.height(30, context),
+                  //     // controller: controller,
+                  //     image: AssetImage("assets/road-in-fulleye.gif"),
+                  //   ),
+                  // ),
+                  Container(
+                    width: Responsive.width(50, context),
+                    height: Responsive.height(30, context),
+                    // controller: gifControl,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/road-in-fulleye.gif")),
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    SystemChrome.setPreferredOrientations(
-                        [DeviceOrientation.landscapeLeft]).then((_) {
+                  Spacer(),
+                  ElevatedButton(
+                    onPressed: () {
+                      SystemChrome.setPreferredOrientations(
+                          [DeviceOrientation.landscapeLeft]);
                       _navigationService
-                          .navigateTo(routes.HazardPerceptionConfirmationRoute);
-                    });
-                  },
-                  style: buttonStyle(),
-                  child: Text('START TEST', style: textStyle()),
-                ),
-                // SizedBox(height: 10),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     _navigationService
-                //         .navigateTo(routes.HazardPerceptionVideosListRoute);
-                //   },
-                //   style: buttonStyle(),
-                //   child: Text(
-                //     'HAZARD PERCEPTION VIDEOS',
-                //     style: textStyle(),
-                //   ),
-                // )
-              ],
+                          .navigateTo(routes.HazardPerceptionTutorialRoute);
+                    },
+                    style: buttonStyle(),
+                    child: Text(
+                      'WATCH TUTORIAL',
+                      style: textStyle(),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      SystemChrome.setPreferredOrientations(
+                          [DeviceOrientation.landscapeLeft]).then((_) {
+                        _navigationService.navigateTo(
+                            routes.HazardPerceptionConfirmationRoute);
+                      });
+                    },
+                    style: buttonStyle(),
+                    child: Text('START TEST', style: textStyle()),
+                  ),
+                  // SizedBox(height: 10),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     _navigationService
+                  //         .navigateTo(routes.HazardPerceptionVideosListRoute);
+                  //   },
+                  //   style: buttonStyle(),
+                  //   child: Text(
+                  //     'HAZARD PERCEPTION VIDEOS',
+                  //     style: textStyle(),
+                  //   ),
+                  // )
+                ],
+              ),
             ),
           )
         ]));

@@ -8,9 +8,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/json_model.dart';
 import 'package:toast/toast.dart';
-
+import 'package:http/http.dart' as http;
 import '../../Constants/global.dart';
 import '../../custom_practice_theory_test/answer_correct_wrong.dart';
 import '../../custom_practice_theory_test/test_setting_dialog.dart';
@@ -36,6 +38,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
   final PaymentService _paymentService = new PaymentService();
+
   // final AuthProvider auth_services = new AuthProvider();
   bool isTestStarted = false;
   int selectedQuestionIndex = 0;
@@ -46,6 +49,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Map? walletDetail = null;
   static int? selectedCategoryIndex;
   List questionsList = [];
+  List<PracticeTestCategoryModel> categoryList = [];
   List responseList = [];
   List testQuestionsForResult = [];
   List resultRecordsList = [];
@@ -65,7 +69,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   @override
   void initState() {
     super.initState();
-
+    getNewCat();
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
@@ -107,6 +111,35 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return _userId;
   }
 
+  /// =========== ///
+  Future<Widget> getNewCat() async {
+    final url = Uri.parse("$api/api/get-categories");
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
+    final response = await http.get(url, headers: header);
+    if (response.statusCode == 200) {
+      log("++++++++++++++++= ${response.body}");
+      var parsedData = jsonDecode(response.body);
+      if (parsedData['success'] == true) {
+        categoryList = (parsedData['data'] as List)
+            .map((e) => PracticeTestCategoryModel.fromJson(e))
+            .toList();
+        setState(() {});
+        return SizedBox();
+      } else {
+        categoryList = [];
+        setState(() {});
+        return SizedBox();
+      }
+    } else {
+      return SizedBox();
+    }
+  }
+
+  /// ==========///
   //Call APi Services
   Future<List> getCategoriesFromApi() async {
     List response = await test_api_services.getCategories();
@@ -162,8 +195,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         // Navigator.pop(context);
         log("Category : $response_list");
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-        showDialog(
-            barrierDismissible: false,
+        showModalBottomSheet(
+            isDismissible: false,
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            )),
             context: context,
             builder: (BuildContext context) {
               // Navigator.pop(context);
@@ -185,6 +223,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         .pop();
                     questionsList = response_list;
                     setState(() => isTestStarted = true);
+                    // context.read<AuthProvider>().changeView = true;
+                    setState(() {});
                   });
                 },
               );
@@ -1287,7 +1327,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 log("Category : $response_list");
                 Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                     .pop();
-                showDialog(
+                showModalBottomSheet(
+                    isDismissible: false,
                     context: context,
                     builder: (BuildContext context) {
                       return TestSettingDialogBox(
