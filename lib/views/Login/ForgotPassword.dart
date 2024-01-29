@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/custom_button.dart';
 import 'package:student_app/views/Login/forgot_next_screen.dart';
 import 'package:student_app/views/Login/login.dart';
 
@@ -10,6 +11,7 @@ import '../../responsive/size_config.dart';
 import '../../services/methods.dart';
 import '../../services/password_services.dart';
 import '../../services/validator.dart';
+import '../../utils/appImages.dart';
 import '../spinner.dart';
 
 class ForgotPassword extends StatelessWidget {
@@ -76,30 +78,6 @@ class ForgotPassword extends StatelessWidget {
     );
   }
 
-  Future<void> submit(BuildContext context) async {
-    final form = _formKey.currentState;
-    print("form state : ${form!.validate()}");
-    if (form.validate()) {
-      Map data = {
-        'email': email,
-        'user_type': '2',
-      };
-      Spinner.showSpinner(context, "Sending code");
-      //print(data);
-      Future.delayed(Duration(seconds: 2));
-      _passwordService.forgotPassword(data).then((res) {
-        if (res["success"] == false) {
-          Spinner.close(context);
-          showValidationDialog(context, res["error"]);
-        } else {
-          Spinner.close(context);
-          showSuccessDialog(context, res["message"]);
-        }
-        print("Response: $res");
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -118,25 +96,184 @@ class ForgotPassword extends StatelessWidget {
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
-                CustomPaint(
-                  size: Size(width, height),
-                  painter: HeaderPainter(),
-                ),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 20,
-                  left: SizeConfig.blockSizeHorizontal * 28,
-                  child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 22,
-                    backgroundColor: Colors.white,
-                    child: Container(
-                        child: Image.asset(
-                      "assets/stt_s_logo.png",
-                      height: SizeConfig.blockSizeVertical * 45,
-                      width: SizeConfig.blockSizeHorizontal * 45,
-                      fit: BoxFit.contain,
-                    )),
+                Stack(children: [
+                  Image.asset(
+                    AppImages.bgRegister,
+                    //height: 300,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.fitWidth,
                   ),
-                ),
+                  Positioned(
+                    top: SizeConfig.blockSizeVertical * 25,
+                    left: SizeConfig.blockSizeHorizontal * 28,
+                    child: CircleAvatar(
+                      radius: SizeConfig.blockSizeHorizontal * 22,
+                      backgroundColor: Colors.white,
+                      child: Container(
+                        child: Image.asset(
+                          "assets/stt_Logo.png",
+                          height: 180,
+                          width: 182,
+                          //fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+
+                // Positioned(
+                //   top: 415,
+                //   left: 25,
+                //   right: 25,
+                //   child: SizedBox(
+                //     height: 400,
+                //     child: Padding(
+                //       padding: EdgeInsets.all(20),
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //             color: Colors.white,
+                //             borderRadius: BorderRadius.circular(20),
+                //             boxShadow: [
+                //               BoxShadow(
+                //                   color: Colors.black.withOpacity(0.1),
+                //                   blurRadius: 15,
+                //                   spreadRadius: 0),
+                //             ]),
+                //         child: Padding(
+                //           padding: EdgeInsets.all(20),
+                //           child: Column(
+                //             children: [
+                //               CustomButton(
+                //                   onTap: () {
+                //                     Navigator.of(context).push(
+                //                       MaterialPageRoute(
+                //                         builder: (context) => Register('2'),
+                //                       ),
+                //                     );
+                //                   },
+                //                   gradient: LinearGradient(
+                //                       end: Alignment.centerLeft,
+                //                       begin: Alignment.centerRight,
+                //                       colors: [
+                //                         AppColors.blueGrad1,
+                //                         AppColors.blueGrad2,
+                //                         AppColors.blueGrad3,
+                //                         AppColors.blueGrad4,
+                //                         AppColors.blueGrad5,
+                //                         AppColors.blueGrad6,
+                //                         AppColors.blueGrad7,
+                //                       ])),
+                //               CustomButton(
+                //                   gradient: LinearGradient(
+                //                       end: Alignment.centerLeft,
+                //                       begin: Alignment.centerRight,
+                //                       colors: [
+                //                     AppColors.primary,
+                //                     AppColors.secondary,
+                //                   ])),
+                //               // Row(
+                //               //   children: [
+                //               //     Expanded(
+                //               //       child: GestureDetector(
+                //               //         onTap: () {
+                //               //           Navigator.of(context).push(
+                //               //             MaterialPageRoute(
+                //               //               builder: (context) => Register('2'),
+                //               //             ),
+                //               //           );
+                //               //         },
+                //               //         child: Container(
+                //               //           decoration: BoxDecoration(
+                //               //               borderRadius: BorderRadius.circular(10),
+                //               //               gradient: LinearGradient(
+                //               //                   end: Alignment.centerLeft,
+                //               //                   begin: Alignment.centerRight,
+                //               //                   colors: [
+                //               //                     AppColors.blueGrad1,
+                //               //                     AppColors.blueGrad2,
+                //               //                     AppColors.blueGrad3,
+                //               //                     AppColors.blueGrad4,
+                //               //                     AppColors.blueGrad5,
+                //               //                     AppColors.blueGrad6,
+                //               //                     AppColors.blueGrad7,
+                //               //                   ])),
+                //               //           child: Padding(
+                //               //             padding: EdgeInsets.symmetric(vertical: 15),
+                //               //             child: Text('Register',
+                //               //                 textAlign: TextAlign.center,
+                //               //                 style: TextStyle(
+                //               //                   fontFamily: 'Poppins',
+                //               //                   fontSize: 15,
+                //               //                   color: AppColors.white,
+                //               //                   fontWeight: FontWeight.w600,
+                //               //                 )),
+                //               //           ),
+                //               //         ),
+                //               //       ),
+                //               //     ),
+                //               //   ],
+                //               // ),
+                //               SizedBox(height: 10),
+                //               Material(
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 borderOnForeground: true,
+                //                 color: Dark,
+                //                 elevation: 5.0,
+                //                 child: MaterialButton(
+                //                   onPressed: () {
+                //                     Navigator.of(context).push(
+                //                       MaterialPageRoute(
+                //                         builder: (context) => SignInForm(),
+                //                       ),
+                //                     );
+                //                   },
+                //                   child: Padding(
+                //                     padding: EdgeInsets.symmetric(
+                //                         horizontal: 15, vertical: 10),
+                //                     child: Text(
+                //                       'Login',
+                //                       style: TextStyle(
+                //                         fontFamily: 'Poppins',
+                //                         fontSize: SizeConfig.blockSizeHorizontal * 4.8,
+                //                         fontWeight: FontWeight.w700,
+                //                         color: Colors.white,
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //               Row(
+                //                 children: [
+                //                   Container(
+                //                     width: SizeConfig.blockSizeHorizontal * 11,
+                //                     child: Divider(
+                //                       thickness: 2,
+                //                       color: AppColors.grey,
+                //                     ),
+                //                   ),
+                //                   Center(
+                //                     child: Text(
+                //                       "Or connect with",
+                //                       style: TextStyle(
+                //                           letterSpacing: 2,
+                //                           fontSize: 15,
+                //                           color: AppColors.grey,
+                //                           fontWeight: FontWeight.w400),
+                //                     ),
+                //                   ),
+                //                   Divider(
+                //                     thickness: 2,
+                //                     color: Dark,
+                //                   ),
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // Positioned(
                 //   top: SizeConfig.blockSizeVertical * 38,
                 //   child: Container(
@@ -164,12 +301,13 @@ class ForgotPassword extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      SizedBox(height: 40),
                       CustomTextField(
                         label: 'Email',
-                        prefixIcon: const Icon(
-                          Icons.mail,
-                          color: Dark,
-                        ),
+                        // prefixIcon: const Icon(
+                        //   Icons.mail,
+                        //   color: Dark,
+                        // ),
                         validator: (value) {
                           email = value!.trim();
                           print('VALL  //////      $value');
@@ -188,34 +326,39 @@ class ForgotPassword extends StatelessWidget {
                         textInputAction: TextInputAction.done,
                       ),
                       Container(
-                        //width: SizeConfig.blockSizeHorizontal * 50,
+                        width: SizeConfig.blockSizeHorizontal * 80,
                         margin: EdgeInsets.only(
                             top: SizeConfig.blockSizeVertical * 4.8),
                         //color: Colors.black12,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(25),
-                          borderOnForeground: true,
-                          color: Dark,
-                          elevation: 5.0,
-                          child: MaterialButton(
-                            onPressed: () {
+                        child: CustomButton(
+                            title: 'Send Code',
+                            onTap: () {
                               submit(context);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
-                              child: Text(
-                                'Send Code',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: SizeConfig.blockSizeHorizontal * 5,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                            }),
+                        // Material(
+                        //   borderRadius: BorderRadius.circular(25),
+                        //   borderOnForeground: true,
+                        //   color: Dark,
+                        //   elevation: 5.0,
+                        //   child: MaterialButton(
+                        //     onPressed: () {
+                        //       submit(context);
+                        //     },
+                        //     child: Padding(
+                        //       padding: EdgeInsets.symmetric(
+                        //           horizontal: 15, vertical: 10),
+                        //       child: Text(
+                        //         'Send Code',
+                        //         style: TextStyle(
+                        //           fontFamily: 'Poppins',
+                        //           fontSize: SizeConfig.blockSizeHorizontal * 5,
+                        //           fontWeight: FontWeight.w700,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ),
                     ],
                   ),
@@ -226,6 +369,30 @@ class ForgotPassword extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> submit(BuildContext context) async {
+    final form = _formKey.currentState;
+    print("form state : ${form!.validate()}");
+    if (form.validate()) {
+      Map data = {
+        'email': email,
+        'user_type': '2',
+      };
+      Spinner.showSpinner(context, "Sending code");
+      //print(data);
+      Future.delayed(Duration(seconds: 2));
+      _passwordService.forgotPassword(data).then((res) {
+        if (res["success"] == false) {
+          Spinner.close(context);
+          showValidationDialog(context, res["error"]);
+        } else {
+          Spinner.close(context);
+          showSuccessDialog(context, res["message"]);
+        }
+        print("Response: $res");
+      });
+    }
   }
 }
 

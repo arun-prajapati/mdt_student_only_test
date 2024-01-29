@@ -1,13 +1,16 @@
+import 'dart:developer';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
+import 'package:student_app/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
+import '../../services/social_login.dart';
 import '../../utils/appImages.dart';
 import '../../utils/app_colors.dart';
 import 'login.dart';
@@ -370,27 +373,33 @@ class Welcome extends StatelessWidget {
               //   ),
               // ),
             ]),
-            Positioned(
-                top: 400,
+            SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                height: 370,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: AppColors.black.withOpacity(0.1),
+                        offset: Offset(0, 0),
+                        blurRadius: 15,
+                        spreadRadius: 0),
+                  ],
+                ),
                 child: Padding(
                   padding: EdgeInsets.all(20),
-                  child: Container(
-                    height: 400,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                            color: AppColors.black.withOpacity(0.1),
-                            offset: Offset(0, 0),
-                            blurRadius: 15,
-                            spreadRadius: 0),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Let\'s Get Started',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w500)),
+                      SizedBox(height: 30),
+                      Row(
                         children: [
                           Expanded(
                             child: CustomButton(
@@ -408,58 +417,106 @@ class Welcome extends StatelessWidget {
                                   ]),
                               title: 'Register',
                               onTap: () {
+                                log('Open Registration');
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => SignInForm(),
+                                    builder: (context) => Register('2'),
                                   ),
                                 );
                               },
                             ),
                           ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
                           Expanded(
                             child: CustomButton(
                               gradient: null,
                               title: 'Login',
                               onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => SignInForm(),
-                                  ),
-                                );
+                                print('Open Login Page');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignInForm()));
                               },
                             ),
                           ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Divider(
-                                  thickness: 2,
-                                  color: AppColors.grey,
-                                ),
-                                Text(
-                                  "or",
-                                  style: TextStyle(
-                                      letterSpacing: 2,
-                                      fontSize: 15,
-                                      color: AppColors.grey,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Divider(
-                                  thickness: 2,
-                                  color: AppColors.grey,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                              child: Row(
-                            children: [],
-                          ))
                         ],
                       ),
-                    ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppImages.line,
+                            width: 50,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              "Or connect with",
+                              style: TextStyle(
+                                  letterSpacing: 1,
+                                  fontSize: 15,
+                                  color: AppColors.grey,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          Image.asset(
+                            AppImages.line,
+                            width: 50,
+                          ),
+                          // Divider(
+                          //   endIndent: 70,
+                          //   thickness: 1,
+                          //   color: AppColors.grey,
+                          // ),
+                        ],
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            socialIconCustom(
+                              image: AppImages.google,
+                              onTap: () {
+                                SocialLoginService(context).googleSignIn();
+                                print(
+                                    'Click ***********************----------- ');
+                              },
+                            ),
+                            SizedBox(width: 30),
+                            socialIconCustom(
+                              image: AppImages.apple,
+                              onTap: () {
+                                SocialLoginService(context)
+                                    .signInWithApple(context);
+                                print('apple******************----------- ');
+                              },
+                            ),
+                            SizedBox(width: 30),
+                            socialIconCustom(
+                              image: AppImages.facebook,
+                              onTap: () {
+                                _facebookUrl =
+                                    "https://www.facebook.com/mockdrivingtest/";
+                                print(_facebookUrl);
+                                _launchURL(_facebookUrl);
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                ))
+                ),
+              ),
+            )
           ],
         ));
     // Stack(children: [
@@ -713,6 +770,41 @@ class Welcome extends StatelessWidget {
     //     ),
     //   ),
     // ]));
+  }
+}
+
+class socialIconCustom extends StatelessWidget {
+  final VoidCallback? onTap;
+  final String? image;
+  const socialIconCustom({
+    super.key,
+    this.onTap,
+    this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: AppColors.black.withOpacity(0.1),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Image.asset(
+            '${image}',
+            height: 25,
+            width: 25,
+          ),
+        ),
+      ),
+    );
   }
 }
 

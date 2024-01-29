@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
@@ -180,7 +179,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
                 iconRight: null),
           ),
           Positioned(
-            top: 90,
+            top: 110,
             child: Container(
               height: Responsive.height(82, context),
               width: Responsive.width(100, context),

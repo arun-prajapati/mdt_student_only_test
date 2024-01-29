@@ -13,5 +13,7 @@ class AppColors {
   static Color blueGrad5 = Color(0xFF425AA3);
   static Color blueGrad6 = Color(0xFF3F57A0);
   static Color blueGrad7 = Color(0xFF2A428B);
+  static Color borderblue = Color(0xFF4B7BA1);
+  static Color bgColor = Color(0xFFF3F9FB);
   static Color grey = Colors.grey;
 }

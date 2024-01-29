@@ -255,8 +255,8 @@ class _driverProfile extends State<DriverProfile> {
               },
               iconRight: null),
           Container(
-              margin: EdgeInsets.fromLTRB(
-                  0, Responsive.height(10.8, context), 0, 0),
+              margin:
+                  EdgeInsets.fromLTRB(0, Responsive.height(14, context), 0, 0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),

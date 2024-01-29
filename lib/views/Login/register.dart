@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
-
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/custom_button.dart';
 import 'package:student_app/views/Login/login.dart';
 import 'package:toast/toast.dart';
 
@@ -22,6 +22,8 @@ import '../../services/auth.dart';
 import '../../services/methods.dart';
 import '../../services/navigation_service.dart';
 import '../../services/validator.dart';
+import '../../utils/appImages.dart';
+import '../../utils/app_colors.dart';
 
 class Register extends StatefulWidget {
   late String user;
@@ -216,61 +218,83 @@ reg data
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
-                CustomPaint(
-                  size: Size(width, height),
-                  painter: RegisterHeaderPainter(),
+                Image.asset(
+                  AppImages.bgWelcome,
+                  //height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.fitWidth,
                 ),
                 Positioned(
-                  top: SizeConfig.blockSizeVertical * 20,
+                    left: 25,
+                    top: SizeConfig.blockSizeVertical * 10,
+                    child: backArrowCustom()),
+                Positioned(
+                  top: SizeConfig.blockSizeVertical * 10,
                   left: SizeConfig.blockSizeHorizontal * 28,
                   child: CircleAvatar(
                     radius: SizeConfig.blockSizeHorizontal * 22,
                     backgroundColor: Colors.white,
                     child: Container(
                       child: Image.asset(
-                        "assets/stt_s_logo.png",
-                        height: SizeConfig.blockSizeVertical * 45,
-                        width: SizeConfig.blockSizeHorizontal * 45,
-                        fit: BoxFit.contain,
+                        "assets/stt_Logo.png",
+                        height: 180,
+                        width: 182,
+                        //fit: BoxFit.contain,
                       ),
                     ),
                   ),
                 ),
+                // CustomPaint(
+                //   size: Size(width, height),
+                //   painter: RegisterHeaderPainter(),
+                // ),
                 // Positioned(
-                //   top: SizeConfig.blockSizeVertical * 37,
-                //   child: Container(
-                //     child: Text(
-                //       'MDT Learner Driver',
-                //       style: TextStyle(
-                //           letterSpacing: 1.0,
-                //           fontFamily: 'Poppins',
-                //           fontSize: SizeConfig.blockSizeHorizontal * 6,
-                //           fontWeight: FontWeight.w600,
-                //           color: Colors.black),
+                //   top: SizeConfig.blockSizeVertical * 20,
+                //   left: SizeConfig.blockSizeHorizontal * 28,
+                //   child: CircleAvatar(
+                //     radius: SizeConfig.blockSizeHorizontal * 22,
+                //     backgroundColor: Colors.white,
+                //     child: Container(
+                //       child: Image.asset(
+                //         "assets/stt_s_logo.png",
+                //         height: SizeConfig.blockSizeVertical * 45,
+                //         width: SizeConfig.blockSizeHorizontal * 45,
+                //         fit: BoxFit.contain,
+                //       ),
                 //     ),
                 //   ),
                 // ),
                 Positioned(
-                  top: SizeConfig.blockSizeVertical * 38,
-                  child: Container(
-                    //alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Welcome!',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 23,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
+                  top: SizeConfig.blockSizeVertical * 31,
+                  // left: SizeConfig.blockSizeHorizontal * 28,
+                  child: Column(
+                    children: [
+                      Text(
+                        'Register Here',
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                      Text(
+                        'Fill up your details below to register',
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
-                  width: SizeConfig.blockSizeHorizontal * 85,
-                  height: SizeConfig.blockSizeVertical * 53,
+                  width: SizeConfig.blockSizeHorizontal * 90,
+                  height: SizeConfig.blockSizeVertical * 50,
                   margin: EdgeInsets.fromLTRB(
-                    SizeConfig.blockSizeHorizontal * 7.5,
+                    SizeConfig.blockSizeHorizontal * 4.5,
                     SizeConfig.blockSizeVertical * 41,
-                    SizeConfig.blockSizeHorizontal * 7.5,
+                    SizeConfig.blockSizeHorizontal * 4.5,
                     0.0,
                   ),
                   //color: Colors.black12,
@@ -280,7 +304,7 @@ reg data
                     children: [
                       Container(
                         //width: SizeConfig.blockSizeHorizontal * 85,
-                        height: SizeConfig.blockSizeVertical * 48,
+                        height: SizeConfig.blockSizeVertical * 44,
                         //SizeConfig.blockSizeVertical * 55,
                         child: ListView(
                           padding: EdgeInsets.only(
@@ -291,7 +315,7 @@ reg data
                             Column(
                               children: [
                                 CustomTextField(
-                                  label: 'Full Name',
+                                  label: 'Enter Full Name',
                                   heading: 'Full Name',
                                   // prefixIcon: Icon(Icons.person, color: Dark),
                                   validator: (value) {
@@ -312,7 +336,7 @@ reg data
                                 ),
                                 //Field 2
                                 CustomTextField(
-                                  label: 'Email',
+                                  label: 'Enter Email',
                                   heading: 'Email',
                                   // prefixIcon: Icon(
                                   //   Icons.email,
@@ -349,7 +373,7 @@ reg data
                                   ),
                                 ),
                                 Container(
-                                  width: SizeConfig.blockSizeHorizontal * 80,
+                                  width: SizeConfig.blockSizeHorizontal * 85,
                                   // margin: EdgeInsets.only(
                                   //   top: SizeConfig.blockSizeVertical * 1.5,
                                   // ),
@@ -358,7 +382,7 @@ reg data
                                     textAlign: TextAlign.left,
                                     dropdownIcon: Icon(
                                         Icons.keyboard_arrow_down,
-                                        color: Colors.black38),
+                                        color: Colors.black),
                                     dropdownIconPosition: IconPosition.trailing,
                                     flagsButtonMargin:
                                         EdgeInsets.only(left: 10),
@@ -378,45 +402,45 @@ reg data
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                         borderSide: BorderSide(
-                                            color: Colors.black38, width: 1.1),
+                                            color: AppColors.black, width: 1.1),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
-                                              color: Colors.black38,
+                                              color: AppColors.black,
                                               width: 1.1)),
                                       disabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
-                                              color: Colors.black38,
+                                              color: AppColors.black,
                                               width: 1.1)),
                                       errorBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
-                                              color: Colors.black38,
+                                              color: AppColors.black,
                                               width: 1.1)),
                                       focusColor: Dark,
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                         borderSide: BorderSide(
-                                            color: Colors.black38, width: 1.1),
+                                            color: AppColors.black, width: 1.1),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                         borderSide: BorderSide(
-                                            color: Colors.black38, width: 1.1),
+                                            color: AppColors.black, width: 1.1),
                                       ),
                                       hintStyle: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400),
 
-                                      hintText: 'Mobile',
+                                      hintText: 'Enter Mobile Number',
                                       errorStyle: TextStyle(
                                         fontSize: 12,
                                         decorationColor: Dark,
@@ -459,10 +483,12 @@ reg data
                                 ),
                                 SizedBox(height: 10),
                                 CustomTextField(
-                                  label: 'Password',
+                                  label: 'Enter Password',
                                   heading: 'Password',
                                   // prefixIcon:
                                   //     const Icon(Icons.password, color: Dark),
+                                  suffixIcon:
+                                      Icon(Icons.remove_red_eye_outlined),
                                   validator: (value) {
                                     password = value!.trim();
                                     return Validate.passwordValidation(value);
@@ -503,44 +529,43 @@ reg data
                                   keyboardType: TextInputType.text,
                                   textInputAction: TextInputAction.done,
                                 ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // height: constraints.maxHeight * 0.11,
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 50,
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                3),
-                                        child: Material(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Dark,
-                                          elevation: 5.0,
-                                          child: MaterialButton(
-                                            onPressed: submit,
-                                            child: Text(
-                                              'Register',
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w700,
-                                                color: Color.fromRGBO(
-                                                    255, 255, 255, 1.0),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+
+                                // Container(
+                                //   // height: constraints.maxHeight * 0.11,
+                                //   width:
+                                //       SizeConfig.blockSizeHorizontal * 50,
+                                //   margin: EdgeInsets.only(
+                                //       top: SizeConfig.blockSizeVertical *
+                                //           3),
+                                //   child: Material(
+                                //     borderRadius:
+                                //         BorderRadius.circular(10),
+                                //     color: Dark,
+                                //     elevation: 5.0,
+                                //     child: MaterialButton(
+                                //       onPressed: submit,
+                                //       child: Text(
+                                //         'Register',
+                                //         style: TextStyle(
+                                //           fontFamily: 'Poppins',
+                                //           fontSize: 22,
+                                //           fontWeight: FontWeight.w700,
+                                //           color: Color.fromRGBO(
+                                //               255, 255, 255, 1.0),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             )
                           ],
                         ),
                       ),
+                      // CustomButton(
+                      //   title: 'Register',
+                      //   onTap: submit,
+                      // )
                       // Column(
                       //   children: [
                       //     Padding(
@@ -578,51 +603,63 @@ reg data
                   ),
                 ),
                 Positioned(
+                  bottom: 50,
+                  child: Container(
+                    color: AppColors.white,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 40, right: 40, top: 10, bottom: 10),
+                      child: CustomButton(
+                        title: 'Register',
+                        onTap: submit,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
                   bottom: 10,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 15),
-                    child: Container(
-                      width: SizeConfig.blockSizeHorizontal * 80,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Already have an account? ',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Already have an account? ',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                //left: SizeConfig.blockSizeHorizontal * 2.5,
-                                // top: SizeConfig.blockSizeVertical * 0.5,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              //left: SizeConfig.blockSizeHorizontal * 2.5,
+                              // top: SizeConfig.blockSizeVertical * 0.5,
+                              ),
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Login here',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.underline,
+                                  color: Dark,
                                 ),
-                            child: RichText(
-                              text: TextSpan(
-                                  text: 'Login here',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.underline,
-                                    color: Dark,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) => SignInForm(),
-                                        ),
-                                      );
-                                    }),
-                            ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) => SignInForm(),
+                                      ),
+                                    );
+                                  }),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -642,6 +679,28 @@ reg data
     _confirmPasswordFocusNode.dispose();
     _phoneFocusNode.dispose();
     super.dispose();
+  }
+}
+
+class backArrowCustom extends StatelessWidget {
+  const backArrowCustom({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AppColors.black.withOpacity(0.1))),
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back)),
+        ));
   }
 }
 

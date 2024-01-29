@@ -6,8 +6,10 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/custom_button.dart';
 import 'package:student_app/views/Login/ForgotPassword.dart';
 import 'package:student_app/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +22,8 @@ import '../../services/auth.dart';
 import '../../services/methods.dart';
 import '../../services/navigation_service.dart';
 import '../../services/validator.dart';
+import '../../utils/appImages.dart';
+import '../../utils/app_colors.dart';
 
 class SignInForm extends StatefulWidget {
   @override
@@ -218,26 +222,52 @@ class _SignInFormState extends State<SignInForm> {
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
-                CustomPaint(
-                  size: Size(width, height),
-                  painter: HeaderPainter(),
+                Image.asset(
+                  AppImages.bgLogin,
+                  //height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.fitWidth,
                 ),
                 Positioned(
-                  top: SizeConfig.blockSizeVertical * 20,
+                    left: 25,
+                    top: SizeConfig.blockSizeVertical * 8,
+                    child: backArrowCustom()),
+                Positioned(
+                  top: SizeConfig.blockSizeVertical * 18,
                   left: SizeConfig.blockSizeHorizontal * 28,
                   child: CircleAvatar(
                     radius: SizeConfig.blockSizeHorizontal * 22,
                     backgroundColor: Colors.white,
                     child: Container(
                       child: Image.asset(
-                        "assets/stt_s_logo.png",
-                        height: SizeConfig.blockSizeVertical * 45,
-                        width: SizeConfig.blockSizeHorizontal * 45,
-                        fit: BoxFit.contain,
+                        "assets/stt_Logo.png",
+                        height: 180,
+                        width: 182,
+                        //fit: BoxFit.contain,
                       ),
                     ),
                   ),
                 ),
+                // CustomPaint(
+                //   size: Size(width, height),
+                //   painter: HeaderPainter(),
+                // ),
+                // Positioned(
+                //   top: SizeConfig.blockSizeVertical * 20,
+                //   left: SizeConfig.blockSizeHorizontal * 28,
+                //   child: CircleAvatar(
+                //     radius: SizeConfig.blockSizeHorizontal * 22,
+                //     backgroundColor: Colors.white,
+                //     child: Container(
+                //       child: Image.asset(
+                //         "assets/stt_s_logo.png",
+                //         height: SizeConfig.blockSizeVertical * 45,
+                //         width: SizeConfig.blockSizeHorizontal * 45,
+                //         fit: BoxFit.contain,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // Positioned(
                 //   top: SizeConfig.blockSizeVertical * 38,
                 //   child: Container(
@@ -262,10 +292,10 @@ class _SignInFormState extends State<SignInForm> {
                 // ),
                 Container(
                   width: SizeConfig.blockSizeHorizontal * 85,
-                  height: SizeConfig.blockSizeVertical * 54,
+                  height: SizeConfig.blockSizeVertical * 80,
                   margin: EdgeInsets.fromLTRB(
                     SizeConfig.blockSizeHorizontal * 7.5,
-                    SizeConfig.blockSizeVertical * 40,
+                    SizeConfig.blockSizeVertical * 32,
                     SizeConfig.blockSizeHorizontal * 7.5,
                     0.0,
                   ),
@@ -279,18 +309,30 @@ class _SignInFormState extends State<SignInForm> {
                             'Welcome back!',
                             style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
+                              fontSize: 18,
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
                             ),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        Center(
+                          child: Text(
+                            'Fill Up Your Details below to login',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 35),
                         //Field 1
                         CustomTextField(
                           controller: emailController,
-                          label: 'Email/Phone Number',
-                          prefixIcon: Icon(Icons.mail, color: Dark),
+                          heading: 'Email/Mobile Number',
+                          label: 'Enter Email/Mobile Number',
+                          //prefixIcon: Icon(Icons.mail, color: Dark),
                           validator: (value) {
                             email = value!.trim();
                             return Validate.validateEmail(value);
@@ -308,9 +350,10 @@ class _SignInFormState extends State<SignInForm> {
                         ),
                         //Field 2
                         CustomTextField(
-                          label: 'Password',
+                          label: 'Enter Password',
+                          heading: 'Password',
                           controller: password,
-                          prefixIcon: Icon(Icons.key, color: Dark),
+                          // prefixIcon: Icon(Icons.key, color: Dark),
                           validator: (value) {
                             password.text = value!.trim();
                             return Validate.passwordValidation(value);
@@ -329,7 +372,17 @@ class _SignInFormState extends State<SignInForm> {
                         SizedBox(height: 10),
                         Align(
                           alignment: Alignment.centerRight,
-                          child: InkWell(
+                          // child: InkWell(
+                          //   onTap: () {
+                          //     Navigator.of(context).push(
+                          //       MaterialPageRoute(
+                          //         builder: (context) => ForgotPassword(),
+                          //       ),
+                          //     );
+                          //     print('FORGOT T*/////');
+                          //     password.clear();
+                          //   },
+                          child: GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -339,51 +392,71 @@ class _SignInFormState extends State<SignInForm> {
                               print('FORGOT T*/////');
                               password.clear();
                             },
-                            child: Text(
-                              'Forgot password?',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 15,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Dark,
-                                decorationThickness: 2,
-                                color: Dark,
-                                fontWeight: FontWeight.w500,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: AppColors.blueGrad7))),
+                              child: GradientText(
+                                'Forgot password?',
+                                colors: [
+                                  AppColors.blueGrad7,
+                                  AppColors.blueGrad6,
+                                  AppColors.blueGrad5,
+                                  AppColors.blueGrad4,
+                                  AppColors.blueGrad3,
+                                  //AppColors.blueGrad2,
+                                  AppColors.blueGrad1,
+                                ],
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15,
+                                  decorationThickness: 2,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                         ),
+                        //   ),
+                        SizedBox(height: 35),
 
                         Provider.of<AuthProvider>(context).status ==
                                 Status.Authenticating
-                            ? const Center(child: CircularProgressIndicator())
-                            : Container(
-                                // height: constraints.maxHeight * 0.11,
-                                width: SizeConfig.blockSizeHorizontal * 50,
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 5),
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Dark,
-                                  elevation: 5.0,
-                                  child: MaterialButton(
-                                    onPressed: submit,
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize:
-                                            SizeConfig.blockSizeHorizontal * 5,
-                                        fontWeight: FontWeight.w700,
-                                        color:
-                                            Color.fromRGBO(255, 255, 255, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                            ? Center(child: CircularProgressIndicator())
+                            : CustomButton(
+                                title: 'Login',
+                                onTap: submit,
                               ),
+                        SizedBox(height: 5),
+                        // Container(
+                        //         // height: constraints.maxHeight * 0.11,
+                        //         width: SizeConfig.blockSizeHorizontal * 50,
+                        //         margin: EdgeInsets.only(
+                        //             top: SizeConfig.blockSizeVertical * 5),
+                        //         child: Material(
+                        //           borderRadius: BorderRadius.circular(10),
+                        //           color: Dark,
+                        //           elevation: 5.0,
+                        //           child: MaterialButton(
+                        //             onPressed: submit,
+                        //             child: Text(
+                        //               'Login',
+                        //               style: TextStyle(
+                        //                 fontFamily: 'Poppins',
+                        //                 fontSize:
+                        //                     SizeConfig.blockSizeHorizontal * 5,
+                        //                 fontWeight: FontWeight.w700,
+                        //                 color:
+                        //                     Color.fromRGBO(255, 255, 255, 1.0),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
 
-                        SizedBox(height: 30),
+                        SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -413,24 +486,32 @@ class _SignInFormState extends State<SignInForm> {
                               //   top: SizeConfig.blockSizeVertical * 0.5,
                               // ),
                               alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                    text: 'Register here',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      decoration: TextDecoration.underline,
-                                      color: Dark,
-                                    ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                            builder: (context) => Register('1'),
-                                          ),
-                                        );
-                                      }),
+                              child: Container(
+                                margin: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    border: Border(
+                                        bottom: BorderSide(color: Dark))),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: 'Register here',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        // decoration: TextDecoration.underline,
+                                        color: Dark,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Register('1'),
+                                            ),
+                                          );
+                                        }),
+                                ),
                               ),
                             ),
                           ],
@@ -610,6 +691,7 @@ class CustomTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
   final Icon? prefixIcon;
+  final Icon? suffixIcon;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final bool? obscureText;
@@ -641,6 +723,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.enabled,
     this.heading,
+    this.suffixIcon,
   });
 
   @override
@@ -651,7 +734,7 @@ class CustomTextField extends StatelessWidget {
         heading == null
             ? SizedBox()
             : Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 10),
                 child: Text(
                   "$heading",
                   style: TextStyle(
@@ -661,7 +744,7 @@ class CustomTextField extends StatelessWidget {
                 ),
               ),
         Container(
-          width: SizeConfig.blockSizeHorizontal * 80,
+          width: SizeConfig.blockSizeHorizontal * 85,
           margin: EdgeInsets.only(top: 3, bottom: 10),
           child: TextFormField(
             validator: validator,
@@ -675,14 +758,14 @@ class CustomTextField extends StatelessWidget {
                   vertical: SizeConfig.blockSizeVertical * 1, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: Colors.black38, width: 1.1),
+                borderSide: BorderSide(color: AppColors.black, width: 1.1),
               ),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.black38, width: 1.1)),
+                  borderSide: BorderSide(color: AppColors.black, width: 1.1)),
               disabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.black38, width: 1.1)),
+                  borderSide: BorderSide(color: AppColors.black, width: 1.1)),
               // labelText: label,
               // labelStyle: TextStyle(
               //     color: Colors.blueGrey,
@@ -697,6 +780,7 @@ class CustomTextField extends StatelessWidget {
               // errorStyle: TextStyle(
               //     fontSize: constraints.maxWidth * 0.05),
               prefixIcon: prefixIcon,
+              suffixIcon: suffixIcon,
               errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.black38, width: 1.1)),
