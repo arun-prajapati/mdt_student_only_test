@@ -6,7 +6,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/views/Login/ForgotPassword.dart';
@@ -32,7 +31,6 @@ class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   late String email;
-
   // late String password;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;

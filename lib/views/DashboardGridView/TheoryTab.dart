@@ -150,8 +150,8 @@ class _TheoryTabState extends State<TheoryTab> {
   initializeApi(String loaderMessage) async {
     checkInternet();
     loading(value: true);
-    var sharedPref = await SharedPreferences.getInstance();
-    var data = sharedPref.getBool('theoryTestPractice');
+    // var sharedPref = await SharedPreferences.getInstance();
+    // var data = sharedPref.getBool('theoryTestPractice');
 
     // if (data == null) {
     //   theoryTestPractice();

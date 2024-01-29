@@ -145,6 +145,7 @@ class AuthProvider with ChangeNotifier {
     final response = await http.get(url);
     final responseParse = json.decode(response.body);
     if (responseParse['success'] == false) {
+      print('$_status----------------------Status');
       if (params['accessType'] == 'register') {
         _status = Status.Unauthenticated;
         notifyListeners();
@@ -153,6 +154,7 @@ class AuthProvider with ChangeNotifier {
       return responseParse;
     } else {
       if (response.statusCode == 200) {
+        print('$_status----------------------Status');
         Map<String, dynamic> apiResponse = json.decode(response.body);
         print("Api response social login : $apiResponse");
         _status = Status.Authenticated;
