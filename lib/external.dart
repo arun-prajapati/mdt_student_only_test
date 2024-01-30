@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:student_app/responsive/size_config.dart';
 import 'package:student_app/style/global_style.dart';
@@ -109,5 +110,37 @@ class External extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+dynamic loading(
+    {@required bool? value, String? title, bool closeOverlays = false}) {
+  if (value!) {
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..lineWidth = 1.8
+      ..backgroundColor = Colors.white
+      ..displayDuration = Duration(seconds: 2)
+      ..maskColor = Colors.grey.withOpacity(.2)
+
+      /// custom style
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorColor = Colors.black
+      ..textColor = Colors.black
+      ..contentPadding = EdgeInsets.symmetric(
+        horizontal: 50,
+        vertical: 20,
+      )
+
+      ///
+      ..userInteractions = false
+      ..animationStyle = EasyLoadingAnimationStyle.offset;
+    EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+      status: "Loading..",
+      dismissOnTap: true,
+    );
+  } else {
+    EasyLoading.dismiss();
   }
 }

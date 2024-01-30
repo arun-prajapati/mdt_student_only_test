@@ -60,7 +60,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
         // Navigator.of(context).pop();
       },
       child: Container(
-        height: Responsive.height(56, context),
+        // height: Responsive.height(56, context),
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
         child: Column(
@@ -157,109 +157,110 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             //     ),
             //   ],
             // ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    // width: Responsive.width(100, context),
-                    height: Responsive.height(4, context),
-                    //alignment: Alignment.centerLeft,
-                    child: Center(
-                      child: Text('Select the topic you would like to revise',
-                          style: TextStyle(fontSize: 16, color: Colors.black)),
+            Expanded(
+              flex: 0,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      // width: Responsive.width(100, context),
+                      height: Responsive.height(4, context),
+                      //alignment: Alignment.centerLeft,
+                      child: Center(
+                        child: Text('Select the topic you would like to revise',
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.black)),
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 0,
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
+                  Expanded(
+                    flex: 0,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
 
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => TheoryTab(),
-                        //     ));
-                      },
-                      child: Icon(Icons.close, size: 22, color: Colors.black)),
-                ),
-              ],
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => TheoryTab(),
+                          //     ));
+                        },
+                        child:
+                            Icon(Icons.close, size: 22, color: Colors.black)),
+                  ),
+                ],
+              ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
-              child: Row(
-                //crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // AutoSizeText("Select Category",
-                  //     style: TextStyle(
-                  //         fontSize: 16,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Colors.black)),
-                  TextButton(
-                    child: Text('Select All',
+
+            Expanded(
+              flex: 0,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // AutoSizeText("Select Category",
+                    //     style: TextStyle(
+                    //         fontSize: 16,
+                    //         fontWeight: FontWeight.w500,
+                    //         color: Colors.black)),
+                    Text('Select All',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Colors.black)),
-                    onPressed: isAllCategoriesSelected
-                        ? null
-                        : () {
-                            resetAll(true);
-                            seledtedCategoryId = 0;
-                          },
-                  ),
-                  isAllCategoriesSelected
-                      ? GestureDetector(
-                          child: Padding(
-                          padding: EdgeInsets.only(right: 22),
-                          child: Image.asset(
-                            AppImages.uncheckedbox,
-                            height: 20,
-                            width: 20,
-                          ),
-                        ))
-                      : GestureDetector(
-                          onTap: () {
-                            resetAll(true);
-                            seledtedCategoryId = 0;
-                          },
-                          child: Padding(
-                              padding: EdgeInsets.only(right: 22),
-                              child: Image.asset(
-                                AppImages.checkedbox,
-                                height: 20,
-                                width: 20,
-                              )),
-                        ),
+                    ActionChip(
+                      backgroundColor: AppColors.transparent,
+                      pressElevation: 0,
+                      padding: EdgeInsets.all(0),
+                      labelPadding: EdgeInsets.all(0),
+                      visualDensity: VisualDensity.comfortable,
+                      onPressed: isAllCategoriesSelected
+                          ? () {
+                              resetAll(false);
+                            }
+                          : () {
+                              resetAll(true);
+                              seledtedCategoryId = 0;
+                            },
+                      label: Image.asset(
+                        isAllCategoriesSelected
+                            ? AppImages.checkedbox
+                            : AppImages.uncheckedbox,
+                        height: 28,
+                        width: 23,
+                      ),
+                    ),
 
-                  // IconButton(
-                  //   iconSize: 3 * SizeConfig.blockSizeVertical,
-                  //   padding: EdgeInsets.only(right: 15),
-                  //   icon: Icon(
-                  //       isAllCategoriesSelected
-                  //           ? Icons.check_box
-                  //           : Icons.check_box_outline_blank_outlined,
-                  //       color: isAllCategoriesSelected
-                  //           ? AppColors.blueGrad6
-                  //           : AppColors.borderblue.withOpacity(0.3)),
-                  //   onPressed: isAllCategoriesSelected
-                  //       ? null
-                  //       :
-                  // ),
-                ],
+                    // IconButton(
+                    //   iconSize: 3 * SizeConfig.blockSizeVertical,
+                    //   padding: EdgeInsets.only(right: 15),
+                    //   icon: Icon(
+                    //       isAllCategoriesSelected
+                    //           ? Icons.check_box
+                    //           : Icons.check_box_outline_blank_outlined,
+                    //       color: isAllCategoriesSelected
+                    //           ? AppColors.blueGrad6
+                    //           : AppColors.borderblue.withOpacity(0.3)),
+                    //   onPressed: isAllCategoriesSelected
+                    //       ? null
+                    //       :
+                    // ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 10),
-            Padding(
+
+            // SizedBox(height: 10),
+            /* Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
               child: Container(
-                  height: Responsive.height(32, context),
+                  // height: Responsive.height(32, context),
                   // width: Responsive.width(80, context),
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(bottom: 0, top: 0),
+                  margin: EdgeInsets.only(bottom: 30, top: 0),
                   child: ListView(
                       physics: AlwaysScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -276,48 +277,137 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                       style: _categoryTextStyle),
                                 ),
                                 Expanded(
-                                  flex: 0,
-                                  child: IconButton(
-                                    iconSize: 3 * SizeConfig.blockSizeVertical,
-                                    padding: EdgeInsets.all(0),
-                                    icon: Icon(
+                                    flex: 0,
+                                    child: ActionChip(
+                                      backgroundColor: AppColors.transparent,
+                                      pressElevation: 0,
+                                      padding: EdgeInsets.all(0),
+                                      labelPadding: EdgeInsets.all(0),
+                                      visualDensity: VisualDensity.comfortable,
+                                      onPressed: () => {
+                                        setState(() {
+                                          resetAll(false);
+                                          seledtedCategoryId = category['id'];
+                                          categories[index]['selected'] = true;
+                                        })
+                                      },
+                                      label: Image.asset(
                                         category['selected'] == true
-                                            ? Icons.check_box
-                                            : Icons.check_box_outline_blank,
-                                        color: category['selected'] == true
-                                            ? AppColors.blueGrad6
-                                            : AppColors.borderblue
-                                                .withOpacity(0.3)),
-                                    onPressed: () => {
-                                      setState(() {
-                                        resetAll(false);
-                                        seledtedCategoryId = category['id'];
-                                        categories[index]['selected'] = true;
-                                      })
-                                    },
-                                  ),
-                                ),
+                                            ? AppImages.checkedbox
+                                            : AppImages.uncheckedbox,
+                                        height: 28,
+                                        width: 23,
+                                      ),
+                                    )
+                                    // IconButton(
+                                    //   iconSize: 3 * SizeConfig.blockSizeVertical,
+                                    //   padding: EdgeInsets.all(0),
+                                    //   icon: Icon(
+                                    //       category['selected'] == true
+                                    //           ? Icons.check_box
+                                    //           : Icons.check_box_outline_blank,
+                                    //       color: category['selected'] == true
+                                    //           ? AppColors.blueGrad6
+                                    //           : AppColors.borderblue
+                                    //               .withOpacity(0.3)),
+                                    //   onPressed: () => {
+                                    //     setState(() {
+                                    //       resetAll(false);
+                                    //       seledtedCategoryId = category['id'];
+                                    //       categories[index]['selected'] = true;
+                                    //     })
+                                    //   },
+                                    // ),
+                                    ),
                               ],
                             );
                           },
                         ).toList(),
                       ])),
+            ),*/
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    children: List.generate(
+                        categories.length,
+                        (index) => Row(
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: AutoSizeText(categories[index]['name'],
+                                      style: _categoryTextStyle),
+                                ),
+                                Expanded(
+                                    flex: 0,
+                                    child: ActionChip(
+                                      backgroundColor: AppColors.transparent,
+                                      pressElevation: 0,
+                                      padding: EdgeInsets.all(0),
+                                      labelPadding: EdgeInsets.all(0),
+                                      visualDensity: VisualDensity.comfortable,
+                                      onPressed: () => {
+                                        setState(() {
+                                          resetAll(false);
+                                          seledtedCategoryId =
+                                              categories[index]['id'];
+                                          categories[index]['selected'] = true;
+                                        })
+                                      },
+                                      label: Image.asset(
+                                        categories[index]['selected'] == true
+                                            ? AppImages.checkedbox
+                                            : AppImages.uncheckedbox,
+                                        height: 28,
+                                        width: 23,
+                                      ),
+                                    )
+                                    // IconButton(
+                                    //   iconSize: 3 * SizeConfig.blockSizeVertical,
+                                    //   padding: EdgeInsets.all(0),
+                                    //   icon: Icon(
+                                    //       category['selected'] == true
+                                    //           ? Icons.check_box
+                                    //           : Icons.check_box_outline_blank,
+                                    //       color: category['selected'] == true
+                                    //           ? AppColors.blueGrad6
+                                    //           : AppColors.borderblue
+                                    //               .withOpacity(0.3)),
+                                    //   onPressed: () => {
+                                    //     setState(() {
+                                    //       resetAll(false);
+                                    //       seledtedCategoryId = category['id'];
+                                    //       categories[index]['selected'] = true;
+                                    //     })
+                                    //   },
+                                    // ),
+                                    ),
+                              ],
+                            )),
+                  ),
+                ),
+              ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 55),
-              child: CustomButton(
-                title: 'Continue',
-                onTap: () {
-                  Navigator.pop(context, true);
-                  this.widget.onSetValue(seledtedCategoryId);
-                  // auth_services.changeView = false;
-                  context.read<AuthProvider>().changeView = false;
-                  setState(() {});
-                  // setState(() {});
-                  print(
-                      'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
-                },
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+            Expanded(
+              flex: 0,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 55, vertical: 20),
+                child: CustomButton(
+                  title: 'Continue',
+                  onTap: () {
+                    Navigator.pop(context, true);
+                    this.widget.onSetValue(seledtedCategoryId);
+                    // auth_services.changeView = false;
+                    context.read<AuthProvider>().changeView = false;
+                    setState(() {});
+                    // setState(() {});
+                    print(
+                        'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
+                  },
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                ),
               ),
             ),
             // Container(
