@@ -201,10 +201,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         showModalBottomSheet(
             isDismissible: false,
             shape: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            )),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                )),
             context: context,
             builder: (BuildContext context) {
               // Navigator.pop(context);
@@ -1482,7 +1483,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         borderRadius:
                             BorderRadius.circular(5.0)), //this right here
                     child: Container(
-                      height: Responsive.height(30, parent_context),
+                      // height: Responsive.height(30, parent_context),
                       padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -1521,15 +1522,15 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       onTap: () {
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
-                                        setState(() => isTestStarted = false);
-                                        context
-                                            .read<AuthProvider>()
-                                            .changeView = true;
-                                        setState(() {});
-                                        Future.delayed(
-                                            Duration(microseconds: 300), () {
-                                          this.initializeApi("Updating...");
-                                        });
+                                        // setState(() => isTestStarted = false);
+                                        // context
+                                        //     .read<AuthProvider>()
+                                        //     .changeView = true;
+                                        // setState(() {});
+                                        // Future.delayed(
+                                        //     Duration(microseconds: 300), () {
+                                        // this.initializeApi("Updating...");
+                                        // });
                                       },
                                       title: 'Ok',
                                     ),

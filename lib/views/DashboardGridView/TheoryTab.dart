@@ -539,13 +539,13 @@ class _TheoryTabState extends State<TheoryTab> {
                                 //  print("------------ responseList $responseList");
                                 //  setState(() {});
                                 // });
-                                showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (context) => PracticeTheoryTest());
+                                // showDialog(
+                                //     barrierDismissible: false,
+                                //     context: context,
+                                //     builder: (context) => PracticeTheoryTest());
 
-                                // _navigationService.navigateTo(
-                                //     routes.PracticeTheoryTestRoute);
+                                _navigationService
+                                    .navigateTo(routes.PracticeTheoryTestRoute);
                               } else {
                                 _navigationService
                                     .navigateTo(routes.PracticeTheoryTestRoute);

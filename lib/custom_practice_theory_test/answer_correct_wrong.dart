@@ -12,6 +12,9 @@ showCorrectAnswerDialog(BuildContext context, String explanation) {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+            shape: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(20)),
             title: Image.asset(
               AppImages.GoodJobIcon,
               // fit: BoxFit.cover,
@@ -73,6 +76,9 @@ showWrongAnswerDialog(BuildContext context, String explanation) {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          shape: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(20)),
           title: Image.asset(
             AppImages.ohhnoo2,
             //  fit: BoxFit.cover,

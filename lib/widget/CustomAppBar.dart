@@ -111,16 +111,12 @@ class CustomAppBar extends StatelessWidget {
                         //     0.0,
                         //     0.0),
                         alignment: Alignment.topLeft,
-                        child: AutoSizeText(
+                        child: Text(
                           '$title',
                           style: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Poppins',
-                            fontSize: 2.5 *
-                                (currentOrientation == Orientation.portrait
-                                    ? SizeConfig.blockSizeVertical
-                                    : SizeConfig.blockSizeHorizontal),
-                            decoration: null,
+                            fontSize: 18,
                           ),
                         ),
                       ),
