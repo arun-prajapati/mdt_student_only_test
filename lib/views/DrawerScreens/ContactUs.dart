@@ -1,11 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:student_app/locater.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:student_app/custom_button.dart';
+import 'package:student_app/locater.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
@@ -181,9 +179,7 @@ class _ContactUs extends State<ContactUs> {
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 onChanged: (value) {})),
-                        SizedBox(
-                          height: constraints.maxHeight * 0.03,
-                        ),
+                        SizedBox(height: 10),
                         // Container(
                         //   margin: EdgeInsets.symmetric(
                         //       horizontal: constraints.maxWidth * 0.02),
@@ -228,107 +224,25 @@ class _ContactUs extends State<ContactUs> {
                         // SizedBox(
                         //   height: constraints.maxHeight*0.02,
                         // ),
-                        Container(
-                          height: 50,
-                          width: constraints.maxWidth * 0.6,
-                          margin: EdgeInsets.only(
-                              top: constraints.maxHeight * 0.05),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color.fromRGBO(14, 155, 207, 1.0),
-                            elevation: 5.0,
-                            child: GestureDetector(
-                              onTap: updateUserDetail,
-                              child: Center(
-                                child: Container(
-                                  width: constraints.maxWidth * 0.23,
-                                  child: FittedBox(
-                                    fit: BoxFit.contain,
-                                    child: Text(
-                                      'Submit',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        color:
-                                            Color.fromRGBO(255, 255, 255, 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 85),
+                          child: CustomButton(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            title: 'Submit',
+                            onTap: () {
+                              updateUserDetail;
+                            },
                           ),
                         ),
-                        SizedBox(
-                          height: constraints.maxHeight * 0.02,
-                        ),
-                        Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: constraints.maxWidth * 0.03),
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.07,
-                                  height: constraints.maxHeight * 0.09,
-                                ),
-                                Container(
-                                  // width: constraints.maxWidth * 0.22,
-                                  child: FittedBox(
-                                    fit: BoxFit.contain,
-                                    child: Text(
-                                      '  Phone:',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 16,
-                                        color: const Color(0xad060606),
-                                        letterSpacing: 0.132,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.02,
-                                ),
-                                Container(
-                                  // width: constraints.maxWidth * 0.46,
-                                  child: FittedBox(
-                                    fit: BoxFit.contain,
-                                    child: Text(
-                                      '+44 203 129 7741',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 16,
-                                        color: const Color(0xad060606),
-                                        letterSpacing: 0.132,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                        SizedBox(
-                          height: constraints.maxHeight * 0.01,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: constraints.maxWidth * 0.02),
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: Row(
-                            children: <Widget>[
-                              SizedBox(
-                                width: constraints.maxWidth * 0.074,
-                              ),
-                              Container(
-                                // width: constraints.maxWidth * 0.27,
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Text(
-                                    '  Email:     ',
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Phone     :',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,
@@ -338,18 +252,41 @@ class _ContactUs extends State<ContactUs> {
                                     ),
                                     textAlign: TextAlign.left,
                                   ),
-                                ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    '+44 203 129 7741',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      color: const Color(0xad060606),
+                                      letterSpacing: 0.132,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  // print('TAPP $gmailUrl');
-                                  // openGmailApp(gmailUrl);
-                                  openGmailApp();
-                                },
-                                child: Container(
-                                  // width: constraints.maxWidth * 0.6,
-                                  child: FittedBox(
-                                    fit: BoxFit.contain,
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Email      :',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      color: const Color(0xad060606),
+                                      letterSpacing: 0.132,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      // print('TAPP $gmailUrl');
+                                      // openGmailApp(gmailUrl);
+                                      openGmailApp();
+                                    },
                                     child: Text(
                                       'info@mockdrivingtest.com',
                                       style: TextStyle(
@@ -362,61 +299,38 @@ class _ContactUs extends State<ContactUs> {
                                       textAlign: TextAlign.left,
                                     ),
                                   ),
-                                ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Address :',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      color: const Color(0xad060606),
+                                      letterSpacing: 0.132,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      color: const Color(0xad060606),
+                                      letterSpacing: 0.132,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: constraints.maxHeight * 0.02,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: constraints.maxWidth * 0.06,
-                              vertical: constraints.maxHeight * 0.012),
-                          child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    // width: constraints.maxWidth * 0.24,
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: Text(
-                                        'Address:',
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          color: const Color(0xad060606),
-                                          letterSpacing: 0.132,
-                                          fontWeight: FontWeight.w800,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: constraints.maxWidth * 0.04,
-                                  ),
-                                  Container(
-                                    // width: constraints.maxWidth * 0.6,
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: Text(
-                                        'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          color: const Color(0xad060606),
-                                          letterSpacing: 0.132,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )),
                         ),
                       ],
                     ),

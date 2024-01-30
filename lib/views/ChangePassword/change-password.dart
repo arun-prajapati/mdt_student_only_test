@@ -1,9 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+import '../../custom_button.dart';
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../services/auth.dart';
@@ -129,7 +129,7 @@ class _ChangePassword extends State<ChangePassword> {
                 //       blurRadius: 5.0)
                 // ],
               ),
-              height: Responsive.height(47, context),
+              // height: Responsive.height(47, context),
               padding: EdgeInsets.fromLTRB(14, 20, 14, 20),
               child: LayoutBuilder(builder: (context, constraints) {
                 return Column(children: [
@@ -194,7 +194,7 @@ class _ChangePassword extends State<ChangePassword> {
                         ],
                       )),
                   Container(
-                      width: Responsive.width(100, context),
+                      // width: Responsive.width(100, context),
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
                       child: Column(
                         children: [
@@ -224,93 +224,101 @@ class _ChangePassword extends State<ChangePassword> {
                         ],
                       )),
                   SizedBox(height: 50),
-                  Container(
-                    height: 40,
-                    width: constraints.maxWidth * 0.65,
-                    alignment: Alignment.center,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xFFed1c24),
-                      // elevation: 5.0,
-                      child: MaterialButton(
-                        onPressed: () {
-                          if (this.old_password.text == null ||
-                              this.old_password.text.trim() == '') {
-                            Toast.show('Please enter old password!',
-                                // textStyle: context,
-                                duration: Toast.lengthLong,
-                                gravity: Toast.center);
-                          } else if (this.new_password.text == null ||
-                              this.new_password.text.trim() == '') {
-                            Toast.show('Please enter new password!',
-                                //textStyle: context,
-                                duration: Toast.lengthLong,
-                                gravity: Toast.center);
-                          } else if (this.cnf_password.text == null ||
-                              this.cnf_password.text.trim() == '') {
-                            Toast.show('Please enter confirm password!',
-                                // textStyle: context,
-                                duration: Toast.lengthLong,
-                                gravity: Toast.center);
-                          } else if (this.new_password.text !=
-                              this.cnf_password.text.trim()) {
-                            Toast.show(
-                                'Confirm password does not match with new password!',
-                                // textStyle: context,
-                                duration: Toast.lengthLong,
-                                gravity: Toast.center);
-                          } else {
-                            try {
-                              CustomSpinner.showLoadingDialog(
-                                  context, _keyLoader, "Loading...");
-                              Map<String, String> requestParams = {
-                                'id': this._userId.toString(),
-                                'user_type': this._userType.toString(),
-                                'old_password': this.old_password.text,
-                                'new_password': this.new_password.text,
-                                'cnf_password': this.cnf_password.text
-                              };
-                              changePasswordApiCall(requestParams)
-                                  .then((response) {
-                                closeLoader();
-                                Toast.show(response!["message"],
-                                    //textStyle: context,
-                                    duration: Toast.lengthLong,
-                                    gravity: Toast.bottom);
-                                if (response['success'] == true)
-                                  _navigationService.goBack();
-                              });
-                            } catch (e) {
-                              Navigator.of(_keyLoader.currentContext!,
-                                      rootNavigator: true)
-                                  .pop();
-                              Toast.show('Failed request! please try again.',
-                                  textStyle: context,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 75, vertical: 0),
+                    child: CustomButton(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      title: 'Update',
+                      onTap: () {
+                        if (this.old_password.text == null ||
+                            this.old_password.text.trim() == '') {
+                          Toast.show('Please enter old password!',
+                              // textStyle: context,
+                              duration: Toast.lengthLong,
+                              gravity: Toast.center);
+                        } else if (this.new_password.text == null ||
+                            this.new_password.text.trim() == '') {
+                          Toast.show('Please enter new password!',
+                              //textStyle: context,
+                              duration: Toast.lengthLong,
+                              gravity: Toast.center);
+                        } else if (this.cnf_password.text == null ||
+                            this.cnf_password.text.trim() == '') {
+                          Toast.show('Please enter confirm password!',
+                              // textStyle: context,
+                              duration: Toast.lengthLong,
+                              gravity: Toast.center);
+                        } else if (this.new_password.text !=
+                            this.cnf_password.text.trim()) {
+                          Toast.show(
+                              'Confirm password does not match with new password!',
+                              // textStyle: context,
+                              duration: Toast.lengthLong,
+                              gravity: Toast.center);
+                        } else {
+                          try {
+                            CustomSpinner.showLoadingDialog(
+                                context, _keyLoader, "Loading...");
+                            Map<String, String> requestParams = {
+                              'id': this._userId.toString(),
+                              'user_type': this._userType.toString(),
+                              'old_password': this.old_password.text,
+                              'new_password': this.new_password.text,
+                              'cnf_password': this.cnf_password.text
+                            };
+                            changePasswordApiCall(requestParams)
+                                .then((response) {
+                              closeLoader();
+                              Toast.show(response!["message"],
+                                  //textStyle: context,
                                   duration: Toast.lengthLong,
                                   gravity: Toast.bottom);
-                            }
+                              if (response['success'] == true)
+                                _navigationService.goBack();
+                            });
+                          } catch (e) {
+                            Navigator.of(_keyLoader.currentContext!,
+                                    rootNavigator: true)
+                                .pop();
+                            Toast.show('Failed request! please try again.',
+                                textStyle: context,
+                                duration: Toast.lengthLong,
+                                gravity: Toast.bottom);
                           }
-                        },
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            return Container(
-                              width: 100,
-                              alignment: Alignment.center,
-                              child: AutoSizeText(
-                                'Update',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                        }
+                      },
                     ),
                   ),
+                  // Container(
+                  //   height: 40,
+                  //   width: constraints.maxWidth * 0.65,
+                  //   alignment: Alignment.center,
+                  //   child: Material(
+                  //     borderRadius: BorderRadius.circular(10),
+                  //     color: Color(0xFFed1c24),
+                  //     // elevation: 5.0,
+                  //     child: MaterialButton(
+                  //       onPressed:
+                  //       child: LayoutBuilder(
+                  //         builder: (context, constraints) {
+                  //           return Container(
+                  //             width: 100,
+                  //             alignment: Alignment.center,
+                  //             child: AutoSizeText(
+                  //               'Update',
+                  //               style: TextStyle(
+                  //                 fontFamily: 'Poppins',
+                  //                 fontSize: 16,
+                  //                 fontWeight: FontWeight.w700,
+                  //                 color: Color.fromRGBO(255, 255, 255, 1.0),
+                  //               ),
+                  //             ),
+                  //           );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ]);
               })),
         ],

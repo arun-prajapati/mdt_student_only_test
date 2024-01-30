@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/custom_button.dart';
 import 'package:toast/toast.dart';
 
 import '../../Constants/global.dart';
@@ -923,36 +924,44 @@ class _driverProfile extends State<DriverProfile> {
                         ],
                       ),
                     ),
-                    Container(
-                      //height: constraints.maxHeight * 0.08,
-                      width: constraints.maxWidth * 0.65,
-                      margin:
-                          EdgeInsets.only(top: constraints.maxHeight * 0.05),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Dark,
-                        elevation: 5.0,
-                        child: MaterialButton(
-                          onPressed: () => updateUserDetail(),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return Container(
-                                //width: constraints.maxWidth * 0.35,
-                                child: Text(
-                                  'Update',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      child: CustomButton(
+                        title: 'Update',
+                        onTap: () => updateUserDetail(),
                       ),
                     ),
+                    // Container(
+                    //   //height: constraints.maxHeight * 0.08,
+                    //   width: constraints.maxWidth * 0.65,
+                    //   margin:
+                    //       EdgeInsets.only(top: constraints.maxHeight * 0.05),
+                    //   child: Material(
+                    //     borderRadius: BorderRadius.circular(10),
+                    //     color: Dark,
+                    //     elevation: 5.0,
+                    //     child: MaterialButton(
+                    //       onPressed: () => updateUserDetail(),
+                    //       child: LayoutBuilder(
+                    //         builder: (context, constraints) {
+                    //           return Container(
+                    //             //width: constraints.maxWidth * 0.35,
+                    //             child: Text(
+                    //               'Update',
+                    //               style: TextStyle(
+                    //                 fontFamily: 'Poppins',
+                    //                 fontSize: 24,
+                    //                 fontWeight: FontWeight.w700,
+                    //                 color: Color.fromRGBO(255, 255, 255, 1.0),
+                    //               ),
+                    //             ),
+                    //           );
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ]),
                 ));
               })),

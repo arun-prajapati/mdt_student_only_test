@@ -1517,8 +1517,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   SizedBox(height: 20),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 45),
+                                        EdgeInsets.symmetric(horizontal: 48),
                                     child: CustomButton(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
                                       onTap: () {
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
@@ -1637,22 +1639,18 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 100,
-                                    alignment: Alignment.bottomCenter,
-                                    child: Material(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Dark,
-                                      elevation: 5.0,
-                                      child: MaterialButton(
-                                        onPressed: () {
+                              SizedBox(height: 20),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: CustomButton(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        title: 'Yes',
+                                        onTap: () {
                                           Navigator.of(context).pop();
                                           showLoader("Loading");
                                           isTestStarted = false;
@@ -1674,68 +1672,92 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                                   metaData: params)
                                               .then((value) => closeLoader());
                                         },
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            return Container(
-                                              width:
-                                                  constraints.maxWidth * 0.35,
-                                              child: FittedBox(
-                                                fit: BoxFit.contain,
-                                                child: Text(
-                                                  'Yes',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    fontSize: 40,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 1.0),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 30),
-                                  Container(
-                                    height: 40,
-                                    width: 100,
-                                    alignment: Alignment.bottomCenter,
-                                    child: Material(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.black45,
-                                      elevation: 5.0,
-                                      child: MaterialButton(
-                                        onPressed: () {
+                                    SizedBox(width: 20),
+                                    Expanded(
+                                      child: CustomButton(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        title: 'No',
+                                        onTap: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            return Container(
-                                              width:
-                                                  constraints.maxWidth * 0.35,
-                                              child: FittedBox(
-                                                fit: BoxFit.contain,
-                                                child: Text(
-                                                  'No',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    fontSize: 40,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 1.0),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
                                       ),
                                     ),
-                                  )
-                                ],
+                                    // Container(
+                                    //   height: 40,
+                                    //   width: 100,
+                                    //   alignment: Alignment.bottomCenter,
+                                    //   child: Material(
+                                    //     borderRadius: BorderRadius.circular(10),
+                                    //     color: Dark,
+                                    //     elevation: 5.0,
+                                    //     child: MaterialButton(onPressed: () {
+                                    //
+                                    //     }
+                                    //         // child: LayoutBuilder(
+                                    //         //   builder: (context, constraints) {
+                                    //         //     return
+                                    //         //     //   Container(
+                                    //         //     //   width:
+                                    //         //     //       constraints.maxWidth * 0.35,
+                                    //         //     //   child: FittedBox(
+                                    //         //     //     fit: BoxFit.contain,
+                                    //         //     //     child: Text(
+                                    //         //     //       'Yes',
+                                    //         //     //       style: TextStyle(
+                                    //         //     //         fontFamily: 'Poppins',
+                                    //         //     //         fontSize: 40,
+                                    //         //     //         fontWeight: FontWeight.w500,
+                                    //         //     //         color: Color.fromRGBO(
+                                    //         //     //             255, 255, 255, 1.0),
+                                    //         //     //       ),
+                                    //         //     //     ),
+                                    //         //     //   ),
+                                    //         //     // );
+                                    //         //   },
+                                    //         // ),
+                                    //         ),
+                                    //   ),
+                                    // ),
+                                    // SizedBox(width: 30),
+                                    // Container(
+                                    //   height: 40,
+                                    //   width: 100,
+                                    //   alignment: Alignment.bottomCenter,
+                                    //   child: Material(
+                                    //     borderRadius: BorderRadius.circular(10),
+                                    //     color: Colors.black45,
+                                    //     elevation: 5.0,
+                                    //     child: MaterialButton(
+                                    //       onPressed: () {},
+                                    //       child: LayoutBuilder(
+                                    //         builder: (context, constraints) {
+                                    //           return Container(
+                                    //             width:
+                                    //                 constraints.maxWidth * 0.35,
+                                    //             child: FittedBox(
+                                    //               fit: BoxFit.contain,
+                                    //               child: Text(
+                                    //                 'No',
+                                    //                 style: TextStyle(
+                                    //                   fontFamily: 'Poppins',
+                                    //                   fontSize: 40,
+                                    //                   fontWeight: FontWeight.w500,
+                                    //                   color: Color.fromRGBO(
+                                    //                       255, 255, 255, 1.0),
+                                    //                 ),
+                                    //               ),
+                                    //             ),
+                                    //           );
+                                    //         },
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // )
+                                  ],
+                                ),
                               )
                             ]),
                           )
