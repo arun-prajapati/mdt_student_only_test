@@ -199,7 +199,7 @@ class AuthProvider with ChangeNotifier {
       'device_type': deviceType,
       'device_id': deviceId,
     };
-    print(body);
+    print("------------------ ${jsonEncode(body)}");
     final response = await http.post(
       url,
       body: body,

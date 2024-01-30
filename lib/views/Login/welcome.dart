@@ -174,6 +174,7 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
 
 class Welcome extends StatelessWidget {
   late String _facebookUrl;
+
   void _launchURL(String _url) async {
     print("hello");
     try {
@@ -203,7 +204,7 @@ class Welcome extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
               Positioned(
-                top: SizeConfig.blockSizeVertical * 25,
+                top: SizeConfig.blockSizeVertical * 22,
                 left: SizeConfig.blockSizeHorizontal * 28,
                 child: CircleAvatar(
                   radius: SizeConfig.blockSizeHorizontal * 22,
@@ -725,6 +726,7 @@ class Welcome extends StatelessWidget {
 class socialIconCustom extends StatelessWidget {
   final VoidCallback? onTap;
   final String? image;
+
   const socialIconCustom({
     super.key,
     this.onTap,
