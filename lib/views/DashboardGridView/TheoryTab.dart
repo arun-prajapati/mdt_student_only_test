@@ -501,8 +501,8 @@ class _TheoryTabState extends State<TheoryTab> {
                   Container(
                     // width: Responsive.width(100, context),
                     // height: Responsive.height(44, context),
-
                     //height: constraints.maxHeight * 0.8,
+                    height: 420,
                     padding: EdgeInsets.fromLTRB(16, 20, 16, 5),
                     child: GridView.builder(
                       padding: EdgeInsets.all(0),
@@ -514,7 +514,7 @@ class _TheoryTabState extends State<TheoryTab> {
                             (MediaQuery.of(context).size.height / 1.85),
                         // childAspectRatio: 2 / 3,
                       ),
-                      shrinkWrap: true,
+                      //shrinkWrap: true,
                       itemCount: cards.length,
                       // scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
@@ -746,116 +746,121 @@ class _TheoryTabState extends State<TheoryTab> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
-                    child: GridView.builder(
-                      padding: EdgeInsets.zero,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                        childAspectRatio: MediaQuery.of(context).size.width /
-                            (MediaQuery.of(context).size.height / 1.85),
-                      ),
-                      itemCount: _resourceCards.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.bgColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 15, bottom: 1, left: 15, right: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          _resourceCards[index]["title"],
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                          //overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 0,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            if (_resourceCards[index]["type"] ==
-                                                'highwayCode') {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://www.gov.uk/guidance/the-highway-code',
-                                                              'Highway Code')));
-                                            } else if (_resourceCards[index]
-                                                    ["type"] ==
-                                                'theoryTestGuidance') {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://mockdrivingtest.com/static/practice-theory-test',
-                                                              'Theory Test Guidance')));
-                                            } else {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://www.gov.uk/book-theory-test',
-                                                              'Book DVSA Theory Test')));
-                                            }
-                                          },
-                                          child: Image.asset(
-                                            AppImages.rightArrow,
-                                            height: 19,
-                                            width: 20,
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 60),
+                    child: Container(
+                      height: 430,
+                      padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
+                      child: GridView.builder(
+                        padding: EdgeInsets.zero,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 1.85),
+                        ),
+                        itemCount: _resourceCards.length,
+                        //shrinkWrap: true,
+                        itemBuilder: (context, index) => Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.bgColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 15, bottom: 1, left: 15, right: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            _resourceCards[index]["title"],
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            //overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 5),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 5),
-                                    child: Text(
-                                      _resourceCards[index]["subTitle"],
-                                      maxLines: 3,
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          height: 1.2,
-                                          letterSpacing: 0.2,
-                                          fontWeight: FontWeight.w400,
-                                          color:
-                                              AppColors.black.withOpacity(0.4)),
-                                      softWrap: true,
+                                        Expanded(
+                                          flex: 0,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if (_resourceCards[index]
+                                                      ["type"] ==
+                                                  'highwayCode') {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WebViewContainer(
+                                                                'https://www.gov.uk/guidance/the-highway-code',
+                                                                'Highway Code')));
+                                              } else if (_resourceCards[index]
+                                                      ["type"] ==
+                                                  'theoryTestGuidance') {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WebViewContainer(
+                                                                'https://mockdrivingtest.com/static/practice-theory-test',
+                                                                'Theory Test Guidance')));
+                                              } else {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WebViewContainer(
+                                                                'https://www.gov.uk/book-theory-test',
+                                                                'Book DVSA Theory Test')));
+                                              }
+                                            },
+                                            child: Image.asset(
+                                              AppImages.rightArrow,
+                                              height: 19,
+                                              width: 20,
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Image.asset(
-                                _resourceCards[index]['image'],
-                                height: 75,
-                                width: 150,
-                              )
-                            ],
+                                    SizedBox(height: 5),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: Text(
+                                        _resourceCards[index]["subTitle"],
+                                        maxLines: 3,
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            height: 1.2,
+                                            letterSpacing: 0.2,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.black
+                                                .withOpacity(0.4)),
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image.asset(
+                                  _resourceCards[index]['image'],
+                                  height: 75,
+                                  width: 150,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
