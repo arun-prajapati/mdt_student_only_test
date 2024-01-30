@@ -575,33 +575,30 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         children: [
                                           Expanded(
                                               child: CustomButton(
-                                            isImage: true,
-                                            title: "Read AI article",
-                                            image: AppImages.readAi,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5, vertical: 5),
-                                            onTap: () {
-                                              TapGestureRecognizer()
-                                                ..onTap = () async {
-                                                  print("Clicked!!");
-                                                  setState(() {
-                                                    _dataStatus =
-                                                        DataStatus.Loading;
-                                                  });
-                                                  await getTopicAiContent(
-                                                          theoryContent[index]
-                                                              ["topic_name"])
-                                                      .then((data) {
-                                                    print("Topic : $data");
+                                                  isImage: true,
+                                                  title: "Read AI article",
+                                                  image: AppImages.readAi,
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5,
+                                                      vertical: 5),
+                                                  onTap: () async {
+                                                    print("Clicked!!");
                                                     setState(() {
                                                       _dataStatus =
-                                                          DataStatus.Loaded;
-                                                      topicData = data;
+                                                          DataStatus.Loading;
                                                     });
-                                                  });
-                                                };
-                                            },
-                                          )),
+                                                    await getTopicAiContent(
+                                                            theoryContent[index]
+                                                                ["topic_name"])
+                                                        .then((data) {
+                                                      print("Topic : $data");
+                                                      setState(() {
+                                                        _dataStatus =
+                                                            DataStatus.Loaded;
+                                                        topicData = data;
+                                                      });
+                                                    });
+                                                  })),
                                           // Expanded(
                                           //   child: RichText(
                                           //     text: TextSpan(
@@ -640,48 +637,74 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           // ),
                                           SizedBox(width: 8),
                                           Expanded(
-                                            child: Column(
-                                              children: [
-                                                RichText(
-                                                  text: TextSpan(
-                                                      text: "Watch Video",
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Dark,
-                                                      ),
-                                                      recognizer:
-                                                          TapGestureRecognizer()
-                                                            ..onTap = () async {
-                                                              print(
-                                                                  "Clicked!!");
-                                                              setState(() {
-                                                                _dataStatus =
-                                                                    DataStatus
-                                                                        .Loading;
-                                                              });
-                                                              await getTopicAiContent(
-                                                                      theoryContent[
-                                                                              index]
-                                                                          [
-                                                                          "topic_name"])
-                                                                  .then((data) {
-                                                                print(
-                                                                    "Topic : $data");
-                                                                setState(() {
-                                                                  _dataStatus =
-                                                                      DataStatus
-                                                                          .Loaded;
-                                                                  topicData =
-                                                                      data;
-                                                                });
-                                                              });
-                                                            }),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                              child: CustomButton(
+                                                  isImage: true,
+                                                  title: "Watch Video",
+                                                  image: AppImages.video,
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5,
+                                                      vertical: 5),
+                                                  onTap: () async {
+                                                    print("Clicked!!");
+                                                    setState(() {
+                                                      _dataStatus =
+                                                          DataStatus.Loading;
+                                                    });
+                                                    await getTopicAiContent(
+                                                            theoryContent[index]
+                                                                ["topic_name"])
+                                                        .then((data) {
+                                                      print("Topic : $data");
+                                                      setState(() {
+                                                        _dataStatus =
+                                                            DataStatus.Loaded;
+                                                        topicData = data;
+                                                      });
+                                                    });
+                                                  })),
+                                          // Expanded(
+                                          //   child: Column(
+                                          //     children: [
+                                          //       RichText(
+                                          //         text: TextSpan(
+                                          //             text: "Watch Video",
+                                          //             style: TextStyle(
+                                          //               fontSize: 15,
+                                          //               fontWeight:
+                                          //                   FontWeight.w500,
+                                          //               color: Dark,
+                                          //             ),
+                                          //             recognizer:
+                                          //                 TapGestureRecognizer()
+                                          //                   ..onTap = () async {
+                                          //                     print(
+                                          //                         "Clicked!!");
+                                          //                     setState(() {
+                                          //                       _dataStatus =
+                                          //                           DataStatus
+                                          //                               .Loading;
+                                          //                     });
+                                          //                     await getTopicAiContent(
+                                          //                             theoryContent[
+                                          //                                     index]
+                                          //                                 [
+                                          //                                 "topic_name"])
+                                          //                         .then((data) {
+                                          //                       print(
+                                          //                           "Topic : $data");
+                                          //                       setState(() {
+                                          //                         _dataStatus =
+                                          //                             DataStatus
+                                          //                                 .Loaded;
+                                          //                         topicData =
+                                          //                             data;
+                                          //                       });
+                                          //                     });
+                                          //                   }),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                       SizedBox(height: 8),

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_app/locater.dart';
 import 'package:student_app/responsive/percentage_mediaquery.dart';
 import 'package:student_app/services/navigation_service.dart';
 import 'package:student_app/widget/CustomAppBar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../Constants/app_colors.dart';
 import '../responsive/size_config.dart';
 
 class WebViewContainer extends StatefulWidget {
@@ -138,7 +136,7 @@ Page resource error:
               iconRight: null),
         ),
         Positioned(
-          top: 90,
+          top: 110,
           child: ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),

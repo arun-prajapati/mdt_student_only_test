@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../Constants/app_colors.dart';
 import '../responsive/percentage_mediaquery.dart';
 import '../responsive/size_config.dart';
 
@@ -56,15 +55,13 @@ class CustomAppBar extends StatelessWidget {
             //   colors: [Dark, Light],
             //   stops: [0.0, 1.0],
             // ),
+
             gradient: LinearGradient(
               begin: const FractionalOffset(0.0, 0.0),
               end: const FractionalOffset(1.0, 0.0),
               colors: [
-                Color(0xFF79e6c9),
-                // Color(0xFF79e6c9),
-                // Color(0xFF79e6c9),
-                // Color(0xFF38b8cd),
-                Color(0xFF38b8cd),
+                Color(0xFF79e6c9).withOpacity(0.5),
+                Color(0xFF38b8cd).withOpacity(0.5),
               ],
               stops: [0.0, 1.0],
             ),

@@ -19,7 +19,9 @@ class AppImages {
   static String video = 'assets/images/video.png';
   static String ohhNoo = 'assets/images/ohhNoo.png';
   static String ohhNoo1 = 'assets/images/ohhNoo1.png';
+  static String ohhnoo2 = 'assets/images/ohhnoo2.png';
   static String goodJob = 'assets/images/goodJob.png';
+  static String GoodJobIcon = 'assets/images/Good Job Icon.png';
   static String rightArrow = 'assets/images/rightArrow.png';
   static String menuBar = 'assets/images/menuBar.png';
   static String readAi = 'assets/images/readAi.png';

@@ -307,11 +307,12 @@ class _TheoryTabState extends State<TheoryTab> {
             color: Colors.white),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 25),
+            return Column(
+              children: [
+                Expanded(
+                  flex: 0,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 15),
                     child: GestureDetector(
                       // onTap: () {
                       //   showDialog(
@@ -379,7 +380,7 @@ class _TheoryTabState extends State<TheoryTab> {
                       //           ));
                       // },
                       child: CircularPercentIndicator(
-                        radius: 90,
+                        radius: 78,
                         lineWidth: 14,
                         linearGradient: LinearGradient(
                             begin: Alignment.topLeft,
@@ -389,7 +390,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               AppColors.secondary,
                               AppColors.secondary,
                             ]),
-                        percent: 0.07,
+                        percent: _progressValue,
                         //progressColor: AppColors.primary,
                         center: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -484,8 +485,12 @@ class _TheoryTabState extends State<TheoryTab> {
                       // ),
                     ),
                   ),
-                  SizedBox(height: 25),
-                  Container(
+                ),
+                SizedBox(height: 15),
+                Expanded(
+                  flex: 0,
+                  child: Container(
+                    margin: EdgeInsets.zero,
                     width: 155,
                     child: Text(
                       'Theory Learning Progress',
@@ -496,13 +501,16 @@ class _TheoryTabState extends State<TheoryTab> {
                           fontSize: 18),
                     ),
                   ),
-                  SizedBox(height: 25),
-                  Divider(color: AppColors.black.withOpacity(0.3)),
-                  Container(
+                ),
+                SizedBox(height: 15),
+                Divider(color: AppColors.black.withOpacity(0.3)),
+                Expanded(
+                  flex: 5,
+                  child: Container(
                     // width: Responsive.width(100, context),
                     // height: Responsive.height(44, context),
                     //height: constraints.maxHeight * 0.8,
-                    height: 420,
+                    //height: 420,
                     padding: EdgeInsets.fromLTRB(16, 20, 16, 5),
                     child: GridView.builder(
                       padding: EdgeInsets.all(0),
@@ -719,9 +727,12 @@ class _TheoryTabState extends State<TheoryTab> {
                       },
                     ),
                   ),
-                  Divider(color: AppColors.black.withOpacity(0.3)),
-                  SizedBox(height: 10),
-                  Padding(
+                ),
+                Divider(color: AppColors.black.withOpacity(0.3)),
+                SizedBox(height: 10),
+                Expanded(
+                  flex: 0,
+                  child: Padding(
                     padding: EdgeInsets.only(left: 18),
                     child: Align(
                       alignment: Alignment.topLeft,
@@ -745,8 +756,11 @@ class _TheoryTabState extends State<TheoryTab> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Padding(
+                ),
+                SizedBox(height: 10),
+                Expanded(
+                  flex: 5,
+                  child: Padding(
                     padding: EdgeInsets.only(bottom: 60),
                     child: Container(
                       height: 430,
@@ -769,226 +783,256 @@ class _TheoryTabState extends State<TheoryTab> {
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 15, bottom: 1, left: 15, right: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: Text(
-                                            _resourceCards[index]["title"],
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                            //overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 0,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              if (_resourceCards[index]
-                                                      ["type"] ==
-                                                  'highwayCode') {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            WebViewContainer(
-                                                                'https://www.gov.uk/guidance/the-highway-code',
-                                                                'Highway Code')));
-                                              } else if (_resourceCards[index]
-                                                      ["type"] ==
-                                                  'theoryTestGuidance') {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            WebViewContainer(
-                                                                'https://mockdrivingtest.com/static/practice-theory-test',
-                                                                'Theory Test Guidance')));
-                                              } else {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            WebViewContainer(
-                                                                'https://www.gov.uk/book-theory-test',
-                                                                'Book DVSA Theory Test')));
-                                              }
-                                            },
-                                            child: Image.asset(
-                                              AppImages.rightArrow,
-                                              height: 19,
-                                              width: 20,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (_resourceCards[index]["type"] ==
+                                    'highwayCode') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WebViewContainer(
+                                              'https://www.gov.uk/guidance/the-highway-code',
+                                              'Highway Code')));
+                                } else if (_resourceCards[index]["type"] ==
+                                    'theoryTestGuidance') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WebViewContainer(
+                                              'https://mockdrivingtest.com/static/practice-theory-test',
+                                              'Theory Test Guidance')));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WebViewContainer(
+                                              'https://www.gov.uk/book-theory-test',
+                                              'Book DVSA Theory Test')));
+                                }
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              _resourceCards[index]["title"],
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              //overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 5),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 5),
-                                      child: Text(
-                                        _resourceCards[index]["subTitle"],
-                                        maxLines: 3,
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            height: 1.2,
-                                            letterSpacing: 0.2,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppColors.black
-                                                .withOpacity(0.4)),
-                                        softWrap: true,
+                                          Expanded(
+                                            flex: 0,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                if (_resourceCards[index]
+                                                        ["type"] ==
+                                                    'highwayCode') {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebViewContainer(
+                                                                  'https://www.gov.uk/guidance/the-highway-code',
+                                                                  'Highway Code')));
+                                                } else if (_resourceCards[index]
+                                                        ["type"] ==
+                                                    'theoryTestGuidance') {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebViewContainer(
+                                                                  'https://mockdrivingtest.com/static/practice-theory-test',
+                                                                  'Theory Test Guidance')));
+                                                } else {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebViewContainer(
+                                                                  'https://www.gov.uk/book-theory-test',
+                                                                  'Book DVSA Theory Test')));
+                                                }
+                                              },
+                                              child: Image.asset(
+                                                AppImages.rightArrow,
+                                                height: 19,
+                                                width: 20,
+                                              ),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Image.asset(
-                                  _resourceCards[index]['image'],
-                                  height: 75,
-                                  width: 150,
-                                )
-                              ],
+                                      SizedBox(height: 5),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 5),
+                                        child: Text(
+                                          _resourceCards[index]["subTitle"],
+                                          maxLines: 3,
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              height: 1.2,
+                                              letterSpacing: 0.2,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppColors.black
+                                                  .withOpacity(0.4)),
+                                          softWrap: true,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Image.asset(
+                                    _resourceCards[index]['image'],
+                                    height: 75,
+                                    width: 150,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  // Container(
-                  //     height: Responsive.height(35, context),
-                  //     width: Responsive.width(100, context),
-                  //     //padding: EdgeInsets.all(8.0),
-                  //     child: LayoutBuilder(builder: (context, constraints) {
-                  //       return Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: <Widget>[
-                  //           Container(
-                  //             width: Responsive.width(100, context),
-                  //             height: Responsive.height(28, context),
-                  //             //height: constraints.maxHeight * 0.8,
-                  //             padding: EdgeInsets.fromLTRB(16, 5, 25, 5),
-                  //             child: ListView.builder(
-                  //                 itemCount: _resourceCards.length,
-                  //                 scrollDirection: Axis.horizontal,
-                  //                 itemBuilder: (context, index) {
-                  //                   return Container(
-                  //                     width:
-                  //                         SizeConfig.blockSizeHorizontal * 80,
-                  //                     child: MCard.Card(
-                  //                       shape: RoundedRectangleBorder(
-                  //                           borderRadius:
-                  //                               BorderRadius.circular(10)),
-                  //                       elevation: 3.0,
-                  //                       child: Container(
-                  //                         padding: EdgeInsets.symmetric(
-                  //                             vertical: 15, horizontal: 10),
-                  //                         child: Column(
-                  //                           crossAxisAlignment:
-                  //                               CrossAxisAlignment.center,
-                  //                           //mainAxisSize: MainAxisSize.max,
-                  //                           mainAxisAlignment:
-                  //                               MainAxisAlignment.spaceEvenly,
-                  //                           children: [
-                  //                             Text(
-                  //                               _resourceCards[index]["title"],
-                  //                               style: TextStyle(
-                  //                                 fontSize: SizeConfig
-                  //                                         .blockSizeHorizontal *
-                  //                                     4,
-                  //                                 fontWeight: FontWeight.bold,
-                  //                               ),
-                  //                               overflow: TextOverflow.ellipsis,
-                  //                             ),
-                  //                             Text(
-                  //                               _resourceCards[index]
-                  //                                   ["subTitle"],
-                  //                               style: TextStyle(
-                  //                                 fontSize: SizeConfig
-                  //                                         .blockSizeHorizontal *
-                  //                                     3.5,
-                  //                                 //fontWeight: FontWeight.bold
-                  //                               ),
-                  //                               softWrap: true,
-                  //                               textAlign: _resourceCards[index]
-                  //                                           ["type"] ==
-                  //                                       'highwayCode'
-                  //                                   ? TextAlign.left
-                  //                                   : TextAlign.center,
-                  //                             ),
-                  //                             ElevatedButton(
-                  //                               onPressed: () {
-                  //                                 if (_resourceCards[index]
-                  //                                         ["type"] ==
-                  //                                     'highwayCode') {
-                  //                                   Navigator.push(
-                  //                                       context,
-                  //                                       MaterialPageRoute(
-                  //                                           builder: (context) =>
-                  //                                               WebViewContainer(
-                  //                                                   'https://www.gov.uk/guidance/the-highway-code',
-                  //                                                   'Highway Code')));
-                  //                                 } else if (_resourceCards[
-                  //                                         index]["type"] ==
-                  //                                     'theoryTestGuidance') {
-                  //                                   Navigator.push(
-                  //                                       context,
-                  //                                       MaterialPageRoute(
-                  //                                           builder: (context) =>
-                  //                                               WebViewContainer(
-                  //                                                   'https://mockdrivingtest.com/static/practice-theory-test',
-                  //                                                   'Theory Test Guidance')));
-                  //                                 } else {
-                  //                                   Navigator.push(
-                  //                                       context,
-                  //                                       MaterialPageRoute(
-                  //                                           builder: (context) =>
-                  //                                               WebViewContainer(
-                  //                                                   'https://www.gov.uk/book-theory-test',
-                  //                                                   'Book DVSA Theory Test')));
-                  //                                 }
-                  //                               },
-                  //                               style: ButtonStyle(
-                  //                                   backgroundColor:
-                  //                                       MaterialStateProperty
-                  //                                           .all(Dark)),
-                  //                               child: Text(
-                  //                                 _resourceCards[index]
-                  //                                     ["buttonText"],
-                  //                                 style: TextStyle(
-                  //                                     fontSize: SizeConfig
-                  //                                             .blockSizeHorizontal *
-                  //                                         3.5,
-                  //                                     color: Colors.white,
-                  //                                     fontWeight:
-                  //                                         FontWeight.w600
-                  //                                     //fontWeight: FontWeight.bold
-                  //                                     ),
-                  //                               ),
-                  //                             ),
-                  //                           ],
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   );
-                  //                 }),
-                  //           ),
-                  //         ],
-                  //       );
-                  //     })),
-                ],
-              ),
+                ),
+                // Container(
+                //     height: Responsive.height(35, context),
+                //     width: Responsive.width(100, context),
+                //     //padding: EdgeInsets.all(8.0),
+                //     child: LayoutBuilder(builder: (context, constraints) {
+                //       return Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: <Widget>[
+                //           Container(
+                //             width: Responsive.width(100, context),
+                //             height: Responsive.height(28, context),
+                //             //height: constraints.maxHeight * 0.8,
+                //             padding: EdgeInsets.fromLTRB(16, 5, 25, 5),
+                //             child: ListView.builder(
+                //                 itemCount: _resourceCards.length,
+                //                 scrollDirection: Axis.horizontal,
+                //                 itemBuilder: (context, index) {
+                //                   return Container(
+                //                     width:
+                //                         SizeConfig.blockSizeHorizontal * 80,
+                //                     child: MCard.Card(
+                //                       shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                               BorderRadius.circular(10)),
+                //                       elevation: 3.0,
+                //                       child: Container(
+                //                         padding: EdgeInsets.symmetric(
+                //                             vertical: 15, horizontal: 10),
+                //                         child: Column(
+                //                           crossAxisAlignment:
+                //                               CrossAxisAlignment.center,
+                //                           //mainAxisSize: MainAxisSize.max,
+                //                           mainAxisAlignment:
+                //                               MainAxisAlignment.spaceEvenly,
+                //                           children: [
+                //                             Text(
+                //                               _resourceCards[index]["title"],
+                //                               style: TextStyle(
+                //                                 fontSize: SizeConfig
+                //                                         .blockSizeHorizontal *
+                //                                     4,
+                //                                 fontWeight: FontWeight.bold,
+                //                               ),
+                //                               overflow: TextOverflow.ellipsis,
+                //                             ),
+                //                             Text(
+                //                               _resourceCards[index]
+                //                                   ["subTitle"],
+                //                               style: TextStyle(
+                //                                 fontSize: SizeConfig
+                //                                         .blockSizeHorizontal *
+                //                                     3.5,
+                //                                 //fontWeight: FontWeight.bold
+                //                               ),
+                //                               softWrap: true,
+                //                               textAlign: _resourceCards[index]
+                //                                           ["type"] ==
+                //                                       'highwayCode'
+                //                                   ? TextAlign.left
+                //                                   : TextAlign.center,
+                //                             ),
+                //                             ElevatedButton(
+                //                               onPressed: () {
+                //                                 if (_resourceCards[index]
+                //                                         ["type"] ==
+                //                                     'highwayCode') {
+                //                                   Navigator.push(
+                //                                       context,
+                //                                       MaterialPageRoute(
+                //                                           builder: (context) =>
+                //                                               WebViewContainer(
+                //                                                   'https://www.gov.uk/guidance/the-highway-code',
+                //                                                   'Highway Code')));
+                //                                 } else if (_resourceCards[
+                //                                         index]["type"] ==
+                //                                     'theoryTestGuidance') {
+                //                                   Navigator.push(
+                //                                       context,
+                //                                       MaterialPageRoute(
+                //                                           builder: (context) =>
+                //                                               WebViewContainer(
+                //                                                   'https://mockdrivingtest.com/static/practice-theory-test',
+                //                                                   'Theory Test Guidance')));
+                //                                 } else {
+                //                                   Navigator.push(
+                //                                       context,
+                //                                       MaterialPageRoute(
+                //                                           builder: (context) =>
+                //                                               WebViewContainer(
+                //                                                   'https://www.gov.uk/book-theory-test',
+                //                                                   'Book DVSA Theory Test')));
+                //                                 }
+                //                               },
+                //                               style: ButtonStyle(
+                //                                   backgroundColor:
+                //                                       MaterialStateProperty
+                //                                           .all(Dark)),
+                //                               child: Text(
+                //                                 _resourceCards[index]
+                //                                     ["buttonText"],
+                //                                 style: TextStyle(
+                //                                     fontSize: SizeConfig
+                //                                             .blockSizeHorizontal *
+                //                                         3.5,
+                //                                     color: Colors.white,
+                //                                     fontWeight:
+                //                                         FontWeight.w600
+                //                                     //fontWeight: FontWeight.bold
+                //                                     ),
+                //                               ),
+                //                             ),
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   );
+                //                 }),
+                //           ),
+                //         ],
+                //       );
+                //     })),
+              ],
             );
           },
         ),

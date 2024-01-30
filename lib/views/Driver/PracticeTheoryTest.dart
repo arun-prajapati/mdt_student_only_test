@@ -1514,20 +1514,23 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     fontSize: 15),
                               ),
                               SizedBox(height: 20),
-                              CustomButton(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
-                                  setState(() => isTestStarted = false);
-                                  context.read<AuthProvider>().changeView =
-                                      true;
-                                  setState(() {});
-                                  Future.delayed(Duration(microseconds: 300),
-                                      () {
-                                    this.initializeApi("Updating...");
-                                  });
-                                },
-                                title: 'Ok',
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: CustomButton(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    setState(() => isTestStarted = false);
+                                    context.read<AuthProvider>().changeView =
+                                        true;
+                                    setState(() {});
+                                    Future.delayed(Duration(microseconds: 300),
+                                        () {
+                                      this.initializeApi("Updating...");
+                                    });
+                                  },
+                                  title: 'Ok',
+                                ),
                               ),
                               // Container(
                               //   height: 40,
