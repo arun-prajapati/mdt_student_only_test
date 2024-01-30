@@ -7,12 +7,14 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/custom_button.dart';
 import 'package:student_app/json_model.dart';
 import 'package:toast/toast.dart';
-import 'package:http/http.dart' as http;
+
 import '../../Constants/global.dart';
 import '../../custom_practice_theory_test/answer_correct_wrong.dart';
 import '../../custom_practice_theory_test/test_setting_dialog.dart';
@@ -23,6 +25,7 @@ import '../../services/auth.dart';
 import '../../services/navigation_service.dart';
 import '../../services/payment_services.dart';
 import '../../services/practise_theory_test_services.dart';
+import '../../utils/app_colors.dart';
 import '../../widget/CustomAppBar.dart';
 import '../../widget/CustomSpinner.dart';
 
@@ -260,7 +263,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         body: Stack(
           children: <Widget>[
             CustomAppBar(
-              preferedHeight: Responsive.height(24, context),
+              preferedHeight: Responsive.height(11, context),
               title: 'Practice Theory Test Questions',
               textWidth: Responsive.width(35, context),
               iconLeft: Icons.arrow_back,
@@ -274,20 +277,14 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             ),
             Container(
                 margin: EdgeInsets.fromLTRB(
-                  Responsive.width(3, context),
-                  Responsive.height(15, context),
-                  Responsive.width(3, context),
-                  Responsive.height(3, context),
-                ),
+                    //Responsive.width(3, context),
+                    0,
+                    Responsive.height(8, context),
+                    0,
+                    0),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        offset: Offset(1, 2),
-                        blurRadius: 5.0)
-                  ],
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 height: Responsive.height(83, context),
                 width: Responsive.width(100, context),
@@ -1189,10 +1186,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         margin: EdgeInsets.only(top: 10),
                         child: Material(
                           borderRadius: BorderRadius.circular(10),
-                          color: Dark,
                           elevation: 5.0,
-                          child: MaterialButton(
-                            onPressed: () {
+                          child: GestureDetector(
+                            onTap: () {
                               subscriptionConfirmAlert(context);
                             },
                             child: LayoutBuilder(
@@ -1201,16 +1197,28 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     width: constraints.maxWidth * 1,
                                     height: constraints.maxHeight * 1,
                                     alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: RadialGradient(
+                                          colors: [
+                                            AppColors.primary,
+                                            AppColors.secondary,
+                                            AppColors.secondary,
+                                          ],
+                                          radius: 10,
+                                          focal: Alignment(-1.1, -3.0),
+                                        )),
                                     child: SizedBox(
                                       width: constraints.maxWidth * 1,
                                       child: AutoSizeText(
                                         'Subscribe',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 2 *
-                                                SizeConfig.blockSizeVertical,
-                                            color: Colors.white),
+                                          fontFamily: 'Poppins',
+                                          fontSize: 15,
+                                          color: AppColors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ));
                               },
@@ -1380,92 +1388,70 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   }
 
   Widget nextButtonWidget(BuildContext context, BoxConstraints constraints) {
-    return Container(
-      height: 5.5 * SizeConfig.blockSizeVertical,
-      width: constraints.maxWidth * .4,
-      alignment: Alignment.center,
-      child: Padding(
-        padding: EdgeInsets.only(top: 5),
-        child: Material(
-          borderRadius: BorderRadius.circular(10),
-          color: (selectedOptionIndex == null &&
-                  (questionsList[selectedQuestionIndex]['type'] == 0 ||
-                      (questionsList[selectedQuestionIndex]['type'] == 1 &&
-                          walletDetail!['dvsa_subscription'] > 0)))
-              ? Colors.black26
-              : Dark,
-          elevation: selectedOptionIndex == null ? 0 : 5.0,
-          child: MaterialButton(
-            onPressed: (selectedOptionIndex == null &&
-                    (questionsList[selectedQuestionIndex]['type'] == 0 ||
-                        (questionsList[selectedQuestionIndex]['type'] == 1 &&
-                            walletDetail!['dvsa_subscription'] > 0)))
-                ? null
-                : () {
-                    testQuestionsForResult.add({
-                      'questionId': questionsList[selectedQuestionIndex]['id'],
-                      'type': questionsList[selectedQuestionIndex]['type'],
-                      'question': questionsList[selectedQuestionIndex]['title'],
-                      'correct': (selectedOptionIndex != null &&
-                              questionsList[selectedQuestionIndex]['options']
-                                      [selectedOptionIndex]['correct'] ==
-                                  true)
-                          ? 'Correct Answer'
-                          : 'Wrong Answer'
-                    });
-                    if ((selectedQuestionIndex + 1) < questionsList.length) {
-                      _controller.animateTo(0,
-                          duration: Duration(microseconds: 1000),
-                          curve: Curves.slowMiddle);
-                      setState(() {
-                        selectedOptionIndex = null;
-                        selectedQuestionIndex += 1;
+    return Padding(
+      padding: EdgeInsets.only(top: 5),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          print('index: $selectedQuestionIndex');
+          print('Length: ${questionsList.length}');
+          print('walletDetail: ${walletDetail}');
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 80, vertical: 5),
+            child: CustomButton(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              onTap: (selectedOptionIndex == null &&
+                      (questionsList[selectedQuestionIndex]['type'] == 0 ||
+                          (questionsList[selectedQuestionIndex]['type'] == 1 &&
+                              walletDetail!['dvsa_subscription'] > 0)))
+                  ? null
+                  : () {
+                      testQuestionsForResult.add({
+                        'questionId': questionsList[selectedQuestionIndex]
+                            ['id'],
+                        'type': questionsList[selectedQuestionIndex]['type'],
+                        'question': questionsList[selectedQuestionIndex]
+                            ['title'],
+                        'correct': (selectedOptionIndex != null &&
+                                questionsList[selectedQuestionIndex]['options']
+                                        [selectedOptionIndex]['correct'] ==
+                                    true)
+                            ? 'Correct Answer'
+                            : 'Wrong Answer'
                       });
-                    }
-                    // else if (questionsList[selectedQuestionIndex]['type'] ==
-                    //     1) {
-                    //   context.read<AuthProvider>().changeView = false;
-                    //   setState(() {});
-                    // }
-                    else {
-                      CustomSpinner.showLoadingDialog(
-                          context, _keyLoader, "Test Submitting...");
-                      submitTestByApi().then((value) {
-                        Navigator.of(_keyLoader.currentContext!,
-                                rootNavigator: true)
-                            .pop();
-                        testCompleAlertBox(context);
-                      });
-                    }
-                  },
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                print('index: $selectedQuestionIndex');
-                print('Length: ${questionsList.length}');
-                print('walletDetail: ${walletDetail}');
-                return Container(
-                  width: constraints.maxWidth * 0.9,
-                  child: AutoSizeText(
-                    selectedQuestionIndex < questionsList.length - 1
-                        ? walletDetail!['dvsa_subscription'] <= 0 &&
-                                questionsList[selectedQuestionIndex]['type'] ==
-                                    1
-                            ? 'Skip'
-                            : 'Next'
-                        : 'Test Submit',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 2.5 * SizeConfig.blockSizeVertical,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(255, 255, 255, 1.0),
-                    ),
-                  ),
-                );
-              },
+                      if ((selectedQuestionIndex + 1) < questionsList.length) {
+                        _controller.animateTo(0,
+                            duration: Duration(microseconds: 1000),
+                            curve: Curves.slowMiddle);
+                        setState(() {
+                          selectedOptionIndex = null;
+                          selectedQuestionIndex += 1;
+                        });
+                      }
+                      // else if (questionsList[selectedQuestionIndex]['type'] ==
+                      //     1) {
+                      //   context.read<AuthProvider>().changeView = false;
+                      //   setState(() {});
+                      // }
+                      else {
+                        CustomSpinner.showLoadingDialog(
+                            context, _keyLoader, "Test Submitting...");
+                        submitTestByApi().then((value) {
+                          Navigator.of(_keyLoader.currentContext!,
+                                  rootNavigator: true)
+                              .pop();
+                          testCompleAlertBox(context);
+                        });
+                      }
+                    },
+              title: selectedQuestionIndex < questionsList.length - 1
+                  ? walletDetail!['dvsa_subscription'] <= 0 &&
+                          questionsList[selectedQuestionIndex]['type'] == 1
+                      ? 'Skip'
+                      : 'Next'
+                  : 'Test Submit',
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -1528,50 +1514,66 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     fontSize: 15),
                               ),
                               SizedBox(height: 20),
-                              Container(
-                                height: 40,
-                                width: 100,
-                                alignment: Alignment.bottomCenter,
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Dark,
-                                  elevation: 5.0,
-                                  child: MaterialButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
-                                      setState(() => isTestStarted = false);
-                                      context.read<AuthProvider>().changeView =
-                                          true;
-                                      setState(() {});
-                                      Future.delayed(
-                                          Duration(microseconds: 300), () {
-                                        this.initializeApi("Updating...");
-                                      });
-                                    },
-                                    child: LayoutBuilder(
-                                      builder: (context, constraints) {
-                                        return Container(
-                                          width: constraints.maxWidth * 0.35,
-                                          child: FittedBox(
-                                            fit: BoxFit.contain,
-                                            child: Text(
-                                              'Ok',
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 40,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color.fromRGBO(
-                                                    255, 255, 255, 1.0),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              )
+                              CustomButton(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  setState(() => isTestStarted = false);
+                                  context.read<AuthProvider>().changeView =
+                                      true;
+                                  setState(() {});
+                                  Future.delayed(Duration(microseconds: 300),
+                                      () {
+                                    this.initializeApi("Updating...");
+                                  });
+                                },
+                                title: 'Ok',
+                              ),
+                              // Container(
+                              //   height: 40,
+                              //   width: 100,
+                              //   alignment: Alignment.bottomCenter,
+                              //   child: Material(
+                              //     borderRadius: BorderRadius.circular(10),
+                              //     elevation: 5.0,
+                              //     child: MaterialButton(
+                              //       onPressed: () {
+                              //         Navigator.of(context).pop();
+                              //         Navigator.of(context).pop();
+                              //         setState(() => isTestStarted = false);
+                              //         context.read<AuthProvider>().changeView =
+                              //             true;
+                              //         setState(() {});
+                              //         Future.delayed(
+                              //             Duration(microseconds: 300), () {
+                              //           this.initializeApi("Updating...");
+                              //         });
+                              //       },
+                              //       child: Container(
+                              //        // width: constraints.maxWidth * 0.35,
+                              //         decoration: BoxDecoration(
+                              //             gradient: RadialGradient(
+                              //           colors: [
+                              //             AppColors.primary,
+                              //             AppColors.secondary,
+                              //             AppColors.secondary,
+                              //           ],
+                              //           radius: 10,
+                              //           focal: Alignment(-1.1, -3.0),
+                              //         )),
+                              //         child: Text(
+                              //           'Ok',
+                              //           style: TextStyle(
+                              //             fontFamily: 'Poppins',
+                              //             fontSize: 40,
+                              //             fontWeight: FontWeight.w500,
+                              //             color: AppColors.white,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // )
                             ]),
                           )
                         ],

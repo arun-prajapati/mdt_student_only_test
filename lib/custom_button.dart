@@ -5,8 +5,18 @@ class CustomButton extends StatelessWidget {
   final Gradient? gradient;
   final String? title;
   final VoidCallback? onTap;
+  final bool isImage;
+  final String? image;
+  final EdgeInsets? padding;
 
-  const CustomButton({super.key, this.gradient, this.onTap, this.title});
+  const CustomButton(
+      {super.key,
+      this.gradient,
+      this.onTap,
+      this.title,
+      this.isImage = false,
+      this.image,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -25,40 +35,39 @@ class CustomButton extends StatelessWidget {
                     radius: 10,
                     focal: Alignment(-1.1, -3.0),
                   )
-                // LinearGradient(
-                //         begin: Alignment.topLeft,
-                //         end: Alignment.centerRight,
-                //         // begin: FractionalOffset(0.0, 0.0),
-                //         // end: FractionalOffset(1.0, 0.0),
-                //         colors: [
-                //           Color(0xFF79e6c9),
-                //           Color(0xFF79e6c9),
-                //           Color(0xFF79e6c9),
-                //           // Color(0xFF38b8cd),
-                //           Color(0xFF38b8cd),
-                //           Color(0xFF38b8cd),
-                //         ],
-                //         stops: [-1.0, -0.1, 0.0, 1.0, 1.1],
-                //       )
-
-                // begin: Alignment.topLeft,
-                // end: Alignment.centerRight,
-                // colors: [
-                //     AppColors.primary,
-                //     AppColors.secondary,
-                //     AppColors.secondary,
-                //   ])
                 : gradient),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 15),
-          child: Text('$title',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 15,
-                color: AppColors.white,
-                fontWeight: FontWeight.w600,
-              )),
+          padding: padding ?? EdgeInsets.symmetric(vertical: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              isImage == true
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Image.asset(
+                          image!,
+                          color: AppColors.white,
+                          height: 14,
+                          width: 16,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+              // SizedBox(
+              //     width: MediaQuery.of(context).size.width * 0.33,
+              //   ),
+              Text('$title',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 15,
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w600,
+                  )),
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
-import 'package:student_app/views/DashboardGridView/Dashboard.dart';
 import 'package:student_app/views/DashboardGridView/TheoryTab.dart';
 import 'package:student_app/widget/navigation_drawer/navigation_drawer.dart'
     as NB;
@@ -13,6 +12,8 @@ import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
 import '../../services/booking_test.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/appImages.dart';
+import '../../utils/app_colors.dart';
 
 class HomeScreen extends StatefulWidget implements PreferredSizeWidget {
   //final FirebaseUser user;
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       drawer: NB.NavigationDrawer(),
       key: _scaffoldKey,
       // appBar: PreferredSize(
@@ -182,11 +183,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   begin: const FractionalOffset(0.0, 0.0),
                   end: const FractionalOffset(1.0, 0.0),
                   colors: [
-                    Color(0xFF79e6c9),
-                    // Color(0xFF79e6c9),
-                    // Color(0xFF79e6c9),
-                    // Color(0xFF38b8cd),
-                    Color(0xFF38b8cd),
+                    Color(0xFF79e6c9).withOpacity(0.5),
+                    Color(0xFF38b8cd).withOpacity(0.5),
                   ],
                   stops: [0.0, 1.0],
                 ),
@@ -202,11 +200,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         _scaffoldKey.currentState?.openDrawer();
                       },
                       child: Container(
-                        padding: EdgeInsets.all(6),
+                        // padding: EdgeInsets.all(6),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.black12),
-                        child: Icon(Icons.menu),
+                            color: AppColors.blackgrey.withOpacity(0.1)),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Image.asset(
+                            AppImages.menuBar,
+                            height: 14,
+                            width: 19,
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(width: 15),

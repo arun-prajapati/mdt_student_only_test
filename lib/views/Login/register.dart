@@ -402,38 +402,47 @@ reg data
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                         borderSide: BorderSide(
-                                            color: AppColors.black, width: 1.1),
+                                            color: AppColors.black
+                                                .withOpacity(0.5),
+                                            width: 1.1),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
-                                              color: AppColors.black,
+                                              color: AppColors.black
+                                                  .withOpacity(0.5),
                                               width: 1.1)),
                                       disabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
-                                              color: AppColors.black,
+                                              color: AppColors.black
+                                                  .withOpacity(0.5),
                                               width: 1.1)),
                                       errorBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
-                                              color: AppColors.black,
+                                              color: AppColors.black
+                                                  .withOpacity(0.5),
                                               width: 1.1)),
                                       focusColor: Dark,
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                         borderSide: BorderSide(
-                                            color: AppColors.black, width: 1.1),
+                                            color: AppColors.black
+                                                .withOpacity(0.5),
+                                            width: 1.1),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                         borderSide: BorderSide(
-                                            color: AppColors.black, width: 1.1),
+                                            color: AppColors.black
+                                                .withOpacity(0.5),
+                                            width: 1.1),
                                       ),
                                       hintStyle: TextStyle(
                                           color: Colors.grey,

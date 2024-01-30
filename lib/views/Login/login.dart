@@ -758,14 +758,17 @@ class CustomTextField extends StatelessWidget {
                   vertical: SizeConfig.blockSizeVertical * 1, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: AppColors.black, width: 1.1),
+                borderSide: BorderSide(
+                    color: AppColors.black.withOpacity(0.5), width: 1.1),
               ),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: AppColors.black, width: 1.1)),
+                  borderSide: BorderSide(
+                      color: AppColors.black.withOpacity(0.5), width: 1.1)),
               disabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: AppColors.black, width: 1.1)),
+                  borderSide: BorderSide(
+                      color: AppColors.black.withOpacity(0.5), width: 1.1)),
               // labelText: label,
               // labelStyle: TextStyle(
               //     color: Colors.blueGrey,
@@ -783,15 +786,18 @@ class CustomTextField extends StatelessWidget {
               suffixIcon: suffixIcon,
               errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.black38, width: 1.1)),
+                  borderSide: BorderSide(
+                      color: Colors.black.withOpacity(0.5), width: 1.1)),
               focusColor: Dark,
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: Colors.black38, width: 1.1),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 1.1),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: Colors.black38, width: 1.1),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 1.1),
               ),
             ),
             style: TextStyle(

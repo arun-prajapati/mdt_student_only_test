@@ -1,14 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:student_app/custom_button.dart';
+import 'package:student_app/utils/appImages.dart';
 
-import '../Constants/app_colors.dart';
 import '../locater.dart';
 import '../responsive/percentage_mediaquery.dart';
 import '../responsive/size_config.dart';
 import '../services/auth.dart';
 import '../services/navigation_service.dart';
 import '../services/practise_theory_test_services.dart';
+import '../utils/app_colors.dart';
 import '../views/Driver/PracticeTheoryTest.dart';
 
 class TestSettingDialogBox extends PracticeTheoryTest {
@@ -209,22 +211,44 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                             seledtedCategoryId = 0;
                           },
                   ),
-                  IconButton(
-                    iconSize: 3 * SizeConfig.blockSizeVertical,
-                    padding: EdgeInsets.only(right: 15),
-                    icon: Icon(
-                        isAllCategoriesSelected
-                            ? Icons.check_box
-                            : Icons.check_box_outline_blank_outlined,
-                        color:
-                            isAllCategoriesSelected ? Dark : Colors.blueGrey),
-                    onPressed: isAllCategoriesSelected
-                        ? null
-                        : () {
+                  isAllCategoriesSelected
+                      ? GestureDetector(
+                          child: Padding(
+                          padding: EdgeInsets.only(right: 22),
+                          child: Image.asset(
+                            AppImages.uncheckedbox,
+                            height: 20,
+                            width: 20,
+                          ),
+                        ))
+                      : GestureDetector(
+                          onTap: () {
                             resetAll(true);
                             seledtedCategoryId = 0;
                           },
-                  ),
+                          child: Padding(
+                              padding: EdgeInsets.only(right: 22),
+                              child: Image.asset(
+                                AppImages.checkedbox,
+                                height: 20,
+                                width: 20,
+                              )),
+                        ),
+
+                  // IconButton(
+                  //   iconSize: 3 * SizeConfig.blockSizeVertical,
+                  //   padding: EdgeInsets.only(right: 15),
+                  //   icon: Icon(
+                  //       isAllCategoriesSelected
+                  //           ? Icons.check_box
+                  //           : Icons.check_box_outline_blank_outlined,
+                  //       color: isAllCategoriesSelected
+                  //           ? AppColors.blueGrad6
+                  //           : AppColors.borderblue.withOpacity(0.3)),
+                  //   onPressed: isAllCategoriesSelected
+                  //       ? null
+                  //       :
+                  // ),
                 ],
               ),
             ),
@@ -261,8 +285,9 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                             ? Icons.check_box
                                             : Icons.check_box_outline_blank,
                                         color: category['selected'] == true
-                                            ? Dark
-                                            : Colors.black),
+                                            ? AppColors.blueGrad6
+                                            : AppColors.borderblue
+                                                .withOpacity(0.3)),
                                     onPressed: () => {
                                       setState(() {
                                         resetAll(false);
@@ -278,53 +303,70 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                         ).toList(),
                       ])),
             ),
-            Container(
-              height: 5 * SizeConfig.blockSizeVertical,
-              width: Responsive.width(30, context),
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(
-                top: Responsive.height(2, context),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 55),
+              child: CustomButton(
+                title: 'Continue',
+                onTap: () {
+                  Navigator.pop(context, true);
+                  this.widget.onSetValue(seledtedCategoryId);
+                  // auth_services.changeView = false;
+                  context.read<AuthProvider>().changeView = false;
+                  setState(() {});
+                  // setState(() {});
+                  print(
+                      'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
+                },
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
               ),
-              child: Material(
-                borderRadius: BorderRadius.circular(10),
-                color: Dark,
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => PracticeTheoryTest()));
-                    Navigator.pop(context, true);
-                    this.widget.onSetValue(seledtedCategoryId);
-                    // auth_services.changeView = false;
-                    context.read<AuthProvider>().changeView = false;
-                    setState(() {});
-                    // setState(() {});
-                    print(
-                        'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
-                  },
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Container(
-                        width: constraints.maxWidth * 1,
-                        height: constraints.maxHeight * 1,
-                        alignment: Alignment.center,
-                        child: AutoSizeText(
-                          'Continue',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 2.2 * SizeConfig.blockSizeVertical,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(255, 255, 255, 1.0),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            )
+            ),
+            // Container(
+            //   height: 5 * SizeConfig.blockSizeVertical,
+            //   width: Responsive.width(30, context),
+            //   alignment: Alignment.centerRight,
+            //   margin: EdgeInsets.only(
+            //     top: Responsive.height(2, context),
+            //   ),
+            //   child: Material(
+            //     borderRadius: BorderRadius.circular(10),
+            //     color: Dark,
+            //     elevation: 5.0,
+            //     child: MaterialButton(
+            //       onPressed: () {
+            //         // Navigator.push(
+            //         //     context,
+            //         //     MaterialPageRoute(
+            //         //         builder: (context) => PracticeTheoryTest()));
+            //         Navigator.pop(context, true);
+            //         this.widget.onSetValue(seledtedCategoryId);
+            //         // auth_services.changeView = false;
+            //         context.read<AuthProvider>().changeView = false;
+            //         setState(() {});
+            //         // setState(() {});
+            //         print(
+            //             'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
+            //       },
+            //       child: LayoutBuilder(
+            //         builder: (context, constraints) {
+            //           return Container(
+            //             width: constraints.maxWidth * 1,
+            //             height: constraints.maxHeight * 1,
+            //             alignment: Alignment.center,
+            //             child: AutoSizeText(
+            //               'Continue',
+            //               style: TextStyle(
+            //                 fontFamily: 'Poppins',
+            //                 fontSize: 2.2 * SizeConfig.blockSizeVertical,
+            //                 fontWeight: FontWeight.w500,
+            //                 color: Color.fromRGBO(255, 255, 255, 1.0),
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

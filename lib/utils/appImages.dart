@@ -18,5 +18,11 @@ class AppImages {
   static String Robot = 'assets/images/Robot.png';
   static String video = 'assets/images/video.png';
   static String ohhNoo = 'assets/images/ohhNoo.png';
+  static String ohhNoo1 = 'assets/images/ohhNoo1.png';
+  static String goodJob = 'assets/images/goodJob.png';
   static String rightArrow = 'assets/images/rightArrow.png';
+  static String menuBar = 'assets/images/menuBar.png';
+  static String readAi = 'assets/images/readAi.png';
+  static String uncheckedbox = 'assets/images/uncheckedbox.png';
+  static String checkedbox = 'assets/images/checkedbox.png';
 }

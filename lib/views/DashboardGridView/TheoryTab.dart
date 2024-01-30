@@ -184,6 +184,7 @@ class _TheoryTabState extends State<TheoryTab> {
       }
       fetchUserTheoryProgress(userId!).then((res) {
         setState(() {
+          print({'%value: ${_progressValue * 100}'});
           _progressValue = res["progress"].toDouble();
         });
         loading(value: false);
@@ -380,8 +381,16 @@ class _TheoryTabState extends State<TheoryTab> {
                       child: CircularPercentIndicator(
                         radius: 90,
                         lineWidth: 14,
-                        percent: _progressValue,
-                        progressColor: AppColors.primary,
+                        linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              AppColors.primary,
+                              AppColors.secondary,
+                              AppColors.secondary,
+                            ]),
+                        percent: 0.07,
+                        //progressColor: AppColors.primary,
                         center: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -395,7 +404,7 @@ class _TheoryTabState extends State<TheoryTab> {
                             ),
                             SizedBox(height: 5),
                             GradientText(
-                              '${_progressValue.toStringAsFixed(0)}%',
+                              '${(((_progressValue) * 100).toStringAsFixed(0))}%',
                               colors: [
                                 AppColors.blueGrad7,
                                 AppColors.blueGrad6,
@@ -480,6 +489,7 @@ class _TheoryTabState extends State<TheoryTab> {
                     width: 155,
                     child: Text(
                       'Theory Learning Progress',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: AppColors.black,

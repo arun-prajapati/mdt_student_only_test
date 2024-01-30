@@ -5,6 +5,7 @@ import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
 import 'package:student_app/views/Login/forgot_next_screen.dart';
 import 'package:student_app/views/Login/login.dart';
+import 'package:student_app/views/Login/register.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -103,6 +104,10 @@ class ForgotPassword extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fitWidth,
                   ),
+                  Positioned(
+                      left: 25,
+                      top: SizeConfig.blockSizeVertical * 8,
+                      child: backArrowCustom()),
                   Positioned(
                     top: SizeConfig.blockSizeVertical * 25,
                     left: SizeConfig.blockSizeHorizontal * 28,
@@ -385,7 +390,7 @@ class ForgotPassword extends StatelessWidget {
       _passwordService.forgotPassword(data).then((res) {
         if (res["success"] == false) {
           Spinner.close(context);
-          showValidationDialog(context, res["error"]);
+          showValidationDialog(context, res["message"]);
         } else {
           Spinner.close(context);
           showSuccessDialog(context, res["message"]);
