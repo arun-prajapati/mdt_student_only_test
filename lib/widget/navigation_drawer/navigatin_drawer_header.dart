@@ -38,19 +38,16 @@ class NavigationDrawerHeader extends StatelessWidget {
           begin: const FractionalOffset(0.0, 0.0),
           end: const FractionalOffset(1.0, 0.0),
           colors: [
-            Color(0xFF79e6c9),
-            // Color(0xFF79e6c9),
-            // Color(0xFF79e6c9),
-            // Color(0xFF38b8cd),
-            Color(0xFF38b8cd),
+            Color(0xFF79e6c9).withOpacity(0.5),
+            Color(0xFF38b8cd).withOpacity(0.5),
           ],
           stops: [0.0, 1.0],
         ),
         // color: Color(0xff76DECD),
-        // borderRadius: BorderRadius.only(
-        //   bottomLeft: Radius.circular(Responsive.width(5, context)),
-        //   bottomRight: Radius.circular(Responsive.width(5, context)),
-        // ),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
         return Stack(

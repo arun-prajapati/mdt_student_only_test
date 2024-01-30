@@ -48,22 +48,22 @@ class NavigationDrawer extends StatelessWidget {
           width: Responsive.width(80, context),
           height: Responsive.height(100, context),
           decoration: BoxDecoration(
-            color: Colors.red,
+            color: Colors.white,
             // boxShadow: [
             //   BoxShadow(color: Colors.black12, blurRadius: 16),
             // ],
-            gradient: LinearGradient(
-              begin: const FractionalOffset(0.0, 0.0),
-              end: const FractionalOffset(1.0, 0.0),
-              colors: [
-                Color(0xFF79e6c9),
-                // Color(0xFF79e6c9),
-                // Color(0xFF79e6c9),
-                // Color(0xFF38b8cd),
-                Color(0xFF38b8cd),
-              ],
-              stops: [0.0, 1.0],
-            ),
+            // gradient: LinearGradient(
+            //   begin: const FractionalOffset(0.0, 0.0),
+            //   end: const FractionalOffset(1.0, 0.0),
+            //   colors: [
+            //     Color(0xFF79e6c9),
+            //     // Color(0xFF79e6c9),
+            //     // Color(0xFF79e6c9),
+            //     // Color(0xFF38b8cd),
+            //     Color(0xFF38b8cd),
+            //   ],
+            //   stops: [0.0, 1.0],
+            // ),
           ),
           child: LayoutBuilder(builder: (context, constraints) {
             return Container(

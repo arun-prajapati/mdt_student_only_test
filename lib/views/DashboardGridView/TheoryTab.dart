@@ -307,604 +307,588 @@ class _TheoryTabState extends State<TheoryTab> {
             color: Colors.white),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return Column(
+            return ListView(
+              padding: EdgeInsets.all(0),
               children: [
-                Expanded(
-                  flex: 0,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: GestureDetector(
-                      // onTap: () {
-                      //   showDialog(
-                      //       context: context,
-                      //       builder: (context) => Dialog(
-                      //             shape: RoundedRectangleBorder(
-                      //                 borderRadius:
-                      //                     BorderRadius.circular(12.0)),
-                      //             insetAnimationCurve: Curves.easeOutBack,
-                      //             insetPadding: EdgeInsets.all(20),
-                      //             clipBehavior: Clip.antiAliasWithSaveLayer,
-                      //             child: Container(
-                      //               height: Responsive.height(55, context),
-                      //               alignment: Alignment.bottomCenter,
-                      //               padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
-                      //               child: Column(
-                      //                 children: [
-                      //                   Container(
-                      //                     height:
-                      //                         Responsive.height(35, context),
-                      //                     width: Responsive.width(80, context),
-                      //                     alignment: Alignment.topLeft,
-                      //                     margin: EdgeInsets.only(
-                      //                         bottom: 0, top: 0),
-                      //                     child: Column(children: [
-                      //                       // )),
-                      //                       Text('Your Progress:',
-                      //                           style: _categoryTextStyle),
-                      //                       ListView(
-                      //                           physics:
-                      //                               AlwaysScrollableScrollPhysics(),
-                      //                           shrinkWrap: true,
-                      //                           children: [
-                      //                             ...categories.map((category) {
-                      //                               // var index = categories
-                      //                               //     .indexOf(category);
-                      //                               return Container(
-                      //                                 width: Responsive.width(
-                      //                                     80, context),
-                      //                                 alignment:
-                      //                                     Alignment.topLeft,
-                      //                                 child: Container(
-                      //                                   width: Responsive.width(
-                      //                                     57,
-                      //                                     context,
-                      //                                   ),
-                      //                                   child: SizedBox(
-                      //                                     width:
-                      //                                         Responsive.width(
-                      //                                             55, context),
-                      //                                     child: AutoSizeText(
-                      //                                         category['name'],
-                      //                                         style:
-                      //                                             _categoryTextStyle),
-                      //                                   ),
-                      //                                 ),
-                      //                               );
-                      //                             }).toList()
-                      //                           ])
-                      //                     ]),
-                      //                   )
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           ));
-                      // },
-                      child: CircularPercentIndicator(
-                        radius: 78,
-                        lineWidth: 14,
-                        linearGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              AppColors.primary,
-                              AppColors.secondary,
-                              AppColors.secondary,
-                            ]),
-                        percent: _progressValue,
-                        //progressColor: AppColors.primary,
-                        center: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Center(
-                              child: Image.asset(
-                                AppImages.Robot,
-                                height: 60,
-                                width: 60,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            GradientText(
-                              '${(((_progressValue) * 100).toStringAsFixed(0))}%',
-                              colors: [
-                                AppColors.blueGrad7,
-                                AppColors.blueGrad6,
-                                AppColors.blueGrad5,
-                                AppColors.blueGrad4,
-                                AppColors.blueGrad3,
-                                //AppColors.blueGrad2,
-                                AppColors.blueGrad1,
-                              ],
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 22,
-                                decorationThickness: 2,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Column(
-                      //   children: [
-                      //     Container(
-                      //       padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
-                      //       width: constraints.maxWidth,
-                      //       //color: Colors.black26,
-                      //       child: MCard.Card(
-                      //         color: Colors.white,
-                      //         shape: RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.circular(10.0),
-                      //         ),
-                      //         elevation: 8.0,
-                      //         child: Container(
-                      //           width: constraints.maxWidth,
-                      //           padding: EdgeInsets.symmetric(
-                      //               horizontal: 10, vertical: 18),
-                      //           child: Column(
-                      //             children: <Widget>[
-                      //               Row(
-                      //                 mainAxisAlignment:
-                      //                     MainAxisAlignment.spaceBetween,
-                      //                 children: [
-                      //                   // Text("$api"),
-                      //                   Text('THEORY LEARNING PROGRESS',
-                      //                       style: TextStyle(
-                      //                           fontFamily: 'Poppins',
-                      //                           fontSize: 14,
-                      //                           color: Dark,
-                      //                           fontWeight: FontWeight.w700),
-                      //                       textAlign: TextAlign.left),
-                      //                   Text(
-                      //                     '${(_progressValue * 100).round()}%',
-                      //                     style: TextStyle(
-                      //                         fontFamily: 'Poppins',
-                      //                         fontSize: 14,
-                      //                         color: Dark,
-                      //                         fontWeight: FontWeight.w700),
-                      //                     textAlign: TextAlign.left,
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //               SizedBox(height: 8),
-                      //               LinearProgressIndicator(
-                      //                 borderRadius: BorderRadius.circular(5),
-                      //                 minHeight: 5,
-                      //                 backgroundColor: Dark.withOpacity(0.2),
-                      //                 valueColor:
-                      //                     new AlwaysStoppedAnimation<Color>(
-                      //                         Colors.red),
-                      //                 value: _progressValue,
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Expanded(
-                  flex: 0,
-                  child: Container(
-                    margin: EdgeInsets.zero,
-                    width: 155,
-                    child: Text(
-                      'Theory Learning Progress',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.black,
-                          fontSize: 18),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Divider(color: AppColors.black.withOpacity(0.3)),
-                Expanded(
-                  flex: 5,
-                  child: Container(
-                    // width: Responsive.width(100, context),
-                    // height: Responsive.height(44, context),
-                    //height: constraints.maxHeight * 0.8,
-                    //height: 420,
-                    padding: EdgeInsets.fromLTRB(16, 20, 16, 5),
-                    child: GridView.builder(
-                      padding: EdgeInsets.all(0),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: MediaQuery.of(context).size.width /
-                            (MediaQuery.of(context).size.height / 1.85),
-                        // childAspectRatio: 2 / 3,
-                      ),
-                      //shrinkWrap: true,
-                      itemCount: cards.length,
-                      // scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            if (cards[index]["type"] == 'theoryTest') {
-                              context.read<AuthProvider>().changeView = true;
-                              setState(() {});
-                              print(
-                                  "auth_services.changeView ${context.read<AuthProvider>().changeView}");
-                              if (context.read<AuthProvider>().changeView) {
-                                // getCategoriesFromApi().then((response_list) {
-                                //  responseList = response_list;
-                                //  print("------------ responseList $responseList");
-                                //  setState(() {});
-                                // });
-                                // showDialog(
-                                //     barrierDismissible: false,
-                                //     context: context,
-                                //     builder: (context) => PracticeTheoryTest());
-
-                                _navigationService
-                                    .navigateTo(routes.PracticeTheoryTestRoute);
-                              } else {
-                                _navigationService
-                                    .navigateTo(routes.PracticeTheoryTestRoute);
-                              }
-                              /*showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Dialog(
-                                          child: startButtonWidget(
-                                              context, constraints),
-                                          // TextButton(
-                                          //     child: Text('Start Test'),
-                                          //     onPressed: () {
-                                          //       _navigationService.navigateTo(
-                                          //           routes
-                                          //               .PracticeTheoryTestRoute);
-                                          //       // CustomSpinner.showLoadingDialog(
-                                          //       //     context,
-                                          //       //     _keyLoader,
-                                          //       //     "Loading...");
-                                          //       // getCategoriesFromApi()
-                                          //       //     .then((response_list) {
-                                          //       //   log("Category : $response_list");
-                                          //       //
-                                          //       //   // Navigator.of(
-                                          //       //   //         _keyLoader
-                                          //       //   //             .currentContext!,
-                                          //       //   //         rootNavigator: true)
-                                          //       //   //     .pop();
-                                          //       //   showDialog(
-                                          //       //       context: context,
-                                          //       //       builder:
-                                          //       //           (BuildContext context) {
-                                          //       //         return TestSettingDialogBox(
-                                          //       //           parentConstraints:
-                                          //       //               constraints,
-                                          //       //           categories_list:
-                                          //       //               response_list,
-                                          //       //           onSetValue:
-                                          //       //               (_categoryId) {
-                                          //       //             log("Category id : $_categoryId");
-                                          //       //             gainPoint = 0;
-                                          //       //             questionsList = [];
-                                          //       //             testQuestionsForResult =
-                                          //       //                 [];
-                                          //       //             selectedQuestionIndex =
-                                          //       //                 0;
-                                          //       //             selectedOptionIndex =
-                                          //       //                 null;
-                                          //       //             category_id =
-                                          //       //                 _categoryId;
-                                          //       //             CustomSpinner
-                                          //       //                 .showLoadingDialog(
-                                          //       //                     context,
-                                          //       //                     _keyLoader,
-                                          //       //                     "Test loading...");
-                                          //       //             getQuestionsFromApi()
-                                          //       //                 .then(
-                                          //       //                     (response_list) {
-                                          //       //               Navigator.of(
-                                          //       //                       _keyLoader
-                                          //       //                           .currentContext!,
-                                          //       //                       rootNavigator:
-                                          //       //                           true)
-                                          //       //                   .pop();
-                                          //       //               questionsList =
-                                          //       //                   response_list;
-                                          //       //               setState(() => {
-                                          //       //                     isTestStarted =
-                                          //       //                         true
-                                          //       //                   });
-                                          //       //             });
-                                          //       //           },
-                                          //       //         );
-                                          //       //       });
-                                          //       // });
-                                          //     }),
-                                        );
-                                        // return
-                                      });*/
-                            } else if (cards[index]["type"] == 'hazard') {
-                              _navigationService.navigateTo(
-                                  routes.HazardPerceptionOptionsRoute);
-                            } else if (cards[index]["type"] == 'dvsaMock') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WebViewContainer(
-                                    'https://www.gov.uk/take-practice-theory-test',
-                                    'DVSA Mock Theory Test',
-                                  ),
-                                ),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TheoryRecommendations(),
-                                ),
-                              ).then((value) {
-                                print('QQQQQQQ $value');
-                                if (value) {
-                                  initializeApi("Loading...");
-                                }
-                              });
-                            }
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(2),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                    color:
-                                        AppColors.borderblue.withOpacity(0.5),
-                                    width: 1),
-                              ),
-                              // shape: RoundedRectangleBorder(
-                              //     borderRadius: BorderRadius.circular(10)),
-                              // elevation: 3.0,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 15, right: 15, top: 20, bottom: 1),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                      child: Image.asset(cards[index]["icon"],
-                                          height: 50),
-                                    ),
-                                    SizedBox(height: 15),
-                                    Expanded(
-                                      flex: 0,
-                                      child: RichText(
-                                        textAlign: TextAlign.start,
-                                        text: TextSpan(
-                                            text: '${cards[index]["title"]}',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: AppColors.black,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: ' →',
-                                                style: TextStyle(
-                                                  fontSize: 25,
-                                                  height: 1,
-                                                  color: AppColors.black,
-                                                  fontWeight: FontWeight.w300,
-                                                ),
-                                              )
-                                            ]),
-                                        // overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      cards[index]["subTitle"],
-                                      maxLines: 3,
-                                      style: TextStyle(
-                                          height: 1.1,
-                                          fontSize: 12,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.black45
-                                          //fontWeight: FontWeight.bold
-                                          ),
-                                      softWrap: true,
-                                      //  textAlign: TextAlign.justify,
-                                    ),
-                                    //SizedBox(width: 15),
-                                  ],
-                                ),
-                              ),
+                Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: GestureDetector(
+                    // onTap: () {
+                    //   showDialog(
+                    //       context: context,
+                    //       builder: (context) => Dialog(
+                    //             shape: RoundedRectangleBorder(
+                    //                 borderRadius:
+                    //                     BorderRadius.circular(12.0)),
+                    //             insetAnimationCurve: Curves.easeOutBack,
+                    //             insetPadding: EdgeInsets.all(20),
+                    //             clipBehavior: Clip.antiAliasWithSaveLayer,
+                    //             child: Container(
+                    //               height: Responsive.height(55, context),
+                    //               alignment: Alignment.bottomCenter,
+                    //               padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
+                    //               child: Column(
+                    //                 children: [
+                    //                   Container(
+                    //                     height:
+                    //                         Responsive.height(35, context),
+                    //                     width: Responsive.width(80, context),
+                    //                     alignment: Alignment.topLeft,
+                    //                     margin: EdgeInsets.only(
+                    //                         bottom: 0, top: 0),
+                    //                     child: Column(children: [
+                    //                       // )),
+                    //                       Text('Your Progress:',
+                    //                           style: _categoryTextStyle),
+                    //                       ListView(
+                    //                           physics:
+                    //                               AlwaysScrollableScrollPhysics(),
+                    //                           shrinkWrap: true,
+                    //                           children: [
+                    //                             ...categories.map((category) {
+                    //                               // var index = categories
+                    //                               //     .indexOf(category);
+                    //                               return Container(
+                    //                                 width: Responsive.width(
+                    //                                     80, context),
+                    //                                 alignment:
+                    //                                     Alignment.topLeft,
+                    //                                 child: Container(
+                    //                                   width: Responsive.width(
+                    //                                     57,
+                    //                                     context,
+                    //                                   ),
+                    //                                   child: SizedBox(
+                    //                                     width:
+                    //                                         Responsive.width(
+                    //                                             55, context),
+                    //                                     child: AutoSizeText(
+                    //                                         category['name'],
+                    //                                         style:
+                    //                                             _categoryTextStyle),
+                    //                                   ),
+                    //                                 ),
+                    //                               );
+                    //                             }).toList()
+                    //                           ])
+                    //                     ]),
+                    //                   )
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           ));
+                    // },
+                    child: CircularPercentIndicator(
+                      radius: 78,
+                      lineWidth: 12,
+                      circularStrokeCap: CircularStrokeCap.round,
+                      linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            AppColors.primary,
+                            AppColors.secondary,
+                            AppColors.secondary,
+                          ]),
+                      percent: _progressValue,
+                      //progressColor: AppColors.primary,
+                      center: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Image.asset(
+                              AppImages.Robot,
+                              height: 60,
+                              width: 60,
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Divider(color: AppColors.black.withOpacity(0.3)),
-                SizedBox(height: 10),
-                Expanded(
-                  flex: 0,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 18),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: GradientText(
-                        'Resources',
-                        colors: [
-                          AppColors.blueGrad7,
-                          AppColors.blueGrad6,
-                          AppColors.blueGrad5,
-                          AppColors.blueGrad4,
-                          AppColors.blueGrad3,
-                          //AppColors.blueGrad2,
-                          AppColors.blueGrad1
+                          SizedBox(height: 5),
+                          GradientText(
+                            '${(((_progressValue) * 100).toStringAsFixed(0))}%',
+                            colors: [
+                              AppColors.blueGrad7,
+                              AppColors.blueGrad6,
+                              AppColors.blueGrad5,
+                              AppColors.blueGrad4,
+                              AppColors.blueGrad3,
+                              //AppColors.blueGrad2,
+                              AppColors.blueGrad1,
+                            ],
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 22,
+                              decorationThickness: 2,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ],
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          decorationThickness: 2,
-                          fontWeight: FontWeight.w500,
-                        ),
                       ),
                     ),
+                    // Column(
+                    //   children: [
+                    //     Container(
+                    //       padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+                    //       width: constraints.maxWidth,
+                    //       //color: Colors.black26,
+                    //       child: MCard.Card(
+                    //         color: Colors.white,
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(10.0),
+                    //         ),
+                    //         elevation: 8.0,
+                    //         child: Container(
+                    //           width: constraints.maxWidth,
+                    //           padding: EdgeInsets.symmetric(
+                    //               horizontal: 10, vertical: 18),
+                    //           child: Column(
+                    //             children: <Widget>[
+                    //               Row(
+                    //                 mainAxisAlignment:
+                    //                     MainAxisAlignment.spaceBetween,
+                    //                 children: [
+                    //                   // Text("$api"),
+                    //                   Text('THEORY LEARNING PROGRESS',
+                    //                       style: TextStyle(
+                    //                           fontFamily: 'Poppins',
+                    //                           fontSize: 14,
+                    //                           color: Dark,
+                    //                           fontWeight: FontWeight.w700),
+                    //                       textAlign: TextAlign.left),
+                    //                   Text(
+                    //                     '${(_progressValue * 100).round()}%',
+                    //                     style: TextStyle(
+                    //                         fontFamily: 'Poppins',
+                    //                         fontSize: 14,
+                    //                         color: Dark,
+                    //                         fontWeight: FontWeight.w700),
+                    //                     textAlign: TextAlign.left,
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //               SizedBox(height: 8),
+                    //               LinearProgressIndicator(
+                    //                 borderRadius: BorderRadius.circular(5),
+                    //                 minHeight: 5,
+                    //                 backgroundColor: Dark.withOpacity(0.2),
+                    //                 valueColor:
+                    //                     new AlwaysStoppedAnimation<Color>(
+                    //                         Colors.red),
+                    //                 value: _progressValue,
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ),
                 ),
-                SizedBox(height: 10),
-                Expanded(
-                  flex: 5,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 60),
-                    child: Container(
-                      height: 430,
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
-                      child: GridView.builder(
-                        padding: EdgeInsets.zero,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 1.85),
-                        ),
-                        itemCount: _resourceCards.length,
-                        //shrinkWrap: true,
-                        itemBuilder: (context, index) => Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.bgColor,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 15, bottom: 1, left: 15, right: 15),
-                            child: GestureDetector(
-                              onTap: () {
-                                if (_resourceCards[index]["type"] ==
-                                    'highwayCode') {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WebViewContainer(
-                                              'https://www.gov.uk/guidance/the-highway-code',
-                                              'Highway Code')));
-                                } else if (_resourceCards[index]["type"] ==
-                                    'theoryTestGuidance') {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WebViewContainer(
-                                              'https://mockdrivingtest.com/static/practice-theory-test',
-                                              'Theory Test Guidance')));
-                                } else {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WebViewContainer(
-                                              'https://www.gov.uk/book-theory-test',
-                                              'Book DVSA Theory Test')));
-                                }
-                              },
+                SizedBox(height: 15),
+                Container(
+                  margin: EdgeInsets.zero,
+                  width: 155,
+                  child: Text(
+                    'Theory Learning Progress',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.black,
+                        fontSize: 18),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Divider(color: AppColors.black.withOpacity(0.1)),
+                Container(
+                  // width: Responsive.width(100, context),
+                  // height: Responsive.height(44, context),
+                  //height: constraints.maxHeight * 0.8,
+                  // height: 420,
+                  padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                  child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(0),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.85),
+                      // childAspectRatio: 2 / 3,
+                    ),
+                    //shrinkWrap: true,
+                    itemCount: cards.length,
+                    // scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          if (cards[index]["type"] == 'theoryTest') {
+                            context.read<AuthProvider>().changeView = true;
+                            setState(() {});
+                            print(
+                                "auth_services.changeView ${context.read<AuthProvider>().changeView}");
+                            if (context.read<AuthProvider>().changeView) {
+                              // getCategoriesFromApi().then((response_list) {
+                              //  responseList = response_list;
+                              //  print("------------ responseList $responseList");
+                              //  setState(() {});
+                              // });
+                              // showDialog(
+                              //     barrierDismissible: false,
+                              //     context: context,
+                              //     builder: (context) => PracticeTheoryTest());
+
+                              _navigationService
+                                  .navigateTo(routes.PracticeTheoryTestRoute);
+                            } else {
+                              _navigationService
+                                  .navigateTo(routes.PracticeTheoryTestRoute);
+                            }
+                            /*showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                        child: startButtonWidget(
+                                            context, constraints),
+                                        // TextButton(
+                                        //     child: Text('Start Test'),
+                                        //     onPressed: () {
+                                        //       _navigationService.navigateTo(
+                                        //           routes
+                                        //               .PracticeTheoryTestRoute);
+                                        //       // CustomSpinner.showLoadingDialog(
+                                        //       //     context,
+                                        //       //     _keyLoader,
+                                        //       //     "Loading...");
+                                        //       // getCategoriesFromApi()
+                                        //       //     .then((response_list) {
+                                        //       //   log("Category : $response_list");
+                                        //       //
+                                        //       //   // Navigator.of(
+                                        //       //   //         _keyLoader
+                                        //       //   //             .currentContext!,
+                                        //       //   //         rootNavigator: true)
+                                        //       //   //     .pop();
+                                        //       //   showDialog(
+                                        //       //       context: context,
+                                        //       //       builder:
+                                        //       //           (BuildContext context) {
+                                        //       //         return TestSettingDialogBox(
+                                        //       //           parentConstraints:
+                                        //       //               constraints,
+                                        //       //           categories_list:
+                                        //       //               response_list,
+                                        //       //           onSetValue:
+                                        //       //               (_categoryId) {
+                                        //       //             log("Category id : $_categoryId");
+                                        //       //             gainPoint = 0;
+                                        //       //             questionsList = [];
+                                        //       //             testQuestionsForResult =
+                                        //       //                 [];
+                                        //       //             selectedQuestionIndex =
+                                        //       //                 0;
+                                        //       //             selectedOptionIndex =
+                                        //       //                 null;
+                                        //       //             category_id =
+                                        //       //                 _categoryId;
+                                        //       //             CustomSpinner
+                                        //       //                 .showLoadingDialog(
+                                        //       //                     context,
+                                        //       //                     _keyLoader,
+                                        //       //                     "Test loading...");
+                                        //       //             getQuestionsFromApi()
+                                        //       //                 .then(
+                                        //       //                     (response_list) {
+                                        //       //               Navigator.of(
+                                        //       //                       _keyLoader
+                                        //       //                           .currentContext!,
+                                        //       //                       rootNavigator:
+                                        //       //                           true)
+                                        //       //                   .pop();
+                                        //       //               questionsList =
+                                        //       //                   response_list;
+                                        //       //               setState(() => {
+                                        //       //                     isTestStarted =
+                                        //       //                         true
+                                        //       //                   });
+                                        //       //             });
+                                        //       //           },
+                                        //       //         );
+                                        //       //       });
+                                        //       // });
+                                        //     }),
+                                      );
+                                      // return
+                                    });*/
+                          } else if (cards[index]["type"] == 'hazard') {
+                            _navigationService.navigateTo(
+                                routes.HazardPerceptionOptionsRoute);
+                          } else if (cards[index]["type"] == 'dvsaMock') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WebViewContainer(
+                                  'https://www.gov.uk/take-practice-theory-test',
+                                  'DVSA Mock Theory Test',
+                                ),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TheoryRecommendations(),
+                              ),
+                            ).then((value) {
+                              print('QQQQQQQ $value');
+                              if (value) {
+                                initializeApi("Loading...");
+                              }
+                            });
+                          }
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(2),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                  color: AppColors.borderblue.withOpacity(0.5),
+                                  width: 1),
+                            ),
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(10)),
+                            // elevation: 3.0,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 15, right: 15, top: 20, bottom: 1),
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              _resourceCards[index]["title"],
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              //overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 0,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                if (_resourceCards[index]
-                                                        ["type"] ==
-                                                    'highwayCode') {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebViewContainer(
-                                                                  'https://www.gov.uk/guidance/the-highway-code',
-                                                                  'Highway Code')));
-                                                } else if (_resourceCards[index]
-                                                        ["type"] ==
-                                                    'theoryTestGuidance') {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebViewContainer(
-                                                                  'https://mockdrivingtest.com/static/practice-theory-test',
-                                                                  'Theory Test Guidance')));
-                                                } else {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebViewContainer(
-                                                                  'https://www.gov.uk/book-theory-test',
-                                                                  'Book DVSA Theory Test')));
-                                                }
-                                              },
-                                              child: Image.asset(
-                                                AppImages.rightArrow,
-                                                height: 19,
-                                                width: 20,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 5),
-                                        child: Text(
-                                          _resourceCards[index]["subTitle"],
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              height: 1.2,
-                                              letterSpacing: 0.2,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppColors.black
-                                                  .withOpacity(0.4)),
-                                          softWrap: true,
-                                        ),
-                                      ),
-                                    ],
+                                  Center(
+                                    child: Image.asset(cards[index]["icon"],
+                                        height: 50),
                                   ),
-                                  Image.asset(
-                                    _resourceCards[index]['image'],
-                                    height: 75,
-                                    width: 150,
-                                  )
+                                  SizedBox(height: 15),
+                                  Expanded(
+                                    flex: 0,
+                                    child: RichText(
+                                      textAlign: TextAlign.start,
+                                      text: TextSpan(
+                                          text: '${cards[index]["title"]}',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: AppColors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: ' →',
+                                              style: TextStyle(
+                                                fontSize: 25,
+                                                height: 1,
+                                                color: AppColors.black,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            )
+                                          ]),
+                                      // overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    cards[index]["subTitle"],
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                        height: 1.1,
+                                        fontSize: 12,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.black45
+                                        //fontWeight: FontWeight.bold
+                                        ),
+                                    softWrap: true,
+                                    //  textAlign: TextAlign.justify,
+                                  ),
+                                  //SizedBox(width: 15),
                                 ],
                               ),
                             ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Divider(color: AppColors.black.withOpacity(0.1)),
+                SizedBox(height: 5),
+                Padding(
+                  padding: EdgeInsets.only(left: 18),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: GradientText(
+                      'Resources',
+                      colors: [
+                        AppColors.blueGrad7,
+                        AppColors.blueGrad6,
+                        AppColors.blueGrad5,
+                        AppColors.blueGrad4,
+                        AppColors.blueGrad3,
+                        //AppColors.blueGrad2,
+                        AppColors.blueGrad1
+                      ],
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        decorationThickness: 2,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.62,
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.85),
+                    ),
+                    itemCount: _resourceCards.length,
+                    //shrinkWrap: true,
+                    itemBuilder: (context, index) => Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.bgColor,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 15, bottom: 1, left: 15, right: 15),
+                        child: GestureDetector(
+                          onTap: () {
+                            if (_resourceCards[index]["type"] ==
+                                'highwayCode') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WebViewContainer(
+                                          'https://www.gov.uk/guidance/the-highway-code',
+                                          'Highway Code')));
+                            } else if (_resourceCards[index]["type"] ==
+                                'theoryTestGuidance') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WebViewContainer(
+                                          'https://mockdrivingtest.com/static/practice-theory-test',
+                                          'Theory Test Guidance')));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WebViewContainer(
+                                          'https://www.gov.uk/book-theory-test',
+                                          'Book DVSA Theory Test')));
+                            }
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          _resourceCards[index]["title"],
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          //overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            if (_resourceCards[index]["type"] ==
+                                                'highwayCode') {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WebViewContainer(
+                                                              'https://www.gov.uk/guidance/the-highway-code',
+                                                              'Highway Code')));
+                                            } else if (_resourceCards[index]
+                                                    ["type"] ==
+                                                'theoryTestGuidance') {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WebViewContainer(
+                                                              'https://mockdrivingtest.com/static/practice-theory-test',
+                                                              'Theory Test Guidance')));
+                                            } else {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WebViewContainer(
+                                                              'https://www.gov.uk/book-theory-test',
+                                                              'Book DVSA Theory Test')));
+                                            }
+                                          },
+                                          child: Image.asset(
+                                            AppImages.rightArrow,
+                                            height: 19,
+                                            width: 20,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 5),
+                                    child: Text(
+                                      _resourceCards[index]["subTitle"],
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          height: 1.2,
+                                          letterSpacing: 0.2,
+                                          fontWeight: FontWeight.w400,
+                                          color:
+                                              AppColors.black.withOpacity(0.4)),
+                                      softWrap: true,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Image.asset(
+                                _resourceCards[index]['image'],
+                                height: 75,
+                                width: 150,
+                              )
+                            ],
                           ),
                         ),
                       ),

@@ -50,7 +50,7 @@ class CustomButton extends StatelessWidget {
                           image!,
                           color: AppColors.white,
                           height: 14,
-                          width: 16,
+                          // width: 16,
                         ),
                       ),
                     )

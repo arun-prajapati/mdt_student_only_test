@@ -335,13 +335,15 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                 //height: constraints.maxHeight * 0.11,
                                 margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        AppColors.borderblue.withOpacity(0.1),
-                                        AppColors.borderblue.withOpacity(0.3)
-                                      ]),
+                                  // gradient: LinearGradient(
+                                  //     begin: Alignment.topCenter,
+                                  //     end: Alignment.bottomCenter,
+                                  //     colors: [
+                                  // Colors.white,
+                                  // AppColors.borderblue.withOpacity(0.1),
+                                  // AppColors.borderblue.withOpacity(0.2)
+                                  // ]),
+                                  color: AppColors.borderblue.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color:
@@ -579,8 +581,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                   title: "Read AI article",
                                                   image: AppImages.readAi,
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 5,
-                                                      vertical: 5),
+                                                      // horizontal: 5,
+                                                      vertical: 10),
                                                   onTap: () async {
                                                     print("Clicked!!");
                                                     setState(() {
@@ -642,8 +644,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                   title: "Watch Video",
                                                   image: AppImages.video,
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 5,
-                                                      vertical: 5),
+                                                      // horizontal: 5,
+                                                      vertical: 10),
                                                   onTap: () async {
                                                     print("Clicked!!");
                                                     setState(() {
@@ -826,14 +828,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                               //height: constraints.maxHeight * 0.11,
                               margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      AppColors.borderblue.withOpacity(0.1),
-                                      AppColors.borderblue.withOpacity(0.3)
-                                    ]),
-                                //color: AppColors.borderblue.withOpacity(0.1),
+                                // gradient: LinearGradient(
+                                //     begin: Alignment.topCenter,
+                                //     end: Alignment.bottomCenter,
+                                //     colors: [
+                                //       AppColors.borderblue.withOpacity(0.1),
+                                //       AppColors.borderblue.withOpacity(0.3)
+                                //     ]),
+                                color: AppColors.borderblue.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
                                     color:
