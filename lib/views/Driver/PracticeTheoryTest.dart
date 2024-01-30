@@ -1653,7 +1653,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         onTap: () {
                                           Navigator.of(context).pop();
                                           showLoader("Loading");
-                                          isTestStarted = false;
+                                          isTestStarted = true;
                                           Stripe.publishableKey = stripePublic;
                                           Map params = {
                                             'total_cost': walletDetail![

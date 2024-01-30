@@ -219,7 +219,6 @@ class Welcome extends StatelessWidget {
                   ),
                 ),
               ),
-
               // Positioned(
               //   top: 415,
               //   left: 25,
@@ -374,9 +373,9 @@ class Welcome extends StatelessWidget {
               //   ),
               // ),
             ]),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.only(top: 20, bottom: 5, left: 20, right: 20),
               child: Container(
                 height: 370,
                 decoration: BoxDecoration(

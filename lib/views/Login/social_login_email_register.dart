@@ -261,53 +261,33 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                           paramArguments[
                                                               'social_type']))),
                                               style: TextStyle(
-                                                  fontSize: 2.5 *
-                                                      SizeConfig
-                                                          .blockSizeVertical,
-                                                  fontWeight: FontWeight.w600),
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500),
                                             ),
                                             SizedBox(height: 20),
                                             if (!isSocialPhone)
                                               Container(
                                                 alignment: Alignment.center,
                                                 width:
-                                                    constraints.maxWidth * 0.90,
+                                                    constraints.maxWidth * 0.92,
                                                 margin: EdgeInsets.only(
                                                     bottom: 2 *
                                                         SizeConfig
                                                             .blockSizeVertical),
-                                                child: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Note:',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 2 *
-                                                            SizeConfig
-                                                                .blockSizeVertical,
-                                                        color:
-                                                            Colors.redAccent),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text:
-                                                              " Please enter mobile number to complete registration.",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300,
-                                                              fontSize: 2 *
-                                                                  SizeConfig
-                                                                      .blockSizeVertical,
-                                                              color:
-                                                                  Colors.grey)),
-                                                    ],
-                                                  ),
+                                                child: Text(
+                                                  " Please enter mobile number to complete registration.",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.grey),
+                                                  textAlign: TextAlign.center,
                                                 ),
                                               ),
                                             CustomTextField(
                                               label: 'Enter email',
-                                              prefixIcon: Icon(Icons.mail,
-                                                  color: Dark, size: 20),
+                                              // prefixIcon: Icon(Icons.mail,
+                                              //     color: Dark, size: 20),
                                               validator: (value) {
                                                 email = value!.trim();
                                                 return Validate.validateEmail(
