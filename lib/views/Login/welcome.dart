@@ -622,58 +622,7 @@ class Welcome extends StatelessWidget {
     //             ],
     //           ),
     //         ),
-    //         Container(
-    //           width: SizeConfig.blockSizeHorizontal * 30,
-    //           margin:
-    //               EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
-    //           //color: Colors.black12,
-    //           child: Row(
-    //             children: [
-    //               Container(
-    //                 width: SizeConfig.blockSizeHorizontal * 11,
-    //                 child: Divider(
-    //                   thickness: 2,
-    //                   color: Dark,
-    //                 ),
-    //               ),
-    //               Container(
-    //                 width: SizeConfig.blockSizeHorizontal * 8,
-    //                 child: Center(
-    //                   child: Text(
-    //                     "or",
-    //                     style: TextStyle(
-    //                         letterSpacing: 2,
-    //                         fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-    //                         color: Colors.blueGrey,
-    //                         fontWeight: FontWeight.bold),
-    //                   ),
-    //                 ),
-    //               ),
-    //               Container(
-    //                 width: SizeConfig.blockSizeHorizontal * 11,
-    //                 child: Divider(
-    //                   thickness: 2,
-    //                   color: Dark,
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         Container(
-    //           // width: SizeConfig.blockSizeHorizontal * 50,
-    //           margin: EdgeInsets.only(
-    //             top: SizeConfig.blockSizeVertical * 5,
-    //           ),
-    //           child: Center(
-    //             child: Text(
-    //               "Connect with",
-    //               style: TextStyle(
-    //                 fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-    //                 fontWeight: FontWeight.w600,
-    //               ),
-    //             ),
-    //           ),
-    //         ),
+    //
     //         Container(
     //           width: SizeConfig.blockSizeHorizontal * 50,
     //           margin: EdgeInsets.only(

@@ -3,19 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/custom_button.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/views/Login/login.dart';
+import 'package:student_app/views/Login/register.dart';
 import 'package:toast/toast.dart';
 
 import '../../enums/Autentication_status.dart';
 import '../../locater.dart';
-import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
 import '../../services/methods.dart';
 import '../../services/navigation_service.dart';
 import '../../services/validator.dart';
-import '../../widget/Header/Login_RegisterHeader.dart';
+import '../../utils/appImages.dart';
+import '../../utils/app_colors.dart';
 
 class SocialLoginEmailRegister extends StatefulWidget {
   @override
@@ -139,21 +141,85 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
             color: Colors.transparent,
             child: Stack(
               children: <Widget>[
-                Container(
-                  color: Colors.transparent,
-                  child: Header(),
+                Image.asset(
+                  AppImages.bgLogin,
+                  //height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.fitWidth,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Container(
-                    width: Responsive.width(85, context),
-                    height: Responsive.height(53, context),
-                    margin: EdgeInsets.fromLTRB(
-                      Responsive.width(7.5, context),
-                      Responsive.height(40, context),
-                      Responsive.width(7.5, context),
-                      0.0,
+                Positioned(
+                    left: 25,
+                    top: SizeConfig.blockSizeVertical * 8,
+                    child: backArrowCustom()),
+                Positioned(
+                  top: SizeConfig.blockSizeVertical * 18,
+                  left: SizeConfig.blockSizeHorizontal * 28,
+                  child: CircleAvatar(
+                    radius: SizeConfig.blockSizeHorizontal * 22,
+                    backgroundColor: Colors.white,
+                    child: Container(
+                      child: Image.asset(
+                        "assets/stt_Logo.png",
+                        height: 180,
+                        width: 182,
+                        //fit: BoxFit.contain,
+                      ),
                     ),
+                  ),
+                ),
+                // CustomPaint(
+                //   size: Size(width, height),
+                //   painter: HeaderPainter(),
+                // ),
+                // Positioned(
+                //   top: SizeConfig.blockSizeVertical * 20,
+                //   left: SizeConfig.blockSizeHorizontal * 28,
+                //   child: CircleAvatar(
+                //     radius: SizeConfig.blockSizeHorizontal * 22,
+                //     backgroundColor: Colors.white,
+                //     child: Container(
+                //       child: Image.asset(
+                //         "assets/stt_s_logo.png",
+                //         height: SizeConfig.blockSizeVertical * 45,
+                //         width: SizeConfig.blockSizeHorizontal * 45,
+                //         fit: BoxFit.contain,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Positioned(
+                //   top: SizeConfig.blockSizeVertical * 38,
+                //   child: Container(
+                //     child: Text(
+                //       'MDT Learner Driver',
+                //       style:
+                //           // GoogleFonts.caveat(
+                //           //   fontSize: SizeConfig.blockSizeHorizontal * 8,
+                //           //   color: Colors.black,
+                //           //   fontWeight: FontWeight.bold,
+                //           //   letterSpacing: 1.0,
+                //           // ),
+                //           TextStyle(
+                //         letterSpacing: 1.0,
+                //         fontFamily: 'Poppins',
+                //         fontSize: SizeConfig.blockSizeHorizontal * 6,
+                //         fontWeight: FontWeight.w600,
+                //         color: Colors.black,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  width: SizeConfig.blockSizeHorizontal * 85,
+                  height: SizeConfig.blockSizeVertical * 80,
+                  margin: EdgeInsets.fromLTRB(
+                    SizeConfig.blockSizeHorizontal * 7.5,
+                    SizeConfig.blockSizeVertical * 32,
+                    SizeConfig.blockSizeHorizontal * 7.5,
+                    0.0,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
                         return Center(
@@ -165,7 +231,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                 return ListView(
                                   children: <Widget>[
                                     if (isSocialEmail)
-                                      Column(children: <Widget>[
+                                      Column(children: [
                                         Container(
                                           width: constraints.maxWidth * 0.6,
                                           height: constraints.maxHeight * 0.06,
@@ -183,60 +249,49 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                             ),
                                           ),
                                         ),
-                                        Container(
+                                        Text(
+                                          "SignUp With " +
+                                              (paramArguments == null
+                                                  ? 'Social Site'
+                                                  : (capitalize(paramArguments[
+                                                      'social_type']))),
+                                          style: TextStyle(
+                                              fontSize: 2.5 *
+                                                  SizeConfig.blockSizeVertical,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        if (!isSocialPhone)
+                                          Container(
                                             alignment: Alignment.center,
-                                            width: constraints.maxWidth * 0.99,
+                                            width: constraints.maxWidth * 0.90,
                                             margin: EdgeInsets.only(
                                                 bottom: 2 *
                                                     SizeConfig
                                                         .blockSizeVertical),
-                                            child: Text(
-                                              "SignUp With " +
-                                                  (paramArguments == null
-                                                      ? 'Social Site'
-                                                      : (capitalize(
-                                                          paramArguments[
-                                                              'social_type']))),
-                                              style: TextStyle(
-                                                  fontSize: 2.5 *
-                                                      SizeConfig
-                                                          .blockSizeVertical,
-                                                  fontWeight: FontWeight.w600),
-                                            )),
-                                        if (!isSocialPhone)
-                                          Container(
-                                              alignment: Alignment.center,
-                                              width:
-                                                  constraints.maxWidth * 0.90,
-                                              margin: EdgeInsets.only(
-                                                  bottom: 2 *
-                                                      SizeConfig
-                                                          .blockSizeVertical),
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  text: 'Note:',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 2 *
-                                                          SizeConfig
-                                                              .blockSizeVertical,
-                                                      color: Colors.redAccent),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text:
-                                                            " Please enter mobile number to complete registration.",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            fontSize: 2 *
-                                                                SizeConfig
-                                                                    .blockSizeVertical,
-                                                            color:
-                                                                Colors.grey)),
-                                                  ],
-                                                ),
-                                              )),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text: 'Note:',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 2 *
+                                                        SizeConfig
+                                                            .blockSizeVertical,
+                                                    color: Colors.redAccent),
+                                                children: <TextSpan>[
+                                                  TextSpan(
+                                                      text:
+                                                          " Please enter mobile number to complete registration.",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontSize: 2 *
+                                                              SizeConfig
+                                                                  .blockSizeVertical,
+                                                          color: Colors.grey)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         CustomTextField(
                                           label: 'Enter email',
                                           prefixIcon: Icon(Icons.mail,
@@ -370,69 +425,81 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                             textInputAction:
                                                 TextInputAction.next,
                                             decoration: InputDecoration(
+                                              counterText: "",
                                               contentPadding:
                                                   EdgeInsets.symmetric(
-                                                      vertical: constraints
-                                                              .maxHeight *
-                                                          0.01),
+                                                      horizontal: 20),
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
-                                                  Radius.circular(25),
-                                                ),
+                                                    Radius.circular(10)),
                                                 borderSide: BorderSide(
-                                                    color: Dark, width: 2),
+                                                    color: AppColors.black
+                                                        .withOpacity(0.5),
+                                                    width: 1.1),
                                               ),
                                               enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(25),
-                                                ),
-                                                borderSide: const BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  borderSide: BorderSide(
+                                                      color: AppColors.black
+                                                          .withOpacity(0.5),
+                                                      width: 1.1)),
                                               disabledBorder:
                                                   OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      borderSide: BorderSide(
+                                                          color: AppColors.black
+                                                              .withOpacity(0.5),
+                                                          width: 1.1)),
+                                              errorBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  borderSide: BorderSide(
+                                                      color: AppColors.black
+                                                          .withOpacity(0.5),
+                                                      width: 1.1)),
+                                              focusColor: Dark,
+                                              focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
-                                                  Radius.circular(25),
-                                                ),
-                                                borderSide: const BorderSide(
-                                                    color: Dark, width: 2),
+                                                    Radius.circular(10)),
+                                                borderSide: BorderSide(
+                                                    color: AppColors.black
+                                                        .withOpacity(0.5),
+                                                    width: 1.1),
                                               ),
+                                              focusedErrorBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                                borderSide: BorderSide(
+                                                    color: AppColors.black
+                                                        .withOpacity(0.5),
+                                                    width: 1.1),
+                                              ),
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400),
+
                                               labelText: 'Mobile',
                                               labelStyle: TextStyle(
                                                   color: Colors.blueGrey,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w400),
                                               errorStyle: TextStyle(
-                                                fontSize:
-                                                    constraints.maxWidth * 0.05,
+                                                fontSize: 12,
                                                 decorationColor: Dark,
                                               ),
-                                              errorBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(25)),
-                                                borderSide: const BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
-                                              focusedErrorBorder:
-                                                  OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(25)),
-                                                borderSide: const BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
+
                                               floatingLabelStyle:
                                                   TextStyle(color: Dark),
                                               // errorStyle: TextStyle(
                                               //     fontSize: constraints.maxWidth * 0.05),
-                                              focusColor: Dark,
-
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(25),
-                                                ),
-                                                borderSide: const BorderSide(
-                                                    color: Dark, width: 2),
-                                              ),
                                             ),
                                             initialCountryCode: 'GB',
                                             showCountryFlag: false,
@@ -475,57 +542,16 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                             ? Center(
                                                 child:
                                                     CircularProgressIndicator())
-                                            : Container(
-                                                height: constraints.maxHeight *
-                                                    0.11,
-                                                width:
-                                                    constraints.maxWidth * 0.65,
-                                                margin: EdgeInsets.only(
-                                                    top: constraints.maxHeight *
-                                                        0.05,
-                                                    bottom:
-                                                        constraints.maxHeight *
-                                                            0.05),
-                                                child: Material(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Color.fromRGBO(
-                                                      14, 155, 207, 1.0),
-                                                  elevation: 5.0,
-                                                  child: MaterialButton(
-                                                    onPressed: submit,
-                                                    child: LayoutBuilder(
-                                                      builder: (context,
-                                                          constraints) {
-                                                        return Container(
-                                                          //color: Colors.black26,
-                                                          width: constraints
-                                                                  .maxWidth *
-                                                              0.35,
-                                                          child: FittedBox(
-                                                            fit: BoxFit.contain,
-                                                            child: Text(
-                                                              'SignUp',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 50,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        255,
-                                                                        255,
-                                                                        255,
-                                                                        1.0),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ),
+                                            : Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 75),
+                                                child: CustomButton(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                                  title: 'SignUp',
+                                                  onTap: () {
+                                                    submit;
+                                                  },
                                                 ),
                                               ),
                                       ]),
@@ -645,474 +671,475 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                       },
                     ),
                   ),
+
+                  // Container(
+                  //   width: Responsive.width(85, context),
+                  //   height: Responsive.height(53, context),
+                  //   margin: EdgeInsets.fromLTRB(
+                  //       Responsive.width(7.5, context),
+                  //       Responsive.height(40, context),
+                  //       Responsive.width(7.5, context),
+                  //       0.0),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     borderRadius: BorderRadius.circular(
+                  //         Responsive.height(53, context) * 0.07),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //         color: Color.fromRGBO(0, 0, 0, 0.16),
+                  //         blurRadius: 6.0, // soften the shadow
+                  //         spreadRadius: 5.0, //extend the shadow
+                  //         offset: Offset(
+                  //           0.0, // Move to right 10  horizontally
+                  //           3.0, // Move to bottom 10 Vertically
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  //   child:
+                  //   // LayoutBuilder(
+                  //   //   builder: (context, constraints) {
+                  //   //     return Center(
+                  //   //       child: Container(
+                  //   //         width: constraints.maxWidth * 0.9,
+                  //   //         height: constraints.maxHeight,
+                  //   //         child: LayoutBuilder(
+                  //   //           builder: (context, constraints) {
+                  //   //             return ListView(
+                  //   //               children: <Widget>[
+                  //   //                 if (isSocialEmail)
+                  //   //                   Column(children: <Widget>[
+                  //   //                     Container(
+                  //   //                       width: constraints.maxWidth * 0.6,
+                  //   //                       height: constraints.maxHeight * 0.06,
+                  //   //                       margin: EdgeInsets.fromLTRB(
+                  //   //                           0.0,
+                  //   //                           constraints.maxHeight * 0.01,
+                  //   //                           0.0,
+                  //   //                           0.0),
+                  //   //                       child: FittedBox(
+                  //   //                         fit: BoxFit.contain,
+                  //   //                         child: Consumer<AuthProvider>(
+                  //   //                           builder:
+                  //   //                               (context, provider, child) =>
+                  //   //                                   provider.notification,
+                  //   //                         ),
+                  //   //                       ),
+                  //   //                     ),
+                  //   //                     Container(
+                  //   //                         alignment: Alignment.center,
+                  //   //                         width: constraints.maxWidth * 0.99,
+                  //   //                         margin: EdgeInsets.only(
+                  //   //                             bottom: 2 *
+                  //   //                                 SizeConfig.blockSizeVertical),
+                  //   //                         child: Text(
+                  //   //                           "SignUp With " +
+                  //   //                               (paramArguments == null
+                  //   //                                   ? 'Social Site'
+                  //   //                                   : (capitalize(
+                  //   //                                       paramArguments[
+                  //   //                                           'social_type']))),
+                  //   //                           style: TextStyle(
+                  //   //                               fontSize: 2.5 *
+                  //   //                                   SizeConfig
+                  //   //                                       .blockSizeVertical,
+                  //   //                               fontWeight: FontWeight.w600),
+                  //   //                         )),
+                  //   //                     if (!isSocialPhone)
+                  //   //                       Container(
+                  //   //                           alignment: Alignment.center,
+                  //   //                           width: constraints.maxWidth * 0.90,
+                  //   //                           margin: EdgeInsets.only(
+                  //   //                               bottom: 2 *
+                  //   //                                   SizeConfig
+                  //   //                                       .blockSizeVertical),
+                  //   //                           child: RichText(
+                  //   //                             text: TextSpan(
+                  //   //                               text: 'Note:rf',
+                  //   //                               style: TextStyle(
+                  //   //                                   fontWeight: FontWeight.bold,
+                  //   //                                   fontSize: 2 *
+                  //   //                                       SizeConfig
+                  //   //                                           .blockSizeVertical,
+                  //   //                                   color: Colors.redAccent),
+                  //   //                               children: <TextSpan>[
+                  //   //                                 TextSpan(
+                  //   //                                     text:
+                  //   //                                         " Please enter mobile number to complete registration.",
+                  //   //                                     style: TextStyle(
+                  //   //                                         fontWeight:
+                  //   //                                             FontWeight.w300,
+                  //   //                                         fontSize: 2 *
+                  //   //                                             SizeConfig
+                  //   //                                                 .blockSizeVertical,
+                  //   //                                         color: Colors.grey)),
+                  //   //                               ],
+                  //   //                             ),
+                  //   //                           )),
+                  //   //                     Container(
+                  //   //                       width: constraints.maxWidth * 0.9,
+                  //   //                       margin: EdgeInsets.fromLTRB(
+                  //   //                           0.0,
+                  //   //                           constraints.maxHeight * 0.02,
+                  //   //                           0.0,
+                  //   //                           0.0),
+                  //   //                       child: TextFormField(
+                  //   //                         controller: emailTextControl,
+                  //   //                         decoration: InputDecoration(
+                  //   //                           contentPadding:
+                  //   //                               EdgeInsets.symmetric(
+                  //   //                                   vertical:
+                  //   //                                       constraints.maxHeight *
+                  //   //                                           0.04),
+                  //   //                           border: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                                 Radius.circular(
+                  //   //                                     constraints.maxHeight)),
+                  //   //                             borderSide: BorderSide(
+                  //   //                                 color: Dark,
+                  //   //                                 width: constraints.maxHeight),
+                  //   //                           ),
+                  //   //                           enabledBorder: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                                 Radius.circular(
+                  //   //                                     constraints.maxHeight)),
+                  //   //                             borderSide: BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                           disabledBorder: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                                 Radius.circular(
+                  //   //                                     constraints.maxHeight)),
+                  //   //                             borderSide: BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                           labelText: 'Enter email',
+                  //   //                           errorStyle: TextStyle(
+                  //   //                             fontSize:
+                  //   //                                 constraints.maxWidth * 0.05,
+                  //   //                             decorationColor: Dark,
+                  //   //                           ),
+                  //   //                           prefixIcon: Icon(
+                  //   //                             Icons.mail,
+                  //   //                             color: Dark,
+                  //   //                           ),
+                  //   //                           errorBorder: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                                 Radius.circular(
+                  //   //                                     constraints.maxHeight)),
+                  //   //                             borderSide: BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                           focusedErrorBorder:
+                  //   //                               OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                                 Radius.circular(
+                  //   //                                     constraints.maxHeight)),
+                  //   //                             borderSide: BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                         ),
+                  //   //                         style: TextStyle(
+                  //   //                             fontSize:
+                  //   //                                 constraints.maxWidth * 0.05),
+                  //   //                         validator: (value) {
+                  //   //                           email = value!.trim();
+                  //   //                           return Validate.validateEmail(
+                  //   //                               value);
+                  //   //                         },
+                  //   //                         onFieldSubmitted: (_) => setFocus(
+                  //   //                             context,
+                  //   //                             focusNode: _phoneFocusNode),
+                  //   //                         focusNode: _emailFocusNode,
+                  //   //                         enabled: !isSocialEmail,
+                  //   //                         keyboardType:
+                  //   //                             TextInputType.emailAddress,
+                  //   //                         textInputAction: TextInputAction.next,
+                  //   //                       ),
+                  //   //                     ),
+                  //   //                     Container(
+                  //   //                       width: constraints.maxWidth * 0.9,
+                  //   //                       margin: EdgeInsets.fromLTRB(
+                  //   //                           0.0,
+                  //   //                           constraints.maxHeight * 0.03,
+                  //   //                           0.0,
+                  //   //                           0.0),
+                  //   //                       child: IntlPhoneField(
+                  //   //                         autofocus: false,
+                  //   //                         textAlign: TextAlign.left,
+                  //   //                         dropdownIcon: Icon(
+                  //   //                           Icons.arrow_drop_down,
+                  //   //                           color: Dark,
+                  //   //                         ),
+                  //   //                         autovalidateMode:
+                  //   //                             AutovalidateMode.disabled,
+                  //   //                         //disableLengthCheck: true,
+                  //   //                         controller: phoneTextControl,
+                  //   //                         focusNode: _phoneFocusNode,
+                  //   //                         cursorColor: Dark,
+                  //   //                         textInputAction: TextInputAction.next,
+                  //   //                         decoration: InputDecoration(
+                  //   //                           contentPadding:
+                  //   //                               EdgeInsets.symmetric(
+                  //   //                                   vertical:
+                  //   //                                       constraints.maxHeight *
+                  //   //                                           0.04),
+                  //   //                           border: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                               Radius.circular(25),
+                  //   //                             ),
+                  //   //                             borderSide: BorderSide(
+                  //   //                               color: Dark,
+                  //   //                               width: 2,
+                  //   //                             ),
+                  //   //                           ),
+                  //   //                           enabledBorder: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                               Radius.circular(25),
+                  //   //                             ),
+                  //   //                             borderSide: const BorderSide(
+                  //   //                               color: Dark,
+                  //   //                               width: 2,
+                  //   //                             ),
+                  //   //                           ),
+                  //   //                           disabledBorder: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                               Radius.circular(25),
+                  //   //                             ),
+                  //   //                             borderSide: const BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                           labelText: 'Mobile',
+                  //   //                           errorStyle: TextStyle(
+                  //   //                             fontSize:
+                  //   //                                 constraints.maxWidth * 0.05,
+                  //   //                             decorationColor: Dark,
+                  //   //                           ),
+                  //   //                           errorBorder: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                                 Radius.circular(25)),
+                  //   //                             borderSide: const BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                           focusedErrorBorder:
+                  //   //                               OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                                 Radius.circular(25)),
+                  //   //                             borderSide: const BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                           floatingLabelStyle:
+                  //   //                               TextStyle(color: Dark),
+                  //   //                           // errorStyle: TextStyle(
+                  //   //                           //     fontSize: constraints.maxWidth * 0.05),
+                  //   //                           focusColor: Dark,
+                  //   //                           focusedBorder: OutlineInputBorder(
+                  //   //                             borderRadius: BorderRadius.all(
+                  //   //                               Radius.circular(25),
+                  //   //                             ),
+                  //   //                             borderSide: const BorderSide(
+                  //   //                                 color: Dark, width: 2),
+                  //   //                           ),
+                  //   //                         ),
+                  //   //                         initialCountryCode: 'GB',
+                  //   //                         showCountryFlag: false,
+                  //   //                         keyboardType: TextInputType.text,
+                  //   //                         inputFormatters: <TextInputFormatter>[
+                  //   //                           FilteringTextInputFormatter
+                  //   //                               .digitsOnly
+                  //   //                         ],
+                  //   //                         style: TextStyle(
+                  //   //                             fontSize:
+                  //   //                                 constraints.maxWidth * 0.07),
+                  //   //                         onSubmitted: (_) {
+                  //   //                           setFocus(context, focusNode: null);
+                  //   //                           submit();
+                  //   //                         },
+                  //   //                         // onSubmitted: (_) {
+                  //   //                         //   setFocus(context, focusNode: _addressFocusNode);
+                  //   //                         // },
+                  //   //                         onChanged: (phone) {
+                  //   //                           print(phone);
+                  //   //                           setState(() {
+                  //   //                             mobile = phone.completeNumber;
+                  //   //                             phoneTextControl.selection =
+                  //   //                                 TextSelection.fromPosition(
+                  //   //                                     TextPosition(
+                  //   //                                         offset:
+                  //   //                                             phoneTextControl
+                  //   //                                                 .text
+                  //   //                                                 .length));
+                  //   //                             countryCode = phone.countryCode;
+                  //   //                           });
+                  //   //                         },
+                  //   //                       ),
+                  //   //                     ),
+                  //   //                     Provider.of<AuthProvider>(context)
+                  //   //                                 .status ==
+                  //   //                             Status.Authenticating
+                  //   //                         ? Center(
+                  //   //                             child:
+                  //   //                                 CircularProgressIndicator())
+                  //   //                         : Container(
+                  //   //                             height:
+                  //   //                                 constraints.maxHeight * 0.11,
+                  //   //                             width:
+                  //   //                                 constraints.maxWidth * 0.65,
+                  //   //                             margin: EdgeInsets.only(
+                  //   //                                 top: constraints.maxHeight *
+                  //   //                                     0.05,
+                  //   //                                 bottom:
+                  //   //                                     constraints.maxHeight *
+                  //   //                                         0.05),
+                  //   //                             child: Material(
+                  //   //                               borderRadius:
+                  //   //                                   BorderRadius.circular(10),
+                  //   //                               color: Color.fromRGBO(
+                  //   //                                   14, 155, 207, 1.0),
+                  //   //                               elevation: 5.0,
+                  //   //                               child: MaterialButton(
+                  //   //                                 onPressed: submit,
+                  //   //                                 child: LayoutBuilder(
+                  //   //                                   builder:
+                  //   //                                       (context, constraints) {
+                  //   //                                     return Container(
+                  //   //                                       //color: Colors.black26,
+                  //   //                                       width: constraints
+                  //   //                                               .maxWidth *
+                  //   //                                           0.35,
+                  //   //                                       child: FittedBox(
+                  //   //                                         fit: BoxFit.contain,
+                  //   //                                         child: Text(
+                  //   //                                           'SignUp',
+                  //   //                                           style: TextStyle(
+                  //   //                                             fontFamily:
+                  //   //                                                 'Poppins',
+                  //   //                                             fontSize: 50,
+                  //   //                                             fontWeight:
+                  //   //                                                 FontWeight
+                  //   //                                                     .w700,
+                  //   //                                             color: Color
+                  //   //                                                 .fromRGBO(
+                  //   //                                                     255,
+                  //   //                                                     255,
+                  //   //                                                     255,
+                  //   //                                                     1.0),
+                  //   //                                           ),
+                  //   //                                         ),
+                  //   //                                       ),
+                  //   //                                     );
+                  //   //                                   },
+                  //   //                                 ),
+                  //   //                               ),
+                  //   //                             ),
+                  //   //                           ),
+                  //   //                   ]),
+                  //   //                 if (!isSocialEmail)
+                  //   //                   Column(
+                  //   //                     children: [
+                  //   //                       Container(
+                  //   //                           alignment: Alignment.center,
+                  //   //                           width: constraints.maxWidth * 0.90,
+                  //   //                           margin: EdgeInsets.only(
+                  //   //                               bottom: 2 *
+                  //   //                                   SizeConfig
+                  //   //                                       .blockSizeVertical),
+                  //   //                           child: RichText(
+                  //   //                             text: TextSpan(
+                  //   //                               text: 'Note:',
+                  //   //                               style: TextStyle(
+                  //   //                                   fontWeight: FontWeight.bold,
+                  //   //                                   fontSize: 2 *
+                  //   //                                       SizeConfig
+                  //   //                                           .blockSizeVertical,
+                  //   //                                   color: Colors.redAccent),
+                  //   //                               children: <TextSpan>[
+                  //   //                                 TextSpan(
+                  //   //                                     text: " Your " +
+                  //   //                                         (paramArguments ==
+                  //   //                                                 null
+                  //   //                                             ? 'Social'
+                  //   //                                             : paramArguments[
+                  //   //                                                 'social_type']) +
+                  //   //                                         " privacy setting are not allowing login using " +
+                  //   //                                         (paramArguments ==
+                  //   //                                                 null
+                  //   //                                             ? 'social site'
+                  //   //                                             : paramArguments[
+                  //   //                                                 'social_type']) +
+                  //   //                                         ". Please complete signup procedure to use the app.",
+                  //   //                                     style: TextStyle(
+                  //   //                                         fontWeight:
+                  //   //                                             FontWeight.w300,
+                  //   //                                         fontSize: 2 *
+                  //   //                                             SizeConfig
+                  //   //                                                 .blockSizeVertical,
+                  //   //                                         color: Colors.grey)),
+                  //   //                               ],
+                  //   //                             ),
+                  //   //                           )),
+                  //   //                       Container(
+                  //   //                         height: constraints.maxHeight * 0.11,
+                  //   //                         width: constraints.maxWidth * 0.65,
+                  //   //                         margin: EdgeInsets.only(
+                  //   //                             top: constraints.maxHeight * 0.05,
+                  //   //                             bottom:
+                  //   //                                 constraints.maxHeight * 0.05),
+                  //   //                         child: Material(
+                  //   //                           borderRadius: BorderRadius.only(
+                  //   //                             bottomRight: Radius.circular(
+                  //   //                                 constraints.maxHeight * 0.5),
+                  //   //                             topRight: Radius.circular(
+                  //   //                                 constraints.maxHeight * 0.5),
+                  //   //                             bottomLeft: Radius.circular(
+                  //   //                                 constraints.maxHeight * 0.5),
+                  //   //                           ),
+                  //   //                           color: Color.fromRGBO(
+                  //   //                               14, 155, 207, 1.0),
+                  //   //                           elevation: 5.0,
+                  //   //                           child: MaterialButton(
+                  //   //                             onPressed: goForAnotherMethod,
+                  //   //                             child: LayoutBuilder(
+                  //   //                               builder:
+                  //   //                                   (context, constraints) {
+                  //   //                                 return Container(
+                  //   //                                   //color: Colors.black26,
+                  //   //                                   width:
+                  //   //                                       constraints.maxWidth *
+                  //   //                                           0.95,
+                  //   //                                   child: Text(
+                  //   //                                     'Use Another Method',
+                  //   //                                     textAlign:
+                  //   //                                         TextAlign.center,
+                  //   //                                     style: TextStyle(
+                  //   //                                       fontFamily: 'Poppins',
+                  //   //                                       fontSize: 2 *
+                  //   //                                           SizeConfig
+                  //   //                                               .blockSizeVertical,
+                  //   //                                       fontWeight:
+                  //   //                                           FontWeight.w700,
+                  //   //                                       color: Color.fromRGBO(
+                  //   //                                           255, 255, 255, 1.0),
+                  //   //                                     ),
+                  //   //                                   ),
+                  //   //                                 );
+                  //   //                               },
+                  //   //                             ),
+                  //   //                           ),
+                  //   //                         ),
+                  //   //                       )
+                  //   //                     ],
+                  //   //                   ),
+                  //   //               ],
+                  //   //             );
+                  //   //           },
+                  //   //         ),
+                  //   //       ),
+                  //   //     );
+                  //   //   },
+                  //   // ),
+                  // ),
                 ),
-                // Container(
-                //   width: Responsive.width(85, context),
-                //   height: Responsive.height(53, context),
-                //   margin: EdgeInsets.fromLTRB(
-                //       Responsive.width(7.5, context),
-                //       Responsive.height(40, context),
-                //       Responsive.width(7.5, context),
-                //       0.0),
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.circular(
-                //         Responsive.height(53, context) * 0.07),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: Color.fromRGBO(0, 0, 0, 0.16),
-                //         blurRadius: 6.0, // soften the shadow
-                //         spreadRadius: 5.0, //extend the shadow
-                //         offset: Offset(
-                //           0.0, // Move to right 10  horizontally
-                //           3.0, // Move to bottom 10 Vertically
-                //         ),
-                //       )
-                //     ],
-                //   ),
-                //   child:
-                //   // LayoutBuilder(
-                //   //   builder: (context, constraints) {
-                //   //     return Center(
-                //   //       child: Container(
-                //   //         width: constraints.maxWidth * 0.9,
-                //   //         height: constraints.maxHeight,
-                //   //         child: LayoutBuilder(
-                //   //           builder: (context, constraints) {
-                //   //             return ListView(
-                //   //               children: <Widget>[
-                //   //                 if (isSocialEmail)
-                //   //                   Column(children: <Widget>[
-                //   //                     Container(
-                //   //                       width: constraints.maxWidth * 0.6,
-                //   //                       height: constraints.maxHeight * 0.06,
-                //   //                       margin: EdgeInsets.fromLTRB(
-                //   //                           0.0,
-                //   //                           constraints.maxHeight * 0.01,
-                //   //                           0.0,
-                //   //                           0.0),
-                //   //                       child: FittedBox(
-                //   //                         fit: BoxFit.contain,
-                //   //                         child: Consumer<AuthProvider>(
-                //   //                           builder:
-                //   //                               (context, provider, child) =>
-                //   //                                   provider.notification,
-                //   //                         ),
-                //   //                       ),
-                //   //                     ),
-                //   //                     Container(
-                //   //                         alignment: Alignment.center,
-                //   //                         width: constraints.maxWidth * 0.99,
-                //   //                         margin: EdgeInsets.only(
-                //   //                             bottom: 2 *
-                //   //                                 SizeConfig.blockSizeVertical),
-                //   //                         child: Text(
-                //   //                           "SignUp With " +
-                //   //                               (paramArguments == null
-                //   //                                   ? 'Social Site'
-                //   //                                   : (capitalize(
-                //   //                                       paramArguments[
-                //   //                                           'social_type']))),
-                //   //                           style: TextStyle(
-                //   //                               fontSize: 2.5 *
-                //   //                                   SizeConfig
-                //   //                                       .blockSizeVertical,
-                //   //                               fontWeight: FontWeight.w600),
-                //   //                         )),
-                //   //                     if (!isSocialPhone)
-                //   //                       Container(
-                //   //                           alignment: Alignment.center,
-                //   //                           width: constraints.maxWidth * 0.90,
-                //   //                           margin: EdgeInsets.only(
-                //   //                               bottom: 2 *
-                //   //                                   SizeConfig
-                //   //                                       .blockSizeVertical),
-                //   //                           child: RichText(
-                //   //                             text: TextSpan(
-                //   //                               text: 'Note:rf',
-                //   //                               style: TextStyle(
-                //   //                                   fontWeight: FontWeight.bold,
-                //   //                                   fontSize: 2 *
-                //   //                                       SizeConfig
-                //   //                                           .blockSizeVertical,
-                //   //                                   color: Colors.redAccent),
-                //   //                               children: <TextSpan>[
-                //   //                                 TextSpan(
-                //   //                                     text:
-                //   //                                         " Please enter mobile number to complete registration.",
-                //   //                                     style: TextStyle(
-                //   //                                         fontWeight:
-                //   //                                             FontWeight.w300,
-                //   //                                         fontSize: 2 *
-                //   //                                             SizeConfig
-                //   //                                                 .blockSizeVertical,
-                //   //                                         color: Colors.grey)),
-                //   //                               ],
-                //   //                             ),
-                //   //                           )),
-                //   //                     Container(
-                //   //                       width: constraints.maxWidth * 0.9,
-                //   //                       margin: EdgeInsets.fromLTRB(
-                //   //                           0.0,
-                //   //                           constraints.maxHeight * 0.02,
-                //   //                           0.0,
-                //   //                           0.0),
-                //   //                       child: TextFormField(
-                //   //                         controller: emailTextControl,
-                //   //                         decoration: InputDecoration(
-                //   //                           contentPadding:
-                //   //                               EdgeInsets.symmetric(
-                //   //                                   vertical:
-                //   //                                       constraints.maxHeight *
-                //   //                                           0.04),
-                //   //                           border: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                                 Radius.circular(
-                //   //                                     constraints.maxHeight)),
-                //   //                             borderSide: BorderSide(
-                //   //                                 color: Dark,
-                //   //                                 width: constraints.maxHeight),
-                //   //                           ),
-                //   //                           enabledBorder: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                                 Radius.circular(
-                //   //                                     constraints.maxHeight)),
-                //   //                             borderSide: BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                           disabledBorder: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                                 Radius.circular(
-                //   //                                     constraints.maxHeight)),
-                //   //                             borderSide: BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                           labelText: 'Enter email',
-                //   //                           errorStyle: TextStyle(
-                //   //                             fontSize:
-                //   //                                 constraints.maxWidth * 0.05,
-                //   //                             decorationColor: Dark,
-                //   //                           ),
-                //   //                           prefixIcon: Icon(
-                //   //                             Icons.mail,
-                //   //                             color: Dark,
-                //   //                           ),
-                //   //                           errorBorder: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                                 Radius.circular(
-                //   //                                     constraints.maxHeight)),
-                //   //                             borderSide: BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                           focusedErrorBorder:
-                //   //                               OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                                 Radius.circular(
-                //   //                                     constraints.maxHeight)),
-                //   //                             borderSide: BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                         ),
-                //   //                         style: TextStyle(
-                //   //                             fontSize:
-                //   //                                 constraints.maxWidth * 0.05),
-                //   //                         validator: (value) {
-                //   //                           email = value!.trim();
-                //   //                           return Validate.validateEmail(
-                //   //                               value);
-                //   //                         },
-                //   //                         onFieldSubmitted: (_) => setFocus(
-                //   //                             context,
-                //   //                             focusNode: _phoneFocusNode),
-                //   //                         focusNode: _emailFocusNode,
-                //   //                         enabled: !isSocialEmail,
-                //   //                         keyboardType:
-                //   //                             TextInputType.emailAddress,
-                //   //                         textInputAction: TextInputAction.next,
-                //   //                       ),
-                //   //                     ),
-                //   //                     Container(
-                //   //                       width: constraints.maxWidth * 0.9,
-                //   //                       margin: EdgeInsets.fromLTRB(
-                //   //                           0.0,
-                //   //                           constraints.maxHeight * 0.03,
-                //   //                           0.0,
-                //   //                           0.0),
-                //   //                       child: IntlPhoneField(
-                //   //                         autofocus: false,
-                //   //                         textAlign: TextAlign.left,
-                //   //                         dropdownIcon: Icon(
-                //   //                           Icons.arrow_drop_down,
-                //   //                           color: Dark,
-                //   //                         ),
-                //   //                         autovalidateMode:
-                //   //                             AutovalidateMode.disabled,
-                //   //                         //disableLengthCheck: true,
-                //   //                         controller: phoneTextControl,
-                //   //                         focusNode: _phoneFocusNode,
-                //   //                         cursorColor: Dark,
-                //   //                         textInputAction: TextInputAction.next,
-                //   //                         decoration: InputDecoration(
-                //   //                           contentPadding:
-                //   //                               EdgeInsets.symmetric(
-                //   //                                   vertical:
-                //   //                                       constraints.maxHeight *
-                //   //                                           0.04),
-                //   //                           border: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                               Radius.circular(25),
-                //   //                             ),
-                //   //                             borderSide: BorderSide(
-                //   //                               color: Dark,
-                //   //                               width: 2,
-                //   //                             ),
-                //   //                           ),
-                //   //                           enabledBorder: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                               Radius.circular(25),
-                //   //                             ),
-                //   //                             borderSide: const BorderSide(
-                //   //                               color: Dark,
-                //   //                               width: 2,
-                //   //                             ),
-                //   //                           ),
-                //   //                           disabledBorder: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                               Radius.circular(25),
-                //   //                             ),
-                //   //                             borderSide: const BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                           labelText: 'Mobile',
-                //   //                           errorStyle: TextStyle(
-                //   //                             fontSize:
-                //   //                                 constraints.maxWidth * 0.05,
-                //   //                             decorationColor: Dark,
-                //   //                           ),
-                //   //                           errorBorder: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                                 Radius.circular(25)),
-                //   //                             borderSide: const BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                           focusedErrorBorder:
-                //   //                               OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                                 Radius.circular(25)),
-                //   //                             borderSide: const BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                           floatingLabelStyle:
-                //   //                               TextStyle(color: Dark),
-                //   //                           // errorStyle: TextStyle(
-                //   //                           //     fontSize: constraints.maxWidth * 0.05),
-                //   //                           focusColor: Dark,
-                //   //                           focusedBorder: OutlineInputBorder(
-                //   //                             borderRadius: BorderRadius.all(
-                //   //                               Radius.circular(25),
-                //   //                             ),
-                //   //                             borderSide: const BorderSide(
-                //   //                                 color: Dark, width: 2),
-                //   //                           ),
-                //   //                         ),
-                //   //                         initialCountryCode: 'GB',
-                //   //                         showCountryFlag: false,
-                //   //                         keyboardType: TextInputType.text,
-                //   //                         inputFormatters: <TextInputFormatter>[
-                //   //                           FilteringTextInputFormatter
-                //   //                               .digitsOnly
-                //   //                         ],
-                //   //                         style: TextStyle(
-                //   //                             fontSize:
-                //   //                                 constraints.maxWidth * 0.07),
-                //   //                         onSubmitted: (_) {
-                //   //                           setFocus(context, focusNode: null);
-                //   //                           submit();
-                //   //                         },
-                //   //                         // onSubmitted: (_) {
-                //   //                         //   setFocus(context, focusNode: _addressFocusNode);
-                //   //                         // },
-                //   //                         onChanged: (phone) {
-                //   //                           print(phone);
-                //   //                           setState(() {
-                //   //                             mobile = phone.completeNumber;
-                //   //                             phoneTextControl.selection =
-                //   //                                 TextSelection.fromPosition(
-                //   //                                     TextPosition(
-                //   //                                         offset:
-                //   //                                             phoneTextControl
-                //   //                                                 .text
-                //   //                                                 .length));
-                //   //                             countryCode = phone.countryCode;
-                //   //                           });
-                //   //                         },
-                //   //                       ),
-                //   //                     ),
-                //   //                     Provider.of<AuthProvider>(context)
-                //   //                                 .status ==
-                //   //                             Status.Authenticating
-                //   //                         ? Center(
-                //   //                             child:
-                //   //                                 CircularProgressIndicator())
-                //   //                         : Container(
-                //   //                             height:
-                //   //                                 constraints.maxHeight * 0.11,
-                //   //                             width:
-                //   //                                 constraints.maxWidth * 0.65,
-                //   //                             margin: EdgeInsets.only(
-                //   //                                 top: constraints.maxHeight *
-                //   //                                     0.05,
-                //   //                                 bottom:
-                //   //                                     constraints.maxHeight *
-                //   //                                         0.05),
-                //   //                             child: Material(
-                //   //                               borderRadius:
-                //   //                                   BorderRadius.circular(10),
-                //   //                               color: Color.fromRGBO(
-                //   //                                   14, 155, 207, 1.0),
-                //   //                               elevation: 5.0,
-                //   //                               child: MaterialButton(
-                //   //                                 onPressed: submit,
-                //   //                                 child: LayoutBuilder(
-                //   //                                   builder:
-                //   //                                       (context, constraints) {
-                //   //                                     return Container(
-                //   //                                       //color: Colors.black26,
-                //   //                                       width: constraints
-                //   //                                               .maxWidth *
-                //   //                                           0.35,
-                //   //                                       child: FittedBox(
-                //   //                                         fit: BoxFit.contain,
-                //   //                                         child: Text(
-                //   //                                           'SignUp',
-                //   //                                           style: TextStyle(
-                //   //                                             fontFamily:
-                //   //                                                 'Poppins',
-                //   //                                             fontSize: 50,
-                //   //                                             fontWeight:
-                //   //                                                 FontWeight
-                //   //                                                     .w700,
-                //   //                                             color: Color
-                //   //                                                 .fromRGBO(
-                //   //                                                     255,
-                //   //                                                     255,
-                //   //                                                     255,
-                //   //                                                     1.0),
-                //   //                                           ),
-                //   //                                         ),
-                //   //                                       ),
-                //   //                                     );
-                //   //                                   },
-                //   //                                 ),
-                //   //                               ),
-                //   //                             ),
-                //   //                           ),
-                //   //                   ]),
-                //   //                 if (!isSocialEmail)
-                //   //                   Column(
-                //   //                     children: [
-                //   //                       Container(
-                //   //                           alignment: Alignment.center,
-                //   //                           width: constraints.maxWidth * 0.90,
-                //   //                           margin: EdgeInsets.only(
-                //   //                               bottom: 2 *
-                //   //                                   SizeConfig
-                //   //                                       .blockSizeVertical),
-                //   //                           child: RichText(
-                //   //                             text: TextSpan(
-                //   //                               text: 'Note:',
-                //   //                               style: TextStyle(
-                //   //                                   fontWeight: FontWeight.bold,
-                //   //                                   fontSize: 2 *
-                //   //                                       SizeConfig
-                //   //                                           .blockSizeVertical,
-                //   //                                   color: Colors.redAccent),
-                //   //                               children: <TextSpan>[
-                //   //                                 TextSpan(
-                //   //                                     text: " Your " +
-                //   //                                         (paramArguments ==
-                //   //                                                 null
-                //   //                                             ? 'Social'
-                //   //                                             : paramArguments[
-                //   //                                                 'social_type']) +
-                //   //                                         " privacy setting are not allowing login using " +
-                //   //                                         (paramArguments ==
-                //   //                                                 null
-                //   //                                             ? 'social site'
-                //   //                                             : paramArguments[
-                //   //                                                 'social_type']) +
-                //   //                                         ". Please complete signup procedure to use the app.",
-                //   //                                     style: TextStyle(
-                //   //                                         fontWeight:
-                //   //                                             FontWeight.w300,
-                //   //                                         fontSize: 2 *
-                //   //                                             SizeConfig
-                //   //                                                 .blockSizeVertical,
-                //   //                                         color: Colors.grey)),
-                //   //                               ],
-                //   //                             ),
-                //   //                           )),
-                //   //                       Container(
-                //   //                         height: constraints.maxHeight * 0.11,
-                //   //                         width: constraints.maxWidth * 0.65,
-                //   //                         margin: EdgeInsets.only(
-                //   //                             top: constraints.maxHeight * 0.05,
-                //   //                             bottom:
-                //   //                                 constraints.maxHeight * 0.05),
-                //   //                         child: Material(
-                //   //                           borderRadius: BorderRadius.only(
-                //   //                             bottomRight: Radius.circular(
-                //   //                                 constraints.maxHeight * 0.5),
-                //   //                             topRight: Radius.circular(
-                //   //                                 constraints.maxHeight * 0.5),
-                //   //                             bottomLeft: Radius.circular(
-                //   //                                 constraints.maxHeight * 0.5),
-                //   //                           ),
-                //   //                           color: Color.fromRGBO(
-                //   //                               14, 155, 207, 1.0),
-                //   //                           elevation: 5.0,
-                //   //                           child: MaterialButton(
-                //   //                             onPressed: goForAnotherMethod,
-                //   //                             child: LayoutBuilder(
-                //   //                               builder:
-                //   //                                   (context, constraints) {
-                //   //                                 return Container(
-                //   //                                   //color: Colors.black26,
-                //   //                                   width:
-                //   //                                       constraints.maxWidth *
-                //   //                                           0.95,
-                //   //                                   child: Text(
-                //   //                                     'Use Another Method',
-                //   //                                     textAlign:
-                //   //                                         TextAlign.center,
-                //   //                                     style: TextStyle(
-                //   //                                       fontFamily: 'Poppins',
-                //   //                                       fontSize: 2 *
-                //   //                                           SizeConfig
-                //   //                                               .blockSizeVertical,
-                //   //                                       fontWeight:
-                //   //                                           FontWeight.w700,
-                //   //                                       color: Color.fromRGBO(
-                //   //                                           255, 255, 255, 1.0),
-                //   //                                     ),
-                //   //                                   ),
-                //   //                                 );
-                //   //                               },
-                //   //                             ),
-                //   //                           ),
-                //   //                         ),
-                //   //                       )
-                //   //                     ],
-                //   //                   ),
-                //   //               ],
-                //   //             );
-                //   //           },
-                //   //         ),
-                //   //       ),
-                //   //     );
-                //   //   },
-                //   // ),
-                // ),
               ],
             ),
           ),
