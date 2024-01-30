@@ -279,7 +279,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 margin: EdgeInsets.fromLTRB(
                     //Responsive.width(3, context),
                     0,
-                    Responsive.height(8, context),
+                    Responsive.height(11, context),
                     0,
                     0),
                 decoration: BoxDecoration(
@@ -1485,99 +1485,101 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       height: Responsive.height(30, parent_context),
                       padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        //  mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
-                            child: Column(children: [
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                "Test finished!",
-                                style: TextStyle(
-                                    color: Color(0xFF595959),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 26),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Total score: " +
-                                    gainPoint.toString() +
-                                    " / " +
-                                    ((questionsList.length).toString()),
-                                style: TextStyle(
-                                    color: Color(0xFF797979),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15),
-                              ),
-                              SizedBox(height: 20),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: CustomButton(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    setState(() => isTestStarted = false);
-                                    context.read<AuthProvider>().changeView =
-                                        true;
-                                    setState(() {});
-                                    Future.delayed(Duration(microseconds: 300),
-                                        () {
-                                      this.initializeApi("Updating...");
-                                    });
-                                  },
-                                  title: 'Ok',
-                                ),
-                              ),
-                              // Container(
-                              //   height: 40,
-                              //   width: 100,
-                              //   alignment: Alignment.bottomCenter,
-                              //   child: Material(
-                              //     borderRadius: BorderRadius.circular(10),
-                              //     elevation: 5.0,
-                              //     child: MaterialButton(
-                              //       onPressed: () {
-                              //         Navigator.of(context).pop();
-                              //         Navigator.of(context).pop();
-                              //         setState(() => isTestStarted = false);
-                              //         context.read<AuthProvider>().changeView =
-                              //             true;
-                              //         setState(() {});
-                              //         Future.delayed(
-                              //             Duration(microseconds: 300), () {
-                              //           this.initializeApi("Updating...");
-                              //         });
-                              //       },
-                              //       child: Container(
-                              //        // width: constraints.maxWidth * 0.35,
-                              //         decoration: BoxDecoration(
-                              //             gradient: RadialGradient(
-                              //           colors: [
-                              //             AppColors.primary,
-                              //             AppColors.secondary,
-                              //             AppColors.secondary,
-                              //           ],
-                              //           radius: 10,
-                              //           focal: Alignment(-1.1, -3.0),
-                              //         )),
-                              //         child: Text(
-                              //           'Ok',
-                              //           style: TextStyle(
-                              //             fontFamily: 'Poppins',
-                              //             fontSize: 40,
-                              //             fontWeight: FontWeight.w500,
-                              //             color: AppColors.white,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // )
-                            ]),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Test finished!",
+                                    style: TextStyle(
+                                        color: Color(0xFF595959),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 26),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Total score: " +
+                                        gainPoint.toString() +
+                                        " / " +
+                                        ((questionsList.length).toString()),
+                                    style: TextStyle(
+                                        color: Color(0xFF797979),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 15),
+                                  ),
+                                  SizedBox(height: 20),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 45),
+                                    child: CustomButton(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                        setState(() => isTestStarted = false);
+                                        context
+                                            .read<AuthProvider>()
+                                            .changeView = true;
+                                        setState(() {});
+                                        Future.delayed(
+                                            Duration(microseconds: 300), () {
+                                          this.initializeApi("Updating...");
+                                        });
+                                      },
+                                      title: 'Ok',
+                                    ),
+                                  ),
+                                  // Container(
+                                  //   height: 40,
+                                  //   width: 100,
+                                  //   alignment: Alignment.bottomCenter,
+                                  //   child: Material(
+                                  //     borderRadius: BorderRadius.circular(10),
+                                  //     elevation: 5.0,
+                                  //     child: MaterialButton(
+                                  //       onPressed: () {
+                                  //         Navigator.of(context).pop();
+                                  //         Navigator.of(context).pop();
+                                  //         setState(() => isTestStarted = false);
+                                  //         context.read<AuthProvider>().changeView =
+                                  //             true;
+                                  //         setState(() {});
+                                  //         Future.delayed(
+                                  //             Duration(microseconds: 300), () {
+                                  //           this.initializeApi("Updating...");
+                                  //         });
+                                  //       },
+                                  //       child: Container(
+                                  //        // width: constraints.maxWidth * 0.35,
+                                  //         decoration: BoxDecoration(
+                                  //             gradient: RadialGradient(
+                                  //           colors: [
+                                  //             AppColors.primary,
+                                  //             AppColors.secondary,
+                                  //             AppColors.secondary,
+                                  //           ],
+                                  //           radius: 10,
+                                  //           focal: Alignment(-1.1, -3.0),
+                                  //         )),
+                                  //         child: Text(
+                                  //           'Ok',
+                                  //           style: TextStyle(
+                                  //             fontFamily: 'Poppins',
+                                  //             fontSize: 40,
+                                  //             fontWeight: FontWeight.w500,
+                                  //             color: AppColors.white,
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // )
+                                ]),
                           )
                         ],
                       ),
