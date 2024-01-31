@@ -1103,17 +1103,18 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                               new Icon(Icons.error,
                                   color: Colors.grey,
                                   size: 5 * SizeConfig.blockSizeVertical),
-                              Text(
-                                "Image not found!",
-                                style: TextStyle(
-                                    fontSize: 2 * SizeConfig.blockSizeVertical,
-                                    color: Colors.redAccent),
-                              )
+                              // Text(
+                              //   "Image not found!",
+                              //   style: TextStyle(
+                              //       fontSize: 2 * SizeConfig.blockSizeVertical,
+                              //       color: Colors.redAccent),
+                              // )
                             ],
                           ),
                         ),
                       ),
                     ),
+                  SizedBox(height: 10),
                   if (question['title'] != '')
                     AutoSizeText(
                       question['title'],
