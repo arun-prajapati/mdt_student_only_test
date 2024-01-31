@@ -1,8 +1,16 @@
+import 'dart:developer';
 import 'dart:ui' as ui;
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
+import 'package:student_app/services/auth.dart';
+import 'package:student_app/utils/app_colors.dart';
 import 'package:student_app/views/Login/forgot_next_screen.dart';
 import 'package:student_app/views/Login/login.dart';
 import 'package:student_app/views/Login/register.dart';
@@ -15,13 +23,58 @@ import '../../services/validator.dart';
 import '../../utils/appImages.dart';
 import '../spinner.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
   ForgotPassword({Key? key}) : super(key: key);
+
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
   final _key = GlobalKey<ScaffoldState>();
+
   final _formKey = GlobalKey<FormState>();
+
   final _passwordService = PasswordServices();
 
-  late String email;
+  final TextEditingController phoneTextControl = TextEditingController();
+  final TextEditingController code = TextEditingController();
+
+  String? email;
+
+  var mobile = '';
+
+  var countryCode = '+44';
+  final submittedPinTheme = PinTheme(
+    width: 60,
+    height: 60,
+    textStyle: TextStyle(
+      fontSize: 28,
+      color: AppColors.black,
+      fontWeight: FontWeight.w700,
+      decorationColor: AppColors.black,
+    ),
+    decoration: BoxDecoration(
+      color: AppColors.white,
+      borderRadius: BorderRadius.circular(5),
+      border: Border.all(color: AppColors.black.withOpacity(0.5)),
+    ),
+  );
+  final focusPinTheme = PinTheme(
+    width: 60,
+    height: 60,
+    textStyle: TextStyle(
+      fontSize: 22,
+      color: AppColors.black,
+      fontWeight: FontWeight.w700,
+      decorationColor: AppColors.black,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(5),
+      border: Border.all(color: AppColors.black.withOpacity(0.5)),
+    ),
+  );
 
   showValidationDialog(BuildContext context, String message) {
     //print("valid");
@@ -54,7 +107,7 @@ class ForgotPassword extends StatelessWidget {
           Navigator.of(context).pop();
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => ForgotNextScreen(email: email),
+              builder: (context) => ForgotNextScreen(email: email ?? ""),
             ),
           );
           //Navigator.of(context).popAndPushNamed(StudentView.routeName);
@@ -99,7 +152,7 @@ class ForgotPassword extends StatelessWidget {
               children: [
                 Stack(children: [
                   Image.asset(
-                    AppImages.bgRegister,
+                    AppImages.bgLogin,
                     //height: 300,
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fitWidth,
@@ -109,7 +162,7 @@ class ForgotPassword extends StatelessWidget {
                       top: SizeConfig.blockSizeVertical * 8,
                       child: backArrowCustom()),
                   Positioned(
-                    top: SizeConfig.blockSizeVertical * 25,
+                    top: SizeConfig.blockSizeVertical * 15,
                     left: SizeConfig.blockSizeHorizontal * 28,
                     child: CircleAvatar(
                       radius: SizeConfig.blockSizeHorizontal * 22,
@@ -303,70 +356,196 @@ class ForgotPassword extends StatelessWidget {
                     SizeConfig.blockSizeHorizontal * 7.5,
                     0.0,
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(height: 40),
-                      CustomTextField(
-                        label: 'Email',
-                        // prefixIcon: const Icon(
-                        //   Icons.mail,
-                        //   color: Dark,
-                        // ),
-                        validator: (value) {
-                          email = value!.trim();
-                          print('VALL  //////      $value');
-                          return Validate.validateEmail(email);
-                        },
-                        onChange: (val) {
-                          if (!_formKey.currentState!.validate()) {
-                            Validate.validateEmail(val);
-                          }
-                        },
-                        onFieldSubmitted: (_) {
-                          setFocus(context, focusNode: null);
-                          submit(context);
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.done,
-                      ),
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 80,
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 4.8),
-                        //color: Colors.black12,
-                        child: CustomButton(
-                            title: 'Send Code',
-                            onTap: () {
+                  child:
+                      Consumer<UserProvider>(builder: (context, authData, _) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: 40),
+                        /*   CustomTextField(
+                            label: 'Email',
+                            // prefixIcon: const Icon(
+                            //   Icons.mail,
+                            //   color: Dark,
+                            // ),
+                            validator: (value) {
+                              email = value!.trim();
+                              print('VALL  //////      $value');
+                              return Validate.validateEmail(email);
+                            },
+                            onChange: (val) {
+                              if (!_formKey.currentState!.validate()) {
+                                Validate.validateEmail(val);
+                              }
+                            },
+                            onFieldSubmitted: (_) {
+                              setFocus(context, focusNode: null);
                               submit(context);
-                            }),
-                        // Material(
-                        //   borderRadius: BorderRadius.circular(25),
-                        //   borderOnForeground: true,
-                        //   color: Dark,
-                        //   elevation: 5.0,
-                        //   child: MaterialButton(
-                        //     onPressed: () {
-                        //       submit(context);
-                        //     },
-                        //     child: Padding(
-                        //       padding: EdgeInsets.symmetric(
-                        //           horizontal: 15, vertical: 10),
-                        //       child: Text(
-                        //         'Send Code',
-                        //         style: TextStyle(
-                        //           fontFamily: 'Poppins',
-                        //           fontSize: SizeConfig.blockSizeHorizontal * 5,
-                        //           fontWeight: FontWeight.w700,
-                        //           color: Colors.white,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ),
-                    ],
-                  ),
+                            },
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.done,
+                          ),*/
+                        authData.isSendOtp
+                            ? Center(
+                                child: Pinput(
+                                  controller: code,
+                                  autofocus: true,
+                                  length: 6,
+                                  defaultPinTheme: submittedPinTheme,
+                                  submittedPinTheme: submittedPinTheme,
+                                  focusedPinTheme: focusPinTheme,
+                                  androidSmsAutofillMethod:
+                                      AndroidSmsAutofillMethod.smsRetrieverApi,
+                                  pinputAutovalidateMode:
+                                      PinputAutovalidateMode.onSubmit,
+                                  showCursor: true,
+                                  onSubmitted: (pin) async {},
+                                ),
+                              )
+                            : IntlPhoneField(
+                                autofocus: false,
+                                textAlign: TextAlign.left,
+                                dropdownIcon: Icon(Icons.keyboard_arrow_down,
+                                    color: Colors.black),
+                                dropdownIconPosition: IconPosition.trailing,
+                                flagsButtonMargin: EdgeInsets.only(left: 10),
+                                //disableLengthCheck: true,
+                                autovalidateMode: AutovalidateMode.disabled,
+                                //disableLengthCheck: true,
+                                controller: phoneTextControl,
+
+                                cursorColor: Dark,
+
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                  counterText: "",
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 20),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    borderSide: BorderSide(
+                                        color: AppColors.black.withOpacity(0.5),
+                                        width: 1.1),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              AppColors.black.withOpacity(0.5),
+                                          width: 1.1)),
+                                  disabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              AppColors.black.withOpacity(0.5),
+                                          width: 1.1)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              AppColors.black.withOpacity(0.5),
+                                          width: 1.1)),
+                                  focusColor: Dark,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    borderSide: BorderSide(
+                                        color: AppColors.black.withOpacity(0.5),
+                                        width: 1.1),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    borderSide: BorderSide(
+                                        color: AppColors.black.withOpacity(0.5),
+                                        width: 1.1),
+                                  ),
+                                  hintStyle: AppTextStyle.disStyle.copyWith(
+                                      color: AppColors.grey,
+                                      fontWeight: FontWeight.w400),
+
+                                  hintText: 'Enter Mobile Number',
+                                  errorStyle: AppTextStyle.textStyle
+                                      .copyWith(color: AppColors.red1),
+
+                                  floatingLabelStyle: TextStyle(color: Dark),
+                                  // errorStyle: TextStyle(
+                                  //     fontSize: constraints.maxWidth * 0.05),
+                                ),
+                                initialCountryCode: 'GB',
+                                // showCountryFlag: false,
+                                keyboardType: TextInputType.phone,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                style: AppTextStyle.textStyle,
+                                onSubmitted: (_) {
+                                  setFocus(context, focusNode: null);
+                                  submit(context);
+                                },
+
+                                // onSubmitted: (_) {
+                                //   setFocus(context, focusNode: _addressFocusNode);
+                                // },
+                                onChanged: (phone) {
+                                  print(phone);
+
+                                  Validate.validateEmail(phoneTextControl.text);
+                                  setState(() {
+                                    mobile = phone.completeNumber;
+                                    phoneTextControl.selection =
+                                        TextSelection.fromPosition(TextPosition(
+                                            offset:
+                                                phoneTextControl.text.length));
+                                    countryCode = phone.countryCode;
+                                  });
+                                },
+                              ),
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 80,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 4.8),
+                          //color: Colors.black12,
+                          child: loadingValue
+                              ? Center(
+                                  child: CircularProgressIndicator(color: Dark))
+                              : CustomButton(
+                                  title: 'Send Code',
+                                  onTap: () {
+                                    submit(context);
+                                  }),
+                          // Material(
+                          //   borderRadius: BorderRadius.circular(25),
+                          //   borderOnForeground: true,
+                          //   color: Dark,
+                          //   elevation: 5.0,
+                          //   child: MaterialButton(
+                          //     onPressed: () {
+                          //       submit(context);
+                          //     },
+                          //     child: Padding(
+                          //       padding: EdgeInsets.symmetric(
+                          //           horizontal: 15, vertical: 10),
+                          //       child: Text(
+                          //         'Send Code',
+                          //         style: TextStyle(
+                          //           fontFamily: 'Poppins',
+                          //           fontSize: SizeConfig.blockSizeHorizontal * 5,
+                          //           fontWeight: FontWeight.w700,
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                        ),
+                      ],
+                    );
+                  }),
                 ),
               ],
             ),
@@ -376,27 +555,66 @@ class ForgotPassword extends StatelessWidget {
     );
   }
 
+  bool loadingValue = false;
+
   Future<void> submit(BuildContext context) async {
     final form = _formKey.currentState;
     print("form state : ${form!.validate()}");
-    if (form.validate()) {
-      Map data = {
-        'email': email,
-        'user_type': '2',
-      };
-      Spinner.showSpinner(context, "Sending code");
-      //print(data);
-      Future.delayed(Duration(seconds: 2));
-      _passwordService.forgotPassword(data).then((res) {
-        if (res["success"] == false) {
-          Spinner.close(context);
-          showValidationDialog(context, res["message"]);
-        } else {
-          Spinner.close(context);
-          showSuccessDialog(context, res["message"]);
+    var authData = context.read<UserProvider>();
+    if (form.validate() && phoneTextControl.text.isNotEmpty) {
+      if (!authData.isSendOtp) {
+        print('PPPPPPPPPPPPPP');
+        Provider.of<UserProvider>(context, listen: false)
+            .verifyPhone(context, countryCode, phoneTextControl.text);
+      } else {
+        try {
+          loadingValue = true;
+          setState(() {});
+          final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+              verificationId: authData.verificationCode, smsCode: code.text);
+          FirebaseAuth.instance
+              .signInWithCredential(credential)
+              .then((value) async {
+            if (value.user != null) {
+              loadingValue = false;
+              setState(() {});
+              Map data = {
+                'email': code.text,
+                'user_type': '2',
+              };
+              Spinner.showSpinner(context, "Sending code");
+              //print(data);
+              Future.delayed(Duration(seconds: 2));
+
+              _passwordService.forgotPassword(data).then((res) {
+                log("!!!!!!!!!!!!!! $res");
+
+                if (res["success"] == false) {
+                  Spinner.close(context);
+                  showValidationDialog(context, res["error"]);
+                } else {
+                  Spinner.close(context);
+                  showSuccessDialog(context, res["error"]);
+                }
+                print("Response: $res");
+              });
+            }
+          }).catchError((e) {
+            loadingValue = false;
+            setState(() {});
+            print('HHHHHHH ${e.code}');
+            if (e.code == "invalid-verification-code") {
+              authData.showErrorDialog(context, "Invalid OTP");
+            } else {
+              authData.showErrorDialog(
+                  context, e.code.toString().replaceAll("-", " "));
+            }
+          });
+        } catch (e) {
+          loadingValue = false;
+          setState(() {});
         }
-        print("Response: $res");
-      });
+      }
     }
   }
 }

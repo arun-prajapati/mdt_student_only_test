@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
     ));
     return ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+      create: (context) => UserProvider(),
       child: MaterialApp(
         //locale: DevicePreview.ofDeviceOrientation(context).locale, // <--- Add the locale
         //builder: DevicePreview.appBuilder,
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final authProvider = Provider.of<AuthProvider>(context);
-    return Consumer<AuthProvider>(
+    return Consumer<UserProvider>(
       builder: (context, user, child) {
         switch (user.status) {
           case Status.Uninitialized:

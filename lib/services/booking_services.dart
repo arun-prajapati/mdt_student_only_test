@@ -7,12 +7,12 @@ import '../Constants/global.dart';
 import 'auth.dart';
 
 class Service with ChangeNotifier {
-  late AuthProvider authProvider;
+  late UserProvider authProvider;
   late String token;
   late Map apiResponse;
   late List bookingList;
 
-  Service(AuthProvider authProvider) {
+  Service(UserProvider authProvider) {
     this.authProvider = authProvider;
   }
 

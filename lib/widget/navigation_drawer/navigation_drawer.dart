@@ -337,7 +337,7 @@ class NavigationDrawer extends StatelessWidget {
                               height: 1.2, fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
-                          Provider.of<AuthProvider>(context, listen: false)
+                          Provider.of<UserProvider>(context, listen: false)
                               .logOut();
                           Navigator.pop(context);
                           _navigationService

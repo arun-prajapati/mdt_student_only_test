@@ -339,7 +339,7 @@ class _ContactUs extends State<ContactUs> {
   //Call APi Services
   Future<Map> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     return response;
   }
 

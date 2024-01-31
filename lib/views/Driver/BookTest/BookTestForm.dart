@@ -1225,11 +1225,15 @@ class _bookTestForm extends State<BookTestForm> {
                                       },
                                       itemBuilder: (context, suggestion) {
                                         suggestion as dynamic;
-                                        String name = suggestion['first_name'] != null ? suggestion['first_name'] : "" +
-                                            " " +
-                                            (suggestion['last_name'] != null
-                                                ? suggestion['last_name']
-                                                : '');
+                                        String name = suggestion[
+                                                    'first_name'] !=
+                                                null
+                                            ? suggestion['first_name']
+                                            : "" +
+                                                " " +
+                                                (suggestion['last_name'] != null
+                                                    ? suggestion['last_name']
+                                                    : '');
                                         return ListTile(
                                           title: Text(name),
                                         );
@@ -2089,15 +2093,15 @@ class _bookTestForm extends State<BookTestForm> {
                           //       duration: Toast.lengthLong,
                           //       gravity: Toast.bottom);
                           // } else {
-                            setState(() {
-                              this.current_step = this.current_step + 1;
-                              _multiStepperWidget.currentState!
-                                  .changeStep(this.current_step);
-                              try {
-                                list_view_scrollCtrl.jumpTo(0);
-                              } catch (e) {}
-                            });
-                          }
+                          setState(() {
+                            this.current_step = this.current_step + 1;
+                            _multiStepperWidget.currentState!
+                                .changeStep(this.current_step);
+                            try {
+                              list_view_scrollCtrl.jumpTo(0);
+                            } catch (e) {}
+                          });
+                        }
                         // }
                       },
                     ),
@@ -2136,15 +2140,15 @@ class _bookTestForm extends State<BookTestForm> {
                           //         gravity: Toast.bottom);
                           //   }
                           // } else {
-                            setState(() {
-                              this.current_step = this.current_step + 1;
-                              _multiStepperWidget.currentState!
-                                  .changeStep(this.current_step);
-                              try {
-                                list_view_scrollCtrl.jumpTo(0);
-                              } catch (e) {}
-                            });
-                          }
+                          setState(() {
+                            this.current_step = this.current_step + 1;
+                            _multiStepperWidget.currentState!
+                                .changeStep(this.current_step);
+                            try {
+                              list_view_scrollCtrl.jumpTo(0);
+                            } catch (e) {}
+                          });
+                        }
                         // }
                       },
                     ),
@@ -2391,7 +2395,7 @@ class _bookTestForm extends State<BookTestForm> {
   //Call APi Services
   Future<Map> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     licenceHttpPath = response['img_url'];
     _userId = response['id'];
     return response;

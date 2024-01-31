@@ -40,10 +40,11 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
   final TextEditingController phoneTextControl = TextEditingController();
   var mobile = '';
   var countryCode = '+44';
+
   Future<void> submit() async {
     final form = _formKey.currentState;
 
-    if (form!.validate()) {
+    if (form!.validate() && phoneTextControl.text.isNotEmpty) {
       Map formParams = {
         'token': paramArguments['token'],
         'social_type': paramArguments['social_type'],
@@ -56,7 +57,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
       print("Data on submit : $formParams");
       ToastContext().init(context);
 
-      Map? apiResponse = await Provider.of<AuthProvider>(context, listen: false)
+      Map? apiResponse = await Provider.of<UserProvider>(context, listen: false)
           .socialLoginWithMdtRegister(formParams);
       print("Response from registrant 1: $apiResponse");
       if (apiResponse != null && apiResponse['success'] == false) {
@@ -219,12 +220,12 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                     0.0,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 0),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
                         return Center(
                           child: Container(
-                            width: constraints.maxWidth * 0.9,
+                            // width: constraints.maxWidth * 0.9,
                             height: constraints.maxHeight,
                             child: LayoutBuilder(
                               builder: (context, constraints) {
@@ -246,7 +247,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                   0.0),
                                               child: FittedBox(
                                                 fit: BoxFit.contain,
-                                                child: Consumer<AuthProvider>(
+                                                child: Consumer<UserProvider>(
                                                   builder: (context, provider,
                                                           child) =>
                                                       provider.notification,
@@ -255,14 +256,12 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                             ),
                                             Text(
                                               "SignUp With " +
-                                                  (paramArguments == null
+                                                  (paramArguments.isEmpty
                                                       ? 'Social Site'
                                                       : (capitalize(
                                                           paramArguments[
                                                               'social_type']))),
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500),
+                                              style: AppTextStyle.titleStyle,
                                             ),
                                             SizedBox(height: 20),
                                             if (!isSocialPhone)
@@ -276,11 +275,10 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                             .blockSizeVertical),
                                                 child: Text(
                                                   " Please enter mobile number to complete registration.",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.grey),
+                                                  style: AppTextStyle.disStyle
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w400),
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),
@@ -396,9 +394,9 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                             //   ),
                                             // ),
                                             Container(
-                                              width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  80,
+                                              // width: SizeConfig
+                                              //         .blockSizeHorizontal *
+                                              //     80,
                                               margin: EdgeInsets.only(
                                                 top: SizeConfig
                                                         .blockSizeVertical *
@@ -414,12 +412,14 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                     IconPosition.trailing,
                                                 flagsButtonMargin:
                                                     EdgeInsets.only(left: 10),
+                                                //disableLengthCheck: true,
                                                 autovalidateMode:
                                                     AutovalidateMode.disabled,
                                                 //disableLengthCheck: true,
                                                 controller: phoneTextControl,
                                                 focusNode: _phoneFocusNode,
                                                 cursorColor: Dark,
+
                                                 textInputAction:
                                                     TextInputAction.next,
                                                 decoration: InputDecoration(
@@ -495,18 +495,20 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                             .withOpacity(0.5),
                                                         width: 1.1),
                                                   ),
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w400),
+                                                  hintStyle: AppTextStyle
+                                                      .disStyle
+                                                      .copyWith(
+                                                          color: AppColors.grey,
+                                                          fontWeight:
+                                                              FontWeight.w400),
 
-                                                  hintText: 'Mobile',
-
-                                                  errorStyle: TextStyle(
-                                                    fontSize: 12,
-                                                    decorationColor: Dark,
-                                                  ),
+                                                  hintText:
+                                                      'Enter Mobile Number',
+                                                  errorStyle: AppTextStyle
+                                                      .textStyle
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.red1),
 
                                                   floatingLabelStyle:
                                                       TextStyle(color: Dark),
@@ -514,17 +516,14 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                   //     fontSize: constraints.maxWidth * 0.05),
                                                 ),
                                                 initialCountryCode: 'GB',
-                                                //showCountryFlag: false,
+                                                // showCountryFlag: false,
                                                 keyboardType:
                                                     TextInputType.text,
                                                 inputFormatters: <TextInputFormatter>[
                                                   FilteringTextInputFormatter
                                                       .digitsOnly
                                                 ],
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                                style: AppTextStyle.textStyle,
                                                 onSubmitted: (_) {
                                                   setFocus(context,
                                                       focusNode: null);
@@ -551,7 +550,8 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                 },
                                               ),
                                             ),
-                                            Provider.of<AuthProvider>(context)
+                                            SizedBox(height: 20),
+                                            Provider.of<UserProvider>(context)
                                                         .status ==
                                                     Status.Authenticating
                                                 ? Center(
@@ -560,17 +560,15 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                 : Padding(
                                                     padding: EdgeInsets.only(
                                                         top: 20,
-                                                        left: 75,
-                                                        right: 75,
+                                                        left: 30,
+                                                        right: 30,
                                                         bottom: 10),
                                                     child: CustomButton(
                                                       padding:
                                                           EdgeInsets.symmetric(
-                                                              vertical: 10),
+                                                              vertical: 12),
                                                       title: 'SignUp',
-                                                      onTap: () {
-                                                        submit;
-                                                      },
+                                                      onTap: submit,
                                                     ),
                                                   ),
                                           ]),

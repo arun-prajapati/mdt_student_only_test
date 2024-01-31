@@ -43,7 +43,7 @@ class _driverProfile extends State<DriverProfile> {
   final DriverProfileServices api_services = new DriverProfileServices();
   final BookingService _bookingService = new BookingService();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  final AuthProvider auth_services = new AuthProvider();
+  final UserProvider auth_services = new UserProvider();
   Mode _mode = Mode.overlay;
   String? addressSuggestion;
   TextEditingController? first_name,
@@ -71,7 +71,7 @@ class _driverProfile extends State<DriverProfile> {
   //Call APi Services
   Future<int> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     print('USER ID *************************  $_userId');
     print('USER ID *************************  ${response['user_type']}');

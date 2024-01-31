@@ -22,7 +22,7 @@ class _ChangePassword extends State<ChangePassword> {
   final NavigationService _navigationService = locator<NavigationService>();
   final DriverProfileServices api_services = new DriverProfileServices();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  final AuthProvider auth_services = new AuthProvider();
+  final UserProvider auth_services = new UserProvider();
   TextEditingController old_password = new TextEditingController(),
       new_password = new TextEditingController(),
       cnf_password = new TextEditingController();
@@ -32,7 +32,7 @@ class _ChangePassword extends State<ChangePassword> {
   //Call APi Services
   Future<int> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     return _userId;
   }

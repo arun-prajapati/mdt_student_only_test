@@ -1,4 +1,3 @@
-
 import 'package:flutter/gestures.dart';
 import 'package:student_app/Constants/app_colors.dart';
 
@@ -31,13 +30,15 @@ class MyBooking extends StatefulWidget {
   State<StatefulWidget> createState() => _MyBooking();
 }
 
-enum FilterType { All,Accepted, Rejected, Completed, Assigned }
+enum FilterType { All, Accepted, Rejected, Completed, Assigned }
 
 class _MyBooking extends State<MyBooking> {
   final GlobalKey<State> _keyPopupMenu = new GlobalKey<State>();
+
   // Location location = Location();
   final NavigationService _navigationService = locator<NavigationService>();
   final BookingService _bookingService = BookingService();
+
   //final LocationService _locationService = new LocationService();
   int pageNumber = 1;
   String filterType = 'accepted';
@@ -52,11 +53,12 @@ class _MyBooking extends State<MyBooking> {
   late bool isTest;
   late bool isReportSubmitted;
   late Color bookingTypeColor;
-  late AuthProvider authProvider;
+  late UserProvider authProvider;
   int? _userId;
   bool isChatAvailable = false;
   bool notDataFound = false;
   List bookingList = [];
+
   // late UserLocation _currentLoc;
   late bool track;
   String? subCourse;
@@ -74,7 +76,7 @@ class _MyBooking extends State<MyBooking> {
 
   Future<Map> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     // _userId = response['id'];
     return response;
   }
@@ -181,6 +183,7 @@ class _MyBooking extends State<MyBooking> {
       print(e);
     }
   }
+
   //await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
   bool bookingDiffDate(String date) {
@@ -354,7 +357,7 @@ class _MyBooking extends State<MyBooking> {
             )
           ],
           flexibleSpace: Container(
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment(0.0, -1.0),
                 end: Alignment(0.0, 1.0),
@@ -396,8 +399,7 @@ class _MyBooking extends State<MyBooking> {
               return Column(
                 children: <Widget>[
                   Container(
-                    margin:
-                    EdgeInsets.only(top: constraints.maxHeight * 0.03),
+                    margin: EdgeInsets.only(top: constraints.maxHeight * 0.03),
                     width: constraints.maxWidth * 1,
                     height: constraints.maxHeight * 0.09,
                     //color: Colors.black26,
@@ -431,8 +433,7 @@ class _MyBooking extends State<MyBooking> {
                               alignment: Alignment.topRight,
                               child: PopupMenuButton<FilterType>(
                                 key: _keyPopupMenu,
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Container(
                                   margin: EdgeInsets.only(
                                       right: constraints.maxWidth * 0.030),
@@ -454,8 +455,7 @@ class _MyBooking extends State<MyBooking> {
                                               Icons.filter_list,
                                               color: Colors.white,
                                               size: 2.5 *
-                                                  SizeConfig
-                                                      .blockSizeVertical,
+                                                  SizeConfig.blockSizeVertical,
                                             ),
                                           ),
                                           Container(
@@ -472,8 +472,7 @@ class _MyBooking extends State<MyBooking> {
                                 ),
                                 itemBuilder: (BuildContext context) {
                                   return new List<
-                                      PopupMenuEntry<
-                                          FilterType>>.generate(
+                                          PopupMenuEntry<FilterType>>.generate(
                                       FilterType.values.length, (int index) {
                                     return new PopupMenuItem(
                                       height: 37,
@@ -486,7 +485,7 @@ class _MyBooking extends State<MyBooking> {
                                             0.0, 0, 0.0, 0.0),
                                         child: new AnimatedBuilder(
                                           child: Container(
-                                            // height: 37,
+                                              // height: 37,
                                               child: Text(FilterType
                                                   .values[index]
                                                   .toString()
@@ -496,24 +495,22 @@ class _MyBooking extends State<MyBooking> {
                                           builder: (BuildContext context,
                                               Widget? child) {
                                             return RadioListTile<FilterType>(
-                                              //contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                                value:
-                                                FilterType.values[index],
+                                                //contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                                value: FilterType.values[index],
                                                 dense: true,
-                                                groupValue:
-                                                _selectedItem.value,
+                                                groupValue: _selectedItem.value,
                                                 title: child,
                                                 onChanged:
                                                     (selectedFilterValue) {
                                                   _selectedItem.value =
-                                                  selectedFilterValue!;
+                                                      selectedFilterValue!;
                                                   filterType =
                                                       getSelectedFilter(
                                                           selectedFilterValue);
                                                   Navigator.of(
-                                                      _keyPopupMenu
-                                                          .currentContext!,
-                                                      rootNavigator: true)
+                                                          _keyPopupMenu
+                                                              .currentContext!,
+                                                          rootNavigator: true)
                                                       .pop();
                                                   bookingList = [];
                                                   setState(() {
@@ -545,7 +542,7 @@ class _MyBooking extends State<MyBooking> {
                       child: Column(
                         children: [
                           if ((bookingList == null ||
-                              bookingList.length == 0) &&
+                                  bookingList.length == 0) &&
                               !isDataLoading)
                             Container(
                                 margin: EdgeInsets.only(
@@ -558,8 +555,8 @@ class _MyBooking extends State<MyBooking> {
                             Container(
                                 margin: EdgeInsets.only(
                                     top: Responsive.height(20, context)),
-                                child: Center(
-                                    child: CircularProgressIndicator())),
+                                child:
+                                    Center(child: CircularProgressIndicator())),
                           if (bookingList != null && bookingList.length > 0)
                             Container(
                               width: constraints.maxWidth * 0.99,
@@ -571,12 +568,12 @@ class _MyBooking extends State<MyBooking> {
                               child: ListView.builder(
                                   controller: controller,
                                   physics:
-                                  const AlwaysScrollableScrollPhysics(),
+                                      const AlwaysScrollableScrollPhysics(),
                                   itemCount: bookingList == null
                                       ? 0
                                       : bookingList.length,
                                   padding:
-                                  EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                      EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                                   itemBuilder: (context, index) {
                                     Map booking = bookingList[index];
                                     if (booking['requested_time'] == null) {
@@ -588,53 +585,41 @@ class _MyBooking extends State<MyBooking> {
                                       if (booking['lesson_sub_course'] ==
                                           'reverse_right') {
                                         this.subCourse = "Reverse Right";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'reverse_left') {
                                         this.subCourse = "Reverse Left";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'reverse_park') {
                                         this.subCourse = "Reverse Park";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'turn_in_road') {
                                         this.subCourse = "Turn in road";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'forward_park') {
                                         this.subCourse = "Forward park";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'control') {
                                         this.subCourse = "Control";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'move_off') {
                                         this.subCourse = "Move off";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'mirrors') {
                                         this.subCourse = "Use of mirrors";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'signals') {
                                         this.subCourse = "Signals";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'response_to_signs') {
                                         this.subCourse =
-                                        "Response to signs / signals";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                            "Response to signs / signals";
+                                      } else if (booking['lesson_sub_course'] ==
                                           'progress') {
                                         this.subCourse = "Progress";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'junctions') {
                                         this.subCourse = "Junctions";
-                                      } else if (booking[
-                                      'lesson_sub_course'] ==
+                                      } else if (booking['lesson_sub_course'] ==
                                           'judgement') {
                                         this.subCourse = "Judgement";
                                       } else {
@@ -682,7 +667,7 @@ class _MyBooking extends State<MyBooking> {
                                                 .toUpperCase();
                                     bool dateDiff = diffDate(dateTime);
                                     bool bookingDateDiff =
-                                    bookingDiffDate(dateTime);
+                                        bookingDiffDate(dateTime);
                                     String dateDiff1 = diffDate1(dateTime);
                                     //print(dateTime);
                                     return Container(
@@ -701,14 +686,15 @@ class _MyBooking extends State<MyBooking> {
                                           ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Color.fromRGBO(
-                                                  0, 0, 0, 0.16),
+                                              color:
+                                                  Color.fromRGBO(0, 0, 0, 0.16),
                                               blurRadius:
-                                              6.0, // soften the shadow
+                                                  6.0, // soften the shadow
                                               spreadRadius:
-                                              1.0, //extend the shadow
+                                                  1.0, //extend the shadow
                                               offset: Offset(
-                                                3.0, // Move to right 10  horizontally
+                                                3.0,
+                                                // Move to right 10  horizontally
                                                 0.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -718,8 +704,7 @@ class _MyBooking extends State<MyBooking> {
                                             onExpansionChanged: (val) {
                                               setState(() {
                                                 isChatAvailable =
-                                                    chatAvailibility(
-                                                        dateTime);
+                                                    chatAvailibility(dateTime);
                                               });
 
                                               print(
@@ -733,18 +718,16 @@ class _MyBooking extends State<MyBooking> {
                                               print("Senders id : $_userId");
                                             },
                                             tilePadding: EdgeInsets.only(
-                                              top:
-                                              constraints.maxWidth * 0.01,
-                                              left:
-                                              constraints.maxWidth * 0.02,
+                                              top: constraints.maxWidth * 0.01,
+                                              left: constraints.maxWidth * 0.02,
                                               right:
-                                              constraints.maxWidth * 0.02,
+                                                  constraints.maxWidth * 0.02,
                                               bottom:
-                                              constraints.maxWidth * 0.01,
+                                                  constraints.maxWidth * 0.01,
                                             ),
                                             leading: Container(
                                               width:
-                                              constraints.maxWidth * 0.15,
+                                                  constraints.maxWidth * 0.15,
                                               height: SizeConfig.inputHeight,
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
@@ -759,163 +742,156 @@ class _MyBooking extends State<MyBooking> {
                                                           SizeConfig
                                                               .blockSizeVertical),
                                                       textAlign:
-                                                      TextAlign.center),
+                                                          TextAlign.center),
                                                 ),
                                               ),
                                             ),
                                             title: Column(
                                               children: [
                                                 Align(
-                                                  alignment:
-                                                  Alignment.topLeft,
+                                                  alignment: Alignment.topLeft,
                                                   child: AutoSizeText(
                                                       booking['type'],
                                                       style: headingStyle(
                                                           SizeConfig
                                                               .headingFontSize),
                                                       textAlign:
-                                                      TextAlign.left),
+                                                          TextAlign.left),
                                                 ),
                                                 Visibility(
                                                   visible: isPassAssist,
                                                   child: Align(
                                                     alignment:
-                                                    Alignment.topLeft,
-                                                    child:
-                                                    FractionallySizedBox(
+                                                        Alignment.topLeft,
+                                                    child: FractionallySizedBox(
                                                       widthFactor: 1,
                                                       child: Container(
                                                         padding:
-                                                        const EdgeInsets
-                                                            .fromLTRB(
-                                                            0, 2, 5, 1),
+                                                            const EdgeInsets
+                                                                .fromLTRB(
+                                                                0, 2, 5, 1),
                                                         child:
-                                                        FractionallySizedBox(
+                                                            FractionallySizedBox(
                                                           widthFactor: 1,
                                                           child: AutoSizeText(
-                                                              subCourse ==
-                                                                  null
+                                                              subCourse == null
                                                                   ? ''
                                                                   : subCourse!,
                                                               style: subHeadingStyle(
                                                                   SizeConfig
                                                                       .subHeadingFontSize),
                                                               textAlign:
-                                                              TextAlign
-                                                                  .left),
+                                                                  TextAlign
+                                                                      .left),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 Align(
-                                                  alignment:
-                                                  Alignment.topLeft,
+                                                  alignment: Alignment.topLeft,
                                                   child: FractionallySizedBox(
                                                     widthFactor: 1,
                                                     child: Container(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .fromLTRB(
-                                                          0, 2, 5, 1),
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(0, 2, 5, 1),
                                                       child: AutoSizeText(
                                                           booking["requested_date"] +
                                                               " " +
                                                               booking[
-                                                              "requested_time"],
+                                                                  "requested_time"],
                                                           style: subHeadingStyle(
                                                               SizeConfig
                                                                   .subHeading2FontSize),
                                                           textAlign:
-                                                          TextAlign.left),
+                                                              TextAlign.left),
                                                     ),
                                                   ),
                                                 ),
                                                 Align(
-                                                  alignment:
-                                                  Alignment.topLeft,
+                                                  alignment: Alignment.topLeft,
                                                   child: Row(
                                                     children: [
                                                       booking["postcode"] !=
-                                                          null
-                                                          ? Container(
-                                                        margin: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical:
-                                                            5),
-                                                        child: Text(
-                                                          booking[
-                                                          "postcode"],
-                                                          style: const TextStyle(
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                              color: Colors
-                                                                  .white,
-                                                              fontSize:
-                                                              13),
-                                                        ),
-                                                        decoration:
-                                                        BoxDecoration(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              15.0),
-                                                          color: Dark,
-                                                        ),
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                            horizontal:
-                                                            8,
-                                                            vertical:
-                                                            5),
-                                                      )
-                                                          : const Text(''),
-                                                      SizedBox(
-                                                        width: SizeConfig
-                                                            .blockSizeHorizontal *
-                                                            1,
-                                                      ),
-                                                      booking["name"] !=
-                                                          " " &&
-                                                          booking["name"] !=
                                                               null
                                                           ? Container(
-                                                        margin: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical:
-                                                            5),
-                                                        child: Text(
-                                                          booking[
-                                                          "name"],
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                              color: Colors
-                                                                  .white,
-                                                              fontSize:
-                                                              13),
-                                                        ),
-                                                        decoration:
-                                                        BoxDecoration(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              15.0),
-                                                          color: Dark,
-                                                        ),
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                            horizontal:
-                                                            8,
-                                                            vertical:
-                                                            5),
-                                                      )
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          5),
+                                                              child: Text(
+                                                                booking[
+                                                                    "postcode"],
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        13),
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15.0),
+                                                                color: Dark,
+                                                              ),
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          8,
+                                                                      vertical:
+                                                                          5),
+                                                            )
                                                           : const Text(''),
                                                       SizedBox(
                                                         width: SizeConfig
-                                                            .blockSizeHorizontal *
+                                                                .blockSizeHorizontal *
+                                                            1,
+                                                      ),
+                                                      booking["name"] != " " &&
+                                                              booking["name"] !=
+                                                                  null
+                                                          ? Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          5),
+                                                              child: Text(
+                                                                booking["name"],
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        13),
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15.0),
+                                                                color: Dark,
+                                                              ),
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          8,
+                                                                      vertical:
+                                                                          5),
+                                                            )
+                                                          : const Text(''),
+                                                      SizedBox(
+                                                        width: SizeConfig
+                                                                .blockSizeHorizontal *
                                                             1,
                                                       ),
                                                     ],
@@ -927,12 +903,11 @@ class _MyBooking extends State<MyBooking> {
                                               Align(
                                                 alignment: Alignment.center,
                                                 child: Container(
-                                                  width:
-                                                  constraints.maxWidth *
+                                                  width: constraints.maxWidth *
                                                       0.9,
                                                   padding: EdgeInsets.only(
                                                       bottom: constraints
-                                                          .maxHeight *
+                                                              .maxHeight *
                                                           0.01),
                                                   child: Column(
                                                     children: [
@@ -944,169 +919,171 @@ class _MyBooking extends State<MyBooking> {
                                                         child: LayoutBuilder(
                                                             builder: (context,
                                                                 constraints) {
-                                                              return Row(
-                                                                crossAxisAlignment:
+                                                          return Row(
+                                                            crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .center,
-                                                                children: [
-                                                                  Container(
-                                                                    width: constraints
+                                                            children: [
+                                                              Container(
+                                                                width: constraints
                                                                         .maxWidth *
-                                                                        0.35,
-                                                                    child: AutoSizeText(
-                                                                        "Location",
-                                                                        style: headingStyle(
-                                                                            SizeConfig
-                                                                                .headingFontSize),
-                                                                        textAlign:
+                                                                    0.35,
+                                                                child: AutoSizeText(
+                                                                    "Location",
+                                                                    style: headingStyle(
+                                                                        SizeConfig
+                                                                            .headingFontSize),
+                                                                    textAlign:
                                                                         TextAlign
                                                                             .left),
-                                                                  ),
-                                                                  Container(
-                                                                    width: constraints
+                                                              ),
+                                                              Container(
+                                                                width: constraints
                                                                         .maxWidth *
-                                                                        0.65,
-                                                                    //color: Colors.black54,
-                                                                    child:
+                                                                    0.65,
+                                                                //color: Colors.black54,
+                                                                child:
                                                                     AutoSizeText(
-                                                                      booking[
-                                                                      "full_location"] == null?booking[
-                                                                      "location"] : booking[
-                                                                      "full_location"],
-                                                                      style: contentStyle(1.6 *
-                                                                          SizeConfig
-                                                                              .blockSizeVertical),
-                                                                      maxLines: 2,
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              );
-                                                            }),
+                                                                  booking["full_location"] ==
+                                                                          null
+                                                                      ? booking[
+                                                                          "location"]
+                                                                      : booking[
+                                                                          "full_location"],
+                                                                  style: contentStyle(1.6 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical),
+                                                                  maxLines: 2,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          );
+                                                        }),
                                                       ),
                                                       Container(
                                                         width: constraints
                                                             .maxWidth,
                                                         //height: constraints.maxHeight*0.1875,
                                                         //color: Colors.amber,
-                                                        margin:
-                                                        EdgeInsets.only(
+                                                        margin: EdgeInsets.only(
                                                             top: 7.0),
                                                         child: LayoutBuilder(
                                                             builder: (context,
                                                                 constraints) {
-                                                              return Row(
-                                                                children: [
-                                                                  Container(
-                                                                    width: constraints
+                                                          return Row(
+                                                            children: [
+                                                              Container(
+                                                                width: constraints
                                                                         .maxWidth *
-                                                                        0.35,
-                                                                    //color: Colors.black26,
-                                                                    child:
+                                                                    0.35,
+                                                                //color: Colors.black26,
+                                                                child:
                                                                     AutoSizeText(
-                                                                      'ADI Details',
-                                                                      style: headingStyle(
-                                                                          SizeConfig
-                                                                              .headingFontSize),
-                                                                    ),
-                                                                  ),
-                                                                  Container(
-                                                                    width: constraints
+                                                                  'ADI Details',
+                                                                  style: headingStyle(
+                                                                      SizeConfig
+                                                                          .headingFontSize),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                width: constraints
                                                                         .maxWidth *
-                                                                        0.65,
-                                                                    //color: Colors.black54,
-                                                                    child: dateDiff ==
+                                                                    0.65,
+                                                                //color: Colors.black54,
+                                                                child: dateDiff ==
                                                                         false
-                                                                        ? AutoSizeText(
-                                                                      'You will be able to see the instructor\'s details 24 hours before the test.',
-                                                                      style:
-                                                                      contentStyle(1.5 * SizeConfig.blockSizeVertical),
-                                                                      maxLines:
-                                                                      2,
-                                                                    )
-                                                                        : Container(
-                                                                      //color: Colors.orange,
+                                                                    ? AutoSizeText(
+                                                                        'You will be able to see the instructor\'s details 24 hours before the test.',
+                                                                        style: contentStyle(1.5 *
+                                                                            SizeConfig.blockSizeVertical),
+                                                                        maxLines:
+                                                                            2,
+                                                                      )
+                                                                    : Container(
+                                                                        //color: Colors.orange,
                                                                         child:
-                                                                        LayoutBuilder(
-                                                                          builder:
-                                                                              (context, constraints) {
-                                                                            return Column(
-                                                                              children: [
-                                                                                Container(
-                                                                                    width: constraints.maxWidth * 1,
-                                                                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                                                                    child: LayoutBuilder(
-                                                                                      builder: (context, constraints) {
-                                                                                        return Row(
-                                                                                          children: [
-                                                                                            Container(
-                                                                                              width: constraints.maxWidth * 0.35,
-                                                                                              alignment: Alignment.topLeft,
-                                                                                              //color: Colors.cyanAccent,
+                                                                            LayoutBuilder(
+                                                                        builder:
+                                                                            (context,
+                                                                                constraints) {
+                                                                          return Column(
+                                                                            children: [
+                                                                              Container(
+                                                                                  width: constraints.maxWidth * 1,
+                                                                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                                                                  child: LayoutBuilder(
+                                                                                    builder: (context, constraints) {
+                                                                                      return Row(
+                                                                                        children: [
+                                                                                          Container(
+                                                                                            width: constraints.maxWidth * 0.35,
+                                                                                            alignment: Alignment.topLeft,
+                                                                                            //color: Colors.cyanAccent,
+                                                                                            child: AutoSizeText(
+                                                                                              "Name",
+                                                                                              style: subHeadingStyle(1.7 * SizeConfig.blockSizeVertical),
+                                                                                              maxLines: 2,
+                                                                                            ),
+                                                                                          ),
+                                                                                          Container(
+                                                                                            width: constraints.maxWidth * 0.65,
+                                                                                            alignment: Alignment.center,
+                                                                                            //color: Colors.black26,
+                                                                                            child: FractionallySizedBox(
+                                                                                              widthFactor: 1,
                                                                                               child: AutoSizeText(
-                                                                                                "Name",
-                                                                                                style: subHeadingStyle(1.7 * SizeConfig.blockSizeVertical),
-                                                                                                maxLines: 2,
+                                                                                                (booking["name"] == null || (booking["name"]).trim() == '') ? '---' : booking["name"].toString(),
+                                                                                                style: contentStyle(1.6 * SizeConfig.blockSizeVertical),
                                                                                               ),
                                                                                             ),
-                                                                                            Container(
-                                                                                              width: constraints.maxWidth * 0.65,
-                                                                                              alignment: Alignment.center,
-                                                                                              //color: Colors.black26,
-                                                                                              child: FractionallySizedBox(
-                                                                                                widthFactor: 1,
-                                                                                                child: AutoSizeText(
-                                                                                                  (booking["name"] == null || (booking["name"]).trim() == '') ? '---' : booking["name"].toString(),
-                                                                                                  style: contentStyle(1.6 * SizeConfig.blockSizeVertical),
-                                                                                                ),
-                                                                                              ),
-                                                                                            )
-                                                                                          ],
-                                                                                        );
-                                                                                      },
-                                                                                    )),
-                                                                                Container(
-                                                                                    width: constraints.maxWidth * 1,
-                                                                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                                                                    decoration: const BoxDecoration(
-                                                                                      border: Border(
-                                                                                        top: BorderSide(width: 1.0, color: Colors.black12),
-                                                                                      ),
+                                                                                          )
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  )),
+                                                                              Container(
+                                                                                  width: constraints.maxWidth * 1,
+                                                                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                                                                  decoration: const BoxDecoration(
+                                                                                    border: Border(
+                                                                                      top: BorderSide(width: 1.0, color: Colors.black12),
                                                                                     ),
-                                                                                    child: LayoutBuilder(
-                                                                                      builder: (context, constraints) {
-                                                                                        return Row(
-                                                                                          children: [
-                                                                                            Container(
-                                                                                              width: constraints.maxWidth * 0.35,
-                                                                                              alignment: Alignment.topLeft,
-                                                                                              //color: Colors.cyanAccent,
-                                                                                              child: AutoSizeText(
-                                                                                                "Contact No",
-                                                                                                style: subHeadingStyle(1.7 * SizeConfig.blockSizeVertical),
-                                                                                                //maxLines: 2,
-                                                                                              ),
+                                                                                  ),
+                                                                                  child: LayoutBuilder(
+                                                                                    builder: (context, constraints) {
+                                                                                      return Row(
+                                                                                        children: [
+                                                                                          Container(
+                                                                                            width: constraints.maxWidth * 0.35,
+                                                                                            alignment: Alignment.topLeft,
+                                                                                            //color: Colors.cyanAccent,
+                                                                                            child: AutoSizeText(
+                                                                                              "Contact No",
+                                                                                              style: subHeadingStyle(1.7 * SizeConfig.blockSizeVertical),
+                                                                                              //maxLines: 2,
                                                                                             ),
-                                                                                            Container(
-                                                                                              width: constraints.maxWidth * 0.65,
-                                                                                              alignment: Alignment.center,
-                                                                                              //color: Colors.black26,
-                                                                                              child: FractionallySizedBox(
-                                                                                                widthFactor: 1,
-                                                                                                child: AutoSizeText((booking["phone"] == null || (booking["phone"]).trim() == '') ? '---' : booking["phone"].toString(), style: contentStyle(1.6 * SizeConfig.blockSizeVertical)),
-                                                                                              ),
-                                                                                            )
-                                                                                          ],
-                                                                                        );
-                                                                                      },
-                                                                                    ))
-                                                                              ],
-                                                                            );
-                                                                          },
-                                                                        )),
-                                                                  )
-                                                                ],
-                                                              );
-                                                            }),
+                                                                                          ),
+                                                                                          Container(
+                                                                                            width: constraints.maxWidth * 0.65,
+                                                                                            alignment: Alignment.center,
+                                                                                            //color: Colors.black26,
+                                                                                            child: FractionallySizedBox(
+                                                                                              widthFactor: 1,
+                                                                                              child: AutoSizeText((booking["phone"] == null || (booking["phone"]).trim() == '') ? '---' : booking["phone"].toString(), style: contentStyle(1.6 * SizeConfig.blockSizeVertical)),
+                                                                                            ),
+                                                                                          )
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  ))
+                                                                            ],
+                                                                          );
+                                                                        },
+                                                                      )),
+                                                              )
+                                                            ],
+                                                          );
+                                                        }),
                                                       ),
                                                       Visibility(
                                                         visible: isTest &&
@@ -1118,105 +1095,104 @@ class _MyBooking extends State<MyBooking> {
                                                               .maxWidth,
                                                           //height: constraints.maxHeight*0.25,
                                                           margin:
-                                                          EdgeInsets.only(
-                                                              top: 7.0),
+                                                              EdgeInsets.only(
+                                                                  top: 7.0),
                                                           //color: Colors.cyanAccent,
                                                           child: LayoutBuilder(
                                                               builder: (context,
                                                                   constraints) {
-                                                                return Row(
-                                                                  crossAxisAlignment:
+                                                            return Row(
+                                                              crossAxisAlignment:
                                                                   CrossAxisAlignment
                                                                       .center,
-                                                                  children: [
-                                                                    Container(
-                                                                      width: constraints
+                                                              children: [
+                                                                Container(
+                                                                  width: constraints
                                                                           .maxWidth *
-                                                                          0.35,
-                                                                      child: AutoSizeText(
-                                                                          "Report",
-                                                                          style: headingStyle(SizeConfig
+                                                                      0.35,
+                                                                  child: AutoSizeText(
+                                                                      "Report",
+                                                                      style: headingStyle(
+                                                                          SizeConfig
                                                                               .headingFontSize),
-                                                                          textAlign:
-                                                                          TextAlign.left),
-                                                                    ),
-                                                                    Container(
-                                                                      //width:constraints.maxWidth *0.7,
-                                                                      //color: Colors.black54,
-                                                                        child: isReportSubmitted
-                                                                            ? RichText(
-                                                                          text: TextSpan(
-                                                                              text: 'View Report',
-                                                                              style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Dark),
-                                                                              recognizer: TapGestureRecognizer()
-                                                                                ..onTap = () {
-                                                                                  print("tapped");
-                                                                                  Navigator.push(
-                                                                                      context,
-                                                                                      MaterialPageRoute(
-                                                                                          builder: (context) => WebViewContainer(
-                                                                                              '$api/test/report/view?booking=${booking['booking_id']}&user=$_userId&type=${booking['booking_origin']}',
-                                                                                              'Test Report')));
-                                                                                }),
-                                                                        )
-                                                                            : AutoSizeText("Not available", style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Colors.black), textAlign: TextAlign.left)
-                                                                      //: AutoSizeText("Report Submitted", style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Colors.green), textAlign: TextAlign.left),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .left),
+                                                                ),
+                                                                Container(
+                                                                    //width:constraints.maxWidth *0.7,
+                                                                    //color: Colors.black54,
+                                                                    child: isReportSubmitted
+                                                                        ? RichText(
+                                                                            text: TextSpan(
+                                                                                text: 'View Report',
+                                                                                style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Dark),
+                                                                                recognizer: TapGestureRecognizer()
+                                                                                  ..onTap = () {
+                                                                                    print("tapped");
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer('$api/test/report/view?booking=${booking['booking_id']}&user=$_userId&type=${booking['booking_origin']}', 'Test Report')));
+                                                                                  }),
+                                                                          )
+                                                                        : AutoSizeText("Not available", style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Colors.black), textAlign: TextAlign.left)
+                                                                    //: AutoSizeText("Report Submitted", style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Colors.green), textAlign: TextAlign.left),
                                                                     )
-                                                                  ],
-                                                                );
-                                                              }),
+                                                              ],
+                                                            );
+                                                          }),
                                                         ),
                                                       ),
                                                       Visibility(
                                                         visible:
-                                                        booking['status'] ==
-                                                            "assigned"
-                                                            ? true
-                                                            : false,
+                                                            booking['status'] ==
+                                                                    "assigned"
+                                                                ? true
+                                                                : false,
                                                         child: Container(
                                                           width: constraints
                                                               .maxWidth,
                                                           //height: constraints.maxHeight*0.25,
                                                           margin:
-                                                          const EdgeInsets
-                                                              .only(
-                                                              top: 7.0),
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  top: 7.0),
                                                           //color: Colors.cyanAccent,
-                                                          child:
-                                                          LayoutBuilder(
+                                                          child: LayoutBuilder(
                                                             builder: (context,
                                                                 constraints) {
                                                               return ElevatedButton(
-                                                                onPressed:
-                                                                    () {
+                                                                onPressed: () {
                                                                   if (booking[
-                                                                  'booking_add_by'] ==
+                                                                          'booking_add_by'] ==
                                                                       "self") {
                                                                     Navigator.of(
-                                                                        context)
+                                                                            context)
                                                                         .push(
                                                                       MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            ChatView(
-                                                                              studentId:
+                                                                        builder:
+                                                                            (context) =>
+                                                                                ChatView(
+                                                                          studentId:
                                                                               booking['user_id'],
-                                                                              userId:
+                                                                          userId:
                                                                               _userId!,
-                                                                            ),
+                                                                        ),
                                                                       ),
                                                                     );
                                                                   } else {
                                                                     if (isChatAvailable) {
                                                                       print(
                                                                           "CHAT");
-                                                                      Navigator.of(context)
+                                                                      Navigator.of(
+                                                                              context)
                                                                           .push(
                                                                         MaterialPageRoute(
                                                                           builder: (context) =>
                                                                               ChatView(
-                                                                                studentId: booking['user_id'],
-                                                                                userId: _userId!,
-                                                                              ),
+                                                                            studentId:
+                                                                                booking['user_id'],
+                                                                            userId:
+                                                                                _userId!,
+                                                                          ),
                                                                         ),
                                                                       );
                                                                     } else {
@@ -1266,68 +1242,69 @@ class _MyBooking extends State<MyBooking> {
                                                                     "Message instructor"),
                                                                 style: ElevatedButton
                                                                     .styleFrom(
-                                                                  primary:
-                                                                  Dark,
+                                                                  primary: Dark,
                                                                 ),
                                                               );
                                                             },
                                                           ),
                                                         ),
                                                       ),
-                                                      dateDiff1 ==
-                                                          'showButton'
+                                                      dateDiff1 == 'showButton'
                                                           ? Container(
-                                                          width: constraints
-                                                              .maxWidth *
-                                                              0.9,
-                                                          //color: Colors.cyanAccent,
-                                                          margin: EdgeInsets
-                                                              .only(
-                                                              top:
-                                                              7.0),
-                                                          child:
-                                                          LayoutBuilder(
-                                                            builder: (context,
-                                                                constraints) {
-                                                              return Row(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                                children: [
-                                                                  Container(
-                                                                      width: constraints.maxWidth *
-                                                                          0.3,
-                                                                      //color: Colors.black26,
-                                                                      child:
-                                                                      TextButton(
-                                                                        onPressed: () {
-                                                                          track = true;
-                                                                          // Scaffold.of(context).showSnackBar(snackBar);
-                                                                          // Timer.periodic(Duration(seconds: delay), (timer) {
-                                                                          //   locationData(booking["booking_id"].toString(), booking["booking_type"]);
-                                                                          // });
-                                                                        },
-                                                                        child: Text("Start"),
-                                                                      )),
-                                                                  Container(
-                                                                      width: constraints.maxWidth *
-                                                                          0.3,
-                                                                      //color: Colors.black26,
-                                                                      child:
-                                                                      TextButton(
-                                                                        onPressed: () {
-                                                                          track = false;
-                                                                          // Timer.periodic(Duration(seconds: delay), (timer) {
-                                                                          //   locationData( booking["booking_id"], booking["booking_type"]);
-                                                                          //   //timer.cancel();
-                                                                          // });
-                                                                        },
-                                                                        child: Text("Stop"),
-                                                                      ))
-                                                                ],
-                                                              );
-                                                            },
-                                                          ))
+                                                              width: constraints
+                                                                      .maxWidth *
+                                                                  0.9,
+                                                              //color: Colors.cyanAccent,
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      top: 7.0),
+                                                              child:
+                                                                  LayoutBuilder(
+                                                                builder: (context,
+                                                                    constraints) {
+                                                                  return Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceEvenly,
+                                                                    children: [
+                                                                      Container(
+                                                                          width: constraints.maxWidth *
+                                                                              0.3,
+                                                                          //color: Colors.black26,
+                                                                          child:
+                                                                              TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              track = true;
+                                                                              // Scaffold.of(context).showSnackBar(snackBar);
+                                                                              // Timer.periodic(Duration(seconds: delay), (timer) {
+                                                                              //   locationData(booking["booking_id"].toString(), booking["booking_type"]);
+                                                                              // });
+                                                                            },
+                                                                            child:
+                                                                                Text("Start"),
+                                                                          )),
+                                                                      Container(
+                                                                          width: constraints.maxWidth *
+                                                                              0.3,
+                                                                          //color: Colors.black26,
+                                                                          child:
+                                                                              TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              track = false;
+                                                                              // Timer.periodic(Duration(seconds: delay), (timer) {
+                                                                              //   locationData( booking["booking_id"], booking["booking_type"]);
+                                                                              //   //timer.cancel();
+                                                                              // });
+                                                                            },
+                                                                            child:
+                                                                                Text("Stop"),
+                                                                          ))
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              ))
                                                           : Text('')
                                                     ],
                                                   ),

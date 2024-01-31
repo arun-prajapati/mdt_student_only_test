@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
@@ -35,6 +36,7 @@ class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   late String email;
+
   // late String password;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
@@ -147,27 +149,27 @@ class _SignInFormState extends State<SignInForm> {
     final form = _formKey.currentState;
     if (form!.validate()) {
       //await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
-      await Provider.of<AuthProvider>(context, listen: false).login(
+      await Provider.of<UserProvider>(context, listen: false).login(
           deviceId: deviceId!,
           email: email,
           usertype: "2",
           password: password.text);
-      if (Provider.of<AuthProvider>(context, listen: false).notification.text !=
+      if (Provider.of<UserProvider>(context, listen: false).notification.text !=
               'device-exist' &&
-          Provider.of<AuthProvider>(context, listen: false).notification.text !=
+          Provider.of<UserProvider>(context, listen: false).notification.text !=
               '') {
         showValidationDialog(
             context,
-            Provider.of<AuthProvider>(context, listen: false)
+            Provider.of<UserProvider>(context, listen: false)
                 .notification
                 .text);
       }
-      if (Provider.of<AuthProvider>(context, listen: false).notification.text ==
+      if (Provider.of<UserProvider>(context, listen: false).notification.text ==
           'device-exist') {
         showDeviceExistDialog(
             context,
-            Provider.of<AuthProvider>(context, listen: false).userName,
-            Provider.of<AuthProvider>(context, listen: false).contact);
+            Provider.of<UserProvider>(context, listen: false).userName,
+            Provider.of<UserProvider>(context, listen: false).contact);
       }
     }
   }
@@ -393,7 +395,7 @@ class _SignInFormState extends State<SignInForm> {
                         //   ),
                         SizedBox(height: 35),
 
-                        Provider.of<AuthProvider>(context).status ==
+                        Provider.of<UserProvider>(context).status ==
                                 Status.Authenticating
                             ? Center(child: CircularProgressIndicator())
                             : CustomButton(

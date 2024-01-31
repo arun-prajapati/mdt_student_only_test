@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 //import 'package:student_app/views/Bookings/MyBookings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +20,7 @@ typedef StringCallback = Function(String tabType);
 class CustomSwitch extends StatefulWidget {
   final Function() notifyParent;
   final StringCallback? onSwitchTap;
+
   CustomSwitch({Key? key, required this.notifyParent, this.onSwitchTap})
       : super(key: key);
 
@@ -31,9 +33,10 @@ class _CustomSwitchState extends State<CustomSwitch> {
   Color pastTextColor = Colors.white;
   Color upcomingColor = Colors.white;
   Color upcomingTextColor = Color(0xff0e9bcf);
-  late AuthProvider authProvider;
+  late UserProvider authProvider;
   final BookingService _bookingService = BookingService();
   late String token;
+
   refresh() {
     setState(() {});
   }

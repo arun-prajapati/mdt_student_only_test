@@ -137,7 +137,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   //Call APi Services
   Future<Map> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     userName = "${response['first_name']} ${response['last_name']}";
 

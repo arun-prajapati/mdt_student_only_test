@@ -118,7 +118,7 @@ class _TheoryTabState extends State<TheoryTab> {
 
   Future<Map> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
 
     return response;
   }
@@ -523,11 +523,11 @@ class _TheoryTabState extends State<TheoryTab> {
                       return GestureDetector(
                         onTap: () {
                           if (cards[index]["type"] == 'theoryTest') {
-                            context.read<AuthProvider>().changeView = true;
+                            context.read<UserProvider>().changeView = true;
                             setState(() {});
                             print(
-                                "auth_services.changeView ${context.read<AuthProvider>().changeView}");
-                            if (context.read<AuthProvider>().changeView) {
+                                "auth_services.changeView ${context.read<UserProvider>().changeView}");
+                            if (context.read<UserProvider>().changeView) {
                               // getCategoriesFromApi().then((response_list) {
                               //  responseList = response_list;
                               //  print("------------ responseList $responseList");

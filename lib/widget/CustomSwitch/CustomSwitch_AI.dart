@@ -18,6 +18,7 @@ typedef StringCallback = Function(String tabType);
 class CustomSwitch_AI extends StatefulWidget {
   final Function() notifyParent;
   final StringCallback? onSwitchTap;
+
   CustomSwitch_AI({Key? key, required this.notifyParent, this.onSwitchTap})
       : super(key: key);
 
@@ -30,9 +31,10 @@ class _CustomSwitchState extends State<CustomSwitch_AI> {
   Color pastTextColor = Colors.white;
   Color upcomingColor = Colors.white;
   Color upcomingTextColor = Color(0xff0e9bcf);
-  late AuthProvider authProvider;
+  late UserProvider authProvider;
   final AIRecommondationAPI _airecommondaionService = AIRecommondationAPI();
   late String token;
+
   refresh() {
     setState(() {});
   }

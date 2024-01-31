@@ -45,11 +45,12 @@ class _PracticalTabState extends State<PracticalTab> {
       'buttonText': 'Start'
     },
   ];
+
   @override
   void initState() {
     super.initState();
     //showLoader("Fetching courses");
-    Provider.of<AuthProvider>(context, listen: false)
+    Provider.of<UserProvider>(context, listen: false)
         .getUserData()
         .then((res) => {userId = res['id']});
     _bookingService.getCoursesNameList('').then((courseList) {

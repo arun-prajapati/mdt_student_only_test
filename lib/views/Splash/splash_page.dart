@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   initAuthProvider(context) async {
-    Provider.of<AuthProvider>(context).initAuthProvider();
+    Provider.of<UserProvider>(context).initAuthProvider();
   }
 
   getStatus() async {

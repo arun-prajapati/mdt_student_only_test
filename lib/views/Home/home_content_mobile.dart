@@ -29,7 +29,7 @@ class HomeScreen extends StatefulWidget implements PreferredSizeWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final AuthProvider _authProvider = new AuthProvider();
+  final UserProvider _authProvider = new UserProvider();
   final BookingService _bookingService = BookingService();
   String? _userName;
   late Future<List> _recentBooking;

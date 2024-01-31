@@ -580,7 +580,7 @@ class SocialLoginService {
   Future<void> socialLoginApi(Map params) async {
     try {
       Map? loginResponse =
-          await Provider.of<auth.AuthProvider>(globalContext, listen: false)
+          await Provider.of<auth.UserProvider>(globalContext, listen: false)
               .socialLoginWithMdtRegister(params);
       closeLoader();
       if (loginResponse != null) {

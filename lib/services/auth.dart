@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/external.dart';
+import 'package:student_app/utils/app_colors.dart';
 
 import '../Constants/global.dart';
 import '../enums/Autentication_status.dart';
@@ -11,7 +16,7 @@ import '../locater.dart';
 import 'navigation_service.dart';
 import 'notification_text/notification_text.dart';
 
-class AuthProvider with ChangeNotifier {
+class UserProvider with ChangeNotifier {
   final NavigationService _navigationService = locator<NavigationService>();
   Status _status = Status.Uninitialized;
   late String _token;
@@ -207,22 +212,22 @@ class AuthProvider with ChangeNotifier {
     Map apiResponse = json.decode(response.body);
     print("Registration: $apiResponse");
     if (apiResponse["success"] == true) {
+      isSendOtp = false;
+      notifyListeners();
       _notification = NotificationText(apiResponse['message'].toString(), '');
       notifyListeners();
     } else {
-      if (apiResponse['message'].containsKey('email')) {
-        _notification =
-            NotificationText(apiResponse['message']['email'][0].toString(), '');
+      if (apiResponse['message'].contains('email')) {
+        _notification = NotificationText(apiResponse['message'], '');
         notifyListeners();
       }
-      if (apiResponse['message'].containsKey('password')) {
-        _notification = NotificationText(
-            apiResponse['message']['password'][0].toString(), '');
+      if (apiResponse['message'].contains('password')) {
+        _notification =
+            NotificationText(apiResponse['message']['password'], '');
         notifyListeners();
       }
-      if (apiResponse['message'].containsKey('phone')) {
-        _notification =
-            NotificationText(apiResponse['message']['phone'][0].toString(), '');
+      if (apiResponse['message'].contains('phone')) {
+        _notification = NotificationText(apiResponse['message'], '');
         notifyListeners();
       }
     }
@@ -284,6 +289,126 @@ class AuthProvider with ChangeNotifier {
         apiResponse['user_name'] == null ? '' : apiResponse['user_name']);
     await storage.setString('eMail', apiResponse['e_mail']);
   }
+
+  /// SEND OTP ///
+  String verificationCode = "";
+  int _resendToken = 0;
+  bool isSendOtp = false;
+
+  verifyPhone(BuildContext context, String countryCode, String phoneNumber,
+      {bool isResend = false}) async {
+    loading(value: true);
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: "$countryCode$phoneNumber",
+        verificationCompleted: (PhoneAuthCredential credential) {
+          loading(value: false);
+          _onVerificationCompletedRegister(credential, context);
+          notifyListeners();
+        },
+        verificationFailed: (FirebaseAuthException exception) {
+          loading(value: false);
+
+          showErrorDialog(context, exception.message.toString());
+          notifyListeners();
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          loading(value: false);
+          verificationCode = verificationId;
+          _resendToken = resendToken ?? 0;
+          isSendOtp = true;
+          if (isResend == false) {
+            loading(value: false);
+            // _navigationService.navigatorKey.currentState?.push(MaterialPageRoute(
+            //     builder: (_) => const OTPVerificationScreen()));
+          } else {
+            loading(value: false);
+          }
+          notifyListeners();
+        },
+        forceResendingToken: _resendToken,
+        codeAutoRetrievalTimeout: (String verificationId) {
+          loading(value: false);
+          verificationCode = verificationId;
+          notifyListeners();
+        },
+        timeout: const Duration(minutes: 2));
+  }
+
+  bool isForgotPassword = false;
+
+  void _onVerificationCompletedRegister(
+      PhoneAuthCredential phoneAuthCredential, BuildContext context) async {
+    loading(value: true);
+    FirebaseAuth.instance
+        .signInWithCredential(phoneAuthCredential)
+        .then((value) async {
+      if (value.user != null) {
+        loading(value: false);
+        if (isForgotPassword) {
+          // AppRoutes.pushAndRemoveUntil(
+          //   context,
+          //   ChangePasswordScreen(isForgotPassword: true),
+          // );
+        } else {
+          // userRegister(context);
+        }
+      }
+    }).catchError((e) {
+      loading(value: false);
+      print("@@@@@@@@@ $e");
+      if (e.code == "invalid-verification-code") {
+        showErrorDialog(context, "Invalid OTP");
+      } else {
+        showErrorDialog(context, e.code.toString().replaceAll("-", " "));
+      }
+    });
+  }
+
+  validateOTP(
+    String code,
+    BuildContext context, {
+    bool isForgotPassword = false,
+  }) async {
+    // loading(value: true);
+    try {
+      // loading(value: false);
+      final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationCode, smsCode: code);
+      _onVerificationCompletedRegister(credential, context);
+    } catch (e) {
+      // loading(value: false);
+      showErrorDialog(context, "Invalid OTP");
+    }
+  }
+
+  showErrorDialog(BuildContext context, String message) {
+    //print("valid");
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Smart Theory Test', style: AppTextStyle.titleStyle),
+            content: Text(message,
+                style: AppTextStyle.textStyle
+                    .copyWith(fontWeight: FontWeight.w400)),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'Ok',
+                  style: TextStyle(color: Dark),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  /// ========///
 
   Future<String?> getToken() async {
     SharedPreferences storage = await SharedPreferences.getInstance();

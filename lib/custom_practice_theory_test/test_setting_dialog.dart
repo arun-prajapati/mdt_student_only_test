@@ -36,7 +36,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   bool isAllCategoriesSelected = true;
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
-  final AuthProvider auth_services = new AuthProvider();
+  final UserProvider auth_services = new UserProvider();
 
   @override
   void initState() {
@@ -397,11 +397,11 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                     Navigator.pop(context, true);
                     this.widget.onSetValue(seledtedCategoryId);
                     // auth_services.changeView = false;
-                    context.read<AuthProvider>().changeView = false;
+                    context.read<UserProvider>().changeView = false;
                     setState(() {});
                     // setState(() {});
                     print(
-                        'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
+                        'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<UserProvider>().changeView}');
                   },
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                 ),
