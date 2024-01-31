@@ -20,3 +20,26 @@ class AppColors {
   static Color red1 = Color(0xFFFE5050);
   static Color red2 = Color(0xFFBC0A0A);
 }
+
+class AppTextStyle {
+  static TextStyle titleStyle = TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+      color: AppColors.black);
+  static TextStyle textStyle = TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: AppColors.black);
+  static TextStyle disStyle = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.grey,
+  );
+
+  // static double font = 16.0;
+  // static double fontTitle = 18.0;
+  // static double fontDis = 14.0;
+}

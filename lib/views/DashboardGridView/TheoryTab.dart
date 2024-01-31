@@ -492,10 +492,7 @@ class _TheoryTabState extends State<TheoryTab> {
                   child: Text(
                     'Theory Learning Progress',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.black,
-                        fontSize: 18),
+                    style: AppTextStyle.textStyle,
                   ),
                 ),
                 SizedBox(height: 15),
@@ -539,7 +536,6 @@ class _TheoryTabState extends State<TheoryTab> {
                               //     barrierDismissible: false,
                               //     context: context,
                               //     builder: (context) => PracticeTheoryTest());
-
                               _navigationService
                                   .navigateTo(routes.PracticeTheoryTestRoute);
                             } else {
@@ -679,11 +675,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                       textAlign: TextAlign.start,
                                       text: TextSpan(
                                           text: '${cards[index]["title"]}',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: AppColors.black,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                          style: AppTextStyle.textStyle,
                                           children: [
                                             TextSpan(
                                               text: ' →',
@@ -702,13 +694,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                   Text(
                                     cards[index]["subTitle"],
                                     maxLines: 3,
-                                    style: TextStyle(
-                                        height: 1.1,
-                                        fontSize: 12,
-                                        overflow: TextOverflow.ellipsis,
-                                        color: Colors.black45
-                                        //fontWeight: FontWeight.bold
-                                        ),
+                                    style: AppTextStyle.disStyle,
                                     softWrap: true,
                                     //  textAlign: TextAlign.justify,
                                   ),
@@ -739,12 +725,7 @@ class _TheoryTabState extends State<TheoryTab> {
                         //AppColors.blueGrad2,
                         AppColors.blueGrad1
                       ],
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 18,
-                        decorationThickness: 2,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: AppTextStyle.textStyle,
                     ),
                   ),
                 ),
@@ -815,13 +796,10 @@ class _TheoryTabState extends State<TheoryTab> {
                                       Expanded(
                                         flex: 2,
                                         child: Text(
-                                          _resourceCards[index]["title"],
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                          //overflow: TextOverflow.ellipsis,
-                                        ),
+                                            _resourceCards[index]["title"],
+                                            style: AppTextStyle.textStyle
+                                            //overflow: TextOverflow.ellipsis,
+                                            ),
                                       ),
                                       Expanded(
                                         flex: 0,
@@ -871,13 +849,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                     child: Text(
                                       _resourceCards[index]["subTitle"],
                                       maxLines: 3,
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          height: 1.2,
-                                          letterSpacing: 0.2,
-                                          fontWeight: FontWeight.w400,
-                                          color:
-                                              AppColors.black.withOpacity(0.4)),
+                                      style: AppTextStyle.disStyle,
                                       softWrap: true,
                                     ),
                                   ),

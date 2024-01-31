@@ -60,12 +60,8 @@ class CustomButton extends StatelessWidget {
               //   ),
               Text('$title',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 15,
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w600,
-                  )),
+                  style: AppTextStyle.textStyle.copyWith(
+                      color: AppColors.white, fontWeight: FontWeight.w600)),
             ],
           ),
         ),

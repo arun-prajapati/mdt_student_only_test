@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../datamodels/navbar_item_model.dart';
+import '../../utils/app_colors.dart';
 
 class NavBarItemMobile extends ViewModelWidget<NavBarItemModel> {
   final double? textWidth;
@@ -12,7 +13,11 @@ class NavBarItemMobile extends ViewModelWidget<NavBarItemModel> {
       return Container(
         //color: Colors.red,
         margin: EdgeInsets.fromLTRB(
-            constraints.maxWidth * 0.05, 0, constraints.maxWidth * 0.05, 0),
+          constraints.maxWidth * 0.05,
+          0,
+          constraints.maxWidth * 0.05,
+          0,
+        ),
 
         child: Row(
           children: <Widget>[
@@ -29,10 +34,7 @@ class NavBarItemMobile extends ViewModelWidget<NavBarItemModel> {
             LayoutBuilder(builder: (context, constraints) {
               return FittedBox(
                 fit: BoxFit.contain,
-                child: Text(
-                  model.title,
-                  style: TextStyle(fontSize: 14),
-                ),
+                child: Text(model.title, style: AppTextStyle.textStyle),
               );
             })
           ],

@@ -196,17 +196,8 @@ class _SignInFormState extends State<SignInForm> {
     // final user = Provider.of<UserRepository>(context);
     //var width = MediaQuery.of(context).size.width;
     //var height = MediaQuery.of(context).size.height;
-    TextStyle defaultStyle = TextStyle(
-      fontFamily: 'Poppins',
-      fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    );
-    TextStyle linkStyle = TextStyle(
-      color: Dark,
-      fontSize: SizeConfig.blockSizeHorizontal * 4.2,
-      fontWeight: FontWeight.w500,
-    );
+    TextStyle defaultStyle = AppTextStyle.textStyle;
+    TextStyle linkStyle = AppTextStyle.textStyle;
     var width = MediaQuery.of(context).size.width;
     var height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
@@ -305,26 +296,12 @@ class _SignInFormState extends State<SignInForm> {
                     child: ListView(
                       children: [
                         Center(
-                          child: Text(
-                            'Welcome back!',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
+                          child: Text('Welcome back!',
+                              style: AppTextStyle.titleStyle),
                         ),
                         Center(
-                          child: Text(
-                            'Fill Up Your Details below to login',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
-                          ),
+                          child: Text('Fill Up Your Details below to login',
+                              style: AppTextStyle.textStyle),
                         ),
                         SizedBox(height: 35),
                         //Field 1
@@ -398,24 +375,18 @@ class _SignInFormState extends State<SignInForm> {
                                   border: Border(
                                       bottom: BorderSide(
                                           color: AppColors.blueGrad7))),
-                              child: GradientText(
-                                'Forgot password?',
-                                colors: [
-                                  AppColors.blueGrad7,
-                                  AppColors.blueGrad6,
-                                  AppColors.blueGrad5,
-                                  AppColors.blueGrad4,
-                                  AppColors.blueGrad3,
-                                  //AppColors.blueGrad2,
-                                  AppColors.blueGrad1,
-                                ],
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15,
-                                  decorationThickness: 2,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              child: GradientText('Forgot password?',
+                                  colors: [
+                                    AppColors.blueGrad7,
+                                    AppColors.blueGrad6,
+                                    AppColors.blueGrad5,
+                                    AppColors.blueGrad4,
+                                    AppColors.blueGrad3,
+                                    //AppColors.blueGrad2,
+                                    AppColors.blueGrad1,
+                                  ],
+                                  style: AppTextStyle.textStyle
+                                      .copyWith(fontWeight: FontWeight.w500)),
                             ),
                           ),
                         ),
@@ -470,14 +441,8 @@ class _SignInFormState extends State<SignInForm> {
                               alignment: Alignment.centerLeft,
                               child: RichText(
                                 text: TextSpan(
-                                  text: 'Don\'t have an account yet? ',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                    text: 'Don\'t have an account yet? ',
+                                    style: AppTextStyle.textStyle),
                               ),
                             ),
                             Container(
@@ -495,13 +460,10 @@ class _SignInFormState extends State<SignInForm> {
                                 child: RichText(
                                   text: TextSpan(
                                       text: 'Register here',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        // decoration: TextDecoration.underline,
-                                        color: Dark,
-                                      ),
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          // decoration: TextDecoration.underline,
+                                          color: Dark,
+                                          fontWeight: FontWeight.w500),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           Navigator.of(context).pushReplacement(
@@ -735,76 +697,64 @@ class CustomTextField extends StatelessWidget {
             ? SizedBox()
             : Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  "$heading",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                child: Text("$heading", style: AppTextStyle.textStyle),
               ),
         Container(
           width: SizeConfig.blockSizeHorizontal * 85,
           margin: EdgeInsets.only(top: 3, bottom: 10),
           child: TextFormField(
-            validator: validator,
-            onChanged: onChange,
-            obscureText: obscureText ?? false,
-            cursorColor: Dark,
-            onFieldSubmitted: onFieldSubmitted,
-            keyboardType: keyboardType ?? TextInputType.text,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.blockSizeVertical * 1, horizontal: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                    color: AppColors.black.withOpacity(0.5), width: 1.1),
-              ),
-              enabledBorder: OutlineInputBorder(
+              validator: validator,
+              onChanged: onChange,
+              obscureText: obscureText ?? false,
+              cursorColor: Dark,
+              onFieldSubmitted: onFieldSubmitted,
+              keyboardType: keyboardType ?? TextInputType.text,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.blockSizeVertical * 1, horizontal: 12),
+                border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                      color: AppColors.black.withOpacity(0.5), width: 1.1)),
-              disabledBorder: OutlineInputBorder(
+                      color: AppColors.black.withOpacity(0.5), width: 1.1),
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: AppColors.black.withOpacity(0.5), width: 1.1)),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: AppColors.black.withOpacity(0.5), width: 1.1)),
+                // labelText: label,
+                // labelStyle: TextStyle(
+                //     color: Colors.blueGrey,
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w400),
+                hintText: label,
+                hintStyle: AppTextStyle.disStyle.copyWith(
+                    color: AppColors.grey, fontWeight: FontWeight.w400),
+                floatingLabelStyle: TextStyle(color: Dark),
+                errorStyle:
+                    AppTextStyle.textStyle.copyWith(color: AppColors.red1),
+                prefixIcon: prefixIcon,
+                suffixIcon: suffixIcon,
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 1.1)),
+                focusColor: Dark,
+                focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                      color: AppColors.black.withOpacity(0.5), width: 1.1)),
-              // labelText: label,
-              // labelStyle: TextStyle(
-              //     color: Colors.blueGrey,
-              //     fontSize: 16,
-              //     fontWeight: FontWeight.w400),
-              hintText: label,
-              hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
-              floatingLabelStyle: TextStyle(color: Dark),
-              // errorStyle: TextStyle(
-              //     fontSize: constraints.maxWidth * 0.05),
-              prefixIcon: prefixIcon,
-              suffixIcon: suffixIcon,
-              errorBorder: OutlineInputBorder(
+                      color: Colors.black.withOpacity(0.5), width: 1.1),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                      color: Colors.black.withOpacity(0.5), width: 1.1)),
-              focusColor: Dark,
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                    color: Colors.black.withOpacity(0.5), width: 1.1),
+                      color: Colors.black.withOpacity(0.5), width: 1.1),
+                ),
               ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                    color: Colors.black.withOpacity(0.5), width: 1.1),
-              ),
-            ),
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+              style: AppTextStyle.textStyle),
         ),
       ],
     );

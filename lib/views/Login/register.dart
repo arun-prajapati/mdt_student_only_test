@@ -269,22 +269,9 @@ reg data
                   // left: SizeConfig.blockSizeHorizontal * 28,
                   child: Column(
                     children: [
-                      Text(
-                        'Register Here',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      ),
-                      Text(
-                        'Fill up your details below to register',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
+                      Text('Register Here', style: AppTextStyle.titleStyle),
+                      Text('Fill up your details below to register',
+                          style: AppTextStyle.textStyle),
                     ],
                   ),
                 ),
@@ -363,13 +350,8 @@ reg data
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 20.0, bottom: 5),
-                                    child: Text(
-                                      "Mobile number",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                                    child: Text("Mobile number",
+                                        style: AppTextStyle.textStyle),
                                   ),
                                 ),
                                 Container(
@@ -444,16 +426,14 @@ reg data
                                                 .withOpacity(0.5),
                                             width: 1.1),
                                       ),
-                                      hintStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
+                                      hintStyle: AppTextStyle.textStyle
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontWeight: FontWeight.w400),
 
                                       hintText: 'Enter Mobile Number',
-                                      errorStyle: TextStyle(
-                                        fontSize: 12,
-                                        decorationColor: Dark,
-                                      ),
+                                      errorStyle: AppTextStyle.textStyle
+                                          .copyWith(color: AppColors.red1),
 
                                       floatingLabelStyle:
                                           TextStyle(color: Dark),
@@ -466,9 +446,7 @@ reg data
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
+                                    style: AppTextStyle.textStyle,
                                     onSubmitted: (_) {
                                       setFocus(context, focusNode: null);
                                       submit();
@@ -636,12 +614,7 @@ reg data
                       children: [
                         Text(
                           'Already have an account? ',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
+                          style: AppTextStyle.textStyle,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -651,13 +624,10 @@ reg data
                           child: RichText(
                             text: TextSpan(
                                 text: 'Login here',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.underline,
-                                  color: Dark,
-                                ),
+                                style: AppTextStyle.textStyle.copyWith(
+                                    color: Dark,
+                                    fontWeight: FontWeight.w500,
+                                    decoration: TextDecoration.underline),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.of(context).pushReplacement(
