@@ -73,7 +73,7 @@ class CustomAppBar extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       flex: 0,

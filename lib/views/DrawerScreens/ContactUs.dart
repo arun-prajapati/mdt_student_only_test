@@ -286,22 +286,17 @@ class _ContactUs extends State<ContactUs> {
                                 SizedBox(height: 10),
                                 Row(
                                   children: [
-                                    Text(
-                                      'Address :',
-                                      style: AppTextStyle.titleStyle.copyWith(
+                                    Text('Address :',
+                                        style: AppTextStyle.textStyle.copyWith(
                                           fontWeight: FontWeight.w500,
-                                          color:
-                                              AppColors.black.withOpacity(0.8)),
-                                    ),
+                                          color: const Color(0xad0e9bcf),
+                                        )),
                                     SizedBox(width: 10),
                                     Text(
                                       'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 16,
-                                        color: const Color(0xad060606),
-                                        letterSpacing: 0.132,
-                                        fontWeight: FontWeight.w600,
+                                      style: AppTextStyle.textStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xad0e9bcf),
                                       ),
                                     ),
                                   ],

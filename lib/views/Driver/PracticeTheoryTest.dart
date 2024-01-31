@@ -108,7 +108,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   //Call APi Services
   Future<int> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     userName = "${response['first_name']} ${response['last_name']}";
     return _userId;
@@ -192,8 +192,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     SizeConfig().init(context);
     ToastContext().init(context);
     print(
-        "auth_services.changeView ${context.read<AuthProvider>().changeView}");
-    if (context.read<AuthProvider>().changeView) {
+        "auth_services.changeView ${context.read<UserProvider>().changeView}");
+    if (context.read<UserProvider>().changeView) {
       getCategoriesFromApi().then((response_list) {
         // Navigator.pop(context);
         log("Category : $response_list");
@@ -1322,7 +1322,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             onPressed: () {
               CustomSpinner.showLoadingDialog(
                   context, _keyLoader, "Loading...");
-              context.read<AuthProvider>().changeView = true;
+              context.read<UserProvider>().changeView = true;
               setState(() {});
               getCategoriesFromApi().then((response_list) {
                 log("Category : $response_list");
