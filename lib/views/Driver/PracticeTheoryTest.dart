@@ -108,7 +108,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   //Call APi Services
   Future<int> getUserDetail() async {
     Map response =
-        await Provider.of<AuthProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     userName = "${response['first_name']} ${response['last_name']}";
     return _userId;
@@ -192,8 +192,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     SizeConfig().init(context);
     ToastContext().init(context);
     print(
-        "auth_services.changeView ${context.read<AuthProvider>().changeView}");
-    if (context.read<AuthProvider>().changeView) {
+        "auth_services.changeView ${context.read<UserProvider>().changeView}");
+    if (context.read<UserProvider>().changeView) {
       getCategoriesFromApi().then((response_list) {
         // Navigator.pop(context);
         log("Category : $response_list");
@@ -1156,25 +1156,20 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 3),
                         width: constraints.maxWidth * 0.90,
-                        child: AutoSizeText(
-                          'Question Source: DVSA',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Poppins', fontSize: 18, color: Dark),
-                        ),
+                        child: AutoSizeText('Question Source: DVSA',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyle.titleStyle.copyWith(
+                                fontWeight: FontWeight.w400, color: Dark)),
                       ),
                       Container(
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 20),
                         width: constraints.maxWidth * 0.90,
                         child: AutoSizeText(
-                          'Please subscribe for DVSA questions.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 18,
-                              color: Colors.black),
-                        ),
+                            'Please subscribe for DVSA questions.',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyle.textStyle
+                                .copyWith(fontWeight: FontWeight.w400)),
                       ),
                       Container(
                         height: 6 * SizeConfig.blockSizeVertical,
@@ -1207,16 +1202,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         )),
                                     child: SizedBox(
                                       width: constraints.maxWidth * 1,
-                                      child: AutoSizeText(
-                                        'Subscribe',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 15,
-                                          color: AppColors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
+                                      child: AutoSizeText('Subscribe',
+                                          textAlign: TextAlign.center,
+                                          style: AppTextStyle.textStyle
+                                              .copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600)),
                                     ));
                               },
                             ),
@@ -1224,29 +1215,27 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         ),
                       ),
                       Container(
-                        alignment: Alignment.topCenter,
+                        // alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 20),
                         width: constraints.maxWidth * 0.90,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                width: constraints.maxWidth * 0.18,
+                                // width: constraints.maxWidth * 0.18,
                                 alignment: Alignment.topCenter,
-                                child: Text("NOTE: ",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15))),
+                                child: Text("NOTE:   ",
+                                    style: AppTextStyle.textStyle.copyWith(
+                                        color: AppColors.red1,
+                                        fontWeight: FontWeight.w500))),
                             Container(
                                 width: constraints.maxWidth * 0.72,
                                 child: Text(
-                                    textAlign: TextAlign.justify,
+                                    // textAlign: TextAlign.justify,
                                     "You can now either subscribe to DVSA module to get "
                                     "full access to the app or skip next 10 questions to move forwards.",
-                                    style: TextStyle(
-                                        //fontWeight: FontWeight.bold,
-                                        fontSize: 15))),
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        fontWeight: FontWeight.w400))),
                           ],
                         ),
                       ),
@@ -1322,7 +1311,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             onPressed: () {
               CustomSpinner.showLoadingDialog(
                   context, _keyLoader, "Loading...");
-              context.read<AuthProvider>().changeView = true;
+              context.read<UserProvider>().changeView = true;
               setState(() {});
               getCategoriesFromApi().then((response_list) {
                 log("Category : $response_list");
@@ -1486,26 +1475,20 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
-                                    "Test finished!",
-                                    style: TextStyle(
-                                        color: Color(0xFF595959),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 26),
-                                  ),
+                                  Text("Test finished!",
+                                      style: AppTextStyle.titleStyle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black54)),
                                   SizedBox(
                                     height: 10,
                                   ),
                                   Text(
-                                    "Total score: " +
-                                        gainPoint.toString() +
-                                        " / " +
-                                        ((questionsList.length).toString()),
-                                    style: TextStyle(
-                                        color: Color(0xFF797979),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15),
-                                  ),
+                                      "Total score: " +
+                                          gainPoint.toString() +
+                                          " / " +
+                                          ((questionsList.length).toString()),
+                                      style: AppTextStyle.disStyle.copyWith(
+                                          fontWeight: FontWeight.w400)),
                                   SizedBox(height: 20),
                                   Padding(
                                     padding:
