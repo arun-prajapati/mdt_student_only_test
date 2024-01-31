@@ -291,58 +291,51 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 width: Responsive.width(100, context),
                 padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
                 child: LayoutBuilder(builder: (context, constraints) {
-                  return Container(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          //mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      //mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Container(
-                          child: Container(
-                            width: constraints.maxWidth * 1,
-                            padding: isTestStarted
-                                ? EdgeInsets.only(
-                                    top: constraints.maxHeight * .03)
-                                : EdgeInsets.all(0),
-                            height: isTestStarted
-                                ? constraints.maxHeight * .85
-                                : constraints.maxHeight * .78,
-                            child: ListView(
-                              controller: _controller,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              //padding: EdgeInsets.only(top: 10),
-                              shrinkWrap: true,
-                              children: [
-                                // if (!isTestStarted)
-                                //   scoreRecordsGrid(context, constraints),
-                                if (isTestStarted)
-                                  Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(20, 10, 20, 2),
-                                      child: LayoutBuilder(
-                                          builder: (context, _constraints) {
-                                        return testQuestionWidget(
-                                            context,
-                                            _constraints,
-                                            questionsList[
-                                                selectedQuestionIndex]);
-                                      })),
-                                if (selectedOptionIndex != null &&
-                                    isTestStarted)
-                                  answerExplanation(
-                                      questionsList[selectedQuestionIndex]),
-                                if (selectedOptionIndex != null &&
-                                    isTestStarted)
-                                  answerStatus(
-                                      questionsList[selectedQuestionIndex]),
-                              ],
-                            ),
+                          width: constraints.maxWidth * 1,
+                          // padding: isTestStarted
+                          //     ? EdgeInsets.only(
+                          //         top: constraints.maxHeight * .03)
+                          //     : EdgeInsets.all(0),
+                          height: isTestStarted
+                              ? constraints.maxHeight * .85
+                              : constraints.maxHeight * .78,
+                          child: ListView(
+                            controller: _controller,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            //padding: EdgeInsets.only(top: 10),
+                            shrinkWrap: true,
+                            children: [
+                              // if (!isTestStarted)
+                              //   scoreRecordsGrid(context, constraints),
+                              if (isTestStarted)
+                                Container(
+                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 2),
+                                    child: LayoutBuilder(
+                                        builder: (context, _constraints) {
+                                      return testQuestionWidget(
+                                          context,
+                                          _constraints,
+                                          questionsList[selectedQuestionIndex]);
+                                    })),
+                              if (selectedOptionIndex != null && isTestStarted)
+                                answerExplanation(
+                                    questionsList[selectedQuestionIndex]),
+                              if (selectedOptionIndex != null && isTestStarted)
+                                answerStatus(
+                                    questionsList[selectedQuestionIndex]),
+                            ],
                           ),
                         ),
                         if (!isTestStarted)
                           startButtonWidget(context, constraints),
                         if (isTestStarted)
                           nextButtonWidget(context, constraints),
-                      ]));
+                      ]);
                 })),
           ],
         ),
@@ -943,8 +936,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   Widget radioSingleOptionUI(
       BoxConstraints constraints, option, int option_no, question) {
-    TextStyle _answerTextStyle = TextStyle(
-        fontSize: 18, color: Colors.black, fontWeight: FontWeight.normal);
+    TextStyle _answerTextStyle = AppTextStyle.textStyle
+        .copyWith(color: Colors.black, fontWeight: FontWeight.w400);
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: Row(
@@ -952,40 +945,42 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: constraints.maxWidth * .10,
-            child: AutoSizeText((option_no + 1).toString() + '.',
-                style: _answerTextStyle),
+            width: constraints.maxWidth * 0.09,
+            child:
+                Text((option_no + 1).toString() + '.', style: _answerTextStyle),
           ),
           Container(
-              alignment: Alignment.centerLeft,
-              width: constraints.maxWidth * .10,
-              transform: Matrix4.translationValues(-10, -12, 0),
-              child: Transform.scale(
-                scale: .15 * SizeConfig.blockSizeVertical,
-                child: Radio(
-                  activeColor: Dark,
-                  value: option_no,
-                  groupValue: selectedOptionIndex,
-                  onChanged: selectedOptionIndex != null
-                      ? null
-                      : (val) {
-                          setState(() {
-                            selectedOptionIndex = val as int;
-                          });
-                          calculatePoint(question);
-                          if (selectedOptionIndex != null &&
-                              question['options'][selectedOptionIndex]
-                                      ['correct'] ==
-                                  true) {
-                            showCorrectAnswerDialog(
-                                context, question['explanation']);
-                          } else {
-                            showWrongAnswerDialog(
-                                context, question['explanation']);
-                          }
-                        },
-                ),
-              )),
+            alignment: Alignment.centerLeft,
+            width: constraints.maxWidth * .10,
+            transform: Matrix4.translationValues(-10, -12, 0),
+            child: Transform.scale(
+              scale: .15 * SizeConfig.blockSizeVertical,
+              child: Radio(
+                activeColor: Dark,
+                value: option_no,
+                visualDensity: VisualDensity.compact,
+                groupValue: selectedOptionIndex,
+                onChanged: selectedOptionIndex != null
+                    ? null
+                    : (val) {
+                        setState(() {
+                          selectedOptionIndex = val as int;
+                        });
+                        calculatePoint(question);
+                        if (selectedOptionIndex != null &&
+                            question['options'][selectedOptionIndex]
+                                    ['correct'] ==
+                                true) {
+                          showCorrectAnswerDialog(
+                              context, question['explanation']);
+                        } else {
+                          showWrongAnswerDialog(
+                              context, question['explanation']);
+                        }
+                      },
+              ),
+            ),
+          ),
           Container(
             width: constraints.maxWidth * .80,
             child: Column(
@@ -1075,8 +1070,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   Widget testQuestionWidget(
       BuildContext context, BoxConstraints constraints, question) {
-    TextStyle _questionTextStyle = TextStyle(
-        fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500);
+    TextStyle _questionTextStyle = AppTextStyle.titleStyle
+        .copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
     return Stack(
       children: <Widget>[
         Column(
@@ -1116,7 +1111,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     ),
                   SizedBox(height: 10),
                   if (question['title'] != '')
-                    AutoSizeText(
+                    Text(
                       question['title'],
                       style: _questionTextStyle,
                     ),
@@ -1264,28 +1259,24 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   }
 
   Widget answerExplanation(Map question) {
-    TextStyle _headingText = TextStyle(
-        fontSize: 2.2 * SizeConfig.blockSizeVertical,
-        height: 1.2,
-        color: Colors.black,
-        fontWeight: FontWeight.w600);
-    TextStyle _explanationText = TextStyle(
-        fontSize: 2 * SizeConfig.blockSizeVertical,
-        color: Colors.black87,
-        fontWeight: FontWeight.normal);
+    TextStyle _headingText = AppTextStyle.titleStyle
+        .copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
+    TextStyle _explanationText = AppTextStyle.textStyle.copyWith(
+        color: Colors.black, fontWeight: FontWeight.w400, height: 1.2);
     return Container(
-        margin: EdgeInsets.only(top: 15, bottom: 10),
-        padding: EdgeInsets.only(left: 20, right: 20),
-        alignment: Alignment.topLeft,
-        child: RichText(
-          text: TextSpan(
-            text: 'Explanation: ',
-            style: _headingText,
-            children: <TextSpan>[
-              TextSpan(text: question['explanation'], style: _explanationText),
-            ],
-          ),
-        ));
+      margin: EdgeInsets.only(top: 15, bottom: 10),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      alignment: Alignment.topLeft,
+      child: RichText(
+        text: TextSpan(
+          text: 'Explanation: ',
+          style: _headingText,
+          children: <TextSpan>[
+            TextSpan(text: question['explanation'], style: _explanationText),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget answerStatus(Map question) {
@@ -1391,7 +1382,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   Widget nextButtonWidget(BuildContext context, BoxConstraints constraints) {
     return Padding(
-      padding: EdgeInsets.only(top: 5),
+      padding: EdgeInsets.only(top: 25, bottom: 5),
       child: LayoutBuilder(
         builder: (context, constraints) {
           print('index: $selectedQuestionIndex');

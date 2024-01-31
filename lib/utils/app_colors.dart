@@ -25,8 +25,9 @@ class AppTextStyle {
   static TextStyle titleStyle = TextStyle(
       fontFamily: 'Poppins',
       fontSize: 18,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       color: AppColors.black);
+  static TextStyle appBarStyle = AppTextStyle.titleStyle.copyWith(fontSize: 19);
   static TextStyle textStyle = TextStyle(
       fontFamily: 'Poppins',
       fontSize: 16,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:student_app/utils/app_colors.dart';
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
@@ -359,8 +360,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
   }
 
   TextStyle labelStyle() {
-    return TextStyle(
-        fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600);
+    return AppTextStyle.titleStyle;
   }
 
   ButtonStyle buttonStyle() {
@@ -381,7 +381,6 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
   }
 
   TextStyle textStyle() {
-    return TextStyle(
-        color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600);
+    return AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500);
   }
 }

@@ -4,6 +4,11 @@ import 'package:student_app/utils/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final Gradient? gradient;
   final String? title;
+  final FontWeight? fontWeight;
+  final bool isfontWeight;
+  final double? fontSize;
+  final bool isfontSize;
+
   final VoidCallback? onTap;
   final bool isImage;
   final String? image;
@@ -16,7 +21,11 @@ class CustomButton extends StatelessWidget {
       this.title,
       this.isImage = false,
       this.image,
-      this.padding});
+      this.padding,
+      this.fontSize,
+      this.isfontSize = false,
+      this.fontWeight,
+      this.isfontWeight = false});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,9 @@ class CustomButton extends StatelessWidget {
         child: Padding(
           padding: padding ?? EdgeInsets.symmetric(vertical: 15),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: isImage == true
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
             children: [
               isImage == true
                   ? Padding(
@@ -50,7 +61,7 @@ class CustomButton extends StatelessWidget {
                           image!,
                           color: AppColors.white,
                           height: 14,
-                          // width: 16,
+                          width: 15,
                         ),
                       ),
                     )
@@ -61,7 +72,10 @@ class CustomButton extends StatelessWidget {
               Text('$title',
                   textAlign: TextAlign.center,
                   style: AppTextStyle.textStyle.copyWith(
-                      color: AppColors.white, fontWeight: FontWeight.w600)),
+                      fontSize: isfontSize == true ? fontSize : 16,
+                      color: AppColors.white,
+                      fontWeight:
+                          isfontWeight == true ? fontWeight : FontWeight.w600)),
             ],
           ),
         ),

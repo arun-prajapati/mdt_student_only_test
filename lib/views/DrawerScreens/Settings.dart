@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:student_app/utils/app_colors.dart';
 
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
@@ -79,13 +79,9 @@ class _Settings extends State<Settings> {
                                   fit: BoxFit.contain,
                                   child: Text(
                                     'Account',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 15,
-                                      color: const Color(0xad060606),
-                                      letterSpacing: 0.176,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: AppTextStyle.titleStyle.copyWith(
+                                        color: AppColors.grey,
+                                        fontWeight: FontWeight.w600),
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -98,42 +94,25 @@ class _Settings extends State<Settings> {
                     Divider(height: constraints.maxHeight * 0.014),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth * 0.07),
+                          horizontal: constraints.maxWidth * 0.07,
+                          vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container(
-                            width: constraints.maxWidth * 0.40,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                'Change Password',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 18,
-                                  color: const Color(0xad060606),
-                                  letterSpacing: 0.176,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
+                          Text(
+                            'Change Password',
+                            style: AppTextStyle.textStyle.copyWith(
+                                height: 1.2, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.left,
                           ),
-                          Container(
-                            width: constraints.maxWidth * 0.13,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: IconButton(
-                                icon: Icon(Icons.keyboard_arrow_right),
-                                onPressed: () {
-                                  _navigationService.navigateToReplacement(
-                                    routes.ChangePasswordRoute,
-                                  );
-                                },
-                                color: Color.fromRGBO(0, 0, 0, 0.34),
-                                iconSize: 26,
-                              ),
-                            ),
-                          ),
+                          GestureDetector(
+                              onTap: () {
+                                _navigationService.navigateToReplacement(
+                                  routes.ChangePasswordRoute,
+                                );
+                              },
+                              child:
+                                  Icon(Icons.keyboard_arrow_right, size: 26)),
                         ],
                       ),
                     ),

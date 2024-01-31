@@ -6,7 +6,6 @@ import 'package:student_app/utils/appImages.dart';
 
 import '../locater.dart';
 import '../responsive/percentage_mediaquery.dart';
-import '../responsive/size_config.dart';
 import '../services/auth.dart';
 import '../services/navigation_service.dart';
 import '../services/practise_theory_test_services.dart';
@@ -29,10 +28,8 @@ class TestSettingDialogBox extends PracticeTheoryTest {
 class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   TextStyle _answerTextStyle = TextStyle(
       fontSize: 18, color: Colors.black87, fontWeight: FontWeight.normal);
-  TextStyle _categoryTextStyle = TextStyle(
-      fontSize: 2 * SizeConfig.blockSizeVertical,
-      color: Colors.black87,
-      fontWeight: FontWeight.normal);
+  TextStyle _categoryTextStyle = AppTextStyle.textStyle
+      .copyWith(fontWeight: FontWeight.w400, color: AppColors.black);
   final NavigationService _navigationService = locator<NavigationService>();
   int seledtedCategoryId = 0;
   List categories = [];
@@ -168,8 +165,9 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                       //alignment: Alignment.centerLeft,
                       child: Center(
                         child: Text('Select the topic you would like to revise',
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.black)),
+                            style: AppTextStyle.textStyle.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.black)),
                       ),
                     ),
                   ),
@@ -207,10 +205,9 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                     //         fontWeight: FontWeight.w500,
                     //         color: Colors.black)),
                     Text('Select All',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black)),
+                        style: AppTextStyle.textStyle.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.black)),
                     ActionChip(
                       backgroundColor: AppColors.transparent,
                       pressElevation: 0,

@@ -9,6 +9,7 @@ import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/app_colors.dart';
 import '../navbar_item/navbar_item.dart';
 import 'navigatin_drawer_header.dart';
 import 'navigation_drawer_footer.dart';
@@ -263,7 +264,7 @@ class NavigationDrawer extends StatelessWidget {
                                             fit: BoxFit.contain,
                                             child: Text(
                                               'Sign Out',
-                                              style: TextStyle(fontSize: 14),
+                                              style: AppTextStyle.textStyle,
                                             ),
                                           );
                                         }),
@@ -305,18 +306,14 @@ class NavigationDrawer extends StatelessWidget {
                 children: [
                   Text(
                     'SignOut',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                        fontSize: 2.5 * SizeConfig.blockSizeVertical),
+                    style: AppTextStyle.titleStyle
+                        .copyWith(height: 1.2, fontWeight: FontWeight.w600),
                   ),
+                  SizedBox(height: 15),
                   Text(
                     'Are you sure! You want to SignOut?',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black,
-                        letterSpacing: 0.58,
-                        fontSize: 14),
+                    style: AppTextStyle.textStyle
+                        .copyWith(height: 1.2, fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 10),
                   Row(
@@ -326,10 +323,8 @@ class NavigationDrawer extends StatelessWidget {
                       TextButton(
                         child: Text(
                           "No",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 2.3 * SizeConfig.blockSizeVertical,
-                              fontWeight: FontWeight.w500),
+                          style: AppTextStyle.titleStyle.copyWith(
+                              height: 1.2, fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
                           Navigator.pop(context, false);
@@ -338,10 +333,8 @@ class NavigationDrawer extends StatelessWidget {
                       TextButton(
                         child: Text(
                           "Yes",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 2.3 * SizeConfig.blockSizeVertical,
-                              fontWeight: FontWeight.w500),
+                          style: AppTextStyle.titleStyle.copyWith(
+                              height: 1.2, fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
                           Provider.of<AuthProvider>(context, listen: false)

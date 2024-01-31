@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/custom_button.dart';
 import 'package:student_app/locater.dart';
+import 'package:student_app/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
@@ -93,246 +94,223 @@ class _ContactUs extends State<ContactUs> {
 
                 child: LayoutBuilder(builder: (context, constraints) {
                   return SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                            // width: constraints.maxWidth * 0.99,
-                            // height: constraints.maxHeight * 0.12,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: constraints.maxWidth * 0.05),
-                            margin: EdgeInsets.fromLTRB(
-                                0.0, constraints.maxHeight * 0.04, 0.0, 5),
-                            child: TextField(
-                                controller: name,
-                                style: inputTextStyle(SizeConfig.inputFontSize),
-                                decoration: InputDecoration(
-                                  labelText: 'First Name',
-                                  focusedBorder: inputFocusedBorderStyle(),
-                                  enabledBorder: inputBorderStyle(),
-                                  hintStyle: placeholderStyle(
-                                      SizeConfig.labelFontSize),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(10, 0, 3, 16),
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                onChanged: (value) {})),
-                        Container(
-                            // width: constraints.maxWidth * 0.99,
-                            // height: constraints.maxHeight * 0.12,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: constraints.maxWidth * 0.05),
-                            margin: EdgeInsets.fromLTRB(
-                                0.0, constraints.maxHeight * 0.024, 0.0, 5),
-                            child: TextField(
-                                controller: phone,
-                                style: inputTextStyle(SizeConfig.inputFontSize),
-                                decoration: InputDecoration(
-                                  labelText: 'Mobile No',
-                                  focusedBorder: inputFocusedBorderStyle(),
-                                  enabledBorder: inputBorderStyle(),
-                                  hintStyle: placeholderStyle(
-                                      SizeConfig.labelFontSize),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(10, 0, 3, 16),
-                                ),
-                                readOnly: true,
-                                keyboardType: TextInputType.number,
-                                onChanged: (value) {})),
-                        Container(
-                            // width: constraints.maxWidth * 0.99,
-                            // height: constraints.maxHeight * 0.12,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: constraints.maxWidth * 0.05),
-                            margin: EdgeInsets.fromLTRB(
-                                0.0, constraints.maxHeight * 0.024, 0.0, 05),
-                            child: TextField(
-                                controller: email,
-                                style: inputTextStyle(SizeConfig.inputFontSize),
-                                decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  focusedBorder: inputFocusedBorderStyle(),
-                                  enabledBorder: inputBorderStyle(),
-                                  hintStyle: placeholderStyle(
-                                      SizeConfig.labelFontSize),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(10, 0, 3, 16),
-                                ),
-                                readOnly: true,
-                                keyboardType: TextInputType.emailAddress,
-                                onChanged: (value) {})),
-                        Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            child: TextField(
-                                controller: message,
-                                maxLines: 4,
-                                style: inputTextStyle(SizeConfig.inputFontSize),
-                                decoration: InputDecoration(
-                                  labelText: 'Message',
-                                  focusedBorder: inputFocusedBorderStyle(),
-                                  enabledBorder: inputBorderStyle(),
-                                  hintText: 'Type you message here...',
-                                  hintStyle: placeholderStyle(
-                                      SizeConfig.labelFontSize),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(10, 0, 3, 16),
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                onChanged: (value) {})),
-                        SizedBox(height: 10),
-                        // Container(
-                        //   margin: EdgeInsets.symmetric(
-                        //       horizontal: constraints.maxWidth * 0.02),
-                        //   height: constraints.maxHeight * 0.13,
-                        //   width: constraints.maxWidth * 0.8,
-                        //   color: Colors.grey,
-                        //   child: Row(
-                        //     children: <Widget>[
-                        //       Container(
-                        //         width: constraints.maxWidth * 0.2,
-                        //         child: FittedBox(
-                        //           fit: BoxFit.contain,
-                        //           child: Checkbox(
-                        //             onChanged: (bool value) {
-                        //               setState(() => this._checkval = value);
-                        //             },
-                        //             value: this._checkval,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       Container(
-                        //         width: constraints.maxWidth*0.43,
-                        //         child: FittedBox(
-                        //           fit: BoxFit.contain,
-                        //           child: Text(
-                        //             'I am not a Robot.',
-                        //             style: TextStyle(
-                        //               fontFamily: 'Poppins',
-                        //               fontSize: 15,
-                        //               color: const Color(0x6f060606),
-                        //               letterSpacing: 0.132,
-                        //               fontWeight: FontWeight.w800,
-                        //
-                        //             ),
-                        //             textAlign: TextAlign.left,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   height: constraints.maxHeight*0.02,
-                        // ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 85),
-                          child: CustomButton(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            title: 'Submit',
-                            onTap: () {
-                              updateUserDetail;
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'Phone     :',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      color: const Color(0xad060606),
-                                      letterSpacing: 0.132,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    '+44 203 129 7741',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      color: const Color(0xad060606),
-                                      letterSpacing: 0.132,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        children: <Widget>[
+                          TextField(
+                              controller: name,
+                              style: inputTextStyle(SizeConfig.inputFontSize),
+                              decoration: InputDecoration(
+                                labelText: 'First Name',
+                                labelStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
+                                focusedBorder: inputFocusedBorderStyle(),
+                                enabledBorder: inputBorderStyle(),
+                                hintStyle:
+                                    placeholderStyle(SizeConfig.labelFontSize),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
                               ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Email      :',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      color: const Color(0xad060606),
-                                      letterSpacing: 0.132,
-                                      fontWeight: FontWeight.w800,
+                              keyboardType: TextInputType.emailAddress,
+                              onChanged: (value) {}),
+                          SizedBox(height: 12),
+                          TextField(
+                              controller: phone,
+                              style: inputTextStyle(SizeConfig.inputFontSize),
+                              decoration: InputDecoration(
+                                labelText: 'Mobile No',
+                                labelStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
+                                focusedBorder: inputFocusedBorderStyle(),
+                                enabledBorder: inputBorderStyle(),
+                                hintStyle:
+                                    placeholderStyle(SizeConfig.labelFontSize),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
+                              ),
+                              readOnly: true,
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {}),
+                          SizedBox(height: 12),
+                          TextField(
+                              controller: email,
+                              style: inputTextStyle(SizeConfig.inputFontSize),
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                labelStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
+                                focusedBorder: inputFocusedBorderStyle(),
+                                enabledBorder: inputBorderStyle(),
+                                hintStyle:
+                                    placeholderStyle(SizeConfig.labelFontSize),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
+                              ),
+                              readOnly: true,
+                              keyboardType: TextInputType.emailAddress,
+                              onChanged: (value) {}),
+                          SizedBox(height: 12),
+                          TextField(
+                              controller: message,
+                              maxLines: 4,
+                              style: inputTextStyle(SizeConfig.inputFontSize),
+                              decoration: InputDecoration(
+                                labelText: 'Message',
+                                labelStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
+                                focusedBorder: inputFocusedBorderStyle(),
+                                enabledBorder: inputBorderStyle(),
+                                hintText: 'Type you message here...',
+                                hintStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.black.withOpacity(0.8)),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              onChanged: (value) {}),
+                          SizedBox(height: 12),
+                          SizedBox(height: 12),
+                          // Container(
+                          //   margin: EdgeInsets.symmetric(
+                          //       horizontal: constraints.maxWidth * 0.02),
+                          //   height: constraints.maxHeight * 0.13,
+                          //   width: constraints.maxWidth * 0.8,
+                          //   color: Colors.grey,
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       Container(
+                          //         width: constraints.maxWidth * 0.2,
+                          //         child: FittedBox(
+                          //           fit: BoxFit.contain,
+                          //           child: Checkbox(
+                          //             onChanged: (bool value) {
+                          //               setState(() => this._checkval = value);
+                          //             },
+                          //             value: this._checkval,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Container(
+                          //         width: constraints.maxWidth*0.43,
+                          //         child: FittedBox(
+                          //           fit: BoxFit.contain,
+                          //           child: Text(
+                          //             'I am not a Robot.',
+                          //             style: TextStyle(
+                          //               fontFamily: 'Poppins',
+                          //               fontSize: 15,
+                          //               color: const Color(0x6f060606),
+                          //               letterSpacing: 0.132,
+                          //               fontWeight: FontWeight.w800,
+                          //
+                          //             ),
+                          //             textAlign: TextAlign.left,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: constraints.maxHeight*0.02,
+                          // ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 85),
+                            child: CustomButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              title: 'Submit',
+                              onTap: () {
+                                updateUserDetail;
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Phone     :',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
+                                      textAlign: TextAlign.left,
                                     ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(width: 10),
-                                  InkWell(
-                                    onTap: () {
-                                      // print('TAPP $gmailUrl');
-                                      // openGmailApp(gmailUrl);
-                                      openGmailApp();
-                                    },
-                                    child: Text(
-                                      'info@mockdrivingtest.com',
+                                    SizedBox(width: 10),
+                                    Text(
+                                      '+44 203 129 7741',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Email      :',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
+                                    ),
+                                    SizedBox(width: 10),
+                                    InkWell(
+                                      onTap: () {
+                                        // print('TAPP $gmailUrl');
+                                        // openGmailApp(gmailUrl);
+                                        openGmailApp();
+                                      },
+                                      child: Text(
+                                        'info@mockdrivingtest.com',
+                                        style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xad0e9bcf),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Address :',
+                                      style: AppTextStyle.titleStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
-                                        fontSize: 18,
-                                        color: const Color(0xad0e9bcf),
+                                        fontSize: 16,
+                                        color: const Color(0xad060606),
                                         letterSpacing: 0.132,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                      textAlign: TextAlign.left,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Address :',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      color: const Color(0xad060606),
-                                      letterSpacing: 0.132,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      color: const Color(0xad060606),
-                                      letterSpacing: 0.132,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 })),

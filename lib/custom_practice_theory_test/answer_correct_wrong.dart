@@ -16,7 +16,7 @@ showCorrectAnswerDialog(BuildContext context, String explanation) {
                 borderSide: BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.circular(20)),
             title: Image.asset(
-              AppImages.GoodJobIcon,
+              AppImages.good_job,
               // fit: BoxFit.cover,
               height: 82,
               width: 145,
@@ -46,11 +46,10 @@ showCorrectAnswerDialog(BuildContext context, String explanation) {
                 SizedBox(height: 15),
                 Text(
                   explanation,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.grey,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: AppTextStyle.disStyle.copyWith(
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 0.5,
+                      height: 1.2),
                 ),
               ],
             ),
@@ -113,11 +112,10 @@ showWrongAnswerDialog(BuildContext context, String explanation) {
                 Text(
                   explanation,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.grey,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: AppTextStyle.disStyle.copyWith(
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 0.5,
+                      height: 1.2),
                 )
               ],
             ),

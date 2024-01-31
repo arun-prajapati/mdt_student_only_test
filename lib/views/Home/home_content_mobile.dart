@@ -178,7 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   bottomLeft: Radius.circular(Responsive.height(3.5, context)),
                 //   bottomRight: Radius.circular(Responsive.height(3.5, context)),
                 // ),
-
                 gradient: LinearGradient(
                   begin: const FractionalOffset(0.0, 0.0),
                   end: const FractionalOffset(1.0, 0.0),
@@ -192,7 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.only(bottom: 55, left: 20, top: 20),
                 child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
@@ -215,13 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(width: 15),
-                    Text(
-                      'Welcome ${_userName ?? ""}',
-                      style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    ),
+                    Text('Welcome ${_userName ?? ""}',
+                        style: AppTextStyle.appBarStyle),
                   ],
                 ),
               ),

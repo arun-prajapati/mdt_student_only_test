@@ -11,6 +11,7 @@ import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
+import '../../../utils/app_colors.dart';
 import '../../../widget/CustomAppBar.dart';
 import '../../../widget/CustomSpinner.dart';
 
@@ -279,7 +280,6 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
   }
 
   TextStyle textStyle() {
-    return TextStyle(
-        color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600);
+    return AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500);
   }
 }

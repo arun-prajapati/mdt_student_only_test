@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:better_player_plus/better_player_plus.dart';
-
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gif/gif.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:student_app/utils/app_colors.dart';
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
@@ -328,32 +328,32 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Opacity(
-                                          opacity: !isAnimationCompleted[0]
-                                              ? 0.3
-                                              : 1,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Gif(
-                                                width: Responsive.width(
-                                                    27, context),
-                                                height: Responsive.height(
-                                                    30, context),
-                                                controller: controller0,
-                                                image: AssetImage(
-                                                    "assets/stop.gif"),
-                                              ),
-                                              Text("stop",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: Colors.black))
-                                            ],
-                                          )),
+                                        opacity:
+                                            !isAnimationCompleted[0] ? 0.3 : 1,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Gif(
+                                              width:
+                                                  Responsive.width(27, context),
+                                              height: Responsive.height(
+                                                  30, context),
+                                              controller: controller0,
+                                              image:
+                                                  AssetImage("assets/stop.gif"),
+                                            ),
+                                            Text("stop",
+                                                style: AppTextStyle.disStyle
+                                                    .copyWith(
+                                                        color: AppColors.black,
+                                                        fontWeight:
+                                                            FontWeight.w500))
+                                          ],
+                                        ),
+                                      ),
                                       Opacity(
                                           opacity: !isAnimationCompleted[1]
                                               ? 0.3
@@ -374,11 +374,12 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                                     "assets/slow-down.gif"),
                                               ),
                                               Text("slow down",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: Colors.black))
+                                                  style: AppTextStyle.disStyle
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.black,
+                                                          fontWeight:
+                                                              FontWeight.w400))
                                             ],
                                           )),
                                       Opacity(
@@ -401,11 +402,12 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                                                     "assets/change-direction.gif"),
                                               ),
                                               Text("change direction",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: Colors.black))
+                                                  style: AppTextStyle.disStyle
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.black,
+                                                          fontWeight:
+                                                              FontWeight.w400))
                                             ],
                                           ))
                                     ],
@@ -551,7 +553,6 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
   }
 
   TextStyle labelStyle() {
-    return TextStyle(
-        fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500);
+    return AppTextStyle.titleStyle;
   }
 }

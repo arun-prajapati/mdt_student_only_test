@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter/services.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
@@ -8,6 +7,7 @@ import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
 import '../../../services/local_services.dart';
 import '../../../services/navigation_service.dart';
+import '../../../utils/app_colors.dart';
 import '../../../widget/CustomAppBar.dart';
 
 class HazardPerceptionConfirmation extends StatefulWidget {
@@ -161,8 +161,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
   }
 
   TextStyle labelStyle() {
-    return TextStyle(
-        fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600);
+    return AppTextStyle.titleStyle;
   }
 
   ButtonStyle buttonStyle() {
@@ -183,7 +182,6 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
   }
 
   TextStyle textStyle() {
-    return TextStyle(
-        color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600);
+    return AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500);
   }
 }

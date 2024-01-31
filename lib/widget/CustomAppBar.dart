@@ -1,8 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../responsive/percentage_mediaquery.dart';
 import '../responsive/size_config.dart';
+import '../utils/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget {
 //  final double preferedHeight;
@@ -112,12 +112,8 @@ class CustomAppBar extends StatelessWidget {
                         //     0.0),
                         alignment: Alignment.topLeft,
                         child: Text(
-                          '$title',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                          ),
+                          '${title}',
+                          style: AppTextStyle.appBarStyle,
                         ),
                       ),
                     ),
@@ -218,11 +214,7 @@ class CustomAppBar extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Next',
-                                          style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500),
+                                          style: AppTextStyle.appBarStyle,
                                         ),
                                         SizedBox(width: 10),
                                         Icon(

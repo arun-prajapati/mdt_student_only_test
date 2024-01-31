@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
-import '../../responsive/size_config.dart';
+import '../../utils/app_colors.dart';
 
 // ignore: must_be_immutable
 class NavigationDrawerHeader extends StatelessWidget {
@@ -108,10 +108,8 @@ class NavigationDrawerHeader extends StatelessWidget {
                           width: constraints.maxWidth * 0.87,
                           child: AutoSizeText(
                             email.toString(),
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                color: Colors.black),
+                            style: AppTextStyle.titleStyle.copyWith(
+                                height: 1.2, fontWeight: FontWeight.w600),
                           ),
                         );
                       }),

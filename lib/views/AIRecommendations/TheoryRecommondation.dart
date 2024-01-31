@@ -284,11 +284,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                       SizedBox(width: 15),
                       Text(
                         'AI Learning',
-                        style: TextStyle(
-                            fontSize: 19.0,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      )
+                        style: AppTextStyle.appBarStyle,
+                      ),
                     ],
                   ),
                 ),
@@ -412,30 +409,22 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         bottom: 10,
                                         top: 0),
                                     title: Text(
-                                      theoryContent[index]["topic_name"]
-                                              .replaceAll('_', ' ')
-                                              .substring(0, 1)
-                                              .toUpperCase() +
-                                          theoryContent[index]["topic_name"]
-                                              .replaceAll('_', ' ')
-                                              .substring(1),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
+                                        theoryContent[index]["topic_name"]
+                                                .replaceAll('_', ' ')
+                                                .substring(0, 1)
+                                                .toUpperCase() +
+                                            theoryContent[index]["topic_name"]
+                                                .replaceAll('_', ' ')
+                                                .substring(1),
+                                        style: AppTextStyle.textStyle.copyWith(
+                                            fontWeight: FontWeight.w500)),
                                     children: [
-                                      Container(
-                                        width: double.infinity,
-                                        child: Text(
-                                          theoryContent[index]
-                                              ["topic_description"],
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontSize: 1.5 *
-                                                SizeConfig.blockSizeVertical,
-                                          ),
-                                        ),
+                                      Text(
+                                        theoryContent[index]
+                                            ["topic_description"],
+                                        textAlign: TextAlign.left,
+                                        style: AppTextStyle.disStyle.copyWith(
+                                            fontWeight: FontWeight.w400),
                                       ),
                                       /*Visibility(
                                         visible: _dataStatus == DataStatus.Loaded
@@ -577,12 +566,16 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         children: [
                                           Expanded(
                                               child: CustomButton(
+                                                  isfontSize: true,
+                                                  isfontWeight: true,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
                                                   isImage: true,
                                                   title: "Read AI article",
                                                   image: AppImages.readAi,
                                                   padding: EdgeInsets.symmetric(
-                                                      // horizontal: 5,
-                                                      vertical: 10),
+                                                      vertical: 10,
+                                                      horizontal: 10),
                                                   onTap: () async {
                                                     print("Clicked!!");
                                                     setState(() {
@@ -642,10 +635,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                               child: CustomButton(
                                                   isImage: true,
                                                   title: "Watch Video",
+                                                  fontSize: 14,
+                                                  isfontSize: true,
+                                                  isfontWeight: true,
+                                                  fontWeight: FontWeight.w500,
                                                   image: AppImages.video,
                                                   padding: EdgeInsets.symmetric(
-                                                      // horizontal: 5,
-                                                      vertical: 10),
+                                                      vertical: 10,
+                                                      horizontal: 10),
                                                   onTap: () async {
                                                     print("Clicked!!");
                                                     setState(() {
@@ -759,63 +756,54 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         ),
                                       ),
                                       SizedBox(height: 8),
-                                      Container(
-                                        width: double.infinity,
-                                        margin: EdgeInsets.only(top: 5),
-                                        //alignment: Alignment.center,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: Checkbox(
-                                                value: readContentTheory[index],
-                                                onChanged: readContentTheory[
-                                                        index]
-                                                    ? null
-                                                    : (value) async {
-                                                        setState(() {
-                                                          readContentTheory[
-                                                                  index] =
-                                                              !readContentTheory[
-                                                                  index];
-                                                        });
-                                                        print(
-                                                            readContentTheory);
-                                                        // print(_userId.runtimeType);
-                                                        // print(theoryContent[index]["id"].runtimeType);
-                                                        await updateTopicProgress(
-                                                            _userId!.toString(),
-                                                            theoryContent[index]
-                                                                    ["id"]
-                                                                .toString());
-                                                      },
-                                                fillColor: MaterialStateColor
-                                                    .resolveWith(
-                                                  (Set<MaterialState> states) {
-                                                    if (states.contains(
-                                                        MaterialState
-                                                            .disabled)) {
-                                                      return Color(0xFF3F57A0);
-                                                    }
-                                                    return Dark;
-                                                  },
-                                                ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: Checkbox(
+                                              value: readContentTheory[index],
+                                              onChanged: readContentTheory[
+                                                      index]
+                                                  ? null
+                                                  : (value) async {
+                                                      setState(() {
+                                                        readContentTheory[
+                                                                index] =
+                                                            !readContentTheory[
+                                                                index];
+                                                      });
+                                                      print(readContentTheory);
+                                                      // print(_userId.runtimeType);
+                                                      // print(theoryContent[index]["id"].runtimeType);
+                                                      await updateTopicProgress(
+                                                          _userId!.toString(),
+                                                          theoryContent[index]
+                                                                  ["id"]
+                                                              .toString());
+                                                    },
+                                              fillColor: MaterialStateColor
+                                                  .resolveWith(
+                                                (Set<MaterialState> states) {
+                                                  if (states.contains(
+                                                      MaterialState.disabled)) {
+                                                    return Color(0xFF3F57A0);
+                                                  }
+                                                  return Dark;
+                                                },
                                               ),
                                             ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              "I have read the content",
-                                              style: TextStyle(
-                                                fontSize: 1.7 *
-                                                    SizeConfig
-                                                        .blockSizeVertical,
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Text("I have read the content",
+                                              style: AppTextStyle.disStyle
+                                                  .copyWith(
+                                                      color: AppColors.black,
+                                                      fontWeight:
+                                                          FontWeight.w500))
+                                        ],
                                       )
                                       // _buildTilesX(context, changingData[index]),
                                     ],
@@ -841,30 +829,19 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     color:
                                         AppColors.borderblue.withOpacity(0.5),
                                     width: 1),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //     color: Colors.black.withOpacity(0.1),
-                                //     blurRadius: 6.0,
-                                //     spreadRadius: 1.0,
-                                //     offset: Offset(3, 0),
-                                //   )
-                                // ],
                               ),
                               child: ListTile(
                                 dense: true,
                                 title: Text(
-                                  theoryContent[index]["topic_name"]
-                                          .replaceAll('_', ' ')
-                                          .substring(0, 1)
-                                          .toUpperCase() +
-                                      theoryContent[index]["topic_name"]
-                                          .replaceAll('_', ' ')
-                                          .substring(1),
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 13),
-                                ),
+                                    theoryContent[index]["topic_name"]
+                                            .replaceAll('_', ' ')
+                                            .substring(0, 1)
+                                            .toUpperCase() +
+                                        theoryContent[index]["topic_name"]
+                                            .replaceAll('_', ' ')
+                                            .substring(1),
+                                    style: AppTextStyle.textStyle
+                                        .copyWith(fontWeight: FontWeight.w500)),
                                 onTap: () {
                                   GetPremium(context);
                                 },
@@ -1491,102 +1468,126 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
+                borderRadius: BorderRadius.circular(10)), //this right here
             child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  gradient: LinearGradient(
+                    begin: Alignment(0.0, -1.0),
+                    end: Alignment(0.0, 1.0),
+                    colors: [Dark, Light],
+                    stops: [0.0, 1.0],
+                  )),
               // height: Responsive.height(25, context),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 20, 15, 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Go For Premium !!!!',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff0e9bcf),
-                            fontSize: 2.5 * SizeConfig.blockSizeVertical),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 20),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Get Premium service for getting AI data for this topic',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            color: Colors.black,
-                            fontSize: 2 * SizeConfig.blockSizeVertical),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                padding: EdgeInsets.all(4),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
+                            alignment: Alignment.topLeft,
+                            child: Text('Go For Premium !!!!',
+                                style: AppTextStyle.titleStyle)),
+                        SizedBox(height: 8),
+                        Text(
+                          'Get Premium service for getting AI data for this topic',
+                          style: AppTextStyle.disStyle.copyWith(
+                              fontWeight: FontWeight.w300,
+                              color: AppColors.black),
+                        ),
+                        SizedBox(height: 18),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
                             // margin: const EdgeInsets.only(right: 10),
-                            child: SizedBox(
-                                // width: Responsive.width(20, context),
-                                //height: 30,
-                                child: TextButton(
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                            showLoader("Loading");
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  Navigator.of(context).pop();
+                                  showLoader("Loading");
 
-                            Stripe.publishableKey = stripePublic;
-                            Map params = {
-                              'total_cost': walletDetail!['subscription_cost'],
-                              'user_type': 2,
-                              'parentPageName': "dvsaSubscription"
-                            };
-                            dev.log("Called before payment");
-                            await _paymentService
-                                .makePayment(
-                                    amount: walletDetail!['subscription_cost'],
-                                    currency: 'GBP',
-                                    context: context,
-                                    desc:
-                                        'DVSA Subscription by ${userName} (App)',
-                                    metaData: params)
-                                .then((value) => closeLoader());
-                            dev.log("Called after payment");
-                          },
-                          child: Text(
-                            "Yes",
-                            style: TextStyle(
-                                color: Dark,
-                                fontSize: 2.3 * SizeConfig.blockSizeVertical,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ))),
-                        Container(),
-                        SizedBox(
-                          // width: Responsive.width(20, context),
-                          //height: 30,
-                          child: TextButton(
-                            onPressed: () {
-                              //Provider.of<AuthProvider>(context, listen: false)
-                              //  .logOut();
-                              Navigator.pop(context, false);
-
-                              //Navigator.pop(context);
-                              // _navigationService.navigateTo('/Authorization');
-                            },
-                            child: Text(
-                              "No",
-                              style: TextStyle(
-                                  color: Color(0xff0e9bcf),
-                                  fontSize: 2.3 * SizeConfig.blockSizeVertical,
-                                  fontWeight: FontWeight.w500),
+                                  Stripe.publishableKey = stripePublic;
+                                  Map params = {
+                                    'total_cost':
+                                        walletDetail!['subscription_cost'],
+                                    'user_type': 2,
+                                    'parentPageName': "dvsaSubscription"
+                                  };
+                                  dev.log("Called before payment");
+                                  await _paymentService
+                                      .makePayment(
+                                          amount: walletDetail![
+                                              'subscription_cost'],
+                                          currency: 'GBP',
+                                          context: context,
+                                          desc:
+                                              'DVSA Subscription by ${userName} (App)',
+                                          metaData: params)
+                                      .then((value) => closeLoader());
+                                  dev.log("Called after payment");
+                                },
+                                child: Container(
+                                    // width: constraints.maxWidth * 0.8,
+                                    padding: EdgeInsets.symmetric(vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Dark,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Buy now",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  4),
+                                    )),
+                              ),
                             ),
-                          ),
+                            SizedBox(width: 18),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context, false);
+                                  //Provider.of<AuthProvider>(context, listen: false).logOut();
+                                  // _navigationService.navigateTo('/Authorization');
+                                },
+                                child: Container(
+                                    // width: constraints.maxWidth * 0.8,
+                                    padding: EdgeInsets.symmetric(vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Dark,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  4),
+                                    )),
+                              ),
+                            ),
+                          ],
                         )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ),
             ),

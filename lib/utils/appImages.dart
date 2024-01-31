@@ -12,8 +12,11 @@ class AppImages {
   static String practice = 'assets/images/practice.png';
   static String hazards = 'assets/images/hazards.png';
   static String highwayCode = 'assets/images/highwayCode.png';
+  static String highway2 = 'assets/images/highway2.png';
   static String Illustration = 'assets/images/Illustration.png';
+  static String illustraion2 = 'assets/images/illustraion2.png';
   static String booktest = 'assets/images/booktest.png';
+  static String bookTest2 = 'assets/images/bookTest2.png';
   static String saftyMargin = 'assets/images/saftyMargin.png';
   static String Robot = 'assets/images/Robot.png';
   static String video = 'assets/images/video.png';
@@ -27,4 +30,5 @@ class AppImages {
   static String readAi = 'assets/images/readAi.png';
   static String uncheckedbox = 'assets/images/uncheckedbox.png';
   static String checkedbox = 'assets/images/checkedbox.png';
+  static String good_job = 'assets/good_job.png';
 }
