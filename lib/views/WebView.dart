@@ -136,7 +136,7 @@ Page resource error:
               iconRight: null),
         ),
         Positioned(
-          top: 100,
+          top: MediaQuery.of(context).size.height * 0.104,
           child: ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
