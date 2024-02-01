@@ -12,7 +12,7 @@ import '../services/practise_theory_test_services.dart';
 import '../utils/app_colors.dart';
 import '../views/Driver/PracticeTheoryTest.dart';
 
-class TestSettingDialogBox extends PracticeTheoryTest {
+class TestSettingDialogBox extends StatefulWidget {
   final IntCallback onSetValue;
   final List categories_list;
 
@@ -51,11 +51,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (val) {
-        print('PopInvokeStartTest');
-        // Navigator.of(context).pop();
-        // Navigator.of(context).pop();
-      },
+      canPop: false,
       child: Container(
         // height: Responsive.height(56, context),
         alignment: Alignment.bottomCenter,

@@ -797,7 +797,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                       MaterialState.disabled)) {
                                                     return Color(0xFF3F57A0);
                                                   }
-                                                  return Dark;
+                                                  return AppColors.transparent;
                                                 },
                                               ),
                                             ),
@@ -837,7 +837,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     width: 1),
                               ),
                               child: ListTile(
-                                dense: true,
+                                // dense: true,
                                 title: Text(
                                     theoryContent[index]["topic_name"]
                                             .replaceAll('_', ' ')
