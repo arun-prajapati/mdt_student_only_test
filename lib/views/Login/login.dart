@@ -34,7 +34,7 @@ class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   late String email;
-
+  bool isSecure = false;
   // late String password;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
@@ -366,7 +366,15 @@ class _SignInFormState extends State<SignInForm> {
                               Validate.passwordValidation(val);
                             }
                           },
-                          obscureText: true,
+                          suffixOnTap: () {
+                            isSecure = !isSecure;
+                            setState(() {});
+                          },
+                          suffixIcon: isSecure
+                              ? Icon(Icons.visibility_off_outlined)
+                              : Icon(Icons.remove_red_eye_outlined),
+                          obscureText: isSecure,
+
                           onFieldSubmitted: (_) => submit(),
                           focusNode: _passwordFocusNode,
                           keyboardType: TextInputType.text,
@@ -677,6 +685,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialCountryCode;
   final TextEditingController? controller;
   final bool? enabled;
+  final VoidCallback? suffixOnTap;
 
   const CustomTextField({
     super.key,
@@ -698,6 +707,7 @@ class CustomTextField extends StatelessWidget {
     this.enabled,
     this.heading,
     this.suffixIcon,
+    this.suffixOnTap,
   });
 
   @override
@@ -749,7 +759,11 @@ class CustomTextField extends StatelessWidget {
                 errorStyle: AppTextStyle.textStyle
                     .copyWith(color: AppColors.red1, height: 1, fontSize: 14),
                 prefixIcon: prefixIcon,
-                suffixIcon: suffixIcon,
+                suffixIcon: Container(
+                    height: 50,
+                    width: 50,
+                    child:
+                        GestureDetector(onTap: suffixOnTap, child: suffixIcon)),
                 errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(

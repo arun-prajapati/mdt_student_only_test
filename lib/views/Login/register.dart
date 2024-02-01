@@ -56,7 +56,6 @@ class _RegisterState extends State<Register> {
   late FocusNode _emailPhoneFocusNode;
   late FocusNode _nameFocusNode;
   late FocusNode _passwordFocusNode;
-
   late FocusNode _confirmPasswordFocusNode;
   late String name;
   late String email;
@@ -67,6 +66,8 @@ class _RegisterState extends State<Register> {
   late String message = '';
   late String deviceType;
   String? deviceId = '';
+  bool isSecureconf = false;
+  bool isSecure = false;
 
   //'TP1A.220624.014';
   // Declare this variable
@@ -727,8 +728,13 @@ reg data
                                   heading: 'Password',
                                   // prefixIcon:
                                   //     const Icon(Icons.password, color: Dark),
-                                  suffixIcon:
-                                      Icon(Icons.remove_red_eye_outlined),
+                                  suffixOnTap: () {
+                                    isSecure = !isSecure;
+                                    setState(() {});
+                                  },
+                                  suffixIcon: isSecure
+                                      ? Icon(Icons.visibility_off_outlined)
+                                      : Icon(Icons.remove_red_eye_outlined),
                                   validator: (value) {
                                     password = value!.trim();
                                     return Validate.passwordValidation(value);
@@ -738,13 +744,14 @@ reg data
                                       Validate.passwordValidation(val);
                                     }
                                   },
-                                  obscureText: true,
+                                  obscureText: isSecure,
                                   onFieldSubmitted: (_) => setFocus(context,
                                       focusNode: _confirmPasswordFocusNode),
                                   focusNode: _passwordFocusNode,
                                   keyboardType: TextInputType.text,
                                   textInputAction: TextInputAction.next,
                                 ),
+
                                 CustomTextField(
                                   label: 'Confirm Password',
                                   heading: 'Confirm Password',
@@ -763,7 +770,14 @@ reg data
                                           val, password);
                                     }
                                   },
-                                  obscureText: true,
+                                  suffixOnTap: () {
+                                    isSecureconf = !isSecureconf;
+                                    setState(() {});
+                                  },
+                                  suffixIcon: isSecureconf
+                                      ? Icon(Icons.visibility_off_outlined)
+                                      : Icon(Icons.remove_red_eye_outlined),
+                                  obscureText: isSecureconf,
                                   onFieldSubmitted: (_) => submit(),
                                   focusNode: _confirmPasswordFocusNode,
                                   keyboardType: TextInputType.text,
