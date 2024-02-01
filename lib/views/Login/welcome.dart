@@ -463,10 +463,7 @@ class Welcome extends StatelessWidget {
                                     letterSpacing: 1,
                                     fontWeight: FontWeight.w400)),
                           ),
-                          Image.asset(
-                            AppImages.line,
-                            width: 50,
-                          ),
+                          Image.asset(AppImages.line, width: 50),
                           // Divider(
                           //   endIndent: 70,
                           //   thickness: 1,

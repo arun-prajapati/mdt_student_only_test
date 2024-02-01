@@ -58,7 +58,7 @@ class _Help extends State<Help> {
                 iconRight: null),
           ),
           Positioned(
-            top: 90,
+            top: 110,
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,

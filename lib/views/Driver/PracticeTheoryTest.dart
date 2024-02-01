@@ -280,7 +280,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 margin: EdgeInsets.fromLTRB(
                     //Responsive.width(3, context),
                     0,
-                    Responsive.height(11, context),
+                    Responsive.height(14, context),
                     0,
                     0),
                 decoration: BoxDecoration(

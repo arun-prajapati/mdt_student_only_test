@@ -81,11 +81,7 @@ class NavigationDrawerHeader extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: Text(
                           name.toString(),
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
+                          style: AppTextStyle.appBarStyle,
                         ),
                       );
                     }),
@@ -105,11 +101,13 @@ class NavigationDrawerHeader extends StatelessWidget {
                       builder: (context, snapshot) {
                         Object? email = snapshot.data;
                         return Container(
-                          width: constraints.maxWidth * 0.87,
+                          width: constraints.maxWidth * 0.85,
                           child: AutoSizeText(
                             email.toString(),
                             style: AppTextStyle.titleStyle.copyWith(
-                                height: 1.2, fontWeight: FontWeight.w600),
+                                fontSize: 16,
+                                height: 1.2,
+                                fontWeight: FontWeight.w400),
                           ),
                         );
                       }),
