@@ -152,7 +152,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   //call api for getQuestions
   Future<List> getQuestionsFromApi() async {
     List response = await test_api_services.getTestQuestions(category_id);
-    print(response);
+
     return response;
   }
 

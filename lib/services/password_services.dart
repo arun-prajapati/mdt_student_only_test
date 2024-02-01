@@ -10,6 +10,8 @@ class PasswordServices {
     final url = Uri.parse("$api/api/verification-code");
     final response = await http.post(url, body: formData);
     data = jsonDecode(response.body);
+    log("WWWWWWWWWWWW $api/api/verification-code");
+    log("WWWWWWWWWWWW RESPONSE  ${data}");
     return data;
   }
 

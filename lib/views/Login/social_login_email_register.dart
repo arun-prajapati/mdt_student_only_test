@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -54,7 +56,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
         'user_type': userType,
         'accessType': 'register'
       };
-      print("Data on submit : $formParams");
+      print("Data on submit : ${jsonEncode(formParams)}");
       ToastContext().init(context);
 
       Map? apiResponse = await Provider.of<UserProvider>(context, listen: false)
