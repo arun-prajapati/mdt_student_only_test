@@ -8,6 +8,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:student_app/custom_button.dart';
+import 'package:student_app/external.dart';
 import 'package:toast/toast.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
@@ -152,12 +153,15 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   }
 
   Future<Map> getTopicAiContent(String topic) async {
+    loading(value: true);
     final url = Uri.parse('$api/api/ai_provideAI_data/${topic}');
     final response = await http.get(url);
     if (response.statusCode == 200) {
+      loading(value: false);
       // print(jsonDecode(response.body));
       return jsonDecode(response.body)['data'][topic.replaceAll("_", " ")];
     } else {
+      loading(value: false);
       return {};
     }
   }
@@ -376,27 +380,28 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     trailing: Container(
                                       // padding: EdgeInsets.all(0),
                                       decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              AppColors.blueGrad7
-                                                  .withOpacity(0.3),
-                                              AppColors.blueGrad6
-                                                  .withOpacity(0.2),
-                                              AppColors.blueGrad5
-                                                  .withOpacity(0.2),
-                                              AppColors.blueGrad4
-                                                  .withOpacity(0.2),
-                                              AppColors.blueGrad3
-                                                  .withOpacity(0.2),
-                                              AppColors.blueGrad2
-                                                  .withOpacity(0.2),
-                                              AppColors.blueGrad1
-                                                  .withOpacity(0.2),
-                                            ]),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                AppColors.blueGrad7
+                                                    .withOpacity(0.3),
+                                                AppColors.blueGrad6
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad5
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad4
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad3
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad2
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad1
+                                                    .withOpacity(0.2),
+                                              ]),
+                                          shape: BoxShape.circle
+                                          //borderRadius: BorderRadius.circular(10),
+                                          ),
                                       child: Icon(
                                           isExpanded
                                               ? Icons.keyboard_arrow_up
@@ -568,7 +573,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                               child: CustomButton(
                                                   isfontSize: true,
                                                   isfontWeight: true,
-                                                  fontSize: 14,
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.w500,
                                                   isImage: true,
                                                   title: "Read AI article",
@@ -635,7 +640,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                               child: CustomButton(
                                                   isImage: true,
                                                   title: "Watch Video",
-                                                  fontSize: 14,
+                                                  fontSize: 12,
                                                   isfontSize: true,
                                                   isfontWeight: true,
                                                   fontWeight: FontWeight.w500,
@@ -746,7 +751,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                         // width: 250,
                                                       ),
                                                       // onTap: () {
-                                                      //   _handleURLButtonPress(context,
+                                                      //   _handleURLButtonPress(
+                                                      //       context,
                                                       //       "https://www.youtube.com/watch?v=sI2Bbs_IvcU");
                                                       // },
                                                     )
@@ -824,7 +830,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                 //       AppColors.borderblue.withOpacity(0.3)
                                 //     ]),
                                 color: AppColors.borderblue.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(10),
+                                //borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
                                     color:
                                         AppColors.borderblue.withOpacity(0.5),
@@ -860,7 +866,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           AppColors.blueGrad2.withOpacity(0.2),
                                           AppColors.blueGrad1.withOpacity(0.2),
                                         ]),
-                                    borderRadius: BorderRadius.circular(10),
+                                    shape: BoxShape.circle,
+                                    // borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Icon(
                                       isExpanded
@@ -1082,11 +1089,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           RichText(
                                             text: TextSpan(
                                                 text: "Read AI article",
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Dark,
-                                                ),
+                                                style: AppTextStyle.textStyle
+                                                    .copyWith(
+                                                        fontSize: 15,
+                                                        color: Dark,
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                 recognizer:
                                                     TapGestureRecognizer()
                                                       ..onTap = () async {
@@ -1173,11 +1181,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           RichText(
                                             text: TextSpan(
                                                 text: "Watch Video",
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Dark,
-                                                ),
+                                                style: AppTextStyle.textStyle
+                                                    .copyWith(
+                                                        fontSize: 15,
+                                                        color: Dark,
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                 recognizer:
                                                     TapGestureRecognizer()
                                                       ..onTap = () async {

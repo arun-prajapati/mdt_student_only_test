@@ -166,7 +166,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                       child: Center(
                         child: Text('Select the topic you would like to revise',
                             style: AppTextStyle.textStyle.copyWith(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
                                 color: AppColors.black)),
                       ),
                     ),
@@ -190,7 +190,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                 ],
               ),
             ),
-
+            SizedBox(height: 10),
             Expanded(
               flex: 0,
               child: Padding(
@@ -206,7 +206,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                     //         color: Colors.black)),
                     Text('Select All',
                         style: AppTextStyle.textStyle.copyWith(
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
+                            height: 1,
                             color: AppColors.black)),
                     ActionChip(
                       backgroundColor: AppColors.transparent,
@@ -225,9 +226,9 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                       label: Image.asset(
                         isAllCategoriesSelected
                             ? AppImages.checkedbox
-                            : AppImages.uncheckedbox,
-                        height: 28,
-                        width: 23,
+                            : AppImages.checkBox,
+                        height: isAllCategoriesSelected ? 23 : 20,
+                        width: isAllCategoriesSelected ? 23 : 20,
                       ),
                     ),
 
@@ -335,7 +336,9 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                               children: [
                                 Expanded(
                                   child: AutoSizeText(categories[index]['name'],
-                                      style: _categoryTextStyle),
+                                      style: _categoryTextStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          height: 0.5)),
                                 ),
                                 Expanded(
                                     flex: 0,
@@ -356,9 +359,15 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                       label: Image.asset(
                                         categories[index]['selected'] == true
                                             ? AppImages.checkedbox
-                                            : AppImages.uncheckedbox,
-                                        height: 28,
-                                        width: 23,
+                                            : AppImages.checkBox,
+                                        height: categories[index]['selected'] ==
+                                                true
+                                            ? 23
+                                            : 20,
+                                        width: categories[index]['selected'] ==
+                                                true
+                                            ? 23
+                                            : 20,
                                       ),
                                     )
                                     // IconButton(
@@ -390,7 +399,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 55, vertical: 20),
+                padding:
+                    EdgeInsets.only(left: 45, right: 45, bottom: 20, top: 15),
                 child: CustomButton(
                   title: 'Continue',
                   onTap: () {

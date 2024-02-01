@@ -43,7 +43,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: false,
           primarySwatch: Colors.blue,
-          textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
+          fontFamily: 'Poppins',
+          // textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Poppins'),
         ),
         builder: EasyLoading.init(),
         navigatorKey: locator<NavigationService>().navigatorKey,

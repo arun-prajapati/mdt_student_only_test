@@ -30,5 +30,6 @@ class AppImages {
   static String readAi = 'assets/images/readAi.png';
   static String uncheckedbox = 'assets/images/uncheckedbox.png';
   static String checkedbox = 'assets/images/checkedbox.png';
+  static String checkBox = 'assets/images/checkBox.png';
   static String good_job = 'assets/good_job.png';
 }

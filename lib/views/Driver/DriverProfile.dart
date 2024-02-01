@@ -271,7 +271,7 @@ class _driverProfile extends State<DriverProfile> {
               // ],
             ),
             height: Responsive.height(83, context),
-            padding: EdgeInsets.fromLTRB(3, 20, 3, 20),
+            padding: EdgeInsets.fromLTRB(3, 25, 3, 0),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return Container(
@@ -286,7 +286,7 @@ class _driverProfile extends State<DriverProfile> {
                           child: ListView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            padding: EdgeInsets.fromLTRB(10, 2, 10, 10),
+                            padding: EdgeInsets.fromLTRB(10, 2, 10, 0),
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -751,8 +751,8 @@ class _driverProfile extends State<DriverProfile> {
                           ),
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 50, vertical: 0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 10),
                           child: CustomButton(
                             title: 'Update',
                             onTap: () => updateUserDetail(),

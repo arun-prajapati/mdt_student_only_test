@@ -204,7 +204,7 @@ class Welcome extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
               Positioned(
-                top: SizeConfig.blockSizeVertical * 22,
+                top: SizeConfig.blockSizeVertical * 24,
                 left: SizeConfig.blockSizeHorizontal * 28,
                 child: CircleAvatar(
                   radius: SizeConfig.blockSizeHorizontal * 22,
@@ -373,11 +373,11 @@ class Welcome extends StatelessWidget {
               //   ),
               // ),
             ]),
-            SizedBox(height: 30),
+            SizedBox(height: 25),
             Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 5, left: 20, right: 20),
+              padding: EdgeInsets.only(top: 15, bottom: 5, left: 20, right: 20),
               child: Container(
-                height: 370,
+                height: 390,
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -390,7 +390,7 @@ class Welcome extends StatelessWidget {
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(left: 25, right: 25, top: 25),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -456,14 +456,12 @@ class Welcome extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                              "Or connect with",
-                              style: TextStyle(
-                                  letterSpacing: 1,
-                                  fontSize: 15,
-                                  color: AppColors.grey,
-                                  fontWeight: FontWeight.w400),
-                            ),
+                            child: Text("Or connect with",
+                                style: AppTextStyle.textStyle.copyWith(
+                                    color: AppColors.grey,
+                                    fontSize: 15,
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.w400)),
                           ),
                           Image.asset(
                             AppImages.line,
@@ -477,8 +475,7 @@ class Welcome extends StatelessWidget {
                         ],
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        padding: EdgeInsets.only(left: 25, right: 25, top: 35),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

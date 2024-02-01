@@ -3,11 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
@@ -146,6 +144,7 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   Future<void> submit() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final form = _formKey.currentState;
     if (form!.validate()) {
       //await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
@@ -283,34 +282,37 @@ class _SignInFormState extends State<SignInForm> {
                 //     ),
                 //   ),
                 // ),
+                SizedBox(height: 20),
                 Container(
-                  width: SizeConfig.blockSizeHorizontal * 85,
+                  // width: SizeConfig.blockSizeHorizontal * 85,
                   height: SizeConfig.blockSizeVertical * 80,
                   margin: EdgeInsets.fromLTRB(
-                    SizeConfig.blockSizeHorizontal * 7.5,
-                    SizeConfig.blockSizeVertical * 32,
-                    SizeConfig.blockSizeHorizontal * 7.5,
+                    25,
+                    SizeConfig.blockSizeVertical * 34,
+                    25,
                     0.0,
                   ),
                   //color: Colors.black12,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     child: ListView(
                       children: [
                         Center(
                           child: Text('Welcome back!',
                               style: AppTextStyle.titleStyle),
                         ),
+                        SizedBox(height: 5),
                         Center(
                           child: Text('Fill Up Your Details below to login',
-                              style: AppTextStyle.textStyle),
+                              style: AppTextStyle.textStyle
+                                  .copyWith(fontSize: 14)),
                         ),
                         SizedBox(height: 35),
                         //Field 1
                         CustomTextField(
                           controller: emailController,
-                          heading: 'Email/Mobile Number',
-                          label: 'Enter Email/Mobile Number',
+                          heading: 'Email / Mobile Number',
+                          label: 'Enter Email / Mobile Number',
                           //prefixIcon: Icon(Icons.mail, color: Dark),
                           validator: (value) {
                             email = value!.trim();
@@ -348,7 +350,7 @@ class _SignInFormState extends State<SignInForm> {
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                         ),
-                        SizedBox(height: 10),
+                        // SizedBox(height: 10),
                         Align(
                           alignment: Alignment.centerRight,
                           // child: InkWell(
@@ -387,22 +389,23 @@ class _SignInFormState extends State<SignInForm> {
                                     //AppColors.blueGrad2,
                                     AppColors.blueGrad1,
                                   ],
-                                  style: AppTextStyle.textStyle
-                                      .copyWith(fontWeight: FontWeight.w500)),
+                                  style: AppTextStyle.textStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.2)),
                             ),
                           ),
                         ),
-                        //   ),
-                        SizedBox(height: 35),
-
+                        SizedBox(height: 50),
                         Provider.of<UserProvider>(context).status ==
                                 Status.Authenticating
                             ? Center(child: CircularProgressIndicator())
-                            : CustomButton(
-                                title: 'Login',
-                                onTap: submit,
+                            : Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: CustomButton(
+                                  title: 'Login',
+                                  onTap: submit,
+                                ),
                               ),
-                        SizedBox(height: 5),
                         // Container(
                         //         // height: constraints.maxHeight * 0.11,
                         //         width: SizeConfig.blockSizeHorizontal * 50,
@@ -428,53 +431,38 @@ class _SignInFormState extends State<SignInForm> {
                         //           ),
                         //         ),
                         //       ),
-
-                        SizedBox(height: 10),
+                        SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              //color: Colors.black26,
-                              //width: constraints.maxWidth * 0.8,
-                              // margin: EdgeInsets.only(
-                              //   left: SizeConfig.blockSizeHorizontal * 2.5,
-                              //   top: SizeConfig.blockSizeVertical * 3,
-                              // ),
-                              alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                    text: 'Don\'t have an account yet? ',
-                                    style: AppTextStyle.textStyle),
-                              ),
+                            Expanded(
+                              flex: 0,
+                              child: Text('Don\'t have an account yet? ',
+                                  style: AppTextStyle.textStyle),
                             ),
-                            Container(
-                              // margin: EdgeInsets.only(
-                              //   left: SizeConfig.blockSizeHorizontal * 2.5,
-                              //   top: SizeConfig.blockSizeVertical * 0.5,
-                              // ),
-                              alignment: Alignment.centerLeft,
+                            Expanded(
+                              flex: 0,
                               child: Container(
                                 margin: EdgeInsets.zero,
                                 decoration: BoxDecoration(
                                     color: AppColors.white,
                                     border: Border(
                                         bottom: BorderSide(color: Dark))),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: 'Register here',
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          // decoration: TextDecoration.underline,
-                                          color: Dark,
-                                          fontWeight: FontWeight.w500),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Register('1'),
-                                            ),
-                                          );
-                                        }),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) => Register('1'),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Register here',
+                                    style: AppTextStyle.textStyle.copyWith(
+                                        // decoration: TextDecoration.underline,
+                                        color: Dark,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
                             ),
@@ -736,8 +724,8 @@ class CustomTextField extends StatelessWidget {
                 hintStyle: AppTextStyle.disStyle.copyWith(
                     color: AppColors.grey, fontWeight: FontWeight.w400),
                 floatingLabelStyle: TextStyle(color: Dark),
-                errorStyle:
-                    AppTextStyle.textStyle.copyWith(color: AppColors.red1),
+                errorStyle: AppTextStyle.textStyle
+                    .copyWith(color: AppColors.red1, height: 1, fontSize: 14),
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon,
                 errorBorder: OutlineInputBorder(
@@ -756,7 +744,8 @@ class CustomTextField extends StatelessWidget {
                       color: Colors.black.withOpacity(0.5), width: 1.1),
                 ),
               ),
-              style: AppTextStyle.textStyle),
+              style:
+                  AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400)),
         ),
       ],
     );

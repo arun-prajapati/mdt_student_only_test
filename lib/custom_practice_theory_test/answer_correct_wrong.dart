@@ -59,6 +59,8 @@ showCorrectAnswerDialog(BuildContext context, String explanation) {
                 child: CustomButton(
                   padding: EdgeInsets.symmetric(vertical: 11),
                   title: 'Ok,Continue',
+                  fontSize: 13,
+                  isfontSize: true,
                   onTap: () {
                     Navigator.of(context).pop();
                   },
@@ -115,7 +117,7 @@ showWrongAnswerDialog(BuildContext context, String explanation) {
                   style: AppTextStyle.disStyle.copyWith(
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
-                      height: 1.2),
+                      height: 1.3),
                 )
               ],
             ),
@@ -126,6 +128,8 @@ showWrongAnswerDialog(BuildContext context, String explanation) {
               child: CustomButton(
                 padding: EdgeInsets.symmetric(vertical: 11),
                 title: 'Ok,Continue',
+                fontSize: 13,
+                isfontSize: true,
                 onTap: () {
                   Navigator.of(context).pop();
                 },

@@ -99,6 +99,7 @@ class _ContactUs extends State<ContactUs> {
                           EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       child: Column(
                         children: <Widget>[
+                          SizedBox(height: 20),
                           TextField(
                               controller: name,
                               style: inputTextStyle(SizeConfig.inputFontSize),
@@ -244,7 +245,6 @@ class _ContactUs extends State<ContactUs> {
                                           fontWeight: FontWeight.w500,
                                           color:
                                               AppColors.black.withOpacity(0.8)),
-                                      textAlign: TextAlign.left,
                                     ),
                                     SizedBox(width: 10),
                                     Text(
@@ -286,18 +286,20 @@ class _ContactUs extends State<ContactUs> {
                                 SizedBox(height: 10),
                                 Row(
                                   children: [
-                                    Text('Address :',
-                                        style: AppTextStyle.textStyle.copyWith(
+                                    Text(
+                                      'Address :',
+                                      style: AppTextStyle.textStyle.copyWith(
                                           fontWeight: FontWeight.w500,
-                                          color: const Color(0xad0e9bcf),
-                                        )),
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
+                                    ),
                                     SizedBox(width: 10),
                                     Text(
                                       'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
                                       style: AppTextStyle.textStyle.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color(0xad0e9bcf),
-                                      ),
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
                                     ),
                                   ],
                                 ),

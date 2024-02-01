@@ -12,17 +12,13 @@ import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
-
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
-import 'package:student_app/enums/Autentication_status.dart';
-import 'package:student_app/external.dart';
 import 'package:student_app/views/Login/login.dart';
 import 'package:toast/toast.dart';
 
 import '../../locater.dart';
-import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
 import '../../services/methods.dart';
@@ -615,71 +611,61 @@ reg data
                                     controller: phoneTextControl,
                                     focusNode: _phoneFocusNode,
                                     cursorColor: Dark,
-
                                     textInputAction: TextInputAction.next,
                                     decoration: InputDecoration(
-                                      counterText: "",
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 20),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                            color: AppColors.black
-                                                .withOpacity(0.5),
-                                            width: 1.1),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
+                                        counterText: "",
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        border: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
                                               color: AppColors.black
                                                   .withOpacity(0.5),
-                                              width: 1.1)),
-                                      disabledBorder: OutlineInputBorder(
+                                              width: 1.1),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            borderSide: BorderSide(
+                                                color: AppColors.black
+                                                    .withOpacity(0.5),
+                                                width: 1.1)),
+                                        disabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            borderSide: BorderSide(
+                                                color: AppColors.black
+                                                    .withOpacity(0.5),
+                                                width: 1.1)),
+                                        errorBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            borderSide: BorderSide(
+                                                color:
+                                                    AppColors.black.withOpacity(0.5),
+                                                width: 1.1)),
+                                        focusColor: Dark,
+                                        focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
                                               color: AppColors.black
                                                   .withOpacity(0.5),
-                                              width: 1.1)),
-                                      errorBorder: OutlineInputBorder(
+                                              width: 1.1),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           borderSide: BorderSide(
                                               color: AppColors.black
                                                   .withOpacity(0.5),
-                                              width: 1.1)),
-                                      focusColor: Dark,
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                            color: AppColors.black
-                                                .withOpacity(0.5),
-                                            width: 1.1),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                            color: AppColors.black
-                                                .withOpacity(0.5),
-                                            width: 1.1),
-                                      ),
-                                      hintStyle: AppTextStyle.disStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w400),
-
-                                      hintText: 'Enter Mobile Number',
-                                      errorStyle: AppTextStyle.textStyle
-                                          .copyWith(color: AppColors.red1),
-
-                                      floatingLabelStyle:
-                                          TextStyle(color: Dark),
-                                      // errorStyle: TextStyle(
-                                      //     fontSize: constraints.maxWidth * 0.05),
-                                    ),
+                                              width: 1.1),
+                                        ),
+                                        hintStyle: AppTextStyle.disStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w400),
+                                        hintText: 'Enter Mobile Number',
+                                        errorStyle: AppTextStyle.textStyle.copyWith(color: AppColors.red1, height: 1, fontSize: 14),
+                                        floatingLabelStyle: TextStyle(color: Dark)),
                                     initialCountryCode: 'GB',
                                     // showCountryFlag: false,
                                     keyboardType: TextInputType.text,
@@ -716,13 +702,13 @@ reg data
                                     ? Align(
                                         alignment: Alignment.topLeft,
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
+                                          padding: EdgeInsets.only(left: 20.0),
                                           child: Text(
                                               "Please enter phone number",
                                               style: AppTextStyle.textStyle
                                                   .copyWith(
-                                                      height: 2.4,
+                                                      height: 1.7,
+                                                      fontSize: 14,
                                                       color: AppColors.red1)),
                                         ),
                                       )

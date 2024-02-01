@@ -487,17 +487,17 @@ class _TheoryTabState extends State<TheoryTab> {
                 ),
                 SizedBox(height: 15),
                 Container(
-                  margin: EdgeInsets.zero,
-                  width: 155,
+                  //margin: EdgeInsets.zero,
+                  //width: 155,
                   child: Text(
-                    'Theory Learning Progress',
+                    'Theory Learning \n Progress',
                     textAlign: TextAlign.center,
                     style: AppTextStyle.textStyle
-                        .copyWith(fontWeight: FontWeight.w500),
+                        .copyWith(fontWeight: FontWeight.w500, fontSize: 18),
                   ),
                 ),
                 SizedBox(height: 15),
-                Divider(color: AppColors.black.withOpacity(0.1)),
+                Divider(color: AppColors.black.withOpacity(0.1), thickness: 1),
                 Container(
                   // width: Responsive.width(100, context),
                   // height: Responsive.height(44, context),
@@ -513,7 +513,7 @@ class _TheoryTabState extends State<TheoryTab> {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.85),
+                          (MediaQuery.of(context).size.height / 1.8),
                       // childAspectRatio: 2 / 3,
                     ),
                     //shrinkWrap: true,
@@ -660,14 +660,17 @@ class _TheoryTabState extends State<TheoryTab> {
                             // elevation: 3.0,
                             child: Padding(
                               padding: EdgeInsets.only(
-                                  left: 15, right: 15, top: 18, bottom: 1),
+                                  left: 10, right: 10, top: 18, bottom: 1),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Center(
-                                    child: Image.asset(cards[index]["icon"],
-                                        height: 50),
+                                  Expanded(
+                                    flex: 0,
+                                    child: Center(
+                                      child: Image.asset(cards[index]["icon"],
+                                          height: 50),
+                                    ),
                                   ),
                                   SizedBox(height: 10),
                                   Expanded(
@@ -678,7 +681,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                           text: '${cards[index]["title"]}',
                                           style: AppTextStyle.textStyle
                                               .copyWith(
-                                                  height: 1.2,
+                                                  height: 1,
                                                   fontWeight: FontWeight.w500),
                                           children: [
                                             TextSpan(
@@ -695,15 +698,20 @@ class _TheoryTabState extends State<TheoryTab> {
                                     ),
                                   ),
                                   SizedBox(height: 5),
-                                  Text(
-                                    cards[index]["subTitle"],
-                                    maxLines: 3,
-                                    style: AppTextStyle.disStyle.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        letterSpacing: 0.5,
-                                        height: 1.2),
-                                    softWrap: true,
-                                    //  textAlign: TextAlign.justify,
+                                  Expanded(
+                                    //flex: 0,
+                                    child: Text(
+                                      cards[index]["subTitle"],
+                                      maxLines: 4,
+                                      style: AppTextStyle.disStyle.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 0.5,
+                                          height: 1.2,
+                                          fontSize: 11,
+                                          overflow: TextOverflow.clip),
+                                      softWrap: true,
+                                      //  textAlign: TextAlign.justify,
+                                    ),
                                   ),
                                   //SizedBox(width: 15),
                                 ],
@@ -715,8 +723,12 @@ class _TheoryTabState extends State<TheoryTab> {
                     },
                   ),
                 ),
-                Divider(color: AppColors.black.withOpacity(0.1)),
-                SizedBox(height: 5),
+                SizedBox(height: 8),
+                Divider(
+                  color: AppColors.black.withOpacity(0.1),
+                  thickness: 1,
+                ),
+                SizedBox(height: 15),
                 Padding(
                   padding: EdgeInsets.only(left: 18),
                   child: Align(
@@ -733,7 +745,7 @@ class _TheoryTabState extends State<TheoryTab> {
                         AppColors.blueGrad1
                       ],
                       style: AppTextStyle.textStyle
-                          .copyWith(fontWeight: FontWeight.w500),
+                          .copyWith(fontWeight: FontWeight.w500, fontSize: 18),
                     ),
                   ),
                 ),
@@ -863,7 +875,9 @@ class _TheoryTabState extends State<TheoryTab> {
                                       style: AppTextStyle.disStyle.copyWith(
                                           fontWeight: FontWeight.w400,
                                           letterSpacing: 0.5,
-                                          height: 1.2),
+                                          height: 1.2,
+                                          fontSize: 11,
+                                          overflow: TextOverflow.ellipsis),
                                       softWrap: true,
                                     ),
                                   ),
@@ -881,6 +895,7 @@ class _TheoryTabState extends State<TheoryTab> {
                     ),
                   ),
                 ),
+                SizedBox(height: 25),
                 // Container(
                 //     height: Responsive.height(35, context),
                 //     width: Responsive.width(100, context),
