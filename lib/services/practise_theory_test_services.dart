@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,8 +23,8 @@ class PractiseTheoryTestServices {
   }
 
   Future<List> getTestQuestions(int _categoryId) async {
-    final url = Uri.parse(
-        "$api/api/get-questions?category_id=" + _categoryId.toString());
+    String URL = "$api/api/get-questions?category_id=" + _categoryId.toString();
+    final url = Uri.parse(URL);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -31,7 +32,11 @@ class PractiseTheoryTestServices {
     };
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
+    print("getTestQuestions URL ${URL}");
+    log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
+
     userData = data["data"];
+
     return userData;
   }
 

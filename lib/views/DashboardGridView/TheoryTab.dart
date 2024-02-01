@@ -208,6 +208,8 @@ class _TheoryTabState extends State<TheoryTab> {
     final url = Uri.parse('$api/api/fetch/progress/${driverId}');
     //print("URL : $url");
     final response = await http.get(url);
+    print("fetchUserTheoryProgress URL $api/api/fetch/progress/${driverId}");
+    log("RESPONSE fetchUserTheoryProgress ++++++++++++++++ ${response.body}");
     return jsonDecode(response.body);
   }
 
