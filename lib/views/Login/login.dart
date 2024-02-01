@@ -78,14 +78,25 @@ class _SignInFormState extends State<SignInForm> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Smart Theory Test'),
-            content: Text(message),
+            title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
+            content: Text(
+              message,
+              style: AppTextStyle.disStyle.copyWith(
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5,
+                  color: AppColors.black,
+                  height: 1.3),
+            ),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Ok'),
+                child: Text(
+                  'Ok',
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
               ),
             ],
           );
@@ -98,18 +109,25 @@ class _SignInFormState extends State<SignInForm> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Smart Theory Test'),
+            title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                    "Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}"),
+                  "Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}",
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
                 Text(
-                    'You seem to have changed your phone. Please contact our support team to connect your new phone to the app.'),
+                  'You seem to have changed your phone. Please contact our'
+                  ' support team to connect your new phone to the app.',
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
@@ -122,7 +140,11 @@ class _SignInFormState extends State<SignInForm> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Ok'),
+                child: Text(
+                  'Ok',
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
               ),
               TextButton(
                 onPressed: () {

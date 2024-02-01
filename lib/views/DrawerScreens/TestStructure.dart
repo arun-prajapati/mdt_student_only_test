@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/app_colors.dart';
 import '../../widget/CustomAppBar.dart';
 
 class TestStructure extends StatelessWidget {
@@ -463,12 +464,8 @@ class TestStructure extends StatelessWidget {
               text,
               //'You make a test booking via www.mockdrivingtest.com (
               // choose a date, time and test location convenient to you)',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                color: const Color(0xad060606),
-                letterSpacing: 0.132,
-              ),
+              style: AppTextStyle.disStyle.copyWith(
+                  color: AppColors.black, fontWeight: FontWeight.w400),
               textAlign: TextAlign.left,
             ),
           ),

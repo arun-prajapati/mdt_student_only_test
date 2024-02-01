@@ -5,13 +5,13 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/card.dart' as MCard;
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:student_app/external.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
 import 'package:student_app/utils/appImages.dart';
 import 'package:student_app/utils/app_colors.dart';
@@ -20,7 +20,6 @@ import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
 import '../../Constants/app_colors.dart';
 import '../../Constants/global.dart';
 import '../../locater.dart';
-import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
 import '../../services/booking_test.dart';
@@ -209,37 +208,6 @@ class _TheoryTabState extends State<TheoryTab> {
     //print("URL : $url");
     final response = await http.get(url);
     return jsonDecode(response.body);
-  }
-
-  dynamic loading(
-      {@required bool? value, String? title, bool closeOverlays = false}) {
-    if (value!) {
-      EasyLoading.instance
-        ..indicatorType = EasyLoadingIndicatorType.ring
-        ..backgroundColor = Colors.white
-        ..displayDuration = Duration(seconds: 2)
-        ..maskColor = Colors.grey.withOpacity(.2)
-
-        /// custom style
-        ..loadingStyle = EasyLoadingStyle.custom
-        ..indicatorColor = Colors.black
-        ..textColor = Colors.black
-        ..contentPadding = EdgeInsets.symmetric(
-          horizontal: Responsive.width(15, context),
-          vertical: Responsive.width(5, context),
-        )
-
-        ///
-        ..userInteractions = false
-        ..animationStyle = EasyLoadingAnimationStyle.offset;
-      EasyLoading.show(
-        maskType: EasyLoadingMaskType.black,
-        status: "Loading..",
-        dismissOnTap: true,
-      );
-    } else {
-      EasyLoading.dismiss();
-    }
   }
 
   // void closeLoader() {
@@ -816,15 +784,20 @@ class _TheoryTabState extends State<TheoryTab> {
                                     children: [
                                       Expanded(
                                         flex: 2,
-                                        child: Text(
-                                            _resourceCards[index]["title"],
-                                            style: AppTextStyle.textStyle
-                                                .copyWith(
-                                                    height: 1.2,
-                                                    fontWeight: FontWeight.w500)
-                                            //overflow: TextOverflow.ellipsis,
-                                            ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: 2),
+                                          child: Text(
+                                              _resourceCards[index]["title"],
+                                              style: AppTextStyle.textStyle
+                                                  .copyWith(
+                                                      height: 1.2,
+                                                      fontWeight:
+                                                          FontWeight.w500)
+                                              //overflow: TextOverflow.ellipsis,
+                                              ),
+                                        ),
                                       ),
+                                      SizedBox(width: 2),
                                       Expanded(
                                         flex: 0,
                                         child: GestureDetector(

@@ -71,153 +71,176 @@ class CustomAppBar extends StatelessWidget {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 0,
-                      child: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.black12),
-                        child: GestureDetector(
-                          onTap: () {
-                            this.onTap1!();
-                          },
-                          child: Icon(
-                            iconLeft,
-                            color: Colors.black,
-                            size: currentOrientation == Orientation.portrait
-                                ? (3.4 * SizeConfig.blockSizeVertical)
-                                : (3.4 * SizeConfig.blockSizeHorizontal),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 14),
-                    Expanded(
-                      flex: 0,
-                      child: Container(
-                        // width: Responsive.width(65, context),
-                        // margin: EdgeInsets.fromLTRB(
-                        //     Responsive.width(5, context),
-                        //     Responsive.height(
-                        //         currentOrientation == Orientation.portrait
-                        //             ? 1
-                        //             : 1,
-                        //         context),
-                        //     0.0,
-                        //     0.0),
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          '${title}',
-                          style: AppTextStyle.appBarStyle,
-                        ),
-                      ),
-                    ),
-                    if (isRightBtn)
-                      Expanded(
-                        flex: 0,
-                        child: Align(
-                          alignment: Alignment.topRight,
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 0,
                           child: Container(
-                              height: 45,
-                              // width: constraints.maxWidth * .50,
-                              alignment: Alignment.centerRight,
-                              // margin: EdgeInsets.only(
-                              //     top: constraints.maxWidth * 0.07),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    alignment: Alignment.topRight,
-                                    // margin: EdgeInsets.only(right: 10),
-                                    width: constraints.maxWidth * 0.25,
-                                    child: Material(
-                                      borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(
-                                            constraints.maxHeight * 0.5),
-                                        topRight: Radius.circular(
-                                            constraints.maxHeight * 0.5),
-                                        bottomLeft: Radius.circular(
-                                            constraints.maxHeight * 0.5),
-                                      ),
-                                      color: Color(0xFFed1c24),
-                                      elevation: 5.0,
-                                      child: MaterialButton(
-                                        onPressed: () =>
-                                            {this.onTapRightbtn!()},
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            return Container(
-                                                width: constraints.maxWidth * 1,
-                                                alignment: Alignment.center,
-                                                height: 30,
-                                                child: SizedBox(
-                                                  width:
-                                                      constraints.maxWidth * 1,
-                                                  child: Text(
-                                                    rightBtnText!,
-                                                    style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        fontSize: 13,
-                                                        color: Colors.white),
-                                                  ),
-                                                ));
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 12,
-                                    alignment: Alignment.bottomRight,
-                                    margin: EdgeInsets.only(top: 3, right: 10),
-                                    width: constraints.maxWidth * 0.70,
-                                    child: Text(
-                                      rightBtnLabel!,
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 11,
-                                          color: Colors.white54),
-                                    ),
-                                  )
-                                ],
-                              )),
-                        ),
-                      ),
-                    if (!isRightBtn)
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            // width: Responsive.width(19, context),
-                            // height: constraints.maxHeight * .90,
-                            alignment: Alignment.topRight,
-                            // margin: EdgeInsets.only(
-                            //     right: Responsive.width(2, context),
-                            //     top: Responsive.width(2, context)),
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.black12),
                             child: GestureDetector(
                               onTap: () {
-                                this.onTapRightbtn!();
+                                this.onTap1!();
                               },
-                              child: hasIcon == true
-                                  ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      // crossAxisAlignment:
-                                      //     CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Next',
-                                          style: AppTextStyle.appBarStyle,
+                              child: Icon(
+                                iconLeft,
+                                color: Colors.black,
+                                size: currentOrientation == Orientation.portrait
+                                    ? (3.4 * SizeConfig.blockSizeVertical)
+                                    : (3.4 * SizeConfig.blockSizeHorizontal),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 14),
+                        Expanded(
+                          flex: 0,
+                          child: Container(
+                            // width: Responsive.width(65, context),
+                            // margin: EdgeInsets.fromLTRB(
+                            //     Responsive.width(5, context),
+                            //     Responsive.height(
+                            //         currentOrientation == Orientation.portrait
+                            //             ? 1
+                            //             : 1,
+                            //         context),
+                            //     0.0,
+                            //     0.0),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              '${title}',
+                              style: AppTextStyle.appBarStyle,
+                            ),
+                          ),
+                        ),
+                        if (isRightBtn)
+                          Expanded(
+                            flex: 0,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                  height: 45,
+                                  // width: constraints.maxWidth * .50,
+                                  alignment: Alignment.centerRight,
+                                  // margin: EdgeInsets.only(
+                                  //     top: constraints.maxWidth * 0.07),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        height: 30,
+                                        alignment: Alignment.topRight,
+                                        // margin: EdgeInsets.only(right: 10),
+                                        width: constraints.maxWidth * 0.25,
+                                        child: Material(
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(
+                                                constraints.maxHeight * 0.5),
+                                            topRight: Radius.circular(
+                                                constraints.maxHeight * 0.5),
+                                            bottomLeft: Radius.circular(
+                                                constraints.maxHeight * 0.5),
+                                          ),
+                                          color: Color(0xFFed1c24),
+                                          elevation: 5.0,
+                                          child: MaterialButton(
+                                            onPressed: () =>
+                                                {this.onTapRightbtn!()},
+                                            child: LayoutBuilder(
+                                              builder: (context, constraints) {
+                                                return Container(
+                                                    width:
+                                                        constraints.maxWidth *
+                                                            1,
+                                                    alignment: Alignment.center,
+                                                    height: 30,
+                                                    child: SizedBox(
+                                                      width:
+                                                          constraints.maxWidth *
+                                                              1,
+                                                      child: Text(
+                                                        rightBtnText!,
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontSize: 13,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ));
+                                              },
+                                            ),
+                                          ),
                                         ),
-                                        SizedBox(width: 10),
-                                        Icon(
+                                      ),
+                                      Container(
+                                        height: 12,
+                                        alignment: Alignment.bottomRight,
+                                        margin:
+                                            EdgeInsets.only(top: 3, right: 10),
+                                        width: constraints.maxWidth * 0.70,
+                                        child: Text(
+                                          rightBtnLabel!,
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 11,
+                                              color: Colors.white54),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        if (!isRightBtn)
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                // width: Responsive.width(19, context),
+                                // height: constraints.maxHeight * .90,
+                                alignment: Alignment.topRight,
+                                // margin: EdgeInsets.only(
+                                //     right: Responsive.width(2, context),
+                                //     top: Responsive.width(2, context)),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    this.onTapRightbtn!();
+                                  },
+                                  child: hasIcon == true
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          // crossAxisAlignment:
+                                          //     CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Next',
+                                              style: AppTextStyle.appBarStyle,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Icon(
+                                              iconRight,
+                                              color: Colors.black,
+                                              size: currentOrientation ==
+                                                      Orientation.portrait
+                                                  ? (3 *
+                                                      SizeConfig
+                                                          .blockSizeVertical)
+                                                  : (3 *
+                                                      SizeConfig
+                                                          .blockSizeHorizontal),
+                                            ),
+                                          ],
+                                        )
+                                      : Icon(
                                           iconRight,
                                           color: Colors.black,
                                           size: currentOrientation ==
@@ -228,46 +251,37 @@ class CustomAppBar extends StatelessWidget {
                                                   SizeConfig
                                                       .blockSizeHorizontal),
                                         ),
-                                      ],
-                                    )
-                                  : Icon(
-                                      iconRight,
-                                      color: Colors.black,
-                                      size: currentOrientation ==
-                                              Orientation.portrait
-                                          ? (3 * SizeConfig.blockSizeVertical)
-                                          : (3 *
-                                              SizeConfig.blockSizeHorizontal),
-                                    ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    // Container(
-                    //   width: Responsive.width(65, context),
-                    //   margin: EdgeInsets.fromLTRB(
-                    //       Responsive.width(15, context),
-                    //       Responsive.height(
-                    //           currentOrientation == Orientation.portrait
-                    //               ? 1
-                    //               : 4,
-                    //           context),
-                    //       0.0,
-                    //       0.0),
-                    //   alignment: Alignment.bottomLeft,
-                    //   child: AutoSizeText(
-                    //     '$subtitle',
-                    //     style: TextStyle(
-                    //         color: Color.fromARGB(255, 8, 31, 14),
-                    //         fontFamily: 'Poppins',
-                    //         fontSize: 1.85 *
-                    //             (currentOrientation == Orientation.portrait
-                    //                 ? SizeConfig.blockSizeVertical
-                    //                 : SizeConfig.blockSizeHorizontal),
-                    //         decoration: null,
-                    //         fontStyle: FontStyle.italic),
-                    //   ),
-                    // )
+                        // Container(
+                        //   width: Responsive.width(65, context),
+                        //   margin: EdgeInsets.fromLTRB(
+                        //       Responsive.width(15, context),
+                        //       Responsive.height(
+                        //           currentOrientation == Orientation.portrait
+                        //               ? 1
+                        //               : 4,
+                        //           context),
+                        //       0.0,
+                        //       0.0),
+                        //   alignment: Alignment.bottomLeft,
+                        //   child: AutoSizeText(
+                        //     '$subtitle',
+                        //     style: TextStyle(
+                        //         color: Color.fromARGB(255, 8, 31, 14),
+                        //         fontFamily: 'Poppins',
+                        //         fontSize: 1.85 *
+                        //             (currentOrientation == Orientation.portrait
+                        //                 ? SizeConfig.blockSizeVertical
+                        //                 : SizeConfig.blockSizeHorizontal),
+                        //         decoration: null,
+                        //         fontStyle: FontStyle.italic),
+                        //   ),
+                        // )
+                      ],
+                    ),
                   ],
                 ),
               ),

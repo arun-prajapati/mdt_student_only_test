@@ -129,7 +129,7 @@ dynamic loading(
       ..textColor = Colors.black
       ..contentPadding = EdgeInsets.symmetric(
         horizontal: 50,
-        vertical: 20,
+        vertical: 15,
       )
 
       ///

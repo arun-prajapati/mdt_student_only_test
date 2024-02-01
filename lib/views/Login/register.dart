@@ -115,8 +115,15 @@ class _RegisterState extends State<Register> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Smart Theory Test'),
-            content: Text(message),
+            title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
+            content: Text(
+              message,
+              style: AppTextStyle.disStyle.copyWith(
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5,
+                  color: AppColors.black,
+                  height: 1.3),
+            ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -134,9 +141,10 @@ class _RegisterState extends State<Register> {
                     Navigator.of(context).pop();
                   }
                 },
-                child: const Text(
+                child: Text(
                   'Ok',
-                  style: TextStyle(color: Dark, fontSize: 18),
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
                 ),
               ),
             ],

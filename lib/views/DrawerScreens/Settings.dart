@@ -39,7 +39,7 @@ class _Settings extends State<Settings> {
                 iconRight: null),
           ),
           Positioned(
-            top: 110,
+            top: 100,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.88,
               width: MediaQuery.of(context).size.width,

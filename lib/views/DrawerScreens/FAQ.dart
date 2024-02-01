@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/locater.dart';
 
@@ -39,7 +38,7 @@ class TileApp extends StatelessWidget {
                         iconRight: null),
                   ),
                   Positioned(
-                    top: 90,
+                    top: 100,
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.88,
                       width: MediaQuery.of(context).size.width,
