@@ -1,13 +1,17 @@
-import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
 import 'package:student_app/Constants/app_colors.dart';
 
+import '../../custom_button.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/methods.dart';
 import '../../services/password_services.dart';
 import '../../services/validator.dart';
+import '../../utils/appImages.dart';
 import '../spinner.dart';
+import 'login.dart';
 
 class ForgotNextScreen extends StatefulWidget {
   final String email;
@@ -135,262 +139,120 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
     var width = MediaQuery.of(context).size.width;
     var height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    return Scaffold(
-      key: _key,
-      backgroundColor: Colors.white,
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Container(
-            height: Responsive.height(100, context),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                CustomPaint(
-                  size: Size(width, height),
-                  painter: HeaderPainter(),
-                ),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 20,
-                  left: SizeConfig.blockSizeHorizontal * 30,
-                  child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 20,
-                    backgroundColor: Colors.white,
+    return PopScope(
+      onPopInvoked: (didPop) => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignInForm(),
+          )),
+      child: Scaffold(
+        key: _key,
+        backgroundColor: Colors.white,
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Container(
+              height: Responsive.height(100, context),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Image.asset(
+                    AppImages.bgLogin,
+                    //height: 300,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.fitWidth,
+                  ),
+                  // Positioned(
+                  //     left: 25,
+                  //     top: SizeConfig.blockSizeVertical * 8,
+                  //     child: backArrowCustom()),
+                  Positioned(
+                    top: SizeConfig.blockSizeVertical * 18,
+                    left: SizeConfig.blockSizeHorizontal * 28,
                     child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: SizeConfig.blockSizeHorizontal * 18,
+                      radius: SizeConfig.blockSizeHorizontal * 22,
+                      backgroundColor: Colors.white,
                       child: Container(
-                          child: Image.asset(
-                        "assets/logo_app.png",
-                        height: SizeConfig.blockSizeVertical * 33,
-                        width: SizeConfig.blockSizeHorizontal * 33,
-                        fit: BoxFit.contain,
-                      )),
+                        child: Image.asset(
+                          "assets/stt_Logo.png",
+                          height: 180,
+                          width: 182,
+                          //fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                // Positioned(
-                //   top: SizeConfig.blockSizeVertical * 38,
-                //   child: Container(
-                //     child: Text(
-                //       'MDT Learner Driver',
-                //       style: TextStyle(
-                //           letterSpacing: 1.0,
-                //           fontFamily: 'Poppins',
-                //           fontSize: SizeConfig.blockSizeHorizontal * 6,
-                //           fontWeight: FontWeight.w600,
-                //           color: Colors.black),
-                //     ),
-                //   ),
-                // ),
-                Container(
-                  width: SizeConfig.blockSizeHorizontal * 85,
-                  height: SizeConfig.blockSizeVertical * 54,
-                  //color: Colors.black12,
-                  margin: EdgeInsets.fromLTRB(
-                    SizeConfig.blockSizeHorizontal * 7.5,
-                    SizeConfig.blockSizeVertical * 40,
-                    SizeConfig.blockSizeHorizontal * 7.5,
-                    0.0,
-                  ),
-                  child: ListView(
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 80,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 3,
-                            ),
-                            child: TextFormField(
-                              cursorColor: Dark,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: SizeConfig.blockSizeVertical * 2,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 2),
-                                ),
-                                labelText: 'Enter Verification Code',
-                                labelStyle: TextStyle(
-                                  color: Colors.blueGrey,
-                                ),
-                                floatingLabelStyle: TextStyle(color: Dark),
-                                // errorStyle: TextStyle(
-                                //     fontSize: constraints.maxWidth * 0.05),
-                                prefixIcon: const Icon(
-                                  Icons.numbers,
-                                  color: Dark,
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusColor: Dark,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                errorStyle: TextStyle(
-                                  fontSize: 16,
-                                ),
+                  // Positioned(
+                  //   top: SizeConfig.blockSizeVertical * 38,
+                  //   child: Container(
+                  //     child: Text(
+                  //       'MDT Learner Driver',
+                  //       style: TextStyle(
+                  //           letterSpacing: 1.0,
+                  //           fontFamily: 'Poppins',
+                  //           fontSize: SizeConfig.blockSizeHorizontal * 6,
+                  //           fontWeight: FontWeight.w600,
+                  //           color: Colors.black),
+                  //     ),
+                  //   ),
+                  // ),
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 85,
+                    height: SizeConfig.blockSizeVertical * 54,
+                    //color: Colors.black12,
+                    margin: EdgeInsets.fromLTRB(
+                      SizeConfig.blockSizeHorizontal * 7.5,
+                      SizeConfig.blockSizeVertical * 40,
+                      SizeConfig.blockSizeHorizontal * 7.5,
+                      0.0,
+                    ),
+                    child: ListView(
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // CustomTextField(
+                            //   label: 'Enter Verification Code',
+                            //   heading: 'Enter Code',
+                            //   validator: (value) {
+                            //     code = value!.trim();
+                            //     return Validate.requiredField(
+                            //         code, "Code is required");
+                            //   },
+                            //   onChange: (val) {
+                            //     if (!_formKey.currentState!.validate()) {
+                            //       Validate.requiredField(val, "Code is required");
+                            //     }
+                            //   },
+                            //   onFieldSubmitted: (_) {
+                            //     setFocus(context,
+                            //         focusNode: _newPasswordFocusNode);
+                            //   },
+                            //   focusNode: _codeFocusNode,
+                            //   keyboardType: TextInputType.number,
+                            //   textInputAction: TextInputAction.next,
+                            // ),
+                            CustomTextField(
+                              label: 'New Password',
+                              heading: 'New Password',
+                              suffixIcon: Icon(
+                                showPassword
+                                    ? Icons.remove_red_eye_outlined
+                                    : Icons.visibility_off,
+                                // color: Dark,
                               ),
-                              style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                              ),
-                              validator: (value) {
-                                code = value!.trim();
-                                return Validate.requiredField(
-                                    code, "Code is required");
+                              suffixOnTap: () {
+                                setState(() {
+                                  showPassword = !showPassword;
+                                });
                               },
-                              onChanged: (val) {
-                                if (!_formKey.currentState!.validate()) {
-                                  Validate.requiredField(
-                                      val, "Code is required");
-                                }
-                              },
-                              onFieldSubmitted: (_) {
-                                setFocus(context,
-                                    focusNode: _newPasswordFocusNode);
-                              },
-                              focusNode: _codeFocusNode,
-                              keyboardType: TextInputType.number,
-                              textInputAction: TextInputAction.next,
-                              //textAlignVertical: TextAlignVertical.center,
-                            ),
-                          ),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 80,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                            ),
-                            child: TextFormField(
-                              cursorColor: Dark,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    showPassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Dark,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      showPassword = !showPassword;
-                                    });
-                                  },
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: SizeConfig.blockSizeVertical * 2,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 2),
-                                ),
-                                labelText: 'New Password',
-                                labelStyle: TextStyle(
-                                  color: Colors.blueGrey,
-                                ),
-                                floatingLabelStyle: TextStyle(color: Dark),
-                                // errorStyle: TextStyle(
-                                //     fontSize: constraints.maxWidth * 0.05),
-                                prefixIcon: const Icon(
-                                  Icons.key,
-                                  color: Dark,
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusColor: Dark,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                errorStyle: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
                               obscureText: !showPassword,
-                              style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                              ),
                               validator: (value) {
                                 newPassword = value!.trim();
                                 return Validate.requiredField(
                                     newPassword, "Password is required");
                               },
-                              onChanged: (val) {
+                              onChange: (val) {
                                 if (!_formKey.currentState!.validate()) {
                                   Validate.requiredField(
                                       val, "Password is required");
@@ -403,107 +265,29 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                               focusNode: _newPasswordFocusNode,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
-                              //textAlignVertical: TextAlignVertical.center,
                             ),
-                          ),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 80,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 2,
-                            ),
-                            child: TextFormField(
-                              cursorColor: Dark,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    showConfirmPassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Dark,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      showConfirmPassword =
-                                          !showConfirmPassword;
-                                    });
-                                  },
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: SizeConfig.blockSizeVertical * 2,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                    color: Dark,
-                                    width: 2,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 2),
-                                ),
-                                labelText: 'Confirm new password',
-                                labelStyle: TextStyle(
-                                  color: Colors.blueGrey,
-                                ),
-                                floatingLabelStyle: TextStyle(color: Dark),
-                                // errorStyle: TextStyle(
-                                //     fontSize: constraints.maxWidth * 0.05),
-                                prefixIcon: const Icon(
-                                  Icons.key,
-                                  color: Dark,
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusColor: Dark,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Dark, width: 2),
-                                ),
-                                errorStyle: TextStyle(
-                                  fontSize: 16,
-                                ),
+                            CustomTextField(
+                              label: 'Reset Password',
+                              heading: 'Reset Password',
+                              suffixIcon: Icon(
+                                showConfirmPassword
+                                    ? Icons.remove_red_eye_outlined
+                                    : Icons.visibility_off,
+                                // color: Dark,
                               ),
+                              suffixOnTap: () {
+                                setState(() {
+                                  showConfirmPassword = !showConfirmPassword;
+                                });
+                              },
                               obscureText: !showConfirmPassword,
-                              style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                              ),
                               validator: (value) {
                                 confirmNewPassword = value!.trim();
                                 return Validate.requiredField(
                                     confirmNewPassword,
                                     "Confirm password is required");
                               },
-                              onChanged: (val) {
+                              onChange: (val) {
                                 if (!_formKey.currentState!.validate()) {
                                   Validate.requiredField(
                                       val, "confirm password is required");
@@ -516,51 +300,25 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                               focusNode: _confirmNewPasswordFocusNode,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.done,
-                              //textAlignVertical: TextAlignVertical.center,
                             ),
-                          ),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 55,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 5,
-                            ),
-                            //color: Colors.black12,
-                            child: Material(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(25),
-                                topRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25),
-                              ),
-                              borderOnForeground: true,
-                              color: Dark,
-                              elevation: 5.0,
-                              child: MaterialButton(
-                                onPressed: () {
+                            SizedBox(height: 40),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 60),
+                              child: CustomButton(
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                title: 'Reset Password',
+                                onTap: () {
                                   submit(context);
                                 },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  child: Text(
-                                    'Reset password',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 4.5,
-                                      //fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

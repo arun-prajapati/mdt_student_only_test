@@ -20,6 +20,7 @@ import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
 import '../../Constants/app_colors.dart';
 import '../../Constants/global.dart';
 import '../../locater.dart';
+import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
 import '../../services/booking_test.dart';
@@ -42,10 +43,8 @@ class _TheoryTabState extends State<TheoryTab> {
   int seledtedCategoryId = 0;
   List categories = [];
   bool isAllCategoriesSelected = true;
-  TextStyle _categoryTextStyle = TextStyle(
-      fontSize: 2 * SizeConfig.blockSizeVertical,
-      color: Colors.black,
-      fontWeight: FontWeight.normal);
+  TextStyle _categoryTextStyle =
+      AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600);
   final NavigationService _navigationService = locator<NavigationService>();
   late Future<List>? _recentBooking = null;
   final BookingService _bookingService = BookingService();
@@ -89,7 +88,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'buttonText': 'Start test'
     }
   ];
-
+  late List categories_list;
   List _resourceCards = [
     {
       'title': 'Highway Code',
@@ -141,6 +140,8 @@ class _TheoryTabState extends State<TheoryTab> {
   void initState() {
     super.initState();
     getStatus();
+    getCategoriesFromApi();
+
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
@@ -202,6 +203,13 @@ class _TheoryTabState extends State<TheoryTab> {
   // void showLoader(String message) {
   //   CustomSpinner.showLoadingDialog(context, _keyLoader, message);
   // }
+  Future<List> getCategoriesFromApi() async {
+    categories = await test_api_services.getCategories();
+
+    // http.Response.
+    print('response-----------$categories');
+    return categories;
+  }
 
   Future<Map> fetchUserTheoryProgress(int driverId) async {
     SharedPreferences storage = await SharedPreferences.getInstance();
@@ -244,10 +252,10 @@ class _TheoryTabState extends State<TheoryTab> {
     return userName;
   }
 
-  Future<List> getCategoriesFromApi() async {
-    List response = await test_api_services.getCategories();
-    return response;
-  }
+  // Future<List> getCategoriesFromApi() async {
+  //   List response = await test_api_services.getCategories();
+  //   return response;
+  // }
 
   @override
   void didChangeDependencies() {
@@ -288,71 +296,145 @@ class _TheoryTabState extends State<TheoryTab> {
                 Padding(
                   padding: EdgeInsets.only(top: 15),
                   child: GestureDetector(
-                    // onTap: () {
-                    //   showDialog(
-                    //       context: context,
-                    //       builder: (context) => Dialog(
-                    //             shape: RoundedRectangleBorder(
-                    //                 borderRadius:
-                    //                     BorderRadius.circular(12.0)),
-                    //             insetAnimationCurve: Curves.easeOutBack,
-                    //             insetPadding: EdgeInsets.all(20),
-                    //             clipBehavior: Clip.antiAliasWithSaveLayer,
-                    //             child: Container(
-                    //               height: Responsive.height(55, context),
-                    //               alignment: Alignment.bottomCenter,
-                    //               padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
-                    //               child: Column(
-                    //                 children: [
-                    //                   Container(
-                    //                     height:
-                    //                         Responsive.height(35, context),
-                    //                     width: Responsive.width(80, context),
-                    //                     alignment: Alignment.topLeft,
-                    //                     margin: EdgeInsets.only(
-                    //                         bottom: 0, top: 0),
-                    //                     child: Column(children: [
-                    //                       // )),
-                    //                       Text('Your Progress:',
-                    //                           style: _categoryTextStyle),
-                    //                       ListView(
-                    //                           physics:
-                    //                               AlwaysScrollableScrollPhysics(),
-                    //                           shrinkWrap: true,
-                    //                           children: [
-                    //                             ...categories.map((category) {
-                    //                               // var index = categories
-                    //                               //     .indexOf(category);
-                    //                               return Container(
-                    //                                 width: Responsive.width(
-                    //                                     80, context),
-                    //                                 alignment:
-                    //                                     Alignment.topLeft,
-                    //                                 child: Container(
-                    //                                   width: Responsive.width(
-                    //                                     57,
-                    //                                     context,
-                    //                                   ),
-                    //                                   child: SizedBox(
-                    //                                     width:
-                    //                                         Responsive.width(
-                    //                                             55, context),
-                    //                                     child: AutoSizeText(
-                    //                                         category['name'],
-                    //                                         style:
-                    //                                             _categoryTextStyle),
-                    //                                   ),
-                    //                                 ),
-                    //                               );
-                    //                             }).toList()
-                    //                           ])
-                    //                     ]),
-                    //                   )
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ));
-                    // },
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
+                                insetAnimationCurve: Curves.easeOutBack,
+                                insetPadding: EdgeInsets.all(20),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Container(
+                                  height: Responsive.height(55, context),
+                                  //alignment: Alignment.bottomCenter,
+                                  padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
+                                  child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('${_userName}\'s Progress:',
+                                            style: _categoryTextStyle),
+                                        Expanded(
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: List.generate(
+                                                  categories.length,
+                                                  (index) => Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 8,
+                                                                vertical: 5),
+                                                        child: Row(
+                                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: Text(
+                                                                  categories[
+                                                                          index]
+                                                                      ['name'],
+                                                                  style: _categoryTextStyle
+                                                                      .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                  )),
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Expanded(
+                                                              flex: 0,
+                                                              child: Text(
+                                                                '${(categories[index]['theory_progress'] * 100 ~/ 1).toString()} %',
+                                                                style: AppTextStyle
+                                                                    .textStyle,
+                                                              ),
+                                                              // ActionChip(
+                                                              //   backgroundColor:
+                                                              //       AppColors
+                                                              //           .transparent,
+                                                              //   pressElevation: 0,
+                                                              //   padding:
+                                                              //       EdgeInsets
+                                                              //           .all(0),
+                                                              //   labelPadding:
+                                                              //       EdgeInsets
+                                                              //           .all(0),
+                                                              //   visualDensity:
+                                                              //       VisualDensity
+                                                              //           .comfortable,
+                                                              //   onPressed: () => {
+                                                              //     setState(() {
+                                                              //       resetAll(
+                                                              //           false);
+                                                              //       seledtedCategoryId =
+                                                              //           categories[
+                                                              //                   index]
+                                                              //               [
+                                                              //               'id'];
+                                                              //       categories[
+                                                              //               index]
+                                                              //           [
+                                                              //           'selected'] = true;
+                                                              //     })
+                                                              //   },
+                                                              //   label:
+                                                              //       Image.asset(
+                                                              //     categories[index]
+                                                              //                 [
+                                                              //                 'selected'] ==
+                                                              //             true
+                                                              //         ? AppImages
+                                                              //             .checkedbox
+                                                              //         : AppImages
+                                                              //             .checkBox,
+                                                              //     height: categories[index]
+                                                              //                 [
+                                                              //                 'selected'] ==
+                                                              //             true
+                                                              //         ? 23
+                                                              //         : 20,
+                                                              //     width: categories[index]
+                                                              //                 [
+                                                              //                 'selected'] ==
+                                                              //             true
+                                                              //         ? 23
+                                                              //         : 20,
+                                                              //   ),
+                                                              // )
+                                                              // // IconButton(
+                                                              //   iconSize: 3 * SizeConfig.blockSizeVertical,
+                                                              //   padding: EdgeInsets.all(0),
+                                                              //   icon: Icon(
+                                                              //       category['selected'] == true
+                                                              //           ? Icons.check_box
+                                                              //           : Icons.check_box_outline_blank,
+                                                              //       color: category['selected'] == true
+                                                              //           ? AppColors.blueGrad6
+                                                              //           : AppColors.borderblue
+                                                              //               .withOpacity(0.3)),
+                                                              //   onPressed: () => {
+                                                              //     setState(() {
+                                                              //       resetAll(false);
+                                                              //       seledtedCategoryId = category['id'];
+                                                              //       categories[index]['selected'] = true;
+                                                              //     })
+                                                              //   },
+                                                              // ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                              ));
+                    },
                     child: CircularPercentIndicator(
                       radius: 78,
                       lineWidth: 12,

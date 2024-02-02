@@ -59,8 +59,8 @@ showCorrectAnswerDialog(BuildContext context, String explanation) {
                 child: CustomButton(
                   padding: EdgeInsets.symmetric(vertical: 11),
                   title: 'Ok,Continue',
-                  fontSize: 13,
-                  isfontSize: true,
+                  // fontSize: 15,
+                  // isfontSize: true,
                   onTap: () {
                     Navigator.of(context).pop();
                   },

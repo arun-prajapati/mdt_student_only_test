@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui' as ui;
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +11,6 @@ import 'package:student_app/custom_button.dart';
 import 'package:student_app/services/auth.dart';
 import 'package:student_app/utils/app_colors.dart';
 import 'package:student_app/views/Login/forgot_next_screen.dart';
-import 'package:student_app/views/Login/login.dart';
 import 'package:student_app/views/Login/register.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
@@ -514,7 +512,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               ? Center(
                                   child: CircularProgressIndicator(color: Dark))
                               : CustomButton(
-                                  title: 'Send Code',
+                                  title: authData.isSendOtp
+                                      ? 'Verify Code'
+                                      : 'Send Code',
                                   onTap: () {
                                     submit(context);
                                   }),
@@ -584,20 +584,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               };
               Spinner.showSpinner(context, "Sending code");
               //print(data);
-              Future.delayed(Duration(seconds: 2));
+//              Future.delayed(Duration(seconds: 2));
 
-              _passwordService.forgotPassword(data).then((res) {
-                log("!!!!!!!!!!!!!! $res");
-
-                if (res["success"] == false) {
-                  Spinner.close(context);
-                  showValidationDialog(context, res["error"]);
-                } else {
-                  Spinner.close(context);
-                  showSuccessDialog(context, res["error"]);
-                }
-                print("Response: $res");
-              });
+              // _passwordService.forgotPassword(data).then((res) {
+              //   log("!!!!!!!!!!!!!! $res");
+              //
+              //   if (res["success"] == false) {
+              //     Spinner.close(context);
+              //     showValidationDialog(context, res["error"]);
+              //   } else {
+              //     Spinner.close(context);
+              //     showSuccessDialog(context, res["error"]);
+              //   }
+              //   print("Response: $res");
+              // });
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ForgotNextScreen(
+                          email: '${countryCode} ${phoneTextControl.text}')));
             }
           }).catchError((e) {
             loadingValue = false;

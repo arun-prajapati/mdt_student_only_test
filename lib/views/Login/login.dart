@@ -395,6 +395,7 @@ class _SignInFormState extends State<SignInForm> {
                           //   },
                           child: GestureDetector(
                             onTap: () {
+                              context.read<UserProvider>().isSendOtp = false;
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => ForgotPassword(),
