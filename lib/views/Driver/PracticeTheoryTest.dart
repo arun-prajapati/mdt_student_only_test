@@ -72,7 +72,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   @override
   void initState() {
     super.initState();
-    getNewCat();
+    // getNewCat();
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
@@ -196,7 +196,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     if (context.read<UserProvider>().changeView) {
       getCategoriesFromApi().then((response_list) {
         // Navigator.pop(context);
-        log("Category : $response_list");
+        log("Category &&&& : $response_list");
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
         showModalBottomSheet(
             isDismissible: false,

@@ -865,6 +865,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     style: AppTextStyle.textStyle
                                         .copyWith(fontWeight: FontWeight.w500)),
                                 onTap: () {
+                                  print(
+                                      'theoryContent[index]["topic_id"] ${theoryContent[index]["id"]}');
                                   GetPremium(context);
                                 },
                                 trailing: Container(

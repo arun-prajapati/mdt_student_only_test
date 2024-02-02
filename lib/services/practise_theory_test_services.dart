@@ -19,6 +19,7 @@ class PractiseTheoryTestServices {
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
     userData = data["data"];
+    print('CATEGORY ****************** $token');
     return userData;
   }
 
@@ -41,10 +42,11 @@ class PractiseTheoryTestServices {
   }
 
   Future<Map> getAllRecords(int _userType, int _userId) async {
-    final url = Uri.parse("$api/api/get-all-data?id=" +
+    String URL = "$api/api/get-all-data?id=" +
         _userId.toString() +
         "&user_type=" +
-        _userType.toString());
+        _userType.toString();
+    final url = Uri.parse(URL);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -53,25 +55,28 @@ class PractiseTheoryTestServices {
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
     Map recordData = data["data"];
+    print("getAllRecords URL ${URL}");
+
     return recordData;
   }
 
   Future<Map> submitTest(
       int _userType, int _userId, List test_question, int _category_id) async {
-    final url = Uri.parse("$api/api/save-theory-test?id=" +
+    var URL = "$api/api/save-theory-test?id=" +
         _userId.toString() +
         "&user_type=" +
         _userType.toString() +
         "&category_id=" +
-        (_category_id == null ? "0" : _category_id.toString()));
+        (_category_id == null ? "0" : _category_id.toString());
+    final url = Uri.parse(URL);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
     };
     Map<String, String> formData = {'responses': jsonEncode(test_question)};
-    print("Test Submitting...");
-    print(test_question);
+    print("Test Submitting... $URL");
+    log("Test Submitting BODY... ${jsonEncode(test_question)}");
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
     print(data);

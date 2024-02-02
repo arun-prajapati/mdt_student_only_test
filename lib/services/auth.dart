@@ -203,6 +203,8 @@ class UserProvider with ChangeNotifier {
       'user_type': userType,
       'device_type': deviceType,
       'device_id': deviceId,
+      "phone_number": "",
+      "country_code": "",
     };
     print("------------------ ${jsonEncode(body)}");
     final response = await http.post(
@@ -317,6 +319,7 @@ class UserProvider with ChangeNotifier {
           verificationCode = verificationId;
           _resendToken = resendToken ?? 0;
           isSendOtp = true;
+          // print("${}");
           if (isResend == false) {
             loading(value: false);
             // _navigationService.navigatorKey.currentState?.push(MaterialPageRoute(

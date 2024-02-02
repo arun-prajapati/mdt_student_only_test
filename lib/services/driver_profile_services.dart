@@ -9,13 +9,15 @@ class DriverProfileServices {
   late List userData;
 
   Future<Map> getProfileDetail(int _userType, int _userId) async {
-    final url = Uri.parse("$api/api/profile?id=" +
+    String URL = "$api/api/profile?id=" +
         _userId.toString() +
         "&user_type=" +
-        _userType.toString());
+        _userType.toString();
+    final url = Uri.parse(URL);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     print('TOKEN ******************  $token');
+    print('PROFILE DETAIL  $URL');
 
     Map<String, String> header = {
       'token': token,

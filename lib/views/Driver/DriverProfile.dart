@@ -630,7 +630,7 @@ class _driverProfile extends State<DriverProfile> {
                                       style: AppTextStyle.textStyle.copyWith(
                                           color: AppColors.grey,
                                           fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 10),
                                   Row(
                                     children: [
                                       if (license != null ||
@@ -640,63 +640,82 @@ class _driverProfile extends State<DriverProfile> {
                                                 SizeConfig.blockSizeVertical,
                                             height: 30 *
                                                 SizeConfig.blockSizeVertical,
+                                            color: Colors.transparent,
                                             // alignment: Alignment(0, -Responsive.width(.1, context)),
                                             child: Stack(
                                               children: [
-                                                Container(
-                                                    margin: EdgeInsets.fromLTRB(
-                                                        0,
-                                                        2 *
-                                                            SizeConfig
-                                                                .blockSizeVertical,
-                                                        0,
-                                                        0),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.of(context).push(PageRouteBuilder(
-                                                            opaque: false,
-                                                            pageBuilder: (BuildContext
-                                                                        context,
-                                                                    _,
-                                                                    __) =>
-                                                                ZoomView(
-                                                                    licenceHttpPath ??
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  child: Container(
+                                                      margin: EdgeInsets.fromLTRB(
+                                                          0,
+                                                          0 *
+                                                              SizeConfig
+                                                                  .blockSizeVertical,
+                                                          0,
+                                                          0),
+                                                      // padding:
+                                                      //     EdgeInsets.all(0),
+                                                      decoration: BoxDecoration(
+                                                        // border: Border.all(
+                                                        //     color: AppColors
+                                                        //         .grey
+                                                        //         .withOpacity(
+                                                        //             .50)),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: .0),
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.of(context).push(PageRouteBuilder(
+                                                                opaque: false,
+                                                                pageBuilder: (BuildContext context, _, __) => ZoomView(
+                                                                    "${imageBaseUrl}$licenceHttpPath" ??
                                                                         license!
                                                                             .path,
                                                                     licenceHttpPath !=
                                                                             null
                                                                         ? 'http'
                                                                         : 'file')));
-                                                      },
-                                                      child: licenceHttpPath !=
-                                                              null
-                                                          ? Image.network(
-                                                              licenceHttpPath!,
-                                                              width: 20 *
-                                                                  SizeConfig
-                                                                      .blockSizeVertical,
-                                                              height: 20 *
-                                                                  SizeConfig
-                                                                      .blockSizeVertical,
-                                                              fit: BoxFit.cover,
-                                                            )
-                                                          : Image.file(
-                                                              File(license!
-                                                                  .path),
-                                                              width: 20 *
-                                                                  SizeConfig
-                                                                      .blockSizeVertical,
-                                                              height: 20 *
-                                                                  SizeConfig
-                                                                      .blockSizeVertical,
-                                                              fit:
-                                                                  BoxFit.cover),
-                                                    )),
+                                                          },
+                                                          child: licenceHttpPath !=
+                                                                  null
+                                                              ? Image.network(
+                                                                  "${imageBaseUrl}$licenceHttpPath",
+                                                                  width: 20 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical,
+                                                                  height: 20 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                )
+                                                              : Image.file(
+                                                                  File(license!
+                                                                      .path),
+                                                                  width: 20 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical,
+                                                                  height: 20 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical,
+                                                                  fit: BoxFit
+                                                                      .cover),
+                                                        ),
+                                                      )),
+                                                ),
                                                 Positioned(
-                                                  top: -Responsive.width(
-                                                      1, context),
+                                                  top: -12,
                                                   right: Responsive.width(
-                                                      12, context),
+                                                      17, context),
                                                   child: IconButton(
                                                     icon: Icon(
                                                         Icons.remove_circle),
