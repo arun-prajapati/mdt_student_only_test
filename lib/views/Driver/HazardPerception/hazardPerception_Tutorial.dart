@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:better_player_plus/better_player_plus.dart';
+
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -309,7 +310,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                             children: [
                               Container(
                                 width: Responsive.width(100, context),
-                                height: Responsive.height(5, context),
+                                // height: Responsive.height(5, context),
                                 alignment: Alignment.topCenter,
                                 child: Text(
                                   "Look for clues that might turn into a hazard and "
@@ -425,7 +426,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                               if (secondStepVideoPlayer != null)
                                 Container(
                                   width: Responsive.width(100, context),
-                                  height: Responsive.height(5, context),
+                                  // height: Responsive.height(5, context),
                                   alignment: Alignment.topCenter,
                                   child: Text(
                                     secondStepText,
@@ -460,7 +461,7 @@ class _HazardPerceptionTutorial extends State<HazardPerceptionTutorial>
                               if (thirdStepVideoPlayer != null)
                                 Container(
                                   width: Responsive.width(100, context),
-                                  height: Responsive.height(5, context),
+                                  // height: Responsive.height(5, context),
                                   alignment: Alignment.topCenter,
                                   child: Text(
                                     "But you will be disqualified if you tap continuously or in a pattern.",
