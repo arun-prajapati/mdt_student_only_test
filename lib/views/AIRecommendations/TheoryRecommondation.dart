@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/custom_button.dart';
 import 'package:student_app/external.dart';
 import 'package:toast/toast.dart';
@@ -146,8 +147,13 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
 
   //Fetch topics with description
   Future<Map> getTheoryContent(String isFree) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
     final url = Uri.parse('$api/api/ai_get_theory_content/${isFree}');
-    final response = await http.get(url);
+    final response = await http.get(url, headers: header);
     return jsonDecode(response.body);
   }
 
@@ -177,9 +183,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   }
 
   Future<Map> fetchUserTheoryProgress(int driverId) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
     final url = Uri.parse('$api/api/fetch/progress/${driverId}');
     //print("URL : $url");
-    final response = await http.get(url);
+    final response = await http.get(url, headers: header);
     return jsonDecode(response.body);
   }
 

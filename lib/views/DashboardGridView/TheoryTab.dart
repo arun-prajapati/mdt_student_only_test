@@ -204,9 +204,14 @@ class _TheoryTabState extends State<TheoryTab> {
   // }
 
   Future<Map> fetchUserTheoryProgress(int driverId) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
     final url = Uri.parse('$api/api/fetch/progress/${driverId}');
     //print("URL : $url");
-    final response = await http.get(url);
+    final response = await http.get(url, headers: header);
     print("fetchUserTheoryProgress URL $api/api/fetch/progress/${driverId}");
     log("RESPONSE fetchUserTheoryProgress ++++++++++++++++ ${response.body}");
     return jsonDecode(response.body);
