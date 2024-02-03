@@ -40,6 +40,13 @@ class AppTextStyle {
     color: AppColors.grey,
   );
 
+  static TextStyle boldStyle = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    color: AppColors.black,
+  );
+
   // static double font = 16.0;
   // static double fontTitle = 18.0;
   // static double fontDis = 14.0;

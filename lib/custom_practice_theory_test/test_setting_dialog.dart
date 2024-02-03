@@ -169,19 +169,21 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                   ),
                   Expanded(
                     flex: 0,
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => TheoryTab(),
-                          //     ));
-                        },
-                        child:
-                            Icon(Icons.close, size: 22, color: Colors.black)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 18),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => TheoryTab(),
+                            //     ));
+                          },
+                          child:
+                              Icon(Icons.close, size: 22, color: Colors.black)),
+                    ),
                   ),
                 ],
               ),

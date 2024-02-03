@@ -41,8 +41,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String? email;
 
   var mobile = '';
-
-  var countryCode = '+44';
+  var countryCode = '+91';
   final submittedPinTheme = PinTheme(
     width: 60,
     height: 60,
@@ -131,12 +130,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   @override
+  void initState() {
+    // submit(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-
     var width = MediaQuery.of(context).size.width;
-    var height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
       key: _key,
       backgroundColor: Colors.white,
@@ -155,10 +158,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fitWidth,
                   ),
-                  Positioned(
-                      left: 25,
-                      top: SizeConfig.blockSizeVertical * 8,
-                      child: backArrowCustom()),
+                  Positioned(left: 25, top: SizeConfig.blockSizeVertical * 8, child: backArrowCustom()),
                   Positioned(
                     top: SizeConfig.blockSizeVertical * 15,
                     left: SizeConfig.blockSizeHorizontal * 28,
@@ -354,8 +354,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     SizeConfig.blockSizeHorizontal * 7.5,
                     0.0,
                   ),
-                  child:
-                      Consumer<UserProvider>(builder: (context, authData, _) {
+                  child: Consumer<UserProvider>(builder: (context, authData, _) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -392,94 +391,58 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   defaultPinTheme: submittedPinTheme,
                                   submittedPinTheme: submittedPinTheme,
                                   focusedPinTheme: focusPinTheme,
-                                  androidSmsAutofillMethod:
-                                      AndroidSmsAutofillMethod.smsRetrieverApi,
-                                  pinputAutovalidateMode:
-                                      PinputAutovalidateMode.onSubmit,
+                                  androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
+                                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                                   showCursor: true,
                                   onSubmitted: (pin) async {},
                                 ),
                               )
                             : IntlPhoneField(
+                                onCountryChanged: (c) {
+                                  countryCode = c.dialCode;
+                                  print("Code :: ${countryCode}");
+                                },
                                 autofocus: false,
                                 textAlign: TextAlign.left,
-                                dropdownIcon: Icon(Icons.keyboard_arrow_down,
-                                    color: Colors.black),
+                                dropdownIcon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
                                 dropdownIconPosition: IconPosition.trailing,
                                 flagsButtonMargin: EdgeInsets.only(left: 10),
                                 //disableLengthCheck: true,
                                 autovalidateMode: AutovalidateMode.disabled,
                                 //disableLengthCheck: true,
                                 controller: phoneTextControl,
-
                                 cursorColor: Dark,
-
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                   counterText: "",
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 20),
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
                                   border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    borderSide: BorderSide(
-                                        color: AppColors.black.withOpacity(0.5),
-                                        width: 1.1),
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              AppColors.black.withOpacity(0.5),
-                                          width: 1.1)),
-                                  disabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              AppColors.black.withOpacity(0.5),
-                                          width: 1.1)),
-                                  errorBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              AppColors.black.withOpacity(0.5),
-                                          width: 1.1)),
+                                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
+                                  disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
+                                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
                                   focusColor: Dark,
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    borderSide: BorderSide(
-                                        color: AppColors.black.withOpacity(0.5),
-                                        width: 1.1),
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    borderSide: BorderSide(
-                                        color: AppColors.black.withOpacity(0.5),
-                                        width: 1.1),
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
                                   ),
-                                  hintStyle: AppTextStyle.disStyle.copyWith(
-                                      color: AppColors.grey,
-                                      fontWeight: FontWeight.w400),
-
+                                  hintStyle: AppTextStyle.disStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w400),
                                   hintText: 'Enter Mobile Number',
-                                  errorStyle: AppTextStyle.textStyle
-                                      .copyWith(color: AppColors.red1),
-
+                                  errorStyle: AppTextStyle.textStyle.copyWith(color: AppColors.red1),
                                   floatingLabelStyle: TextStyle(color: Dark),
                                   // errorStyle: TextStyle(
                                   //     fontSize: constraints.maxWidth * 0.05),
                                 ),
-                                initialCountryCode: 'GB',
+                                initialCountryCode: 'IN',
                                 // showCountryFlag: false,
                                 keyboardType: TextInputType.phone,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
+                                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                                 style: AppTextStyle.textStyle,
                                 onSubmitted: (_) {
                                   setFocus(context, focusNode: null);
@@ -495,26 +458,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   Validate.validateEmail(phoneTextControl.text);
                                   setState(() {
                                     mobile = phone.completeNumber;
-                                    phoneTextControl.selection =
-                                        TextSelection.fromPosition(TextPosition(
-                                            offset:
-                                                phoneTextControl.text.length));
+                                    phoneTextControl.selection = TextSelection.fromPosition(TextPosition(offset: phoneTextControl.text.length));
                                     countryCode = phone.countryCode;
                                   });
                                 },
                               ),
                         Container(
                           width: SizeConfig.blockSizeHorizontal * 80,
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 4.8),
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4.8),
                           //color: Colors.black12,
                           child: loadingValue
-                              ? Center(
-                                  child: CircularProgressIndicator(color: Dark))
+                              ? Center(child: CircularProgressIndicator(color: Dark))
                               : CustomButton(
-                                  title: authData.isSendOtp
-                                      ? 'Verify Code'
-                                      : 'Send Code',
+                                  title: authData.isSendOtp ? 'Verify Code' : 'Send Code',
                                   onTap: () {
                                     submit(context);
                                   }),
@@ -558,23 +514,27 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   bool loadingValue = false;
 
   Future<void> submit(BuildContext context) async {
+    Map<String, dynamic> formData = {
+      "phone": phoneTextControl.text.trim(),
+      "user_type": "2",
+    };
+
+    /// https://mdt.developersforflutter.com/api/verify-mobile
+
     final form = _formKey.currentState;
     print("form state : ${form!.validate()}");
     var authData = context.read<UserProvider>();
+
     if (form.validate() && phoneTextControl.text.isNotEmpty) {
       if (!authData.isSendOtp) {
         print('PPPPPPPPPPPPPP');
-        Provider.of<UserProvider>(context, listen: false)
-            .verifyPhone(context, countryCode, phoneTextControl.text);
+        Provider.of<UserProvider>(context, listen: false).verifyPhone(context, countryCode, phoneTextControl.text);
       } else {
         try {
           loadingValue = true;
           setState(() {});
-          final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-              verificationId: authData.verificationCode, smsCode: code.text);
-          FirebaseAuth.instance
-              .signInWithCredential(credential)
-              .then((value) async {
+          final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: authData.verificationCode, smsCode: code.text);
+          FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
             if (value.user != null) {
               loadingValue = false;
               setState(() {});
@@ -598,11 +558,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               //   }
               //   print("Response: $res");
               // });
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ForgotNextScreen(
-                          email: '${countryCode} ${phoneTextControl.text}')));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgotNextScreen(email: '${countryCode} ${phoneTextControl.text}')));
             }
           }).catchError((e) {
             loadingValue = false;
@@ -611,8 +567,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             if (e.code == "invalid-verification-code") {
               authData.showErrorDialog(context, "Invalid OTP");
             } else {
-              authData.showErrorDialog(
-                  context, e.code.toString().replaceAll("-", " "));
+              authData.showErrorDialog(context, e.code.toString().replaceAll("-", " "));
             }
           });
         } catch (e) {
@@ -621,6 +576,35 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         }
       }
     }
+
+    /* Future.delayed(Duration(seconds: 2));
+    _passwordService.verifyNumber(formData).then((res) {
+      if (res["success"] == false) {
+        Spinner.close(context);
+        print("ERROE");
+        showValidationDialog(context, res["message"]);
+      } else {
+        Spinner.close(context);
+        showSuccessDialog(context, res["message"]);
+        print("SUCCESS");
+
+      }
+    });*/
+
+    /*if (response.body == false) {
+      print("LOGIN");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('The phone must be a valid phone number.'),
+        ),
+      );
+    } else {
+      print("FAILED");
+
+
+
+
+    }*/
   }
 }
 
@@ -641,8 +625,7 @@ class HeaderPainter extends CustomPainter {
     Path path0 = Path();
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
-    path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
+    path0.quadraticBezierTo(size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();
@@ -663,8 +646,7 @@ class HeaderPainter extends CustomPainter {
     Path path1 = Path();
     path1.moveTo(0, 0);
     path1.lineTo(0, size.height * 0.20);
-    path1.quadraticBezierTo(
-        size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
+    path1.quadraticBezierTo(size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
     path1.quadraticBezierTo(size.width, size.height * 0.22, size.width, 0);
     path1.lineTo(0, 0);
     path1.close();

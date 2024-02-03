@@ -5,7 +5,7 @@ class PracticeTestCategoryModel {
   int? status;
   String? deletedAt;
   String? createdAt;
-  String? updatedAt;
+  String? dAt;
 
   PracticeTestCategoryModel(
       {this.id,
@@ -14,7 +14,7 @@ class PracticeTestCategoryModel {
       this.status,
       this.deletedAt,
       this.createdAt,
-      this.updatedAt});
+      this.dAt});
 
   PracticeTestCategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,7 +23,7 @@ class PracticeTestCategoryModel {
     status = json['status'];
     deletedAt = json['deleted_at'];
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    dAt = json['d_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,7 +34,7 @@ class PracticeTestCategoryModel {
     data['status'] = this.status;
     data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['d_at'] = this.dAt;
     return data;
   }
 }

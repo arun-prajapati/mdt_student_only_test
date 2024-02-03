@@ -4,10 +4,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/views/Login/welcome.dart';
 
 import '../../services/auth.dart';
 import '../../utils/app_colors.dart';
-import '../Home/home_content_mobile.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Timer(Duration(seconds: 2), () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          context, MaterialPageRoute(builder: (context) => Welcome()));
 //                   Consumer<UserProvider>(
 //                     builder: (context, user, child) {
 //                       switch (user.status) {

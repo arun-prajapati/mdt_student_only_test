@@ -1,28 +1,26 @@
+import 'dart:convert';
+import 'dart:developer' as devtools;
+import 'dart:math' as math;
+
+import 'package:crypto/crypto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:path/path.dart' as p;
-
 //import 'package:sign_in_apple/sign_in_apple.dart';
 import 'package:http/http.dart' as http;
-import 'package:crypto/crypto.dart';
+import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:toast/toast.dart';
+
 import '../Constants/global.dart';
+import '../locater.dart';
 import '../views/spinner.dart';
 import '../widget/CustomSpinner.dart';
 import 'auth.dart' as auth;
 import 'navigation_service.dart';
-import '../locater.dart';
-import 'dart:convert';
-import 'dart:math' as math;
-import 'package:provider/provider.dart';
-import 'dart:developer' as devtools;
 
 class SocialLoginService {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -40,27 +38,21 @@ class SocialLoginService {
       await Firebase.initializeApp().then((value) async {
         FirebaseAuth auth = FirebaseAuth.instance;
         final GoogleSignIn googleSignIn = GoogleSignIn(
-          scopes: <String>[
-            'email',
-          ],
+          scopes: <String>['email'],
         );
         bool checkSignIn = await googleSignIn.isSignedIn();
         if (checkSignIn) googleSignIn.signOut();
-        final GoogleSignInAccount? googleSignInAccount =
-            await googleSignIn.signIn();
+        final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
         if (googleSignInAccount != null) {
-          final GoogleSignInAuthentication googleSignInAuthentication =
-              await googleSignInAccount.authentication;
+          final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
           final AuthCredential credential = GoogleAuthProvider.credential(
             accessToken: googleSignInAuthentication.accessToken,
             idToken: googleSignInAuthentication.idToken,
           );
           try {
-            UserCredential authResult =
-                await auth.signInWithCredential(credential);
+            UserCredential authResult = await auth.signInWithCredential(credential);
             User? _user = authResult.user;
             //showValidationDialog(globalContext, _user!.toString());
-
             // IdTokenResult _idTokenResult = await _user.getIdToken(refresh: false);
             // print("Goggle Email..: "+_user.email);
             // print("Google uid..:" +googleSignInAccount.id);
@@ -85,8 +77,7 @@ class SocialLoginService {
             if (e == 'account-exists-with-different-credential') {
               // Toast.show("Account exists with different credential",
               //     duration: Toast.lengthLong, gravity: Toast.bottom);
-              Fluttertoast.showToast(
-                  msg: 'Account exists with different credential');
+              Fluttertoast.showToast(msg: 'Account exists with different credential');
             } else {
               if (e == 'invalid-credential') {
                 // Toast.show("Invalid credential",
@@ -212,14 +203,7 @@ class SocialLoginService {
 
   //social_type = facebook, google, apple
   Future<Map> socialLogin(Map params) async {
-    final url = Uri.parse("$api/api/social-login?token=" +
-        params['token'] +
-        "&social_type=" +
-        params['social_type'] +
-        "&id=" +
-        params['social_site_id'] +
-        "&email=" +
-        params['email']);
+    final url = Uri.parse("$api/api/social-login?token=" + params['token'] + "&social_type=" + params['social_type'] + "&id=" + params['social_site_id'] + "&email=" + params['email']);
     final response = await http.get(url);
     Map data = json.decode(response.body);
     print("data....");
@@ -228,11 +212,9 @@ class SocialLoginService {
   }
 
   String generateNonce([int length = 32]) {
-    final charset =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final random = math.Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
-        .join();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
   }
 
   /// Returns the sha256 hash of [input] in hex notation.
@@ -271,8 +253,7 @@ class SocialLoginService {
           print("UID : ${oauthCredential.idToken}");
           // Sign in the user with Firebase. If the nonce we generated earlier does
           // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-          UserCredential user =
-              await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+          UserCredential user = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
           User? userData = user.user;
           print("UserData : ${user.credential}");
           Map params = {
@@ -280,8 +261,7 @@ class SocialLoginService {
             'social_type': 'apple',
             'social_site_id': user.user?.uid,
             'email': user.user?.email,
-            'phone':
-                user.user?.phoneNumber != null ? user.user?.phoneNumber : null,
+            'phone': user.user?.phoneNumber != null ? user.user?.phoneNumber : null,
             'accessType': 'login'
           };
           socialLoginApi(params);
@@ -293,8 +273,7 @@ class SocialLoginService {
           //   duration: 3,
           //   gravity: Toast.bottom,
           // );
-          Fluttertoast.showToast(
-              msg: 'Apple sign-in not allowed with this device.');
+          Fluttertoast.showToast(msg: 'Apple sign-in not allowed with this device.');
         }
       });
       //SignInWithApple.isAvailable();
@@ -302,8 +281,7 @@ class SocialLoginService {
       // closeLoader();
       Spinner.close(context);
       print("Apple signin exception : $e");
-      Fluttertoast.showToast(
-          msg: 'Apple sign-in not allowed with this device.');
+      Fluttertoast.showToast(msg: 'Apple sign-in not allowed with this device.');
       return null;
     }
   }
@@ -548,8 +526,7 @@ class SocialLoginService {
   }
 */
   void navigateFromEmailRegister(Map params) {
-    _navigationService.navigateTo('/social_email_registration',
-        arguments: params);
+    _navigationService.navigateTo('/social_email_registration', arguments: params);
   }
 
   void showLoader(String message) {
@@ -569,9 +546,7 @@ class SocialLoginService {
   }
 
   Future<Map> getFacebookUserDetail(String token) async {
-    final url = Uri.parse(
-        "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture&access_token=" +
-            token);
+    final url = Uri.parse("https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture&access_token=" + token);
     final response = await http.get(url);
     Map data = jsonDecode(response.body);
     return data;
@@ -579,9 +554,7 @@ class SocialLoginService {
 
   Future<void> socialLoginApi(Map params) async {
     try {
-      Map? loginResponse =
-          await Provider.of<auth.UserProvider>(globalContext, listen: false)
-              .socialLoginWithMdtRegister(params);
+      Map? loginResponse = await Provider.of<auth.UserProvider>(globalContext, listen: false).socialLoginWithMdtRegister(params);
       closeLoader();
       if (loginResponse != null) {
         if (loginResponse['success'] == false) {

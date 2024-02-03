@@ -213,18 +213,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(width: 15),
-                    Text('Welcome ${_userName ?? ""}',
-                        style: AppTextStyle.appBarStyle),
+                    Text(
+                      'Welcome ${_userName ?? ""}',
+                      style: AppTextStyle.appBarStyle,
+                    ),
                   ],
                 ),
               ),
             ),
           ),
           Positioned(
-              top: 90,
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: TheoryTab())),
+            top: 90,
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height, child: TheoryTab()),
+          ),
         ],
       ),
     );
@@ -566,6 +568,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 //class GridListExample extends StatelessWidget {
 //  const GridListExample({Key key}) : super(key: key);
 //

@@ -110,48 +110,44 @@ class TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
                   width: constraints.maxWidth,
                   height: constraints.maxHeight * 0.17,
                   //color: Colors.redAccent,
-                  child: TabBar(
-                      indicatorColor: Colors.white,
-                      indicatorWeight: constraints.maxHeight * 0.01,
-                      labelPadding: EdgeInsets.only(bottom: 0.0),
-                      tabs: <Tab>[
-                        Tab(
-                          child: Container(
-                            width: constraints.maxWidth * 0.23,
-                            height: constraints.maxHeight * 0.2,
-                            //color: Colors.redAccent,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                'Register',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+                  child: TabBar(indicatorColor: Colors.white, indicatorWeight: constraints.maxHeight * 0.01, labelPadding: EdgeInsets.only(bottom: 0.0), tabs: <Tab>[
+                    Tab(
+                      child: Container(
+                        width: constraints.maxWidth * 0.23,
+                        height: constraints.maxHeight * 0.2,
+                        //color: Colors.redAccent,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                        Tab(
-                          child: Container(
-                            width: constraints.maxWidth * 0.18,
-                            height: constraints.maxHeight * 0.2,
-                            //color: Colors.redAccent,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+                      ),
+                    ),
+                    Tab(
+                      child: Container(
+                        width: constraints.maxWidth * 0.18,
+                        height: constraints.maxHeight * 0.2,
+                        //color: Colors.redAccent,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            'Sign In',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                      ]),
+                      ),
+                    ),
+                  ]),
                 ),
                 Container(
                   color: Colors.transparent,
@@ -190,8 +186,7 @@ class Welcome extends StatelessWidget {
     SizeConfig().init(context);
     // _socialLoginService = SocialLoginService(context);
     var width = MediaQuery.of(context).size.width;
-    var height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
         backgroundColor: Colors.white,
         body: Column(
@@ -382,11 +377,7 @@ class Welcome extends StatelessWidget {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
-                    BoxShadow(
-                        color: AppColors.black.withOpacity(0.1),
-                        offset: Offset(0, 0),
-                        blurRadius: 15,
-                        spreadRadius: 0),
+                    BoxShadow(color: AppColors.black.withOpacity(0.1), offset: Offset(0, 0), blurRadius: 15, spreadRadius: 0),
                   ],
                 ),
                 child: Padding(
@@ -395,26 +386,21 @@ class Welcome extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Let\'s Get Started',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500)),
+                      Text('Let\'s Get Started', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                       SizedBox(height: 30),
                       Row(
                         children: [
                           Expanded(
                             child: CustomButton(
-                              gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [
-                                    AppColors.blueGrad7,
-                                    AppColors.blueGrad6,
-                                    AppColors.blueGrad5,
-                                    AppColors.blueGrad4,
-                                    AppColors.blueGrad3,
-                                    AppColors.blueGrad2,
-                                    AppColors.blueGrad1,
-                                  ]),
+                              gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+                                AppColors.blueGrad7,
+                                AppColors.blueGrad6,
+                                AppColors.blueGrad5,
+                                AppColors.blueGrad4,
+                                AppColors.blueGrad3,
+                                AppColors.blueGrad2,
+                                AppColors.blueGrad1,
+                              ]),
                               title: 'Register',
                               onTap: () {
                                 log('Open Registration');
@@ -437,10 +423,7 @@ class Welcome extends StatelessWidget {
                               title: 'Login',
                               onTap: () {
                                 print('Open Login Page');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignInForm()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => SignInForm()));
                               },
                             ),
                           ),
@@ -456,12 +439,7 @@ class Welcome extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Text("Or connect with",
-                                style: AppTextStyle.textStyle.copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: 15,
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.w400)),
+                            child: Text("Or connect with", style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontSize: 15, letterSpacing: 1, fontWeight: FontWeight.w400)),
                           ),
                           Image.asset(AppImages.line, width: 50),
                           // Divider(
@@ -479,17 +457,16 @@ class Welcome extends StatelessWidget {
                             socialIconCustom(
                               image: AppImages.google,
                               onTap: () {
+                                print('Click GOOGLE BUTTON');
                                 SocialLoginService(context).googleSignIn();
-                                print(
-                                    'Click ***********************----------- ');
+                                print('Click ***********************----------- ');
                               },
                             ),
                             SizedBox(width: 30),
                             socialIconCustom(
                               image: AppImages.apple,
                               onTap: () {
-                                SocialLoginService(context)
-                                    .signInWithApple(context);
+                                SocialLoginService(context).signInWithApple(context);
                                 print('apple******************----------- ');
                               },
                             ),
@@ -497,8 +474,7 @@ class Welcome extends StatelessWidget {
                             socialIconCustom(
                               image: AppImages.facebook,
                               onTap: () {
-                                _facebookUrl =
-                                    "https://www.facebook.com/mockdrivingtest/";
+                                _facebookUrl = "https://www.facebook.com/mockdrivingtest/";
                                 print(_facebookUrl);
                                 _launchURL(_facebookUrl);
                               },
@@ -775,8 +751,7 @@ class LandingPagePainter extends CustomPainter {
     Path path0 = Path();
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
-    path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
+    path0.quadraticBezierTo(size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();
@@ -797,8 +772,7 @@ class LandingPagePainter extends CustomPainter {
     Path path1 = Path();
     path1.moveTo(0, 0);
     path1.lineTo(0, size.height * 0.20);
-    path1.quadraticBezierTo(
-        size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
+    path1.quadraticBezierTo(size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
     path1.quadraticBezierTo(size.width, size.height * 0.22, size.width, 0);
     path1.lineTo(0, 0);
     path1.close();

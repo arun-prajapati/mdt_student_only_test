@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
@@ -12,6 +11,7 @@ class _ResetPassword extends State<ResetPassword> {
   late TextEditingController _name;
   late TextEditingController _currentpassword;
   late TextEditingController _newpassword;
+
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -35,20 +35,11 @@ class _ResetPassword extends State<ResetPassword> {
             height: Responsive.height(20, context),
             child: FittedBox(
               fit: BoxFit.contain,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {},
-                iconSize: 24,
-                color: Colors.white,
-              ),
+              child: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {}, iconSize: 24, color: Colors.white),
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(
-                Responsive.width(27.5, context),
-                Responsive.height(10, context),
-                Responsive.width(27.5, context),
-                0.0),
+            margin: EdgeInsets.fromLTRB(Responsive.width(27.5, context), Responsive.height(10, context), Responsive.width(27.5, context), 0.0),
             width: Responsive.width(45, context),
             height: Responsive.height(25, context),
             decoration: BoxDecoration(
@@ -66,18 +57,13 @@ class _ResetPassword extends State<ResetPassword> {
                 margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(Responsive.width(4, context)),
-                      topLeft: Radius.circular(Responsive.width(4, context))),
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(Responsive.width(4, context)), topLeft: Radius.circular(Responsive.width(4, context))),
                   boxShadow: [
                     BoxShadow(
                       color: Color.fromRGBO(0, 0, 0, 0.16),
                       blurRadius: 6.0, // soften the shadow
                       spreadRadius: 5.0, //extend the shadow
-                      offset: Offset(
-                        0.0, // Move to right 10  horizontally
-                        3.0, // Move to bottom 10 Vertically
-                      ),
+                      offset: Offset(0.0, 3.0),
                     )
                   ],
                 ),
@@ -87,8 +73,7 @@ class _ResetPassword extends State<ResetPassword> {
                       children: <Widget>[
                         Container(
                           width: constraints.maxWidth * 0.5,
-                          margin: EdgeInsets.only(
-                              top: constraints.maxHeight * 0.05),
+                          margin: EdgeInsets.only(top: constraints.maxHeight * 0.05),
                           child: FittedBox(
                             fit: BoxFit.contain,
                             child: Text(
@@ -106,16 +91,14 @@ class _ResetPassword extends State<ResetPassword> {
                           ),
                         ),
                         Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0.0, constraints.maxHeight * 0.03, 0.0, 0.0),
+                            margin: EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.03, 0.0, 0.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Color.fromRGBO(14, 155, 207, 1.0),
                                 style: BorderStyle.solid,
                                 width: constraints.maxWidth * 0.005,
                               ),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(constraints.maxHeight * 0.5)),
+                              borderRadius: BorderRadius.all(Radius.circular(constraints.maxHeight * 0.5)),
                             ),
                             width: constraints.maxWidth * 0.9,
                             height: constraints.maxHeight * 0.12,
@@ -124,50 +107,34 @@ class _ResetPassword extends State<ResetPassword> {
                                 return Material(
                                   elevation: 2.0,
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          constraints.maxHeight * 0.5)),
+                                  borderRadius: BorderRadius.all(Radius.circular(constraints.maxHeight * 0.5)),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Container(
                                           decoration: BoxDecoration(
                                               //color: Colors.red,
                                               borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(
-                                                constraints.maxHeight * 0.5),
-                                            topRight: Radius.circular(
-                                                constraints.maxHeight * 0.5),
+                                            bottomRight: Radius.circular(constraints.maxHeight * 0.5),
+                                            topRight: Radius.circular(constraints.maxHeight * 0.5),
                                           )),
                                           width: constraints.maxWidth * 1,
                                           height: constraints.maxHeight,
                                           child: LayoutBuilder(
                                             builder: (context, constraints) {
                                               return Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0,
-                                                    constraints.maxHeight *
-                                                        0.13,
-                                                    constraints.maxWidth * 0.07,
-                                                    0),
+                                                padding: EdgeInsets.fromLTRB(0, constraints.maxHeight * 0.13, constraints.maxWidth * 0.07, 0),
                                                 child: TextFormField(
                                                   textAlign: TextAlign.center,
-                                                  textAlignVertical:
-                                                      TextAlignVertical.top,
+                                                  textAlignVertical: TextAlignVertical.top,
                                                   controller: _name,
-                                                  validator: (value) =>
-                                                      (value!.isEmpty)
-                                                          ? "Please Enter Email"
-                                                          : null,
+                                                  validator: (value) => (value!.isEmpty) ? "Please Enter Email" : null,
                                                   decoration: InputDecoration(
                                                     border: InputBorder.none,
-                                                    hintText:
-                                                        'Current Password',
+                                                    hintText: 'Current Password',
                                                     hintStyle: TextStyle(
                                                       fontFamily: 'Poppins',
-                                                      color: Color.fromRGBO(
-                                                          42, 8, 69, 1.0),
+                                                      color: Color.fromRGBO(42, 8, 69, 1.0),
                                                       //fontSize: constraints.maxWidth*0.08,
                                                     ),
                                                     //contentPadding: EdgeInsets.fromLTRB(0, 5, 0, constraints.maxHeight*0.32),
@@ -176,9 +143,7 @@ class _ResetPassword extends State<ResetPassword> {
                                                   ),
                                                   style: TextStyle(
                                                     fontFamily: 'Poppins',
-                                                    fontSize:
-                                                        constraints.maxWidth *
-                                                            0.07,
+                                                    fontSize: constraints.maxWidth * 0.07,
                                                   ),
                                                 ),
                                               );
@@ -190,16 +155,14 @@ class _ResetPassword extends State<ResetPassword> {
                               },
                             )),
                         Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0.0, constraints.maxHeight * 0.03, 0.0, 0.0),
+                            margin: EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.03, 0.0, 0.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Color.fromRGBO(14, 155, 207, 1.0),
                                 style: BorderStyle.solid,
                                 width: constraints.maxWidth * 0.005,
                               ),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(constraints.maxHeight * 0.5)),
+                              borderRadius: BorderRadius.all(Radius.circular(constraints.maxHeight * 0.5)),
                             ),
                             width: constraints.maxWidth * 0.9,
                             height: constraints.maxHeight * 0.12,
@@ -208,49 +171,34 @@ class _ResetPassword extends State<ResetPassword> {
                                 return Material(
                                   elevation: 2.0,
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          constraints.maxHeight * 0.5)),
+                                  borderRadius: BorderRadius.all(Radius.circular(constraints.maxHeight * 0.5)),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Container(
                                           decoration: BoxDecoration(
                                               //color: Colors.red,
                                               borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(
-                                                constraints.maxHeight * 0.5),
-                                            topRight: Radius.circular(
-                                                constraints.maxHeight * 0.5),
+                                            bottomRight: Radius.circular(constraints.maxHeight * 0.5),
+                                            topRight: Radius.circular(constraints.maxHeight * 0.5),
                                           )),
                                           width: constraints.maxWidth * 1,
                                           height: constraints.maxHeight,
                                           child: LayoutBuilder(
                                             builder: (context, constraints) {
                                               return Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0,
-                                                    constraints.maxHeight *
-                                                        0.13,
-                                                    constraints.maxWidth * 0.07,
-                                                    0),
+                                                padding: EdgeInsets.fromLTRB(0, constraints.maxHeight * 0.13, constraints.maxWidth * 0.07, 0),
                                                 child: TextFormField(
                                                   textAlign: TextAlign.center,
-                                                  textAlignVertical:
-                                                      TextAlignVertical.top,
+                                                  textAlignVertical: TextAlignVertical.top,
                                                   controller: _currentpassword,
-                                                  validator: (value) =>
-                                                      (value!.isEmpty)
-                                                          ? "Please Enter Email"
-                                                          : null,
+                                                  validator: (value) => (value!.isEmpty) ? "Please Enter Email" : null,
                                                   decoration: InputDecoration(
                                                     border: InputBorder.none,
                                                     hintText: 'New Password',
                                                     hintStyle: TextStyle(
                                                       fontFamily: 'Poppins',
-                                                      color: Color.fromRGBO(
-                                                          42, 8, 69, 1.0),
+                                                      color: Color.fromRGBO(42, 8, 69, 1.0),
                                                       //fontSize: constraints.maxWidth*0.08,
                                                     ),
                                                     //contentPadding: EdgeInsets.fromLTRB(0, 5, 0, constraints.maxHeight*0.32),
@@ -259,9 +207,7 @@ class _ResetPassword extends State<ResetPassword> {
                                                   ),
                                                   style: TextStyle(
                                                     fontFamily: 'Poppins',
-                                                    fontSize:
-                                                        constraints.maxWidth *
-                                                            0.07,
+                                                    fontSize: constraints.maxWidth * 0.07,
                                                   ),
                                                 ),
                                               );
@@ -273,16 +219,14 @@ class _ResetPassword extends State<ResetPassword> {
                               },
                             )),
                         Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0.0, constraints.maxHeight * 0.03, 0.0, 0.0),
+                            margin: EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.03, 0.0, 0.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Color.fromRGBO(14, 155, 207, 1.0),
                                 style: BorderStyle.solid,
                                 width: constraints.maxWidth * 0.005,
                               ),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(constraints.maxHeight * 0.5)),
+                              borderRadius: BorderRadius.all(Radius.circular(constraints.maxHeight * 0.5)),
                             ),
                             width: constraints.maxWidth * 0.9,
                             height: constraints.maxHeight * 0.12,
@@ -291,50 +235,34 @@ class _ResetPassword extends State<ResetPassword> {
                                 return Material(
                                   elevation: 2.0,
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          constraints.maxHeight * 0.5)),
+                                  borderRadius: BorderRadius.all(Radius.circular(constraints.maxHeight * 0.5)),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Container(
                                           decoration: BoxDecoration(
                                               //color: Colors.red,
                                               borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(
-                                                constraints.maxHeight * 0.5),
-                                            topRight: Radius.circular(
-                                                constraints.maxHeight * 0.5),
+                                            bottomRight: Radius.circular(constraints.maxHeight * 0.5),
+                                            topRight: Radius.circular(constraints.maxHeight * 0.5),
                                           )),
                                           width: constraints.maxWidth * 1,
                                           height: constraints.maxHeight,
                                           child: LayoutBuilder(
                                             builder: (context, constraints) {
                                               return Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0,
-                                                    constraints.maxHeight *
-                                                        0.13,
-                                                    constraints.maxWidth * 0.07,
-                                                    0),
+                                                padding: EdgeInsets.fromLTRB(0, constraints.maxHeight * 0.13, constraints.maxWidth * 0.07, 0),
                                                 child: TextFormField(
                                                   textAlign: TextAlign.center,
-                                                  textAlignVertical:
-                                                      TextAlignVertical.top,
+                                                  textAlignVertical: TextAlignVertical.top,
                                                   controller: _newpassword,
-                                                  validator: (value) =>
-                                                      (value!.isEmpty)
-                                                          ? "Please Enter Email"
-                                                          : null,
+                                                  validator: (value) => (value!.isEmpty) ? "Please Enter Email" : null,
                                                   decoration: InputDecoration(
                                                     border: InputBorder.none,
-                                                    hintText:
-                                                        'Confirm New Password',
+                                                    hintText: 'Confirm New Password',
                                                     hintStyle: TextStyle(
                                                       fontFamily: 'Poppins',
-                                                      color: Color.fromRGBO(
-                                                          42, 8, 69, 1.0),
+                                                      color: Color.fromRGBO(42, 8, 69, 1.0),
                                                       //fontSize: constraints.maxWidth*0.08,
                                                     ),
                                                     //contentPadding: EdgeInsets.fromLTRB(0, 5, 0, constraints.maxHeight*0.32),
@@ -343,9 +271,7 @@ class _ResetPassword extends State<ResetPassword> {
                                                   ),
                                                   style: TextStyle(
                                                     fontFamily: 'Poppins',
-                                                    fontSize:
-                                                        constraints.maxWidth *
-                                                            0.07,
+                                                    fontSize: constraints.maxWidth * 0.07,
                                                   ),
                                                 ),
                                               );
@@ -359,18 +285,13 @@ class _ResetPassword extends State<ResetPassword> {
                         Container(
                             height: constraints.maxHeight * 0.14,
                             width: constraints.maxWidth * 0.6,
-                            margin: EdgeInsets.only(
-                                top: constraints.maxHeight * 0.08),
-                            child:
-                                LayoutBuilder(builder: (context, constraints) {
+                            margin: EdgeInsets.only(top: constraints.maxHeight * 0.08),
+                            child: LayoutBuilder(builder: (context, constraints) {
                               return Material(
                                 borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(
-                                      constraints.maxWidth * 0.12),
-                                  topRight: Radius.circular(
-                                      constraints.maxWidth * 0.12),
-                                  bottomLeft: Radius.circular(
-                                      constraints.maxWidth * 0.12),
+                                  bottomRight: Radius.circular(constraints.maxWidth * 0.12),
+                                  topRight: Radius.circular(constraints.maxWidth * 0.12),
+                                  bottomLeft: Radius.circular(constraints.maxWidth * 0.12),
                                 ),
                                 color: Color.fromRGBO(14, 155, 207, 1.0),
                                 elevation: 5.0,
@@ -387,8 +308,7 @@ class _ResetPassword extends State<ResetPassword> {
                                             fontFamily: 'Poppins',
                                             fontSize: 20,
                                             fontWeight: FontWeight.w700,
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
+                                            color: Color.fromRGBO(255, 255, 255, 1.0),
                                           ),
                                         ),
                                       ),

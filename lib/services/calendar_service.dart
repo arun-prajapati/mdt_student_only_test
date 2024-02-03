@@ -67,7 +67,7 @@ class CalendarService {
 
   Future<Map?> saveCalenderDate(Map formData) async {
     try {
-      final url = Uri.parse("$api/api/update/calender");
+      final url = Uri.parse("$api/api//calender");
       SharedPreferences storage = await SharedPreferences.getInstance();
       String token = storage.getString('token').toString();
       Map<String, String> header = {

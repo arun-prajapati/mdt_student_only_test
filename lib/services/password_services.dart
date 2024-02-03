@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:http/http.dart' as http;
+
 import '../constants/global.dart';
 
 class PasswordServices {
@@ -18,6 +20,14 @@ class PasswordServices {
   Future<Map> verifyCode(Map formData) async {
     final url = Uri.parse("$api/api/verify/password");
     final response = await http.post(url, body: formData);
+    data = jsonDecode(response.body);
+    return data;
+  }
+
+  Future<Map> verifyNumber(Map formData) async {
+    final url = Uri.parse("$api/api/verify-mobile");
+    final response = await http.post(url, body: formData);
+    print("RESPONSE :: ${response.body}");
     data = jsonDecode(response.body);
     return data;
   }

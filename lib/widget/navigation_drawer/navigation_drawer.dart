@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -92,18 +93,15 @@ class NavigationDrawer extends StatelessWidget {
                               ),
                               color: Colors.white),
                           child: new ListView(
-                            padding: EdgeInsets.only(
-                                bottom: constraints.maxWidth * .35),
+                            padding: EdgeInsets.only(bottom: constraints.maxWidth * .35),
                             physics: const AlwaysScrollableScrollPhysics(),
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             children: [
                               SizedBox(height: constraints.maxHeight * 0.025),
-                              NavBarItem('Home', '/home', context,
-                                  icon: Icons.space_dashboard_outlined),
+                              NavBarItem('Home', '/home', context, icon: Icons.space_dashboard_outlined),
                               SizedBox(height: constraints.maxHeight * 0.025),
-                              NavBarItem('Profile', '/driver_profile', context,
-                                  icon: FontAwesomeIcons.userCircle),
+                              NavBarItem('Profile', '/driver_profile', context, icon: FontAwesomeIcons.userCircle),
                               SizedBox(height: constraints.maxHeight * 0.025),
 
                               ///commented by Khushali
@@ -213,22 +211,14 @@ class NavigationDrawer extends StatelessWidget {
                               //   height: constraints.maxHeight * 0.02,
                               // ),
 
-                              Divider(
-                                  height: constraints.maxHeight * 0.02,
-                                  endIndent: constraints.maxWidth * 0.035,
-                                  indent: constraints.maxWidth * 0.035,
-                                  color: Colors.grey[350],
-                                  thickness: 2.0),
+                              Divider(height: constraints.maxHeight * 0.02, endIndent: constraints.maxWidth * 0.035, indent: constraints.maxWidth * 0.035, color: Colors.grey[350], thickness: 2.0),
                               SizedBox(height: constraints.maxHeight * 0.015),
-                              NavBarItem('Settings', '/setting', context,
-                                  icon: Icons.settings),
+                              NavBarItem('Settings', '/setting', context, icon: Icons.settings),
                               SizedBox(height: constraints.maxHeight * 0.025),
-                              NavBarItem('Help', '/help', context,
-                                  icon: Icons.help),
+                              NavBarItem('Help', '/help', context, icon: Icons.help),
 
                               SizedBox(height: constraints.maxHeight * 0.025),
-                              NavBarItem('Contact Us', '/contact', context,
-                                  icon: Icons.phone),
+                              NavBarItem('Contact Us', '/contact', context, icon: Icons.phone),
                               SizedBox(height: constraints.maxHeight * 0.025),
                               GestureDetector(
                                 onTap: () {
@@ -237,20 +227,13 @@ class NavigationDrawer extends StatelessWidget {
                                 },
                                 child: Container(
                                   //color: Colors.red,
-                                  margin: EdgeInsets.fromLTRB(
-                                      constraints.maxWidth * 0.05,
-                                      0,
-                                      constraints.maxWidth * 0.05,
-                                      0),
+                                  margin: EdgeInsets.fromLTRB(constraints.maxWidth * 0.05, 0, constraints.maxWidth * 0.05, 0),
                                   child: Row(
                                     children: <Widget>[
                                       Container(
                                         width: constraints.maxWidth * 0.08,
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return FittedBox(
-                                              fit: BoxFit.contain,
-                                              child: Icon(Icons.logout));
+                                        child: LayoutBuilder(builder: (context, constraints) {
+                                          return FittedBox(fit: BoxFit.contain, child: Icon(Icons.logout));
                                         }),
                                       ),
                                       SizedBox(
@@ -258,8 +241,7 @@ class NavigationDrawer extends StatelessWidget {
                                       ),
                                       Container(
                                         //width:textWidth,
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
+                                        child: LayoutBuilder(builder: (context, constraints) {
                                           return FittedBox(
                                             fit: BoxFit.contain,
                                             child: Text(
@@ -279,8 +261,7 @@ class NavigationDrawer extends StatelessWidget {
                       ))
                     ],
                   ),
-                  Positioned(
-                      bottom: 0, right: 0, left: 0, child: NavigationFotter())
+                  Positioned(bottom: 0, right: 0, left: 0, child: NavigationFotter())
                 ],
               ),
             );
@@ -295,8 +276,7 @@ class NavigationDrawer extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Padding(
               padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
               child: Column(
@@ -306,14 +286,12 @@ class NavigationDrawer extends StatelessWidget {
                 children: [
                   Text(
                     'SignOut',
-                    style: AppTextStyle.titleStyle
-                        .copyWith(height: 1.2, fontWeight: FontWeight.w600),
+                    style: AppTextStyle.titleStyle.copyWith(height: 1.2, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: 15),
                   Text(
                     'Are you sure! You want to SignOut?',
-                    style: AppTextStyle.textStyle
-                        .copyWith(height: 1.2, fontWeight: FontWeight.w400),
+                    style: AppTextStyle.textStyle.copyWith(height: 1.2, fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 10),
                   Row(
@@ -323,8 +301,7 @@ class NavigationDrawer extends StatelessWidget {
                       TextButton(
                         child: Text(
                           "No",
-                          style: AppTextStyle.titleStyle.copyWith(
-                              height: 1.2, fontWeight: FontWeight.w600),
+                          style: AppTextStyle.titleStyle.copyWith(height: 1.2, fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
                           Navigator.pop(context, false);
@@ -333,15 +310,13 @@ class NavigationDrawer extends StatelessWidget {
                       TextButton(
                         child: Text(
                           "Yes",
-                          style: AppTextStyle.titleStyle.copyWith(
-                              height: 1.2, fontWeight: FontWeight.w600),
+                          style: AppTextStyle.titleStyle.copyWith(height: 1.2, fontWeight: FontWeight.w600),
                         ),
-                        onPressed: () {
-                          Provider.of<UserProvider>(context, listen: false)
-                              .logOut();
+                        onPressed: () async {
+                          Provider.of<UserProvider>(context, listen: false).logOut();
+                          await GoogleSignIn().signOut();
                           Navigator.pop(context);
-                          _navigationService
-                              .navigateToReplacement('/Authorization');
+                          _navigationService.navigateToReplacement('/Authorization');
                         },
                       )
                     ],

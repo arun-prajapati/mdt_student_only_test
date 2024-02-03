@@ -9,8 +9,7 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard>
-    with SingleTickerProviderStateMixin {
+class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   void updateId() {
@@ -34,7 +33,7 @@ class _DashboardState extends State<Dashboard>
       onPopInvoked: (val) {
         print('PopInvokeTheoryTab');
         Navigator.pop(context);
-        Navigator.pop(context);
+        // Navigator.pop(context);
       },
       child: Container(
         width: double.infinity,
@@ -44,8 +43,7 @@ class _DashboardState extends State<Dashboard>
           builder: (BuildContext context, BoxConstraints constraints) {
             print(constraints);
             print(Responsive.height(100, context));
-            print(Responsive.height(100, context) -
-                AppBar().preferredSize.height);
+            print(Responsive.height(100, context) - AppBar().preferredSize.height);
             return Container(
               height: constraints.maxHeight,
               width: constraints.maxWidth,

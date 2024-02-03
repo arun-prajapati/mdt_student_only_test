@@ -214,6 +214,11 @@ class _SignInFormState extends State<SignInForm> {
     super.dispose();
   }
 
+  LinearGradient textColorLiner = LinearGradient(colors: [
+    Color(0xff78E6C9),
+    Color(0xff0E9BD0),
+  ]);
+
   @override
   Widget build(BuildContext context) {
     // final user = Provider.of<UserRepository>(context);
@@ -321,13 +326,18 @@ class _SignInFormState extends State<SignInForm> {
                       children: [
                         Center(
                           child: Text('Welcome back!',
-                              style: AppTextStyle.titleStyle),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.black)),
                         ),
                         SizedBox(height: 5),
                         Center(
                           child: Text('Fill Up Your Details below to login',
-                              style: AppTextStyle.textStyle
-                                  .copyWith(fontSize: 14)),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.black)),
                         ),
                         SizedBox(height: 35),
                         //Field 1
@@ -367,14 +377,17 @@ class _SignInFormState extends State<SignInForm> {
                             }
                           },
                           suffixOnTap: () {
-                            isSecure = !isSecure;
-                            setState(() {});
+                            setState(() {
+                              isSecure = !isSecure;
+                            });
                           },
-                          suffixIcon: isSecure
-                              ? Icon(Icons.visibility_off_outlined)
-                              : Icon(Icons.remove_red_eye_outlined),
-                          obscureText: isSecure,
-
+                          suffixIcon: Icon(
+                            isSecure
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.visibility_off_outlined,
+                            color: Colors.black38,
+                          ),
+                          obscureText: !isSecure,
                           onFieldSubmitted: (_) => submit(),
                           focusNode: _passwordFocusNode,
                           keyboardType: TextInputType.text,
@@ -404,26 +417,24 @@ class _SignInFormState extends State<SignInForm> {
                               print('FORGOT T*/////');
                               password.clear();
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: AppColors.blueGrad7))),
-                              child: GradientText('Forgot password?',
-                                  colors: [
-                                    AppColors.blueGrad7,
-                                    AppColors.blueGrad6,
-                                    AppColors.blueGrad5,
-                                    AppColors.blueGrad4,
-                                    AppColors.blueGrad3,
-                                    //AppColors.blueGrad2,
-                                    AppColors.blueGrad1,
-                                  ],
-                                  style: AppTextStyle.textStyle.copyWith(
+                            child: GradientText('Forgot password?',
+                                colors: [
+                                  AppColors.blueGrad7,
+                                  AppColors.blueGrad6,
+                                  AppColors.blueGrad5,
+                                  AppColors.blueGrad4,
+                                  AppColors.blueGrad3,
+                                  AppColors.blueGrad1,
+                                ],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    decoration: TextDecoration.underline,
+                                    decorationThickness:
+                                        2) /*AppTextStyle.textStyle.copyWith(
                                       fontWeight: FontWeight.w500,
-                                      height: 1.2)),
-                            ),
+                                      decoration: TextDecoration.underline)*/
+                                ),
                           ),
                         ),
                         SizedBox(height: 50),
@@ -469,32 +480,44 @@ class _SignInFormState extends State<SignInForm> {
                             Expanded(
                               flex: 0,
                               child: Text('Don\'t have an account yet? ',
-                                  style: AppTextStyle.textStyle),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.black)),
                             ),
                             Expanded(
                               flex: 0,
-                              child: Container(
-                                margin: EdgeInsets.zero,
-                                decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    border: Border(
-                                        bottom: BorderSide(color: Dark))),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) => Register('1'),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    'Register here',
-                                    style: AppTextStyle.textStyle.copyWith(
-                                        // decoration: TextDecoration.underline,
-                                        color: Dark,
-                                        fontWeight: FontWeight.w500),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => Register('1'),
+                                    ),
+                                  );
+                                },
+                                child: ShaderMask(
+                                  blendMode: BlendMode.srcIn,
+                                  shaderCallback: (bounds) =>
+                                      textColorLiner.createShader(
+                                    Rect.fromLTWH(
+                                        0, 0, bounds.width, bounds.height),
                                   ),
+                                  child: Text("Register here",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.white,
+                                          decoration:
+                                              TextDecoration.underline)),
                                 ),
+                                /* child: Text(
+                                  'Register here',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                      decoration: TextDecoration.underline,
+                                      decorationThickness: 2),
+                                ),*/
                               ),
                             ),
                           ],

@@ -118,7 +118,6 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
       }
 
       Spinner.showSpinner(context, "Saving");
-      // //print(data);
       Future.delayed(Duration(seconds: 2));
       _passwordService.verifyCode(data).then((res) {
         if (res["success"] == false) {
@@ -137,8 +136,7 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
   Widget build(BuildContext context) {
     //print(widget.email);
     var width = MediaQuery.of(context).size.width;
-    var height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return PopScope(
       onPopInvoked: (didPop) => Navigator.pushReplacement(
           context,
@@ -236,9 +234,7 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                               label: 'New Password',
                               heading: 'New Password',
                               suffixIcon: Icon(
-                                showPassword
-                                    ? Icons.remove_red_eye_outlined
-                                    : Icons.visibility_off,
+                                showPassword ? Icons.remove_red_eye_outlined : Icons.visibility_off,
                                 // color: Dark,
                               ),
                               suffixOnTap: () {
@@ -249,18 +245,15 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                               obscureText: !showPassword,
                               validator: (value) {
                                 newPassword = value!.trim();
-                                return Validate.requiredField(
-                                    newPassword, "Password is required");
+                                return Validate.requiredField(newPassword, "Password is required");
                               },
                               onChange: (val) {
                                 if (!_formKey.currentState!.validate()) {
-                                  Validate.requiredField(
-                                      val, "Password is required");
+                                  Validate.requiredField(val, "Password is required");
                                 }
                               },
                               onFieldSubmitted: (_) {
-                                setFocus(context,
-                                    focusNode: _confirmNewPasswordFocusNode);
+                                setFocus(context, focusNode: _confirmNewPasswordFocusNode);
                               },
                               focusNode: _newPasswordFocusNode,
                               keyboardType: TextInputType.text,
@@ -270,9 +263,7 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                               label: 'Reset Password',
                               heading: 'Reset Password',
                               suffixIcon: Icon(
-                                showConfirmPassword
-                                    ? Icons.remove_red_eye_outlined
-                                    : Icons.visibility_off,
+                                showConfirmPassword ? Icons.remove_red_eye_outlined : Icons.visibility_off,
                                 // color: Dark,
                               ),
                               suffixOnTap: () {
@@ -283,14 +274,11 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                               obscureText: !showConfirmPassword,
                               validator: (value) {
                                 confirmNewPassword = value!.trim();
-                                return Validate.requiredField(
-                                    confirmNewPassword,
-                                    "Confirm password is required");
+                                return Validate.requiredField(confirmNewPassword, "Confirm password is required");
                               },
                               onChange: (val) {
                                 if (!_formKey.currentState!.validate()) {
-                                  Validate.requiredField(
-                                      val, "confirm password is required");
+                                  Validate.requiredField(val, "confirm password is required");
                                 }
                               },
                               onFieldSubmitted: (_) {
@@ -344,8 +332,7 @@ class HeaderPainter extends CustomPainter {
     Path path0 = Path();
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
-    path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.52, size.width, size.height * 0.25);
+    path0.quadraticBezierTo(size.width * 0.15, size.height * 0.52, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();
@@ -366,8 +353,7 @@ class HeaderPainter extends CustomPainter {
     Path path1 = Path();
     path1.moveTo(0, 0);
     path1.lineTo(0, size.height * 0.20);
-    path1.quadraticBezierTo(
-        size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
+    path1.quadraticBezierTo(size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
     path1.quadraticBezierTo(size.width, size.height * 0.22, size.width, 0);
     path1.lineTo(0, 0);
     path1.close();

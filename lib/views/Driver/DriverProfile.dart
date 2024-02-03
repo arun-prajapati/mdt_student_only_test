@@ -248,14 +248,15 @@ class _driverProfile extends State<DriverProfile> {
       body: Stack(
         children: <Widget>[
           CustomAppBar(
-              preferedHeight: Responsive.height(24, context),
-              title: 'Profile',
-              textWidth: Responsive.width(35, context),
-              iconLeft: Icons.arrow_back,
-              onTap1: () {
-                _navigationService.goBack();
-              },
-              iconRight: null),
+            preferedHeight: Responsive.height(24, context),
+            title: 'Profile',
+            textWidth: Responsive.width(35, context),
+            iconLeft: Icons.arrow_back,
+            onTap1: () {
+              _navigationService.goBack();
+            },
+            iconRight: null,
+          ),
           Container(
             margin:
                 EdgeInsets.fromLTRB(0, Responsive.height(14, context), 0, 0),
@@ -270,7 +271,7 @@ class _driverProfile extends State<DriverProfile> {
               //       blurRadius: 5.0)
               // ],
             ),
-            height: Responsive.height(83, context),
+            // height: Responsive.height(84, context),
             padding: EdgeInsets.fromLTRB(3, 25, 3, 0),
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -769,6 +770,7 @@ class _driverProfile extends State<DriverProfile> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 10),
