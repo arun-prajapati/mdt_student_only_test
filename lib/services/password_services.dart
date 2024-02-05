@@ -24,11 +24,12 @@ class PasswordServices {
     return data;
   }
 
-  Future<Map> verifyNumber(Map formData) async {
+  Future<Map> checkNumber(Map formData) async {
     final url = Uri.parse("$api/api/verify-mobile");
     final response = await http.post(url, body: formData);
     print("RESPONSE :: ${response.body}");
     data = jsonDecode(response.body);
+
     return data;
   }
 }

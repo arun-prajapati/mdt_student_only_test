@@ -41,7 +41,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String? email;
 
   var mobile = '';
-  var countryCode = '+91';
+  var countryCode = '';
   final submittedPinTheme = PinTheme(
     width: 60,
     height: 60,
@@ -514,6 +514,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   bool loadingValue = false;
 
   Future<void> submit(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     Map<String, dynamic> formData = {
       "phone": phoneTextControl.text.trim(),
       "user_type": "2",
@@ -528,7 +529,38 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     if (form.validate() && phoneTextControl.text.isNotEmpty) {
       if (!authData.isSendOtp) {
         print('PPPPPPPPPPPPPP');
-        Provider.of<UserProvider>(context, listen: false).verifyPhone(context, countryCode, phoneTextControl.text);
+        Map data = {
+          'phone': '${countryCode}${phoneTextControl.text}',
+          'user_type': '2',
+        };
+        _passwordService.checkNumber(data).then((res) {
+          Spinner.showSpinner(context, "Sending code");
+          if (res["success"] == false) {
+            Spinner.close(context);
+            print("ERROE");
+
+            showValidationDialog(context, res["message"]);
+          } else {
+            Provider.of<UserProvider>(context, listen: false).verifyPhone(context, countryCode, phoneTextControl.text);
+
+            print("SUCCESS");
+          }
+          //print(data);
+//              Future.delayed(Duration(seconds: 2));
+
+          // _passwordService.forgotPassword(data).then((res) {
+          //   log("!!!!!!!!!!!!!! $res");
+          //
+          //   if (res["success"] == false) {
+          //     Spinner.close(context);
+          //     showValidationDialog(context, res["error"]);
+          //   } else {
+          //     Spinner.close(context);
+          //     showSuccessDialog(context, res["error"]);
+          //   }
+          //   print("Response: $res");
+          // });
+        });
       } else {
         try {
           loadingValue = true;
@@ -536,29 +568,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: authData.verificationCode, smsCode: code.text);
           FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
             if (value.user != null) {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgotNextScreen(email: '${countryCode} ${phoneTextControl.text}')));
+
+              print('333333333');
               loadingValue = false;
               setState(() {});
-              Map data = {
-                'email': code.text,
-                'user_type': '2',
-              };
-              Spinner.showSpinner(context, "Sending code");
-              //print(data);
-//              Future.delayed(Duration(seconds: 2));
-
-              // _passwordService.forgotPassword(data).then((res) {
-              //   log("!!!!!!!!!!!!!! $res");
-              //
-              //   if (res["success"] == false) {
-              //     Spinner.close(context);
-              //     showValidationDialog(context, res["error"]);
-              //   } else {
-              //     Spinner.close(context);
-              //     showSuccessDialog(context, res["error"]);
-              //   }
-              //   print("Response: $res");
-              // });
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgotNextScreen(email: '${countryCode} ${phoneTextControl.text}')));
+              // Map data = {
+              //   'email': code.text,
+              //   'user_type': '2',
+              // };
             }
           }).catchError((e) {
             loadingValue = false;
