@@ -17,9 +17,17 @@ class PasswordServices {
     return data;
   }
 
-  Future<Map> verifyCode(Map formData) async {
-    final url = Uri.parse("$api/api/verify/password");
+  // Future<Map> verifyCode(Map formData) async {
+  //   final url = Uri.parse("$api/api/verify/password");
+  //   final response = await http.post(url, body: formData);
+  //   data = jsonDecode(response.body);
+  //   return data;
+  // }
+
+  Future<Map> resetForgotPassword(Map formData) async {
+    final url = Uri.parse("$api/api/verify/mobile-password");
     final response = await http.post(url, body: formData);
+    print("RESPONSE : ${response.body}");
     data = jsonDecode(response.body);
     return data;
   }

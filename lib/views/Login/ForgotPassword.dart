@@ -19,7 +19,6 @@ import '../../services/methods.dart';
 import '../../services/password_services.dart';
 import '../../services/validator.dart';
 import '../../utils/appImages.dart';
-import '../spinner.dart';
 
 class ForgotPassword extends StatefulWidget {
   ForgotPassword({Key? key}) : super(key: key);
@@ -41,7 +40,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String? email;
 
   var mobile = '';
-  var countryCode = '';
+  var countryCode = '+44';
   final submittedPinTheme = PinTheme(
     width: 60,
     height: 60,
@@ -80,7 +79,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Mock Driving Test'),
+            title: const Text('Smart Theory Test'),
             content: Text(message),
             actions: [
               TextButton(
@@ -94,40 +93,40 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         });
   }
 
-  showSuccessDialog(BuildContext context, String message) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        Future.delayed(const Duration(seconds: 3), () {
-          //Spinner.close(context);
-          Navigator.of(context).pop();
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ForgotNextScreen(email: email ?? ""),
-            ),
-          );
-          //Navigator.of(context).popAndPushNamed(StudentView.routeName);
-        });
-        return AlertDialog(
-          titlePadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          title: SizedBox(
-            child: Image.asset('assets/tick.gif'),
-            width: 100,
-            height: 100,
-          ),
-          content: Text(
-            message,
-            textAlign: TextAlign.center,
-            softWrap: true,
-            style: TextStyle(
-              fontSize: 17,
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // showSuccessDialog(BuildContext context, String message) {
+  //   return showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (context) {
+  //       Future.delayed(const Duration(seconds: 3), () {
+  //         //Spinner.close(context);
+  //         Navigator.of(context).pop();
+  //         Navigator.of(context).push(
+  //           MaterialPageRoute(
+  //             builder: (context) => ForgotNextScreen(email: email ?? ""),
+  //           ),
+  //         );
+  //         //Navigator.of(context).popAndPushNamed(StudentView.routeName);
+  //       });
+  //       return AlertDialog(
+  //         titlePadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+  //         title: SizedBox(
+  //           child: Image.asset('assets/tick.gif'),
+  //           width: 100,
+  //           height: 100,
+  //         ),
+  //         content: Text(
+  //           message,
+  //           textAlign: TextAlign.center,
+  //           softWrap: true,
+  //           style: TextStyle(
+  //             fontSize: 17,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
@@ -439,7 +438,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   // errorStyle: TextStyle(
                                   //     fontSize: constraints.maxWidth * 0.05),
                                 ),
-                                initialCountryCode: 'IN',
+                                initialCountryCode: 'GB',
                                 // showCountryFlag: false,
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
@@ -515,6 +514,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   Future<void> submit(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
+
     Map<String, dynamic> formData = {
       "phone": phoneTextControl.text.trim(),
       "user_type": "2",
@@ -534,17 +534,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           'user_type': '2',
         };
         _passwordService.checkNumber(data).then((res) {
-          Spinner.showSpinner(context, "Sending code");
+          // Spinner.showSpinner(context, "Sending code");
           if (res["success"] == false) {
-            Spinner.close(context);
-            print("ERROE");
-
+            // Spinner.close(context);
+            print("ERROE$res");
+            // var fetchData = jsonDecode('$res');
+            // print('fetch Data:  $fetchData');
             showValidationDialog(context, res["message"]);
           } else {
             Provider.of<UserProvider>(context, listen: false).verifyPhone(context, countryCode, phoneTextControl.text);
 
             print("SUCCESS");
           }
+
           //print(data);
 //              Future.delayed(Duration(seconds: 2));
 
@@ -568,7 +570,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: authData.verificationCode, smsCode: code.text);
           FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
             if (value.user != null) {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgotNextScreen(email: '${countryCode} ${phoneTextControl.text}')));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgotNextScreen(phone: '${countryCode} ${phoneTextControl.text}')));
 
               print('333333333');
               loadingValue = false;

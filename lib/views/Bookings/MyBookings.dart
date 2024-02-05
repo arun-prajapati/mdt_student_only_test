@@ -1,18 +1,18 @@
-import 'package:flutter/gestures.dart';
-import 'package:student_app/Constants/app_colors.dart';
-
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/views/Calendar/calendar.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../Constants/global.dart';
-import '../../locater.dart';
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/views/Calendar/calendar.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../Constants/global.dart';
+import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/auth.dart';
@@ -42,8 +42,7 @@ class _MyBooking extends State<MyBooking> {
   //final LocationService _locationService = new LocationService();
   int pageNumber = 1;
   String filterType = 'accepted';
-  ValueNotifier<FilterType> _selectedItem =
-      new ValueNotifier<FilterType>(FilterType.All);
+  ValueNotifier<FilterType> _selectedItem = new ValueNotifier<FilterType>(FilterType.All);
   late Map data;
   late ScrollController controller;
   bool isDataLoading = false;
@@ -75,8 +74,7 @@ class _MyBooking extends State<MyBooking> {
   }
 
   Future<Map> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
     // _userId = response['id'];
     return response;
   }
@@ -130,7 +128,7 @@ class _MyBooking extends State<MyBooking> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Mock Driving Test'),
+            title: const Text('Smart Theory Test'),
             content: Text(message),
             actions: [
               TextButton(
@@ -232,19 +230,13 @@ class _MyBooking extends State<MyBooking> {
   }
 
   Future<void> callApiGetPastBooking() async {
-    dataSub = _bookingService
-        .getPastBookings(pageNumber, filterType)
-        .asStream()
-        .listen((Map? bookingRecords) {
+    dataSub = _bookingService.getPastBookings(pageNumber, filterType).asStream().listen((Map? bookingRecords) {
       addBookingInList(bookingRecords);
     });
   }
 
   Future<void> callApiGetUpcomingBooking() async {
-    dataSub = _bookingService
-        .getFutureBookings(pageNumber, filterType)
-        .asStream()
-        .listen((Map? bookingRecords) {
+    dataSub = _bookingService.getFutureBookings(pageNumber, filterType).asStream().listen((Map? bookingRecords) {
       addBookingInList(bookingRecords);
     });
   }
@@ -289,8 +281,7 @@ class _MyBooking extends State<MyBooking> {
   }
 
   void _scrollListener() {
-    if (controller.position.pixels == controller.position.maxScrollExtent &&
-        isMorePage) {
+    if (controller.position.pixels == controller.position.maxScrollExtent && isMorePage) {
       setState(() {
         pageNumber += 1;
         isMoreLoading = !isMoreLoading;
@@ -373,18 +364,12 @@ class _MyBooking extends State<MyBooking> {
           padding: EdgeInsets.only(top: 10, bottom: 10),
           decoration: BoxDecoration(
             color: Colors.grey[100],
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0)),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
           ),
           child: Container(
             width: Responsive.width(100, context),
             height: Responsive.height(80, context),
-            margin: EdgeInsets.fromLTRB(
-                Responsive.width(5, context),
-                Responsive.height(1, context),
-                Responsive.width(5, context),
-                0.0),
+            margin: EdgeInsets.fromLTRB(Responsive.width(5, context), Responsive.height(1, context), Responsive.width(5, context), 0.0),
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.all(
@@ -410,11 +395,7 @@ class _MyBooking extends State<MyBooking> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: EdgeInsets.fromLTRB(
-                                  constraints.maxWidth * 0.02,
-                                  0,
-                                  constraints.maxWidth * 0.02,
-                                  0.0),
+                              margin: EdgeInsets.fromLTRB(constraints.maxWidth * 0.02, 0, constraints.maxWidth * 0.02, 0.0),
                               child: new CustomSwitch(
                                   notifyParent: refresh,
                                   onSwitchTap: (currentTabType) {
@@ -435,8 +416,7 @@ class _MyBooking extends State<MyBooking> {
                                 key: _keyPopupMenu,
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Container(
-                                  margin: EdgeInsets.only(
-                                      right: constraints.maxWidth * 0.030),
+                                  margin: EdgeInsets.only(right: constraints.maxWidth * 0.030),
                                   width: constraints.maxWidth * 0.3,
                                   height: constraints.maxHeight * 0.65,
                                   decoration: BoxDecoration(
@@ -454,16 +434,12 @@ class _MyBooking extends State<MyBooking> {
                                             child: Icon(
                                               Icons.filter_list,
                                               color: Colors.white,
-                                              size: 2.5 *
-                                                  SizeConfig.blockSizeVertical,
+                                              size: 2.5 * SizeConfig.blockSizeVertical,
                                             ),
                                           ),
                                           Container(
                                             width: constraints.maxWidth * 0.5,
-                                            child: Text('Filter',
-                                                style: content1Style(2 *
-                                                    SizeConfig
-                                                        .blockSizeVertical)),
+                                            child: Text('Filter', style: content1Style(2 * SizeConfig.blockSizeVertical)),
                                           )
                                         ],
                                       );
@@ -471,47 +447,30 @@ class _MyBooking extends State<MyBooking> {
                                   ),
                                 ),
                                 itemBuilder: (BuildContext context) {
-                                  return new List<
-                                          PopupMenuEntry<FilterType>>.generate(
-                                      FilterType.values.length, (int index) {
+                                  return new List<PopupMenuEntry<FilterType>>.generate(FilterType.values.length, (int index) {
                                     return new PopupMenuItem(
                                       height: 37,
                                       value: FilterType.values[index],
                                       child: Container(
                                         height: 37,
-                                        padding: EdgeInsets.fromLTRB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        margin: EdgeInsets.fromLTRB(
-                                            0.0, 0, 0.0, 0.0),
+                                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                        margin: EdgeInsets.fromLTRB(0.0, 0, 0.0, 0.0),
                                         child: new AnimatedBuilder(
                                           child: Container(
                                               // height: 37,
-                                              child: Text(FilterType
-                                                  .values[index]
-                                                  .toString()
-                                                  .split('.')
-                                                  .last)),
+                                              child: Text(FilterType.values[index].toString().split('.').last)),
                                           animation: _selectedItem,
-                                          builder: (BuildContext context,
-                                              Widget? child) {
+                                          builder: (BuildContext context, Widget? child) {
                                             return RadioListTile<FilterType>(
                                                 //contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                                 value: FilterType.values[index],
                                                 dense: true,
                                                 groupValue: _selectedItem.value,
                                                 title: child,
-                                                onChanged:
-                                                    (selectedFilterValue) {
-                                                  _selectedItem.value =
-                                                      selectedFilterValue!;
-                                                  filterType =
-                                                      getSelectedFilter(
-                                                          selectedFilterValue);
-                                                  Navigator.of(
-                                                          _keyPopupMenu
-                                                              .currentContext!,
-                                                          rootNavigator: true)
-                                                      .pop();
+                                                onChanged: (selectedFilterValue) {
+                                                  _selectedItem.value = selectedFilterValue!;
+                                                  filterType = getSelectedFilter(selectedFilterValue);
+                                                  Navigator.of(_keyPopupMenu.currentContext!, rootNavigator: true).pop();
                                                   bookingList = [];
                                                   setState(() {
                                                     isDataLoading = true;
@@ -541,22 +500,9 @@ class _MyBooking extends State<MyBooking> {
                       height: constraints.maxHeight * 0.86,
                       child: Column(
                         children: [
-                          if ((bookingList == null ||
-                                  bookingList.length == 0) &&
-                              !isDataLoading)
-                            Container(
-                                margin: EdgeInsets.only(
-                                    top: Responsive.height(20, context)),
-                                child: Text("No Booking",
-                                    style: TextStyle(
-                                        fontSize: 2.5 *
-                                            SizeConfig.blockSizeVertical))),
-                          if (isDataLoading)
-                            Container(
-                                margin: EdgeInsets.only(
-                                    top: Responsive.height(20, context)),
-                                child:
-                                    Center(child: CircularProgressIndicator())),
+                          if ((bookingList == null || bookingList.length == 0) && !isDataLoading)
+                            Container(margin: EdgeInsets.only(top: Responsive.height(20, context)), child: Text("No Booking", style: TextStyle(fontSize: 2.5 * SizeConfig.blockSizeVertical))),
+                          if (isDataLoading) Container(margin: EdgeInsets.only(top: Responsive.height(20, context)), child: Center(child: CircularProgressIndicator())),
                           if (bookingList != null && bookingList.length > 0)
                             Container(
                               width: constraints.maxWidth * 0.99,
@@ -567,60 +513,41 @@ class _MyBooking extends State<MyBooking> {
                               ),
                               child: ListView.builder(
                                   controller: controller,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemCount: bookingList == null
-                                      ? 0
-                                      : bookingList.length,
-                                  padding:
-                                      EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemCount: bookingList == null ? 0 : bookingList.length,
+                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                                   itemBuilder: (context, index) {
                                     Map booking = bookingList[index];
                                     if (booking['requested_time'] == null) {
                                       booking['requested_time'] = '12:30pm';
                                     }
-                                    if (booking['lesson_type'] ==
-                                        'pass-assist') {
+                                    if (booking['lesson_type'] == 'pass-assist') {
                                       this.isPassAssist = true;
-                                      if (booking['lesson_sub_course'] ==
-                                          'reverse_right') {
+                                      if (booking['lesson_sub_course'] == 'reverse_right') {
                                         this.subCourse = "Reverse Right";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'reverse_left') {
+                                      } else if (booking['lesson_sub_course'] == 'reverse_left') {
                                         this.subCourse = "Reverse Left";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'reverse_park') {
+                                      } else if (booking['lesson_sub_course'] == 'reverse_park') {
                                         this.subCourse = "Reverse Park";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'turn_in_road') {
+                                      } else if (booking['lesson_sub_course'] == 'turn_in_road') {
                                         this.subCourse = "Turn in road";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'forward_park') {
+                                      } else if (booking['lesson_sub_course'] == 'forward_park') {
                                         this.subCourse = "Forward park";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'control') {
+                                      } else if (booking['lesson_sub_course'] == 'control') {
                                         this.subCourse = "Control";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'move_off') {
+                                      } else if (booking['lesson_sub_course'] == 'move_off') {
                                         this.subCourse = "Move off";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'mirrors') {
+                                      } else if (booking['lesson_sub_course'] == 'mirrors') {
                                         this.subCourse = "Use of mirrors";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'signals') {
+                                      } else if (booking['lesson_sub_course'] == 'signals') {
                                         this.subCourse = "Signals";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'response_to_signs') {
-                                        this.subCourse =
-                                            "Response to signs / signals";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'progress') {
+                                      } else if (booking['lesson_sub_course'] == 'response_to_signs') {
+                                        this.subCourse = "Response to signs / signals";
+                                      } else if (booking['lesson_sub_course'] == 'progress') {
                                         this.subCourse = "Progress";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'junctions') {
+                                      } else if (booking['lesson_sub_course'] == 'junctions') {
                                         this.subCourse = "Junctions";
-                                      } else if (booking['lesson_sub_course'] ==
-                                          'judgement') {
+                                      } else if (booking['lesson_sub_course'] == 'judgement') {
                                         this.subCourse = "Judgement";
                                       } else {
                                         this.subCourse = "Positioning";
@@ -630,12 +557,10 @@ class _MyBooking extends State<MyBooking> {
                                     }
 
                                     if (booking["booking_type"] == 'Test') {
-                                      if (booking["status"] ==
-                                          'report-submitted') {
+                                      if (booking["status"] == 'report-submitted') {
                                         this.isTest = true;
                                         this.isReportSubmitted = true;
-                                      } else if (booking["status"] ==
-                                          'assigned') {
+                                      } else if (booking["status"] == 'assigned') {
                                         this.isTest = true;
                                         this.isReportSubmitted = false;
                                       } else {
@@ -659,39 +584,25 @@ class _MyBooking extends State<MyBooking> {
                                     } else {
                                       this.bookingTypeColor = LessonColor;
                                     }
-                                    String dateTime =
-                                        booking['requested_date'].toString() +
-                                            " " +
-                                            booking['requested_time']
-                                                .toString()
-                                                .toUpperCase();
+                                    String dateTime = booking['requested_date'].toString() + " " + booking['requested_time'].toString().toUpperCase();
                                     bool dateDiff = diffDate(dateTime);
-                                    bool bookingDateDiff =
-                                        bookingDiffDate(dateTime);
+                                    bool bookingDateDiff = bookingDiffDate(dateTime);
                                     String dateDiff1 = diffDate1(dateTime);
                                     //print(dateTime);
                                     return Container(
                                         width: constraints.maxWidth * 0.95,
                                         //height: constraints.maxHeight * 0.11,
-                                        margin: EdgeInsets.fromLTRB(
-                                            constraints.maxWidth * 0.005,
-                                            constraints.maxHeight * 0.009,
-                                            constraints.maxWidth * 0.005,
-                                            0.0),
+                                        margin: EdgeInsets.fromLTRB(constraints.maxWidth * 0.005, constraints.maxHeight * 0.009, constraints.maxWidth * 0.005, 0.0),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                constraints.maxWidth * 0.025),
+                                            Radius.circular(constraints.maxWidth * 0.025),
                                           ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Color.fromRGBO(0, 0, 0, 0.16),
-                                              blurRadius:
-                                                  6.0, // soften the shadow
-                                              spreadRadius:
-                                                  1.0, //extend the shadow
+                                              color: Color.fromRGBO(0, 0, 0, 0.16),
+                                              blurRadius: 6.0, // soften the shadow
+                                              spreadRadius: 1.0, //extend the shadow
                                               offset: Offset(
                                                 3.0,
                                                 // Move to right 10  horizontally
@@ -703,31 +614,23 @@ class _MyBooking extends State<MyBooking> {
                                         child: ExpansionTile(
                                             onExpansionChanged: (val) {
                                               setState(() {
-                                                isChatAvailable =
-                                                    chatAvailibility(dateTime);
+                                                isChatAvailable = chatAvailibility(dateTime);
                                               });
 
-                                              print(
-                                                  "Booking info : ${booking}");
-                                              print(
-                                                  "\n-----------------------------------------------------------\n");
-                                              print(
-                                                  "Receiver id : ${booking['user_id']}");
-                                              print(
-                                                  "\n-----------------------------------------------------------\n");
+                                              print("Booking info : ${booking}");
+                                              print("\n-----------------------------------------------------------\n");
+                                              print("Receiver id : ${booking['user_id']}");
+                                              print("\n-----------------------------------------------------------\n");
                                               print("Senders id : $_userId");
                                             },
                                             tilePadding: EdgeInsets.only(
                                               top: constraints.maxWidth * 0.01,
                                               left: constraints.maxWidth * 0.02,
-                                              right:
-                                                  constraints.maxWidth * 0.02,
-                                              bottom:
-                                                  constraints.maxWidth * 0.01,
+                                              right: constraints.maxWidth * 0.02,
+                                              bottom: constraints.maxWidth * 0.01,
                                             ),
                                             leading: Container(
-                                              width:
-                                                  constraints.maxWidth * 0.15,
+                                              width: constraints.maxWidth * 0.15,
                                               height: SizeConfig.inputHeight,
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
@@ -736,13 +639,7 @@ class _MyBooking extends State<MyBooking> {
                                               child: Center(
                                                 child: Container(
                                                   width: constraints.maxWidth,
-                                                  child: AutoSizeText(
-                                                      booking["booking_type"],
-                                                      style: content1Style(1.5 *
-                                                          SizeConfig
-                                                              .blockSizeVertical),
-                                                      textAlign:
-                                                          TextAlign.center),
+                                                  child: AutoSizeText(booking["booking_type"], style: content1Style(1.5 * SizeConfig.blockSizeVertical), textAlign: TextAlign.center),
                                                 ),
                                               ),
                                             ),
@@ -750,39 +647,19 @@ class _MyBooking extends State<MyBooking> {
                                               children: [
                                                 Align(
                                                   alignment: Alignment.topLeft,
-                                                  child: AutoSizeText(
-                                                      booking['type'],
-                                                      style: headingStyle(
-                                                          SizeConfig
-                                                              .headingFontSize),
-                                                      textAlign:
-                                                          TextAlign.left),
+                                                  child: AutoSizeText(booking['type'], style: headingStyle(SizeConfig.headingFontSize), textAlign: TextAlign.left),
                                                 ),
                                                 Visibility(
                                                   visible: isPassAssist,
                                                   child: Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
+                                                    alignment: Alignment.topLeft,
                                                     child: FractionallySizedBox(
                                                       widthFactor: 1,
                                                       child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .fromLTRB(
-                                                                0, 2, 5, 1),
-                                                        child:
-                                                            FractionallySizedBox(
+                                                        padding: const EdgeInsets.fromLTRB(0, 2, 5, 1),
+                                                        child: FractionallySizedBox(
                                                           widthFactor: 1,
-                                                          child: AutoSizeText(
-                                                              subCourse == null
-                                                                  ? ''
-                                                                  : subCourse!,
-                                                              style: subHeadingStyle(
-                                                                  SizeConfig
-                                                                      .subHeadingFontSize),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left),
+                                                          child: AutoSizeText(subCourse == null ? '' : subCourse!, style: subHeadingStyle(SizeConfig.subHeadingFontSize), textAlign: TextAlign.left),
                                                         ),
                                                       ),
                                                     ),
@@ -793,18 +670,9 @@ class _MyBooking extends State<MyBooking> {
                                                   child: FractionallySizedBox(
                                                     widthFactor: 1,
                                                     child: Container(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(0, 2, 5, 1),
-                                                      child: AutoSizeText(
-                                                          booking["requested_date"] +
-                                                              " " +
-                                                              booking[
-                                                                  "requested_time"],
-                                                          style: subHeadingStyle(
-                                                              SizeConfig
-                                                                  .subHeading2FontSize),
-                                                          textAlign:
-                                                              TextAlign.left),
+                                                      padding: const EdgeInsets.fromLTRB(0, 2, 5, 1),
+                                                      child: AutoSizeText(booking["requested_date"] + " " + booking["requested_time"],
+                                                          style: subHeadingStyle(SizeConfig.subHeading2FontSize), textAlign: TextAlign.left),
                                                     ),
                                                   ),
                                                 ),
@@ -812,87 +680,39 @@ class _MyBooking extends State<MyBooking> {
                                                   alignment: Alignment.topLeft,
                                                   child: Row(
                                                     children: [
-                                                      booking["postcode"] !=
-                                                              null
+                                                      booking["postcode"] != null
                                                           ? Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      vertical:
-                                                                          5),
+                                                              margin: const EdgeInsets.symmetric(vertical: 5),
                                                               child: Text(
-                                                                booking[
-                                                                    "postcode"],
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        13),
+                                                                booking["postcode"],
+                                                                style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
                                                               ),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15.0),
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(15.0),
                                                                 color: Dark,
                                                               ),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          8,
-                                                                      vertical:
-                                                                          5),
+                                                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                                             )
                                                           : const Text(''),
                                                       SizedBox(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1,
+                                                        width: SizeConfig.blockSizeHorizontal * 1,
                                                       ),
-                                                      booking["name"] != " " &&
-                                                              booking["name"] !=
-                                                                  null
+                                                      booking["name"] != " " && booking["name"] != null
                                                           ? Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      vertical:
-                                                                          5),
+                                                              margin: const EdgeInsets.symmetric(vertical: 5),
                                                               child: Text(
                                                                 booking["name"],
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        13),
+                                                                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 13),
                                                               ),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15.0),
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(15.0),
                                                                 color: Dark,
                                                               ),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          8,
-                                                                      vertical:
-                                                                          5),
+                                                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                                             )
                                                           : const Text(''),
                                                       SizedBox(
-                                                        width: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            1,
+                                                        width: SizeConfig.blockSizeHorizontal * 1,
                                                       ),
                                                     ],
                                                   ),
@@ -903,56 +723,28 @@ class _MyBooking extends State<MyBooking> {
                                               Align(
                                                 alignment: Alignment.center,
                                                 child: Container(
-                                                  width: constraints.maxWidth *
-                                                      0.9,
-                                                  padding: EdgeInsets.only(
-                                                      bottom: constraints
-                                                              .maxHeight *
-                                                          0.01),
+                                                  width: constraints.maxWidth * 0.9,
+                                                  padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.01),
                                                   child: Column(
                                                     children: [
                                                       Container(
-                                                        width: constraints
-                                                            .maxWidth,
+                                                        width: constraints.maxWidth,
                                                         //height: constraints.maxHeight*0.25,
                                                         //color: Colors.cyanAccent,
-                                                        child: LayoutBuilder(
-                                                            builder: (context,
-                                                                constraints) {
+                                                        child: LayoutBuilder(builder: (context, constraints) {
                                                           return Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
                                                             children: [
                                                               Container(
-                                                                width: constraints
-                                                                        .maxWidth *
-                                                                    0.35,
-                                                                child: AutoSizeText(
-                                                                    "Location",
-                                                                    style: headingStyle(
-                                                                        SizeConfig
-                                                                            .headingFontSize),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .left),
+                                                                width: constraints.maxWidth * 0.35,
+                                                                child: AutoSizeText("Location", style: headingStyle(SizeConfig.headingFontSize), textAlign: TextAlign.left),
                                                               ),
                                                               Container(
-                                                                width: constraints
-                                                                        .maxWidth *
-                                                                    0.65,
+                                                                width: constraints.maxWidth * 0.65,
                                                                 //color: Colors.black54,
-                                                                child:
-                                                                    AutoSizeText(
-                                                                  booking["full_location"] ==
-                                                                          null
-                                                                      ? booking[
-                                                                          "location"]
-                                                                      : booking[
-                                                                          "full_location"],
-                                                                  style: contentStyle(1.6 *
-                                                                      SizeConfig
-                                                                          .blockSizeVertical),
+                                                                child: AutoSizeText(
+                                                                  booking["full_location"] == null ? booking["location"] : booking["full_location"],
+                                                                  style: contentStyle(1.6 * SizeConfig.blockSizeVertical),
                                                                   maxLines: 2,
                                                                 ),
                                                               )
@@ -961,51 +753,34 @@ class _MyBooking extends State<MyBooking> {
                                                         }),
                                                       ),
                                                       Container(
-                                                        width: constraints
-                                                            .maxWidth,
+                                                        width: constraints.maxWidth,
                                                         //height: constraints.maxHeight*0.1875,
                                                         //color: Colors.amber,
-                                                        margin: EdgeInsets.only(
-                                                            top: 7.0),
-                                                        child: LayoutBuilder(
-                                                            builder: (context,
-                                                                constraints) {
+                                                        margin: EdgeInsets.only(top: 7.0),
+                                                        child: LayoutBuilder(builder: (context, constraints) {
                                                           return Row(
                                                             children: [
                                                               Container(
-                                                                width: constraints
-                                                                        .maxWidth *
-                                                                    0.35,
+                                                                width: constraints.maxWidth * 0.35,
                                                                 //color: Colors.black26,
-                                                                child:
-                                                                    AutoSizeText(
+                                                                child: AutoSizeText(
                                                                   'ADI Details',
-                                                                  style: headingStyle(
-                                                                      SizeConfig
-                                                                          .headingFontSize),
+                                                                  style: headingStyle(SizeConfig.headingFontSize),
                                                                 ),
                                                               ),
                                                               Container(
-                                                                width: constraints
-                                                                        .maxWidth *
-                                                                    0.65,
+                                                                width: constraints.maxWidth * 0.65,
                                                                 //color: Colors.black54,
-                                                                child: dateDiff ==
-                                                                        false
+                                                                child: dateDiff == false
                                                                     ? AutoSizeText(
                                                                         'You will be able to see the instructor\'s details 24 hours before the test.',
-                                                                        style: contentStyle(1.5 *
-                                                                            SizeConfig.blockSizeVertical),
-                                                                        maxLines:
-                                                                            2,
+                                                                        style: contentStyle(1.5 * SizeConfig.blockSizeVertical),
+                                                                        maxLines: 2,
                                                                       )
                                                                     : Container(
                                                                         //color: Colors.orange,
-                                                                        child:
-                                                                            LayoutBuilder(
-                                                                        builder:
-                                                                            (context,
-                                                                                constraints) {
+                                                                        child: LayoutBuilder(
+                                                                        builder: (context, constraints) {
                                                                           return Column(
                                                                             children: [
                                                                               Container(
@@ -1069,7 +844,9 @@ class _MyBooking extends State<MyBooking> {
                                                                                             //color: Colors.black26,
                                                                                             child: FractionallySizedBox(
                                                                                               widthFactor: 1,
-                                                                                              child: AutoSizeText((booking["phone"] == null || (booking["phone"]).trim() == '') ? '---' : booking["phone"].toString(), style: contentStyle(1.6 * SizeConfig.blockSizeVertical)),
+                                                                                              child: AutoSizeText(
+                                                                                                  (booking["phone"] == null || (booking["phone"]).trim() == '') ? '---' : booking["phone"].toString(),
+                                                                                                  style: contentStyle(1.6 * SizeConfig.blockSizeVertical)),
                                                                                             ),
                                                                                           )
                                                                                         ],
@@ -1086,38 +863,19 @@ class _MyBooking extends State<MyBooking> {
                                                         }),
                                                       ),
                                                       Visibility(
-                                                        visible: isTest &&
-                                                            bookingDateDiff &&
-                                                            booking['booking_origin'] ==
-                                                                "Test",
+                                                        visible: isTest && bookingDateDiff && booking['booking_origin'] == "Test",
                                                         child: Container(
-                                                          width: constraints
-                                                              .maxWidth,
+                                                          width: constraints.maxWidth,
                                                           //height: constraints.maxHeight*0.25,
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 7.0),
+                                                          margin: EdgeInsets.only(top: 7.0),
                                                           //color: Colors.cyanAccent,
-                                                          child: LayoutBuilder(
-                                                              builder: (context,
-                                                                  constraints) {
+                                                          child: LayoutBuilder(builder: (context, constraints) {
                                                             return Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
                                                                 Container(
-                                                                  width: constraints
-                                                                          .maxWidth *
-                                                                      0.35,
-                                                                  child: AutoSizeText(
-                                                                      "Report",
-                                                                      style: headingStyle(
-                                                                          SizeConfig
-                                                                              .headingFontSize),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left),
+                                                                  width: constraints.maxWidth * 0.35,
+                                                                  child: AutoSizeText("Report", style: headingStyle(SizeConfig.headingFontSize), textAlign: TextAlign.left),
                                                                 ),
                                                                 Container(
                                                                     //width:constraints.maxWidth *0.7,
@@ -1130,10 +888,17 @@ class _MyBooking extends State<MyBooking> {
                                                                                 recognizer: TapGestureRecognizer()
                                                                                   ..onTap = () {
                                                                                     print("tapped");
-                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer('$api/test/report/view?booking=${booking['booking_id']}&user=$_userId&type=${booking['booking_origin']}', 'Test Report')));
+                                                                                    Navigator.push(
+                                                                                        context,
+                                                                                        MaterialPageRoute(
+                                                                                            builder: (context) => WebViewContainer(
+                                                                                                '$api/test/report/view?booking=${booking['booking_id']}&user=$_userId&type=${booking['booking_origin']}',
+                                                                                                'Test Report')));
                                                                                   }),
                                                                           )
-                                                                        : AutoSizeText("Not available", style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Colors.black), textAlign: TextAlign.left)
+                                                                        : AutoSizeText("Not available",
+                                                                            style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Colors.black),
+                                                                            textAlign: TextAlign.left)
                                                                     //: AutoSizeText("Report Submitted", style: TextStyle(fontSize: 1.5 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.bold, color: Colors.green), textAlign: TextAlign.left),
                                                                     )
                                                               ],
@@ -1142,63 +907,38 @@ class _MyBooking extends State<MyBooking> {
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible:
-                                                            booking['status'] ==
-                                                                    "assigned"
-                                                                ? true
-                                                                : false,
+                                                        visible: booking['status'] == "assigned" ? true : false,
                                                         child: Container(
-                                                          width: constraints
-                                                              .maxWidth,
+                                                          width: constraints.maxWidth,
                                                           //height: constraints.maxHeight*0.25,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 7.0),
+                                                          margin: const EdgeInsets.only(top: 7.0),
                                                           //color: Colors.cyanAccent,
                                                           child: LayoutBuilder(
-                                                            builder: (context,
-                                                                constraints) {
+                                                            builder: (context, constraints) {
                                                               return ElevatedButton(
                                                                 onPressed: () {
-                                                                  if (booking[
-                                                                          'booking_add_by'] ==
-                                                                      "self") {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .push(
+                                                                  if (booking['booking_add_by'] == "self") {
+                                                                    Navigator.of(context).push(
                                                                       MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) =>
-                                                                                ChatView(
-                                                                          studentId:
-                                                                              booking['user_id'],
-                                                                          userId:
-                                                                              _userId!,
+                                                                        builder: (context) => ChatView(
+                                                                          studentId: booking['user_id'],
+                                                                          userId: _userId!,
                                                                         ),
                                                                       ),
                                                                     );
                                                                   } else {
                                                                     if (isChatAvailable) {
-                                                                      print(
-                                                                          "CHAT");
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .push(
+                                                                      print("CHAT");
+                                                                      Navigator.of(context).push(
                                                                         MaterialPageRoute(
-                                                                          builder: (context) =>
-                                                                              ChatView(
-                                                                            studentId:
-                                                                                booking['user_id'],
-                                                                            userId:
-                                                                                _userId!,
+                                                                          builder: (context) => ChatView(
+                                                                            studentId: booking['user_id'],
+                                                                            userId: _userId!,
                                                                           ),
                                                                         ),
                                                                       );
                                                                     } else {
-                                                                      showValidationDialog(
-                                                                          context,
-                                                                          "Chat is not available!!");
+                                                                      showValidationDialog(context, "Chat is not available!!");
                                                                     }
                                                                   }
                                                                   // if (booking[
@@ -1238,10 +978,8 @@ class _MyBooking extends State<MyBooking> {
                                                                   //   }
                                                                   // }
                                                                 },
-                                                                child: Text(
-                                                                    "Message instructor"),
-                                                                style: ElevatedButton
-                                                                    .styleFrom(
+                                                                child: Text("Message instructor"),
+                                                                style: ElevatedButton.styleFrom(
                                                                   primary: Dark,
                                                                 ),
                                                               );
@@ -1251,55 +989,39 @@ class _MyBooking extends State<MyBooking> {
                                                       ),
                                                       dateDiff1 == 'showButton'
                                                           ? Container(
-                                                              width: constraints
-                                                                      .maxWidth *
-                                                                  0.9,
+                                                              width: constraints.maxWidth * 0.9,
                                                               //color: Colors.cyanAccent,
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      top: 7.0),
-                                                              child:
-                                                                  LayoutBuilder(
-                                                                builder: (context,
-                                                                    constraints) {
+                                                              margin: EdgeInsets.only(top: 7.0),
+                                                              child: LayoutBuilder(
+                                                                builder: (context, constraints) {
                                                                   return Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceEvenly,
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                                     children: [
                                                                       Container(
-                                                                          width: constraints.maxWidth *
-                                                                              0.3,
+                                                                          width: constraints.maxWidth * 0.3,
                                                                           //color: Colors.black26,
-                                                                          child:
-                                                                              TextButton(
-                                                                            onPressed:
-                                                                                () {
+                                                                          child: TextButton(
+                                                                            onPressed: () {
                                                                               track = true;
                                                                               // Scaffold.of(context).showSnackBar(snackBar);
                                                                               // Timer.periodic(Duration(seconds: delay), (timer) {
                                                                               //   locationData(booking["booking_id"].toString(), booking["booking_type"]);
                                                                               // });
                                                                             },
-                                                                            child:
-                                                                                Text("Start"),
+                                                                            child: Text("Start"),
                                                                           )),
                                                                       Container(
-                                                                          width: constraints.maxWidth *
-                                                                              0.3,
+                                                                          width: constraints.maxWidth * 0.3,
                                                                           //color: Colors.black26,
-                                                                          child:
-                                                                              TextButton(
-                                                                            onPressed:
-                                                                                () {
+                                                                          child: TextButton(
+                                                                            onPressed: () {
                                                                               track = false;
                                                                               // Timer.periodic(Duration(seconds: delay), (timer) {
                                                                               //   locationData( booking["booking_id"], booking["booking_type"]);
                                                                               //   //timer.cancel();
                                                                               // });
                                                                             },
-                                                                            child:
-                                                                                Text("Stop"),
+                                                                            child: Text("Stop"),
                                                                           ))
                                                                     ],
                                                                   );
@@ -2312,11 +2034,7 @@ class _MyBooking extends State<MyBooking> {
         // ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Visibility(
-          child: const FloatingActionButton(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              onPressed: null,
-              child: Center(child: CircularProgressIndicator())),
+          child: const FloatingActionButton(backgroundColor: Colors.transparent, elevation: 0, onPressed: null, child: Center(child: CircularProgressIndicator())),
           visible: isMoreLoading,
         ));
   }

@@ -182,10 +182,12 @@ class _TheoryTabState extends State<TheoryTab> {
   //   CustomSpinner.showLoadingDialog(context, _keyLoader, message);
   // }
   Future<List> getCategoriesFromApi() async {
+    loading(value: true);
     categories = await test_api_services.getCategories();
 
     // http.Response.
     print('RESPONSE DATA :: $categories');
+    loading(value: false);
     return categories;
   }
 
@@ -470,6 +472,7 @@ class _TheoryTabState extends State<TheoryTab> {
                     // scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return GestureDetector(
+                        onDoubleTap: () {},
                         onTap: () {
                           if (cards[index]["type"] == 'theoryTest') {
                             context.read<UserProvider>().changeView = true;

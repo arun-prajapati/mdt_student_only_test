@@ -15,7 +15,8 @@ class LinearPercentIndicatorWidget extends StatelessWidget {
         SizedBox(height: 25),
         Padding(
           padding: const EdgeInsets.only(left: 25),
-          child: Text(textTitle ?? "Hazard Awareness Theory Test", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black)),
+          child: Text(textTitle ?? "Hazard Awareness Theory Test", style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500)),
+          //TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black)),
         ),
         SizedBox(height: 10),
         Padding(
@@ -38,8 +39,11 @@ class LinearPercentIndicatorWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 19),
-              Text("${perTitle.toInt()} %", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black)),
-              Expanded(child: Text("", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black)))
+              Text("${perTitle * 100 ~/ 1} %", style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500)),
+              // SizedBox(
+              //   width: 50,
+              // ),
+              Expanded(child: Text('', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black)))
             ],
           ),
         ),

@@ -60,11 +60,7 @@ class UserProvider with ChangeNotifier {
 //    _status = Status.RouteLogin;
 //    notifyListeners();
 //  }
-  Future<bool> login(
-      {required String email,
-      required String password,
-      required String usertype,
-      required String deviceId}) async {
+  Future<bool> login({required String email, required String password, required String usertype, required String deviceId}) async {
     _status = Status.Authenticating;
     _notification = NotificationText('', '');
     notifyListeners();
@@ -138,14 +134,7 @@ class UserProvider with ChangeNotifier {
           "&phone=" +
           phone_);
     else
-      url = Uri.parse("$api/api/social-login?token=" +
-          params['token'] +
-          "&social_type=" +
-          params['social_type'] +
-          "&id=" +
-          params['social_site_id'] +
-          "&email=" +
-          email_);
+      url = Uri.parse("$api/api/social-login?token=" + params['token'] + "&social_type=" + params['social_type'] + "&id=" + params['social_site_id'] + "&email=" + email_);
     print(url);
     final response = await http.get(url);
     final responseParse = json.decode(response.body);
@@ -166,8 +155,7 @@ class UserProvider with ChangeNotifier {
 
         _token = apiResponse['token'];
         _userType = apiResponse['user_type'];
-        _userName =
-            apiResponse['user_name'] == null ? '' : apiResponse['user_name'];
+        _userName = apiResponse['user_name'] == null ? '' : apiResponse['user_name'];
         _eMail = apiResponse['e_mail'];
         await storeUserData(apiResponse);
         //check why this condition is implemented??
@@ -188,6 +176,8 @@ class UserProvider with ChangeNotifier {
   Future<Map> register(
       {required String name,
       required String email,
+      required String phoneNumber,
+      required String countryCode,
       required String password,
       required String passwordConfirm,
       required String userType,
@@ -203,8 +193,7 @@ class UserProvider with ChangeNotifier {
       'user_type': userType,
       'device_type': deviceType,
       'device_id': deviceId,
-      "phone_number": "",
-      "country_code": "",
+      "phone": "$countryCode${phoneNumber}",
     };
     print("------------------ ${jsonEncode(body)}");
     final response = await http.post(
@@ -224,8 +213,7 @@ class UserProvider with ChangeNotifier {
         notifyListeners();
       }
       if (apiResponse['message'].contains('password')) {
-        _notification =
-            NotificationText(apiResponse['message']['password'], '');
+        _notification = NotificationText(apiResponse['message']['password'], '');
         notifyListeners();
       }
       if (apiResponse['message'].contains('phone')) {
@@ -247,8 +235,7 @@ class UserProvider with ChangeNotifier {
       body: body,
     );
     if (response.statusCode == 200) {
-      _notification =
-          NotificationText('Reset sent. Please check your inbox.', 'info');
+      _notification = NotificationText('Reset sent. Please check your inbox.', 'info');
       notifyListeners();
       return true;
     }
@@ -287,8 +274,7 @@ class UserProvider with ChangeNotifier {
     SharedPreferences storage = await SharedPreferences.getInstance();
     await storage.setString('token', apiResponse['token']);
     await storage.setInt('userType', apiResponse['user_type']);
-    await storage.setString('userName',
-        apiResponse['user_name'] == null ? '' : apiResponse['user_name']);
+    await storage.setString('userName', apiResponse['user_name'] == null ? '' : apiResponse['user_name']);
     await storage.setString('eMail', apiResponse['e_mail']);
   }
 
@@ -297,8 +283,7 @@ class UserProvider with ChangeNotifier {
   int _resendToken = 0;
   bool isSendOtp = false;
 
-  verifyPhone(BuildContext context, String countryCode, String phoneNumber,
-      {bool isResend = false}) async {
+  verifyPhone(BuildContext context, String countryCode, String phoneNumber, {bool isResend = false}) async {
     loading(value: true);
 
     await FirebaseAuth.instance.verifyPhoneNumber(
@@ -340,12 +325,9 @@ class UserProvider with ChangeNotifier {
 
   bool isForgotPassword = false;
 
-  void _onVerificationCompletedRegister(
-      PhoneAuthCredential phoneAuthCredential, BuildContext context) async {
+  void _onVerificationCompletedRegister(PhoneAuthCredential phoneAuthCredential, BuildContext context) async {
     loading(value: true);
-    FirebaseAuth.instance
-        .signInWithCredential(phoneAuthCredential)
-        .then((value) async {
+    FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((value) async {
       if (value.user != null) {
         loading(value: false);
         if (isForgotPassword) {
@@ -376,8 +358,7 @@ class UserProvider with ChangeNotifier {
     // loading(value: true);
     try {
       // loading(value: false);
-      final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationCode, smsCode: code);
+      final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationCode, smsCode: code);
       _onVerificationCompletedRegister(credential, context);
     } catch (e) {
       // loading(value: false);
@@ -393,9 +374,7 @@ class UserProvider with ChangeNotifier {
         builder: (context) {
           return AlertDialog(
             title: Text('Smart Theory Test', style: AppTextStyle.titleStyle),
-            content: Text(message,
-                style: AppTextStyle.textStyle
-                    .copyWith(fontWeight: FontWeight.w400)),
+            content: Text(message, style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400)),
             actions: [
               TextButton(
                 onPressed: () {
@@ -422,8 +401,7 @@ class UserProvider with ChangeNotifier {
   logOut([bool tokenExpired = false]) async {
     _status = Status.Unauthenticated;
     if (tokenExpired == true) {
-      _notification =
-          NotificationText('Session expired. Please log in again.', 'info');
+      _notification = NotificationText('Session expired. Please log in again.', 'info');
     }
     notifyListeners();
     SharedPreferences storage = await SharedPreferences.getInstance();

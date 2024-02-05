@@ -187,7 +187,7 @@ class SocialLoginService {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Mock Driving Test'),
+            title: const Text('Smart Theory Test'),
             content: Text(message),
             actions: [
               TextButton(

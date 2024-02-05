@@ -14,8 +14,8 @@ import '../spinner.dart';
 import 'login.dart';
 
 class ForgotNextScreen extends StatefulWidget {
-  final String email;
-  ForgotNextScreen({Key? key, required this.email}) : super(key: key);
+  final String phone;
+  ForgotNextScreen({Key? key, required this.phone}) : super(key: key);
 
   @override
   State<ForgotNextScreen> createState() => _ForgotNextScreenState();
@@ -50,7 +50,7 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Mock Driving Test'),
+            title: const Text('Smart Theory Test'),
             content: Text(message),
             actions: [
               TextButton(
@@ -69,18 +69,18 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        Future.delayed(const Duration(seconds: 3), () {
-          //Navigator.popUntil(context,ModalRoute.withName(routes.LoginRoute));
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) => ForgotNextScreen(),
-          //   ),
-          // );
-          //Navigator.of(context).popAndPushNamed(StudentView.routeName);
-        });
+        // Future.delayed(const Duration(seconds: 3), () {
+        //   //Navigator.popUntil(context,ModalRoute.withName(routes.LoginRoute));
+        //   Navigator.of(context).pop();
+        //   Navigator.of(context).pop();
+        //   // Navigator.of(context).pop();
+        //   // Navigator.of(context).push(
+        //   //   MaterialPageRoute(
+        //   //     builder: (context) => ForgotNextScreen(),
+        //   //   ),
+        //   // );
+        //   //Navigator.of(context).popAndPushNamed(StudentView.routeName);
+        // });
         return AlertDialog(
           titlePadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           title: SizedBox(
@@ -96,6 +96,18 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
               fontSize: 17,
             ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => SignInForm(),
+                    ),
+                    (route) => false);
+              },
+              child: Text('Ok'),
+            ),
+          ],
         );
       },
     );
@@ -106,10 +118,11 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
     print("form state : ${form!.validate()}");
     if (form.validate()) {
       Map data = {
-        'email': widget.email,
-        'code': code,
+        //'email': widget.email,
+        'phone': widget.phone,
+
         'password': newPassword,
-        'confirm_password': confirmNewPassword,
+        'password_confirmation': confirmNewPassword,
         'user_type': '2',
       };
       print("Data: $data");
@@ -119,10 +132,10 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
 
       Spinner.showSpinner(context, "Saving");
       Future.delayed(Duration(seconds: 2));
-      _passwordService.verifyCode(data).then((res) {
+      _passwordService.resetForgotPassword(data).then((res) {
         if (res["success"] == false) {
           Spinner.close(context);
-          showValidationDialog(context, res["error"]);
+          showValidationDialog(context, res["message"]);
         } else {
           Spinner.close(context);
           showSuccessDialog(context, res["message"]);
