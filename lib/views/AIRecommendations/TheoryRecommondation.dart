@@ -63,6 +63,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   @override
   void initState() {
     //changingData = changingData.toList();
+    //print(readContentTheory);
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
@@ -94,13 +95,16 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
             for (int i = 0; i < theoryContent.length; i++) {
               readContentTheory.add(false);
             }
-
             closeLoader();
           } else {
+            print('read Content----------$readContentTheory');
             for (int i = 0; i < theoryContent.length; i++) {
+              print('res message__________ ${res["message"]}');
+
               readContentTheory.add(false);
             }
             for (int j = 0; j < res["message"].length; j++) {
+              print('read Content-------111---$readContentTheory');
               setState(() {
                 readContentTheory[res["message"][j]["topic_id"] - 1] = true;
               });
@@ -108,11 +112,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
             closeLoader();
           }
         });
-
         print("Status : $readContentTheory");
         print("TheoryContent : ${theoryContent}");
       });
-
       // await callApiGetRecommendatedTheory().then((data) { //fetch all theory content.
       //   print(dataSub!["hazard awareness theory test"]);
       // });
@@ -713,9 +715,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                   : (value) async {
                                                       setState(() {
                                                         readContentTheory[index] = !readContentTheory[index];
-                                                        print('read Content------------${readContentTheory[index]}');
+                                                        print('readContent------------${readContentTheory[index]}');
                                                       });
-                                                      print('read Content------------${readContentTheory[index]}');
+                                                      print('readContent------------${readContentTheory[index]}');
                                                       // print(_userId.runtimeType);
                                                       // print(theoryContent[index]["id"].runtimeType);
                                                       await updateTopicProgress(_userId!.toString(), theoryContent[index]["id"].toString());

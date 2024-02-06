@@ -110,7 +110,7 @@ class _TheoryTabState extends State<TheoryTab> {
     var data = sharedPref.getBool('theoryTestPractice');
 
     if (data == null) {
-      // theoryTestPractice();
+      theoryTestPractice();
     }
     log('SharedPref Data $data');
   }
@@ -1021,7 +1021,6 @@ class _TheoryTabState extends State<TheoryTab> {
                                     print("payment");
                                     //
                                     loading(value: true);
-
                                     Stripe.publishableKey = stripePublic;
                                     Map params = {'total_cost': walletDetail!['subscription_cost'], 'user_type': 2, 'parentPageName': "dvsaSubscriptionHome"};
                                     log("Called before payment");

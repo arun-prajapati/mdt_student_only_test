@@ -562,7 +562,7 @@ class SocialLoginService {
         }
       }
       if (loginResponse == null && params['accessType'] == 'login') {
-        _navigationService.navigateToReplacement('/Authorization');
+        //  _navigationService.navigateToReplacement('/Authorization');
       }
     } catch (e) {
       closeLoader();
