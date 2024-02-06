@@ -135,7 +135,7 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
       _passwordService.resetForgotPassword(data).then((res) {
         if (res["success"] == false) {
           Spinner.close(context);
-          showValidationDialog(context, res["message"]);
+          //showValidationDialog(context, res["message"]);
         } else {
           Spinner.close(context);
           showSuccessDialog(context, res["message"]);

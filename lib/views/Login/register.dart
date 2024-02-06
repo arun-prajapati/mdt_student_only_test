@@ -31,16 +31,13 @@ import '../../utils/app_colors.dart';
 
 class Register extends StatefulWidget {
   late String user;
-
   Register(this.user);
-
   @override
   _RegisterState createState() => _RegisterState(this.user);
 }
 
 class _RegisterState extends State<Register> {
   final NavigationService _navigationService = locator<NavigationService>();
-
   _RegisterState(this.user);
   final _passwordService = PasswordServices();
   final TextEditingController phoneTextControl = TextEditingController();
@@ -48,7 +45,6 @@ class _RegisterState extends State<Register> {
   var mobile = '';
   var countryCode = '+44';
   late FocusNode _phoneFocusNode;
-
 //  TextEditingController _name;
 //  TextEditingController _email;
   TextEditingController _password = TextEditingController();
@@ -69,13 +65,12 @@ class _RegisterState extends State<Register> {
   late String deviceType;
   String? deviceId = '';
   bool isSecureconf = true;
-  bool isSecure = false;
+  bool isSecure = true;
 
   //'TP1A.220624.014';
   // Declare this variable
   String user;
   static final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
   Map response = new Map();
   final submittedPinTheme = PinTheme(
     width: 60,
@@ -218,7 +213,6 @@ class _RegisterState extends State<Register> {
   }
 
   Map deviceData = {};
-
   Future<Map> getDeviceInfo() async {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 

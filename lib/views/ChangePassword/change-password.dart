@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:student_app/views/Login/login.dart';
 import 'package:toast/toast.dart';
 
 import '../../custom_button.dart';
@@ -9,7 +10,6 @@ import '../../responsive/percentage_mediaquery.dart';
 import '../../services/auth.dart';
 import '../../services/driver_profile_services.dart';
 import '../../services/navigation_service.dart';
-import '../../style/global_style.dart';
 import '../../widget/CustomAppBar.dart';
 import '../../widget/CustomSpinner.dart';
 
@@ -23,16 +23,13 @@ class _ChangePassword extends State<ChangePassword> {
   final DriverProfileServices api_services = new DriverProfileServices();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final UserProvider auth_services = new UserProvider();
-  TextEditingController old_password = new TextEditingController(),
-      new_password = new TextEditingController(),
-      cnf_password = new TextEditingController();
+  TextEditingController old_password = new TextEditingController(), new_password = new TextEditingController(), cnf_password = new TextEditingController();
   late int _userType = 2;
   late int _userId;
 
   //Call APi Services
   Future<int> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     return _userId;
   }
@@ -116,8 +113,7 @@ class _ChangePassword extends State<ChangePassword> {
               },
               iconRight: null),
           Container(
-              margin:
-                  EdgeInsets.fromLTRB(0, Responsive.height(11, context), 0, 0),
+              margin: EdgeInsets.fromLTRB(0, Responsive.height(11, context), 0, 0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -130,99 +126,25 @@ class _ChangePassword extends State<ChangePassword> {
                 // ],
               ),
               // height: Responsive.height(47, context),
-              padding: EdgeInsets.fromLTRB(14, 20, 14, 20),
+              padding: EdgeInsets.fromLTRB(5, 40, 5, 20),
               child: LayoutBuilder(builder: (context, constraints) {
                 return Column(children: [
-                  Container(
-                      width: Responsive.width(100, context),
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                            child: Text("Old Password*",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.left),
-                          ),
-                          Container(
-                              width: Responsive.width(100, context),
-                              height: 40,
-                              child: TextField(
-                                  controller: old_password,
-                                  decoration: InputDecoration(
-                                    focusedBorder: inputFocusedBorderStyle(),
-                                    enabledBorder: inputBorderStyle(),
-                                    hintText: 'Enter old password',
-                                    hintStyle: placeholderStyle(15),
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(5, 10, 3, 10),
-                                  )))
-                        ],
-                      )),
-                  Container(
-                      width: Responsive.width(100, context),
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                            child: Text("New Password*",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.left),
-                          ),
-                          Container(
-                              width: Responsive.width(100, context),
-                              height: 40,
-                              child: TextField(
-                                  controller: new_password,
-                                  decoration: InputDecoration(
-                                    focusedBorder: inputFocusedBorderStyle(),
-                                    enabledBorder: inputBorderStyle(),
-                                    hintText: 'Enter new password',
-                                    hintStyle: placeholderStyle(15),
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(5, 10, 3, 10),
-                                  )))
-                        ],
-                      )),
-                  Container(
-                      // width: Responsive.width(100, context),
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: Responsive.width(100, context),
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                            child: Text("Confirm Password*",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.left),
-                          ),
-                          Container(
-                              width: Responsive.width(100, context),
-                              height: 40,
-                              child: TextField(
-                                  controller: cnf_password,
-                                  decoration: InputDecoration(
-                                    focusedBorder: inputFocusedBorderStyle(),
-                                    enabledBorder: inputBorderStyle(),
-                                    hintText: 'Enter confirm password',
-                                    hintStyle: placeholderStyle(15),
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(5, 10, 3, 10),
-                                  )))
-                        ],
-                      )),
+                  CustomTextField(
+                    label: 'Enter Old Password',
+                    heading: 'Old Password',
+                    controller: old_password,
+                  ),
+                  CustomTextField(
+                    label: 'Enter new Password',
+                    heading: 'new Password',
+                    controller: new_password,
+                  ),
+                  CustomTextField(
+                    label: 'Enter confirm Password',
+                    heading: 'confirm Password',
+                    controller: cnf_password,
+                  ),
+
                   SizedBox(height: 50),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 75, vertical: 0),
@@ -230,35 +152,29 @@ class _ChangePassword extends State<ChangePassword> {
                       padding: EdgeInsets.symmetric(vertical: 10),
                       title: 'Update',
                       onTap: () {
-                        if (this.old_password.text == null ||
-                            this.old_password.text.trim() == '') {
+                        if (this.old_password.text == null || this.old_password.text.trim() == '') {
                           Toast.show('Please enter old password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.center);
-                        } else if (this.new_password.text == null ||
-                            this.new_password.text.trim() == '') {
+                        } else if (this.new_password.text == null || this.new_password.text.trim() == '') {
                           Toast.show('Please enter new password!',
                               //textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.center);
-                        } else if (this.cnf_password.text == null ||
-                            this.cnf_password.text.trim() == '') {
+                        } else if (this.cnf_password.text == null || this.cnf_password.text.trim() == '') {
                           Toast.show('Please enter confirm password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.center);
-                        } else if (this.new_password.text !=
-                            this.cnf_password.text.trim()) {
-                          Toast.show(
-                              'Confirm password does not match with new password!',
+                        } else if (this.new_password.text != this.cnf_password.text.trim()) {
+                          Toast.show('Confirm password does not match with new password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.center);
                         } else {
                           try {
-                            CustomSpinner.showLoadingDialog(
-                                context, _keyLoader, "Loading...");
+                            CustomSpinner.showLoadingDialog(context, _keyLoader, "Loading...");
                             Map<String, String> requestParams = {
                               'id': this._userId.toString(),
                               'user_type': this._userType.toString(),
@@ -266,24 +182,17 @@ class _ChangePassword extends State<ChangePassword> {
                               'new_password': this.new_password.text,
                               'cnf_password': this.cnf_password.text
                             };
-                            changePasswordApiCall(requestParams)
-                                .then((response) {
+                            changePasswordApiCall(requestParams).then((response) {
                               closeLoader();
                               Toast.show(response!["message"],
                                   //textStyle: context,
                                   duration: Toast.lengthLong,
                                   gravity: Toast.bottom);
-                              if (response['success'] == true)
-                                _navigationService.goBack();
+                              if (response['success'] == true) _navigationService.goBack();
                             });
                           } catch (e) {
-                            Navigator.of(_keyLoader.currentContext!,
-                                    rootNavigator: true)
-                                .pop();
-                            Toast.show('Failed request! please try again.',
-                                textStyle: context,
-                                duration: Toast.lengthLong,
-                                gravity: Toast.bottom);
+                            Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+                            Toast.show('Failed request! please try again.', textStyle: context, duration: Toast.lengthLong, gravity: Toast.bottom);
                           }
                         }
                       },

@@ -105,11 +105,12 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   getStatus() async {
+    print('Call Popup Box---');
     var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('theoryTestPractice');
 
     if (data == null) {
-      theoryTestPractice();
+      // theoryTestPractice();
     }
     log('SharedPref Data $data');
   }

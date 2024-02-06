@@ -5,7 +5,6 @@ import 'package:student_app/custom_button.dart';
 import 'package:student_app/utils/appImages.dart';
 
 import '../locater.dart';
-import '../responsive/percentage_mediaquery.dart';
 import '../services/auth.dart';
 import '../services/navigation_service.dart';
 import '../services/practise_theory_test_services.dart';
@@ -148,36 +147,24 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             // ),
             Expanded(
               flex: 0,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      // width: Responsive.width(100, context),
-                      height: Responsive.height(4, context),
-                      //alignment: Alignment.centerLeft,
-                      child: Center(
-                        child: Text('Select the topic you would like to revise', style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400, color: AppColors.black)),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 18),
+              child: Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Select the topic you would like to revise', style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400, color: AppColors.black)),
+                    //SizedBox(width: 5),
+                    Padding(
+                      padding: EdgeInsets.only(right: 18),
                       child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => TheoryTab(),
-                            //     ));
                           },
                           child: Icon(Icons.close, size: 22, color: Colors.black)),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 10),

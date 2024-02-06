@@ -199,10 +199,10 @@ class _SignInFormState extends State<SignInForm> {
     // final user = Provider.of<UserRepository>(context);
     //var width = MediaQuery.of(context).size.width;
     //var height = MediaQuery.of(context).size.height;
-    TextStyle defaultStyle = AppTextStyle.textStyle;
-    TextStyle linkStyle = AppTextStyle.textStyle;
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    // TextStyle defaultStyle = AppTextStyle.textStyle;
+    // TextStyle linkStyle = AppTextStyle.textStyle;
+    // var width = MediaQuery.of(context).size.width;
+    // var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return new Scaffold(
       backgroundColor: Colors.white,
       key: _key,

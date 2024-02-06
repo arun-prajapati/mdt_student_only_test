@@ -713,8 +713,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                   : (value) async {
                                                       setState(() {
                                                         readContentTheory[index] = !readContentTheory[index];
+                                                        print('read Content------------${readContentTheory[index]}');
                                                       });
-                                                      print(readContentTheory);
+                                                      print('read Content------------${readContentTheory[index]}');
                                                       // print(_userId.runtimeType);
                                                       // print(theoryContent[index]["id"].runtimeType);
                                                       await updateTopicProgress(_userId!.toString(), theoryContent[index]["id"].toString());
@@ -730,9 +731,15 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                             ),
                                           ),
                                           SizedBox(width: 10),
-                                          Text("I have read the content", style: AppTextStyle.disStyle.copyWith(color: AppColors.black, fontWeight: FontWeight.w500))
+                                          Text(
+                                            "I have read the content",
+                                            style: AppTextStyle.disStyle.copyWith(
+                                              color: AppColors.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
                                         ],
-                                      )
+                                      ),
                                       // _buildTilesX(context, changingData[index]),
                                     ],
                                   ),

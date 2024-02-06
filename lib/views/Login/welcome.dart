@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
+import 'package:student_app/services/auth.dart';
 import 'package:student_app/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -403,6 +405,7 @@ class Welcome extends StatelessWidget {
                               ]),
                               title: 'Register',
                               onTap: () {
+                                context.read<UserProvider>().isSendOtp == false;
                                 log('Open Registration');
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
