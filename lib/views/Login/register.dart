@@ -160,7 +160,7 @@ class _RegisterState extends State<Register> {
             Provider.of<UserProvider>(context, listen: false).verifyPhone(context, countryCode, phoneTextControl.text);
             print("ERROE$res");
           } else {
-            showValidationDialog(context, 'Phone Number is already Registered');
+            showValidationDialog(context, 'Email is already Registered');
             //  Provider.of<UserProvider>(context, listen: false).verifyPhone(context, countryCode, phoneTextControl.text);
             print(" 7777${res['success']}");
           }
@@ -395,112 +395,111 @@ reg data
                   // padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical*2),
                   child: Consumer<UserProvider>(builder: (context, authData, _) {
                     return authData.isSendOtp
-                        ? SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('OTP Verification', style: AppTextStyle.titleStyle),
-                                Text('Digit code has been sent to ${countryCode} ${phoneTextControl.text}', style: AppTextStyle.textStyle),
-                                SizedBox(height: 40),
-                                Center(
-                                  child: Pinput(
-                                    controller: code,
-                                    autofocus: true,
-                                    length: 6,
-                                    defaultPinTheme: submittedPinTheme,
-                                    submittedPinTheme: submittedPinTheme,
-                                    focusedPinTheme: focusPinTheme,
-                                    androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
-                                    pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                                    showCursor: true,
-                                    onSubmitted: (pin) async {},
-                                  ),
-                                ),
-                                SizedBox(height: SizeConfig.blockSizeVertical * 38),
-                                Consumer<UserProvider>(builder: (context, authData, _) {
-                                  return Container(
-                                    color: AppColors.white,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
-                                      child: loadingValue
-                                          ? Center(child: CircularProgressIndicator(color: Dark))
-                                          : CustomButton(
-                                              title: authData.isSendOtp ? 'Register' : "Send Code",
-                                              onTap: submit,
-                                            ),
-                                    ),
-                                  );
-                                }),
-                                // Padding(
-                                //   padding: EdgeInsets.only(bottom: 15),
-                                //   child: Row(
-                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                //     // crossAxisAlignment: CrossAxisAlignment.start,
-                                //     children: [
-                                //       Text(
-                                //         'Already have an account? ',
-                                //         style: AppTextStyle.textStyle,
-                                //       ),
-                                //       Padding(
-                                //         padding: EdgeInsets.only(
-                                //             //left: SizeConfig.blockSizeHorizontal * 2.5,
-                                //             // top: SizeConfig.blockSizeVertical * 0.5,
-                                //             ),
-                                //         child: RichText(
-                                //           text: TextSpan(
-                                //               text: 'Login here',
-                                //               style: AppTextStyle.textStyle.copyWith(color: Dark, fontWeight: FontWeight.w500, decoration: TextDecoration.underline),
-                                //               recognizer: TapGestureRecognizer()
-                                //                 ..onTap = () {
-                                //                   Navigator.of(context).pushReplacement(
-                                //                     MaterialPageRoute(
-                                //                       builder: (context) => SignInForm(),
-                                //                     ),
-                                //                   );
-                                //                 }),
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                //SizedBox(height: 2),
-                                /*  Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  secondsRemaining == 0
-                                      ? ''
-                                      : timerText,
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 50),
+                              Center(child: Text('OTP Verification', style: AppTextStyle.titleStyle)),
+                              Center(child: Text('Digit code has been sent to ${countryCode} ${phoneTextControl.text}', style: AppTextStyle.textStyle)),
+                              SizedBox(height: 30),
+                              Center(
+                                child: Pinput(
+                                  controller: code,
+                                  autofocus: true,
+                                  length: 6,
+                                  defaultPinTheme: submittedPinTheme,
+                                  submittedPinTheme: submittedPinTheme,
+                                  focusedPinTheme: focusPinTheme,
+                                  androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
+                                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                                  showCursor: true,
+                                  onSubmitted: (pin) async {},
                                 ),
                               ),
-                              SizedBox(height: 10),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: GestureDetector(
-                                  onTap: enableResend
-                                      ? () {
-                                          secondsRemaining = 60;
-                                          enableResend = false;
-                                          setState(() {});
-                                        }
-                                      : null,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Don’t receive the Code? ",
-                                      ),
-                                      Text(
-                                        "Resend Code",
-                                      ),
-                                    ],
+                              SizedBox(height: 40),
+                              Consumer<UserProvider>(builder: (context, authData, _) {
+                                return Container(
+                                  color: AppColors.white,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
+                                    child: loadingValue
+                                        ? Center(child: CircularProgressIndicator(color: Dark))
+                                        : CustomButton(
+                                            title: authData.isSendOtp ? 'Register' : "Send Code",
+                                            onTap: submit,
+                                          ),
                                   ),
-                                ),
-                              ),*/
-                                // SizedBox(height: 15),
-                              ],
+                                );
+                              }),
+                              // Padding(
+                              //   padding: EdgeInsets.only(bottom: 15),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     // crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Text(
+                              //         'Already have an account? ',
+                              //         style: AppTextStyle.textStyle,
+                              //       ),
+                              //       Padding(
+                              //         padding: EdgeInsets.only(
+                              //             //left: SizeConfig.blockSizeHorizontal * 2.5,
+                              //             // top: SizeConfig.blockSizeVertical * 0.5,
+                              //             ),
+                              //         child: RichText(
+                              //           text: TextSpan(
+                              //               text: 'Login here',
+                              //               style: AppTextStyle.textStyle.copyWith(color: Dark, fontWeight: FontWeight.w500, decoration: TextDecoration.underline),
+                              //               recognizer: TapGestureRecognizer()
+                              //                 ..onTap = () {
+                              //                   Navigator.of(context).pushReplacement(
+                              //                     MaterialPageRoute(
+                              //                       builder: (context) => SignInForm(),
+                              //                     ),
+                              //                   );
+                              //                 }),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              //SizedBox(height: 2),
+                              /*  Align(
+                            alignment: Alignment.topRight,
+                            child: Text(
+                              secondsRemaining == 0
+                                  ? ''
+                                  : timerText,
                             ),
+                          ),
+                          SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: GestureDetector(
+                              onTap: enableResend
+                                  ? () {
+                                      secondsRemaining = 60;
+                                      enableResend = false;
+                                      setState(() {});
+                                    }
+                                  : null,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Don’t receive the Code? ",
+                                  ),
+                                  Text(
+                                    "Resend Code",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),*/
+                              // SizedBox(height: 15),
+                            ],
                           )
                         : SingleChildScrollView(
                             child: Column(

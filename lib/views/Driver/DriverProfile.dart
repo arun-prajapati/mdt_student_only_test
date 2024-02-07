@@ -570,13 +570,16 @@ class _driverProfile extends State<DriverProfile> {
                                                   color: Colors.red,
                                                   onPressed: () => {
                                                     this.setState(() {
+                                                      // print('licence------$license');
+                                                      // print('licencepath-=-------$licenceHttpPath');
+                                                      // print('licence base------------$licenceBase64');
                                                       license = null;
                                                       licenceHttpPath = null;
                                                       licenceBase64 = "";
                                                     })
                                                   },
                                                 ),
-                                                   )
+                                              )
                                             ],
                                           ),
                                         ),
