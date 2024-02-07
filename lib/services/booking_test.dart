@@ -10,12 +10,15 @@ class BookingService {
   late String _type = 'upcoming';
 
   static final BookingService _instance = BookingService._internal();
+
   factory BookingService() => _instance;
+
   BookingService._internal() {
     _type = 'upcoming';
   }
 
   String get type => _type;
+
   void setType(String x) => this._type = x;
 
   //static const String api = 'https://mockdrivingtest.com';
@@ -75,10 +78,15 @@ class BookingService {
   }
 
   Future<List> getSuggestions(String search_address) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
     final url = Uri.parse(
         "https://api.ideal-postcodes.co.uk/v1/autocomplete/addresses?api_key=ak_k41f2aq4g8ZR73bUurtrPz5cetIND&query=" +
             search_address);
-    final response = await http.get(url);
+    final response = await http.get(url, headers: header);
     data = json.decode(response.body);
     if (data['code'] == 2000) {
       List addresses = data["result"]['hits'];
@@ -94,7 +102,11 @@ class BookingService {
         udprn +
         "?api_key=ak_k41f2aq4g8ZR73bUurtrPz5cetIND");
     SharedPreferences storage = await SharedPreferences.getInstance();
-    final response = await http.get(url);
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
+    final response = await http.get(url, headers: header);
     data = json.decode(response.body);
     print(data);
     if (data['code'] == 2000) {

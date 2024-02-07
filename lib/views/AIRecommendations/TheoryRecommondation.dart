@@ -38,7 +38,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
 
   //List<Entry> changingData = List.empty();
   int? _userId;
-  final PractiseTheoryTestServices test_api_services = new PractiseTheoryTestServices();
+  final PractiseTheoryTestServices test_api_services =
+      new PractiseTheoryTestServices();
   final AIRecommondationAPI _aIRecommondationService = AIRecommondationAPI();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final PaymentService _paymentService = new PaymentService();
@@ -84,27 +85,24 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       await getAllRecordsFromApi().then((records_list) {
         walletDetail = records_list['other_data'];
       });
-      await getTheoryContent(walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes").then((value) async {
+      await getTheoryContent(
+              walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
+          .then((value) async {
         await fetchUserTheoryProgress(_userId!).then((res) {
           print("Progress fetch : $res");
           setState(() {
             theoryContent = value["message"];
           });
-
           if (res["message"].length == 0) {
             for (int i = 0; i < theoryContent.length; i++) {
               readContentTheory.add(false);
             }
             closeLoader();
           } else {
-            print('read Content----------$readContentTheory');
             for (int i = 0; i < theoryContent.length; i++) {
-              print('res message__________ ${res["message"]}');
-
               readContentTheory.add(false);
             }
             for (int j = 0; j < res["message"].length; j++) {
-              print('read Content-------111---$readContentTheory');
               setState(() {
                 readContentTheory[res["message"][j]["topic_id"] - 1] = true;
               });
@@ -136,7 +134,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
 
   //Call APi Services
   Future<Map> getUserDetail() async {
-    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response =
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     userName = "${response['first_name']} ${response['last_name']}";
 
@@ -157,8 +156,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
 
   Future<Map> getTopicAiContent(String topic) async {
     loading(value: true);
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
     final url = Uri.parse('$api/api/ai_provideAI_data/${topic}');
-    final response = await http.get(url);
+    print("URL +++++++ $api/api/ai_provideAI_data/${topic}");
+    final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
       loading(value: false);
       // print(jsonDecode(response.body));
@@ -170,13 +175,20 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   }
 
   Future<Map> updateTopicProgress(String driverId, String topicId) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
     final url = Uri.parse('$api/api/update/progress');
 
     Map<String, String> body = {
       'driver_id': driverId,
       'topic_id': topicId,
     };
-    final response = await http.post(url, body: body);
+    final response = await http.post(url, body: body, headers: header);
+    print('URL ===== $api/api/update/progress');
+    print('RESPONSE ===== ${response.body}');
     return jsonDecode(response.body);
   }
 
@@ -194,7 +206,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
 
   Future<void> callApiGetRecommendatedTheory() async {
     // getUserDetail();
-    if (_userId != null) dataSub = (await _aIRecommondationService.getrecommondedtheory());
+    if (_userId != null)
+      dataSub = (await _aIRecommondationService.getrecommondedtheory());
 
     print("Theory Data : ${dataSub!["hazard awareness theory test"]}");
   }
@@ -286,7 +299,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                         },
                         child: Container(
                           padding: EdgeInsets.all(6),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.black12),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black12),
                           child: Icon(Icons.arrow_back),
                         ),
                       ),
@@ -325,13 +340,17 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                     //padding: EdgeInsets.only(top: 10),
                     //color: Colors.red,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 12, right: 10, top: 0, bottom: 12),
+                      padding: EdgeInsets.only(
+                          left: 12, right: 10, top: 0, bottom: 12),
                       child: ListView.builder(
                         padding: EdgeInsets.all(0),
                         key: Key('builder ${selected.toString()}'),
                         itemBuilder: (context, index) {
-                          print("data : -----${theoryContent[index]['topic_name']} ------");
-                          if (theoryContent.isNotEmpty && walletDetail != null && walletDetail!['dvsa_subscription'] <= 0) {
+                          print(
+                              "data : -----${theoryContent[index]['topic_name']} ------");
+                          if (theoryContent.isNotEmpty &&
+                              walletDetail != null &&
+                              walletDetail!['dvsa_subscription'] <= 0) {
                             if (theoryContent[index]['isFree'] == "free") {
                               return Container(
                                 width: double.infinity,
@@ -348,12 +367,17 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   // ]),
                                   color: AppColors.borderblue.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: AppColors.borderblue.withOpacity(0.5), width: 1),
+                                  border: Border.all(
+                                      color:
+                                          AppColors.borderblue.withOpacity(0.5),
+                                      width: 1),
                                 ),
                                 child: Theme(
-                                  data: ThemeData(dividerColor: Colors.transparent),
+                                  data: ThemeData(
+                                      dividerColor: Colors.transparent),
                                   child: ExpansionTile(
-                                    tilePadding: EdgeInsets.symmetric(horizontal: 15),
+                                    tilePadding:
+                                        EdgeInsets.symmetric(horizontal: 15),
                                     key: Key(index.toString()),
                                     initiallyExpanded: index == selected,
                                     maintainState: true,
@@ -378,29 +402,57 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     },
                                     trailing: Container(
                                       decoration: BoxDecoration(
-                                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                            AppColors.blueGrad7.withOpacity(0.3),
-                                            AppColors.blueGrad6.withOpacity(0.2),
-                                            AppColors.blueGrad5.withOpacity(0.2),
-                                            AppColors.blueGrad4.withOpacity(0.2),
-                                            AppColors.blueGrad3.withOpacity(0.2),
-                                            AppColors.blueGrad2.withOpacity(0.2),
-                                            AppColors.blueGrad1.withOpacity(0.2),
-                                          ]),
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                AppColors.blueGrad7
+                                                    .withOpacity(0.3),
+                                                AppColors.blueGrad6
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad5
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad4
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad3
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad2
+                                                    .withOpacity(0.2),
+                                                AppColors.blueGrad1
+                                                    .withOpacity(0.2),
+                                              ]),
                                           shape: BoxShape.circle
                                           //borderRadius: BorderRadius.circular(10),
                                           ),
-                                      child: Icon(isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: AppColors.blueGrad6),
+                                      child: Icon(
+                                          isExpanded
+                                              ? Icons.keyboard_arrow_up
+                                              : Icons.keyboard_arrow_down,
+                                          color: AppColors.blueGrad6),
                                     ),
-                                    childrenPadding: EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 0),
+                                    childrenPadding: EdgeInsets.only(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 10,
+                                        top: 0),
                                     title: Text(
-                                        theoryContent[index]["topic_name"].replaceAll('_', ' ').substring(0, 1).toUpperCase() + theoryContent[index]["topic_name"].replaceAll('_', ' ').substring(1),
-                                        style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 15)),
+                                        theoryContent[index]["topic_name"]
+                                                .replaceAll('_', ' ')
+                                                .substring(0, 1)
+                                                .toUpperCase() +
+                                            theoryContent[index]["topic_name"]
+                                                .replaceAll('_', ' ')
+                                                .substring(1),
+                                        style: AppTextStyle.textStyle.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15)),
                                     children: [
                                       Text(
-                                        theoryContent[index]["topic_description"],
+                                        theoryContent[index]
+                                            ["topic_description"],
                                         textAlign: TextAlign.left,
-                                        style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400),
+                                        style: AppTextStyle.disStyle.copyWith(
+                                            fontWeight: FontWeight.w400),
                                       ),
                                       /*Visibility(
                                         visible: _dataStatus == DataStatus.Loaded
@@ -549,16 +601,23 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                   isImage: true,
                                                   title: "Read AI article",
                                                   image: AppImages.readAi,
-                                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 10),
                                                   onTap: () async {
                                                     print("Clicked!!");
                                                     setState(() {
-                                                      _dataStatus = DataStatus.Loading;
+                                                      _dataStatus =
+                                                          DataStatus.Loading;
                                                     });
-                                                    await getTopicAiContent(theoryContent[index]["topic_name"]).then((data) {
+                                                    await getTopicAiContent(
+                                                            theoryContent[index]
+                                                                ["topic_name"])
+                                                        .then((data) {
                                                       print("Topic : $data");
                                                       setState(() {
-                                                        _dataStatus = DataStatus.Loaded;
+                                                        _dataStatus =
+                                                            DataStatus.Loaded;
                                                         topicData = data;
                                                       });
                                                     });
@@ -609,16 +668,23 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                   isfontWeight: true,
                                                   fontWeight: FontWeight.w500,
                                                   image: AppImages.video,
-                                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 10),
                                                   onTap: () async {
                                                     print("Clicked!!");
                                                     setState(() {
-                                                      _dataStatus = DataStatus.Loading;
+                                                      _dataStatus =
+                                                          DataStatus.Loading;
                                                     });
-                                                    await getTopicAiContent(theoryContent[index]["topic_name"]).then((data) {
+                                                    await getTopicAiContent(
+                                                            theoryContent[index]
+                                                                ["topic_name"])
+                                                        .then((data) {
                                                       print("Topic : $data");
                                                       setState(() {
-                                                        _dataStatus = DataStatus.Loaded;
+                                                        _dataStatus =
+                                                            DataStatus.Loaded;
                                                         topicData = data;
                                                       });
                                                     });
@@ -670,23 +736,41 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                       ),
                                       SizedBox(height: 8),
                                       Visibility(
-                                        visible: _dataStatus == DataStatus.Loaded ? true : false,
+                                        visible:
+                                            _dataStatus == DataStatus.Loaded
+                                                ? true
+                                                : false,
                                         child: Container(
                                           child: topicData.isNotEmpty
                                               ? Column(
                                                   children: [
                                                     ListTile(
-                                                      title: Text("Read article", style: TextStyle(color: Dark)),
+                                                      title: Text(
+                                                          "Read article",
+                                                          style: TextStyle(
+                                                              color: Dark)),
                                                       onTap: () {
-                                                        _handleURLButtonPress(context, topicData["reading_links"][0]);
+                                                        _handleURLButtonPress(
+                                                            context,
+                                                            topicData[
+                                                                    "reading_links"]
+                                                                [0]);
                                                       },
                                                     ),
                                                     ListTile(
                                                       title: YoutubePlayer(
-                                                        backgroundColor: Colors.transparent,
-                                                        controller: YoutubePlayerController(
-                                                          params: YoutubePlayerParams(mute: false, showControls: true, showFullscreenButton: false),
-                                                        )..loadVideo(topicData["yt_links"][0]),
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        controller:
+                                                            YoutubePlayerController(
+                                                          params: YoutubePlayerParams(
+                                                              mute: false,
+                                                              showControls:
+                                                                  true,
+                                                              showFullscreenButton:
+                                                                  false),
+                                                        )..loadVideo(topicData[
+                                                                "yt_links"][0]),
                                                         // width: 250,
                                                       ),
                                                       // onTap: () {
@@ -702,29 +786,45 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                       ),
                                       SizedBox(height: 8),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             width: 20,
                                             height: 20,
                                             child: Checkbox(
-                                              shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                              shape: ContinuousRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12)),
                                               value: readContentTheory[index],
-                                              onChanged: readContentTheory[index]
+                                              onChanged: readContentTheory[
+                                                      index]
                                                   ? null
                                                   : (value) async {
                                                       setState(() {
-                                                        readContentTheory[index] = !readContentTheory[index];
-                                                        print('readContent------------${readContentTheory[index]}');
+                                                        readContentTheory[
+                                                                index] =
+                                                            !readContentTheory[
+                                                                index];
+                                                        print(
+                                                            'readContent------------${readContentTheory[index]}');
                                                       });
-                                                      print('readContent------------${readContentTheory[index]}');
+                                                      print(
+                                                          'readContent------------${readContentTheory[index]}');
                                                       // print(_userId.runtimeType);
                                                       // print(theoryContent[index]["id"].runtimeType);
-                                                      await updateTopicProgress(_userId!.toString(), theoryContent[index]["id"].toString());
+                                                      await updateTopicProgress(
+                                                          _userId!.toString(),
+                                                          theoryContent[index]
+                                                                  ["id"]
+                                                              .toString());
                                                     },
-                                              fillColor: MaterialStateColor.resolveWith(
+                                              fillColor: MaterialStateColor
+                                                  .resolveWith(
                                                 (Set<MaterialState> states) {
-                                                  if (states.contains(MaterialState.disabled)) {
+                                                  if (states.contains(
+                                                      MaterialState.disabled)) {
                                                     return Color(0xFF3F57A0);
                                                   }
                                                   return AppColors.transparent;
@@ -735,7 +835,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           SizedBox(width: 10),
                                           Text(
                                             "I have read the content",
-                                            style: AppTextStyle.disStyle.copyWith(
+                                            style:
+                                                AppTextStyle.disStyle.copyWith(
                                               color: AppColors.black,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -762,30 +863,45 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                 //     ]),
                                 color: AppColors.borderblue.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: AppColors.borderblue.withOpacity(0.5), width: 1),
+                                border: Border.all(
+                                    color:
+                                        AppColors.borderblue.withOpacity(0.5),
+                                    width: 1),
                               ),
                               child: ListTile(
                                 visualDensity: VisualDensity.comfortable,
                                 // dense: true,
                                 title: Text(
-                                    theoryContent[index]["topic_name"].replaceAll('_', ' ').substring(0, 1).toUpperCase() + theoryContent[index]["topic_name"].replaceAll('_', ' ').substring(1),
-                                    style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 15)),
+                                    theoryContent[index]["topic_name"]
+                                            .replaceAll('_', ' ')
+                                            .substring(0, 1)
+                                            .toUpperCase() +
+                                        theoryContent[index]["topic_name"]
+                                            .replaceAll('_', ' ')
+                                            .substring(1),
+                                    style: AppTextStyle.textStyle.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15)),
                                 onTap: () {
-                                  print('theoryContent[index]["topic_id"] ${theoryContent[index]["id"]}');
+                                  print(
+                                      'theoryContent[index]["topic_id"] ${theoryContent[index]["id"]}');
                                   GetPremium(context);
                                 },
                                 trailing: Container(
                                   // padding: EdgeInsets.all(0),
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                      AppColors.blueGrad7.withOpacity(0.3),
-                                      AppColors.blueGrad6.withOpacity(0.2),
-                                      AppColors.blueGrad5.withOpacity(0.2),
-                                      AppColors.blueGrad4.withOpacity(0.2),
-                                      AppColors.blueGrad3.withOpacity(0.2),
-                                      AppColors.blueGrad2.withOpacity(0.2),
-                                      AppColors.blueGrad1.withOpacity(0.2),
-                                    ]),
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          AppColors.blueGrad7.withOpacity(0.3),
+                                          AppColors.blueGrad6.withOpacity(0.2),
+                                          AppColors.blueGrad5.withOpacity(0.2),
+                                          AppColors.blueGrad4.withOpacity(0.2),
+                                          AppColors.blueGrad3.withOpacity(0.2),
+                                          AppColors.blueGrad2.withOpacity(0.2),
+                                          AppColors.blueGrad1.withOpacity(0.2),
+                                        ]),
                                     shape: BoxShape.circle,
                                     // borderRadius: BorderRadius.circular(10),
                                   ),
@@ -949,7 +1065,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), //this right here
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)), //this right here
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
@@ -963,7 +1080,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
               child: Padding(
                 padding: EdgeInsets.all(4),
                 child: Container(
-                  decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: EdgeInsets.all(15),
                     child: Column(
@@ -971,11 +1090,16 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(alignment: Alignment.topLeft, child: Text('Go For Premium !!!!', style: AppTextStyle.titleStyle)),
+                        Container(
+                            alignment: Alignment.topLeft,
+                            child: Text('Go For Premium !!!!',
+                                style: AppTextStyle.titleStyle)),
                         SizedBox(height: 8),
                         Text(
                           'Get Premium service for getting AI data for this topic',
-                          style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w300, color: AppColors.black),
+                          style: AppTextStyle.disStyle.copyWith(
+                              fontWeight: FontWeight.w300,
+                              color: AppColors.black),
                         ),
                         SizedBox(height: 18),
                         Row(
@@ -990,10 +1114,22 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   showLoader("Loading");
 
                                   Stripe.publishableKey = stripePublic;
-                                  Map params = {'total_cost': walletDetail!['subscription_cost'], 'user_type': 2, 'parentPageName': "dvsaSubscription"};
+                                  Map params = {
+                                    'total_cost':
+                                        walletDetail!['subscription_cost'],
+                                    'user_type': 2,
+                                    'parentPageName': "dvsaSubscription"
+                                  };
                                   dev.log("Called before payment");
                                   await _paymentService
-                                      .makePayment(amount: walletDetail!['subscription_cost'], currency: 'GBP', context: context, desc: 'DVSA Subscription by ${userName} (App)', metaData: params)
+                                      .makePayment(
+                                          amount: walletDetail![
+                                              'subscription_cost'],
+                                          currency: 'GBP',
+                                          context: context,
+                                          desc:
+                                              'DVSA Subscription by ${userName} (App)',
+                                          metaData: params)
                                       .then((value) => closeLoader());
                                   dev.log("Called after payment");
                                 },
@@ -1002,12 +1138,18 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     padding: EdgeInsets.symmetric(vertical: 8),
                                     decoration: BoxDecoration(
                                       color: Dark,
-                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
                                     ),
                                     alignment: Alignment.center,
                                     child: Text(
                                       "Buy now",
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: SizeConfig.blockSizeHorizontal * 4),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  4),
                                     )),
                               ),
                             ),
@@ -1024,12 +1166,18 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     padding: EdgeInsets.symmetric(vertical: 8),
                                     decoration: BoxDecoration(
                                       color: Dark,
-                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
                                     ),
                                     alignment: Alignment.center,
                                     child: Text(
                                       "Cancel",
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: SizeConfig.blockSizeHorizontal * 4),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  4),
                                     )),
                               ),
                             ),
@@ -1155,5 +1303,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
 // }
 
 void _handleURLButtonPress(BuildContext context, String url) {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer(url, 'AI Learning')));
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => WebViewContainer(url, 'AI Learning')));
 }

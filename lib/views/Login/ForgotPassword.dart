@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,6 +73,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     ),
   );
 
+  // int secondsRemaining = 1 * 60;
+  // bool enableResend = false;
+  // Timer? timer;
+
   showValidationDialog(BuildContext context, String message) {
     //print("valid");
     return showDialog(
@@ -135,10 +140,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    // if (context.read<UserProvider>().isSendOtp) {
+    print('QQQQQQQQ +++++++++++++++++');
+
+    // }
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    // Duration clockTimer = Duration(seconds: secondsRemaining);
+
+    // String timerText =
+    //     '0${clockTimer.inMinutes.remainder(60).toString()}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
     var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var height =
+        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
       key: _key,
       backgroundColor: Colors.white,
@@ -156,7 +176,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
-                Positioned(left: 25, top: SizeConfig.blockSizeVertical * 8, child: backArrowCustom()),
+                Positioned(
+                    left: 25,
+                    top: SizeConfig.blockSizeVertical * 8,
+                    child: backArrowCustom()),
                 Positioned(
                   top: SizeConfig.blockSizeVertical * 15,
                   left: SizeConfig.blockSizeHorizontal * 28,
@@ -353,151 +376,226 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   0.0,
                 ),
                 child: Consumer<UserProvider>(builder: (context, authData, _) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(height: 40),
-                      /*   CustomTextField(
-                          label: 'Email',
-                          // prefixIcon: const Icon(
-                          //   Icons.mail,
-                          //   color: Dark,
-                          // ),
-                          validator: (value) {
-                            email = value!.trim();
-                            print('VALL  //////      $value');
-                            return Validate.validateEmail(email);
+                  return SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: 40),
+                        /*   CustomTextField(
+                            label: 'Email',
+                            // prefixIcon: const Icon(
+                            //   Icons.mail,
+                            //   color: Dark,
+                            // ),
+                            validator: (value) {
+                              email = value!.trim();
+                              print('VALL  //////      $value');
+                              return Validate.validateEmail(email);
+                            },
+                            onChange: (val) {
+                              if (!_formKey.currentState!.validate()) {
+                                Validate.validateEmail(val);
+                              }
+                            },
+                            onFieldSubmitted: (_) {
+                              setFocus(context, focusNode: null);
+                              submit(context);
+                            },
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.done,
+                          ),*/
+                        // authData.isSendOtp
+                        //     ? Center(
+                        //         child: Pinput(
+                        //           controller: code,
+                        //           autofocus: true,
+                        //           length: 6,
+                        //           defaultPinTheme: submittedPinTheme,
+                        //           submittedPinTheme: submittedPinTheme,
+                        //           focusedPinTheme: focusPinTheme,
+                        //           androidSmsAutofillMethod:
+                        //               AndroidSmsAutofillMethod.smsRetrieverApi,
+                        //           pinputAutovalidateMode:
+                        //               PinputAutovalidateMode.onSubmit,
+                        //           showCursor: true,
+                        //           onSubmitted: (pin) async {},
+                        //         ),
+                        //       )
+                        //     :
+                        IntlPhoneField(
+                          onCountryChanged: (c) {
+                            countryCode = c.dialCode;
+                            print("Code :: ${countryCode}");
                           },
-                          onChange: (val) {
-                            if (!_formKey.currentState!.validate()) {
-                              Validate.validateEmail(val);
-                            }
-                          },
-                          onFieldSubmitted: (_) {
+                          autofocus: false,
+                          textAlign: TextAlign.left,
+                          dropdownIcon: Icon(Icons.keyboard_arrow_down,
+                              color: Colors.black),
+                          dropdownIconPosition: IconPosition.trailing,
+                          flagsButtonMargin: EdgeInsets.only(left: 10),
+                          //disableLengthCheck: true,
+                          autovalidateMode: AutovalidateMode.disabled,
+                          //disableLengthCheck: true,
+                          controller: phoneTextControl,
+                          cursorColor: Dark,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 20),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                  color: AppColors.black.withOpacity(0.5),
+                                  width: 1.1),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                    color: AppColors.black.withOpacity(0.5),
+                                    width: 1.1)),
+                            disabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                    color: AppColors.black.withOpacity(0.5),
+                                    width: 1.1)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                    color: AppColors.black.withOpacity(0.5),
+                                    width: 1.1)),
+                            focusColor: Dark,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                  color: AppColors.black.withOpacity(0.5),
+                                  width: 1.1),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                  color: AppColors.black.withOpacity(0.5),
+                                  width: 1.1),
+                            ),
+                            hintStyle: AppTextStyle.disStyle.copyWith(
+                                color: AppColors.grey,
+                                fontWeight: FontWeight.w400),
+                            hintText: 'Enter Mobile Number',
+                            errorStyle: AppTextStyle.textStyle
+                                .copyWith(color: AppColors.red1),
+                            floatingLabelStyle: TextStyle(color: Dark),
+                            // errorStyle: TextStyle(
+                            //     fontSize: constraints.maxWidth * 0.05),
+                          ),
+                          initialCountryCode: 'GB',
+                          // showCountryFlag: false,
+                          keyboardType: TextInputType.phone,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          style: AppTextStyle.textStyle,
+                          onSubmitted: (_) {
                             setFocus(context, focusNode: null);
                             submit(context);
                           },
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.done,
-                        ),*/
-                      authData.isSendOtp
-                          ? Center(
-                              child: Pinput(
-                                controller: code,
-                                autofocus: true,
-                                length: 6,
-                                defaultPinTheme: submittedPinTheme,
-                                submittedPinTheme: submittedPinTheme,
-                                focusedPinTheme: focusPinTheme,
-                                androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
-                                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                                showCursor: true,
-                                onSubmitted: (pin) async {},
-                              ),
-                            )
-                          : IntlPhoneField(
-                              onCountryChanged: (c) {
-                                countryCode = c.dialCode;
-                                print("Code :: ${countryCode}");
-                              },
-                              autofocus: false,
-                              textAlign: TextAlign.left,
-                              dropdownIcon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
-                              dropdownIconPosition: IconPosition.trailing,
-                              flagsButtonMargin: EdgeInsets.only(left: 10),
-                              //disableLengthCheck: true,
-                              autovalidateMode: AutovalidateMode.disabled,
-                              //disableLengthCheck: true,
-                              controller: phoneTextControl,
-                              cursorColor: Dark,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                counterText: "",
-                                contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
-                                ),
-                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
-                                disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
-                                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
-                                focusColor: Dark,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
-                                ),
-                                hintStyle: AppTextStyle.disStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w400),
-                                hintText: 'Enter Mobile Number',
-                                errorStyle: AppTextStyle.textStyle.copyWith(color: AppColors.red1),
-                                floatingLabelStyle: TextStyle(color: Dark),
-                                // errorStyle: TextStyle(
-                                //     fontSize: constraints.maxWidth * 0.05),
-                              ),
-                              initialCountryCode: 'GB',
-                              // showCountryFlag: false,
-                              keyboardType: TextInputType.phone,
-                              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                              style: AppTextStyle.textStyle,
-                              onSubmitted: (_) {
-                                setFocus(context, focusNode: null);
-                                submit(context);
-                              },
 
-                              // onSubmitted: (_) {
-                              //   setFocus(context, focusNode: _addressFocusNode);
-                              // },
-                              onChanged: (phone) {
-                                print(phone);
+                          // onSubmitted: (_) {
+                          //   setFocus(context, focusNode: _addressFocusNode);
+                          // },
+                          onChanged: (phone) {
+                            print(phone);
 
-                                Validate.validateEmail(phoneTextControl.text);
-                                setState(() {
-                                  mobile = phone.completeNumber;
-                                  phoneTextControl.selection = TextSelection.fromPosition(TextPosition(offset: phoneTextControl.text.length));
-                                  countryCode = phone.countryCode;
-                                });
-                              },
+                            Validate.validateEmail(phoneTextControl.text);
+                            setState(() {
+                              mobile = phone.completeNumber;
+                              phoneTextControl.selection =
+                                  TextSelection.fromPosition(TextPosition(
+                                      offset: phoneTextControl.text.length));
+                              countryCode = phone.countryCode;
+                            });
+                          },
+                        ),
+                        /*  Align(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            secondsRemaining == 0 ? '' : timerText,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: GestureDetector(
+                            onTap: enableResend
+                                ? () {
+                                    secondsRemaining = 60;
+                                    enableResend = false;
+                                    setState(() {});
+                                  }
+                                : null,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don’t receive the Code? ",
+                                ),
+                                Text(
+                                  "Resend Code",
+                                ),
+                              ],
                             ),
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 80,
-                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4.8),
-                        //color: Colors.black12,
-                        child: loadingValue
-                            ? Center(child: CircularProgressIndicator(color: Dark))
-                            : CustomButton(
-                                title: authData.isSendOtp ? 'Verify Code' : 'Send Code',
-                                onTap: () {
-                                  submit(context);
-                                }),
-                        // Material(
-                        //   borderRadius: BorderRadius.circular(25),
-                        //   borderOnForeground: true,
-                        //   color: Dark,
-                        //   elevation: 5.0,
-                        //   child: MaterialButton(
-                        //     onPressed: () {
-                        //       submit(context);
-                        //     },
-                        //     child: Padding(
-                        //       padding: EdgeInsets.symmetric(
-                        //           horizontal: 15, vertical: 10),
-                        //       child: Text(
-                        //         'Send Code',
-                        //         style: TextStyle(
-                        //           fontFamily: 'Poppins',
-                        //           fontSize: SizeConfig.blockSizeHorizontal * 5,
-                        //           fontWeight: FontWeight.w700,
-                        //           color: Colors.white,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ),
-                    ],
+                          ),
+                        ),*/
+                        SizedBox(height: 15),
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 80,
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 4.8),
+                          //color: Colors.black12,
+                          child: loadingValue
+                              ? Center(
+                                  child: CircularProgressIndicator(color: Dark))
+                              : CustomButton(
+                                  title:
+                                      // authData.isSendOtp
+                                      //     ? 'Verify Code'
+                                      //     :
+                                      'Send Code',
+                                  onTap: () {
+                                    submit(context);
+                                  }),
+                          // Material(
+                          //   borderRadius: BorderRadius.circular(25),
+                          //   borderOnForeground: true,
+                          //   color: Dark,
+                          //   elevation: 5.0,
+                          //   child: MaterialButton(
+                          //     onPressed: () {
+                          //       submit(context);
+                          //     },
+                          //     child: Padding(
+                          //       padding: EdgeInsets.symmetric(
+                          //           horizontal: 15, vertical: 10),
+                          //       child: Text(
+                          //         'Send Code',
+                          //         style: TextStyle(
+                          //           fontFamily: 'Poppins',
+                          //           fontSize: SizeConfig.blockSizeHorizontal * 5,
+                          //           fontWeight: FontWeight.w700,
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                        ),
+                      ],
+                    ),
                   );
                 }),
               ),
@@ -525,74 +623,84 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     var authData = context.read<UserProvider>();
 
     if (form.validate() && phoneTextControl.text.isNotEmpty) {
-      if (!authData.isSendOtp) {
-        print('PPPPPPPPPPPPPP');
-        Map data = {
-          'phone': '${countryCode}${phoneTextControl.text}',
-          'user_type': '2',
-        };
-        _passwordService.checkNumber(data).then((res) {
-          // Spinner.showSpinner(context, "Sending code");
-          if (res["success"] == false) {
-            // Spinner.close(context);
-            print("ERROE$res");
-            // var fetchData = jsonDecode('$res');
-            // print('fetch Data:  $fetchData');
-            showValidationDialog(context, res["message"]);
-          } else {
-            Provider.of<UserProvider>(context, listen: false).verifyPhone(context, countryCode, phoneTextControl.text);
+      // if (!authData.isSendOtp) {
+      print('PPPPPPPPPPPPPP');
+      Map data = {
+        'phone': '${countryCode}${phoneTextControl.text}',
+        'user_type': '2',
+      };
+      _passwordService.checkNumber(data).then((res) {
+        // Spinner.showSpinner(context, "Sending code");
+        if (res["success"] == false) {
+          // Spinner.close(context);
+          print("ERROE$res");
+          // var fetchData = jsonDecode('$res');
+          // print('fetch Data:  $fetchData');
+          showValidationDialog(context, res["message"]);
+        } else {
+          Provider.of<UserProvider>(context, listen: false)
+              .verifyPhone(context, countryCode, phoneTextControl.text);
 
-            print("SUCCESS");
-          }
+          print("SUCCESS");
+        }
 
-          //print(data);
+        //print(data);
 //              Future.delayed(Duration(seconds: 2));
 
-          // _passwordService.forgotPassword(data).then((res) {
-          //   log("!!!!!!!!!!!!!! $res");
-          //
-          //   if (res["success"] == false) {
-          //     Spinner.close(context);
-          //     showValidationDialog(context, res["error"]);
-          //   } else {
-          //     Spinner.close(context);
-          //     showSuccessDialog(context, res["error"]);
-          //   }
-          //   print("Response: $res");
-          // });
-        });
-      } else {
-        try {
-          loadingValue = true;
-          setState(() {});
-          final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: authData.verificationCode, smsCode: code.text);
-          FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
-            if (value.user != null) {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgotNextScreen(phone: '${countryCode} ${phoneTextControl.text}')));
-
-              print('333333333');
-              loadingValue = false;
-              setState(() {});
-              // Map data = {
-              //   'email': code.text,
-              //   'user_type': '2',
-              // };
-            }
-          }).catchError((e) {
-            loadingValue = false;
-            setState(() {});
-            print('HHHHHHH ${e.code}');
-            if (e.code == "invalid-verification-code") {
-              authData.showErrorDialog(context, "Invalid OTP");
-            } else {
-              authData.showErrorDialog(context, e.code.toString().replaceAll("-", " "));
-            }
-          });
-        } catch (e) {
-          loadingValue = false;
-          setState(() {});
-        }
-      }
+        // _passwordService.forgotPassword(data).then((res) {
+        //   log("!!!!!!!!!!!!!! $res");
+        //
+        //   if (res["success"] == false) {
+        //     Spinner.close(context);
+        //     showValidationDialog(context, res["error"]);
+        //   } else {
+        //     Spinner.close(context);
+        //     showSuccessDialog(context, res["error"]);
+        //   }
+        //   print("Response: $res");
+        // });
+      });
+      // }
+      // else {
+      //   try {
+      //     loadingValue = true;
+      //     setState(() {});
+      //     final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      //         verificationId: authData.verificationCode, smsCode: code.text);
+      //     FirebaseAuth.instance
+      //         .signInWithCredential(credential)
+      //         .then((value) async {
+      //       if (value.user != null) {
+      //         Navigator.pushReplacement(
+      //             context,
+      //             MaterialPageRoute(
+      //                 builder: (context) => ForgotNextScreen(
+      //                     phone: '${countryCode} ${phoneTextControl.text}')));
+      //
+      //         print('333333333');
+      //         loadingValue = false;
+      //         setState(() {});
+      //         // Map data = {
+      //         //   'email': code.text,
+      //         //   'user_type': '2',
+      //         // };
+      //       }
+      //     }).catchError((e) {
+      //       loadingValue = false;
+      //       setState(() {});
+      //       print('HHHHHHH ${e.code}');
+      //       if (e.code == "invalid-verification-code") {
+      //         authData.showErrorDialog(context, "Invalid OTP");
+      //       } else {
+      //         authData.showErrorDialog(
+      //             context, e.code.toString().replaceAll("-", " "));
+      //       }
+      //     });
+      //   } catch (e) {
+      //     loadingValue = false;
+      //     setState(() {});
+      //   }
+      // }
     }
 
     /* Future.delayed(Duration(seconds: 2));
@@ -643,7 +751,8 @@ class HeaderPainter extends CustomPainter {
     Path path0 = Path();
     path0.moveTo(0, 0);
     path0.lineTo(0, size.height * 0.21);
-    path0.quadraticBezierTo(size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
+    path0.quadraticBezierTo(
+        size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
     //path0.lineTo(0,0);
     path0.close();
@@ -664,7 +773,8 @@ class HeaderPainter extends CustomPainter {
     Path path1 = Path();
     path1.moveTo(0, 0);
     path1.lineTo(0, size.height * 0.20);
-    path1.quadraticBezierTo(size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
+    path1.quadraticBezierTo(
+        size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
     path1.quadraticBezierTo(size.width, size.height * 0.22, size.width, 0);
     path1.lineTo(0, 0);
     path1.close();
