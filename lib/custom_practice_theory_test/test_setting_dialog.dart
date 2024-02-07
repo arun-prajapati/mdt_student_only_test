@@ -50,7 +50,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
       child: Container(
         // height: Responsive.height(56, context),
         alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.fromLTRB(10, 12, 10, 5),
+        padding: EdgeInsets.fromLTRB(0, 12, 0, 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -148,7 +148,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.only(left: 8),
+                padding: EdgeInsets.only(left: 18),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -171,7 +171,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: EdgeInsets.symmetric(horizontal: 18),
                 child: Row(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -297,7 +297,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 18),
                   child: Column(
                     children: List.generate(
                         categories.length,
@@ -358,7 +358,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.only(left: 45, right: 45, bottom: 20, top: 15),
+                padding: EdgeInsets.only(left: 55, right: 55, bottom: 20, top: 15),
                 child: CustomButton(
                   title: 'Continue',
                   onTap: () {

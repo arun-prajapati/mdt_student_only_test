@@ -325,6 +325,7 @@ class _SignInFormState extends State<SignInForm> {
                         ),
                         //Field 2
                         CustomTextField(
+                          // maxlines: 1,
                           label: 'Enter Password',
                           heading: 'Password',
                           controller: password,
@@ -665,6 +666,8 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final bool? enabled;
   final VoidCallback? suffixOnTap;
+  final int? maxlines;
+  final bool? readOnly;
 
   const CustomTextField({
     super.key,
@@ -687,6 +690,8 @@ class CustomTextField extends StatelessWidget {
     this.heading,
     this.suffixIcon,
     this.suffixOnTap,
+    this.maxlines,
+    this.readOnly = false,
   });
 
   @override
@@ -704,6 +709,8 @@ class CustomTextField extends StatelessWidget {
           width: SizeConfig.blockSizeHorizontal * 85,
           margin: EdgeInsets.only(top: 3, bottom: 10),
           child: TextFormField(
+              readOnly: readOnly ?? false,
+              maxLines: maxlines ?? 1,
               validator: validator,
               onChanged: onChange,
               obscureText: obscureText ?? false,

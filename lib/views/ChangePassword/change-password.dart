@@ -26,6 +26,8 @@ class _ChangePassword extends State<ChangePassword> {
   TextEditingController old_password = new TextEditingController(), new_password = new TextEditingController(), cnf_password = new TextEditingController();
   late int _userType = 2;
   late int _userId;
+  bool isSecureconf = true;
+  bool isSecure = true;
 
   //Call APi Services
   Future<int> getUserDetail() async {
@@ -135,14 +137,46 @@ class _ChangePassword extends State<ChangePassword> {
                     controller: old_password,
                   ),
                   CustomTextField(
+                    maxlines: 1,
+                    obscureText: isSecure,
+                    suffixOnTap: () {
+                      setState(() {
+                        isSecure = !isSecure;
+                      });
+                    },
+                    suffixIcon: isSecure
+                        ? Icon(
+                            Icons.visibility_off_outlined,
+                          )
+                        : Icon(
+                            Icons.remove_red_eye_outlined,
+                          ),
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
                     label: 'Enter new Password',
                     heading: 'new Password',
                     controller: new_password,
                   ),
                   CustomTextField(
+                    maxlines: 1,
                     label: 'Enter confirm Password',
                     heading: 'confirm Password',
                     controller: cnf_password,
+                    obscureText: isSecureconf,
+                    suffixOnTap: () {
+                      setState(() {
+                        isSecureconf = !isSecureconf;
+                      });
+                    },
+                    suffixIcon: isSecureconf
+                        ? Icon(
+                            Icons.visibility_off_outlined,
+                          )
+                        : Icon(
+                            Icons.remove_red_eye_outlined,
+                          ),
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
                   ),
 
                   SizedBox(height: 50),
@@ -156,22 +190,22 @@ class _ChangePassword extends State<ChangePassword> {
                           Toast.show('Please enter old password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
-                              gravity: Toast.center);
+                              gravity: Toast.bottom);
                         } else if (this.new_password.text == null || this.new_password.text.trim() == '') {
                           Toast.show('Please enter new password!',
                               //textStyle: context,
                               duration: Toast.lengthLong,
-                              gravity: Toast.center);
+                              gravity: Toast.bottom);
                         } else if (this.cnf_password.text == null || this.cnf_password.text.trim() == '') {
                           Toast.show('Please enter confirm password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
-                              gravity: Toast.center);
+                              gravity: Toast.bottom);
                         } else if (this.new_password.text != this.cnf_password.text.trim()) {
                           Toast.show('Confirm password does not match with new password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
-                              gravity: Toast.center);
+                              gravity: Toast.bottom);
                         } else {
                           try {
                             CustomSpinner.showLoadingDialog(context, _keyLoader, "Loading...");
