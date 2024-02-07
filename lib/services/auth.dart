@@ -325,7 +325,6 @@ class UserProvider with ChangeNotifier {
                     phone: phoneNumber,
                     CountryCode: countryCode,
                   )));
-          // print("${}");
           if (isResend == true) {
             loading(value: false);
             // _navigationService.navigatorKey.currentState?.push(MaterialPageRoute(
