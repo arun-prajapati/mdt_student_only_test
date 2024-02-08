@@ -320,17 +320,19 @@ class UserProvider with ChangeNotifier {
           verificationCode = verificationId;
           _resendToken = resendToken ?? 0;
           isSendOtp = true;
-          _navigationService.navigatorKey.currentState?.push(MaterialPageRoute(
-              builder: (_) => OTPVerificationScreen(
-                    phone: phoneNumber,
-                    CountryCode: countryCode,
-                  )));
+
           if (isResend == true) {
             loading(value: false);
             // _navigationService.navigatorKey.currentState?.push(MaterialPageRoute(
             //     builder: (_) => const OTPVerificationScreen()));
           } else {
             loading(value: false);
+            _navigationService.navigatorKey.currentState
+                ?.push(MaterialPageRoute(
+                    builder: (_) => OTPVerificationScreen(
+                          phone: phoneNumber,
+                          CountryCode: countryCode,
+                        )));
           }
           notifyListeners();
         },
