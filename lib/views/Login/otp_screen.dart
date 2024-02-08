@@ -332,14 +332,14 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     children: [
                       Center(
                         child: Text(
-                          "Enter OTP Verification",
+                          "OTP Verification",
                           style: AppTextStyle.titleStyle,
                         ),
                       ),
                       SizedBox(height: 8),
                       Center(
                         child: Text(
-                          "Please type the verification code we sent to ${widget.CountryCode} ${widget.phone}",
+                          "Please enter the verification code we sent to ${widget.CountryCode} ${widget.phone}",
                           style: AppTextStyle.textStyle,
                           textAlign: TextAlign.center,
                           maxLines: 2,
@@ -450,7 +450,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                             final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: authData.verificationCode, smsCode: code.text);
                             FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
                               if (value.user != null) {
-                                setState(() {});
+                                //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TheoryTab()));
+
                                 response = await Provider.of<UserProvider>(context, listen: false).register(deviceId: deviceId!);
                                 loading(value: false);
                                 // 'TP1A.220624.014'!);
