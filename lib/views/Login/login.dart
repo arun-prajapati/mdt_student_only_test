@@ -6,6 +6,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+
 //import 'package:platform_device_id/platform_device_id.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
@@ -35,6 +36,7 @@ class _SignInFormState extends State<SignInForm> {
   final _key = GlobalKey<ScaffoldState>();
   late String email;
   bool isSecure = false;
+
   // late String password;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
@@ -49,7 +51,8 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   TextEditingController password = TextEditingController(text: "Diya@123");
-  TextEditingController emailController = TextEditingController(text: "diya.saurabhinfosys@gmail.com");
+  TextEditingController emailController =
+      TextEditingController(text: "diya.saurabhinfosys@gmail.com");
 
   Future<String?> getId() async {
     //  deviceId = await PlatformDeviceId.getDeviceId;
@@ -80,7 +83,11 @@ class _SignInFormState extends State<SignInForm> {
             title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
             content: Text(
               message,
-              style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400, letterSpacing: 0.5, color: AppColors.black, height: 1.3),
+              style: AppTextStyle.disStyle.copyWith(
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5,
+                  color: AppColors.black,
+                  height: 1.3),
             ),
             actions: [
               TextButton(
@@ -89,7 +96,8 @@ class _SignInFormState extends State<SignInForm> {
                 },
                 child: Text(
                   'Ok',
-                  style: AppTextStyle.textStyle.copyWith(fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
                 ),
               ),
             ],
@@ -110,7 +118,8 @@ class _SignInFormState extends State<SignInForm> {
               children: [
                 Text(
                   "Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}",
-                  style: AppTextStyle.textStyle.copyWith(fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
@@ -118,7 +127,8 @@ class _SignInFormState extends State<SignInForm> {
                 Text(
                   'You seem to have changed your phone. Please contact our'
                   ' support team to connect your new phone to the app.',
-                  style: AppTextStyle.textStyle.copyWith(fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
@@ -134,7 +144,8 @@ class _SignInFormState extends State<SignInForm> {
                 },
                 child: Text(
                   'Ok',
-                  style: AppTextStyle.textStyle.copyWith(fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
                 ),
               ),
               TextButton(
@@ -161,12 +172,27 @@ class _SignInFormState extends State<SignInForm> {
     final form = _formKey.currentState;
     if (form!.validate()) {
       //await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
-      await Provider.of<UserProvider>(context, listen: false).login(deviceId: deviceId!, email: email, usertype: "2", password: password.text);
-      if (Provider.of<UserProvider>(context, listen: false).notification.text != 'device-exist' && Provider.of<UserProvider>(context, listen: false).notification.text != '') {
-        showValidationDialog(context, Provider.of<UserProvider>(context, listen: false).notification.text);
+      await Provider.of<UserProvider>(context, listen: false).login(
+          deviceId: deviceId!,
+          email: email,
+          usertype: "2",
+          password: password.text);
+      if (Provider.of<UserProvider>(context, listen: false).notification.text !=
+              'device-exist' &&
+          Provider.of<UserProvider>(context, listen: false).notification.text !=
+              '') {
+        showValidationDialog(
+            context,
+            Provider.of<UserProvider>(context, listen: false)
+                .notification
+                .text);
       }
-      if (Provider.of<UserProvider>(context, listen: false).notification.text == 'device-exist') {
-        showDeviceExistDialog(context, Provider.of<UserProvider>(context, listen: false).userName, Provider.of<UserProvider>(context, listen: false).contact);
+      if (Provider.of<UserProvider>(context, listen: false).notification.text ==
+          'device-exist') {
+        showDeviceExistDialog(
+            context,
+            Provider.of<UserProvider>(context, listen: false).userName,
+            Provider.of<UserProvider>(context, listen: false).contact);
       }
     }
   }
@@ -177,7 +203,8 @@ class _SignInFormState extends State<SignInForm> {
     _emailFocusNode = new FocusNode();
     _passwordFocusNode = new FocusNode();
     if (Platform.isAndroid) {
-      getDeviceInfo().then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
+      getDeviceInfo()
+          .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
     }
     getId().then((value) => log('Running on ${value}'));
   }
@@ -221,7 +248,10 @@ class _SignInFormState extends State<SignInForm> {
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
-                Positioned(left: 25, top: SizeConfig.blockSizeVertical * 8, child: backArrowCustom()),
+                Positioned(
+                    left: 25,
+                    top: SizeConfig.blockSizeVertical * 8,
+                    child: backArrowCustom()),
                 Positioned(
                   top: SizeConfig.blockSizeVertical * 18,
                   left: SizeConfig.blockSizeHorizontal * 28,
@@ -296,11 +326,13 @@ class _SignInFormState extends State<SignInForm> {
                     child: ListView(
                       children: [
                         Center(
-                          child: Text('Welcome back!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.black)),
+                          child: Text('Welcome back!',
+                              style: AppTextStyle.titleStyle),
                         ),
                         SizedBox(height: 5),
                         Center(
-                          child: Text('Fill Up Your Details below to login', style: AppTextStyle.textStyle),
+                          child: Text('Fill Up Your Details below to login',
+                              style: AppTextStyle.textStyle),
                         ),
                         SizedBox(height: 35),
                         //Field 1
@@ -318,7 +350,8 @@ class _SignInFormState extends State<SignInForm> {
                               Validate.validateEmail(val);
                             }
                           },
-                          onFieldSubmitted: (_) => setFocus(context, focusNode: _passwordFocusNode),
+                          onFieldSubmitted: (_) =>
+                              setFocus(context, focusNode: _passwordFocusNode),
                           focusNode: _emailFocusNode,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
@@ -345,7 +378,9 @@ class _SignInFormState extends State<SignInForm> {
                             });
                           },
                           suffixIcon: Icon(
-                            isSecure ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined,
+                            isSecure
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.visibility_off_outlined,
                             color: Colors.black38,
                           ),
                           obscureText: !isSecure,
@@ -399,7 +434,8 @@ class _SignInFormState extends State<SignInForm> {
                           ),
                         ),
                         SizedBox(height: 50),
-                        Provider.of<UserProvider>(context).status == Status.Authenticating
+                        Provider.of<UserProvider>(context).status ==
+                                Status.Authenticating
                             ? Center(child: CircularProgressIndicator())
                             : Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12),
@@ -456,8 +492,10 @@ class _SignInFormState extends State<SignInForm> {
                                 },
                                 child: ShaderMask(
                                   blendMode: BlendMode.srcIn,
-                                  shaderCallback: (bounds) => textColorLiner.createShader(
-                                    Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                                  shaderCallback: (bounds) =>
+                                      textColorLiner.createShader(
+                                    Rect.fromLTWH(
+                                        0, 0, bounds.width, bounds.height),
                                   ),
                                   child: Text("Register here",
                                       style: AppTextStyle.textStyle.copyWith(
@@ -718,36 +756,56 @@ class CustomTextField extends StatelessWidget {
               onFieldSubmitted: onFieldSubmitted,
               keyboardType: keyboardType ?? TextInputType.text,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical * 1, horizontal: 12),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.blockSizeVertical * 1, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
+                  borderSide: BorderSide(
+                      color: AppColors.black.withOpacity(0.5), width: 1.1),
                 ),
-                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
-                disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: AppColors.black.withOpacity(0.5), width: 1.1)),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: AppColors.black.withOpacity(0.5), width: 1.1)),
                 // labelText: label,
                 // labelStyle: TextStyle(
                 //     color: Colors.blueGrey,
                 //     fontSize: 16,
                 //     fontWeight: FontWeight.w400),
                 hintText: label,
-                hintStyle: AppTextStyle.disStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w400),
+                hintStyle: AppTextStyle.disStyle.copyWith(
+                    color: AppColors.grey, fontWeight: FontWeight.w400),
                 floatingLabelStyle: TextStyle(color: Dark),
-                errorStyle: AppTextStyle.textStyle.copyWith(color: AppColors.red1, height: 1, fontSize: 14),
+                errorStyle: AppTextStyle.textStyle
+                    .copyWith(color: AppColors.red1, height: 1, fontSize: 14),
                 prefixIcon: prefixIcon,
-                suffixIcon: Container(height: 50, width: 50, child: GestureDetector(onTap: suffixOnTap, child: suffixIcon)),
-                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Colors.black.withOpacity(0.5), width: 1.1)),
+                suffixIcon: Container(
+                    height: 50,
+                    width: 50,
+                    child:
+                        GestureDetector(onTap: suffixOnTap, child: suffixIcon)),
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 1.1)),
                 focusColor: Dark,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.black.withOpacity(0.5), width: 1.1),
+                  borderSide: BorderSide(
+                      color: Colors.black.withOpacity(0.5), width: 1.1),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.black.withOpacity(0.5), width: 1.1),
+                  borderSide: BorderSide(
+                      color: Colors.black.withOpacity(0.5), width: 1.1),
                 ),
               ),
-              style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400)),
+              style:
+                  AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400)),
         ),
       ],
     );

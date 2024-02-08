@@ -7,19 +7,16 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-
 import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
 import 'package:student_app/external.dart';
-import 'package:student_app/responsive/percentage_mediaquery.dart';
 import 'package:student_app/responsive/size_config.dart';
 import 'package:student_app/services/auth.dart';
 import 'package:student_app/utils/appImages.dart';
 import 'package:student_app/utils/app_colors.dart';
 import 'package:student_app/views/Login/forgot_next_screen.dart';
 import 'package:student_app/views/Login/login.dart';
-import 'package:student_app/widget/CustomAppBar.dart';
 
 import 'register.dart';
 
@@ -338,18 +335,20 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Enter OTP Verification",
+                      Center(
+                        child: Text(
+                          "Enter OTP Verification",
+                          style: AppTextStyle.titleStyle,
+                        ),
                       ),
                       SizedBox(height: 8),
-                      Text(
-                        "Please type the verification code we sent to ${widget.CountryCode} ${widget.phone}",
-                        style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.blackgrey),
-                        maxLines: 2,
+                      Center(
+                        child: Text(
+                          "Please type the verification code we sent to ${widget.CountryCode} ${widget.phone}",
+                          style: AppTextStyle.textStyle,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        ),
                       ),
                       SizedBox(height: 40),
                       Center(
@@ -397,9 +396,15 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                             children: [
                               Text(
                                 "Don’t receive the Code? ",
+                                style: AppTextStyle.textStyle.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                               Text(
                                 "Resend Code",
+                                style: AppTextStyle.textStyle.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),
