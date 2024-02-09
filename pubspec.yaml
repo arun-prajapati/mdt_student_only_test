@@ -91,6 +91,8 @@ dependencies:
   syncfusion_flutter_gauges: ^24.1.47
   percent_indicator: ^4.2.3
   purchases_flutter: ^6.19.0
+  custom_network_image: ^0.0.3
+  cached_network_image: ^3.3.1
 
 dependency_overrides:
   flutter_stripe: "9.5.0+1"
