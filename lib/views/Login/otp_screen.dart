@@ -24,7 +24,8 @@ class OTPVerificationScreen extends StatefulWidget {
   final String phone;
   final String CountryCode;
 
-  const OTPVerificationScreen({super.key, required this.phone, required this.CountryCode});
+  const OTPVerificationScreen(
+      {super.key, required this.phone, required this.CountryCode});
 
   @override
   State<OTPVerificationScreen> createState() => _OTPVerificationScreenState();
@@ -115,7 +116,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   Widget build(BuildContext context) {
     Duration clockTimer = Duration(seconds: secondsRemaining);
 
-    String timerText = '0${clockTimer.inMinutes.remainder(60).toString()}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
+    String timerText =
+        '0${clockTimer.inMinutes.remainder(60).toString()}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
     return Scaffold(
         body: Stack(
       alignment: Alignment.topCenter,
@@ -127,7 +129,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.fitWidth,
           ),
-          Positioned(left: 25, top: SizeConfig.blockSizeVertical * 8, child: backArrowCustom()),
+          Positioned(
+              left: 25,
+              top: SizeConfig.blockSizeVertical * 8,
+              child: backArrowCustom()),
           Positioned(
             top: SizeConfig.blockSizeVertical * 15,
             left: SizeConfig.blockSizeHorizontal * 28,
@@ -332,14 +337,14 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     children: [
                       Center(
                         child: Text(
-                          "OTP Verification",
+                          "Enter OTP Verification",
                           style: AppTextStyle.titleStyle,
                         ),
                       ),
                       SizedBox(height: 8),
                       Center(
                         child: Text(
-                          "Please enter the verification code we sent to ${widget.CountryCode} ${widget.phone}",
+                          "Please type the verification code we sent to ${widget.CountryCode} ${widget.phone}",
                           style: AppTextStyle.textStyle,
                           textAlign: TextAlign.center,
                           maxLines: 2,
@@ -354,8 +359,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           defaultPinTheme: submittedPinTheme,
                           submittedPinTheme: submittedPinTheme,
                           focusedPinTheme: focusPinTheme,
-                          androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
-                          pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                          androidSmsAutofillMethod:
+                              AndroidSmsAutofillMethod.smsRetrieverApi,
+                          pinputAutovalidateMode:
+                              PinputAutovalidateMode.onSubmit,
                           showCursor: true,
                           onSubmitted: (pin) async {},
                         ),
@@ -416,10 +423,20 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           try {
                             loading(value: true);
                             setState(() {});
-                            final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: authData.verificationCode, smsCode: code.text);
-                            FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
+                            final PhoneAuthCredential credential =
+                                PhoneAuthProvider.credential(
+                                    verificationId: authData.verificationCode,
+                                    smsCode: code.text);
+                            FirebaseAuth.instance
+                                .signInWithCredential(credential)
+                                .then((value) async {
                               if (value.user != null) {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotNextScreen(phone: widget.phone)));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ForgotNextScreen(
+                                            phone: widget.phone,
+                                            countryCode: widget.CountryCode)));
 
                                 print('333333333');
                                 loading(value: false);
@@ -434,9 +451,11 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                               setState(() {});
                               print('HHHHHHH ${e.code}');
                               if (e.code == "invalid-verification-code") {
-                                authData.showErrorDialog(context, "Invalid OTP");
+                                authData.showErrorDialog(
+                                    context, "Invalid OTP");
                               } else {
-                                authData.showErrorDialog(context, e.code.toString().replaceAll("-", " "));
+                                authData.showErrorDialog(context,
+                                    e.code.toString().replaceAll("-", " "));
                               }
                             });
                           } catch (e) {
@@ -446,27 +465,44 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                         } else {
                           try {
                             loading(value: true);
-                            setState(() {});
-                            final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: authData.verificationCode, smsCode: code.text);
-                            FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
-                              if (value.user != null) {
-                                //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TheoryTab()));
 
-                                response = await Provider.of<UserProvider>(context, listen: false).register(deviceId: deviceId!);
+                            final PhoneAuthCredential credential =
+                                PhoneAuthProvider.credential(
+                                    verificationId: authData.verificationCode,
+                                    smsCode: code.text);
+                            FirebaseAuth.instance
+                                .signInWithCredential(credential)
+                                .then((value) async {
+                              if (value.user != null) {
+                                setState(() {});
+                                await Provider.of<UserProvider>(context,
+                                        listen: false)
+                                    .register(deviceId: deviceId!);
                                 loading(value: false);
                                 // 'TP1A.220624.014'!);
-                                if (Provider.of<UserProvider>(context, listen: false).notification.text != '') {
+                                if (Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .notification
+                                        .text !=
+                                    '') {
                                   // Spinner.close(context);
-                                  showValidationDialog(context, Provider.of<UserProvider>(context, listen: false).notification.text);
+                                  showValidationDialog(
+                                      context,
+                                      Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .notification
+                                          .text);
                                 }
                               }
                             }).catchError((e) {
                               loading(value: false);
                               setState(() {});
                               if (e.code == "invalid-verification-code") {
-                                authData.showErrorDialog(context, "Invalid OTP");
+                                authData.showErrorDialog(
+                                    context, "Invalid OTP");
                               } else {
-                                authData.showErrorDialog(context, e.code.toString().replaceAll("-", " "));
+                                authData.showErrorDialog(context,
+                                    e.code.toString().replaceAll("-", " "));
                               }
                             });
                           } catch (e) {
@@ -475,7 +511,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           }
                         }
                       } else {
-                        authData.showErrorDialog(context, "Please Fill The OTP");
+                        authData.showErrorDialog(
+                            context, "Please Fill The OTP");
                       }
                     },
                   )
@@ -498,12 +535,19 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
             title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
             content: Text(
               message,
-              style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400, letterSpacing: 0.5, color: AppColors.black, height: 1.3),
+              style: AppTextStyle.disStyle.copyWith(
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5,
+                  color: AppColors.black,
+                  height: 1.3),
             ),
             actions: [
               TextButton(
                 onPressed: () {
-                  if (Provider.of<UserProvider>(context, listen: false).notification.text == 'Registration successful, please verify your account.') {
+                  if (Provider.of<UserProvider>(context, listen: false)
+                          .notification
+                          .text ==
+                      'Registration successful, please verify your account.') {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
@@ -516,7 +560,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 },
                 child: Text(
                   'Ok',
-                  style: AppTextStyle.textStyle.copyWith(fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
                 ),
               ),
             ],

@@ -64,7 +64,7 @@ class _SignInFormState extends State<SignInForm> {
     } else if (Platform.isAndroid) {
       print("deviceId $deviceId");
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      deviceId = deviceId;
+      deviceId = androidDeviceInfo.id;
       //"TP1A.220624.014"; // unique ID on Android
     }
 
@@ -206,7 +206,10 @@ class _SignInFormState extends State<SignInForm> {
       getDeviceInfo()
           .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
     }
-    getId().then((value) => log('Running on ${value}'));
+    getId().then((value) {
+      deviceId = value;
+      log('Running on $value');
+    });
   }
 
   @override
@@ -404,13 +407,16 @@ class _SignInFormState extends State<SignInForm> {
                           //   },
                           child: GestureDetector(
                             onTap: () {
-                              context.read<UserProvider>().isSendOtp = false;
+                              context.read<UserProvider>().isForgotPassword =
+                                  true;
+                              setState(() {});
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => ForgotPassword(),
                                 ),
                               );
-                              print('FORGOT T*/////');
+                              print(
+                                  'FORGOT T*/////${context.read<UserProvider>().isForgotPassword}');
                               password.clear();
                             },
                             child: GradientText('Forgot password?',

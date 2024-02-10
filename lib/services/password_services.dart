@@ -35,7 +35,8 @@ class PasswordServices {
   Future<Map> checkNumber(Map formData) async {
     final url = Uri.parse("$api/api/verify-mobile");
     final response = await http.post(url, body: formData);
-    print("RESPONSE :: ${response.body}");
+    log("RESPONSE :: ${response.body}");
+    log("BODY :: ${jsonEncode(formData)}");
     data = jsonDecode(response.body);
 
     return data;

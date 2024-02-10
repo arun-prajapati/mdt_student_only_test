@@ -1,9 +1,12 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/locater.dart';
+import 'package:student_app/services/auth.dart';
 import 'package:student_app/services/navigation_service.dart';
+import 'package:student_app/utils/app_colors.dart';
 import 'package:student_app/views/Login/welcome.dart';
 
 import '../../custom_button.dart';
@@ -18,8 +21,10 @@ import 'login.dart';
 
 class ForgotNextScreen extends StatefulWidget {
   final String phone;
+  final String countryCode;
 
-  ForgotNextScreen({Key? key, required this.phone}) : super(key: key);
+  ForgotNextScreen({Key? key, required this.phone, required this.countryCode})
+      : super(key: key);
 
   @override
   State<ForgotNextScreen> createState() => _ForgotNextScreenState();
@@ -86,33 +91,35 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
         //   // );
         //   //Navigator.of(context).popAndPushNamed(StudentView.routeName);
         // });
-        return AlertDialog(
-          titlePadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          title: SizedBox(
-            child: Image.asset('assets/tick.gif'),
-            width: 100,
-            height: 100,
-          ),
-          content: Text(
-            message,
-            textAlign: TextAlign.center,
-            softWrap: true,
-            style: TextStyle(
-              fontSize: 17,
+        return PopScope(
+          canPop: true,
+          child: AlertDialog(
+            titlePadding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+            title: SizedBox(
+              child: Image.asset('assets/tick.gif'),
+              width: 100,
+              height: 100,
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => SignInForm(),
-                    ),
-                    (route) => false);
-              },
-              child: Text('Ok'),
+            content: Text(
+              message,
+              textAlign: TextAlign.center,
+              softWrap: true,
+              style: AppTextStyle.textStyle,
             ),
-          ],
+            contentPadding: EdgeInsets.all(0),
+            // actionsPadding: EdgeInsets.all(0),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text('Ok', style: AppTextStyle.textStyle),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -123,9 +130,7 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
     print("form state : ${form!.validate()}");
     if (form.validate()) {
       Map data = {
-        //'email': widget.email,
-        'phone': widget.phone,
-
+        'phone': "${widget.countryCode}${widget.phone}",
         'password': newPassword,
         'password_confirmation': confirmNewPassword,
         'user_type': '2',
@@ -140,10 +145,12 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
       _passwordService.resetForgotPassword(data).then((res) {
         if (res["success"] == false) {
           Spinner.close(context);
-          //showValidationDialog(context, res["message"]);
+          // showValidationDialog(context, res["message"]);
         } else {
           Spinner.close(context);
           showSuccessDialog(context, res["message"]);
+          context.read<UserProvider>().isForgotPassword = false;
+          setState(() {});
         }
         print("Response: $res");
       });

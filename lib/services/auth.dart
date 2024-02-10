@@ -194,6 +194,15 @@ class UserProvider with ChangeNotifier {
   String countryCode = "";
   String passwordConfirm = "";
 
+  printData() {
+    print("email: $email");
+    print("firstName: $name");
+    print("phone: $phoneNumber");
+    print("password: $password");
+    print("confirmPass: $passwordConfirm");
+    print("countryCode: $countryCode");
+  }
+
   Future<Map> register({required String deviceId}) async {
     //print(userType);
     final url = Uri.parse('$api/api/register');
@@ -208,6 +217,7 @@ class UserProvider with ChangeNotifier {
       "phone": "$countryCode${phoneNumber}",
     };
     print("-------- REGISTER BODY ---------- ${jsonEncode(body)}");
+    print("-------- REGISTER URL ---------- $api/api/register");
     final response = await http.post(
       url,
       body: body,
@@ -215,7 +225,6 @@ class UserProvider with ChangeNotifier {
     Map apiResponse = json.decode(response.body);
     print("Registration: $apiResponse");
     if (apiResponse["success"] == true) {
-      isSendOtp = false;
       notifyListeners();
       _notification = NotificationText(apiResponse['message'].toString(), '');
       notifyListeners();
@@ -296,7 +305,8 @@ class UserProvider with ChangeNotifier {
   /// SEND OTP ///
   String verificationCode = "";
   int _resendToken = 0;
-  bool isSendOtp = false;
+
+  // bool isSendOtp = false;
 
   verifyPhone(BuildContext context, String countryCode, String phoneNumber,
       {bool isResend = false}) async {
@@ -319,7 +329,6 @@ class UserProvider with ChangeNotifier {
           loading(value: false);
           verificationCode = verificationId;
           _resendToken = resendToken ?? 0;
-          isSendOtp = true;
 
           if (isResend == true) {
             loading(value: false);
