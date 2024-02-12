@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +25,14 @@ class _ChangePassword extends State<ChangePassword> {
   final DriverProfileServices api_services = new DriverProfileServices();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final UserProvider auth_services = new UserProvider();
-  TextEditingController old_password = new TextEditingController(), new_password = new TextEditingController(), cnf_password = new TextEditingController();
+  TextEditingController old_password = new TextEditingController();
+  TextEditingController new_password = new TextEditingController();
+  TextEditingController cnf_password = new TextEditingController();
   late int _userType = 2;
   late int _userId;
   bool isSecureconf = true;
   bool isSecure = true;
+  bool isoldSecure = true;
 
   //Call APi Services
   Future<int> getUserDetail() async {
@@ -134,7 +139,22 @@ class _ChangePassword extends State<ChangePassword> {
                   CustomTextField(
                     label: 'Enter Old Password',
                     heading: 'Old Password',
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
                     controller: old_password,
+                    obscureText: isoldSecure,
+                    suffixOnTap: () {
+                      setState(() {
+                        isoldSecure = !isoldSecure;
+                      });
+                    },
+                    suffixIcon: isoldSecure
+                        ? Icon(
+                            Icons.visibility_off_outlined,
+                          )
+                        : Icon(
+                            Icons.remove_red_eye_outlined,
+                          ),
                   ),
                   CustomTextField(
                     maxlines: 1,
@@ -186,6 +206,7 @@ class _ChangePassword extends State<ChangePassword> {
                       padding: EdgeInsets.symmetric(vertical: 10),
                       title: 'Update',
                       onTap: () {
+                        log('${old_password.text}');
                         if (this.old_password.text == null || this.old_password.text.trim() == '') {
                           Toast.show('Please enter old password!',
                               // textStyle: context,

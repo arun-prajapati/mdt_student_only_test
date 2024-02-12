@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Constants/global.dart';
 
@@ -9,10 +10,7 @@ class DriverProfileServices {
   late List userData;
 
   Future<Map> getProfileDetail(int _userType, int _userId) async {
-    String URL = "$api/api/profile?id=" +
-        _userId.toString() +
-        "&user_type=" +
-        _userType.toString();
+    String URL = "$api/api/profile?id=" + _userId.toString() + "&user_type=" + _userType.toString();
     final url = Uri.parse(URL);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
@@ -42,11 +40,12 @@ class DriverProfileServices {
   }
 
   Future<Map> changePassword(Map formData) async {
-    final url = Uri.parse("$api/api/save-password");
+    final url = Uri.parse("$api/api/");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {'token': token};
     final response = await http.post(url, headers: header, body: formData);
+    print('---- URL ---- $api/api/save-password');
     data = jsonDecode(response.body);
     return data;
   }
