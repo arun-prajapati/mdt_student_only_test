@@ -48,7 +48,15 @@ class _driverProfile extends State<DriverProfile> {
   final UserProvider auth_services = new UserProvider();
   Mode _mode = Mode.overlay;
   String? addressSuggestion;
-  TextEditingController? first_name, last_name, phone_number, address_line_1, address_line_2, town, license_no, license_exp_date, _addressController;
+  TextEditingController? first_name,
+      last_name,
+      phone_number,
+      address_line_1,
+      address_line_2,
+      town,
+      license_no,
+      license_exp_date,
+      _addressController;
   String postcode = "";
   String _address = "Search Postcode";
   late int _userId;
@@ -64,7 +72,8 @@ class _driverProfile extends State<DriverProfile> {
 
   //Call APi Services
   Future<int> getUserDetail() async {
-    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response =
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     print('USER ID *************************  $_userId');
     print('USER ID *************************  ${response['user_type']}');
@@ -100,7 +109,8 @@ class _driverProfile extends State<DriverProfile> {
     await displayPrediction(p, ScaffoldMessenger.of(context));
   }
 
-  Future<void> displayPrediction(Prediction? p, ScaffoldMessengerState messengerState) async {
+  Future<void> displayPrediction(
+      Prediction? p, ScaffoldMessengerState messengerState) async {
     if (p == null) {
       return;
     }
@@ -115,9 +125,16 @@ class _driverProfile extends State<DriverProfile> {
     log("Desc : ${p.description!}");
     log("Place id : ${p.placeId!}");
     log("Place details : ${detail.result.toJson()}");
-    String postalCode = detail.result.addressComponents.where((element) => element.types.contains("postal_code")).first.longName;
-    String townName = detail.result.addressComponents.where((element) => element.types.contains("postal_town")).first.longName;
-    Iterable street = detail.result.addressComponents.where((element) => element.types.contains("route"));
+    String postalCode = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_code"))
+        .first
+        .longName;
+    String townName = detail.result.addressComponents
+        .where((element) => element.types.contains("postal_town"))
+        .first
+        .longName;
+    Iterable street = detail.result.addressComponents
+        .where((element) => element.types.contains("route"));
     setState(() {
       town?.text = townName;
       postcode = postalCode;
@@ -164,8 +181,10 @@ class _driverProfile extends State<DriverProfile> {
         log("RECORDSSSS **************            $records");
         setState(() {});
         // setState(() {
-        first_name = TextEditingController(text: checkForNull(userProfileDetail['first_name']));
-        last_name = TextEditingController(text: checkForNull(userProfileDetail['last_name'] ?? ""));
+        first_name = TextEditingController(
+            text: checkForNull(userProfileDetail['first_name']));
+        last_name = TextEditingController(
+            text: checkForNull(userProfileDetail['last_name'] ?? ""));
         phone_number = TextEditingController(
             text: checkForNull(userProfileDetail['phone'] == null
                 ? ''
@@ -174,25 +193,47 @@ class _driverProfile extends State<DriverProfile> {
                     : userProfileDetail['phone'] ?? ""));
         //phone_number = TextEditingController(text: userProfileDetail['phone'] ?? '');
         print('USer Phone Number---------${userProfileDetail['phone']}');
-        vehiclePreference = checkForNull(userProfileDetail['vehicle_preference'] ?? "");
+        vehiclePreference =
+            checkForNull(userProfileDetail['vehicle_preference'] ?? "");
         _address = userProfileDetail['address'] ?? "";
-        address_line_1 = TextEditingController(text: checkForNull(userProfileDetail['address_line_1'] ?? ""));
-        address_line_2 = TextEditingController(text: checkForNull(userProfileDetail['address_line_2'] ?? ""));
-        town = TextEditingController(text: checkForNull(userProfileDetail['town'] ?? ""));
+        address_line_1 = TextEditingController(
+            text: checkForNull(userProfileDetail['address_line_1'] ?? ""));
+        address_line_2 = TextEditingController(
+            text: checkForNull(userProfileDetail['address_line_2'] ?? ""));
+        town = TextEditingController(
+            text: checkForNull(userProfileDetail['town'] ?? ""));
         postcode = checkForNull(userProfileDetail['postcode'] ?? "");
-        license_no = TextEditingController(text: checkForNull(userProfileDetail['driver_license_no'] ?? ""));
-        if (userProfileDetail['driver_license_expiry'] != null && userProfileDetail['driver_license_expiry'] != "") {
-          var dateOfLicenseExpire = userProfileDetail['driver_license_expiry'].split('-') ?? "";
-          license_exp_date = TextEditingController(text: dateOfLicenseExpire[2] + '-' + dateOfLicenseExpire[1] + '-' + dateOfLicenseExpire[0]);
+        license_no = TextEditingController(
+            text: checkForNull(userProfileDetail['driver_license_no'] ?? ""));
+        if (userProfileDetail['driver_license_expiry'] != null &&
+            userProfileDetail['driver_license_expiry'] != "") {
+          var dateOfLicenseExpire =
+              userProfileDetail['driver_license_expiry'].split('-') ?? "";
+          license_exp_date = TextEditingController(
+              text: dateOfLicenseExpire[2] +
+                  '-' +
+                  dateOfLicenseExpire[1] +
+                  '-' +
+                  dateOfLicenseExpire[0]);
         }
-        if (userProfileDetail['img_url'].toString().split('.').last.isNotEmpty) {
+        if (userProfileDetail['img_url']
+            .toString()
+            .split('.')
+            .last
+            .isNotEmpty) {
           licenceHttpPath = userProfileDetail['img_url'];
         } else {
           setState(() {
             licenceHttpPath = null;
           });
         }
-        print('::::::::: ${userProfileDetail['img_url'].toString().split('.').last}');
+        if (userProfileDetail['img_url'].toString().isNotEmpty) {
+          // licenceBase64 = "${api}${userProfileDetail['img_url']}";
+          // final bytes = ;
+          // String base64_ = base64Encode(bytes, getImageExtension(pickedFile.path));
+          setState(() {});
+          print('::::::::: $licenceBase64');
+        }
       });
 
       closeLoader();
@@ -236,7 +277,8 @@ class _driverProfile extends State<DriverProfile> {
             iconRight: null,
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, Responsive.height(14, context), 0, 0),
+            margin:
+                EdgeInsets.fromLTRB(0, Responsive.height(14, context), 0, 0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -270,49 +312,70 @@ class _driverProfile extends State<DriverProfile> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("First Name", style: inputLabelStyle(SizeConfig.labelFontSize), textAlign: TextAlign.left),
+                                  Text("First Name",
+                                      style: inputLabelStyle(
+                                          SizeConfig.labelFontSize),
+                                      textAlign: TextAlign.left),
                                   SizedBox(height: 8),
                                   TextField(
                                     controller: first_name,
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     decoration: InputDecoration(
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
                                     ),
                                   ),
                                   SizedBox(height: 8),
-                                  Text("Last Name", style: inputLabelStyle(SizeConfig.labelFontSize), textAlign: TextAlign.left),
+                                  Text("Last Name",
+                                      style: inputLabelStyle(
+                                          SizeConfig.labelFontSize),
+                                      textAlign: TextAlign.left),
                                   SizedBox(height: 8),
                                   TextField(
                                     controller: last_name,
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     decoration: InputDecoration(
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
                                     ),
                                   ),
                                   SizedBox(height: 8),
-                                  Text("Phone Number", style: inputLabelStyle(SizeConfig.labelFontSize), textAlign: TextAlign.left),
+                                  Text("Phone Number",
+                                      style: inputLabelStyle(
+                                          SizeConfig.labelFontSize),
+                                      textAlign: TextAlign.left),
                                   SizedBox(height: 8),
                                   TextField(
                                     controller: phone_number,
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
                                     decoration: InputDecoration(
                                       counterText: "",
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
                                     ),
                                   ),
                                   SizedBox(height: 8),
-                                  Text('Vehicle Preference', style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500)),
+                                  Text('Vehicle Preference',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 8),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -320,26 +383,37 @@ class _driverProfile extends State<DriverProfile> {
                                     children: [
                                       Expanded(
                                         flex: 0,
-                                        child: LayoutBuilder(builder: (context, constraints) {
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
                                           return Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               Transform.scale(
-                                                scale: .15 * SizeConfig.blockSizeVertical,
+                                                scale: .15 *
+                                                    SizeConfig
+                                                        .blockSizeVertical,
                                                 child: Radio(
                                                   value: 'own',
                                                   groupValue: vehiclePreference,
                                                   activeColor: Dark,
                                                   onChanged: (val) {
                                                     setState(() {
-                                                      vehiclePreference = val.toString();
+                                                      vehiclePreference =
+                                                          val.toString();
                                                     });
                                                   },
                                                 ),
                                               ),
                                               LayoutBuilder(
-                                                builder: (context, constraints) {
-                                                  return Container(child: AutoSizeText('Own Car', style: inputLabelStyleDark(SizeConfig.labelFontSize)));
+                                                builder:
+                                                    (context, constraints) {
+                                                  return Container(
+                                                      child: AutoSizeText(
+                                                          'Own Car',
+                                                          style: inputLabelStyleDark(
+                                                              SizeConfig
+                                                                  .labelFontSize)));
                                                 },
                                               )
                                             ],
@@ -349,25 +423,36 @@ class _driverProfile extends State<DriverProfile> {
                                       SizedBox(width: 10),
                                       Expanded(
                                         flex: 0,
-                                        child: LayoutBuilder(builder: (context, constraints) {
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
                                           return Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               Transform.scale(
-                                                  scale: .15 * SizeConfig.blockSizeVertical,
+                                                  scale: .15 *
+                                                      SizeConfig
+                                                          .blockSizeVertical,
                                                   child: Radio(
                                                     value: 'instructor',
-                                                    groupValue: vehiclePreference,
+                                                    groupValue:
+                                                        vehiclePreference,
                                                     activeColor: Dark,
                                                     onChanged: (val) {
                                                       setState(() {
-                                                        vehiclePreference = val.toString();
+                                                        vehiclePreference =
+                                                            val.toString();
                                                       });
                                                     },
                                                   )),
                                               LayoutBuilder(
-                                                builder: (context, constraints) {
-                                                  return AutoSizeText('Instructor car', style: inputLabelStyleDark(SizeConfig.labelFontSize));
+                                                builder:
+                                                    (context, constraints) {
+                                                  return AutoSizeText(
+                                                      'Instructor car',
+                                                      style: inputLabelStyleDark(
+                                                          SizeConfig
+                                                              .labelFontSize));
                                                 },
                                               )
                                             ],
@@ -377,11 +462,16 @@ class _driverProfile extends State<DriverProfile> {
                                     ],
                                   ),
                                   SizedBox(height: 8),
-                                  Text('Address:', style: AppTextStyle.textStyle.copyWith(color: AppColors.black, fontWeight: FontWeight.w500)),
+                                  Text('Address:',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 8),
                                   Text(
                                     "Address Search",
-                                    style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500),
+                                    style: AppTextStyle.textStyle.copyWith(
+                                        color: AppColors.grey,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(height: 8),
                                   GestureDetector(
@@ -394,112 +484,161 @@ class _driverProfile extends State<DriverProfile> {
                                       decoration: textAreaBorderLikeAsInput(),
                                       child: AutoSizeText(
                                         _address != null ? _address : '',
-                                        style: TextStyle(fontSize: SizeConfig.inputFontSize, color: Colors.blueGrey),
+                                        style: TextStyle(
+                                            fontSize: SizeConfig.inputFontSize,
+                                            color: Colors.blueGrey),
                                       ),
                                     ),
                                   ),
                                   SizedBox(height: 8),
                                   Text(
                                     "Address Line One",
-                                    style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500),
+                                    style: AppTextStyle.textStyle.copyWith(
+                                        color: AppColors.grey,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(height: 8),
                                   TextField(
                                     controller: address_line_1,
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     decoration: InputDecoration(
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
                                     ),
                                   ),
                                   SizedBox(height: 8),
                                   Text(
                                     "Address Line two",
-                                    style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500),
+                                    style: AppTextStyle.textStyle.copyWith(
+                                        color: AppColors.grey,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(height: 8),
                                   TextField(
                                     controller: address_line_2,
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     decoration: InputDecoration(
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
                                     ),
                                   ),
                                   SizedBox(height: 8),
-                                  Text("Town", style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500)),
+                                  Text("Town",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 8),
                                   TextField(
                                     controller: town,
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     decoration: InputDecoration(
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
                                     ),
                                   ),
                                   SizedBox(height: 8),
-                                  Text("Postcode", style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500)),
+                                  Text("Postcode",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 8),
-                                  Text(postcode != null ? postcode : '', style: inputTextStyle(SizeConfig.inputFontSize)),
+                                  Text(postcode != null ? postcode : '',
+                                      style: inputTextStyle(
+                                          SizeConfig.inputFontSize)),
                                   SizedBox(height: 8),
-                                  Text('Learner License Details', style: AppTextStyle.textStyle.copyWith(color: AppColors.black, fontWeight: FontWeight.w500)),
+                                  Text('Learner License Details',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 8),
-                                  Text("Provisional License No", style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500)),
+                                  Text("Provisional License No",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 8),
                                   TextField(
                                     controller: license_no,
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     decoration: InputDecoration(
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 0, 3, 16),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
                                     ),
                                   ),
                                   SizedBox(height: 8),
-                                  Text("License Expiry", style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500)),
+                                  Text("License Expiry",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 8),
                                   DateTimeField(
                                     controller: license_exp_date,
                                     textAlign: TextAlign.left,
-                                    onSaved: (val) => setState(() {}),
+                                    onSaved: (val) {
+                                      print('333 $val');
+                                    },
                                     format: DateFormat('dd-MM-yyyy'),
                                     keyboardType: TextInputType.datetime,
                                     onChanged: (_) {},
-                                    style: inputTextStyle(SizeConfig.inputFontSize),
+                                    style: inputTextStyle(
+                                        SizeConfig.inputFontSize),
                                     decoration: InputDecoration(
                                       hintText: "DD-MM-YYY",
-                                      hintStyle: placeholderStyle(SizeConfig.labelFontSize),
+                                      hintStyle: placeholderStyle(
+                                          SizeConfig.labelFontSize),
                                       suffixIcon: Container(
-                                        child: Icon(Icons.calendar_today, size: SizeConfig.labelFontSize, color: Colors.black38),
-                                        margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        child: Icon(Icons.calendar_today,
+                                            size: SizeConfig.labelFontSize,
+                                            color: Colors.black38),
+                                        margin:
+                                            EdgeInsets.fromLTRB(15, 0, 0, 0),
                                       ),
                                       focusedBorder: inputFocusedBorderStyle(),
                                       enabledBorder: inputBorderStyle(),
-                                      contentPadding: EdgeInsets.fromLTRB(5, 10, 0, 0),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 10, 0, 0),
                                     ),
                                     onShowPicker: (context, currentValue) {
                                       return showDatePicker(
                                               context: context,
                                               builder: (context, child) {
                                                 return Theme(
-                                                  data: Theme.of(context).copyWith(
-                                                    colorScheme: ColorScheme.light(
+                                                  data: Theme.of(context)
+                                                      .copyWith(
+                                                    colorScheme:
+                                                        ColorScheme.light(
                                                       primary: Dark,
                                                       // <-- SEE HERE
                                                       onPrimary: Colors.white,
                                                       // <-- SEE HERE
-                                                      onSurface: Colors.black, // <-- SEE HERE
+                                                      onSurface: Colors
+                                                          .black, // <-- SEE HERE
                                                     ),
-                                                    textButtonTheme: TextButtonThemeData(
-                                                      style: TextButton.styleFrom(
-                                                        foregroundColor: Dark, // button text color
+                                                    textButtonTheme:
+                                                        TextButtonThemeData(
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        foregroundColor:
+                                                            Dark, // button text color
                                                       ),
                                                     ),
                                                   ),
@@ -507,38 +646,60 @@ class _driverProfile extends State<DriverProfile> {
                                                 );
                                               },
                                               firstDate: DateTime.now(),
-                                              initialDate: currentValue ?? DateTime.now(),
-                                              lastDate: DateTime(DateTime.now().year + 35, 12, 31))
+                                              initialDate: DateTime.now(),
+                                              lastDate: DateTime(
+                                                  DateTime.now().year + 35,
+                                                  12,
+                                                  31))
                                           .then((DateTime? date) async {
-                                        if (date != null) {
-                                          final time = await showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                                          );
-                                          return DateTimeField.combine(date, time);
-                                        } else {
-                                          return currentValue;
-                                        }
+                                        // if (date != null) {
+                                        //   final time = await showTimePicker(
+                                        //     context: context,
+                                        //     initialTime: TimeOfDay.fromDateTime(
+                                        //         currentValue ?? DateTime.now()),
+                                        //   );
+                                        //   return DateTimeField.combine(
+                                        //       date, time);
+                                        // } else {
+                                        license_exp_date =
+                                            TextEditingController(
+                                                text: formatDate(date!));
+                                        setState(() {});
+                                        return currentValue;
+                                        // }
                                       });
                                     },
                                   ),
                                   SizedBox(height: 8),
-                                  Text('License Image', style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500)),
+                                  Text('License Image',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w500)),
                                   SizedBox(height: 10),
                                   Row(
                                     children: [
-                                      if (license != null || licenceHttpPath != null)
+                                      if (license != null ||
+                                          licenceHttpPath != null)
                                         Container(
-                                          width: 30 * SizeConfig.blockSizeVertical,
-                                          height: 30 * SizeConfig.blockSizeVertical,
+                                          width:
+                                              30 * SizeConfig.blockSizeVertical,
+                                          height:
+                                              30 * SizeConfig.blockSizeVertical,
                                           color: Colors.transparent,
                                           // alignment: Alignment(0, -Responsive.width(.1, context)),
                                           child: Stack(
                                             children: [
                                               ClipRRect(
-                                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
                                                 child: Container(
-                                                    margin: EdgeInsets.fromLTRB(0, 0 * SizeConfig.blockSizeVertical, 0, 0),
+                                                    margin: EdgeInsets.fromLTRB(
+                                                        0,
+                                                        0 *
+                                                            SizeConfig
+                                                                .blockSizeVertical,
+                                                        0,
+                                                        0),
                                                     // padding:
                                                     //     EdgeInsets.all(0),
                                                     decoration: BoxDecoration(
@@ -547,41 +708,96 @@ class _driverProfile extends State<DriverProfile> {
                                                       //         .grey
                                                       //         .withOpacity(
                                                       //             .50)),
-                                                      borderRadius: BorderRadius.circular(10),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
                                                     ),
                                                     child: Padding(
-                                                      padding: const EdgeInsets.only(top: .0),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: .0),
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          print('Imageee--------$imageBaseUrl');
+                                                          print(
+                                                              'Imageee--------$imageBaseUrl');
                                                           Navigator.of(context).push(PageRouteBuilder(
                                                               opaque: false,
-                                                              pageBuilder: (BuildContext context, _, __) =>
-                                                                  ZoomView("${imageBaseUrl}$licenceHttpPath" ?? license!.path, licenceHttpPath != null ? 'http' : 'file')));
+                                                              pageBuilder: (BuildContext
+                                                                          context,
+                                                                      _,
+                                                                      __) =>
+                                                                  ZoomView(
+                                                                      "${imageBaseUrl}$licenceHttpPath" ??
+                                                                          license!
+                                                                              .path,
+                                                                      licenceHttpPath !=
+                                                                              null
+                                                                          ? 'http'
+                                                                          : 'file')));
                                                         },
-                                                        child: licenceHttpPath != null
-                                                            ? SizedBox(
-                                                                width: 20 * SizeConfig.blockSizeVertical,
-                                                                height: 20 * SizeConfig.blockSizeVertical,
-                                                                child: CachedNetworkImage(
-                                                                  imageUrl: "${imageBaseUrl}$licenceHttpPath",
-                                                                  placeholder: (context, url) {
-                                                                    return Icon(Icons.error_outline);
-                                                                  },
-                                                                  // width: 20 * SizeConfig.blockSizeVertical,
-                                                                  // height: 20 * SizeConfig.blockSizeVertical,
-                                                                  // fit: BoxFit.cover,
+                                                        child: licenceHttpPath !=
+                                                                null
+                                                            ? ClipRRect(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10)),
+                                                                child: SizedBox(
+                                                                  width: 20 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical,
+                                                                  height: 20 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical,
+                                                                  child:
+                                                                      CachedNetworkImage(
+                                                                    imageUrl:
+                                                                        "${imageBaseUrl}$licenceHttpPath",
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    placeholder:
+                                                                        (context,
+                                                                            url) {
+                                                                      return Center(
+                                                                        child: CircularProgressIndicator(
+                                                                            strokeWidth:
+                                                                                1.4,
+                                                                            color:
+                                                                                AppColors.secondary),
+                                                                      );
+                                                                    },
+                                                                    errorWidget: (c,
+                                                                            e,
+                                                                            v) =>
+                                                                        Icon(Icons
+                                                                            .error_outline),
+                                                                    // width: 20 * SizeConfig.blockSizeVertical,
+                                                                    // height: 20 * SizeConfig.blockSizeVertical,
+                                                                    // fit: BoxFit.cover,
+                                                                  ),
                                                                 ),
                                                               )
-                                                            : Image.file(File(license!.path), width: 20 * SizeConfig.blockSizeVertical, height: 20 * SizeConfig.blockSizeVertical, fit: BoxFit.cover),
+                                                            : Image.file(
+                                                                File(license!
+                                                                    .path),
+                                                                width: 20 *
+                                                                    SizeConfig
+                                                                        .blockSizeVertical,
+                                                                height: 20 *
+                                                                    SizeConfig
+                                                                        .blockSizeVertical,
+                                                                fit: BoxFit
+                                                                    .cover),
                                                       ),
                                                     )),
                                               ),
                                               Positioned(
                                                 top: -12,
-                                                right: Responsive.width(17, context),
+                                                right: Responsive.width(
+                                                    17, context),
                                                 child: IconButton(
-                                                  icon: Icon(Icons.remove_circle),
+                                                  icon:
+                                                      Icon(Icons.remove_circle),
                                                   iconSize: 30,
                                                   color: Colors.red,
                                                   onPressed: () => {
@@ -599,30 +815,38 @@ class _driverProfile extends State<DriverProfile> {
                                             ],
                                           ),
                                         ),
-                                      if (license == null && licenceHttpPath == null)
+                                      if (license == null &&
+                                          licenceHttpPath == null)
                                         Container(
                                           child: IconButton(
                                             icon: Icon(Icons.camera_alt),
-                                            iconSize: 5 * SizeConfig.blockSizeVertical,
+                                            iconSize: 5 *
+                                                SizeConfig.blockSizeVertical,
                                             color: Colors.blue,
                                             tooltip: 'Add Image By Camera',
                                             onPressed: _openCamera,
                                           ),
                                         ),
-                                      if (license == null && licenceHttpPath == null)
+                                      if (license == null &&
+                                          licenceHttpPath == null)
                                         Container(
                                           child: IconButton(
                                             icon: Icon(Icons.folder_open),
-                                            iconSize: 5 * SizeConfig.blockSizeVertical,
+                                            iconSize: 5 *
+                                                SizeConfig.blockSizeVertical,
                                             color: Colors.blue,
-                                            tooltip: 'Add Image/File By Gallery',
+                                            tooltip:
+                                                'Add Image/File By Gallery',
                                             onPressed: _openGallery,
                                           ),
                                         ),
                                     ],
                                   ),
-                                  Text('Note: License image should show license number, expiry date, address and your picture clearly.',
-                                      style: AppTextStyle.textStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w500)),
+                                  Text(
+                                      'Note: License image should show license number, expiry date, address and your picture clearly.',
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w500)),
                                 ],
                               ),
                             ],
@@ -630,7 +854,8 @@ class _driverProfile extends State<DriverProfile> {
                         ),
                         SizedBox(height: 10),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 10),
                           child: CustomButton(
                             title: 'Update',
                             onTap: () => updateUserDetail(),
@@ -680,7 +905,8 @@ class _driverProfile extends State<DriverProfile> {
   }
 
   void _openGallery() async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
     final bytes = Io.File(pickedFile!.path).readAsBytesSync();
     String base64_ = base64Encode(bytes, getImageExtension(pickedFile.path));
     this.setState(() {
@@ -690,9 +916,11 @@ class _driverProfile extends State<DriverProfile> {
   }
 
   void _openCamera() async {
+    print('|||||||||||');
     final pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
     final bytes = Io.File(pickedFile!.path).readAsBytesSync();
     String base64_ = base64Encode(bytes, getImageExtension(pickedFile.path));
+    log('WWWWWWWWWW ${base64_}');
     this.setState(() {
       licenceBase64 = base64_;
       license = File(pickedFile.path);
@@ -715,7 +943,13 @@ class _driverProfile extends State<DriverProfile> {
   //call api for getAddress
   Future<void> getAddressInfo(String udprn, BuildContext page_context) async {
     Map? addressInfo = await _bookingService.getAddress(udprn);
-    Map<String, String> params = {"postcode": addressInfo!['postcode'], "car_type": carType, "vehicle_preference": vehiclePreference, "type": "2", "course_id": ""};
+    Map<String, String> params = {
+      "postcode": addressInfo!['postcode'],
+      "car_type": carType,
+      "vehicle_preference": vehiclePreference,
+      "type": "2",
+      "course_id": ""
+    };
     getDynamicRateApiCall(params).then((dynamicRateResponse) {
       if (dynamicRateResponse['success'] == true) {
         setState(() {
@@ -762,17 +996,21 @@ class _driverProfile extends State<DriverProfile> {
         'town': town != null ? town!.text : '',
         'postcode': postcode != null ? postcode : '',
         'user_license': license_no != null ? license_no!.text : '',
-        'user_license_expiry': license_exp_date != null ? license_exp_date!.text : '',
+        'user_license_expiry':
+            license_exp_date != null ? license_exp_date!.text : '',
         'license_photo': licenceBase64,
+        if (licenceBase64.isEmpty) ...{"license_photo_remove": "yes"},
       };
       print('Licence Expiry Date---------- ${jsonEncode(formData)}');
-      print('WWWWWWWWWW ${licenceBase64}');
+      log('WWWWWWWWWW ${licenceBase64}');
       Map response = await api_services.updateProfileDetail(formData);
       if (response['message'] != null) {
-        Toast.show(response['message'], duration: Toast.lengthLong, gravity: Toast.bottom);
+        Toast.show(response['message'],
+            duration: Toast.lengthLong, gravity: Toast.bottom);
         if (response['success'] == true) {
           SharedPreferences storage = await SharedPreferences.getInstance();
-          await storage.setString('userName', formData['first_name']! + ' ' + formData['last_name']!);
+          await storage.setString('userName',
+              formData['first_name']! + ' ' + formData['last_name']!);
           _navigationService.goBack();
         }
       }
@@ -793,4 +1031,8 @@ class _driverProfile extends State<DriverProfile> {
       Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
     } catch (e) {}
   }
+}
+
+String formatDate(DateTime date) {
+  return DateFormat("dd-MM-yyyy").format(date);
 }

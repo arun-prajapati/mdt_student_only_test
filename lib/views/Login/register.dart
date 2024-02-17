@@ -135,7 +135,7 @@ class _RegisterState extends State<Register> {
                   if (Provider.of<UserProvider>(context, listen: false)
                           .notification
                           .text ==
-                      'Registration successful, please verify your account.') {
+                      'Registration successful, please Login into your account.') {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
@@ -183,13 +183,12 @@ class _RegisterState extends State<Register> {
         authData.printData();
         if (res['success'] == false) {
           log("ERROE *********** ${authData.passwordConfirm} ${authData.phoneNumber} ${authData.countryCode} ${authData.name}");
-          // Provider.of<UserProvider>(context, listen: false)
-          //     .verifyPhone(context, countryCode, phoneTextControl.text);
+
           // print("ERROE $countryCode${phoneTextControl.text}");
           showValidationDialog(context, res['message']);
         } else {
           Provider.of<UserProvider>(context, listen: false)
-              .verifyPhone(context, countryCode, phoneTextControl.text);
+              .verifyPhone(context, phoneTextControl.text);
           // showValidationDialog(context, 'Phone Number is already Registered');
           print(" 7777${res['success']}");
         }
@@ -500,7 +499,7 @@ reg data
                               floatingLabelStyle: TextStyle(color: Dark)),
                           initialCountryCode: 'GB',
                           // showCountryFlag: false,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.phone,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
@@ -523,6 +522,7 @@ reg data
                                   TextSelection.fromPosition(TextPosition(
                                       offset: phoneTextControl.text.length));
                               countryCode = phone.countryCode;
+                              print('BBBb $countryCode');
                             });
                           },
                         ),

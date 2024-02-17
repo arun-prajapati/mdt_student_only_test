@@ -518,6 +518,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   TextSelection.fromPosition(TextPosition(
                                       offset: phoneTextControl.text.length));
                               countryCode = phone.countryCode;
+                              context.read<UserProvider>().countryCode =
+                                  phone.countryCode;
                             });
                           },
                         ),
@@ -639,7 +641,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           showValidationDialog(context, res["message"]);
         } else {
           Provider.of<UserProvider>(context, listen: false)
-              .verifyPhone(context, countryCode, phoneTextControl.text);
+              .verifyPhone(context, phoneTextControl.text);
 
           print("SUCCESS");
         }

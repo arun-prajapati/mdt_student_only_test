@@ -151,6 +151,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     };
     final url = Uri.parse('$api/api/ai_get_theory_content/${isFree}');
     final response = await http.get(url, headers: header);
+    print("URL +++++++ $api/api/ai_get_theory_content/${isFree}");
+
     return jsonDecode(response.body);
   }
 
@@ -162,13 +164,16 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       'token': token,
     };
     final url = Uri.parse('$api/api/ai_provideAI_data/${topic}');
-    print("URL +++++++ $api/api/ai_provideAI_data/${topic}");
+    print("URL +++++++ TOPIC $api/api/ai_provideAI_data/${topic}");
     final response = await http.get(url, headers: header);
+    print("RESPONSE OF TOPIC ${response.body}");
+
     if (response.statusCode == 200) {
       loading(value: false);
       // print(jsonDecode(response.body));
       return jsonDecode(response.body)['data'][topic.replaceAll("_", " ")];
     } else {
+      print("RESPONSE OF TOPIC ${response.body}");
       loading(value: false);
       return {};
     }

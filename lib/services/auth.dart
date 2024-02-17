@@ -308,7 +308,7 @@ class UserProvider with ChangeNotifier {
 
   // bool isSendOtp = false;
 
-  verifyPhone(BuildContext context, String countryCode, String phoneNumber,
+  verifyPhone(BuildContext context, String phoneNumber,
       {bool isResend = false}) async {
     loading(value: true);
 

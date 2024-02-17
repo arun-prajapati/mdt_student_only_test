@@ -38,7 +38,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final _controller = ScrollController();
-  final PractiseTheoryTestServices test_api_services = new PractiseTheoryTestServices();
+  final PractiseTheoryTestServices test_api_services =
+      new PractiseTheoryTestServices();
   final PaymentService _paymentService = new PaymentService();
 
   // final AuthProvider auth_services = new AuthProvider();
@@ -106,7 +107,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   //Call APi Services
   Future<int> getUserDetail() async {
-    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response =
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     userName = "${response['first_name']} ${response['last_name']}";
     return _userId;
@@ -195,7 +197,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     ToastContext().init(context);
-    print("auth_services.changeView ${context.read<UserProvider>().changeView}");
+    print(
+        "auth_services.changeView ${context.read<UserProvider>().changeView}");
     if (context.read<UserProvider>().changeView) {
       getCategoriesFromApi().then((response_list) {
         //Navigator.pop(context);
@@ -223,9 +226,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   selectedQuestionIndex = 0;
                   selectedOptionIndex = null;
                   category_id = _categoryId;
-                  CustomSpinner.showLoadingDialog(context, _keyLoader, "Test loading...");
+                  CustomSpinner.showLoadingDialog(
+                      context, _keyLoader, "Test loading...");
                   getQuestionsFromApi().then((response_list) {
-                    Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+                    Navigator.of(_keyLoader.currentContext!,
+                            rootNavigator: true)
+                        .pop();
                     questionsList = response_list;
                     setState(() => isTestStarted = true);
                     // context.read<AuthProvider>().changeView = true;
@@ -304,7 +310,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         //     ? EdgeInsets.only(
                         //         top: constraints.maxHeight * .03)
                         //     : EdgeInsets.all(0),
-                        height: isTestStarted ? constraints.maxHeight * .85 : constraints.maxHeight * .78,
+                        height: isTestStarted
+                            ? constraints.maxHeight * .85
+                            : constraints.maxHeight * .78,
                         child: ListView(
                           controller: _controller,
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -337,7 +345,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           ],
                         ),
                       ),
-                      if (!isTestStarted) startButtonWidget(context, constraints),
+                      if (!isTestStarted)
+                        startButtonWidget(context, constraints),
                       if (isTestStarted) nextButtonWidget(context, constraints),
                     ],
                   );
@@ -441,7 +450,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   //   );
   // }
 
-  Future<void> walletUI(BuildContext context, BoxConstraints parentConstraints) async {
+  Future<void> walletUI(
+      BuildContext context, BoxConstraints parentConstraints) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -457,7 +467,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
               right: parentConstraints.maxWidth * .10,
             ),
             child: Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               insetAnimationCurve: Curves.easeOutBack,
               insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -493,7 +504,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      walletDetail != null && walletDetail!['dvsa_subscription'] > 0
+                      walletDetail != null &&
+                              walletDetail!['dvsa_subscription'] > 0
                           ? Container()
                           : Container(
                               child: AutoSizeText(
@@ -514,7 +526,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 bottom: 10,
                               ),
                             ),
-                      walletDetail != null && walletDetail!['dvsa_subscription'] > 0
+                      walletDetail != null &&
+                              walletDetail!['dvsa_subscription'] > 0
                           ? Container()
                           : Container(
                               child: AutoSizeText(
@@ -531,7 +544,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 bottom: 5,
                               ),
                             ),
-                      walletDetail != null && walletDetail!['dvsa_subscription'] > 0
+                      walletDetail != null &&
+                              walletDetail!['dvsa_subscription'] > 0
                           ? Container()
                           : Container(
                               child: Column(
@@ -545,9 +559,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       ),
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    title: AutoSizeText('Subscribe to our DVSA Theory Test practice module for just £ 9.99.',
+                                    title: AutoSizeText(
+                                        'Subscribe to our DVSA Theory Test practice module for just £ 9.99.',
                                         style: TextStyle(
-                                          fontSize: 1.8 * SizeConfig.blockSizeVertical,
+                                          fontSize: 1.8 *
+                                              SizeConfig.blockSizeVertical,
                                           color: Colors.black,
                                         )),
                                     horizontalTitleGap: 0,
@@ -562,9 +578,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       ),
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    title: AutoSizeText("Answer 400 questions correctly and earn 1 token for every correctly answered question.",
+                                    title: AutoSizeText(
+                                        "Answer 400 questions correctly and earn 1 token for every correctly answered question.",
                                         style: TextStyle(
-                                          fontSize: 1.8 * SizeConfig.blockSizeVertical,
+                                          fontSize: 1.8 *
+                                              SizeConfig.blockSizeVertical,
                                           color: Colors.black,
                                         )),
                                     horizontalTitleGap: 0,
@@ -572,7 +590,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     minVerticalPadding: 5),
                                 ListTile(
                                     leading: Container(
-                                      child: Icon(Icons.circle, size: 1 * SizeConfig.blockSizeVertical, color: Colors.black),
+                                      child: Icon(Icons.circle,
+                                          size:
+                                              1 * SizeConfig.blockSizeVertical,
+                                          color: Colors.black),
                                       padding: EdgeInsets.only(right: 10),
                                     ),
                                     title: AutoSizeText(
@@ -580,28 +601,41 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         "200 for the DVSA Theory Test practice module questions and"
                                         " the remaining 200 for MockDrivingTest.com’s sample MCQ based "
                                         "on the actual test pattern.",
-                                        style: TextStyle(fontSize: 1.8 * SizeConfig.blockSizeVertical, color: Colors.black)),
+                                        style: TextStyle(
+                                            fontSize: 1.8 *
+                                                SizeConfig.blockSizeVertical,
+                                            color: Colors.black)),
                                     horizontalTitleGap: 0,
                                     minLeadingWidth: 15,
                                     minVerticalPadding: 5),
                                 ListTile(
                                     leading: Container(
-                                      child: Icon(Icons.circle, size: 1 * SizeConfig.blockSizeVertical, color: Colors.black),
+                                      child: Icon(Icons.circle,
+                                          size:
+                                              1 * SizeConfig.blockSizeVertical,
+                                          color: Colors.black),
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    title: AutoSizeText("After earning 200 tokens in each category, you will be eligible for our free DVSA Theory test",
-                                        style: TextStyle(fontSize: 1.8 * SizeConfig.blockSizeVertical, color: Colors.black)),
+                                    title: AutoSizeText(
+                                        "After earning 200 tokens in each category, you will be eligible for our free DVSA Theory test",
+                                        style: TextStyle(
+                                            fontSize: 1.8 *
+                                                SizeConfig.blockSizeVertical,
+                                            color: Colors.black)),
                                     horizontalTitleGap: 0,
                                     minLeadingWidth: 15,
                                     minVerticalPadding: 5),
                               ],
                             )),
-                      walletDetail != null && walletDetail!['dvsa_subscription'] > 0
+                      walletDetail != null &&
+                              walletDetail!['dvsa_subscription'] > 0
                           ? Container()
                           : Container(
                               // padding: EdgeInsets.symmetric(
                               //     horizontal: 2, vertical: 10),
-                              margin: EdgeInsets.only(left: Responsive.width(2, context_), right: Responsive.width(2, context_)),
+                              margin: EdgeInsets.only(
+                                  left: Responsive.width(2, context_),
+                                  right: Responsive.width(2, context_)),
                               child: Divider(
                                 color: Colors.grey.withOpacity(0.4),
                                 thickness: 2,
@@ -613,7 +647,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           left: Responsive.width(2, context_),
                           right: Responsive.width(2, context_),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 2, vertical: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
@@ -624,10 +659,22 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           children: [
                             AutoSizeText(
                               "TOTAL TOKENS",
-                              style: TextStyle(fontSize: 2 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.w300, color: Colors.black),
+                              style: TextStyle(
+                                  fontSize: 2 * SizeConfig.blockSizeVertical,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
                             ),
                             AutoSizeText(
-                              ((walletDetail != null ? walletDetail!['mdt_bal'] : 0) + ((walletDetail != null && walletDetail!['dvsa_subscription'] > 0) ? (walletDetail!['dvsa_bal']) : 0)).toString(),
+                              ((walletDetail != null
+                                          ? walletDetail!['mdt_bal']
+                                          : 0) +
+                                      ((walletDetail != null &&
+                                              walletDetail![
+                                                      'dvsa_subscription'] >
+                                                  0)
+                                          ? (walletDetail!['dvsa_bal'])
+                                          : 0))
+                                  .toString(),
                               style: TextStyle(
                                 fontSize: 2 * SizeConfig.blockSizeVertical,
                                 fontWeight: FontWeight.w600,
@@ -650,7 +697,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       ),
                                       padding: EdgeInsets.all(10),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(2.0),
+                                          borderRadius:
+                                              BorderRadius.circular(2.0),
                                           color: Color.fromRGBO(
                                             0,
                                             204,
@@ -658,31 +706,54 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                             1.0,
                                           )),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           AutoSizeText("DVSA TOKENS",
                                               style: TextStyle(
-                                                fontSize: 1.7 * SizeConfig.blockSizeVertical,
+                                                fontSize: 1.7 *
+                                                    SizeConfig
+                                                        .blockSizeVertical,
                                                 fontWeight: FontWeight.w300,
                                                 color: Colors.white,
                                               )),
-                                          AutoSizeText((walletDetail != null ? walletDetail!['dvsa_bal'] : 0).toString(),
+                                          AutoSizeText(
+                                              (walletDetail != null
+                                                      ? walletDetail![
+                                                          'dvsa_bal']
+                                                      : 0)
+                                                  .toString(),
                                               style: TextStyle(
-                                                fontSize: 2 * SizeConfig.blockSizeVertical,
+                                                fontSize: 2 *
+                                                    SizeConfig
+                                                        .blockSizeVertical,
                                                 fontWeight: FontWeight.w300,
                                                 color: Colors.white,
                                               )),
-                                          SizedBox(height: Responsive.width(4, context_)),
+                                          SizedBox(
+                                              height: Responsive.width(
+                                                  4, context_)),
                                           AutoSizeText("Remaining",
                                               style: TextStyle(
-                                                fontSize: 1.7 * SizeConfig.blockSizeVertical,
+                                                fontSize: 1.7 *
+                                                    SizeConfig
+                                                        .blockSizeVertical,
                                                 fontWeight: FontWeight.w300,
                                                 color: Colors.white,
                                               )),
-                                          AutoSizeText((200 - (walletDetail != null ? walletDetail!['dvsa_bal'] : 0)).toString(),
+                                          AutoSizeText(
+                                              (200 -
+                                                      (walletDetail != null
+                                                          ? walletDetail![
+                                                              'dvsa_bal']
+                                                          : 0))
+                                                  .toString(),
                                               style: TextStyle(
-                                                fontSize: 2 * SizeConfig.blockSizeVertical,
+                                                fontSize: 2 *
+                                                    SizeConfig
+                                                        .blockSizeVertical,
                                                 fontWeight: FontWeight.w300,
                                                 color: Colors.white,
                                               ))
@@ -691,10 +762,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   Container(
                                     width: Responsive.width(30, context_),
                                     height: Responsive.height(15, context_),
-                                    margin: EdgeInsets.only(left: Responsive.width(3, context_), right: Responsive.width(2, context_)),
+                                    margin: EdgeInsets.only(
+                                        left: Responsive.width(3, context_),
+                                        right: Responsive.width(2, context_)),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(2.0),
+                                        borderRadius:
+                                            BorderRadius.circular(2.0),
                                         color: Color.fromRGBO(
                                           115,
                                           89,
@@ -702,31 +776,49 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                           1.0,
                                         )),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         AutoSizeText("MDT TOKENS",
                                             style: TextStyle(
-                                              fontSize: 1.7 * SizeConfig.blockSizeVertical,
+                                              fontSize: 1.7 *
+                                                  SizeConfig.blockSizeVertical,
                                               fontWeight: FontWeight.w300,
                                               color: Colors.white,
                                             )),
-                                        AutoSizeText((walletDetail != null ? walletDetail!['mdt_bal'] : 0).toString(),
+                                        AutoSizeText(
+                                            (walletDetail != null
+                                                    ? walletDetail!['mdt_bal']
+                                                    : 0)
+                                                .toString(),
                                             style: TextStyle(
-                                              fontSize: 2 * SizeConfig.blockSizeVertical,
+                                              fontSize: 2 *
+                                                  SizeConfig.blockSizeVertical,
                                               fontWeight: FontWeight.w300,
                                               color: Colors.white,
                                             )),
-                                        SizedBox(height: Responsive.width(4, context_)),
+                                        SizedBox(
+                                            height:
+                                                Responsive.width(4, context_)),
                                         AutoSizeText("Remaining",
                                             style: TextStyle(
-                                              fontSize: 1.7 * SizeConfig.blockSizeVertical,
+                                              fontSize: 1.7 *
+                                                  SizeConfig.blockSizeVertical,
                                               fontWeight: FontWeight.w300,
                                               color: Colors.white,
                                             )),
-                                        AutoSizeText((200 - (walletDetail != null ? walletDetail!['mdt_bal'] : 0)).toString(),
+                                        AutoSizeText(
+                                            (200 -
+                                                    (walletDetail != null
+                                                        ? walletDetail![
+                                                            'mdt_bal']
+                                                        : 0))
+                                                .toString(),
                                             style: TextStyle(
-                                              fontSize: 2 * SizeConfig.blockSizeVertical,
+                                              fontSize: 2 *
+                                                  SizeConfig.blockSizeVertical,
                                               fontWeight: FontWeight.w300,
                                               color: Colors.white,
                                             ))
@@ -845,16 +937,26 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             width: constraints.maxWidth * .30,
             padding: EdgeInsets.fromLTRB(5, 5, 3, 5),
             child: AutoSizeText(
-              (record['category_id'] == null || record['category_id'] <= 0) ? 'All' : record['category']['name'],
-              style: TextStyle(fontSize: 2 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.w300, color: Colors.black),
+              (record['category_id'] == null || record['category_id'] <= 0)
+                  ? 'All'
+                  : record['category']['name'],
+              style: TextStyle(
+                  fontSize: 2 * SizeConfig.blockSizeVertical,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black),
             ),
           ),
           Container(
             width: constraints.maxWidth * .225,
             padding: EdgeInsets.fromLTRB(0, 5, 3, 5),
             child: AutoSizeText(
-              record['mdt_score'] != null ? (record['mdt_score']).toString() : '---',
-              style: TextStyle(fontSize: 2 * SizeConfig.blockSizeVertical, fontWeight: FontWeight.w300, color: Colors.black),
+              record['mdt_score'] != null
+                  ? (record['mdt_score']).toString()
+                  : '---',
+              style: TextStyle(
+                  fontSize: 2 * SizeConfig.blockSizeVertical,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black),
             ),
           ),
           // Container(
@@ -887,8 +989,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     );
   }
 
-  Widget radioSingleOptionUI(BoxConstraints constraints, option, int option_no, question) {
-    TextStyle _answerTextStyle = AppTextStyle.textStyle.copyWith(color: Colors.black, fontWeight: FontWeight.w400);
+  Widget radioSingleOptionUI(
+      BoxConstraints constraints, option, int option_no, question) {
+    TextStyle _answerTextStyle = AppTextStyle.textStyle
+        .copyWith(color: Colors.black, fontWeight: FontWeight.w400);
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: Row(
@@ -897,7 +1001,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         children: [
           Container(
             width: constraints.maxWidth * 0.09,
-            child: Text((option_no + 1).toString() + '.', style: _answerTextStyle),
+            child:
+                Text((option_no + 1).toString() + '.', style: _answerTextStyle),
           ),
           Container(
             alignment: Alignment.centerLeft,
@@ -917,10 +1022,15 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           selectedOptionIndex = val as int;
                         });
                         calculatePoint(question);
-                        if (selectedOptionIndex != null && question['options'][selectedOptionIndex]['correct'] == true) {
-                          showCorrectAnswerDialog(context, question['explanation']);
+                        if (selectedOptionIndex != null &&
+                            question['options'][selectedOptionIndex]
+                                    ['correct'] ==
+                                true) {
+                          showCorrectAnswerDialog(
+                              context, question['explanation']);
                         } else {
-                          showWrongAnswerDialog(context, question['explanation']);
+                          showWrongAnswerDialog(
+                              context, question['explanation']);
                         }
                       },
               ),
@@ -938,10 +1048,15 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           selectedOptionIndex = option_no;
                         });
                         calculatePoint(question);
-                        if (selectedOptionIndex != null && question['options'][selectedOptionIndex]['correct'] == true) {
-                          showCorrectAnswerDialog(context, question['explanation']);
+                        if (selectedOptionIndex != null &&
+                            question['options'][selectedOptionIndex]
+                                    ['correct'] ==
+                                true) {
+                          showCorrectAnswerDialog(
+                              context, question['explanation']);
                         } else {
-                          showWrongAnswerDialog(context, question['explanation']);
+                          showWrongAnswerDialog(
+                              context, question['explanation']);
                         }
                       }
                     },
@@ -956,10 +1071,14 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         imageErrorBuilder: (context, url, error) => Container(
                           child: Column(
                             children: [
-                              new Icon(Icons.error, color: Colors.grey, size: 5 * SizeConfig.blockSizeVertical),
+                              new Icon(Icons.error,
+                                  color: Colors.grey,
+                                  size: 5 * SizeConfig.blockSizeVertical),
                               Text(
                                 "Image not found!",
-                                style: TextStyle(fontSize: 2 * SizeConfig.blockSizeVertical, color: Colors.redAccent),
+                                style: TextStyle(
+                                    fontSize: 2 * SizeConfig.blockSizeVertical,
+                                    color: Colors.redAccent),
                               )
                             ],
                           ),
@@ -982,10 +1101,15 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   selectedOptionIndex = option_no;
                                 });
                                 calculatePoint(question);
-                                if (selectedOptionIndex != null && question['options'][selectedOptionIndex]['correct'] == true) {
-                                  showCorrectAnswerDialog(context, question['explanation']);
+                                if (selectedOptionIndex != null &&
+                                    question['options'][selectedOptionIndex]
+                                            ['correct'] ==
+                                        true) {
+                                  showCorrectAnswerDialog(
+                                      context, question['explanation']);
                                 } else {
-                                  showWrongAnswerDialog(context, question['explanation']);
+                                  showWrongAnswerDialog(
+                                      context, question['explanation']);
                                 }
                               }
                             }),
@@ -999,8 +1123,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     );
   }
 
-  Widget testQuestionWidget(BuildContext context, BoxConstraints constraints, question) {
-    TextStyle _questionTextStyle = AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
+  Widget testQuestionWidget(
+      BuildContext context, BoxConstraints constraints, question) {
+    TextStyle _questionTextStyle = AppTextStyle.titleStyle
+        .copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
     return Stack(
       children: <Widget>[
         Column(
@@ -1024,7 +1150,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         imageErrorBuilder: (context, url, error) => Container(
                           child: Column(
                             children: [
-                              new Icon(Icons.error, color: Colors.grey, size: 5 * SizeConfig.blockSizeVertical),
+                              new Icon(Icons.error,
+                                  color: Colors.grey,
+                                  size: 5 * SizeConfig.blockSizeVertical),
                               // Text(
                               //   "Image not found!",
                               //   style: TextStyle(
@@ -1090,11 +1218,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 20),
                         width: constraints.maxWidth * 0.90,
-                        child: AutoSizeText('Please subscribe for questions.',
-                            textAlign: TextAlign.center,
-                            style: AppTextStyle.textStyle.copyWith(
-                              fontWeight: FontWeight.w400,
-                            )),
+                        child:
+                            AutoSizeText('Please subscribe for more questions.',
+                                textAlign: TextAlign.center,
+                                style: AppTextStyle.textStyle.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                )),
                       ),
                       Container(
                         height: 6 * SizeConfig.blockSizeVertical,
@@ -1129,7 +1258,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       width: constraints.maxWidth * 1,
                                       child: AutoSizeText('Subscribe',
                                           textAlign: TextAlign.center,
-                                          style: AppTextStyle.textStyle.copyWith(
+                                          style:
+                                              AppTextStyle.textStyle.copyWith(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
                                           )),
@@ -1149,13 +1279,17 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             Container(
                                 // width: constraints.maxWidth * 0.18,
                                 alignment: Alignment.topCenter,
-                                child: Text("NOTE:   ", style: AppTextStyle.textStyle.copyWith(color: AppColors.red1, fontWeight: FontWeight.w500))),
+                                child: Text("NOTE:   ",
+                                    style: AppTextStyle.textStyle.copyWith(
+                                        color: AppColors.red1,
+                                        fontWeight: FontWeight.w500))),
                             Container(
                                 width: constraints.maxWidth * 0.72,
                                 child: Text(
                                     // textAlign: TextAlign.justify,
                                     'Please purchase license to access more question in this category',
-                                    style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400))),
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        fontWeight: FontWeight.w400))),
                           ],
                         ),
                       ),
@@ -1168,8 +1302,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   }
 
   Widget answerExplanation(Map question) {
-    TextStyle _headingText = AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
-    TextStyle _explanationText = AppTextStyle.textStyle.copyWith(color: Colors.black, fontWeight: FontWeight.w400, height: 1.2);
+    TextStyle _headingText = AppTextStyle.titleStyle
+        .copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
+    TextStyle _explanationText = AppTextStyle.textStyle.copyWith(
+        color: Colors.black, fontWeight: FontWeight.w400, height: 1.2);
     return Container(
       margin: EdgeInsets.only(top: 15, bottom: 10),
       padding: EdgeInsets.only(left: 20, right: 20),
@@ -1189,7 +1325,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   Widget answerStatus(Map question) {
     TextStyle _statusText = TextStyle(
         fontSize: 2 * SizeConfig.blockSizeVertical,
-        color: (selectedOptionIndex != null && question['options'][selectedOptionIndex]['correct'] == true) ? Colors.green : Colors.red,
+        color: (selectedOptionIndex != null &&
+                question['options'][selectedOptionIndex]['correct'] == true)
+            ? Colors.green
+            : Colors.red,
         fontWeight: FontWeight.normal);
     return Container(
         margin: EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -1201,7 +1340,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         alignment: Alignment.topLeft,
         child: RichText(
           text: TextSpan(
-            text: (selectedOptionIndex != null && question['options'][selectedOptionIndex]['correct'] == true) ? 'Right Answer!' : 'Wrong Answer!',
+            text: (selectedOptionIndex != null &&
+                    question['options'][selectedOptionIndex]['correct'] == true)
+                ? 'Right Answer!'
+                : 'Wrong Answer!',
             style: _statusText,
           ),
         ));
@@ -1221,12 +1363,14 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
           elevation: 5.0,
           child: MaterialButton(
             onPressed: () {
-              CustomSpinner.showLoadingDialog(context, _keyLoader, "Loading...");
+              CustomSpinner.showLoadingDialog(
+                  context, _keyLoader, "Loading...");
               context.read<UserProvider>().changeView = true;
               setState(() {});
               getCategoriesFromApi().then((response_list) {
                 log("Category : $response_list");
-                Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+                Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
+                    .pop();
                 showModalBottomSheet(
                     isDismissible: false,
                     context: context,
@@ -1241,9 +1385,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           selectedQuestionIndex = 0;
                           selectedOptionIndex = null;
                           category_id = _categoryId;
-                          CustomSpinner.showLoadingDialog(context, _keyLoader, "Test loading...");
+                          CustomSpinner.showLoadingDialog(
+                              context, _keyLoader, "Test loading...");
                           getQuestionsFromApi().then((response_list) {
-                            Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+                            Navigator.of(_keyLoader.currentContext!,
+                                    rootNavigator: true)
+                                .pop();
                             questionsList = response_list;
                             setState(() => isTestStarted = true);
                           });
@@ -1288,38 +1435,53 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             padding: EdgeInsets.symmetric(horizontal: 80, vertical: 5),
             child: CustomButton(
               padding: EdgeInsets.symmetric(vertical: 12),
-              onTap:
-                  (selectedOptionIndex == null && (questionsList[selectedQuestionIndex]['type'] == 0 || (questionsList[selectedQuestionIndex]['type'] == 1 && walletDetail!['dvsa_subscription'] > 0)))
-                      ? null
-                      : () {
-                          testQuestionsForResult.add({
-                            'questionId': questionsList[selectedQuestionIndex]['id'],
-                            'type': questionsList[selectedQuestionIndex]['type'],
-                            'question': questionsList[selectedQuestionIndex]['title'],
-                            'correct': (selectedOptionIndex != null && questionsList[selectedQuestionIndex]['options'][selectedOptionIndex]['correct'] == true) ? 'Correct Answer' : 'Wrong Answer'
-                          });
-                          if ((selectedQuestionIndex + 1) < questionsList.length) {
-                            _controller.animateTo(0, duration: Duration(microseconds: 1000), curve: Curves.slowMiddle);
-                            setState(() {
-                              selectedOptionIndex = null;
-                              selectedQuestionIndex += 1;
-                            });
-                          }
-                          // else if (questionsList[selectedQuestionIndex]['type'] ==
-                          //     1) {
-                          //   context.read<AuthProvider>().changeView = false;
-                          //   setState(() {});
-                          // }
-                          else {
-                            CustomSpinner.showLoadingDialog(context, _keyLoader, "Test Submitting...");
-                            submitTestByApi().then((value) {
-                              Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-                              testCompleAlertBox(context);
-                            });
-                          }
-                        },
+              onTap: (selectedOptionIndex == null &&
+                      (questionsList[selectedQuestionIndex]['type'] == 0 ||
+                          (questionsList[selectedQuestionIndex]['type'] == 1 &&
+                              walletDetail!['dvsa_subscription'] > 0)))
+                  ? null
+                  : () {
+                      testQuestionsForResult.add({
+                        'questionId': questionsList[selectedQuestionIndex]
+                            ['id'],
+                        'type': questionsList[selectedQuestionIndex]['type'],
+                        'question': questionsList[selectedQuestionIndex]
+                            ['title'],
+                        'correct': (selectedOptionIndex != null &&
+                                questionsList[selectedQuestionIndex]['options']
+                                        [selectedOptionIndex]['correct'] ==
+                                    true)
+                            ? 'Correct Answer'
+                            : 'Wrong Answer'
+                      });
+                      if ((selectedQuestionIndex + 1) < questionsList.length) {
+                        _controller.animateTo(0,
+                            duration: Duration(microseconds: 1000),
+                            curve: Curves.slowMiddle);
+                        setState(() {
+                          selectedOptionIndex = null;
+                          selectedQuestionIndex += 1;
+                        });
+                      }
+                      // else if (questionsList[selectedQuestionIndex]['type'] ==
+                      //     1) {
+                      //   context.read<AuthProvider>().changeView = false;
+                      //   setState(() {});
+                      // }
+                      else {
+                        CustomSpinner.showLoadingDialog(
+                            context, _keyLoader, "Test Submitting...");
+                        submitTestByApi().then((value) {
+                          Navigator.of(_keyLoader.currentContext!,
+                                  rootNavigator: true)
+                              .pop();
+                          testCompleAlertBox(context);
+                        });
+                      }
+                    },
               title: selectedQuestionIndex < questionsList.length - 1
-                  ? walletDetail!['dvsa_subscription'] <= 0 && questionsList[selectedQuestionIndex]['type'] == 1
+                  ? walletDetail!['dvsa_subscription'] <= 0 &&
+                          questionsList[selectedQuestionIndex]['type'] == 1
                       ? 'Skip'
                       : 'Next'
                   : 'Test Submit',
@@ -1331,7 +1493,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   }
 
   calculatePoint(question) {
-    if (selectedOptionIndex != null && question['options'][selectedOptionIndex]['correct'] == true) {
+    if (selectedOptionIndex != null &&
+        question['options'][selectedOptionIndex]['correct'] == true) {
       gainPoint += 1;
 
       log("Points earned : $gainPoint");
@@ -1347,9 +1510,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
           return new WillPopScope(
               onWillPop: () async => false,
               child: Padding(
-                  padding: EdgeInsets.only(left: Responsive.width(5, parent_context), right: Responsive.width(5, parent_context)),
+                  padding: EdgeInsets.only(
+                      left: Responsive.width(5, parent_context),
+                      right: Responsive.width(5, parent_context)),
                   child: Dialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)), //this right here
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
+                    //this right here
                     child: Container(
                       // height: Responsive.height(30, parent_context),
                       padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
@@ -1359,79 +1526,92 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
-                            child: Column(mainAxisSize: MainAxisSize.min, children: [
-                              Text("Test finished!", style: AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600, color: Colors.black54)),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text("Total score: " + gainPoint.toString() + " / " + ((questionsList.length).toString()), style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400)),
-                              SizedBox(height: 20),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 48),
-                                child: CustomButton(
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    // setState(() => isTestStarted = false);
-                                    // context
-                                    //     .read<AuthProvider>()
-                                    //     .changeView = true;
-                                    // setState(() {});
-                                    // Future.delayed(
-                                    //     Duration(microseconds: 300), () {
-                                    // this.initializeApi("Updating...");
-                                    // });
-                                  },
-                                  title: 'Ok',
-                                ),
-                              ),
-                              // Container(
-                              //   height: 40,
-                              //   width: 100,
-                              //   alignment: Alignment.bottomCenter,
-                              //   child: Material(
-                              //     borderRadius: BorderRadius.circular(10),
-                              //     elevation: 5.0,
-                              //     child: MaterialButton(
-                              //       onPressed: () {
-                              //         Navigator.of(context).pop();
-                              //         Navigator.of(context).pop();
-                              //         setState(() => isTestStarted = false);
-                              //         context.read<AuthProvider>().changeView =
-                              //             true;
-                              //         setState(() {});
-                              //         Future.delayed(
-                              //             Duration(microseconds: 300), () {
-                              //           this.initializeApi("Updating...");
-                              //         });
-                              //       },
-                              //       child: Container(
-                              //        // width: constraints.maxWidth * 0.35,
-                              //         decoration: BoxDecoration(
-                              //             gradient: RadialGradient(
-                              //           colors: [
-                              //             AppColors.primary,
-                              //             AppColors.secondary,
-                              //             AppColors.secondary,
-                              //           ],
-                              //           radius: 10,
-                              //           focal: Alignment(-1.1, -3.0),
-                              //         )),
-                              //         child: Text(
-                              //           'Ok',
-                              //           style: TextStyle(
-                              //             fontFamily: 'Poppins',
-                              //             fontSize: 40,
-                              //             fontWeight: FontWeight.w500,
-                              //             color: AppColors.white,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // )
-                            ]),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text("Test finished!",
+                                      style: AppTextStyle.titleStyle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black54)),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                      "Total score: " +
+                                          gainPoint.toString() +
+                                          " / " +
+                                          ((questionsList.length).toString()),
+                                      style: AppTextStyle.disStyle.copyWith(
+                                          fontWeight: FontWeight.w400)),
+                                  SizedBox(height: 20),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 48),
+                                    child: CustomButton(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                        // setState(() => isTestStarted = false);
+                                        // context
+                                        //     .read<AuthProvider>()
+                                        //     .changeView = true;
+                                        // setState(() {});
+                                        // Future.delayed(
+                                        //     Duration(microseconds: 300), () {
+                                        // this.initializeApi("Updating...");
+                                        // });
+                                      },
+                                      title: 'Ok',
+                                    ),
+                                  ),
+                                  // Container(
+                                  //   height: 40,
+                                  //   width: 100,
+                                  //   alignment: Alignment.bottomCenter,
+                                  //   child: Material(
+                                  //     borderRadius: BorderRadius.circular(10),
+                                  //     elevation: 5.0,
+                                  //     child: MaterialButton(
+                                  //       onPressed: () {
+                                  //         Navigator.of(context).pop();
+                                  //         Navigator.of(context).pop();
+                                  //         setState(() => isTestStarted = false);
+                                  //         context.read<AuthProvider>().changeView =
+                                  //             true;
+                                  //         setState(() {});
+                                  //         Future.delayed(
+                                  //             Duration(microseconds: 300), () {
+                                  //           this.initializeApi("Updating...");
+                                  //         });
+                                  //       },
+                                  //       child: Container(
+                                  //        // width: constraints.maxWidth * 0.35,
+                                  //         decoration: BoxDecoration(
+                                  //             gradient: RadialGradient(
+                                  //           colors: [
+                                  //             AppColors.primary,
+                                  //             AppColors.secondary,
+                                  //             AppColors.secondary,
+                                  //           ],
+                                  //           radius: 10,
+                                  //           focal: Alignment(-1.1, -3.0),
+                                  //         )),
+                                  //         child: Text(
+                                  //           'Ok',
+                                  //           style: TextStyle(
+                                  //             fontFamily: 'Poppins',
+                                  //             fontSize: 40,
+                                  //             fontWeight: FontWeight.w500,
+                                  //             color: AppColors.white,
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // )
+                                ]),
                           )
                         ],
                       ),
@@ -1449,32 +1629,45 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
           return new WillPopScope(
               onWillPop: () async => false,
               child: Padding(
-                  padding: EdgeInsets.only(left: Responsive.width(2, parent_context), right: Responsive.width(2, parent_context)),
+                  padding: EdgeInsets.only(
+                      left: Responsive.width(2, parent_context),
+                      right: Responsive.width(2, parent_context)),
                   child: Dialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)), //this right here
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
+                    //this right here
                     child: Container(
-                      height: Responsive.height(30, parent_context),
-                      padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                      // height: Responsive.height(30, parent_context),
+                      padding: EdgeInsets.fromLTRB(10, 25, 10, 25),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Center(
                             child: Column(children: [
-                              SizedBox(
-                                height: 30,
-                              ),
+                              // SizedBox(
+                              //   height: 30,
+                              // ),
                               Text(
-                                "Are you sure you want to get subscription for DVSA questions?",
+                                "Are you sure you want to get subscription for more questions?",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Color(0xFF595959), fontWeight: FontWeight.w600, fontSize: 16),
+                                style: TextStyle(
+                                    color: Color(0xFF595959),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               Text(
-                                "Total charges: £" + (walletDetail!['subscription_cost']).toString(),
-                                style: TextStyle(color: Color(0xFF797979), fontWeight: FontWeight.w600, fontSize: 18),
+                                "Total charges: £" +
+                                    (walletDetail!['subscription_cost'])
+                                        .toString(),
+                                style: TextStyle(
+                                    color: Color(0xFF797979),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18),
                               ),
                               SizedBox(height: 20),
                               Padding(
@@ -1484,20 +1677,28 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   children: [
                                     Expanded(
                                       child: CustomButton(
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         title: 'Yes',
                                         onTap: () {
                                           Navigator.of(context).pop();
                                           showLoader("Loading");
                                           isTestStarted = true;
                                           Stripe.publishableKey = stripePublic;
-                                          Map params = {'total_cost': walletDetail!['subscription_cost'], 'user_type': 2, 'parentPageName': "dvsaSubscription"};
+                                          Map params = {
+                                            'total_cost': walletDetail![
+                                                'subscription_cost'],
+                                            'user_type': 2,
+                                            'parentPageName': "dvsaSubscription"
+                                          };
                                           _paymentService
                                               .makePayment(
-                                                  amount: walletDetail!['subscription_cost'],
+                                                  amount: walletDetail![
+                                                      'subscription_cost'],
                                                   currency: 'GBP',
                                                   context: parent_context,
-                                                  desc: 'DVSA Subscription by ${userName} (App)',
+                                                  desc:
+                                                      'DVSA Subscription by ${userName} (App)',
                                                   metaData: params)
                                               .then((value) => closeLoader());
                                         },
@@ -1506,7 +1707,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     SizedBox(width: 20),
                                     Expanded(
                                       child: CustomButton(
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         title: 'No',
                                         onTap: () {
                                           Navigator.of(context).pop();

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,18 +23,19 @@ class _ChangePassword extends State<ChangePassword> {
   final DriverProfileServices api_services = new DriverProfileServices();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final UserProvider auth_services = new UserProvider();
-  TextEditingController old_password = new TextEditingController();
-  TextEditingController new_password = new TextEditingController();
-  TextEditingController cnf_password = new TextEditingController();
+  TextEditingController old_password = new TextEditingController(),
+      new_password = new TextEditingController(),
+      cnf_password = new TextEditingController();
   late int _userType = 2;
   late int _userId;
   bool isSecureconf = true;
   bool isSecure = true;
-  bool isoldSecure = true;
+  bool isOldSecure = true;
 
   //Call APi Services
   Future<int> getUserDetail() async {
-    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response =
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     return _userId;
   }
@@ -120,7 +119,8 @@ class _ChangePassword extends State<ChangePassword> {
               },
               iconRight: null),
           Container(
-              margin: EdgeInsets.fromLTRB(0, Responsive.height(11, context), 0, 0),
+              margin:
+                  EdgeInsets.fromLTRB(0, Responsive.height(11, context), 0, 0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -139,16 +139,14 @@ class _ChangePassword extends State<ChangePassword> {
                   CustomTextField(
                     label: 'Enter Old Password',
                     heading: 'Old Password',
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
                     controller: old_password,
-                    obscureText: isoldSecure,
+                    obscureText: isOldSecure,
                     suffixOnTap: () {
                       setState(() {
-                        isoldSecure = !isoldSecure;
+                        isOldSecure = !isOldSecure;
                       });
                     },
-                    suffixIcon: isoldSecure
+                    suffixIcon: isOldSecure
                         ? Icon(
                             Icons.visibility_off_outlined,
                           )
@@ -206,30 +204,35 @@ class _ChangePassword extends State<ChangePassword> {
                       padding: EdgeInsets.symmetric(vertical: 10),
                       title: 'Update',
                       onTap: () {
-                        log('${old_password.text}');
-                        if (this.old_password.text == null || this.old_password.text.trim() == '') {
+                        if (this.old_password.text == null ||
+                            this.old_password.text.trim() == '') {
                           Toast.show('Please enter old password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.bottom);
-                        } else if (this.new_password.text == null || this.new_password.text.trim() == '') {
+                        } else if (this.new_password.text == null ||
+                            this.new_password.text.trim() == '') {
                           Toast.show('Please enter new password!',
                               //textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.bottom);
-                        } else if (this.cnf_password.text == null || this.cnf_password.text.trim() == '') {
+                        } else if (this.cnf_password.text == null ||
+                            this.cnf_password.text.trim() == '') {
                           Toast.show('Please enter confirm password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.bottom);
-                        } else if (this.new_password.text != this.cnf_password.text.trim()) {
-                          Toast.show('Confirm password does not match with new password!',
+                        } else if (this.new_password.text !=
+                            this.cnf_password.text.trim()) {
+                          Toast.show(
+                              'Confirm password does not match with new password!',
                               // textStyle: context,
                               duration: Toast.lengthLong,
                               gravity: Toast.bottom);
                         } else {
                           try {
-                            CustomSpinner.showLoadingDialog(context, _keyLoader, "Loading...");
+                            CustomSpinner.showLoadingDialog(
+                                context, _keyLoader, "Loading...");
                             Map<String, String> requestParams = {
                               'id': this._userId.toString(),
                               'user_type': this._userType.toString(),
@@ -237,17 +240,24 @@ class _ChangePassword extends State<ChangePassword> {
                               'new_password': this.new_password.text,
                               'cnf_password': this.cnf_password.text
                             };
-                            changePasswordApiCall(requestParams).then((response) {
+                            changePasswordApiCall(requestParams)
+                                .then((response) {
                               closeLoader();
                               Toast.show(response!["message"],
                                   //textStyle: context,
                                   duration: Toast.lengthLong,
                                   gravity: Toast.bottom);
-                              if (response['success'] == true) _navigationService.goBack();
+                              if (response['success'] == true)
+                                _navigationService.goBack();
                             });
                           } catch (e) {
-                            Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-                            Toast.show('Failed request! please try again.', textStyle: context, duration: Toast.lengthLong, gravity: Toast.bottom);
+                            Navigator.of(_keyLoader.currentContext!,
+                                    rootNavigator: true)
+                                .pop();
+                            Toast.show('Failed request! please try again.',
+                                textStyle: context,
+                                duration: Toast.lengthLong,
+                                gravity: Toast.bottom);
                           }
                         }
                       },
