@@ -92,6 +92,7 @@ class UserProvider with ChangeNotifier {
       Map<String, dynamic> apiResponse = json.decode(response.body);
       print("userData ${jsonEncode(body)}");
       print("RESSS **************************           $apiResponse");
+      googleNavigate = false;
       _status = Status.Authenticated;
       _token = apiResponse['token'];
       _userType = apiResponse['user_type'];
@@ -193,6 +194,9 @@ class UserProvider with ChangeNotifier {
   String phoneNumber = "";
   String countryCode = "";
   String passwordConfirm = "";
+  String socialToken = "";
+  String socialType = "";
+  String socialSiteId = "";
 
   printData() {
     print("email: $email");
@@ -201,6 +205,9 @@ class UserProvider with ChangeNotifier {
     print("password: $password");
     print("confirmPass: $passwordConfirm");
     print("countryCode: $countryCode");
+    print("socialType: $socialType");
+    print("socialToken: $socialToken");
+    print("socialSiteId: $socialSiteId");
   }
 
   Future<Map> register({required String deviceId}) async {
@@ -355,6 +362,8 @@ class UserProvider with ChangeNotifier {
   }
 
   bool isForgotPassword = false;
+  bool isSocialLogin = false;
+  bool googleNavigate = false;
 
   void _onVerificationCompletedRegister(
       PhoneAuthCredential phoneAuthCredential, BuildContext context) async {

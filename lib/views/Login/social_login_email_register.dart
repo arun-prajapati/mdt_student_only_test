@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +7,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/Constants/app_colors.dart';
 import 'package:student_app/custom_button.dart';
+import 'package:student_app/responsive/percentage_mediaquery.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:student_app/services/password_services.dart';
 import 'package:student_app/views/Login/login.dart';
 import 'package:student_app/views/Login/register.dart';
 import 'package:toast/toast.dart';
@@ -42,12 +45,13 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
   final TextEditingController phoneTextControl = TextEditingController();
   var mobile = '';
   var countryCode = '+44';
+  final _passwordService = PasswordServices();
 
   Future<void> submit() async {
     final form = _formKey.currentState;
-
+    var authData = context.read<UserProvider>();
     if (form!.validate() && phoneTextControl.text.isNotEmpty) {
-      Map formParams = {
+      /*  Map formParams = {
         'token': paramArguments['token'],
         'social_type': paramArguments['social_type'],
         'social_site_id': paramArguments['social_site_id'],
@@ -59,12 +63,38 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
       print("Data on submit : ${jsonEncode(formParams)}");
       ToastContext().init(context);
 
-      Map? apiResponse = await Provider.of<UserProvider>(context, listen: false).socialLoginWithMdtRegister(formParams);
+      Map? apiResponse = await Provider.of<UserProvider>(context, listen: false)
+          .socialLoginWithMdtRegister(formParams);
       print("Response from registrant 1: $apiResponse");
       if (apiResponse != null && apiResponse['success'] == false) {
         print("Response from registrant 2 : $apiResponse");
-        Toast.show(apiResponse['message'], duration: Toast.lengthLong, gravity: Toast.center);
-      }
+        Toast.show(apiResponse['message'],
+            duration: Toast.lengthLong, gravity: Toast.center);
+      }*/
+      authData.isSocialLogin = true;
+      Map data = {
+        'phone': '${countryCode}${phoneTextControl.text}',
+        'user_type': '2',
+        "email": emailTextControl.text,
+      };
+      _passwordService.checkNumber(data).then((res) {
+        authData.phoneNumber = phoneTextControl.text;
+        authData.countryCode = countryCode;
+        authData.email = emailTextControl.text;
+        authData.socialToken = paramArguments['token'];
+        authData.socialSiteId = paramArguments['social_site_id'];
+        authData.socialType = paramArguments['social_type'];
+
+        setState(() {});
+        authData.printData();
+        if (res['success'] == false) {
+          showValidationDialog(context, res['message']);
+        } else {
+          Provider.of<UserProvider>(context, listen: false)
+              .verifyPhone(context, phoneTextControl.text);
+          print(" 7777${res['success']}");
+        }
+      });
     }
   }
 
@@ -96,15 +126,24 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
     print('ARGUE 1 ******************       $arguments');
     try {
       print('ARGUE 2 /////////////////////////    $arguments');
-      if (arguments.isNotEmpty && arguments['email'] != '') this.emailTextControl.text = arguments['email'];
-      if (arguments.isNotEmpty && arguments['phone'] != null) this.phoneTextControl.text = arguments['phone'];
+      if (arguments.isNotEmpty && arguments['email'] != '')
+        this.emailTextControl.text = arguments['email'];
+      if (arguments.isNotEmpty && arguments['phone'] != null)
+        this.phoneTextControl.text = arguments['phone'];
       setState(() {
+        emailTextControl.text = arguments['email'];
+        print(
+            'ARGUE +++++++++ /////////////////////////    ${emailTextControl.text}');
         paramArguments = arguments;
-        if (arguments.isNotEmpty && arguments['email'] != '' && arguments['email'] != null)
+        if (arguments.isNotEmpty &&
+            arguments['email'] != '' &&
+            arguments['email'] != null)
           isSocialEmail = true;
         else
           isSocialEmail = false;
-        if (arguments.isNotEmpty && arguments['phone'] != '' && arguments['phone'] != null)
+        if (arguments.isNotEmpty &&
+            arguments['phone'] != '' &&
+            arguments['phone'] != null)
           isSocialPhone = true;
         else
           isSocialPhone = false;
@@ -132,7 +171,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
         child: SingleChildScrollView(
           child: Container(
             alignment: Alignment.topCenter,
-            //height: Responsive.height(100, context),
+            height: Responsive.height(100, context),
             color: Colors.transparent,
             child: Stack(
               children: <Widget>[
@@ -142,7 +181,10 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
-                Positioned(left: 25, top: SizeConfig.blockSizeVertical * 8, child: backArrowCustom()),
+                Positioned(
+                    left: 25,
+                    top: SizeConfig.blockSizeVertical * 8,
+                    child: backArrowCustom()),
                 Positioned(
                   top: SizeConfig.blockSizeVertical * 18,
                   left: SizeConfig.blockSizeHorizontal * 28,
@@ -223,275 +265,444 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                 return ListView(
                                   children: <Widget>[
                                     if (isSocialEmail)
-                                      Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                        Container(
-                                          width: constraints.maxWidth * 0.6,
-                                          height: constraints.maxHeight * 0.06,
-                                          margin: EdgeInsets.fromLTRB(0.0, constraints.maxHeight * 0.01, 0.0, 0.0),
-                                          child: FittedBox(
-                                            fit: BoxFit.contain,
-                                            child: Consumer<UserProvider>(
-                                              builder: (context, provider, child) => provider.notification,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          "SignUp With " + (paramArguments.isEmpty ? 'Social Site' : (capitalize(paramArguments['social_type']))),
-                                          style: AppTextStyle.titleStyle,
-                                        ),
-                                        SizedBox(height: 20),
-                                        if (!isSocialPhone)
-                                          Container(
-                                            alignment: Alignment.center,
-                                            width: constraints.maxWidth * 0.92,
-                                            margin: EdgeInsets.only(bottom: 2 * SizeConfig.blockSizeVertical),
-                                            child: Text(
-                                              " Please enter mobile number to complete registration.",
-                                              style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        CustomTextField(
-                                          label: 'Enter email',
-                                          // prefixIcon: Icon(Icons.mail,
-                                          //     color: Dark, size: 20),
-                                          validator: (value) {
-                                            email = value!.trim();
-                                            return Validate.validateEmail(value);
-                                          },
-                                          onFieldSubmitted: (_) => setFocus(context, focusNode: _phoneFocusNode),
-                                          focusNode: _emailFocusNode,
-                                          enabled: !isSocialEmail,
-                                          keyboardType: TextInputType.emailAddress,
-                                          textInputAction: TextInputAction.next,
-                                        ),
-                                        // Container(
-                                        //   width:
-                                        //       SizeConfig.blockSizeHorizontal *
-                                        //           80,
-                                        //   margin: EdgeInsets.only(
-                                        //     top: SizeConfig.blockSizeVertical *
-                                        //         1,
-                                        //   ),
-                                        //   // width: constraints.maxWidth * 0.9,
-                                        //   // margin: EdgeInsets.fromLTRB(
-                                        //   //     0.0,
-                                        //   //     constraints.maxHeight * 0.02,
-                                        //   //     0.0,
-                                        //   //     0.0),
-                                        //   child: TextFormField(
-                                        //     controller: emailTextControl,
-                                        //     decoration: InputDecoration(
-                                        //       contentPadding:
-                                        //           EdgeInsets.symmetric(
-                                        //               vertical: constraints
-                                        //                       .maxHeight *
-                                        //                   0.01),
-                                        //       border: OutlineInputBorder(
-                                        //         borderRadius: BorderRadius.all(
-                                        //             Radius.circular(
-                                        //                 constraints.maxHeight)),
-                                        //         borderSide: BorderSide(
-                                        //             color: Dark,
-                                        //             width:
-                                        //                 constraints.maxHeight),
-                                        //       ),
-                                        //       enabledBorder: OutlineInputBorder(
-                                        //         borderRadius: BorderRadius.all(
-                                        //             Radius.circular(
-                                        //                 constraints.maxHeight)),
-                                        //         borderSide: BorderSide(
-                                        //             color: Dark, width: 2),
-                                        //       ),
-                                        //       disabledBorder:
-                                        //           OutlineInputBorder(
-                                        //         borderRadius: BorderRadius.all(
-                                        //             Radius.circular(
-                                        //                 constraints.maxHeight)),
-                                        //         borderSide: BorderSide(
-                                        //             color: Dark, width: 2),
-                                        //       ),
-                                        //       labelText: 'Enter email',
-                                        //       errorStyle: TextStyle(
-                                        //         fontSize:
-                                        //             constraints.maxWidth * 0.04,
-                                        //         decorationColor: Dark,
-                                        //       ),
-                                        //       prefixIcon: Icon(
-                                        //         Icons.mail,
-                                        //         color: Dark,
-                                        //         size: 20,
-                                        //       ),
-                                        //       errorBorder: OutlineInputBorder(
-                                        //         borderRadius: BorderRadius.all(
-                                        //             Radius.circular(
-                                        //                 constraints.maxHeight)),
-                                        //         borderSide: BorderSide(
-                                        //             color: Dark, width: 2),
-                                        //       ),
-                                        //       focusedErrorBorder:
-                                        //           OutlineInputBorder(
-                                        //         borderRadius: BorderRadius.all(
-                                        //             Radius.circular(
-                                        //                 constraints.maxHeight)),
-                                        //         borderSide: BorderSide(
-                                        //             color: Dark, width: 2),
-                                        //       ),
-                                        //     ),
-                                        //     style: TextStyle(
-                                        //         fontSize: constraints.maxWidth *
-                                        //             0.05),
-                                        //     validator: (value) {
-                                        //       email = value!.trim();
-                                        //       return Validate.validateEmail(
-                                        //           value);
-                                        //     },
-                                        //     onFieldSubmitted: (_) => setFocus(
-                                        //         context,
-                                        //         focusNode: _phoneFocusNode),
-                                        //     focusNode: _emailFocusNode,
-                                        //     enabled: !isSocialEmail,
-                                        //     keyboardType:
-                                        //         TextInputType.emailAddress,
-                                        //     textInputAction:
-                                        //         TextInputAction.next,
-                                        //   ),
-                                        // ),
-                                        Container(
-                                          // width: SizeConfig
-                                          //         .blockSizeHorizontal *
-                                          //     80,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical * 1,
-                                          ),
-                                          child: IntlPhoneField(
-                                            autofocus: false,
-                                            textAlign: TextAlign.left,
-                                            dropdownIcon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
-                                            dropdownIconPosition: IconPosition.trailing,
-                                            flagsButtonMargin: EdgeInsets.only(left: 10),
-                                            //disableLengthCheck: true,
-                                            autovalidateMode: AutovalidateMode.disabled,
-                                            //disableLengthCheck: true,
-                                            controller: phoneTextControl,
-                                            focusNode: _phoneFocusNode,
-                                            cursorColor: Dark,
-
-                                            textInputAction: TextInputAction.next,
-                                            decoration: InputDecoration(
-                                              counterText: "",
-                                              contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
-                                              ),
-                                              enabledBorder:
-                                                  OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
-                                              disabledBorder:
-                                                  OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
-                                              errorBorder:
-                                                  OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1)),
-                                              focusColor: Dark,
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
-                                              ),
-                                              focusedErrorBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                borderSide: BorderSide(color: AppColors.black.withOpacity(0.5), width: 1.1),
-                                              ),
-                                              hintStyle: AppTextStyle.disStyle.copyWith(color: AppColors.grey, fontWeight: FontWeight.w400),
-
-                                              hintText: 'Enter Mobile Number',
-                                              errorStyle: AppTextStyle.textStyle.copyWith(color: AppColors.red1),
-
-                                              floatingLabelStyle: TextStyle(color: Dark),
-                                              // errorStyle: TextStyle(
-                                              //     fontSize: constraints.maxWidth * 0.05),
-                                            ),
-                                            initialCountryCode: 'GB',
-                                            // showCountryFlag: false,
-                                            keyboardType: TextInputType.text,
-                                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                                            style: AppTextStyle.textStyle,
-                                            onSubmitted: (_) {
-                                              setFocus(context, focusNode: null);
-                                              submit();
-                                            },
-                                            // onSubmitted: (_) {
-                                            //   setFocus(context, focusNode: _addressFocusNode);
-                                            // },
-                                            onChanged: (phone) {
-                                              print(phone);
-                                              setState(() {
-                                                mobile = phone.completeNumber;
-                                                phoneTextControl.selection = TextSelection.fromPosition(TextPosition(offset: phoneTextControl.text.length));
-                                                countryCode = phone.countryCode;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(height: 20),
-                                        Provider.of<UserProvider>(context).status == Status.Authenticating
-                                            ? Center(child: CircularProgressIndicator())
-                                            : Padding(
-                                                padding: EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 10),
-                                                child: CustomButton(
-                                                  padding: EdgeInsets.symmetric(vertical: 12),
-                                                  title: 'SignUp',
-                                                  onTap: submit,
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: constraints.maxWidth * 0.6,
+                                              height:
+                                                  constraints.maxHeight * 0.06,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0.0,
+                                                  constraints.maxHeight * 0.01,
+                                                  0.0,
+                                                  0.0),
+                                              child: FittedBox(
+                                                fit: BoxFit.contain,
+                                                child: Consumer<UserProvider>(
+                                                  builder: (context, provider,
+                                                          child) =>
+                                                      provider.notification,
                                                 ),
                                               ),
-                                      ]),
+                                            ),
+                                            Text(
+                                              "SignUp With " +
+                                                  (paramArguments.isEmpty
+                                                      ? 'Social Site'
+                                                      : (capitalize(
+                                                          paramArguments[
+                                                              'social_type']))),
+                                              style: AppTextStyle.titleStyle,
+                                            ),
+                                            SizedBox(height: 20),
+                                            if (!isSocialPhone)
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width:
+                                                    constraints.maxWidth * 0.92,
+                                                margin: EdgeInsets.only(
+                                                    bottom: 2 *
+                                                        SizeConfig
+                                                            .blockSizeVertical),
+                                                child: Text(
+                                                  " Please enter mobile number to complete registration.",
+                                                  style: AppTextStyle.disStyle
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            CustomTextField(
+                                              label: 'Enter email',
+                                              controller: emailTextControl,
+                                              // prefixIcon: Icon(Icons.mail,
+                                              //     color: Dark, size: 20),
+                                              validator: (value) {
+                                                email = value!.trim();
+                                                return Validate.validateEmail(
+                                                    value);
+                                              },
+                                              onFieldSubmitted: (_) => setFocus(
+                                                  context,
+                                                  focusNode: _phoneFocusNode),
+                                              focusNode: _emailFocusNode,
+                                              enabled: !isSocialEmail,
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                            ),
+                                            // Container(
+                                            //   width:
+                                            //       SizeConfig.blockSizeHorizontal *
+                                            //           80,
+                                            //   margin: EdgeInsets.only(
+                                            //     top: SizeConfig.blockSizeVertical *
+                                            //         1,
+                                            //   ),
+                                            //   // width: constraints.maxWidth * 0.9,
+                                            //   // margin: EdgeInsets.fromLTRB(
+                                            //   //     0.0,
+                                            //   //     constraints.maxHeight * 0.02,
+                                            //   //     0.0,
+                                            //   //     0.0),
+                                            //   child: TextFormField(
+                                            //     controller: emailTextControl,
+                                            //     decoration: InputDecoration(
+                                            //       contentPadding:
+                                            //           EdgeInsets.symmetric(
+                                            //               vertical: constraints
+                                            //                       .maxHeight *
+                                            //                   0.01),
+                                            //       border: OutlineInputBorder(
+                                            //         borderRadius: BorderRadius.all(
+                                            //             Radius.circular(
+                                            //                 constraints.maxHeight)),
+                                            //         borderSide: BorderSide(
+                                            //             color: Dark,
+                                            //             width:
+                                            //                 constraints.maxHeight),
+                                            //       ),
+                                            //       enabledBorder: OutlineInputBorder(
+                                            //         borderRadius: BorderRadius.all(
+                                            //             Radius.circular(
+                                            //                 constraints.maxHeight)),
+                                            //         borderSide: BorderSide(
+                                            //             color: Dark, width: 2),
+                                            //       ),
+                                            //       disabledBorder:
+                                            //           OutlineInputBorder(
+                                            //         borderRadius: BorderRadius.all(
+                                            //             Radius.circular(
+                                            //                 constraints.maxHeight)),
+                                            //         borderSide: BorderSide(
+                                            //             color: Dark, width: 2),
+                                            //       ),
+                                            //       labelText: 'Enter email',
+                                            //       errorStyle: TextStyle(
+                                            //         fontSize:
+                                            //             constraints.maxWidth * 0.04,
+                                            //         decorationColor: Dark,
+                                            //       ),
+                                            //       prefixIcon: Icon(
+                                            //         Icons.mail,
+                                            //         color: Dark,
+                                            //         size: 20,
+                                            //       ),
+                                            //       errorBorder: OutlineInputBorder(
+                                            //         borderRadius: BorderRadius.all(
+                                            //             Radius.circular(
+                                            //                 constraints.maxHeight)),
+                                            //         borderSide: BorderSide(
+                                            //             color: Dark, width: 2),
+                                            //       ),
+                                            //       focusedErrorBorder:
+                                            //           OutlineInputBorder(
+                                            //         borderRadius: BorderRadius.all(
+                                            //             Radius.circular(
+                                            //                 constraints.maxHeight)),
+                                            //         borderSide: BorderSide(
+                                            //             color: Dark, width: 2),
+                                            //       ),
+                                            //     ),
+                                            //     style: TextStyle(
+                                            //         fontSize: constraints.maxWidth *
+                                            //             0.05),
+                                            //     validator: (value) {
+                                            //       email = value!.trim();
+                                            //       return Validate.validateEmail(
+                                            //           value);
+                                            //     },
+                                            //     onFieldSubmitted: (_) => setFocus(
+                                            //         context,
+                                            //         focusNode: _phoneFocusNode),
+                                            //     focusNode: _emailFocusNode,
+                                            //     enabled: !isSocialEmail,
+                                            //     keyboardType:
+                                            //         TextInputType.emailAddress,
+                                            //     textInputAction:
+                                            //         TextInputAction.next,
+                                            //   ),
+                                            // ),
+                                            Container(
+                                              // width: SizeConfig
+                                              //         .blockSizeHorizontal *
+                                              //     80,
+                                              margin: EdgeInsets.only(
+                                                top: SizeConfig
+                                                        .blockSizeVertical *
+                                                    1,
+                                              ),
+                                              child: IntlPhoneField(
+                                                autofocus: false,
+                                                textAlign: TextAlign.left,
+                                                dropdownIcon: Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    color: Colors.black),
+                                                dropdownIconPosition:
+                                                    IconPosition.trailing,
+                                                flagsButtonMargin:
+                                                    EdgeInsets.only(left: 10),
+                                                //disableLengthCheck: true,
+                                                autovalidateMode:
+                                                    AutovalidateMode.disabled,
+                                                //disableLengthCheck: true,
+                                                controller: phoneTextControl,
+                                                focusNode: _phoneFocusNode,
+                                                cursorColor: Dark,
+
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                decoration: InputDecoration(
+                                                  counterText: "",
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 20),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                    borderSide: BorderSide(
+                                                        color: AppColors.black
+                                                            .withOpacity(0.5),
+                                                        width: 1.1),
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          borderSide: BorderSide(
+                                                              color: AppColors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.1)),
+                                                  disabledBorder:
+                                                      OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          borderSide: BorderSide(
+                                                              color: AppColors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.1)),
+                                                  errorBorder: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      borderSide: BorderSide(
+                                                          color: AppColors.black
+                                                              .withOpacity(0.5),
+                                                          width: 1.1)),
+                                                  focusColor: Dark,
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                    borderSide: BorderSide(
+                                                        color: AppColors.black
+                                                            .withOpacity(0.5),
+                                                        width: 1.1),
+                                                  ),
+                                                  focusedErrorBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                    borderSide: BorderSide(
+                                                        color: AppColors.black
+                                                            .withOpacity(0.5),
+                                                        width: 1.1),
+                                                  ),
+                                                  hintStyle: AppTextStyle
+                                                      .disStyle
+                                                      .copyWith(
+                                                          color: AppColors.grey,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+
+                                                  hintText:
+                                                      'Enter Mobile Number',
+                                                  errorStyle: AppTextStyle
+                                                      .textStyle
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.red1),
+
+                                                  floatingLabelStyle:
+                                                      TextStyle(color: Dark),
+                                                  // errorStyle: TextStyle(
+                                                  //     fontSize: constraints.maxWidth * 0.05),
+                                                ),
+                                                initialCountryCode: 'GB',
+                                                // showCountryFlag: false,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                inputFormatters: <TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                style: AppTextStyle.textStyle,
+                                                onSubmitted: (_) {
+                                                  setFocus(context,
+                                                      focusNode: null);
+                                                  submit();
+                                                },
+                                                // onSubmitted: (_) {
+                                                //   setFocus(context, focusNode: _addressFocusNode);
+                                                // },
+                                                onChanged: (phone) {
+                                                  print(phone);
+                                                  setState(() {
+                                                    mobile =
+                                                        phone.completeNumber;
+                                                    phoneTextControl.selection =
+                                                        TextSelection.fromPosition(
+                                                            TextPosition(
+                                                                offset:
+                                                                    phoneTextControl
+                                                                        .text
+                                                                        .length));
+                                                    countryCode =
+                                                        phone.countryCode;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            SizedBox(height: 20),
+                                            Provider.of<UserProvider>(context)
+                                                        .status ==
+                                                    Status.Authenticating
+                                                ? Center(
+                                                    child:
+                                                        CircularProgressIndicator())
+                                                : Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 20,
+                                                        left: 30,
+                                                        right: 30,
+                                                        bottom: 10),
+                                                    child: CustomButton(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 12),
+                                                      title: 'SignUp',
+                                                      onTap: submit,
+                                                    ),
+                                                  ),
+                                          ]),
                                     if (!isSocialEmail)
                                       Column(
                                         children: [
                                           Container(
                                               alignment: Alignment.center,
-                                              width: constraints.maxWidth * 0.90,
-                                              margin: EdgeInsets.only(bottom: 2 * SizeConfig.blockSizeVertical),
+                                              width:
+                                                  constraints.maxWidth * 0.90,
+                                              margin: EdgeInsets.only(
+                                                  bottom: 2 *
+                                                      SizeConfig
+                                                          .blockSizeVertical),
                                               child: RichText(
                                                 text: TextSpan(
                                                   text: 'Note:',
-                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 2 * SizeConfig.blockSizeVertical, color: Colors.redAccent),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 2 *
+                                                          SizeConfig
+                                                              .blockSizeVertical,
+                                                      color: Colors.redAccent),
                                                   children: <TextSpan>[
                                                     TextSpan(
                                                         text: " Your " +
-                                                            (paramArguments == null ? 'Social' : paramArguments['social_type']) +
+                                                            (paramArguments ==
+                                                                    null
+                                                                ? 'Social'
+                                                                : paramArguments[
+                                                                    'social_type']) +
                                                             " privacy setting are not allowing login using " +
-                                                            (paramArguments == null ? 'social site' : paramArguments['social_type']) +
+                                                            (paramArguments ==
+                                                                    null
+                                                                ? 'social site'
+                                                                : paramArguments[
+                                                                    'social_type']) +
                                                             ". Please complete signup procedure to use the app.",
-                                                        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 2 * SizeConfig.blockSizeVertical, color: Colors.grey)),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            fontSize: 2 *
+                                                                SizeConfig
+                                                                    .blockSizeVertical,
+                                                            color:
+                                                                Colors.grey)),
                                                   ],
                                                 ),
                                               )),
                                           Container(
-                                            height: constraints.maxHeight * 0.11,
+                                            height:
+                                                constraints.maxHeight * 0.11,
                                             width: constraints.maxWidth * 0.65,
-                                            margin: EdgeInsets.only(top: constraints.maxHeight * 0.05, bottom: constraints.maxHeight * 0.05),
+                                            margin: EdgeInsets.only(
+                                                top: constraints.maxHeight *
+                                                    0.05,
+                                                bottom: constraints.maxHeight *
+                                                    0.05),
                                             child: Material(
                                               borderRadius: BorderRadius.only(
-                                                bottomRight: Radius.circular(constraints.maxHeight * 0.5),
-                                                topRight: Radius.circular(constraints.maxHeight * 0.5),
-                                                bottomLeft: Radius.circular(constraints.maxHeight * 0.5),
+                                                bottomRight: Radius.circular(
+                                                    constraints.maxHeight *
+                                                        0.5),
+                                                topRight: Radius.circular(
+                                                    constraints.maxHeight *
+                                                        0.5),
+                                                bottomLeft: Radius.circular(
+                                                    constraints.maxHeight *
+                                                        0.5),
                                               ),
-                                              color: Color.fromRGBO(14, 155, 207, 1.0),
+                                              color: Color.fromRGBO(
+                                                  14, 155, 207, 1.0),
                                               elevation: 5.0,
                                               child: MaterialButton(
                                                 onPressed: goForAnotherMethod,
                                                 child: LayoutBuilder(
-                                                  builder: (context, constraints) {
+                                                  builder:
+                                                      (context, constraints) {
                                                     return Container(
                                                       //color: Colors.black26,
-                                                      width: constraints.maxWidth * 0.95,
+                                                      width:
+                                                          constraints.maxWidth *
+                                                              0.95,
                                                       child: Text(
                                                         'Use Another Method',
-                                                        textAlign: TextAlign.center,
+                                                        textAlign:
+                                                            TextAlign.center,
                                                         style: TextStyle(
                                                           fontFamily: 'Poppins',
-                                                          fontSize: 2 * SizeConfig.blockSizeVertical,
-                                                          fontWeight: FontWeight.w700,
-                                                          color: Color.fromRGBO(255, 255, 255, 1.0),
+                                                          fontSize: 2 *
+                                                              SizeConfig
+                                                                  .blockSizeVertical,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: Color.fromRGBO(
+                                                              255,
+                                                              255,
+                                                              255,
+                                                              1.0),
                                                         ),
                                                       ),
                                                     );

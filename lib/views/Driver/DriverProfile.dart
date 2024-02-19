@@ -176,7 +176,7 @@ class _driverProfile extends State<DriverProfile> {
     checkInternet();
     showLoader(loaderMessage);
     getUserDetail().then((user_id) {
-      getProfileDetail().then((records) {
+      getProfileDetail().then((records) async {
         Map userProfileDetail = records;
         log("RECORDSSSS **************            $records");
         setState(() {});
@@ -228,7 +228,10 @@ class _driverProfile extends State<DriverProfile> {
           });
         }
         if (userProfileDetail['img_url'].toString().isNotEmpty) {
-          // licenceBase64 = "${api}${userProfileDetail['img_url']}";
+          licenceBase64 = "${api}${userProfileDetail['img_url']}";
+          // var pref = await SharedPreferences.getInstance();
+          // var image = pref.getString("image");
+          // licenceBase64 = image.toString();
           // final bytes = ;
           // String base64_ = base64Encode(bytes, getImageExtension(pickedFile.path));
           setState(() {});
@@ -909,6 +912,8 @@ class _driverProfile extends State<DriverProfile> {
         await ImagePicker().getImage(source: ImageSource.gallery);
     final bytes = Io.File(pickedFile!.path).readAsBytesSync();
     String base64_ = base64Encode(bytes, getImageExtension(pickedFile.path));
+    // var pref = await SharedPreferences.getInstance();
+    // pref.setString("image", base64_);
     this.setState(() {
       licenceBase64 = base64_;
       license = File(pickedFile.path);
@@ -1002,8 +1007,9 @@ class _driverProfile extends State<DriverProfile> {
         if (licenceBase64.isEmpty) ...{"license_photo_remove": "yes"},
       };
       print('Licence Expiry Date---------- ${jsonEncode(formData)}');
-      log('WWWWWWWWWW ${licenceBase64}');
       Map response = await api_services.updateProfileDetail(formData);
+      log('WWWWWWWWWW ${licenceBase64}');
+
       if (response['message'] != null) {
         Toast.show(response['message'],
             duration: Toast.lengthLong, gravity: Toast.bottom);

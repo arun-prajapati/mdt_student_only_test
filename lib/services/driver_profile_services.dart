@@ -10,7 +10,10 @@ class DriverProfileServices {
   late List userData;
 
   Future<Map> getProfileDetail(int _userType, int _userId) async {
-    String URL = "$api/api/profile?id=" + _userId.toString() + "&user_type=" + _userType.toString();
+    String URL = "$api/api/profile?id=" +
+        _userId.toString() +
+        "&user_type=" +
+        _userType.toString();
     final url = Uri.parse(URL);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
@@ -36,16 +39,19 @@ class DriverProfileServices {
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
     print('---- URL ---- $api/api/update-profile');
+    print('---- RESPONSE ---- ${response.body}');
     return data;
   }
 
   Future<Map> changePassword(Map formData) async {
-    final url = Uri.parse("$api/api/");
+    final url = Uri.parse("$api/api/save-password");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {'token': token};
     final response = await http.post(url, headers: header, body: formData);
+    print('---- BODY ---- ${jsonEncode(formData)}');
     print('---- URL ---- $api/api/save-password');
+    print('---- RESPONSE ---- ${response.body}');
     data = jsonDecode(response.body);
     return data;
   }

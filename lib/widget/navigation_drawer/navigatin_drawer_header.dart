@@ -44,10 +44,10 @@ class NavigationDrawerHeader extends StatelessWidget {
           stops: [0.0, 1.0],
         ),
         // color: Color(0xff76DECD),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
+        // borderRadius: BorderRadius.only(
+        // topLeft: Radius.circular(20),
+        // topRight: Radius.circular(20),
+        // ),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
         return Stack(

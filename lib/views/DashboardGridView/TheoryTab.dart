@@ -44,28 +44,50 @@ class _TheoryTabState extends State<TheoryTab> {
   int seledtedCategoryId = 0;
   List categories = [];
   bool isAllCategoriesSelected = true;
-  TextStyle _categoryTextStyle = AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600);
+  TextStyle _categoryTextStyle =
+      AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600);
   final NavigationService _navigationService = locator<NavigationService>();
   late Future<List>? _recentBooking = null;
   final BookingService _bookingService = BookingService();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  final PractiseTheoryTestServices test_api_services = new PractiseTheoryTestServices();
+  final PractiseTheoryTestServices test_api_services =
+      new PractiseTheoryTestServices();
   Map? walletDetail = null;
   final PaymentService _paymentService = new PaymentService();
   int? userId;
   String userName = '';
   bool isSubscribed = true;
   List cards = [
-    {'icon': AppImages.aiImage, 'title': 'AI Learn', 'subTitle': 'Study theory test topics', 'type': 'aiLearn', 'buttonText': 'Learn'},
-    {'icon': AppImages.practice, 'title': 'Practice', 'subTitle': 'Understand the questions you will likely be asked in DVSA theory test', 'type': 'theoryTest', 'buttonText': 'Start'},
+    {
+      'icon': AppImages.aiImage,
+      'title': 'AI Learn',
+      'subTitle': 'Study theory test topics',
+      'type': 'aiLearn',
+      'buttonText': 'Learn'
+    },
+    {
+      'icon': AppImages.practice,
+      'title': 'Practice',
+      'subTitle':
+          'Understand the questions you will likely be asked in DVSA theory test',
+      'type': 'theoryTest',
+      'buttonText': 'Start'
+    },
     {
       'icon': AppImages.hazards,
       'title': 'Practice Hazard Perception',
-      'subTitle': 'Understand the questions you will likely be asked in a hazard perception test',
+      'subTitle':
+          'Understand the questions you will likely be asked in a hazard perception test',
       'type': 'hazard',
       'buttonText': 'Start'
     },
-    {'icon': AppImages.dvsaTest, 'title': 'DVSA Mock Theory Test', 'subTitle': 'Takes you to DVSA Website', 'type': 'dvsaMock', 'buttonText': 'Start test'}
+    {
+      'icon': AppImages.dvsaTest,
+      'title': 'DVSA Mock Theory Test',
+      'subTitle': 'Takes you to DVSA Website',
+      'type': 'dvsaMock',
+      'buttonText': 'Start test'
+    }
   ];
   late List categories_list;
   List _resourceCards = [
@@ -94,7 +116,8 @@ class _TheoryTabState extends State<TheoryTab> {
   ];
 
   Future<Map> getUserDetail() async {
-    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response =
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
 
     return response;
   }
@@ -110,6 +133,9 @@ class _TheoryTabState extends State<TheoryTab> {
     var data = sharedPref.getBool('theoryTestPractice');
 
     if (data == null) {
+      if (context.read<UserProvider>().googleNavigate) {
+        Navigator.of(context).pop();
+      }
       theoryTestPractice();
     }
     log('SharedPref Data $data');
@@ -280,47 +306,63 @@ class _TheoryTabState extends State<TheoryTab> {
                       showModalBottomSheet(
                           isDismissible: false,
                           isScrollControlled: true,
-                          constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height * 0.80),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                          constraints: BoxConstraints.expand(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.80),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0)),
                           backgroundColor: Colors.white,
                           context: context,
                           builder: (context) {
                             return Container(
                               height: Responsive.height(55, context),
                               padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
-                              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('', style: _categoryTextStyle),
-                                      Text('${_userName}\'s Progress:', style: _categoryTextStyle),
-                                      InkWell(onTap: () => Navigator.pop(context), child: Icon(Icons.close, color: AppColors.black)),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: List.generate(categories.length, (index) {
-                                        // print("CATEGORY LIST :: ${categories_list}");
-                                        print("CATEGORY :: ${categories}");
-                                        return Column(
-                                          children: [
-                                            LinearPercentIndicatorWidget(
-                                              perTitle: categories[index]["theory_progress"].toDouble(),
-                                              // perTitle: "${((() * 100).toStringAsFixed(0))}%",
-                                              textTitle: categories[index]["name"],
-                                            )
-                                          ],
-                                        );
-                                      }),
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('', style: _categoryTextStyle),
+                                          Text('${_userName}\'s Progress:',
+                                              style: _categoryTextStyle),
+                                          InkWell(
+                                              onTap: () =>
+                                                  Navigator.pop(context),
+                                              child: Icon(Icons.close,
+                                                  color: AppColors.black)),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ]),
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: List.generate(
+                                              categories.length, (index) {
+                                            // print("CATEGORY LIST :: ${categories_list}");
+                                            print("CATEGORY :: ${categories}");
+                                            return Column(
+                                              children: [
+                                                LinearPercentIndicatorWidget(
+                                                  perTitle: categories[index]
+                                                          ["theory_progress"]
+                                                      .toDouble(),
+                                                  // perTitle: "${((() * 100).toStringAsFixed(0))}%",
+                                                  textTitle: categories[index]
+                                                      ["name"],
+                                                )
+                                              ],
+                                            );
+                                          }),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
                             );
                           });
 /*
@@ -340,10 +382,13 @@ class _TheoryTabState extends State<TheoryTab> {
                       radius: 78,
                       lineWidth: 12,
                       circularStrokeCap: CircularStrokeCap.round,
-                      linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.centerRight, colors: [
-                        Color(0xff78E6C9),
-                        Color(0xff0E9BD0),
-                      ]),
+                      linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color(0xff78E6C9),
+                            Color(0xff0E9BD0),
+                          ]),
                       percent: _progressValue,
                       //progressColor: AppColors.primary,
                       center: Column(
@@ -446,7 +491,8 @@ class _TheoryTabState extends State<TheoryTab> {
                   child: Text(
                     'Theory Learning \n Progress',
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+                    style: AppTextStyle.textStyle
+                        .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
                   ),
                 ),
                 SizedBox(height: 15),
@@ -465,7 +511,8 @@ class _TheoryTabState extends State<TheoryTab> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.8),
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.8),
                       // childAspectRatio: 2 / 3,
                     ),
                     //shrinkWrap: true,
@@ -478,18 +525,24 @@ class _TheoryTabState extends State<TheoryTab> {
                           if (cards[index]["type"] == 'theoryTest') {
                             context.read<UserProvider>().changeView = true;
                             setState(() {});
-                            print("auth_services.changeView ${context.read<UserProvider>().changeView}");
+                            print(
+                                "auth_services.changeView ${context.read<UserProvider>().changeView}");
                             if (context.read<UserProvider>().changeView) {
                               // getCategoriesFromApi().then((response_list) {
                               //  responseList = response_list;
                               //  print("------------ responseList $responseList");
                               //  setState(() {});
                               // });
-                              showDialog(useSafeArea: false, barrierDismissible: false, context: context, builder: (context) => PracticeTheoryTest());
+                              showDialog(
+                                  useSafeArea: false,
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) => PracticeTheoryTest());
                               // _navigationService
                               //     .navigateTo(routes.PracticeTheoryTestRoute);
                             } else {
-                              _navigationService.navigateTo(routes.PracticeTheoryTestRoute);
+                              _navigationService
+                                  .navigateTo(routes.PracticeTheoryTestRoute);
                             }
                             /*showDialog(
                                     context: context,
@@ -568,7 +621,8 @@ class _TheoryTabState extends State<TheoryTab> {
                                       // return
                                     });*/
                           } else if (cards[index]["type"] == 'hazard') {
-                            _navigationService.navigateTo(routes.HazardPerceptionOptionsRoute);
+                            _navigationService.navigateTo(
+                                routes.HazardPerceptionOptionsRoute);
                           } else if (cards[index]["type"] == 'dvsaMock') {
                             Navigator.push(
                               context,
@@ -594,10 +648,13 @@ class _TheoryTabState extends State<TheoryTab> {
                           }
                         },
                         child: Container(
-                          padding: EdgeInsets.only(top: 12, bottom: 10, right: 12, left: 12),
+                          padding: EdgeInsets.only(
+                              top: 12, bottom: 10, right: 12, left: 12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: AppColors.borderblue.withOpacity(0.5), width: 1),
+                            border: Border.all(
+                                color: AppColors.borderblue.withOpacity(0.5),
+                                width: 1),
                           ),
                           // shape: RoundedRectangleBorder(
                           //     borderRadius: BorderRadius.circular(10)),
@@ -609,7 +666,8 @@ class _TheoryTabState extends State<TheoryTab> {
                               Expanded(
                                 flex: 0,
                                 child: Center(
-                                  child: Image.asset(cards[index]["icon"], height: 50),
+                                  child: Image.asset(cards[index]["icon"],
+                                      height: 50),
                                 ),
                               ),
                               SizedBox(height: 10),
@@ -648,7 +706,12 @@ class _TheoryTabState extends State<TheoryTab> {
                                 child: Text(
                                   cards[index]["subTitle"],
                                   maxLines: 4,
-                                  style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400, letterSpacing: 0.5, height: 1.2, fontSize: 11, overflow: TextOverflow.clip),
+                                  style: AppTextStyle.disStyle.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 0.5,
+                                      height: 1.2,
+                                      fontSize: 11,
+                                      overflow: TextOverflow.clip),
                                   softWrap: true,
                                   //  textAlign: TextAlign.justify,
                                 ),
@@ -682,7 +745,8 @@ class _TheoryTabState extends State<TheoryTab> {
                         //AppColors.blueGrad2,
                         AppColors.blueGrad1
                       ],
-                      style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 18),
+                      style: AppTextStyle.textStyle
+                          .copyWith(fontWeight: FontWeight.w500, fontSize: 18),
                     ),
                   ),
                 ),
@@ -698,22 +762,43 @@ class _TheoryTabState extends State<TheoryTab> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
-                      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.85),
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.85),
                     ),
                     itemCount: _resourceCards.length,
                     //shrinkWrap: true,
                     itemBuilder: (context, index) => Container(
-                      decoration: BoxDecoration(color: AppColors.bgColor, borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: AppColors.bgColor,
+                          borderRadius: BorderRadius.circular(15)),
                       child: Padding(
-                        padding: EdgeInsets.only(top: 15, bottom: 1, left: 15, right: 15),
+                        padding: EdgeInsets.only(
+                            top: 15, bottom: 1, left: 15, right: 15),
                         child: GestureDetector(
                           onTap: () {
-                            if (_resourceCards[index]["type"] == 'highwayCode') {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer('https://www.gov.uk/guidance/the-highway-code', 'Highway Code')));
-                            } else if (_resourceCards[index]["type"] == 'theoryTestGuidance') {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer('https://mockdrivingtest.com/static/practice-theory-test', 'Theory Test Guidance')));
+                            if (_resourceCards[index]["type"] ==
+                                'highwayCode') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WebViewContainer(
+                                          'https://www.gov.uk/guidance/the-highway-code',
+                                          'Highway Code')));
+                            } else if (_resourceCards[index]["type"] ==
+                                'theoryTestGuidance') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WebViewContainer(
+                                          'https://mockdrivingtest.com/static/practice-theory-test',
+                                          'Theory Test Guidance')));
                             } else {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer('https://www.gov.uk/book-theory-test', 'Book DVSA Theory Test')));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WebViewContainer(
+                                          'https://www.gov.uk/book-theory-test',
+                                          'Book DVSA Theory Test')));
                             }
                           },
                           child: Column(
@@ -724,14 +809,22 @@ class _TheoryTabState extends State<TheoryTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         flex: 2,
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 2),
-                                          child: Text(_resourceCards[index]["title"], style: AppTextStyle.textStyle.copyWith(height: 1.2, fontWeight: FontWeight.w500)
+                                          child: Text(
+                                              _resourceCards[index]["title"],
+                                              style: AppTextStyle.textStyle
+                                                  .copyWith(
+                                                      height: 1.2,
+                                                      fontWeight:
+                                                          FontWeight.w500)
                                               //overflow: TextOverflow.ellipsis,
                                               ),
                                         ),
@@ -741,13 +834,33 @@ class _TheoryTabState extends State<TheoryTab> {
                                         flex: 0,
                                         child: GestureDetector(
                                           onTap: () {
-                                            if (_resourceCards[index]["type"] == 'highwayCode') {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer('https://www.gov.uk/guidance/the-highway-code', 'Highway Code')));
-                                            } else if (_resourceCards[index]["type"] == 'theoryTestGuidance') {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(builder: (context) => WebViewContainer('https://mockdrivingtest.com/static/practice-theory-test', 'Theory Test Guidance')));
+                                            if (_resourceCards[index]["type"] ==
+                                                'highwayCode') {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WebViewContainer(
+                                                              'https://www.gov.uk/guidance/the-highway-code',
+                                                              'Highway Code')));
+                                            } else if (_resourceCards[index]
+                                                    ["type"] ==
+                                                'theoryTestGuidance') {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WebViewContainer(
+                                                              'https://mockdrivingtest.com/static/practice-theory-test',
+                                                              'Theory Test Guidance')));
                                             } else {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer('https://www.gov.uk/book-theory-test', 'Book DVSA Theory Test')));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WebViewContainer(
+                                                              'https://www.gov.uk/book-theory-test',
+                                                              'Book DVSA Theory Test')));
                                             }
                                           },
                                           child: Image.asset(
@@ -765,7 +878,12 @@ class _TheoryTabState extends State<TheoryTab> {
                                     child: Text(
                                       _resourceCards[index]["subTitle"],
                                       maxLines: 3,
-                                      style: AppTextStyle.disStyle.copyWith(fontWeight: FontWeight.w400, letterSpacing: 0.5, height: 1.2, fontSize: 11, overflow: TextOverflow.ellipsis),
+                                      style: AppTextStyle.disStyle.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 0.5,
+                                          height: 1.2,
+                                          fontSize: 11,
+                                          overflow: TextOverflow.ellipsis),
                                       softWrap: true,
                                     ),
                                   ),
@@ -944,7 +1062,8 @@ class _TheoryTabState extends State<TheoryTab> {
                 )),
             child: MCard.Card(
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               elevation: 0.0,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -952,7 +1071,12 @@ class _TheoryTabState extends State<TheoryTab> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                        alignment: Alignment.centerLeft, child: Text("Theory Test Practice Module", style: TextStyle(fontWeight: FontWeight.w700, fontSize: SizeConfig.blockSizeHorizontal * 4.5))),
+                        alignment: Alignment.centerLeft,
+                        child: Text("Theory Test Practice Module",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize:
+                                    SizeConfig.blockSizeHorizontal * 4.5))),
                     Container(
                       //width: constraints.maxWidth,
                       margin: EdgeInsets.only(top: 10),
@@ -962,7 +1086,9 @@ class _TheoryTabState extends State<TheoryTab> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(Icons.check_circle, size: SizeConfig.blockSizeHorizontal * 4, color: Colors.green),
+                              Icon(Icons.check_circle,
+                                  size: SizeConfig.blockSizeHorizontal * 4,
+                                  color: Colors.green),
                               SizedBox(width: 5),
                               Expanded(
                                 child: Text(
@@ -976,7 +1102,9 @@ class _TheoryTabState extends State<TheoryTab> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(Icons.check_circle, size: SizeConfig.blockSizeHorizontal * 4, color: Colors.green),
+                              Icon(Icons.check_circle,
+                                  size: SizeConfig.blockSizeHorizontal * 4,
+                                  color: Colors.green),
                               SizedBox(width: 5),
                               Expanded(
                                   child: Text(
@@ -1000,7 +1128,8 @@ class _TheoryTabState extends State<TheoryTab> {
                               // ),
                               SizedBox(width: 5),
                               Expanded(
-                                child: Text('The Only AI powered App In The Market'
+                                child: Text(
+                                    'The Only AI powered App In The Market'
                                     //"For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
                                     ),
                               )
@@ -1022,24 +1151,43 @@ class _TheoryTabState extends State<TheoryTab> {
                                     //
                                     loading(value: true);
                                     Stripe.publishableKey = stripePublic;
-                                    Map params = {'total_cost': walletDetail!['subscription_cost'], 'user_type': 2, 'parentPageName': "dvsaSubscriptionHome"};
+                                    Map params = {
+                                      'total_cost':
+                                          walletDetail!['subscription_cost'],
+                                      'user_type': 2,
+                                      'parentPageName': "dvsaSubscriptionHome"
+                                    };
                                     log("Called before payment");
                                     await _paymentService
-                                        .makePayment(amount: walletDetail!['subscription_cost'], currency: 'GBP', context: context, desc: 'DVSA Subscription by ${userName} (App)', metaData: params)
+                                        .makePayment(
+                                            amount: walletDetail![
+                                                'subscription_cost'],
+                                            currency: 'GBP',
+                                            context: context,
+                                            desc:
+                                                'DVSA Subscription by ${userName} (App)',
+                                            metaData: params)
                                         .then((value) => loading(value: false));
                                     log("Called after payment");
                                   },
                                   child: Container(
                                       // width: constraints.maxWidth * 0.8,
-                                      padding: EdgeInsets.symmetric(vertical: 12),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12),
                                       decoration: BoxDecoration(
                                         color: Dark,
-                                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
                                         "Buy now",
-                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: SizeConfig.blockSizeHorizontal * 4),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4),
                                       )))),
                         ),
                         SizedBox(width: 10),
@@ -1064,7 +1212,11 @@ class _TheoryTabState extends State<TheoryTab> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   "Cancel",
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: SizeConfig.blockSizeHorizontal * 4),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 4),
                                 ),
                               ),
                             ),
@@ -1091,5 +1243,6 @@ class Tabcardbottom {
   final String btn1;
   final VoidCallback onTapbtn1;
 
-  Tabcardbottom(this.heading1, this.imagepath, this.data, this.btn1, this.onTapbtn1);
+  Tabcardbottom(
+      this.heading1, this.imagepath, this.data, this.btn1, this.onTapbtn1);
 }

@@ -113,50 +113,6 @@ class _RegisterState extends State<Register> {
   // bool enableResend = false;
   // Timer? timer;
 
-  showValidationDialog(BuildContext context, String message) {
-    //print("valid");
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
-            content: Text(
-              message,
-              style: AppTextStyle.disStyle.copyWith(
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.5,
-                  color: AppColors.black,
-                  height: 1.3),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  if (Provider.of<UserProvider>(context, listen: false)
-                          .notification
-                          .text ==
-                      'Registration successful, please Login into your account.') {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => SignInForm(),
-                      ),
-                    );
-                  } else {
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Text(
-                  'Ok',
-                  style: AppTextStyle.textStyle.copyWith(
-                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
-                ),
-              ),
-            ],
-          );
-        });
-  }
-
   Future<void> submit() async {
     phoneIsEmpty = true;
     context.read<UserProvider>().isForgotPassword = false;
@@ -787,4 +743,48 @@ class RegisterHeaderPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
+}
+
+showValidationDialog(BuildContext context, String message) {
+  //print("valid");
+  return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
+          content: Text(
+            message,
+            style: AppTextStyle.disStyle.copyWith(
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.5,
+                color: AppColors.black,
+                height: 1.3),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (Provider.of<UserProvider>(context, listen: false)
+                        .notification
+                        .text ==
+                    'Registration successful, please Login into your account.') {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => SignInForm(),
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(
+                'Ok',
+                style: AppTextStyle.textStyle.copyWith(
+                    fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        );
+      });
 }
