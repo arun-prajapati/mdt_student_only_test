@@ -64,6 +64,7 @@ class _driverProfile extends State<DriverProfile> {
   String vehiclePreference = 'instructor';
   File? license;
   String licenceBase64 = '';
+  bool licenceBool = false;
   String? licenceHttpPath;
 
   // late GooglePlace googlePlace;
@@ -228,7 +229,7 @@ class _driverProfile extends State<DriverProfile> {
           });
         }
         if (userProfileDetail['img_url'].toString().isNotEmpty) {
-          licenceBase64 = "${api}${userProfileDetail['img_url']}";
+          // licenceBase64 = "${api}${userProfileDetail['img_url']}";
           // var pref = await SharedPreferences.getInstance();
           // var image = pref.getString("image");
           // licenceBase64 = image.toString();
@@ -811,6 +812,7 @@ class _driverProfile extends State<DriverProfile> {
                                                       license = null;
                                                       licenceHttpPath = null;
                                                       licenceBase64 = "";
+                                                      licenceBool = true;
                                                     })
                                                   },
                                                 ),
@@ -1004,7 +1006,7 @@ class _driverProfile extends State<DriverProfile> {
         'user_license_expiry':
             license_exp_date != null ? license_exp_date!.text : '',
         'license_photo': licenceBase64,
-        if (licenceBase64.isEmpty) ...{"license_photo_remove": "yes"},
+        if (licenceBool) ...{"license_photo_remove": "yes"},
       };
       print('Licence Expiry Date---------- ${jsonEncode(formData)}');
       Map response = await api_services.updateProfileDetail(formData);
