@@ -2,13 +2,17 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/custom_button.dart';
 import 'package:student_app/external.dart';
+import 'package:student_app/services/subsciption_provider.dart';
 import 'package:toast/toast.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
@@ -1069,126 +1073,135 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)), //this right here
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    begin: Alignment(0.0, -1.0),
-                    end: Alignment(0.0, 1.0),
-                    colors: [Dark, Light],
-                    stops: [0.0, 1.0],
-                  )),
-              // height: Responsive.height(25, context),
-              child: Padding(
-                padding: EdgeInsets.all(4),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            alignment: Alignment.topLeft,
-                            child: Text('Go For Premium !!!!',
-                                style: AppTextStyle.titleStyle)),
-                        SizedBox(height: 8),
-                        Text(
-                          'Get Premium service for getting AI data for this topic',
-                          style: AppTextStyle.disStyle.copyWith(
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.black),
-                        ),
-                        SizedBox(height: 18),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            // margin: const EdgeInsets.only(right: 10),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () async {
-                                  Navigator.of(context).pop();
-                                  showLoader("Loading");
-
-                                  Stripe.publishableKey = stripePublic;
-                                  Map params = {
-                                    'total_cost':
-                                        walletDetail!['subscription_cost'],
-                                    'user_type': 2,
-                                    'parentPageName': "dvsaSubscription"
-                                  };
-                                  dev.log("Called before payment");
-                                  await _paymentService
-                                      .makePayment(
-                                          amount: walletDetail![
-                                              'subscription_cost'],
-                                          currency: 'GBP',
-                                          context: context,
-                                          desc:
-                                              'DVSA Subscription by ${userName} (App)',
-                                          metaData: params)
-                                      .then((value) => closeLoader());
-                                  dev.log("Called after payment");
-                                },
-                                child: Container(
-                                    // width: constraints.maxWidth * 0.8,
-                                    padding: EdgeInsets.symmetric(vertical: 8),
-                                    decoration: BoxDecoration(
-                                      color: Dark,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5)),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Buy now",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  4),
-                                    )),
+          return PopScope(
+            canPop: false,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)), //this right here
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, -1.0),
+                      end: Alignment(0.0, 1.0),
+                      colors: [Dark, Light],
+                      stops: [0.0, 1.0],
+                    )),
+                // height: Responsive.height(25, context),
+                child: Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              alignment: Alignment.topLeft,
+                              child: Text('Go For Premium !!!!',
+                                  style: AppTextStyle.titleStyle)),
+                          SizedBox(height: 8),
+                          Text(
+                            'Get Premium service for getting AI data for this topic',
+                            style: AppTextStyle.disStyle.copyWith(
+                                fontWeight: FontWeight.w300,
+                                color: AppColors.black),
+                          ),
+                          SizedBox(height: 18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              // margin: const EdgeInsets.only(right: 10),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    // Navigator.of(context).pop();
+                                    // showLoader("Loading");
+                                    context
+                                        .read<SubscriptionProvider>()
+                                        .fetchOffer();
+                                    Stripe.publishableKey = stripePublic;
+                                    payWallBottomSheet();
+                                    // closeLoader();
+                                    // Map params = {
+                                    //   'total_cost':
+                                    //       walletDetail!['subscription_cost'],
+                                    //   'user_type': 2,
+                                    //   'parentPageName': "dvsaSubscription"
+                                    // };
+                                    // dev.log("Called before payment");
+                                    // await _paymentService
+                                    //     .makePayment(
+                                    //         amount: walletDetail![
+                                    //             'subscription_cost'],
+                                    //         currency: 'GBP',
+                                    //         context: context,
+                                    //         desc:
+                                    //             'DVSA Subscription by ${userName} (App)',
+                                    //         metaData: params)
+                                    //     .then((value) => closeLoader());
+                                    dev.log("Called after payment");
+                                  },
+                                  child: Container(
+                                      // width: constraints.maxWidth * 0.8,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: Dark,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Buy now",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4),
+                                      )),
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 18),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context, false);
-                                  //Provider.of<AuthProvider>(context, listen: false).logOut();
-                                  // _navigationService.navigateTo('/Authorization');
-                                },
-                                child: Container(
-                                    // width: constraints.maxWidth * 0.8,
-                                    padding: EdgeInsets.symmetric(vertical: 8),
-                                    decoration: BoxDecoration(
-                                      color: Dark,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5)),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Cancel",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  4),
-                                    )),
+                              SizedBox(width: 18),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context, false);
+                                    //Provider.of<AuthProvider>(context, listen: false).logOut();
+                                    // _navigationService.navigateTo('/Authorization');
+                                  },
+                                  child: Container(
+                                      // width: constraints.maxWidth * 0.8,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: Dark,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4),
+                                      )),
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      ],
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1197,6 +1210,79 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
           );
         });
     return null;
+  }
+
+  payWallBottomSheet() {
+    showModalBottomSheet(
+        isDismissible: false,
+        // enableDrag: false,
+        shape: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            )),
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (_) => PopScope(
+              canPop: false,
+              child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                            padding: EdgeInsets.all(0),
+                            visualDensity: VisualDensity.comfortable,
+                            iconSize: 20,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.clear)),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            PurchaseSub.purchasePackage(
+                                val.package.first.storeProduct);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: AppColors.borderblue.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("${val.package.first.storeProduct.title}",
+                                    style: AppTextStyle.titleStyle.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black54)),
+                                Text(
+                                  "${val.package.first.storeProduct.priceString}",
+                                  style: AppTextStyle.disStyle
+                                      .copyWith(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                );
+              }),
+            ));
   }
 
   Future<Map> getAllRecordsFromApi() async {

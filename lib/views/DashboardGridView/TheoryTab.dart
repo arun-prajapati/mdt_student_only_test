@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:student_app/external.dart';
 import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:student_app/services/subsciption_provider.dart';
 import 'package:student_app/utils/appImages.dart';
 import 'package:student_app/utils/app_colors.dart';
 import 'package:student_app/views/AIRecommendations/TheoryRecommondation.dart';
@@ -129,6 +130,7 @@ class _TheoryTabState extends State<TheoryTab> {
 
   getStatus() async {
     print('Call Popup Box---');
+    // context.read<SubscriptionProvider>().fetchOffer();
     var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('theoryTestPractice');
 
@@ -144,6 +146,7 @@ class _TheoryTabState extends State<TheoryTab> {
   @override
   void initState() {
     super.initState();
+
     getStatus();
     getCategoriesFromApi();
 

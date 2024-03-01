@@ -196,325 +196,329 @@ class Welcome extends StatelessWidget {
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            Stack(children: [
-              Image.asset(
-                AppImages.bgRegister,
-                //height: 300,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.fitWidth,
-              ),
-              Positioned(
-                top: SizeConfig.blockSizeVertical * 24,
-                left: SizeConfig.blockSizeHorizontal * 28,
-                child: CircleAvatar(
-                  radius: SizeConfig.blockSizeHorizontal * 22,
-                  backgroundColor: Colors.white,
-                  child: Container(
-                    child: Image.asset(
-                      "assets/stt_Logo.png",
-                      height: 180,
-                      width: 182,
-                      //fit: BoxFit.contain,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(children: [
+                Image.asset(
+                  AppImages.bgRegister,
+                  //height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.fitWidth,
+                ),
+                Positioned(
+                  top: SizeConfig.blockSizeVertical * 24,
+                  left: SizeConfig.blockSizeHorizontal * 28,
+                  child: CircleAvatar(
+                    radius: SizeConfig.blockSizeHorizontal * 22,
+                    backgroundColor: Colors.white,
+                    child: Container(
+                      child: Image.asset(
+                        "assets/stt_Logo.png",
+                        height: 180,
+                        width: 182,
+                        //fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              // Positioned(
-              //   top: 415,
-              //   left: 25,
-              //   right: 25,
-              //   child: SizedBox(
-              //     height: 400,
-              //     child: Padding(
-              //       padding: EdgeInsets.all(20),
-              //       child: Container(
-              //         decoration: BoxDecoration(
-              //             color: Colors.white,
-              //             borderRadius: BorderRadius.circular(20),
-              //             boxShadow: [
-              //               BoxShadow(
-              //                   color: Colors.black.withOpacity(0.1),
-              //                   blurRadius: 15,
-              //                   spreadRadius: 0),
-              //             ]),
-              //         child: Padding(
-              //           padding: EdgeInsets.all(20),
-              //           child: Column(
-              //             children: [
-              //               CustomButton(
-              //                   onTap: () {
-              //                     Navigator.of(context).push(
-              //                       MaterialPageRoute(
-              //                         builder: (context) => Register('2'),
-              //                       ),
-              //                     );
-              //                   },
-              //                   gradient: LinearGradient(
-              //                       end: Alignment.centerLeft,
-              //                       begin: Alignment.centerRight,
-              //                       colors: [
-              //                         AppColors.blueGrad1,
-              //                         AppColors.blueGrad2,
-              //                         AppColors.blueGrad3,
-              //                         AppColors.blueGrad4,
-              //                         AppColors.blueGrad5,
-              //                         AppColors.blueGrad6,
-              //                         AppColors.blueGrad7,
-              //                       ])),
-              //               CustomButton(
-              //                   gradient: LinearGradient(
-              //                       end: Alignment.centerLeft,
-              //                       begin: Alignment.centerRight,
-              //                       colors: [
-              //                     AppColors.primary,
-              //                     AppColors.secondary,
-              //                   ])),
-              //               // Row(
-              //               //   children: [
-              //               //     Expanded(
-              //               //       child: GestureDetector(
-              //               //         onTap: () {
-              //               //           Navigator.of(context).push(
-              //               //             MaterialPageRoute(
-              //               //               builder: (context) => Register('2'),
-              //               //             ),
-              //               //           );
-              //               //         },
-              //               //         child: Container(
-              //               //           decoration: BoxDecoration(
-              //               //               borderRadius: BorderRadius.circular(10),
-              //               //               gradient: LinearGradient(
-              //               //                   end: Alignment.centerLeft,
-              //               //                   begin: Alignment.centerRight,
-              //               //                   colors: [
-              //               //                     AppColors.blueGrad1,
-              //               //                     AppColors.blueGrad2,
-              //               //                     AppColors.blueGrad3,
-              //               //                     AppColors.blueGrad4,
-              //               //                     AppColors.blueGrad5,
-              //               //                     AppColors.blueGrad6,
-              //               //                     AppColors.blueGrad7,
-              //               //                   ])),
-              //               //           child: Padding(
-              //               //             padding: EdgeInsets.symmetric(vertical: 15),
-              //               //             child: Text('Register',
-              //               //                 textAlign: TextAlign.center,
-              //               //                 style: TextStyle(
-              //               //                   fontFamily: 'Poppins',
-              //               //                   fontSize: 15,
-              //               //                   color: AppColors.white,
-              //               //                   fontWeight: FontWeight.w600,
-              //               //                 )),
-              //               //           ),
-              //               //         ),
-              //               //       ),
-              //               //     ),
-              //               //   ],
-              //               // ),
-              //               SizedBox(height: 10),
-              //               Material(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 borderOnForeground: true,
-              //                 color: Dark,
-              //                 elevation: 5.0,
-              //                 child: MaterialButton(
-              //                   onPressed: () {
-              //                     Navigator.of(context).push(
-              //                       MaterialPageRoute(
-              //                         builder: (context) => SignInForm(),
-              //                       ),
-              //                     );
-              //                   },
-              //                   child: Padding(
-              //                     padding: EdgeInsets.symmetric(
-              //                         horizontal: 15, vertical: 10),
-              //                     child: Text(
-              //                       'Login',
-              //                       style: TextStyle(
-              //                         fontFamily: 'Poppins',
-              //                         fontSize: SizeConfig.blockSizeHorizontal * 4.8,
-              //                         fontWeight: FontWeight.w700,
-              //                         color: Colors.white,
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ),
-              //               ),
-              //               Row(
-              //                 children: [
-              //                   Container(
-              //                     width: SizeConfig.blockSizeHorizontal * 11,
-              //                     child: Divider(
-              //                       thickness: 2,
-              //                       color: AppColors.grey,
-              //                     ),
-              //                   ),
-              //                   Center(
-              //                     child: Text(
-              //                       "Or connect with",
-              //                       style: TextStyle(
-              //                           letterSpacing: 2,
-              //                           fontSize: 15,
-              //                           color: AppColors.grey,
-              //                           fontWeight: FontWeight.w400),
-              //                     ),
-              //                   ),
-              //                   Divider(
-              //                     thickness: 2,
-              //                     color: Dark,
-              //                   ),
-              //                 ],
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-            ]),
-            SizedBox(height: 25),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 5, left: 20, right: 20),
-              child: Container(
-                height: 390,
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                        color: AppColors.black.withOpacity(0.1),
-                        offset: Offset(0, 0),
-                        blurRadius: 15,
-                        spreadRadius: 0),
-                  ],
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 25, right: 25, top: 25),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Let\'s Get Started',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500)),
-                      SizedBox(height: 30),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CustomButton(
-                              gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [
-                                    AppColors.blueGrad7,
-                                    AppColors.blueGrad6,
-                                    AppColors.blueGrad5,
-                                    AppColors.blueGrad4,
-                                    AppColors.blueGrad3,
-                                    AppColors.blueGrad2,
-                                    AppColors.blueGrad1,
-                                  ]),
-                              title: 'Register',
-                              onTap: () {
-                                log('Open Registration');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => Register('2'),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CustomButton(
-                              gradient: null,
-                              title: 'Login',
-                              onTap: () {
-                                print('Open Login Page');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignInForm()));
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppImages.line,
-                            width: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Text("Or connect with",
-                                style: AppTextStyle.textStyle.copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: 15,
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.w400)),
-                          ),
-                          Image.asset(AppImages.line, width: 50),
-                          // Divider(
-                          //   endIndent: 70,
-                          //   thickness: 1,
-                          //   color: AppColors.grey,
-                          // ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 25, right: 25, top: 35),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                // Positioned(
+                //   top: 415,
+                //   left: 25,
+                //   right: 25,
+                //   child: SizedBox(
+                //     height: 400,
+                //     child: Padding(
+                //       padding: EdgeInsets.all(20),
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //             color: Colors.white,
+                //             borderRadius: BorderRadius.circular(20),
+                //             boxShadow: [
+                //               BoxShadow(
+                //                   color: Colors.black.withOpacity(0.1),
+                //                   blurRadius: 15,
+                //                   spreadRadius: 0),
+                //             ]),
+                //         child: Padding(
+                //           padding: EdgeInsets.all(20),
+                //           child: Column(
+                //             children: [
+                //               CustomButton(
+                //                   onTap: () {
+                //                     Navigator.of(context).push(
+                //                       MaterialPageRoute(
+                //                         builder: (context) => Register('2'),
+                //                       ),
+                //                     );
+                //                   },
+                //                   gradient: LinearGradient(
+                //                       end: Alignment.centerLeft,
+                //                       begin: Alignment.centerRight,
+                //                       colors: [
+                //                         AppColors.blueGrad1,
+                //                         AppColors.blueGrad2,
+                //                         AppColors.blueGrad3,
+                //                         AppColors.blueGrad4,
+                //                         AppColors.blueGrad5,
+                //                         AppColors.blueGrad6,
+                //                         AppColors.blueGrad7,
+                //                       ])),
+                //               CustomButton(
+                //                   gradient: LinearGradient(
+                //                       end: Alignment.centerLeft,
+                //                       begin: Alignment.centerRight,
+                //                       colors: [
+                //                     AppColors.primary,
+                //                     AppColors.secondary,
+                //                   ])),
+                //               // Row(
+                //               //   children: [
+                //               //     Expanded(
+                //               //       child: GestureDetector(
+                //               //         onTap: () {
+                //               //           Navigator.of(context).push(
+                //               //             MaterialPageRoute(
+                //               //               builder: (context) => Register('2'),
+                //               //             ),
+                //               //           );
+                //               //         },
+                //               //         child: Container(
+                //               //           decoration: BoxDecoration(
+                //               //               borderRadius: BorderRadius.circular(10),
+                //               //               gradient: LinearGradient(
+                //               //                   end: Alignment.centerLeft,
+                //               //                   begin: Alignment.centerRight,
+                //               //                   colors: [
+                //               //                     AppColors.blueGrad1,
+                //               //                     AppColors.blueGrad2,
+                //               //                     AppColors.blueGrad3,
+                //               //                     AppColors.blueGrad4,
+                //               //                     AppColors.blueGrad5,
+                //               //                     AppColors.blueGrad6,
+                //               //                     AppColors.blueGrad7,
+                //               //                   ])),
+                //               //           child: Padding(
+                //               //             padding: EdgeInsets.symmetric(vertical: 15),
+                //               //             child: Text('Register',
+                //               //                 textAlign: TextAlign.center,
+                //               //                 style: TextStyle(
+                //               //                   fontFamily: 'Poppins',
+                //               //                   fontSize: 15,
+                //               //                   color: AppColors.white,
+                //               //                   fontWeight: FontWeight.w600,
+                //               //                 )),
+                //               //           ),
+                //               //         ),
+                //               //       ),
+                //               //     ),
+                //               //   ],
+                //               // ),
+                //               SizedBox(height: 10),
+                //               Material(
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 borderOnForeground: true,
+                //                 color: Dark,
+                //                 elevation: 5.0,
+                //                 child: MaterialButton(
+                //                   onPressed: () {
+                //                     Navigator.of(context).push(
+                //                       MaterialPageRoute(
+                //                         builder: (context) => SignInForm(),
+                //                       ),
+                //                     );
+                //                   },
+                //                   child: Padding(
+                //                     padding: EdgeInsets.symmetric(
+                //                         horizontal: 15, vertical: 10),
+                //                     child: Text(
+                //                       'Login',
+                //                       style: TextStyle(
+                //                         fontFamily: 'Poppins',
+                //                         fontSize: SizeConfig.blockSizeHorizontal * 4.8,
+                //                         fontWeight: FontWeight.w700,
+                //                         color: Colors.white,
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //               Row(
+                //                 children: [
+                //                   Container(
+                //                     width: SizeConfig.blockSizeHorizontal * 11,
+                //                     child: Divider(
+                //                       thickness: 2,
+                //                       color: AppColors.grey,
+                //                     ),
+                //                   ),
+                //                   Center(
+                //                     child: Text(
+                //                       "Or connect with",
+                //                       style: TextStyle(
+                //                           letterSpacing: 2,
+                //                           fontSize: 15,
+                //                           color: AppColors.grey,
+                //                           fontWeight: FontWeight.w400),
+                //                     ),
+                //                   ),
+                //                   Divider(
+                //                     thickness: 2,
+                //                     color: Dark,
+                //                   ),
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+              ]),
+              SizedBox(height: 25),
+              Padding(
+                padding:
+                    EdgeInsets.only(top: 15, bottom: 5, left: 20, right: 20),
+                child: Container(
+                  height: 390,
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                          color: AppColors.black.withOpacity(0.1),
+                          offset: Offset(0, 0),
+                          blurRadius: 15,
+                          spreadRadius: 0),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 25),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Let\'s Get Started',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w500)),
+                        SizedBox(height: 30),
+                        Row(
                           children: [
-                            socialIconCustom(
-                              image: AppImages.google,
-                              onTap: () {
-                                print('Click GOOGLE BUTTON');
-                                SocialLoginService(context).googleSignIn();
-                                print(
-                                    'Click ***********************----------- ');
-                              },
-                            ),
-                            SizedBox(width: 30),
-                            socialIconCustom(
-                              image: AppImages.apple,
-                              onTap: () {
-                                SocialLoginService(context)
-                                    .signInWithApple(context);
-                                print('apple******************----------- ');
-                              },
-                            ),
-                            SizedBox(width: 30),
-                            socialIconCustom(
-                              image: AppImages.facebook,
-                              onTap: () {
-                                _facebookUrl =
-                                    "https://www.facebook.com/mockdrivingtest/";
-                                print(_facebookUrl);
-                                _launchURL(_facebookUrl);
-                              },
+                            Expanded(
+                              child: CustomButton(
+                                gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: [
+                                      AppColors.blueGrad7,
+                                      AppColors.blueGrad6,
+                                      AppColors.blueGrad5,
+                                      AppColors.blueGrad4,
+                                      AppColors.blueGrad3,
+                                      AppColors.blueGrad2,
+                                      AppColors.blueGrad1,
+                                    ]),
+                                title: 'Register',
+                                onTap: () {
+                                  log('Open Registration');
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => Register('2'),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
-                      )
-                    ],
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomButton(
+                                gradient: null,
+                                title: 'Login',
+                                onTap: () {
+                                  print('Open Login Page');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SignInForm()));
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AppImages.line,
+                              width: 50,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Text("Or connect with",
+                                  style: AppTextStyle.textStyle.copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: 15,
+                                      letterSpacing: 1,
+                                      fontWeight: FontWeight.w400)),
+                            ),
+                            Image.asset(AppImages.line, width: 50),
+                            // Divider(
+                            //   endIndent: 70,
+                            //   thickness: 1,
+                            //   color: AppColors.grey,
+                            // ),
+                          ],
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(left: 25, right: 25, top: 35),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              socialIconCustom(
+                                image: AppImages.google,
+                                onTap: () {
+                                  print('Click GOOGLE BUTTON');
+                                  SocialLoginService(context).googleSignIn();
+                                  print(
+                                      'Click ***********************----------- ');
+                                },
+                              ),
+                              SizedBox(width: 30),
+                              socialIconCustom(
+                                image: AppImages.apple,
+                                onTap: () {
+                                  SocialLoginService(context)
+                                      .signInWithApple(context);
+                                  print('apple******************----------- ');
+                                },
+                              ),
+                              SizedBox(width: 30),
+                              socialIconCustom(
+                                image: AppImages.facebook,
+                                onTap: () {
+                                  _facebookUrl =
+                                      "https://www.facebook.com/mockdrivingtest/";
+                                  print(_facebookUrl);
+                                  _launchURL(_facebookUrl);
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ));
     // Stack(children: [
     //   CustomPaint(

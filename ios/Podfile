@@ -39,4 +39,3 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
 end
-$2y$10$RYrTiGybPKC/wEDJrteOcekWdN0IgnZc58N.vvh4fjDZ3J.Dz4jxK
