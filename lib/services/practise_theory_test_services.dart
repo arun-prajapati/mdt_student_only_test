@@ -16,6 +16,7 @@ class PractiseTheoryTestServices {
     Map<String, String> header = {
       'token': token,
     };
+    print('URL getCategories ****************** $api/api/get-categories');
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
     userData = data["data"];

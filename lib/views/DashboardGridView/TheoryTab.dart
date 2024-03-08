@@ -348,7 +348,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                           children: List.generate(
                                               categories.length, (index) {
                                             // print("CATEGORY LIST :: ${categories_list}");
-                                            print("CATEGORY :: ${categories}");
+                                            // log("CATEGORY :: ${categories}");
                                             return Column(
                                               children: [
                                                 LinearPercentIndicatorWidget(

@@ -71,7 +71,6 @@ dependencies:
   fluttertoast: ^8.1.2
   flutter_stripe: ^9.5.0+1
   youtube_player_iframe: ^4.0.4
-  # youtube_player_flutter: ^8.0.0
   firebase_auth: ^4.15.3
   google_sign_in: ^6.2.1
   firebase_core: ^2.24.2
