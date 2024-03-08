@@ -141,7 +141,11 @@ class _RegisterState extends State<Register> {
           log("ERROE *********** ${authData.passwordConfirm} ${authData.phoneNumber} ${authData.countryCode} ${authData.name}");
 
           // print("ERROE $countryCode${phoneTextControl.text}");
-          showValidationDialog(context, res['message']);
+          showValidationDialog(
+              context,
+              res['message'] == "The phone has already been taken."
+                  ? "The phone number has already been taken."
+                  : res['message']);
         } else {
           Provider.of<UserProvider>(context, listen: false)
               .verifyPhone(context, phoneTextControl.text);

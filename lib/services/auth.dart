@@ -319,46 +319,51 @@ class UserProvider with ChangeNotifier {
       {bool isResend = false}) async {
     loading(value: true);
 
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "$countryCode$phoneNumber",
-        verificationCompleted: (PhoneAuthCredential credential) {
-          loading(value: false);
-          _onVerificationCompletedRegister(credential, context);
-          notifyListeners();
-        },
-        verificationFailed: (FirebaseAuthException exception) {
-          loading(value: false);
+    await FirebaseAuth.instance
+        .verifyPhoneNumber(
+            phoneNumber: "$countryCode$phoneNumber",
+            verificationCompleted: (PhoneAuthCredential credential) {
+              loading(value: false);
+              _onVerificationCompletedRegister(credential, context);
+              notifyListeners();
+            },
+            verificationFailed: (FirebaseAuthException exception) {
+              loading(value: false);
 
-          showErrorDialog(context, exception.message.toString());
-          notifyListeners();
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          loading(value: false);
-          verificationCode = verificationId;
-          _resendToken = resendToken ?? 0;
+              showErrorDialog(context, exception.message.toString());
+              print('ERROR  $exception');
+              notifyListeners();
+            },
+            codeSent: (String verificationId, int? resendToken) {
+              loading(value: false);
+              verificationCode = verificationId;
+              _resendToken = resendToken ?? 0;
 
-          if (isResend == true) {
-            loading(value: false);
-            // _navigationService.navigatorKey.currentState?.push(MaterialPageRoute(
-            //     builder: (_) => const OTPVerificationScreen()));
-          } else {
-            loading(value: false);
-            _navigationService.navigatorKey.currentState
-                ?.push(MaterialPageRoute(
-                    builder: (_) => OTPVerificationScreen(
-                          phone: phoneNumber,
-                          CountryCode: countryCode,
-                        )));
-          }
-          notifyListeners();
-        },
-        forceResendingToken: _resendToken,
-        codeAutoRetrievalTimeout: (String verificationId) {
-          loading(value: false);
-          verificationCode = verificationId;
-          notifyListeners();
-        },
-        timeout: const Duration(minutes: 2));
+              if (isResend == true) {
+                loading(value: false);
+                // _navigationService.navigatorKey.currentState?.push(MaterialPageRoute(
+                //     builder: (_) => const OTPVerificationScreen()));
+              } else {
+                loading(value: false);
+                _navigationService.navigatorKey.currentState
+                    ?.push(MaterialPageRoute(
+                        builder: (_) => OTPVerificationScreen(
+                              phone: phoneNumber,
+                              CountryCode: countryCode,
+                            )));
+              }
+              notifyListeners();
+            },
+            forceResendingToken: _resendToken,
+            codeAutoRetrievalTimeout: (String verificationId) {
+              loading(value: false);
+              verificationCode = verificationId;
+              notifyListeners();
+            },
+            timeout: const Duration(minutes: 2))
+        .catchError((e) {
+      print('$e');
+    });
   }
 
   bool isForgotPassword = false;

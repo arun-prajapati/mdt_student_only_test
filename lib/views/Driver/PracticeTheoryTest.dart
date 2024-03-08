@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,7 +65,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return getCategoriesFromApi().then((response_list) {
       responseList.clear();
       responseList.addAll(response_list);
-      print("------------ responseList ${jsonEncode(responseList)}");
+      print("------------ responseList ${responseList}");
       setState(() {});
     });
   }
@@ -199,47 +200,54 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     ToastContext().init(context);
     print(
         "auth_services.changeView ${context.read<UserProvider>().changeView}");
-    if (context.read<UserProvider>().changeView) {
+    print("------------ responseList 1 ${responseList}");
+
+    /* if (context.read<UserProvider>().changeView) {
       getCategoriesFromApi().then((response_list) {
         //Navigator.pop(context);
         log("Category &&&& : $response_list");
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-        showModalBottomSheet(
-            enableDrag: false,
-            isDismissible: false,
-            shape: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                )),
-            context: context,
-            builder: (BuildContext context) {
-              // Navigator.pop(context);
-              return TestSettingDialogBox(
-                categories_list: response_list,
-                onSetValue: (_categoryId) {
-                  log("Category id : $_categoryId");
-                  gainPoint = 0;
-                  questionsList = [];
-                  testQuestionsForResult = [];
-                  selectedQuestionIndex = 0;
-                  selectedOptionIndex = null;
-                  category_id = _categoryId;
-                  CustomSpinner.showLoadingDialog(
-                      context, _keyLoader, "Test loading...");
-                  getQuestionsFromApi().then((response_list) {
-                    Navigator.of(_keyLoader.currentContext!,
-                            rootNavigator: true)
-                        .pop();
-                    questionsList = response_list;
-                    setState(() => isTestStarted = true);
-                    // context.read<AuthProvider>().changeView = true;
-                    setState(() {});
-                  });
-                },
-              );
-            });
+        // showModalBottomSheet(
+        //     enableDrag: false,
+        //     isDismissible: false,
+        //     shape: OutlineInputBorder(
+        //         borderSide: BorderSide(color: Colors.white),
+        //         borderRadius: BorderRadius.only(
+        //           topLeft: Radius.circular(20),
+        //           topRight: Radius.circular(20),
+        //         )),
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       // Navigator.pop(context);
+        //       return
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => TestSettingDialogBox(
+                      categories_list: response_list,
+                      onSetValue: (_categoryId) {
+                        log("Category id : $_categoryId");
+                        gainPoint = 0;
+                        questionsList = [];
+                        testQuestionsForResult = [];
+                        selectedQuestionIndex = 0;
+                        selectedOptionIndex = null;
+                        category_id = _categoryId;
+                        CustomSpinner.showLoadingDialog(
+                            context, _keyLoader, "Test loading...");
+                        getQuestionsFromApi().then((response_list) {
+                          Navigator.of(_keyLoader.currentContext!,
+                                  rootNavigator: true)
+                              .pop();
+                          questionsList = response_list;
+                          setState(() => isTestStarted = true);
+                          // context.read<AuthProvider>().changeView = true;
+                          setState(() {});
+                        });
+                      },
+                    )));
+
+        // });
       });
       // getCategoriesFromApi().then((value) {
       //   responseList = value;
@@ -267,94 +275,126 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       return Scaffold(
         backgroundColor: Colors.white38,
       );
-    } else {
-      return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            CustomAppBar(
-              preferedHeight: Responsive.height(11, context),
-              title: 'Practice Theory Test Questions',
-              textWidth: Responsive.width(35, context),
-              iconLeft: Icons.arrow_back,
-              iconRight: Icons.refresh_rounded,
-              onTap1: () {
-                _navigationService.goBack();
+    } else {*/
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: context.read<UserProvider>().changeView
+          ? TestSettingDialogBox(
+              categories_list: responseList,
+              onSetValue: (_categoryId) {
+                log("Category id : $_categoryId");
+                // if (_categoryId == 0) {
+                //   Fluttertoast.showToast(
+                //       msg: 'Please select category', gravity: ToastGravity.TOP);
+                // } else {
+                gainPoint = 0;
+                questionsList = [];
+                testQuestionsForResult = [];
+                selectedQuestionIndex = 0;
+                selectedOptionIndex = null;
+                category_id = _categoryId;
+                CustomSpinner.showLoadingDialog(
+                    context, _keyLoader, "Test loading...");
+                getQuestionsFromApi().then((response_list) {
+                  Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
+                      .pop();
+                  questionsList = response_list;
+                  setState(() => isTestStarted = true);
+                  // context.read<AuthProvider>().changeView = true;
+                  setState(() {});
+                });
+                // }
               },
-              onTapRightbtn: () {
-                initializeApi("Refreshing...");
-              },
-            ),
-            Container(
-                margin: EdgeInsets.fromLTRB(
-                    //Responsive.width(3, context),
-                    0,
-                    MediaQuery.of(context).size.height * 0.104,
-                    0,
-                    0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+            )
+          : Stack(
+              children: <Widget>[
+                CustomAppBar(
+                  preferedHeight: Responsive.height(11, context),
+                  title: 'Practice Theory Test Questions',
+                  textWidth: Responsive.width(35, context),
+                  iconLeft: Icons.arrow_back,
+                  iconRight: Icons.refresh_rounded,
+                  onTap1: () {
+                    _navigationService.goBack();
+                  },
+                  onTapRightbtn: () {
+                    initializeApi("Refreshing...");
+                  },
                 ),
-                height: Responsive.height(83, context),
-                width: Responsive.width(100, context),
-                padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: constraints.maxWidth * 1,
-                        // padding: isTestStarted
-                        //     ? EdgeInsets.only(
-                        //         top: constraints.maxHeight * .03)
-                        //     : EdgeInsets.all(0),
-                        height: isTestStarted
-                            ? constraints.maxHeight * .85
-                            : constraints.maxHeight * .78,
-                        child: ListView(
-                          controller: _controller,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          //padding: EdgeInsets.only(top: 10),
-                          shrinkWrap: true,
-                          children: [
-                            // if (!isTestStarted)
-                            //   scoreRecordsGrid(context, constraints),
-                            if (isTestStarted)
-                              Container(
-                                padding: EdgeInsets.fromLTRB(20, 10, 20, 2),
-                                child: LayoutBuilder(
-                                  builder: (context, _constraints) {
-                                    return testQuestionWidget(
-                                      context,
-                                      _constraints,
-                                      questionsList[selectedQuestionIndex],
-                                    );
-                                  },
-                                ),
-                              ),
-                            if (selectedOptionIndex != null && isTestStarted)
-                              answerExplanation(
-                                questionsList[selectedQuestionIndex],
-                              ),
-                            if (selectedOptionIndex != null && isTestStarted)
-                              answerStatus(
-                                questionsList[selectedQuestionIndex],
-                              ),
-                          ],
-                        ),
-                      ),
-                      if (!isTestStarted)
-                        startButtonWidget(context, constraints),
-                      if (isTestStarted) nextButtonWidget(context, constraints),
-                    ],
-                  );
-                })),
-          ],
-        ),
-      );
-    }
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        //Responsive.width(3, context),
+                        0,
+                        MediaQuery.of(context).size.height * 0.115,
+                        0,
+                        0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    height: Responsive.height(83, context),
+                    width: Responsive.width(100, context),
+                    padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: constraints.maxWidth * 1,
+                            // padding: isTestStarted
+                            //     ? EdgeInsets.only(
+                            //         top: constraints.maxHeight * .03)
+                            //     : EdgeInsets.all(0),
+                            height: isTestStarted
+                                ? constraints.maxHeight * .85
+                                : constraints.maxHeight * .78,
+                            child: ListView(
+                              controller: _controller,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              //padding: EdgeInsets.only(top: 10),
+                              shrinkWrap: true,
+                              children: [
+                                // if (!isTestStarted)
+                                //   scoreRecordsGrid(context, constraints),
+                                if (isTestStarted)
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 2),
+                                    child: LayoutBuilder(
+                                      builder: (context, _constraints) {
+                                        return testQuestionWidget(
+                                          context,
+                                          _constraints,
+                                          questionsList[selectedQuestionIndex],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                if (selectedOptionIndex != null &&
+                                    isTestStarted)
+                                  answerExplanation(
+                                    questionsList[selectedQuestionIndex],
+                                  ),
+                                if (selectedOptionIndex != null &&
+                                    isTestStarted)
+                                  answerStatus(
+                                    questionsList[selectedQuestionIndex],
+                                  ),
+                              ],
+                            ),
+                          ),
+                          if (!isTestStarted)
+                            startButtonWidget(context, constraints),
+                          if (isTestStarted)
+                            nextButtonWidget(context, constraints),
+                        ],
+                      );
+                    })),
+              ],
+            ),
+    );
+    // }
   }
 
   // Widget cardHeader(BuildContext context, BoxConstraints constraints) {
@@ -1013,7 +1053,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
               child: Radio(
                 activeColor: Dark,
                 value: option_no,
-                visualDensity: VisualDensity.compact,
+                visualDensity: VisualDensity.comfortable,
                 groupValue: selectedOptionIndex,
                 onChanged: selectedOptionIndex != null
                     ? null
@@ -1371,7 +1411,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 log("Category : $response_list");
                 Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                     .pop();
-                showModalBottomSheet(
+                /*showModalBottomSheet(
                     isDismissible: false,
                     context: context,
                     builder: (BuildContext context) {
@@ -1396,7 +1436,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           });
                         },
                       );
-                    });
+                    });*/
               });
             },
             child: LayoutBuilder(
@@ -1679,7 +1719,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       child: CustomButton(
                                         padding:
                                             EdgeInsets.symmetric(vertical: 10),
-                                        title: 'Yes',
+                                        title: 'Buy Now',
                                         onTap: () {
                                           Navigator.of(context).pop();
                                           showLoader("Loading");
@@ -1709,7 +1749,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       child: CustomButton(
                                         padding:
                                             EdgeInsets.symmetric(vertical: 10),
-                                        title: 'No',
+                                        title: 'Cancel',
                                         onTap: () {
                                           Navigator.of(context).pop();
                                         },

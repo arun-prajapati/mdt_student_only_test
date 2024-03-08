@@ -54,6 +54,7 @@ dependencies:
   connectivity_plus: ^3.0.2
   image_picker: ^0.8.6+1
   flutter_typeahead: ^4.1.1
+  youtube_player_flutter: ^9.0.0
   pinput: ^3.0.1
   gif: ^2.3.0
   # flutter_gifimage: ^1.0.1

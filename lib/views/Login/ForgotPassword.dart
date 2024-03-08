@@ -638,7 +638,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           print("ERROE$res");
           // var fetchData = jsonDecode('$res');
           // print('fetch Data:  $fetchData');
-          showValidationDialog(context, res["message"]);
+          showValidationDialog(
+              context,
+              res['message'] == "The phone has already been taken."
+                  ? "The phone number has already been taken."
+                  : res["message"]);
         } else {
           Provider.of<UserProvider>(context, listen: false)
               .verifyPhone(context, phoneTextControl.text);

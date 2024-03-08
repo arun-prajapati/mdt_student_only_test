@@ -88,7 +88,11 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
         setState(() {});
         authData.printData();
         if (res['success'] == false) {
-          showValidationDialog(context, res['message']);
+          showValidationDialog(
+              context,
+              res['message'] == "The phone has already been taken."
+                  ? "The phone number has already been taken."
+                  : res['message']);
         } else {
           Provider.of<UserProvider>(context, listen: false)
               .verifyPhone(context, phoneTextControl.text);

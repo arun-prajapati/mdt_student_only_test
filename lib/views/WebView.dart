@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:Smart_Theory_Test/locater.dart';
-import 'package:Smart_Theory_Test/responsive/percentage_mediaquery.dart';
-import 'package:Smart_Theory_Test/services/navigation_service.dart';
-import 'package:Smart_Theory_Test/widget/CustomAppBar.dart';
+import 'package:student_app/Constants/app_colors.dart';
+import 'package:student_app/locater.dart';
+import 'package:student_app/responsive/percentage_mediaquery.dart';
+import 'package:student_app/services/navigation_service.dart';
+import 'package:student_app/utils/app_colors.dart';
+import 'package:student_app/widget/CustomAppBar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../responsive/size_config.dart';
@@ -19,6 +21,8 @@ class WebViewContainer extends StatefulWidget {
 
 class _WebViewContainerState extends State<WebViewContainer> {
   var _url;
+  bool isLoading = true;
+
   String heading;
   final _key = UniqueKey();
   late final WebViewController _controller;
@@ -44,6 +48,8 @@ class _WebViewContainerState extends State<WebViewContainer> {
             debugPrint('Page started loading: $url');
           },
           onPageFinished: (String url) {
+            isLoading = false;
+            setState(() {});
             debugPrint('Page finished loading: $url');
           },
           onWebResourceError: (WebResourceError error) {
@@ -74,6 +80,7 @@ Page resource error:
         },
       )
       ..loadRequest(Uri.parse(_url));
+    print('_________________________--- ${_url}');
 
     _controller = controller;
   }
@@ -136,7 +143,7 @@ Page resource error:
               iconRight: null),
         ),
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.104,
+          top: MediaQuery.of(context).size.height * 0.125,
           child: ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -151,10 +158,16 @@ Page resource error:
                     topRight: Radius.circular(20),
                   ),
                   color: Colors.white),
-              child: WebViewWidget(
-                key: _key,
-                controller: _controller,
-              ),
+              child: isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      strokeWidth: 3.2,
+                      color: Dark,
+                    ))
+                  : WebViewWidget(
+                      key: _key,
+                      controller: _controller,
+                    ),
             ),
           ),
         )

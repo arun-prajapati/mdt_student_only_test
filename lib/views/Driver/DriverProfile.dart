@@ -46,6 +46,7 @@ class _driverProfile extends State<DriverProfile> {
   final BookingService _bookingService = new BookingService();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final UserProvider auth_services = new UserProvider();
+  bool loading = true;
   Mode _mode = Mode.overlay;
   String? addressSuggestion;
   TextEditingController? first_name,
@@ -175,7 +176,7 @@ class _driverProfile extends State<DriverProfile> {
 
   initializeApi(String loaderMessage) {
     checkInternet();
-    showLoader(loaderMessage);
+    // showLoader(loaderMessage);
     getUserDetail().then((user_id) {
       getProfileDetail().then((records) async {
         Map userProfileDetail = records;
@@ -239,6 +240,7 @@ class _driverProfile extends State<DriverProfile> {
           print('::::::::: $licenceBase64');
         }
       });
+      loading = false;
 
       closeLoader();
     });
@@ -312,591 +314,639 @@ class _driverProfile extends State<DriverProfile> {
                             shrinkWrap: true,
                             padding: EdgeInsets.fromLTRB(10, 2, 10, 0),
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("First Name",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                  SizedBox(height: 8),
-                                  TextField(
-                                    controller: first_name,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text("Last Name",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                  SizedBox(height: 8),
-                                  TextField(
-                                    controller: last_name,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text("Phone Number",
-                                      style: inputLabelStyle(
-                                          SizeConfig.labelFontSize),
-                                      textAlign: TextAlign.left),
-                                  SizedBox(height: 8),
-                                  TextField(
-                                    controller: phone_number,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 10,
-                                    decoration: InputDecoration(
-                                      counterText: "",
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text('Vehicle Preference',
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    //crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: 0,
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Transform.scale(
-                                                scale: .15 *
-                                                    SizeConfig
-                                                        .blockSizeVertical,
-                                                child: Radio(
-                                                  value: 'own',
-                                                  groupValue: vehiclePreference,
-                                                  activeColor: Dark,
-                                                  onChanged: (val) {
-                                                    setState(() {
-                                                      vehiclePreference =
-                                                          val.toString();
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                              LayoutBuilder(
-                                                builder:
-                                                    (context, constraints) {
-                                                  return Container(
-                                                      child: AutoSizeText(
-                                                          'Own Car',
-                                                          style: inputLabelStyleDark(
-                                                              SizeConfig
-                                                                  .labelFontSize)));
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        }),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        flex: 0,
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Transform.scale(
-                                                  scale: .15 *
-                                                      SizeConfig
-                                                          .blockSizeVertical,
-                                                  child: Radio(
-                                                    value: 'instructor',
-                                                    groupValue:
-                                                        vehiclePreference,
-                                                    activeColor: Dark,
-                                                    onChanged: (val) {
-                                                      setState(() {
-                                                        vehiclePreference =
-                                                            val.toString();
-                                                      });
-                                                    },
-                                                  )),
-                                              LayoutBuilder(
-                                                builder:
-                                                    (context, constraints) {
-                                                  return AutoSizeText(
-                                                      'Instructor car',
-                                                      style: inputLabelStyleDark(
+                              loading
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                          color: Dark, strokeWidth: 3.2),
+                                    )
+                                  : Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("First Name",
+                                            style: inputLabelStyle(
+                                                SizeConfig.labelFontSize),
+                                            textAlign: TextAlign.left),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          controller: first_name,
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          decoration: InputDecoration(
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 0, 3, 16),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text("Last Name",
+                                            style: inputLabelStyle(
+                                                SizeConfig.labelFontSize),
+                                            textAlign: TextAlign.left),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          controller: last_name,
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          decoration: InputDecoration(
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 0, 3, 16),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text("Phone Number",
+                                            style: inputLabelStyle(
+                                                SizeConfig.labelFontSize),
+                                            textAlign: TextAlign.left),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          controller: phone_number,
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          keyboardType: TextInputType.number,
+                                          maxLength: 10,
+                                          decoration: InputDecoration(
+                                            counterText: "",
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 0, 3, 16),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text('Vehicle Preference',
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 8),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          //crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              flex: 0,
+                                              child: LayoutBuilder(builder:
+                                                  (context, constraints) {
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Transform.scale(
+                                                      scale: .15 *
                                                           SizeConfig
-                                                              .labelFontSize));
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        }),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text('Address:',
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.black,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    "Address Search",
-                                    style: AppTextStyle.textStyle.copyWith(
-                                        color: AppColors.grey,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(height: 8),
-                                  GestureDetector(
-                                    onTap: _handlePressButton,
-                                    child: Container(
-                                      width: Responsive.width(100, context),
-                                      height: SizeConfig.inputHeight,
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                                      decoration: textAreaBorderLikeAsInput(),
-                                      child: AutoSizeText(
-                                        _address != null ? _address : '',
-                                        style: TextStyle(
-                                            fontSize: SizeConfig.inputFontSize,
-                                            color: Colors.blueGrey),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    "Address Line One",
-                                    style: AppTextStyle.textStyle.copyWith(
-                                        color: AppColors.grey,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(height: 8),
-                                  TextField(
-                                    controller: address_line_1,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    "Address Line two",
-                                    style: AppTextStyle.textStyle.copyWith(
-                                        color: AppColors.grey,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(height: 8),
-                                  TextField(
-                                    controller: address_line_2,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text("Town",
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
-                                  TextField(
-                                    controller: town,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text("Postcode",
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
-                                  Text(postcode != null ? postcode : '',
-                                      style: inputTextStyle(
-                                          SizeConfig.inputFontSize)),
-                                  SizedBox(height: 8),
-                                  Text('Learner License Details',
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.black,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
-                                  Text("Provisional License No",
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
-                                  TextField(
-                                    controller: license_no,
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 0, 3, 16),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text("License Expiry",
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 8),
-                                  DateTimeField(
-                                    controller: license_exp_date,
-                                    textAlign: TextAlign.left,
-                                    onSaved: (val) {
-                                      print('333 $val');
-                                    },
-                                    format: DateFormat('dd-MM-yyyy'),
-                                    keyboardType: TextInputType.datetime,
-                                    onChanged: (_) {},
-                                    style: inputTextStyle(
-                                        SizeConfig.inputFontSize),
-                                    decoration: InputDecoration(
-                                      hintText: "DD-MM-YYY",
-                                      hintStyle: placeholderStyle(
-                                          SizeConfig.labelFontSize),
-                                      suffixIcon: Container(
-                                        child: Icon(Icons.calendar_today,
-                                            size: SizeConfig.labelFontSize,
-                                            color: Colors.black38),
-                                        margin:
-                                            EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                      ),
-                                      focusedBorder: inputFocusedBorderStyle(),
-                                      enabledBorder: inputBorderStyle(),
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 10, 0, 0),
-                                    ),
-                                    onShowPicker: (context, currentValue) {
-                                      return showDatePicker(
-                                              context: context,
-                                              builder: (context, child) {
-                                                return Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                    colorScheme:
-                                                        ColorScheme.light(
-                                                      primary: Dark,
-                                                      // <-- SEE HERE
-                                                      onPrimary: Colors.white,
-                                                      // <-- SEE HERE
-                                                      onSurface: Colors
-                                                          .black, // <-- SEE HERE
-                                                    ),
-                                                    textButtonTheme:
-                                                        TextButtonThemeData(
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        foregroundColor:
-                                                            Dark, // button text color
+                                                              .blockSizeVertical,
+                                                      child: Radio(
+                                                        value: 'own',
+                                                        groupValue:
+                                                            vehiclePreference,
+                                                        activeColor: Dark,
+                                                        onChanged: (val) {
+                                                          setState(() {
+                                                            vehiclePreference =
+                                                                val.toString();
+                                                          });
+                                                        },
                                                       ),
                                                     ),
-                                                  ),
-                                                  child: child!,
+                                                    LayoutBuilder(
+                                                      builder: (context,
+                                                          constraints) {
+                                                        return Container(
+                                                            child: AutoSizeText(
+                                                                'Own Car',
+                                                                style: inputLabelStyleDark(
+                                                                    SizeConfig
+                                                                        .labelFontSize)));
+                                                      },
+                                                    )
+                                                  ],
                                                 );
-                                              },
-                                              firstDate: DateTime.now(),
-                                              initialDate: DateTime.now(),
-                                              lastDate: DateTime(
-                                                  DateTime.now().year + 35,
-                                                  12,
-                                                  31))
-                                          .then((DateTime? date) async {
-                                        // if (date != null) {
-                                        //   final time = await showTimePicker(
-                                        //     context: context,
-                                        //     initialTime: TimeOfDay.fromDateTime(
-                                        //         currentValue ?? DateTime.now()),
-                                        //   );
-                                        //   return DateTimeField.combine(
-                                        //       date, time);
-                                        // } else {
-                                        license_exp_date =
-                                            TextEditingController(
-                                                text: formatDate(date!));
-                                        setState(() {});
-                                        return currentValue;
-                                        // }
-                                      });
-                                    },
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text('License Image',
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      if (license != null ||
-                                          licenceHttpPath != null)
-                                        Container(
-                                          width:
-                                              30 * SizeConfig.blockSizeVertical,
-                                          height:
-                                              30 * SizeConfig.blockSizeVertical,
-                                          color: Colors.transparent,
-                                          // alignment: Alignment(0, -Responsive.width(.1, context)),
-                                          child: Stack(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10)),
-                                                child: Container(
-                                                    margin: EdgeInsets.fromLTRB(
-                                                        0,
-                                                        0 *
+                                              }),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Expanded(
+                                              flex: 0,
+                                              child: LayoutBuilder(builder:
+                                                  (context, constraints) {
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Transform.scale(
+                                                        scale: .15 *
                                                             SizeConfig
                                                                 .blockSizeVertical,
-                                                        0,
-                                                        0),
-                                                    // padding:
-                                                    //     EdgeInsets.all(0),
-                                                    decoration: BoxDecoration(
-                                                      // border: Border.all(
-                                                      //     color: AppColors
-                                                      //         .grey
-                                                      //         .withOpacity(
-                                                      //             .50)),
+                                                        child: Radio(
+                                                          value: 'instructor',
+                                                          groupValue:
+                                                              vehiclePreference,
+                                                          activeColor: Dark,
+                                                          onChanged: (val) {
+                                                            setState(() {
+                                                              vehiclePreference =
+                                                                  val.toString();
+                                                            });
+                                                          },
+                                                        )),
+                                                    LayoutBuilder(
+                                                      builder: (context,
+                                                          constraints) {
+                                                        return AutoSizeText(
+                                                            'Instructor car',
+                                                            style: inputLabelStyleDark(
+                                                                SizeConfig
+                                                                    .labelFontSize));
+                                                      },
+                                                    )
+                                                  ],
+                                                );
+                                              }),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text('Address:',
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          "Address Search",
+                                          style: AppTextStyle.textStyle
+                                              .copyWith(
+                                                  color: AppColors.grey,
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(height: 8),
+                                        GestureDetector(
+                                          onTap: _handlePressButton,
+                                          child: Container(
+                                            width:
+                                                Responsive.width(100, context),
+                                            height: SizeConfig.inputHeight,
+                                            alignment: Alignment.centerLeft,
+                                            padding:
+                                                EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                            decoration:
+                                                textAreaBorderLikeAsInput(),
+                                            child: AutoSizeText(
+                                              _address != null ? _address : '',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      SizeConfig.inputFontSize,
+                                                  color: Colors.blueGrey),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          "Address Line One",
+                                          style: AppTextStyle.textStyle
+                                              .copyWith(
+                                                  color: AppColors.grey,
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          controller: address_line_1,
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          decoration: InputDecoration(
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 0, 3, 16),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          "Address Line two",
+                                          style: AppTextStyle.textStyle
+                                              .copyWith(
+                                                  color: AppColors.grey,
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          controller: address_line_2,
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          decoration: InputDecoration(
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 0, 3, 16),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text("Town",
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          controller: town,
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          decoration: InputDecoration(
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 0, 3, 16),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text("Postcode",
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 8),
+                                        Text(postcode != null ? postcode : '',
+                                            style: inputTextStyle(
+                                                SizeConfig.inputFontSize)),
+                                        SizedBox(height: 8),
+                                        Text('Learner License Details',
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 8),
+                                        Text("Provisional License No",
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          controller: license_no,
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          decoration: InputDecoration(
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 0, 3, 16),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text("License Expiry",
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 8),
+                                        DateTimeField(
+                                          controller: license_exp_date,
+                                          textAlign: TextAlign.left,
+                                          onSaved: (val) {
+                                            print('333 $val');
+                                          },
+                                          format: DateFormat('dd-MM-yyyy'),
+                                          keyboardType: TextInputType.datetime,
+                                          onChanged: (_) {},
+                                          style: inputTextStyle(
+                                              SizeConfig.inputFontSize),
+                                          decoration: InputDecoration(
+                                            hintText: "DD-MM-YYY",
+                                            hintStyle: placeholderStyle(
+                                                SizeConfig.labelFontSize),
+                                            suffixIcon: Container(
+                                              child: Icon(Icons.calendar_today,
+                                                  size:
+                                                      SizeConfig.labelFontSize,
+                                                  color: Colors.black38),
+                                              margin: EdgeInsets.fromLTRB(
+                                                  15, 0, 0, 0),
+                                            ),
+                                            focusedBorder:
+                                                inputFocusedBorderStyle(),
+                                            enabledBorder: inputBorderStyle(),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                5, 10, 0, 0),
+                                          ),
+                                          onShowPicker:
+                                              (context, currentValue) {
+                                            return showDatePicker(
+                                                    context: context,
+                                                    builder: (context, child) {
+                                                      return Theme(
+                                                        data: Theme.of(context)
+                                                            .copyWith(
+                                                          colorScheme:
+                                                              ColorScheme.light(
+                                                            primary: Dark,
+                                                            // <-- SEE HERE
+                                                            onPrimary:
+                                                                Colors.white,
+                                                            // <-- SEE HERE
+                                                            onSurface: Colors
+                                                                .black, // <-- SEE HERE
+                                                          ),
+                                                          textButtonTheme:
+                                                              TextButtonThemeData(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              foregroundColor:
+                                                                  Dark, // button text color
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        child: child!,
+                                                      );
+                                                    },
+                                                    firstDate: DateTime.now(),
+                                                    initialDate: DateTime.now(),
+                                                    lastDate: DateTime(
+                                                        DateTime.now().year +
+                                                            35,
+                                                        12,
+                                                        31))
+                                                .then((DateTime? date) async {
+                                              // if (date != null) {
+                                              //   final time = await showTimePicker(
+                                              //     context: context,
+                                              //     initialTime: TimeOfDay.fromDateTime(
+                                              //         currentValue ?? DateTime.now()),
+                                              //   );
+                                              //   return DateTimeField.combine(
+                                              //       date, time);
+                                              // } else {
+                                              license_exp_date =
+                                                  TextEditingController(
+                                                      text: formatDate(date!));
+                                              setState(() {});
+                                              return currentValue;
+                                              // }
+                                            });
+                                          },
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text('License Image',
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            if (license != null ||
+                                                licenceHttpPath != null)
+                                              Container(
+                                                width: 30 *
+                                                    SizeConfig
+                                                        .blockSizeVertical,
+                                                height: 30 *
+                                                    SizeConfig
+                                                        .blockSizeVertical,
+                                                color: Colors.transparent,
+                                                // alignment: Alignment(0, -Responsive.width(.1, context)),
+                                                child: Stack(
+                                                  children: [
+                                                    ClipRRect(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      child: Container(
+                                                          margin: EdgeInsets
+                                                              .fromLTRB(
+                                                                  0,
+                                                                  0 *
+                                                                      SizeConfig
+                                                                          .blockSizeVertical,
+                                                                  0,
+                                                                  0),
+                                                          // padding:
+                                                          //     EdgeInsets.all(0),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            // border: Border.all(
+                                                            //     color: AppColors
+                                                            //         .grey
+                                                            //         .withOpacity(
+                                                            //             .50)),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    top: .0),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                print(
+                                                                    'Imageee--------$imageBaseUrl');
+                                                                Navigator.of(context).push(PageRouteBuilder(
+                                                                    opaque:
+                                                                        false,
+                                                                    pageBuilder: (BuildContext context, _, __) => ZoomView(
+                                                                        "${imageBaseUrl}$licenceHttpPath" ??
+                                                                            license!
+                                                                                .path,
+                                                                        licenceHttpPath !=
+                                                                                null
+                                                                            ? 'http'
+                                                                            : 'file')));
+                                                              },
+                                                              child: licenceHttpPath !=
+                                                                      null
+                                                                  ? ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(10)),
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width: 20 *
+                                                                            SizeConfig.blockSizeVertical,
+                                                                        height: 20 *
+                                                                            SizeConfig.blockSizeVertical,
+                                                                        child:
+                                                                            CachedNetworkImage(
+                                                                          imageUrl:
+                                                                              "${imageBaseUrl}$licenceHttpPath",
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                          placeholder:
+                                                                              (context, url) {
+                                                                            return Center(
+                                                                              child: CircularProgressIndicator(strokeWidth: 1.4, color: AppColors.secondary),
+                                                                            );
+                                                                          },
+                                                                          errorWidget: (c, e, v) =>
+                                                                              Icon(Icons.error_outline),
+                                                                          // width: 20 * SizeConfig.blockSizeVertical,
+                                                                          // height: 20 * SizeConfig.blockSizeVertical,
+                                                                          // fit: BoxFit.cover,
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  : Image.file(
+                                                                      File(license!
+                                                                          .path),
+                                                                      width: 20 *
+                                                                          SizeConfig
+                                                                              .blockSizeVertical,
+                                                                      height: 20 *
+                                                                          SizeConfig
+                                                                              .blockSizeVertical,
+                                                                      fit: BoxFit
+                                                                          .cover),
+                                                            ),
+                                                          )),
                                                     ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: .0),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          print(
-                                                              'Imageee--------$imageBaseUrl');
-                                                          Navigator.of(context).push(PageRouteBuilder(
-                                                              opaque: false,
-                                                              pageBuilder: (BuildContext
-                                                                          context,
-                                                                      _,
-                                                                      __) =>
-                                                                  ZoomView(
-                                                                      "${imageBaseUrl}$licenceHttpPath" ??
-                                                                          license!
-                                                                              .path,
-                                                                      licenceHttpPath !=
-                                                                              null
-                                                                          ? 'http'
-                                                                          : 'file')));
+                                                    Positioned(
+                                                      top: -12,
+                                                      right: Responsive.width(
+                                                          17, context),
+                                                      child: IconButton(
+                                                        icon: Icon(Icons
+                                                            .remove_circle),
+                                                        iconSize: 30,
+                                                        color: Colors.red,
+                                                        onPressed: () => {
+                                                          this.setState(() {
+                                                            // print('licence------$license');
+                                                            // print('licencepath-=-------$licenceHttpPath');
+                                                            // print('licence base------------$licenceBase64');
+                                                            license = null;
+                                                            licenceHttpPath =
+                                                                null;
+                                                            licenceBase64 = "";
+                                                            licenceBool = true;
+                                                          })
                                                         },
-                                                        child: licenceHttpPath !=
-                                                                null
-                                                            ? ClipRRect(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10)),
-                                                                child: SizedBox(
-                                                                  width: 20 *
-                                                                      SizeConfig
-                                                                          .blockSizeVertical,
-                                                                  height: 20 *
-                                                                      SizeConfig
-                                                                          .blockSizeVertical,
-                                                                  child:
-                                                                      CachedNetworkImage(
-                                                                    imageUrl:
-                                                                        "${imageBaseUrl}$licenceHttpPath",
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    placeholder:
-                                                                        (context,
-                                                                            url) {
-                                                                      return Center(
-                                                                        child: CircularProgressIndicator(
-                                                                            strokeWidth:
-                                                                                1.4,
-                                                                            color:
-                                                                                AppColors.secondary),
-                                                                      );
-                                                                    },
-                                                                    errorWidget: (c,
-                                                                            e,
-                                                                            v) =>
-                                                                        Icon(Icons
-                                                                            .error_outline),
-                                                                    // width: 20 * SizeConfig.blockSizeVertical,
-                                                                    // height: 20 * SizeConfig.blockSizeVertical,
-                                                                    // fit: BoxFit.cover,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            : Image.file(
-                                                                File(license!
-                                                                    .path),
-                                                                width: 20 *
-                                                                    SizeConfig
-                                                                        .blockSizeVertical,
-                                                                height: 20 *
-                                                                    SizeConfig
-                                                                        .blockSizeVertical,
-                                                                fit: BoxFit
-                                                                    .cover),
                                                       ),
-                                                    )),
-                                              ),
-                                              Positioned(
-                                                top: -12,
-                                                right: Responsive.width(
-                                                    17, context),
-                                                child: IconButton(
-                                                  icon:
-                                                      Icon(Icons.remove_circle),
-                                                  iconSize: 30,
-                                                  color: Colors.red,
-                                                  onPressed: () => {
-                                                    this.setState(() {
-                                                      // print('licence------$license');
-                                                      // print('licencepath-=-------$licenceHttpPath');
-                                                      // print('licence base------------$licenceBase64');
-                                                      license = null;
-                                                      licenceHttpPath = null;
-                                                      licenceBase64 = "";
-                                                      licenceBool = true;
-                                                    })
-                                                  },
+                                                    )
+                                                  ],
                                                 ),
-                                              )
-                                            ],
-                                          ),
+                                              ),
+                                            if (license == null &&
+                                                licenceHttpPath == null)
+                                              Container(
+                                                child: IconButton(
+                                                  icon: Icon(Icons.camera_alt),
+                                                  iconSize: 5 *
+                                                      SizeConfig
+                                                          .blockSizeVertical,
+                                                  color: Colors.blue,
+                                                  tooltip:
+                                                      'Add Image By Camera',
+                                                  onPressed: _openCamera,
+                                                ),
+                                              ),
+                                            if (license == null &&
+                                                licenceHttpPath == null)
+                                              Container(
+                                                child: IconButton(
+                                                  icon: Icon(Icons.folder_open),
+                                                  iconSize: 5 *
+                                                      SizeConfig
+                                                          .blockSizeVertical,
+                                                  color: Colors.blue,
+                                                  tooltip:
+                                                      'Add Image/File By Gallery',
+                                                  onPressed: _openGallery,
+                                                ),
+                                              ),
+                                          ],
                                         ),
-                                      if (license == null &&
-                                          licenceHttpPath == null)
-                                        Container(
-                                          child: IconButton(
-                                            icon: Icon(Icons.camera_alt),
-                                            iconSize: 5 *
-                                                SizeConfig.blockSizeVertical,
-                                            color: Colors.blue,
-                                            tooltip: 'Add Image By Camera',
-                                            onPressed: _openCamera,
-                                          ),
-                                        ),
-                                      if (license == null &&
-                                          licenceHttpPath == null)
-                                        Container(
-                                          child: IconButton(
-                                            icon: Icon(Icons.folder_open),
-                                            iconSize: 5 *
-                                                SizeConfig.blockSizeVertical,
-                                            color: Colors.blue,
-                                            tooltip:
-                                                'Add Image/File By Gallery',
-                                            onPressed: _openGallery,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                  Text(
-                                      'Note: License image should show license number, expiry date, address and your picture clearly.',
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.grey,
-                                          fontWeight: FontWeight.w500)),
-                                ],
-                              ),
+                                        Text(
+                                            'Note: License image should show license number, expiry date, address and your picture clearly.',
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                      ],
+                                    ),
                             ],
                           ),
                         ),
                         SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 10),
-                          child: CustomButton(
-                            title: 'Update',
-                            onTap: () => updateUserDetail(),
-                          ),
+                        loading
+                            ? SizedBox()
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 50, vertical: 10),
+                                child: CustomButton(
+                                  title: 'Update',
+                                  onTap: () => updateUserDetail(),
+                                ),
 
-                          // Container(
-                          //   //height: constraints.maxHeight * 0.08,
-                          //   width: constraints.maxWidth * 0.65,
-                          //   margin:
-                          //       EdgeInsets.only(top: constraints.maxHeight * 0.05),
-                          //   child: Material(
-                          //     borderRadius: BorderRadius.circular(10),
-                          //     color: Dark,
-                          //     elevation: 5.0,
-                          //     child: MaterialButton(
-                          //       onPressed: () => updateUserDetail(),
-                          //       child: LayoutBuilder(
-                          //         builder: (context, constraints) {
-                          //           return Container(
-                          //             //width: constraints.maxWidth * 0.35,
-                          //             child: Text(
-                          //               'Update',
-                          //               style: TextStyle(
-                          //                 fontFamily: 'Poppins',
-                          //                 fontSize: 24,
-                          //                 fontWeight: FontWeight.w700,
-                          //                 color: Color.fromRGBO(255, 255, 255, 1.0),
-                          //               ),
-                          //             ),
-                          //           );
-                          //         },
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                        ),
+                                // Container(
+                                //   //height: constraints.maxHeight * 0.08,
+                                //   width: constraints.maxWidth * 0.65,
+                                //   margin:
+                                //       EdgeInsets.only(top: constraints.maxHeight * 0.05),
+                                //   child: Material(
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     color: Dark,
+                                //     elevation: 5.0,
+                                //     child: MaterialButton(
+                                //       onPressed: () => updateUserDetail(),
+                                //       child: LayoutBuilder(
+                                //         builder: (context, constraints) {
+                                //           return Container(
+                                //             //width: constraints.maxWidth * 0.35,
+                                //             child: Text(
+                                //               'Update',
+                                //               style: TextStyle(
+                                //                 fontFamily: 'Poppins',
+                                //                 fontSize: 24,
+                                //                 fontWeight: FontWeight.w700,
+                                //                 color: Color.fromRGBO(255, 255, 255, 1.0),
+                                //               ),
+                                //             ),
+                                //           );
+                                //         },
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                              ),
                       ],
                     ),
                   ),

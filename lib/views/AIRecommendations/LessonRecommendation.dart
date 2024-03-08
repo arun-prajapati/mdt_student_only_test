@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+// import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -239,15 +239,7 @@ class _LessonRecommendationState extends State<LessonRecommendation> {
                                       ? Container()
                                       : Container(
                                           margin: EdgeInsets.only(top: 10),
-                                          child: YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              params: YoutubePlayerParams(
-                                                  mute: false,
-                                                  showControls: true,
-                                                  showFullscreenButton: false),
-                                            )..loadVideo(element["yt_link"]),
-                                            // width: 250,
-                                          ),
+                                          child: SizedBox(),
                                         )
                                 ],
                               );

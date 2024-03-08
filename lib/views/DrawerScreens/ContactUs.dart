@@ -2,10 +2,11 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:Smart_Theory_Test/custom_button.dart';
-import 'package:Smart_Theory_Test/locater.dart';
-import 'package:Smart_Theory_Test/utils/app_colors.dart';
+import 'package:student_app/custom_button.dart';
+import 'package:student_app/locater.dart';
+import 'package:student_app/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:student_app/routing/route_names.dart' as routes;
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -118,21 +119,22 @@ class _ContactUs extends State<ContactUs> {
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {}),
                           SizedBox(height: 12),
-                          TextField(
+                          TextFormField(
                               controller: phone,
                               style: inputTextStyle(SizeConfig.inputFontSize),
                               decoration: InputDecoration(
-                                labelText: 'Mobile No',
-                                labelStyle: AppTextStyle.textStyle.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.grey),
-                                focusedBorder: inputFocusedBorderStyle(),
-                                enabledBorder: inputBorderStyle(),
-                                hintStyle:
-                                    placeholderStyle(SizeConfig.labelFontSize),
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
-                              ),
+                                  labelText: 'Mobile No',
+                                  labelStyle: AppTextStyle.textStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.grey),
+                                  focusedBorder: inputFocusedBorderStyle(),
+                                  enabledBorder: inputBorderStyle(),
+                                  hintStyle: placeholderStyle(
+                                      SizeConfig.labelFontSize),
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(10, 0, 3, 16),
+                                  counterText: ""),
+                              maxLength: 11,
                               keyboardType: TextInputType.number,
                               onChanged: (value) {}),
                           SizedBox(height: 12),
@@ -151,7 +153,7 @@ class _ContactUs extends State<ContactUs> {
                                 contentPadding:
                                     EdgeInsets.fromLTRB(10, 0, 3, 16),
                               ),
-                              readOnly: true,
+                              // readOnly: true,
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {}),
                           SizedBox(height: 12),
@@ -344,13 +346,15 @@ class _ContactUs extends State<ContactUs> {
   Future<void> updateUserDetail() async {
     print('Updates----------');
     if (name == null || name.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Enter your name.');
+      Fluttertoast.showToast(msg: 'Please Enter your name');
     } else if (email == null || email.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Enter your email id.');
+      Fluttertoast.showToast(msg: 'Please Enter your email id');
     } else if (phone == null || phone.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Enter your phone number.');
+      Fluttertoast.showToast(msg: 'Please Enter your phone number');
+    } else if (phone.text.length != 10 && phone.text.length != 11) {
+      Fluttertoast.showToast(msg: 'Please Enter valid phone number');
     } else if (message == null || message.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Type your message.');
+      Fluttertoast.showToast(msg: 'Please Type your message');
     } else {
       showLoader("Submitting...");
       try {
@@ -366,8 +370,12 @@ class _ContactUs extends State<ContactUs> {
         if (response['message'] != null) {
           Fluttertoast.showToast(msg: response['message']);
           if (response['success'] == true) {
+            print('ppppopopoopopo');
+            Navigator.pop(context);
+            Navigator.pop(context);
             Fluttertoast.showToast(msg: response['success']);
-            _navigationService.goBack();
+
+            // _navigationService.navigateTo(routes.HomeRoute);
           }
         }
         closeLoader();
