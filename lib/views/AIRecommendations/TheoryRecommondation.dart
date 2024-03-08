@@ -14,6 +14,7 @@ import 'package:student_app/custom_button.dart';
 import 'package:student_app/external.dart';
 import 'package:student_app/services/subsciption_provider.dart';
 import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../../Constants/app_colors.dart';
@@ -51,11 +52,16 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   List theoryContent = [];
   Map topicData = {};
   bool expandAll = false;
+  bool isWatchVideo = false;
+  var controller = YoutubePlayerController(
+      params: YoutubePlayerParams(
+          mute: false, showControls: true, showFullscreenButton: false));
   bool _isSelected = false;
   List<bool> readContentTheory = [];
 
   DataStatus _dataStatus = DataStatus.Initial;
 
+  //
   // DataStatus _w = DataStatus.Initial;
 
   int selected = 0;
@@ -168,14 +174,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       'token': token,
     };
     final url = Uri.parse('$api/api/ai_provideAI_data/${topic}');
-    print("URL +++++++ TOPIC $api/api/ai_provideAI_data/${topic}");
+    print("URL +++++++ TOPIC $url");
     final response = await http.get(url, headers: header);
     print("RESPONSE OF TOPIC ${response.body}");
 
     if (response.statusCode == 200) {
       loading(value: false);
       // print(jsonDecode(response.body));
-      return jsonDecode(response.body)['data'][topic.replaceAll("_", " ")];
+      return jsonDecode(response.body);
     } else {
       print("RESPONSE OF TOPIC ${response.body}");
       loading(value: false);
@@ -628,6 +634,13 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                         _dataStatus =
                                                             DataStatus.Loaded;
                                                         topicData = data;
+                                                        print(
+                                                            'RRRRGJGJKGJKG $topicData');
+                                                        _handleURLButtonPress(
+                                                            context,
+                                                            topicData['data'][
+                                                                    "reading_links"]
+                                                                [0]);
                                                       });
                                                     });
                                                   })),
@@ -685,6 +698,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                     setState(() {
                                                       _dataStatus =
                                                           DataStatus.Loading;
+                                                      isWatchVideo = true;
                                                     });
                                                     await getTopicAiContent(
                                                             theoryContent[index]
@@ -695,6 +709,15 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                         _dataStatus =
                                                             DataStatus.Loaded;
                                                         topicData = data;
+                                                        urlLauncher(
+                                                            "${topicData['data']["yt_links"][0]}");
+
+                                                        // YoutubePlayerController.convertUrlToId(url)
+                                                        // controller.
+                                                        // controller.loadVideo(
+                                                        //     topicData['data']
+                                                        //             ['yt_links']
+                                                        //         [0]);
                                                       });
                                                     });
                                                   })),
@@ -753,41 +776,22 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           child: topicData.isNotEmpty
                                               ? Column(
                                                   children: [
-                                                    ListTile(
-                                                      title: Text(
-                                                          "Read article",
-                                                          style: TextStyle(
-                                                              color: Dark)),
-                                                      onTap: () {
-                                                        _handleURLButtonPress(
-                                                            context,
-                                                            topicData[
-                                                                    "reading_links"]
-                                                                [0]);
-                                                      },
-                                                    ),
-                                                    ListTile(
-                                                      title: YoutubePlayer(
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        controller:
-                                                            YoutubePlayerController(
-                                                          params: YoutubePlayerParams(
-                                                              mute: false,
-                                                              showControls:
-                                                                  true,
-                                                              showFullscreenButton:
-                                                                  false),
-                                                        )..loadVideo(topicData[
-                                                                "yt_links"][0]),
-                                                        // width: 250,
-                                                      ),
-                                                      // onTap: () {
-                                                      //   _handleURLButtonPress(
-                                                      //       context,
-                                                      //       "https://www.youtube.com/watch?v=sI2Bbs_IvcU");
-                                                      // },
-                                                    )
+                                                    // ListTile(
+                                                    //   title: Text(
+                                                    //       "Read article",
+                                                    //       style: TextStyle(
+                                                    //           color: Dark)),
+                                                    //   onTap: () {
+                                                    //     _handleURLButtonPress(
+                                                    //         context,
+                                                    //         topicData['data'][
+                                                    //                 "reading_links"]
+                                                    //             [0]);
+                                                    //   },
+                                                    // ),
+                                                    isWatchVideo
+                                                        ? SizedBox()
+                                                        : SizedBox()
                                                   ],
                                                 )
                                               : Text("No data"),
@@ -891,9 +895,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     style: AppTextStyle.textStyle.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15)),
-                                onTap: () {
-                                  print(
-                                      'theoryContent[index]["topic_id"] ${theoryContent[index]["id"]}');
+                                onTap: () async {
                                   GetPremium(context);
                                 },
                                 trailing: Container(
@@ -1126,7 +1128,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     context
                                         .read<SubscriptionProvider>()
                                         .fetchOffer();
-                                    Stripe.publishableKey = stripePublic;
+                                    // Stripe.publishableKey = stripePublic;
                                     payWallBottomSheet();
                                     // closeLoader();
                                     // Map params = {
@@ -1250,8 +1252,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            PurchaseSub.purchasePackage(
-                                val.package.first.storeProduct);
+                            PurchaseSub.purchasePackage(val.package.first);
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(

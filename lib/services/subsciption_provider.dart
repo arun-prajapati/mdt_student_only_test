@@ -25,18 +25,31 @@ class SubscriptionProvider extends ChangeNotifier {
     // });
     // CustomerInfo customerInfo = await Purchases.getCustomerInfo();
     // print('========================= ${customerInfo.entitlements}');
-    if (Platform.isAndroid) {
-      // final offering = await PurchaseSub().fetchOffer();
-      final offerList = await Purchases.getOfferings();
-      // if (offering.isEmpty) {
+    // if (Platform.isAndroid) {
+    // final offering = await PurchaseSub().fetchOffer();
+    final offerList = await Purchases.getOfferings();
+    // if (offering.isEmpty) {
 
-      //   showToast("No plans found");
-      // } else {
-      package = offerList.current!.availablePackages;
-      log("======= SUBSCRIPTION ======= ${package.first.storeProduct}");
-      // Purchases.purchasePackage(offerList.current!.availablePackages.first);
+    //   showToast("No plans found");
+    // } else {
+    package = offerList.current!.availablePackages;
+    log("======= SUBSCRIPTION ======= ${package.first.storeProduct}");
+    // Purchases.purchasePackage(offerList.current!.availablePackages.first);
+    notifyListeners();
+    // }
+  }
+
+  isUserPurchaseTest() {
+    Purchases.addCustomerInfoUpdateListener((customerInfo) {
+      EntitlementInfo? entitlementInfo =
+          customerInfo.entitlements.all['One time purchase'];
+      if (entitlementInfo!.isActive) {
+        _entitlement = Entitlement.paid;
+      } else {
+        _entitlement = Entitlement.unpaid;
+      }
       notifyListeners();
-    }
+    });
   }
 // }
 }
@@ -52,9 +65,9 @@ class PurchaseSub {
     // print('APP USERID ${configuration.appUserID}');
   }
 
-  static Future<bool> purchasePackage(StoreProduct package) async {
+  static Future<bool> purchasePackage(Package package) async {
     try {
-      await Purchases.purchaseStoreProduct(package).catchError((e) {
+      await Purchases.purchasePackage(package).catchError((e) {
         print("ERROR ====== $e");
         Fluttertoast.showToast(msg: e.toString());
         return e;

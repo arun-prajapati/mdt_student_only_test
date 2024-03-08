@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import '../Constants/global.dart';
 
 class AdiDriverCommonAPI {
@@ -18,6 +17,7 @@ class AdiDriverCommonAPI {
     };
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
+    print('contact-us ${response.body}');
     return data;
   }
 }

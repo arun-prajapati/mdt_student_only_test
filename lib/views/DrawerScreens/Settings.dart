@@ -95,25 +95,25 @@ class _Settings extends State<Settings> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: constraints.maxWidth * 0.07,
-                          vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Change Password',
-                            style: AppTextStyle.textStyle.copyWith(
-                                height: 1.2, fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.left,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                _navigationService.navigateToReplacement(
-                                  routes.ChangePasswordRoute,
-                                );
-                              },
-                              child:
-                                  Icon(Icons.keyboard_arrow_right, size: 26)),
-                        ],
+                          vertical: 40),
+                      child: InkWell(
+                        onTap: () {
+                          _navigationService.navigateToReplacement(
+                            routes.ChangePasswordRoute,
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Change Password',
+                              style: AppTextStyle.textStyle.copyWith(
+                                  height: 1.2, fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.left,
+                            ),
+                            Icon(Icons.keyboard_arrow_right, size: 26),
+                          ],
+                        ),
                       ),
                     ),
                   ],

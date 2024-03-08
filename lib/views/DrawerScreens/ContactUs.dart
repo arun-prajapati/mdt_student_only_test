@@ -6,6 +6,7 @@ import 'package:student_app/custom_button.dart';
 import 'package:student_app/locater.dart';
 import 'package:student_app/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:student_app/routing/route_names.dart' as routes;
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -28,7 +29,10 @@ class _ContactUs extends State<ContactUs> {
   bool _checkval = false;
 
   late Map userDetail;
-  final TextEditingController name = new TextEditingController(), email = new TextEditingController(), phone = new TextEditingController(), message = new TextEditingController();
+  final TextEditingController name = new TextEditingController(),
+      email = new TextEditingController(),
+      phone = new TextEditingController(),
+      message = new TextEditingController();
 
   @override
   void initState() {
@@ -92,7 +96,8 @@ class _ContactUs extends State<ContactUs> {
                 child: LayoutBuilder(builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       child: Column(
                         children: <Widget>[
                           SizedBox(height: 20),
@@ -101,26 +106,35 @@ class _ContactUs extends State<ContactUs> {
                               style: inputTextStyle(SizeConfig.inputFontSize),
                               decoration: InputDecoration(
                                 labelText: 'First Name',
-                                labelStyle: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.grey),
+                                labelStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
                                 focusedBorder: inputFocusedBorderStyle(),
                                 enabledBorder: inputBorderStyle(),
-                                hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                contentPadding: EdgeInsets.fromLTRB(10, 0, 3, 16),
+                                hintStyle:
+                                    placeholderStyle(SizeConfig.labelFontSize),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
                               ),
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {}),
                           SizedBox(height: 12),
-                          TextField(
+                          TextFormField(
                               controller: phone,
                               style: inputTextStyle(SizeConfig.inputFontSize),
                               decoration: InputDecoration(
-                                labelText: 'Mobile No',
-                                labelStyle: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.grey),
-                                focusedBorder: inputFocusedBorderStyle(),
-                                enabledBorder: inputBorderStyle(),
-                                hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                contentPadding: EdgeInsets.fromLTRB(10, 0, 3, 16),
-                              ),
+                                  labelText: 'Mobile No',
+                                  labelStyle: AppTextStyle.textStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.grey),
+                                  focusedBorder: inputFocusedBorderStyle(),
+                                  enabledBorder: inputBorderStyle(),
+                                  hintStyle: placeholderStyle(
+                                      SizeConfig.labelFontSize),
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(10, 0, 3, 16),
+                                  counterText: ""),
+                              maxLength: 11,
                               keyboardType: TextInputType.number,
                               onChanged: (value) {}),
                           SizedBox(height: 12),
@@ -129,13 +143,17 @@ class _ContactUs extends State<ContactUs> {
                               style: inputTextStyle(SizeConfig.inputFontSize),
                               decoration: InputDecoration(
                                 labelText: 'Email',
-                                labelStyle: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.grey),
+                                labelStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
                                 focusedBorder: inputFocusedBorderStyle(),
                                 enabledBorder: inputBorderStyle(),
-                                hintStyle: placeholderStyle(SizeConfig.labelFontSize),
-                                contentPadding: EdgeInsets.fromLTRB(10, 0, 3, 16),
+                                hintStyle:
+                                    placeholderStyle(SizeConfig.labelFontSize),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
                               ),
-                              readOnly: true,
+                              // readOnly: true,
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {}),
                           SizedBox(height: 12),
@@ -145,12 +163,17 @@ class _ContactUs extends State<ContactUs> {
                               style: inputTextStyle(SizeConfig.inputFontSize),
                               decoration: InputDecoration(
                                 labelText: 'Message',
-                                labelStyle: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.grey),
+                                labelStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
                                 focusedBorder: inputFocusedBorderStyle(),
                                 enabledBorder: inputBorderStyle(),
                                 hintText: 'Type you message here...',
-                                hintStyle: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black.withOpacity(0.8)),
-                                contentPadding: EdgeInsets.fromLTRB(10, 0, 3, 16),
+                                hintStyle: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.black.withOpacity(0.8)),
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 0, 3, 16),
                               ),
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {}),
@@ -219,12 +242,18 @@ class _ContactUs extends State<ContactUs> {
                                   children: [
                                     Text(
                                       'Phone     :',
-                                      style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black.withOpacity(0.8)),
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
                                     ),
                                     SizedBox(width: 10),
                                     Text(
                                       '+44 203 129 7741',
-                                      style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black.withOpacity(0.8)),
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
                                     ),
                                   ],
                                 ),
@@ -233,7 +262,10 @@ class _ContactUs extends State<ContactUs> {
                                   children: [
                                     Text(
                                       'Email      :',
-                                      style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black.withOpacity(0.8)),
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
                                     ),
                                     SizedBox(width: 10),
                                     InkWell(
@@ -257,12 +289,18 @@ class _ContactUs extends State<ContactUs> {
                                   children: [
                                     Text(
                                       'Address :',
-                                      style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black.withOpacity(0.8)),
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
                                     ),
                                     SizedBox(width: 10),
                                     Text(
                                       'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
-                                      style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, color: AppColors.black.withOpacity(0.8)),
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              AppColors.black.withOpacity(0.8)),
                                     ),
                                   ],
                                 ),
@@ -285,7 +323,10 @@ class _ContactUs extends State<ContactUs> {
     showLoader(loaderMessage);
     getUserDetail().then((userDetail) {
       setState(() {
-        name.text = userDetail['first_name'] + ((userDetail['last_name'] != null && userDetail['last_name'] != '') ? ' ' + userDetail['last_name'] : '');
+        name.text = userDetail['first_name'] +
+            ((userDetail['last_name'] != null && userDetail['last_name'] != '')
+                ? ' ' + userDetail['last_name']
+                : '');
         email.text = userDetail['email'] != null ? userDetail['email'] : '';
         phone.text = userDetail['phone'] != null ? userDetail['phone'] : '';
         print('PhoneNumber----------${userDetail['phone']}');
@@ -296,7 +337,8 @@ class _ContactUs extends State<ContactUs> {
 
   //Call APi Services
   Future<Map> getUserDetail() async {
-    Map response = await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response =
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
     return response;
   }
 
@@ -304,13 +346,15 @@ class _ContactUs extends State<ContactUs> {
   Future<void> updateUserDetail() async {
     print('Updates----------');
     if (name == null || name.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Enter your name.');
+      Fluttertoast.showToast(msg: 'Please Enter your name');
     } else if (email == null || email.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Enter your email id.');
+      Fluttertoast.showToast(msg: 'Please Enter your email id');
     } else if (phone == null || phone.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Enter your phone number.');
+      Fluttertoast.showToast(msg: 'Please Enter your phone number');
+    } else if (phone.text.length != 10 && phone.text.length != 11) {
+      Fluttertoast.showToast(msg: 'Please Enter valid phone number');
     } else if (message == null || message.text.trim() == '') {
-      Fluttertoast.showToast(msg: 'Please! Type your message.');
+      Fluttertoast.showToast(msg: 'Please Type your message');
     } else {
       showLoader("Submitting...");
       try {
@@ -320,12 +364,18 @@ class _ContactUs extends State<ContactUs> {
           'phone': phone != null ? phone.text : '',
           'message': message != null ? message.text : '',
         };
-        Map response = await _adiDriverCommonAPI.submitContactUsMessage(formData).catchError((onError) => closeLoader());
+        Map response = await _adiDriverCommonAPI
+            .submitContactUsMessage(formData)
+            .catchError((onError) => closeLoader());
         if (response['message'] != null) {
           Fluttertoast.showToast(msg: response['message']);
           if (response['success'] == true) {
+            print('ppppopopoopopo');
+            Navigator.pop(context);
+            Navigator.pop(context);
             Fluttertoast.showToast(msg: response['success']);
-            _navigationService.goBack();
+
+            // _navigationService.navigateTo(routes.HomeRoute);
           }
         }
         closeLoader();

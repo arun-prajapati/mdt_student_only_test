@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>915837451190-so2v0m34fcookje0qq6onv413js8vmmd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.915837451190-so2v0m34fcookje0qq6onv413js8vmmd</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>915837451190-eil13etj1qdsi3anlr197ifh7lq0da5f.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAMMZWqCjvMcHVxJW1gaVxm1SJwe4os3d0</string>
 	<key>GCM_SENDER_ID</key>
@@ -10,8 +16,6 @@
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.saurabhinfosys.stt</string>
-	<key>API_KEY</key>
-    <string>AIzaSyAXurglWvMCGCLVu0bwwDurqUvKh49XLM0</string>
 	<key>PROJECT_ID</key>
 	<string>student-theory-test</string>
 	<key>STORAGE_BUCKET</key>

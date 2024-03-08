@@ -340,8 +340,8 @@ class _SignInFormState extends State<SignInForm> {
                         //Field 1
                         CustomTextField(
                           controller: emailController,
-                          heading: 'Email / Mobile Number',
-                          label: 'Enter Email / Mobile Number',
+                          heading: 'Email',
+                          label: 'Enter Email',
                           //prefixIcon: Icon(Icons.mail, color: Dark),
                           validator: (value) {
                             email = value!.trim();

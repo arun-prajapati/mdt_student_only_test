@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+// import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../../Constants/app_colors.dart';
 import '../../responsive/percentage_mediaquery.dart';
@@ -236,15 +236,7 @@ class _TestRecommendationState extends State<TestRecommendation> {
                                       ? Container()
                                       : Container(
                                           margin: EdgeInsets.only(top: 10),
-                                          child: YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              params: YoutubePlayerParams(
-                                                  mute: false,
-                                                  showControls: true,
-                                                  showFullscreenButton: false),
-                                            )..loadVideo(element["yt_link"][0]),
-                                            // width: 250,
-                                          ),
+                                          child: SizedBox(),
                                         )
                                 ],
                               );

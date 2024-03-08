@@ -11,12 +11,12 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.414376827573-sjenj3b56jt1pt6j6tqk9fndk3qtnuq6</string>
+				<string>com.googleusercontent.apps.414376827573-so2v0m34fcookje0qq6onv413js8vmmd</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>MDT Learner Driver</string>
+	<string>Student Theory Test</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
