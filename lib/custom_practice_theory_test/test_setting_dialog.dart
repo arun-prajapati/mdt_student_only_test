@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/utils/appImages.dart';
 
+import '../custom_button.dart';
 import '../locater.dart';
 import '../services/auth.dart';
 import '../services/navigation_service.dart';
 import '../services/practise_theory_test_services.dart';
+import '../utils/appImages.dart';
 import '../utils/app_colors.dart';
 import '../views/Driver/PracticeTheoryTest.dart';
 

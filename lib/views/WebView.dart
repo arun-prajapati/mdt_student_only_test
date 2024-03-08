@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/locater.dart';
-import 'package:student_app/responsive/percentage_mediaquery.dart';
-import 'package:student_app/services/navigation_service.dart';
-import 'package:student_app/utils/app_colors.dart';
-import 'package:student_app/widget/CustomAppBar.dart';
+
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../Constants/app_colors.dart';
+import '../locater.dart';
+import '../responsive/percentage_mediaquery.dart';
 import '../responsive/size_config.dart';
+import '../services/navigation_service.dart';
+import '../widget/CustomAppBar.dart';
 
 class WebViewContainer extends StatefulWidget {
   final url;

@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
       ],
       child: MaterialApp(
-        title: "Student Theory Test",
+        // title: "Student Theory Test",
         //locale: DevicePreview.ofDeviceOrientation(context).locale, // <--- Add the locale
         //builder: DevicePreview.appBuilder,
         theme: ThemeData(

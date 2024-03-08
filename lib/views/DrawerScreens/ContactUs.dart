@@ -2,18 +2,19 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/locater.dart';
-import 'package:student_app/utils/app_colors.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
 
+import 'package:url_launcher/url_launcher.dart';
+//import 'package:student_app/routing/route_names.dart' as routes;
+
+import '../../custom_button.dart';
+import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
 import '../../services/adi_driver_services.dart';
 import '../../services/auth.dart';
 import '../../services/navigation_service.dart';
 import '../../style/global_style.dart';
+import '../../utils/app_colors.dart';
 import '../../widget/CustomAppBar.dart';
 import '../../widget/CustomSpinner.dart';
 

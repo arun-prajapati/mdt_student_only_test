@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>MDT Learner Driver</string>
+	<string>Smart Theory Test</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,15 +38,15 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This application requires camera  to put user's license photo.</string>
+	<string>This application requires camera  to put user&apos;s license photo.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This application requires location services to get loaction of login user.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application requires location services to get loaction of login user.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This application requires photo library  to put user's license photo.</string>
+	<string>This application requires photo library  to put user&apos;s license photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This application requires photo library  to put user's license photo.</string>
+	<string>This application requires photo library  to put user&apos;s license photo.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
