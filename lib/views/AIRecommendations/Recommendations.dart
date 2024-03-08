@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/views/AIRecommendations/LessonRecommendation.dart';
-import 'package:student_app/views/AIRecommendations/TestRecommendation.dart';
+import 'package:Smart_Theory_Test/views/AIRecommendations/LessonRecommendation.dart';
+import 'package:Smart_Theory_Test/views/AIRecommendations/TestRecommendation.dart';
 
 import '../../Constants/app_colors.dart';
 import '../../responsive/percentage_mediaquery.dart';
@@ -21,12 +21,11 @@ class Recommendations extends StatelessWidget {
           style: TextStyle(
               fontSize: SizeConfig.blockSizeHorizontal * 6,
               fontWeight: FontWeight.w500,
-              color: Colors.black
-          ),
+              color: Colors.black),
         ),
         elevation: 0.0,
         flexibleSpace: Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment(0.0, -1.0),
               end: Alignment(0.0, 1.0),
@@ -42,10 +41,9 @@ class Recommendations extends StatelessWidget {
           height: Responsive.height(100, context),
           //color: Colors.red,
           child: DefaultTabController(
-            length: 2,
-            child: Container(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
+              length: 2,
+              child: Container(
+                child: LayoutBuilder(builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: Column(
                       children: [
@@ -88,11 +86,9 @@ class Recommendations extends StatelessWidget {
                     ),
                   );
                 }),
-              )
-            ),
-
-          ),
+              )),
         ),
+      ),
     );
   }
 }

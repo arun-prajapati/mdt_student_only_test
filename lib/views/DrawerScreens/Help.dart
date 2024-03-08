@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/utils/app_colors.dart';
-import 'package:student_app/views/DrawerScreens/FAQ.dart';
-import 'package:student_app/views/WebView.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/views/DrawerScreens/FAQ.dart';
+import 'package:Smart_Theory_Test/views/WebView.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Constants/global.dart';

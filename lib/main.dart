@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/routing/route.dart' as router;
-import 'package:student_app/services/auth.dart';
-import 'package:student_app/services/navigation_service.dart';
-import 'package:student_app/services/subsciption_provider.dart';
-import 'package:student_app/views/Home/home_content_mobile.dart';
-import 'package:student_app/views/Login/welcome.dart';
-import 'package:student_app/views/Splash/splash.dart';
+import 'package:Smart_Theory_Test/routing/route.dart' as router;
+import 'package:Smart_Theory_Test/services/auth.dart';
+import 'package:Smart_Theory_Test/services/navigation_service.dart';
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
+import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
+import 'package:Smart_Theory_Test/views/Login/welcome.dart';
+import 'package:Smart_Theory_Test/views/Splash/splash.dart';
 import 'package:toast/toast.dart';
 
 import 'enums/Autentication_status.dart';
@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
         home: HomePage(),
         onGenerateRoute: router.generateRoute,
         debugShowCheckedModeBanner: false,
+        title: "Smart Theory Test",
       ),
     );
   }

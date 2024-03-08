@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:student_app/locater.dart';
+import 'package:Smart_Theory_Test/locater.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../services/navigation_service.dart';

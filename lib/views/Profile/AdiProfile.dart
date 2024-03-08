@@ -19,7 +19,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:intl/intl.dart';
-// import 'package:student_app/Constants/app_colors.dart';
+// import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 // import 'package:mdt/constants/global.dart';
 // import 'package:mdt/responsive/percentage_mediaquery.dart';
 // import 'package:mdt/responsive/size_config.dart';

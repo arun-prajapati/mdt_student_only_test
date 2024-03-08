@@ -16,7 +16,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:toast/toast.dart';
 
 import '../../../Constants/const_data.dart';

@@ -4,10 +4,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/services/auth.dart';
-import 'package:student_app/views/Login/register.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/services/auth.dart';
+import 'package:Smart_Theory_Test/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../responsive/percentage_mediaquery.dart';

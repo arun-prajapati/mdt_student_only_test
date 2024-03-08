@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/services/auth.dart';
-import 'package:student_app/utils/app_colors.dart';
-import 'package:student_app/views/Login/forgot_next_screen.dart';
-import 'package:student_app/views/Login/register.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/services/auth.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/views/Login/forgot_next_screen.dart';
+import 'package:Smart_Theory_Test/views/Login/register.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';

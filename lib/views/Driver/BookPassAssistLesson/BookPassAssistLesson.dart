@@ -4,8 +4,8 @@
 // import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:datetime_picker_formfield_new/datetime_picker_formfield_new.dart';
 // import 'package:google_place/google_place.dart';
-// import 'package:student_app/Constants/app_colors.dart';
-// import 'package:student_app/routing/route_names.dart' as routes;
+// import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+// import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 // import 'package:flutter_typeahead/flutter_typeahead.dart';
 // import 'package:auto_size_text/auto_size_text.dart';
 // import 'package:image_picker/image_picker.dart';

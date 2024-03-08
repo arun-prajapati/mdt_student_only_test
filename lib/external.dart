@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:Smart_Theory_Test/responsive/size_config.dart';
+import 'package:Smart_Theory_Test/style/global_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:student_app/responsive/size_config.dart';
-import 'package:student_app/style/global_style.dart';
 
 import 'Constants/app_colors.dart';
 

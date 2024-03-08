@@ -1,6 +1,6 @@
 {
-    "name": "mdt_student_only_test",
-    "short_name": "mdt_student_only_test",
+    "name": "Smart Theory Test _only_test",
+    "short_name": "Smart Theory Test _only_test",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

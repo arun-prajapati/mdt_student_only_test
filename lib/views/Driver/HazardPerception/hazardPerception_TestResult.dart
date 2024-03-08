@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
-import 'package:student_app/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
-import 'package:student_app/views/DashboardGridView/TheoryTab.dart';
-import 'package:student_app/widget/navigation_drawer/navigation_drawer.dart'
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
+import 'package:Smart_Theory_Test/views/DashboardGridView/TheoryTab.dart';
+import 'package:Smart_Theory_Test/widget/navigation_drawer/navigation_drawer.dart'
     as NB;
 
 import '../../locater.dart';

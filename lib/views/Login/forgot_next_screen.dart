@@ -2,12 +2,12 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/locater.dart';
-import 'package:student_app/services/auth.dart';
-import 'package:student_app/services/navigation_service.dart';
-import 'package:student_app/utils/app_colors.dart';
-import 'package:student_app/views/Login/welcome.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/locater.dart';
+import 'package:Smart_Theory_Test/services/auth.dart';
+import 'package:Smart_Theory_Test/services/navigation_service.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/views/Login/welcome.dart';
 
 import '../../custom_button.dart';
 import '../../responsive/percentage_mediaquery.dart';

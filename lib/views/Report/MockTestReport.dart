@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:student_app/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:toast/toast.dart';
 
 import '../../locater.dart';

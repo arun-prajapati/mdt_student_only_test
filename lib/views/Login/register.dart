@@ -15,9 +15,9 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 //import 'package:platform_device_id/platform_device_id.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/views/Login/login.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/views/Login/login.dart';
 import 'package:toast/toast.dart';
 
 import '../../locater.dart';

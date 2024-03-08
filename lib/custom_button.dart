@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final Gradient? gradient;

@@ -8,10 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 //import 'package:platform_device_id/platform_device_id.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/views/Login/ForgotPassword.dart';
-import 'package:student_app/views/Login/register.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/views/Login/ForgotPassword.dart';
+import 'package:Smart_Theory_Test/views/Login/register.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../enums/Autentication_status.dart';

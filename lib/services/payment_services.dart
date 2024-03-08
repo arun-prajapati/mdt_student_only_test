@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 import 'package:toast/toast.dart';
 
 import '../Constants/global.dart';
@@ -38,9 +38,15 @@ class PaymentService {
     return userData;
   }
 
-  Future<Map> saveTokeForPayment(double total_cost, String stripeToken, int _userType) async {
+  Future<Map> saveTokeForPayment(
+      double total_cost, String stripeToken, int _userType) async {
     _status = Status.Loading;
-    final url = Uri.parse("$api/api/pay-subscription?stripeToken=" + stripeToken + "&total_cost=" + total_cost.toString() + "&user_type=" + _userType.toString());
+    final url = Uri.parse("$api/api/pay-subscription?stripeToken=" +
+        stripeToken +
+        "&total_cost=" +
+        total_cost.toString() +
+        "&user_type=" +
+        _userType.toString());
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -98,7 +104,8 @@ class PaymentService {
   displayPaymentSheet(BuildContext context, Map data) async {
     try {
       await Stripe.instance.presentPaymentSheet().then((_) async {
-        if (data['parentPageName'] == "Lesson" || data['parentPageName'] == "PassAssist") {
+        if (data['parentPageName'] == "Lesson" ||
+            data['parentPageName'] == "PassAssist") {
           Map<String, String> param = {
             'id': data['id'],
             'user_type': data['user_type'],
@@ -128,15 +135,19 @@ class PaymentService {
           payPremiumPlanFee(data).then((value) {
             if (value != null) {
               if (value["success"] == true) {
-                Toast.show(value["message"], duration: 10, gravity: Toast.bottom);
+                Toast.show(value["message"],
+                    duration: 10, gravity: Toast.bottom);
               } else {
-                Toast.show("Payment failed!!", duration: 4, gravity: Toast.bottom);
+                Toast.show("Payment failed!!",
+                    duration: 4, gravity: Toast.bottom);
               }
             }
           });
         } else if (data['parentPageName'] == "dvsaSubscription") {
           print("dvsa");
-          await saveTokeForPayment(double.parse(data['total_cost']), '', data['user_type']).then(
+          await saveTokeForPayment(
+                  double.parse(data['total_cost']), '', data['user_type'])
+              .then(
             (value) {
               print("Payment res : $value");
               if (value["success"] == true) {
@@ -158,7 +169,9 @@ class PaymentService {
           );
         } else if (data['parentPageName'] == "dvsaSubscriptionHome") {
           print("dvsa");
-          await saveTokeForPayment(double.parse(data['total_cost']), '', data['user_type']).then(
+          await saveTokeForPayment(
+                  double.parse(data['total_cost']), '', data['user_type'])
+              .then(
             (value) {
               print("Payment res : $value");
               if (value["success"] == true) {
@@ -227,14 +240,25 @@ class PaymentService {
   }
 
   //  Future<Map<String, dynamic>>
-  createPaymentIntent(String amount, String currency, String description) async {
+  createPaymentIntent(
+      String amount, String currency, String description) async {
     try {
-      Map<String, dynamic> body = {'amount': calculateAmount(amount), 'currency': currency, 'payment_method_types[]': 'card', 'description': description};
+      Map<String, dynamic> body = {
+        'amount': calculateAmount(amount),
+        'currency': currency,
+        'payment_method_types[]': 'card',
+        'description': description
+      };
       await getStripToken().then((value) {
         stripeSecret = value["stript_secret"];
       });
-      var response =
-          await http.post(Uri.parse('https://api.stripe.com/v1/payment_intents'), body: body, headers: {'Authorization': 'Bearer $stripeSecret', 'Content-Type': 'application/x-www-form-urlencoded'});
+      var response = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            'Authorization': 'Bearer $stripeSecret',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          });
       print("Stripe Response : ${jsonDecode(response.body)}");
       return jsonDecode(response.body);
     } catch (err) {

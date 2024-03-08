@@ -1,26 +1,51 @@
 {
   "project_info": {
-    "project_number": "915837451190",
-    "project_id": "student-theory-test",
-    "storage_bucket": "student-theory-test.appspot.com"
+    "project_number": "825629569582",
+    "project_id": "smart-theory-test",
+    "storage_bucket": "smart-theory-test.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:915837451190:android:abd512acde7e0a9d3a1f17",
+        "mobilesdk_app_id": "1:825629569582:android:53175cc9585227f14c65bf",
         "android_client_info": {
-          "package_name": "com.student_theory_test_app"
+          "package_name": "com.vinsolutions.smarttheorytest"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "825629569582-f0v550ktckk6t0h32lsr504lh11scjqp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytest",
+            "certificate_hash": "bb3aa1f7ef992267105e8c7cb860051084948c00"
+          }
+        },
+        {
+          "client_id": "825629569582-ro8vjoi5q3t59bhb55m589bjfe4lglrm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCHOiFso06aoPPnzNt_OV0H3akf_8hKwgM"
+          "current_key": "AIzaSyALNe6dM9EXGsBgu7dtJc6GKcIxO8DhMdo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825629569582-ro8vjoi5q3t59bhb55m589bjfe4lglrm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "825629569582-vmjj0oc8j2ndd5ddj2jokdr3s4q9g49c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vinsolutions.smarttheorytest"
+              }
+            }
+          ]
         }
       }
     }

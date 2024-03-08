@@ -10,9 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/external.dart';
-import 'package:student_app/services/subsciption_provider.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/external.dart';
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:toast/toast.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 

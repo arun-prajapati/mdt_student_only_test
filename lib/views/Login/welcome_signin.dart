@@ -1,6 +1,6 @@
 // import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-// import 'package:student_app/routing/route.dart' as router;
-// import 'package:student_app/routing/route_names.dart' as routes;
+// import 'package:Smart_Theory_Test/routing/route.dart' as router;
+// import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 // import 'package:mdt/services/navigation_service.dart';
 // import 'package:mdt/services/social_login.dart';
 // import 'package:mdt/locater.dart';

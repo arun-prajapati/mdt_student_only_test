@@ -1,4 +1,4 @@
-package com.student_theory_test_app
+package com.vinsolutions.smarttheorytest
 
 import io.flutter.embedding.android.FlutterActivity
 

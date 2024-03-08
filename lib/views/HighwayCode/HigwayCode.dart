@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:student_app/views/WebView.dart';
+import 'package:Smart_Theory_Test/views/WebView.dart';
 
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';

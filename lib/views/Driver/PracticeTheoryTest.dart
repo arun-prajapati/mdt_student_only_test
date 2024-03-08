@@ -10,9 +10,9 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/json_model.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/json_model.dart';
 import 'package:toast/toast.dart';
 
 import '../../Constants/global.dart';

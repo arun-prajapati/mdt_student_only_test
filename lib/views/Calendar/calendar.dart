@@ -1,11 +1,10 @@
 import 'dart:developer';
 
-
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:student_app/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -88,7 +87,7 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
 //     return null;
 //   }
 
-  Future<Map<DateTime,List>> callApiBookingCountDateWise() async {
+  Future<Map<DateTime, List>> callApiBookingCountDateWise() async {
     List bookingRecords =
         await _calendarService.getCalenderBookingCount(_startDate, _endDate);
     Map<DateTime, List<dynamic>> groups = new Map();
@@ -166,7 +165,7 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
         _selectedEvents = eventsList;
       });
     });
-    callApiBookingCountDateWise().then((value){
+    callApiBookingCountDateWise().then((value) {
       setState(() {
         allEvents = value;
       });
@@ -190,9 +189,9 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
 
   List _onDaySelected(DateTime day) {
     //log("${DateTime.parse(day)}");
-    log("on Day event : ${DateTime.parse(day.toString().replaceAll('Z',''))}");
-    log("---------------------------------------------${allEvents[DateTime.parse(day.toString().replaceAll('Z',''))]}");
-    return allEvents[DateTime.parse(day.toString().replaceAll('Z',''))] ?? [];
+    log("on Day event : ${DateTime.parse(day.toString().replaceAll('Z', ''))}");
+    log("---------------------------------------------${allEvents[DateTime.parse(day.toString().replaceAll('Z', ''))]}");
+    return allEvents[DateTime.parse(day.toString().replaceAll('Z', ''))] ?? [];
   }
 
   void showLoader(String message) {
@@ -310,7 +309,8 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
                     Container(
                       alignment: Alignment.topRight,
                       width: constraints.maxWidth * 1,
-                      margin: EdgeInsets.fromLTRB(0, constraints.maxHeight * 0.035, 0.0, 0.0),
+                      margin: EdgeInsets.fromLTRB(
+                          0, constraints.maxHeight * 0.035, 0.0, 0.0),
                       child: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -371,9 +371,7 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
               child: Center(child: CircularProgressIndicator()));
         }
         return Container(
-          constraints: BoxConstraints(
-            maxHeight: 500
-          ),
+          constraints: BoxConstraints(maxHeight: 500),
           //color: Colors.black12,
           child: TableCalendar(
             eventLoader: _onDaySelected,
@@ -403,7 +401,7 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
                       _selectedEvents = eventsList;
                     });
                   });
-                  callApiBookingCountDateWise().then((value){
+                  callApiBookingCountDateWise().then((value) {
                     setState(() {
                       allEvents = value;
                     });
@@ -426,7 +424,7 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
                       _selectedEvents = eventsList;
                     });
                   });
-                  callApiBookingCountDateWise().then((value){
+                  callApiBookingCountDateWise().then((value) {
                     setState(() {
                       allEvents = value;
                     });
@@ -456,16 +454,11 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
             availableCalendarFormats: const {CalendarFormat.month: 'Month'},
             rowHeight: 6 * SizeConfig.blockSizeVertical,
             calendarStyle: CalendarStyle(
-              outsideDaysVisible: false,
-              todayDecoration: BoxDecoration(
-                color: Dark,
-                shape: BoxShape.circle
-              ),
-              selectedDecoration: BoxDecoration(
-                  color: Dark.withOpacity(0.5),
-                  shape: BoxShape.circle
-              )
-            ),
+                outsideDaysVisible: false,
+                todayDecoration:
+                    BoxDecoration(color: Dark, shape: BoxShape.circle),
+                selectedDecoration: BoxDecoration(
+                    color: Dark.withOpacity(0.5), shape: BoxShape.circle)),
             headerStyle: HeaderStyle(
               formatButtonTextStyle: TextStyle().copyWith(
                   color: Colors.white, fontSize: SizeConfig.labelFontSize),
@@ -487,7 +480,7 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
               titleCentered: true,
             ),
             calendarBuilders: CalendarBuilders(
-              singleMarkerBuilder: (context, day, events){
+              singleMarkerBuilder: (context, day, events) {
                 log("Events : ${events as Map}");
                 if (events['count'] > 0) {
                   return Container(
@@ -504,11 +497,10 @@ class _Calender extends State<Calender> with TickerProviderStateMixin {
                         style: TextStyle(
                             color: Colors.white, fontSize: FontSize.s8)),
                   );
-                } else{
+                } else {
                   return Text("");
                 }
               },
-
             ),
           ),
         );

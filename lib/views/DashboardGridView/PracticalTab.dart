@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
-import 'package:student_app/views/AIRecommendations/Recommendations.dart';
+import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
+import 'package:Smart_Theory_Test/views/AIRecommendations/Recommendations.dart';
 
 import '../../Constants/app_colors.dart';
 import '../../Constants/global.dart';

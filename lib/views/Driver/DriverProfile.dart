@@ -16,8 +16,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
 import 'package:toast/toast.dart';
 
 import '../../Constants/global.dart';

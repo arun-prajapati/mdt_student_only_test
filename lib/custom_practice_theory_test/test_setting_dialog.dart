@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/utils/appImages.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/utils/appImages.dart';
 
 import '../locater.dart';
 import '../services/auth.dart';
@@ -15,7 +15,8 @@ class TestSettingDialogBox extends StatefulWidget {
   final IntCallback onSetValue;
   final List categories_list;
 
-  TestSettingDialogBox({Key? key, required this.onSetValue, required this.categories_list});
+  TestSettingDialogBox(
+      {Key? key, required this.onSetValue, required this.categories_list});
 
   // : super(key: key);
 
@@ -24,13 +25,16 @@ class TestSettingDialogBox extends StatefulWidget {
 }
 
 class _TestSettingDialogBox extends State<TestSettingDialogBox> {
-  TextStyle _answerTextStyle = TextStyle(fontSize: 18, color: Colors.black87, fontWeight: FontWeight.normal);
-  TextStyle _categoryTextStyle = AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400, color: AppColors.black);
+  TextStyle _answerTextStyle = TextStyle(
+      fontSize: 18, color: Colors.black87, fontWeight: FontWeight.normal);
+  TextStyle _categoryTextStyle = AppTextStyle.textStyle
+      .copyWith(fontWeight: FontWeight.w400, color: AppColors.black);
   final NavigationService _navigationService = locator<NavigationService>();
   int seledtedCategoryId = 0;
   List categories = [];
   bool isAllCategoriesSelected = true;
-  final PractiseTheoryTestServices test_api_services = new PractiseTheoryTestServices();
+  final PractiseTheoryTestServices test_api_services =
+      new PractiseTheoryTestServices();
   final UserProvider auth_services = new UserProvider();
 
   @override
@@ -152,7 +156,10 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Select the topic you would like to revise', style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w400, color: AppColors.black)),
+                    Text('Select the topic you would like to revise',
+                        style: AppTextStyle.textStyle.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.black)),
                     //SizedBox(width: 5),
                     Padding(
                       padding: EdgeInsets.only(right: 18),
@@ -161,7 +168,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
                           },
-                          child: Icon(Icons.close, size: 22, color: Colors.black)),
+                          child:
+                              Icon(Icons.close, size: 22, color: Colors.black)),
                     ),
                   ],
                 ),
@@ -181,7 +189,11 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                     //         fontSize: 16,
                     //         fontWeight: FontWeight.w500,
                     //         color: Colors.black)),
-                    Text('Select All', style: AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w500, height: 1, color: AppColors.black)),
+                    Text('Select All',
+                        style: AppTextStyle.textStyle.copyWith(
+                            fontWeight: FontWeight.w500,
+                            height: 1,
+                            color: AppColors.black)),
                     ActionChip(
                       backgroundColor: AppColors.transparent,
                       pressElevation: 0,
@@ -197,7 +209,9 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                               seledtedCategoryId = 0;
                             },
                       label: Image.asset(
-                        isAllCategoriesSelected ? AppImages.checkedbox : AppImages.checkBox,
+                        isAllCategoriesSelected
+                            ? AppImages.checkedbox
+                            : AppImages.checkBox,
                         height: isAllCategoriesSelected ? 23 : 20,
                         width: isAllCategoriesSelected ? 23 : 20,
                       ),
@@ -306,7 +320,10 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Expanded(
-                                  child: AutoSizeText(categories[index]['name'], style: _categoryTextStyle.copyWith(fontWeight: FontWeight.w500, height: 0.5)),
+                                  child: AutoSizeText(categories[index]['name'],
+                                      style: _categoryTextStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          height: 0.5)),
                                 ),
                                 Expanded(
                                     flex: 0,
@@ -319,14 +336,23 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                       onPressed: () => {
                                         setState(() {
                                           resetAll(false);
-                                          seledtedCategoryId = categories[index]['id'];
+                                          seledtedCategoryId =
+                                              categories[index]['id'];
                                           categories[index]['selected'] = true;
                                         })
                                       },
                                       label: Image.asset(
-                                        categories[index]['selected'] == true ? AppImages.checkedbox : AppImages.checkBox,
-                                        height: categories[index]['selected'] == true ? 23 : 20,
-                                        width: categories[index]['selected'] == true ? 23 : 20,
+                                        categories[index]['selected'] == true
+                                            ? AppImages.checkedbox
+                                            : AppImages.checkBox,
+                                        height: categories[index]['selected'] ==
+                                                true
+                                            ? 23
+                                            : 20,
+                                        width: categories[index]['selected'] ==
+                                                true
+                                            ? 23
+                                            : 20,
                                       ),
                                     )
                                     // IconButton(
@@ -358,7 +384,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.only(left: 55, right: 55, bottom: 20, top: 15),
+                padding:
+                    EdgeInsets.only(left: 55, right: 55, bottom: 20, top: 15),
                 child: CustomButton(
                   title: 'Continue',
                   onTap: () {
@@ -368,7 +395,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                     context.read<UserProvider>().changeView = false;
                     setState(() {});
                     // setState(() {});
-                    print('LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<UserProvider>().changeView}');
+                    print(
+                        'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<UserProvider>().changeView}');
                   },
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                 ),

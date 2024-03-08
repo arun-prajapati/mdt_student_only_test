@@ -3,9 +3,9 @@
 // import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-// import 'package:student_app/my_flutter_app_icons.dart';
-// import 'package:student_app/routing/route.dart' as router;
-// import 'package:student_app/routing/route_names.dart' as routes;
+// import 'package:Smart_Theory_Test/my_flutter_app_icons.dart';
+// import 'package:Smart_Theory_Test/routing/route.dart' as router;
+// import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 // import 'package:auto_size_text/auto_size_text.dart';
 // import 'package:url_launcher/url_launcher.dart';
 //

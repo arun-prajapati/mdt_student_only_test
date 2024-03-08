@@ -3,30 +3,28 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAMMZWqCjvMcHVxJW1gaVxm1SJwe4os3d0</string>
+	<string>AIzaSyDzBy37Xp2_udzDrnMYdqMxn0IFiZtyEzQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>915837451190</string>
+	<string>825629569582</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.saurabhinfosys.stt</string>
-	<key>API_KEY</key>
-    <string>AIzaSyAXurglWvMCGCLVu0bwwDurqUvKh49XLM0</string>
+	<string>com.vinsolutions.smarttheorytest</string>
 	<key>PROJECT_ID</key>
-	<string>student-theory-test</string>
+	<string>smart-theory-test</string>
 	<key>STORAGE_BUCKET</key>
-	<string>student-theory-test.appspot.com</string>
+	<string>smart-theory-test.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:915837451190:ios:6e5a36459228d96b3a1f17</string>
+	<string>1:825629569582:ios:aa2dece8930b72964c65bf</string>
 </dict>
 </plist>

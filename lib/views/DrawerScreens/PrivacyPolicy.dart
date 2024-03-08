@@ -3,7 +3,7 @@
 // import 'package:mdt/responsive/percentage_mediaquery.dart';
 // import 'package:mdt/services/navigation_service.dart';
 // import 'package:mdt/widgets/navigatin_bar/CustomAppBar.dart';
-// import 'package:student_app/views/WebView.dart';
+// import 'package:Smart_Theory_Test/views/WebView.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
 //
 // import '../../locater.dart';

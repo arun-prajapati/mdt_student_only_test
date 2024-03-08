@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/views/Login/welcome.dart';
+import 'package:Smart_Theory_Test/views/Login/welcome.dart';
 
 import '../../services/auth.dart';
 import '../../utils/app_colors.dart';

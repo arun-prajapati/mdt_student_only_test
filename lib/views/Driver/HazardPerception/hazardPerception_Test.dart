@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 
 import '../../../Constants/hazard_perception_data.dart';
 import '../../../locater.dart';

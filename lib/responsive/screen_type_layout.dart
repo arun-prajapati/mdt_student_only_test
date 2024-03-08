@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/responsive/responsive_builder.dart';
+import 'package:Smart_Theory_Test/responsive/responsive_builder.dart';
 
 import '../enums/device_screen_type.dart';
-
 
 class ScreenTypeLayout extends StatelessWidget {
   final Widget mobile;

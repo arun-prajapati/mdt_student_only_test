@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:student_app/services/navigation_service.dart';
+import 'package:Smart_Theory_Test/services/navigation_service.dart';
 
 GetIt locator = GetIt.instance;
 

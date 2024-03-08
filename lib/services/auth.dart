@@ -7,10 +7,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/Constants/app_colors.dart';
-import 'package:student_app/external.dart';
-import 'package:student_app/utils/app_colors.dart';
-import 'package:student_app/views/Login/otp_screen.dart';
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/external.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/views/Login/otp_screen.dart';
 
 import '../Constants/global.dart';
 import '../enums/Autentication_status.dart';

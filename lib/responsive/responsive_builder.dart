@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/responsive/sizing_information.dart';
-import 'package:student_app/responsive/ui_utils.dart';
+import 'package:Smart_Theory_Test/responsive/sizing_information.dart';
+import 'package:Smart_Theory_Test/responsive/ui_utils.dart';
 
 class ResponsiveBuilder extends StatelessWidget {
   final Widget Function(
     BuildContext context,
     SizingInformation sizingInformation,
   ) builder;
-  const ResponsiveBuilder({ Key? key,  required this.builder})
-      : super(key: key);
+  const ResponsiveBuilder({Key? key, required this.builder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

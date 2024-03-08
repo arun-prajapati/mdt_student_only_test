@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/utils/appImages.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/utils/appImages.dart';
 
 import '../utils/app_colors.dart';
 

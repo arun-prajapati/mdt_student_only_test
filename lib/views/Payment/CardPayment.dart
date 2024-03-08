@@ -2,7 +2,7 @@
 // import 'package:mdt/widgets/TextFieldMask/masked_textInput_formatter.dart';
 // import 'package:mdt/widgets/navigatin_bar/CustomAppBar.dart';
 // import 'package:mdt/responsive/percentage_mediaquery.dart';
-// import 'package:student_app/routing/route_names.dart' as routes;
+// import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 // import 'package:mdt/services/navigation_service.dart';
 // import 'package:mdt/services/payment_services.dart';
 // import 'package:shared_preferences/shared_preferences.dart';

@@ -16,9 +16,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:student_app/enums/Autentication_status.dart';
-import 'package:student_app/main.dart';
-import 'package:student_app/services/auth.dart';
+import 'package:Smart_Theory_Test/enums/Autentication_status.dart';
+import 'package:Smart_Theory_Test/main.dart';
+import 'package:Smart_Theory_Test/services/auth.dart';
 
 import '../Constants/global.dart';
 import '../locater.dart';

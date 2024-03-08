@@ -1,8 +1,8 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:student_app/Constants/app_colors.dart';
-// import 'package:student_app/views/Login/register.dart';
+// import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+// import 'package:Smart_Theory_Test/views/Login/register.dart';
 // import 'package:mdt/services/social_login.dart';
 // import 'dart:io' show Platform;
 // import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/locater.dart';
-import 'package:student_app/responsive/percentage_mediaquery.dart';
-import 'package:student_app/services/navigation_service.dart';
-import 'package:student_app/widget/CustomAppBar.dart';
+import 'package:Smart_Theory_Test/locater.dart';
+import 'package:Smart_Theory_Test/responsive/percentage_mediaquery.dart';
+import 'package:Smart_Theory_Test/services/navigation_service.dart';
+import 'package:Smart_Theory_Test/widget/CustomAppBar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../responsive/size_config.dart';

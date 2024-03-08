@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/views/DashboardGridView/TheoryTab.dart';
+import 'package:Smart_Theory_Test/views/DashboardGridView/TheoryTab.dart';
 
 import '../../responsive/percentage_mediaquery.dart';
 import '../../responsive/size_config.dart';
@@ -9,7 +9,8 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMixin {
+class _DashboardState extends State<Dashboard>
+    with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   void updateId() {
@@ -43,7 +44,8 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
           builder: (BuildContext context, BoxConstraints constraints) {
             print(constraints);
             print(Responsive.height(100, context));
-            print(Responsive.height(100, context) - AppBar().preferredSize.height);
+            print(Responsive.height(100, context) -
+                AppBar().preferredSize.height);
             return Container(
               height: constraints.maxHeight,
               width: constraints.maxWidth,

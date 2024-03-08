@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:student_app/routing/route_names.dart' as routes;
+import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';

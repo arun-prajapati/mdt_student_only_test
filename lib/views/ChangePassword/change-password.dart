@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app/views/Login/login.dart';
+import 'package:Smart_Theory_Test/views/Login/login.dart';
 import 'package:toast/toast.dart';
 
 import '../../custom_button.dart';
