@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -491,15 +492,18 @@ class Welcome extends StatelessWidget {
                                 },
                               ),
                               SizedBox(width: 30),
-                              socialIconCustom(
-                                image: AppImages.apple,
-                                onTap: () {
-                                  SocialLoginService(context)
-                                      .signInWithApple(context);
-                                  print('apple******************----------- ');
-                                },
-                              ),
-                              SizedBox(width: 30),
+                              Platform.isIOS
+                                  ? socialIconCustom(
+                                      image: AppImages.apple,
+                                      onTap: () {
+                                        SocialLoginService(context)
+                                            .signInWithApple(context);
+                                        print(
+                                            'apple******************----------- ');
+                                      },
+                                    )
+                                  : SizedBox(),
+                              SizedBox(width: Platform.isIOS ? 30 : 0),
                               socialIconCustom(
                                 image: AppImages.facebook,
                                 onTap: () {

@@ -56,6 +56,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
   }
 
   void tapEvent() {
+    print('TAPPPPPPP');
     _onTouch = true;
     setState(() {});
     Future.delayed(const Duration(seconds: 5), () {
@@ -148,7 +149,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
     });
     super.initState();
     initializeVideoPlayer(videoPaths[videoIndex]);
-    log(" ${videoPaths[videoIndex]}");
+    log("video path ${videoPaths[videoIndex]}");
   }
 
   initializeVideoPlayer(String videoPath) {
@@ -182,66 +183,74 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.black,
-        body: Stack(alignment: Alignment.center, children: <Widget>[
-          if (_betterPlayerController != null)
-            Container(
-              width: Responsive.width(85, context),
-              height: Responsive.height(100, context),
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: tapEvent,
+    return ActionChip(
+      padding: EdgeInsets.all(0),
+      visualDensity: VisualDensity.comfortable,
+      labelPadding: EdgeInsets.all(0),
+      onPressed: () {
+        print('-------------------------');
+        tapEvent();
+      },
+      label: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.black,
+          body: Stack(alignment: Alignment.center, children: <Widget>[
+            if (_betterPlayerController != null)
+              Container(
+                // width: Responsive.width(85, context),
+                // height: Responsive.height(100, context),
+                alignment: Alignment.center,
                 child: BetterPlayer(
                   controller: _betterPlayerController,
                 ),
               ),
+            Positioned(
+              // bottom: 100,
+              child: Container(
+                  // transform: Matrix4.translationValues(Responsive.width(2, context),
+                  //     Responsive.height(42, context), 0),
+                  child: Visibility(
+                visible: _onTouch,
+                child: IconButton(
+                  icon: isPause ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                  iconSize: 35,
+                  color: Colors.white,
+                  onPressed: () {
+                    isPause = !isPause;
+                    setState(() {});
+                    if (isPause) {
+                      _betterPlayerController.play();
+                    } else {
+                      _betterPlayerController.pause();
+                    }
+                    // print('${_betterPlayerController.videoPlayerController.videoEventStreamController.}');
+                  },
+                ),
+              )),
             ),
-          Positioned(
-            // bottom: 100,
-            child: Container(
-                // transform: Matrix4.translationValues(Responsive.width(2, context),
-                //     Responsive.height(42, context), 0),
-                child: Visibility(
-              visible: _onTouch,
+            Container(
+              transform: Matrix4.translationValues(
+                  -(Responsive.width(46, context)),
+                  -(Responsive.height(34, context)),
+                  0),
               child: IconButton(
-                icon: isPause ? Icon(Icons.pause) : Icon(Icons.play_arrow),
-                iconSize: 35,
-                color: Colors.white,
+                icon: const Icon(Icons.cancel, size: 35, color: Colors.white),
                 onPressed: () {
-                  isPause = !isPause;
-                  setState(() {});
-                  if (isPause) {
-                    _betterPlayerController.play();
-                  } else {
-                    _betterPlayerController.pause();
-                  }
-                  // print('${_betterPlayerController.videoPlayerController.videoEventStreamController.}');
+                  _navigationService.goBack();
                 },
               ),
-            )),
-          ),
-          Container(
-            transform: Matrix4.translationValues(
-                -(Responsive.width(46, context)),
-                -(Responsive.height(34, context)),
-                0),
-            child: IconButton(
-              icon: const Icon(Icons.cancel, size: 35, color: Colors.white),
-              onPressed: () {
-                _navigationService.goBack();
-              },
             ),
-          ),
-          Container(
-              transform: Matrix4.translationValues(Responsive.width(2, context),
-                  Responsive.height(42, context), 0),
-              child: Row(
-                children: flagList
-                    .map((e) => Icon(Icons.flag, size: 27, color: Colors.red))
-                    .toList(),
-              )),
-        ]));
+            Container(
+                transform: Matrix4.translationValues(
+                    Responsive.width(2, context),
+                    Responsive.height(42, context),
+                    0),
+                child: Row(
+                  children: flagList
+                      .map((e) => Icon(Icons.flag, size: 27, color: Colors.red))
+                      .toList(),
+                )),
+          ])),
+    );
   }
 }

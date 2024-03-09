@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:Smart_Theory_Test/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -474,8 +475,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                 } else {
                                   authData.googleNavigate = true;
                                   print('LOGINNNNNNNNNN');
-                                  _navigationService
-                                      .navigateToReplacement('/Authorization');
+                                  // _navigationService
+                                  //     .navigateToReplacement('/Authorization');
                                   setState(() {});
                                 }
                               } else {
@@ -555,10 +556,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           .notification
                           .text ==
                       'Registration successful, please Login into your account.') {
-                    Navigator.of(context).pop();
+                    // Navigator.of(context).pop();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => SignInForm(),
+                        builder: (context) => HomePage(),
                       ),
                     );
                   } else {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as devtools;
 import 'dart:math' as math;
 
+import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -591,13 +592,15 @@ class SocialLoginService {
         }
       }
       if (loginResponse == null && params['accessType'] == 'login') {
+        // var authData = globalContext.read<UserProvider>();
         // print("ZZZZZZZZZZZZ ${globalContext
         //     .read<auth.UserProvider>()
         //     .status}");
         // globalContext.read<auth.UserProvider>().status = Status.Authenticated;
         // _navigationService.navigateToReplacement('/Authorization');
-        // _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
-        //     MaterialPageRoute(builder: (_) => HomePage()), (route) => false);
+        _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => HomeScreen()), (route) => false);
+        // authData.googleNavigate = true;
       }
     } catch (e) {
       closeLoader();

@@ -273,7 +273,7 @@ class _driverProfile extends State<DriverProfile> {
       body: Stack(
         children: <Widget>[
           CustomAppBar(
-            preferedHeight: Responsive.height(24, context),
+            preferedHeight: Responsive.height(11, context),
             title: 'Profile',
             textWidth: Responsive.width(35, context),
             iconLeft: Icons.arrow_back,
@@ -284,7 +284,7 @@ class _driverProfile extends State<DriverProfile> {
           ),
           Container(
             margin:
-                EdgeInsets.fromLTRB(0, Responsive.height(14, context), 0, 0),
+                EdgeInsets.fromLTRB(0, Responsive.height(12, context), 0, 0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20)),

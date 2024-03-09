@@ -16,7 +16,7 @@
 		</dict>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>Student Theory Test</string>
+	<string>Smart Theory Test</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

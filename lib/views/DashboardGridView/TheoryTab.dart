@@ -129,15 +129,15 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   getStatus() async {
-    print('Call Popup Box---');
+    print('Call Popup Box--- ${context.read<UserProvider>().googleNavigate}');
     // context.read<SubscriptionProvider>().fetchOffer();
     var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('theoryTestPractice');
 
     if (data == null) {
-      if (context.read<UserProvider>().googleNavigate) {
-        Navigator.of(context).pop();
-      }
+      // if (!context.read<UserProvider>().googleNavigate) {
+      //   Navigator.of(context).pop();
+      // }
       theoryTestPractice();
     }
     log('SharedPref Data $data');

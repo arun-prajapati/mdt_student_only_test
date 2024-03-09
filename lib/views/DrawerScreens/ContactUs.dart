@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import 'package:url_launcher/url_launcher.dart';
-//import 'package:student_app/routing/route_names.dart' as routes;
+//import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 
 import '../../custom_button.dart';
 import '../../locater.dart';
@@ -66,14 +66,14 @@ class _ContactUs extends State<ContactUs> {
                 title: 'Contact Us',
                 textWidth: Responsive.width(40, context),
                 iconLeft: Icons.arrow_back,
-                preferedHeight: Responsive.height(9, context),
+                preferedHeight: Responsive.height(11, context),
                 onTap1: () {
                   _navigationService.goBack();
                 },
                 iconRight: null),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.104,
+            top: MediaQuery.of(context).size.height * 0.12,
             child: Container(
                 height: MediaQuery.of(context).size.height * 0.88,
                 width: MediaQuery.of(context).size.width,
@@ -179,7 +179,7 @@ class _ContactUs extends State<ContactUs> {
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {}),
                           //SizedBox(height: 12),
-                          SizedBox(height: 12),
+                          SizedBox(height: 30),
                           // Container(
                           //   margin: EdgeInsets.symmetric(
                           //       horizontal: constraints.maxWidth * 0.02),
@@ -234,7 +234,7 @@ class _ContactUs extends State<ContactUs> {
                               },
                             ),
                           ),
-                          SizedBox(height: 12),
+                          SizedBox(height: 30),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 25),
                             child: Column(
@@ -324,12 +324,12 @@ class _ContactUs extends State<ContactUs> {
     showLoader(loaderMessage);
     getUserDetail().then((userDetail) {
       setState(() {
-        name.text = userDetail['first_name'] +
-            ((userDetail['last_name'] != null && userDetail['last_name'] != '')
-                ? ' ' + userDetail['last_name']
-                : '');
-        email.text = userDetail['email'] != null ? userDetail['email'] : '';
-        phone.text = userDetail['phone'] != null ? userDetail['phone'] : '';
+        // name.text = userDetail['first_name'] +
+        //     ((userDetail['last_name'] != null && userDetail['last_name'] != '')
+        //         ? ' ' + userDetail['last_name']
+        //         : '');
+        // email.text = userDetail['email'] != null ? userDetail['email'] : '';
+        // phone.text = userDetail['phone'] != null ? userDetail['phone'] : '';
         print('PhoneNumber----------${userDetail['phone']}');
       });
       closeLoader();

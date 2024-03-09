@@ -78,7 +78,7 @@ dependencies:
   # flutter_facebook_auth: ^5.0.7
   # google_place: ^0.4.7
   flutter_google_places_hoc081098: ^2.0.0-beta.1
-  cloud_firestore: ^4.14.0
+  cloud_firestore:
   device_info_plus: ^9.1.1
   # platform_device_id: ^1.0.1
   uuid: 3.0.7

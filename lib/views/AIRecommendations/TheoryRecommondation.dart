@@ -12,10 +12,10 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_app/custom_button.dart';
-import 'package:student_app/datamodels/ai_data_model.dart';
-import 'package:student_app/external.dart';
-import 'package:student_app/services/subsciption_provider.dart';
+import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/datamodels/ai_data_model.dart';
+import 'package:Smart_Theory_Test/external.dart';
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -1103,11 +1103,11 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   onTap: () async {
                                     // Navigator.of(context).pop();
                                     // showLoader("Loading");
-                                    context
-                                        .read<SubscriptionProvider>()
-                                        .fetchOffer();
+                                    // context
+                                    //     .read<SubscriptionProvider>()
+                                    //     .fetchOffer();
                                     // Stripe.publishableKey = stripePublic;
-                                    payWallBottomSheet();
+                                    // payWallBottomSheet();
                                     // closeLoader();
                                     // Map params = {
                                     //   'total_cost':

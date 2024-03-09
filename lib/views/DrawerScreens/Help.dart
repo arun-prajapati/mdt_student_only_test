@@ -51,14 +51,14 @@ class _Help extends State<Help> {
                 title: 'Help',
                 textWidth: Responsive.width(18, context),
                 iconLeft: Icons.arrow_back,
-                preferedHeight: Responsive.height(9, context),
+                preferedHeight: Responsive.height(11, context),
                 onTap1: () {
                   _navigationService.goBack();
                 },
                 iconRight: null),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.104,
+            top: MediaQuery.of(context).size.height * 0.12,
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,

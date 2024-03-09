@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:Smart_Theory_Test/main.dart';
+import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -93,14 +95,17 @@ class UserProvider with ChangeNotifier {
       print("userData ${jsonEncode(body)}");
       print("RESSS **************************           $apiResponse");
       googleNavigate = false;
-      _status = Status.Authenticated;
+      // _status = Status.Authenticated;
       _token = apiResponse['token'];
       _userType = apiResponse['user_type'];
       _userName = apiResponse['user_name'];
       _eMail = apiResponse['e_mail'];
       //print(_token);
       await storeUserData(apiResponse);
-      _navigationService.goBack();
+      _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+          (route) => false);
+      // _navigationService.goBack();
       notifyListeners();
       return true;
     } else {
@@ -165,7 +170,7 @@ class UserProvider with ChangeNotifier {
         print('$_status----------------------Status');
         Map<String, dynamic> apiResponse = json.decode(response.body);
         print("Api response social login : $apiResponse");
-        _status = Status.Authenticated;
+        // _status = Status.Authenticated;
 
         _token = apiResponse['token'];
         _userType = apiResponse['user_type'];
@@ -173,8 +178,12 @@ class UserProvider with ChangeNotifier {
             apiResponse['user_name'] == null ? '' : apiResponse['user_name'];
         _eMail = apiResponse['e_mail'];
         await storeUserData(apiResponse);
+        print('NAVIGATE ==================== ');
+        _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (route) => false);
         //check why this condition is implemented??
-        if (params['accessType'] == 'register') _navigationService.goBack();
+        // if (params['accessType'] == 'register') _navigationService.goBack();
         notifyListeners();
         return null;
       } else {

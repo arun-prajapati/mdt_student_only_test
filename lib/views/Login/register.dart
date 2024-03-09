@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:Smart_Theory_Test/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -141,11 +142,7 @@ class _RegisterState extends State<Register> {
           log("ERROE *********** ${authData.passwordConfirm} ${authData.phoneNumber} ${authData.countryCode} ${authData.name}");
 
           // print("ERROE $countryCode${phoneTextControl.text}");
-          showValidationDialog(
-              context,
-              res['message'] == "The phone has already been taken."
-                  ? "The phone number has already been taken."
-                  : res['message']);
+          showValidationDialog(context, res['message']);
         } else {
           Provider.of<UserProvider>(context, listen: false)
               .verifyPhone(context, phoneTextControl.text);
@@ -772,10 +769,10 @@ showValidationDialog(BuildContext context, String message) {
                         .notification
                         .text ==
                     'Registration successful, please Login into your account.') {
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => SignInForm(),
+                      builder: (context) => HomePage(),
                     ),
                   );
                 } else {
