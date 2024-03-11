@@ -181,7 +181,7 @@ class Welcome extends StatelessWidget {
   void _launchURL(String _url) async {
     print("hello");
     try {
-      await launch(_url);
+      await launchUrl(Uri.parse(_url));
     } catch (e) {
       print(e);
     }

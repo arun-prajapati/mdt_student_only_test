@@ -1103,11 +1103,11 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   onTap: () async {
                                     // Navigator.of(context).pop();
                                     // showLoader("Loading");
-                                    // context
-                                    //     .read<SubscriptionProvider>()
-                                    //     .fetchOffer();
-                                    // Stripe.publishableKey = stripePublic;
-                                    // payWallBottomSheet();
+                                    context
+                                        .read<SubscriptionProvider>()
+                                        .fetchOffer();
+                                    Stripe.publishableKey = stripePublic;
+                                    payWallBottomSheet();
                                     // closeLoader();
                                     // Map params = {
                                     //   'total_cost':

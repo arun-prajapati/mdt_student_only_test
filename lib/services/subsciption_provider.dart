@@ -55,10 +55,12 @@ class SubscriptionProvider extends ChangeNotifier {
 }
 
 class PurchaseSub {
-  static String _apikey = "goog_eukgVVvLpywyoySKCkAacdKkoHT";
+  static String _key = Platform.isIOS
+      ? "appl_GdgNRIxoZhglmcKEnSmJXqGilIb"
+      : "goog_eukgVVvLpywyoySKCkAacdKkoHT";
 
   static Future init() async {
-    PurchasesConfiguration configuration = PurchasesConfiguration(_apikey);
+    PurchasesConfiguration configuration = PurchasesConfiguration(_key);
     await Purchases.configure(configuration);
     configuration.shouldShowInAppMessagesAutomatically = true;
     // Purchases.logIn("${Global.userModel?.id}");
