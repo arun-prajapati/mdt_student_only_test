@@ -45,6 +45,7 @@ Future<void> alertToShowAdiNotFound(BuildContext parent_context) async {
                     left: Responsive.width(1, parent_context),
                     right: Responsive.width(1, parent_context)),
                 child: Dialog(
+                  insetPadding: EdgeInsets.all(20),
                   shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(5.0)), //this right here

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
@@ -507,10 +508,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
               right: parentConstraints.maxWidth * .10,
             ),
             child: Dialog(
+              insetPadding: EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               insetAnimationCurve: Curves.easeOutBack,
-              insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+              // insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               backgroundColor: Colors.transparent,
               child: Container(
@@ -1554,6 +1556,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       left: Responsive.width(5, parent_context),
                       right: Responsive.width(5, parent_context)),
                   child: Dialog(
+                    insetPadding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0)),
                     //this right here
@@ -1666,13 +1669,14 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         barrierDismissible: false,
         barrierColor: Colors.black45,
         builder: (parent_context) {
-          return new WillPopScope(
-              onWillPop: () async => false,
+          return new PopScope(
+              onPopInvoked: (val) async => false,
               child: Padding(
                   padding: EdgeInsets.only(
                       left: Responsive.width(2, parent_context),
                       right: Responsive.width(2, parent_context)),
                   child: Dialog(
+                    insetPadding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0)),
                     //this right here
@@ -1701,7 +1705,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 height: 10,
                               ),
                               Text(
-                                "Total charges: £" +
+                                "Total charges: \$" +
                                     (walletDetail!['subscription_cost'])
                                         .toString(),
                                 style: TextStyle(
@@ -1721,26 +1725,27 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                             EdgeInsets.symmetric(vertical: 10),
                                         title: 'Buy Now',
                                         onTap: () {
-                                          Navigator.of(context).pop();
-                                          showLoader("Loading");
-                                          isTestStarted = true;
-                                          Stripe.publishableKey = stripePublic;
-                                          Map params = {
-                                            'total_cost': walletDetail![
-                                                'subscription_cost'],
-                                            'user_type': 2,
-                                            'parentPageName': "dvsaSubscription"
-                                          };
-                                          _paymentService
-                                              .makePayment(
-                                                  amount: walletDetail![
-                                                      'subscription_cost'],
-                                                  currency: 'GBP',
-                                                  context: parent_context,
-                                                  desc:
-                                                      'DVSA Subscription by ${userName} (App)',
-                                                  metaData: params)
-                                              .then((value) => closeLoader());
+                                          payWallBottomSheet();
+                                          // Navigator.of(context).pop();
+                                          // showLoader("Loading");
+                                          // isTestStarted = true;
+                                          // Stripe.publishableKey = stripePublic;
+                                          // Map params = {
+                                          //   'total_cost': walletDetail![
+                                          //       'subscription_cost'],
+                                          //   'user_type': 2,
+                                          //   'parentPageName': "dvsaSubscription"
+                                          // };
+                                          // _paymentService
+                                          //     .makePayment(
+                                          //         amount: walletDetail![
+                                          //             'subscription_cost'],
+                                          //         currency: 'GBP',
+                                          //         context: parent_context,
+                                          //         desc:
+                                          //             'DVSA Subscription by ${userName} (App)',
+                                          //         metaData: params)
+                                          //     .then((value) => closeLoader());
                                         },
                                       ),
                                     ),
@@ -1836,6 +1841,99 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     ),
                   )));
         });
+  }
+
+  payWallBottomSheet() {
+    showModalBottomSheet(
+        isDismissible: false,
+        // enableDrag: false,
+        shape: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            )),
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (_) => PopScope(
+              canPop: false,
+              child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 20),
+                          Text("Purchase",
+                              style: AppTextStyle.titleStyle.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black54)),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                                padding: EdgeInsets.all(0),
+                                visualDensity: VisualDensity.comfortable,
+                                iconSize: 20,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.clear)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            PurchaseSub.purchasePackage(val.package.first);
+                            context
+                                .read<SubscriptionProvider>()
+                                .isUserPurchaseTest();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: AppColors.borderblue.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(),
+                                Text("${val.package.first.storeProduct.title}",
+                                    style: AppTextStyle.titleStyle.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black54)),
+                                Text(
+                                    "${val.package.first.storeProduct.description}",
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        // fontSize: 15,
+
+                                        color: Colors.grey)),
+                                Text(
+                                  "${val.package.first.storeProduct.priceString}",
+                                  style: AppTextStyle.disStyle
+                                      .copyWith(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                    ],
+                  ),
+                );
+              }),
+            ));
   }
 }
 

@@ -130,6 +130,7 @@ class _TheoryTabState extends State<TheoryTab> {
 
   getStatus() async {
     print('Call Popup Box--- ${context.read<UserProvider>().googleNavigate}');
+    context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();
     var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('theoryTestPractice');
@@ -766,7 +767,7 @@ class _TheoryTabState extends State<TheoryTab> {
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.85),
+                          (MediaQuery.of(context).size.height / 1.5),
                     ),
                     itemCount: _resourceCards.length,
                     //shrinkWrap: true,
@@ -1036,6 +1037,98 @@ class _TheoryTabState extends State<TheoryTab> {
 
   /// PRACTICE THEORY TAB FUNCTION ///
   /// =========================== ///
+  payWallBottomSheet() {
+    showModalBottomSheet(
+        isDismissible: false,
+        // enableDrag: false,
+        shape: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            )),
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (_) => PopScope(
+              canPop: false,
+              child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 20),
+                          Text("Purchase",
+                              style: AppTextStyle.titleStyle.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black54)),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                                padding: EdgeInsets.all(0),
+                                visualDensity: VisualDensity.comfortable,
+                                iconSize: 20,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.clear)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            PurchaseSub.purchasePackage(val.package.first);
+                            context
+                                .read<SubscriptionProvider>()
+                                .isUserPurchaseTest();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: AppColors.borderblue.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(),
+                                Text("${val.package.first.storeProduct.title}",
+                                    style: AppTextStyle.titleStyle.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black54)),
+                                Text(
+                                    "${val.package.first.storeProduct.description}",
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        // fontSize: 15,
+
+                                        color: Colors.grey)),
+                                Text(
+                                  "${val.package.first.storeProduct.priceString}",
+                                  style: AppTextStyle.disStyle
+                                      .copyWith(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                    ],
+                  ),
+                );
+              }),
+            ));
+  }
 
   resetAll(bool isAllSelect) {
     isAllCategoriesSelected = isAllSelect;
@@ -1053,6 +1146,7 @@ class _TheoryTabState extends State<TheoryTab> {
       builder: (context) => PopScope(
         canPop: false,
         child: Dialog(
+          insetPadding: EdgeInsets.all(20),
           backgroundColor: Colors.transparent,
           child: Container(
             decoration: BoxDecoration(
@@ -1150,7 +1244,8 @@ class _TheoryTabState extends State<TheoryTab> {
                               margin: EdgeInsets.only(top: 10),
                               child: GestureDetector(
                                   onTap: () async {
-                                    print("payment");
+                                    callDialog();
+                                    /*  print("payment");
                                     //
                                     loading(value: true);
                                     Stripe.publishableKey = stripePublic;
@@ -1171,7 +1266,8 @@ class _TheoryTabState extends State<TheoryTab> {
                                                 'DVSA Subscription by ${userName} (App)',
                                             metaData: params)
                                         .then((value) => loading(value: false));
-                                    log("Called after payment");
+                                    log("Called after payment");*/
+                                    payWallBottomSheet();
                                   },
                                   child: Container(
                                       // width: constraints.maxWidth * 0.8,

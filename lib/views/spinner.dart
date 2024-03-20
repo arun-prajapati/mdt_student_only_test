@@ -18,6 +18,7 @@ class Spinner {
               right: Responsive.width(20, context),
             ),
             child: Dialog(
+              insetPadding: EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0),
               ),

@@ -17,6 +17,7 @@ class CustomSpinner {
                       left: Responsive.width(20, context),
                       right: Responsive.width(20, context)),
                   child: Dialog(
+                    insetPadding: EdgeInsets.all(20),
                     key: key,
                     shape: RoundedRectangleBorder(
                         borderRadius:

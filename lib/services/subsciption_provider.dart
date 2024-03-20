@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:Smart_Theory_Test/external.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -34,15 +35,20 @@ class SubscriptionProvider extends ChangeNotifier {
     // } else {
     package = offerList.current!.availablePackages;
     log("======= SUBSCRIPTION ======= ${package.first.storeProduct}");
+    isUserPurchaseTest();
     // Purchases.purchasePackage(offerList.current!.availablePackages.first);
     notifyListeners();
     // }
   }
 
   isUserPurchaseTest() {
+    Purchases.getCustomerInfo().then((value) {
+      print('INFOOOOOOOO ${value}');
+    });
     Purchases.addCustomerInfoUpdateListener((customerInfo) {
       EntitlementInfo? entitlementInfo =
           customerInfo.entitlements.all['One time purchase'];
+      print('CUSTOMER INFO $customerInfo');
       if (entitlementInfo!.isActive) {
         _entitlement = Entitlement.paid;
       } else {
@@ -57,7 +63,7 @@ class SubscriptionProvider extends ChangeNotifier {
 class PurchaseSub {
   static String _key = Platform.isIOS
       ? "appl_GdgNRIxoZhglmcKEnSmJXqGilIb"
-      : "goog_eukgVVvLpywyoySKCkAacdKkoHT";
+      : "goog_pMyIissxGyDEYrqhGGoJmLLVcne";
 
   static Future init() async {
     PurchasesConfiguration configuration = PurchasesConfiguration(_key);
@@ -68,14 +74,20 @@ class PurchaseSub {
   }
 
   static Future<bool> purchasePackage(Package package) async {
+    // loading(value: true);
     try {
-      await Purchases.purchasePackage(package).catchError((e) {
+      //loading(value: true);
+      await Purchases.purchasePackage(package).then((value) {
+        // loading(value: false);
+      }).catchError((e) {
+        // loading(value: false);
         print("ERROR ====== $e");
-        Fluttertoast.showToast(msg: e.toString());
+        // Fluttertoast.showToast(msg: e.toString());
         return e;
       });
       return true;
     } catch (e) {
+      // loading(value: false);
       print("ERROR ====== $e");
       return false;
     }

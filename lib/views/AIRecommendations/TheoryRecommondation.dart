@@ -1056,6 +1056,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
           return PopScope(
             canPop: false,
             child: Dialog(
+              insetPadding: EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)), //this right here
               child: Container(
@@ -1106,7 +1107,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     context
                                         .read<SubscriptionProvider>()
                                         .fetchOffer();
-                                    Stripe.publishableKey = stripePublic;
+                                    // Stripe.publishableKey = stripePublic;
                                     payWallBottomSheet();
                                     // closeLoader();
                                     // Map params = {
@@ -1212,16 +1213,27 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                            padding: EdgeInsets.all(0),
-                            visualDensity: VisualDensity.comfortable,
-                            iconSize: 20,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.clear)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 20),
+                          Text("Purchase",
+                              style: AppTextStyle.titleStyle.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black54)),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                                padding: EdgeInsets.all(0),
+                                visualDensity: VisualDensity.comfortable,
+                                iconSize: 20,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.clear)),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 10),
                       Padding(
@@ -1230,7 +1242,11 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.pop(context);
+
                             PurchaseSub.purchasePackage(val.package.first);
+                            context
+                                .read<SubscriptionProvider>()
+                                .isUserPurchaseTest();
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -1241,11 +1257,18 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Row(),
                                 Text("${val.package.first.storeProduct.title}",
                                     style: AppTextStyle.titleStyle.copyWith(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54)),
+                                Text(
+                                    "${val.package.first.storeProduct.description}",
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        // fontSize: 15,
+
+                                        color: Colors.grey)),
                                 Text(
                                   "${val.package.first.storeProduct.priceString}",
                                   style: AppTextStyle.disStyle
@@ -1256,7 +1279,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 40),
                     ],
                   ),
                 );
