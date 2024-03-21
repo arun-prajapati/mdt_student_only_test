@@ -44,6 +44,7 @@ class SubscriptionProvider extends ChangeNotifier {
   isUserPurchaseTest() {
     Purchases.getCustomerInfo().then((value) {
       print('INFOOOOOOOO ${value}');
+      // Fluttertoast.showToast(msg: "${value.entitlements}");
     });
     Purchases.addCustomerInfoUpdateListener((customerInfo) {
       EntitlementInfo? entitlementInfo =
@@ -54,6 +55,7 @@ class SubscriptionProvider extends ChangeNotifier {
       } else {
         _entitlement = Entitlement.unpaid;
       }
+      // Fluttertoast.showToast(msg: "${customerInfo.entitlements}");
       notifyListeners();
     });
   }

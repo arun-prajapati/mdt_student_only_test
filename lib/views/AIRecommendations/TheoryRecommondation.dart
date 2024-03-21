@@ -420,8 +420,10 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   data: ThemeData(
                                       dividerColor: Colors.transparent),
                                   child: ExpansionTile(
-                                    enabled: theoryContent[index].isFree ==
-                                            "not-free"
+                                    enabled: context
+                                                .read<SubscriptionProvider>()
+                                                .entitlement ==
+                                            Entitlement.unpaid
                                         ? false
                                         : true,
                                     tilePadding:
@@ -432,8 +434,10 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     onExpansionChanged: (val) {
                                       print(
                                           '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${theoryContent[index].isFree}');
-                                      if (theoryContent[index].isFree ==
-                                          "not-free") {
+                                      if (context
+                                              .read<SubscriptionProvider>()
+                                              .entitlement ==
+                                          Entitlement.unpaid) {
                                         GetPremium(context);
                                       } else {
                                         theoryContent[index].isExpand =
@@ -504,6 +508,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         style: AppTextStyle.textStyle.copyWith(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 15)),
+                                    // subtitle: Text(
+                                    //     "${context.read<SubscriptionProvider>().entitlement}"),
                                     children: [
                                       Text(
                                         theoryContent[index]

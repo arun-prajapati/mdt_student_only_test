@@ -47,7 +47,8 @@ class SocialLoginService {
           scopes: <String>['email'],
         );
         bool checkSignIn = await googleSignIn.isSignedIn();
-        if (checkSignIn) googleSignIn.signOut();
+        if (checkSignIn) googleSignIn.disconnect();
+        print('jjjjjjjjJJJJJJJ $checkSignIn');
         final GoogleSignInAccount? googleSignInAccount =
             await googleSignIn.signIn();
         if (googleSignInAccount != null) {

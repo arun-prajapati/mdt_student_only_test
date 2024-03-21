@@ -129,6 +129,7 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   getStatus() async {
+    context.read<SubscriptionProvider>().isUserPurchaseTest();
     print('Call Popup Box--- ${context.read<UserProvider>().googleNavigate}');
     context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();
@@ -139,7 +140,10 @@ class _TheoryTabState extends State<TheoryTab> {
       // if (!context.read<UserProvider>().googleNavigate) {
       //   Navigator.of(context).pop();
       // }
-      theoryTestPractice();
+      if (context.read<SubscriptionProvider>().entitlement ==
+          Entitlement.unpaid) {
+        theoryTestPractice();
+      }
     }
     log('SharedPref Data $data');
   }
@@ -756,7 +760,7 @@ class _TheoryTabState extends State<TheoryTab> {
                 ),
                 SizedBox(height: 10),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.62,
+                  height: MediaQuery.of(context).size.height * 0.73,
                   padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
                   child: GridView.builder(
                     shrinkWrap: true,

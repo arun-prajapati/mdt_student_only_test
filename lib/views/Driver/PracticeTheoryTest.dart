@@ -1235,7 +1235,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 )),
           ],
         ),
-        if (question['type'] == 1 && walletDetail!['dvsa_subscription'] <= 0)
+        if (question['type'] == 1 &&
+            context.read<SubscriptionProvider>().entitlement ==
+                Entitlement.unpaid)
           Container(
             width: Responsive.height(100, context),
             height: Responsive.height(100, context),
@@ -1705,9 +1707,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 height: 10,
                               ),
                               Text(
-                                "Total charges: \$" +
-                                    (walletDetail!['subscription_cost'])
-                                        .toString(),
+                                "Total charges: ${context.read<SubscriptionProvider>().package.first.storeProduct.priceString}"
+                                    .toString(),
                                 style: TextStyle(
                                     color: Color(0xFF797979),
                                     fontWeight: FontWeight.w600,
