@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:developer';
 
+import 'package:Smart_Theory_Test/views/AIRecommendations/youtube_video_player_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -102,8 +103,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       await getAllRecordsFromApi().then((records_list) {
         walletDetail = records_list['other_data'];
       });
-      await getTheoryContent(
-              walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
+      // await getTheoryContent(
+      //         walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
+      await getTheoryContent(context.read<SubscriptionProvider>().entitlement ==
+                  Entitlement.unpaid
+              ? "no"
+              : "yes")
           .then((value) async {
         await fetchUserTheoryProgress(_userId!).then((res) {
           print("Progress fetch : $res");
@@ -392,7 +397,10 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                               onTap: () {
                                 print(
                                     '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${theoryContent[index].isFree}');
-                                if (theoryContent[index].isFree == "not-free") {
+                                if (context
+                                        .read<SubscriptionProvider>()
+                                        .entitlement ==
+                                    Entitlement.unpaid) {
                                   GetPremium(context);
                                 }
                               },
@@ -761,6 +769,31 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                         _dataStatus =
                                                             DataStatus.Loaded;
                                                         topicData = data;
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (_) =>
+                                                                    YoutubeVideoPlayerScreen(
+                                                                      title: theoryContent[index]
+                                                                              .topicName!
+                                                                              .replaceAll('_',
+                                                                                  ' ')
+                                                                              .substring(0,
+                                                                                  1)
+                                                                              .toUpperCase() +
+                                                                          theoryContent[index]
+                                                                              .topicName!
+                                                                              .replaceAll('_', ' ')
+                                                                              .substring(1),
+                                                                      desc: theoryContent[
+                                                                              index]
+                                                                          .topicDescription
+                                                                          .toString(),
+                                                                      data: topicData[
+                                                                              'data']
+                                                                          [
+                                                                          'yt_links'][0],
+                                                                    )));
                                                         // YoutubePlayerController.convertUrlToId(
                                                         //         topicData['data']
                                                         //                 [
@@ -774,20 +807,17 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                         //     .toString()
                                                         //     .split("=")
                                                         //     .last;
-                                                        var id = YoutubePlayer
-                                                            .convertUrlToId(
-                                                                topicData['data']
-                                                                        [
-                                                                        "yt_links"]
-                                                                    [0]);
-                                                        print(
-                                                            'YOUTUBE VIDEO ID ============= $id');
-                                                        youtubePlayerController =
-                                                            YoutubePlayerController(
-                                                                initialVideoId: id
-                                                                    .toString(),
-                                                                flags:
-                                                                    YoutubePlayerFlags());
+                                                        // var id = YoutubePlayer
+                                                        //     .convertUrlToId(
+                                                        //         "https://www.youtube.com/watch?v=o0FCW-iN9OU");
+                                                        // print(
+                                                        //     'YOUTUBE VIDEO ID ============= $id');
+                                                        // youtubePlayerController =
+                                                        //     YoutubePlayerController(
+                                                        //         initialVideoId: id
+                                                        //             .toString(),
+                                                        //         flags:
+                                                        //             YoutubePlayerFlags());
 
                                                         // controller.loadVideo(
                                                         //     topicData['data']
@@ -808,38 +838,34 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           child: topicData.isNotEmpty
                                               ? !isWatchVideo
                                                   ? SizedBox()
-                                                  : Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .end,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  right: 10.0),
-                                                          child: InkWell(
-                                                              onTap: () {
-                                                                isWatchVideo =
-                                                                    false;
-                                                                setState(() {});
-                                                                youtubePlayerController
-                                                                    ?.dispose();
-                                                              },
-                                                              child: Icon(
-                                                                  Icons.close)),
-                                                        ),
-                                                        youtubePlayerController ==
-                                                                null
-                                                            ? SizedBox()
-                                                            : ListTile(
-                                                                title:
-                                                                    YoutubePlayer(
-                                                                controller:
-                                                                    youtubePlayerController!,
-                                                              ))
-                                                      ],
-                                                    )
+                                                  : SizedBox()
+                                              // Column(
+                                              //             crossAxisAlignment:
+                                              //                 CrossAxisAlignment
+                                              //                     .end,
+                                              //             children: [
+                                              //               Padding(
+                                              //                 padding:
+                                              //                     const EdgeInsets
+                                              //                         .only(
+                                              //                         right: 10.0),
+                                              //                 child: InkWell(
+                                              //                     onTap: () {
+                                              //                       isWatchVideo =
+                                              //                           false;
+                                              //                       setState(() {});
+                                              //                       youtubePlayerController
+                                              //                           ?.dispose();
+                                              //                     },
+                                              //                     child: Icon(
+                                              //                         Icons.close)),
+                                              //               ),
+                                              //               youtubePlayerController ==
+                                              //                       null
+                                              //                   ? SizedBox()
+                                              //                   : SizedBox()
+                                              //             ],
+                                              //           )
                                               : Text("No data"),
                                         ),
                                       ),

@@ -215,7 +215,7 @@ class Welcome extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: Container(
                       child: Image.asset(
-                        "assets/stt_Logo.png",
+                        "assets/s_logo.png",
                         height: 180,
                         width: 182,
                         //fit: BoxFit.contain,

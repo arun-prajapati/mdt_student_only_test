@@ -188,7 +188,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     backgroundColor: Colors.white,
                     child: Container(
                       child: Image.asset(
-                        "assets/stt_Logo.png",
+                        "assets/s_logo.png",
                         height: 180,
                         width: 182,
                         //fit: BoxFit.contain,

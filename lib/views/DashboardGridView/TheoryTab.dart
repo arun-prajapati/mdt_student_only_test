@@ -129,7 +129,7 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   getStatus() async {
-    context.read<SubscriptionProvider>().isUserPurchaseTest();
+    // context.read<SubscriptionProvider>().isUserPurchaseTest();
     print('Call Popup Box--- ${context.read<UserProvider>().googleNavigate}');
     context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();

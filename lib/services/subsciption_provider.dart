@@ -50,13 +50,15 @@ class SubscriptionProvider extends ChangeNotifier {
       EntitlementInfo? entitlementInfo =
           customerInfo.entitlements.all['One time purchase'];
       print('CUSTOMER INFO $customerInfo');
-      if (entitlementInfo!.isActive) {
-        _entitlement = Entitlement.paid;
-      } else {
-        _entitlement = Entitlement.unpaid;
+      if (entitlementInfo != null) {
+        if (entitlementInfo.isActive) {
+          _entitlement = Entitlement.paid;
+        } else {
+          _entitlement = Entitlement.unpaid;
+        }
       }
       // Fluttertoast.showToast(msg: "${customerInfo.entitlements}");
-      notifyListeners();
+      // notifyListeners();
     });
   }
 // }
