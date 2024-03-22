@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -44,11 +45,42 @@ class _SignInFormState extends State<SignInForm> {
   String usertype = '2';
   String? deviceId = "";
 
-  Future<Map> getDeviceInfo() async {
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print("deviceId $deviceId");
-    return androidInfo.toMap();
+  getDeviceId() async {
+    // var platform = PlatformDeviceId.deviceInfoPlugin;
+    var deviceInfo = DeviceInfoPlugin();
+    String udid = await FlutterUdid.udid;
+    String consistentUdid = await FlutterUdid.consistentUdid;
+    log(udid, name: "UNIQUE_ID");
+    log(consistentUdid, name: "consistent_Udid");
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      // String consistentUdid = await FlutterUdid.consistentUdid;
+      // String udid = await FlutterUdid.udid;
+      // log(udid, name: "UNIQUE_ID");
+      // log(consistentUdid, name: "consistent_Udid");
+      deviceId = consistentUdid;
+      print(
+          "========== IOS =========== ${iosDeviceInfo.identifierForVendor} ${iosDeviceInfo.data}");
+      return consistentUdid;
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      deviceId = consistentUdid;
+      print("========== ANDROID =========== ${androidDeviceInfo.id}");
+      return consistentUdid;
+    }
   }
+
+  // Future<Map> getDeviceInfo() async {
+  //   if (Platform.isAndroid) {
+  //     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  //     print("deviceId $deviceId");
+  //     return androidInfo.data;
+  //   } else {
+  //     IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+  //     print("deviceId IOS $deviceId");
+  //     return iosDeviceInfo.data;
+  //   }
+  // }
 
   TextEditingController password = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -201,14 +233,18 @@ class _SignInFormState extends State<SignInForm> {
     super.initState();
     _emailFocusNode = new FocusNode();
     _passwordFocusNode = new FocusNode();
-    if (Platform.isAndroid) {
-      getDeviceInfo()
-          .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
-    }
-    getId().then((value) {
-      deviceId = value;
-      log('Running on $value');
-    });
+    getDeviceId();
+    // if (Platform.isAndroid) {
+    //   getDeviceInfo()
+    //       .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
+    // } else {
+    //   getDeviceInfo()
+    //       .then((value) => log('Running on ${jsonEncode(value['androidId'])}'));
+    // }
+    // getId().then((value) {
+    //   deviceId = value;
+    //   log('Running on $value');
+    // });
   }
 
   @override
@@ -258,7 +294,7 @@ class _SignInFormState extends State<SignInForm> {
                   top: SizeConfig.blockSizeVertical * 18,
                   left: SizeConfig.blockSizeHorizontal * 28,
                   child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 22,
+                    radius: SizeConfig.blockSizeHorizontal * 20,
                     backgroundColor: Colors.white,
                     child: Container(
                       child: Image.asset(
@@ -315,213 +351,228 @@ class _SignInFormState extends State<SignInForm> {
                 SizedBox(height: 20),
                 Container(
                   // width: SizeConfig.blockSizeHorizontal * 85,
-                  height: SizeConfig.blockSizeVertical * 80,
-                  margin: EdgeInsets.fromLTRB(
-                    25,
-                    SizeConfig.blockSizeVertical * 34,
-                    25,
-                    0.0,
-                  ),
+                  // height: SizeConfig.blockSizeVertical * 80,
+                  // margin: EdgeInsets.fromLTRB(
+                  //   20,
+                  //   SizeConfig.blockSizeVertical * 34,
+                  //   0,
+                  //   0.0,
+                  // ),
                   //color: Colors.black12,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: ListView(
-                      children: [
-                        Center(
-                          child: Text('Welcome back!',
-                              style: AppTextStyle.titleStyle),
-                        ),
-                        SizedBox(height: 5),
-                        Center(
-                          child: Text('Fill Up Your Details below to login',
-                              style: AppTextStyle.textStyle),
-                        ),
-                        SizedBox(height: 35),
-                        //Field 1
-                        CustomTextField(
-                          controller: emailController,
-                          heading: 'Email',
-                          label: 'Enter Email',
-                          //prefixIcon: Icon(Icons.mail, color: Dark),
-                          validator: (value) {
-                            email = value!.trim();
-                            return Validate.validateEmail(value);
-                          },
-                          onChange: (val) {
-                            if (!_formKey.currentState!.validate()) {
-                              Validate.validateEmail(val);
-                            }
-                          },
-                          onFieldSubmitted: (_) =>
-                              setFocus(context, focusNode: _passwordFocusNode),
-                          focusNode: _emailFocusNode,
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        //Field 2
-                        CustomTextField(
-                          // maxlines: 1,
-                          label: 'Enter Password',
-                          heading: 'Password',
-                          controller: password,
-                          // prefixIcon: Icon(Icons.key, color: Dark),
-                          validator: (value) {
-                            password.text = value!.trim();
-                            return Validate.passwordValidation(value);
-                          },
-                          onChange: (val) {
-                            if (!_formKey.currentState!.validate()) {
-                              Validate.passwordValidation(val);
-                            }
-                          },
-                          suffixOnTap: () {
-                            setState(() {
-                              isSecure = !isSecure;
-                            });
-                          },
-                          suffixIcon: Icon(
-                            isSecure
-                                ? Icons.remove_red_eye_outlined
-                                : Icons.visibility_off_outlined,
-                            color: Colors.black38,
+                    padding: EdgeInsets.only(
+                        top: SizeConfig.blockSizeVertical * 34,
+                        left: 15,
+                        right: 15,
+                        bottom: 15),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Text('Welcome back!',
+                                style: AppTextStyle.titleStyle),
                           ),
-                          obscureText: !isSecure,
-                          onFieldSubmitted: (_) => submit(),
-                          focusNode: _passwordFocusNode,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                        ),
-                        // SizedBox(height: 10),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          // child: InkWell(
-                          //   onTap: () {
-                          //     Navigator.of(context).push(
-                          //       MaterialPageRoute(
-                          //         builder: (context) => ForgotPassword(),
-                          //       ),
-                          //     );
-                          //     print('FORGOT T*/////');
-                          //     password.clear();
-                          //   },
-                          child: GestureDetector(
-                            onTap: () {
-                              context.read<UserProvider>().isForgotPassword =
-                                  true;
-                              setState(() {});
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ForgotPassword(),
-                                ),
-                              );
-                              print(
-                                  'FORGOT T*/////${context.read<UserProvider>().isForgotPassword}');
-                              password.clear();
+                          SizedBox(height: 5),
+                          Center(
+                            child: Text('Fill Up Your Details below to login',
+                                style: AppTextStyle.textStyle),
+                          ),
+                          SizedBox(height: 35),
+                          //Field 1
+                          CustomTextField(
+                            controller: emailController,
+                            heading: 'Email',
+                            label: 'Enter Email',
+                            //prefixIcon: Icon(Icons.mail, color: Dark),
+                            validator: (value) {
+                              email = value!.trim();
+                              return Validate.validateEmail(value);
                             },
-                            child: GradientText('Forgot password?',
-                                colors: [
-                                  AppColors.blueGrad7,
-                                  AppColors.blueGrad6,
-                                  AppColors.blueGrad5,
-                                  AppColors.blueGrad4,
-                                  AppColors.blueGrad3,
-                                  AppColors.blueGrad1,
-                                ],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    decoration: TextDecoration.underline,
-                                    decorationThickness:
-                                        2) /*AppTextStyle.textStyle.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      decoration: TextDecoration.underline)*/
-                                ),
+                            onChange: (val) {
+                              if (!_formKey.currentState!.validate()) {
+                                Validate.validateEmail(val);
+                              }
+                            },
+                            onFieldSubmitted: (_) => setFocus(context,
+                                focusNode: _passwordFocusNode),
+                            focusNode: _emailFocusNode,
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
                           ),
-                        ),
-                        SizedBox(height: 50),
-                        Provider.of<UserProvider>(context).status ==
-                                Status.Authenticating
-                            ? Center(child: CircularProgressIndicator())
-                            : Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: CustomButton(
-                                  title: 'Login',
-                                  onTap: submit,
-                                ),
-                              ),
-                        // Container(
-                        //         // height: constraints.maxHeight * 0.11,
-                        //         width: SizeConfig.blockSizeHorizontal * 50,
-                        //         margin: EdgeInsets.only(
-                        //             top: SizeConfig.blockSizeVertical * 5),
-                        //         child: Material(
-                        //           borderRadius: BorderRadius.circular(10),
-                        //           color: Dark,
-                        //           elevation: 5.0,
-                        //           child: MaterialButton(
-                        //             onPressed: submit,
-                        //             child: Text(
-                        //               'Login',
-                        //               style: TextStyle(
-                        //                 fontFamily: 'Poppins',
-                        //                 fontSize:
-                        //                     SizeConfig.blockSizeHorizontal * 5,
-                        //                 fontWeight: FontWeight.w700,
-                        //                 color:
-                        //                     Color.fromRGBO(255, 255, 255, 1.0),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 0,
-                              child: Text(
-                                'Don\'t have an account yet? ',
-                                style: AppTextStyle.textStyle,
-                              ),
+                          //Field 2
+                          CustomTextField(
+                            // maxlines: 1,
+                            label: 'Enter Password',
+                            heading: 'Password',
+                            controller: password,
+                            // prefixIcon: Icon(Icons.key, color: Dark),
+                            validator: (value) {
+                              password.text = value!.trim();
+                              return Validate.passwordValidation(value);
+                            },
+                            onChange: (val) {
+                              if (!_formKey.currentState!.validate()) {
+                                Validate.passwordValidation(val);
+                              }
+                            },
+                            suffixOnTap: () {
+                              setState(() {
+                                isSecure = !isSecure;
+                              });
+                            },
+                            suffixIcon: Icon(
+                              isSecure
+                                  ? Icons.remove_red_eye_outlined
+                                  : Icons.visibility_off_outlined,
+                              color: Colors.black38,
                             ),
-                            Expanded(
-                              flex: 0,
+                            obscureText: !isSecure,
+                            onFieldSubmitted: (_) => submit(),
+                            focusNode: _passwordFocusNode,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                          ),
+                          // SizedBox(height: 10),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            // child: InkWell(
+                            //   onTap: () {
+                            //     Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //         builder: (context) => ForgotPassword(),
+                            //       ),
+                            //     );
+                            //     print('FORGOT T*/////');
+                            //     password.clear();
+                            //   },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).pushReplacement(
+                                  context
+                                      .read<UserProvider>()
+                                      .isForgotPassword = true;
+                                  setState(() {});
+                                  Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => Register('1'),
+                                      builder: (context) => ForgotPassword(),
                                     ),
                                   );
+                                  print(
+                                      'FORGOT T*/////${context.read<UserProvider>().isForgotPassword}');
+                                  password.clear();
                                 },
-                                child: ShaderMask(
-                                  blendMode: BlendMode.srcIn,
-                                  shaderCallback: (bounds) =>
-                                      textColorLiner.createShader(
-                                    Rect.fromLTWH(
-                                        0, 0, bounds.width, bounds.height),
-                                  ),
-                                  child: Text("Register here",
-                                      style: AppTextStyle.textStyle.copyWith(
-                                        color: Dark,
+                                child: GradientText('Forgot password?',
+                                    colors: [
+                                      AppColors.blueGrad7,
+                                      AppColors.blueGrad6,
+                                      AppColors.blueGrad5,
+                                      AppColors.blueGrad4,
+                                      AppColors.blueGrad3,
+                                      AppColors.blueGrad1,
+                                    ],
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w500,
+                                        fontSize: 14,
                                         decoration: TextDecoration.underline,
-                                      )),
-                                ),
+                                        decorationThickness:
+                                            2) /*AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          decoration: TextDecoration.underline)*/
+                                    ),
                               ),
-                              /* child: Text(
-                                  'Register here',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      decoration: TextDecoration.underline,
-                                      decorationThickness: 2),
-                                ),*/
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          SizedBox(height: 50),
+                          Provider.of<UserProvider>(context).status ==
+                                  Status.Authenticating
+                              ? Center(child: CircularProgressIndicator())
+                              : Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: CustomButton(
+                                    title: 'Login',
+                                    onTap: submit,
+                                  ),
+                                ),
+                          // Container(
+                          //         // height: constraints.maxHeight * 0.11,
+                          //         width: SizeConfig.blockSizeHorizontal * 50,
+                          //         margin: EdgeInsets.only(
+                          //             top: SizeConfig.blockSizeVertical * 5),
+                          //         child: Material(
+                          //           borderRadius: BorderRadius.circular(10),
+                          //           color: Dark,
+                          //           elevation: 5.0,
+                          //           child: MaterialButton(
+                          //             onPressed: submit,
+                          //             child: Text(
+                          //               'Login',
+                          //               style: TextStyle(
+                          //                 fontFamily: 'Poppins',
+                          //                 fontSize:
+                          //                     SizeConfig.blockSizeHorizontal * 5,
+                          //                 fontWeight: FontWeight.w700,
+                          //                 color:
+                          //                     Color.fromRGBO(255, 255, 255, 1.0),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 0,
+                                  child: Text(
+                                    'Don\'t have an account yet? ',
+                                    style: AppTextStyle.textStyle,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) => Register('1'),
+                                        ),
+                                      );
+                                    },
+                                    child: ShaderMask(
+                                      blendMode: BlendMode.srcIn,
+                                      shaderCallback: (bounds) =>
+                                          textColorLiner.createShader(
+                                        Rect.fromLTWH(
+                                            0, 0, bounds.width, bounds.height),
+                                      ),
+                                      child: Text("Register here",
+                                          style:
+                                              AppTextStyle.textStyle.copyWith(
+                                            color: Dark,
+                                            fontWeight: FontWeight.w500,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          )),
+                                    ),
+                                  ),
+                                  /* child: Text(
+                                      'Register here',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          decoration: TextDecoration.underline,
+                                          decorationThickness: 2),
+                                    ),*/
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

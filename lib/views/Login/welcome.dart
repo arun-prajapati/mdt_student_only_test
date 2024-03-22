@@ -400,7 +400,7 @@ class Welcome extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Let\'s Get Started YYYY',
+                        Text('Let\'s Get Started',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500)),
                         SizedBox(height: 30),
@@ -503,16 +503,16 @@ class Welcome extends StatelessWidget {
                                       },
                                     )
                                   : SizedBox(),
-                              SizedBox(width: Platform.isIOS ? 30 : 0),
-                              socialIconCustom(
-                                image: AppImages.facebook,
-                                onTap: () {
-                                  _facebookUrl =
-                                      "https://www.facebook.com/mockdrivingtest/";
-                                  print(_facebookUrl);
-                                  _launchURL(_facebookUrl);
-                                },
-                              ),
+                              // SizedBox(width: Platform.isIOS ? 30 : 0),
+                              // socialIconCustom(
+                              //   image: AppImages.facebook,
+                              //   onTap: () {
+                              //     _facebookUrl =
+                              //         "https://www.facebook.com/mockdrivingtest/";
+                              //     print(_facebookUrl);
+                              //     _launchURL(_facebookUrl);
+                              //   },
+                              // ),
                             ],
                           ),
                         )

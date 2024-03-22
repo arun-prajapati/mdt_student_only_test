@@ -8,6 +8,7 @@ import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/external.dart';
@@ -102,6 +103,9 @@ class UserProvider with ChangeNotifier {
       _eMail = apiResponse['e_mail'];
       //print(_token);
       await storeUserData(apiResponse);
+      await Purchases.restorePurchases().then((value) {
+        print('RESTORE PURCHASE +++++++++ $value');
+      });
       _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => HomeScreen()),
           (route) => false);

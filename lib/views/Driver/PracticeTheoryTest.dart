@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:Smart_Theory_Test/external.dart';
 import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/custom_button.dart';
@@ -1173,180 +1175,182 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       BuildContext context, BoxConstraints constraints, question) {
     TextStyle _questionTextStyle = AppTextStyle.titleStyle
         .copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
-    return Stack(
-      children: <Widget>[
-        Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 15),
-              width: constraints.maxWidth * 1,
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (question['questionImg'] != '')
-                    Container(
-                      transform: Matrix4.translationValues(0, -5, 0),
-                      alignment: Alignment.center,
-                      height: 17 * SizeConfig.blockSizeVertical,
-                      width: constraints.maxWidth * 1,
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/spinner.gif',
-                        image: question['questionImg'],
-                        imageErrorBuilder: (context, url, error) => Container(
-                          child: Column(
-                            children: [
-                              new Icon(Icons.error,
-                                  color: Colors.grey,
-                                  size: 5 * SizeConfig.blockSizeVertical),
-                              // Text(
-                              //   "Image not found!",
-                              //   style: TextStyle(
-                              //       fontSize: 2 * SizeConfig.blockSizeVertical,
-                              //       color: Colors.redAccent),
-                              // )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  SizedBox(height: 10),
-                  if (question['title'] != '')
-                    Text(
-                      question['title'],
-                      style: _questionTextStyle,
-                    ),
-                  // Container(
-                  //     width: constraints.maxWidth * 1,
-                  //     margin: EdgeInsets.only(top: 5),
-                  //     child: AutoSizeText(
-                  //       question['type'] == 0
-                  //           ? 'Question Source: MDT'
-                  //           : 'Question Source: DVSA',
-                  //       style: TextStyle(
-                  //           fontSize: 2 * SizeConfig.blockSizeVertical,
-                  //           color: Colors.black26,
-                  //           fontWeight: FontWeight.w500),
-                  //     ))
-                ],
-              ),
-            ),
-            ...question['options'].map((option) => radioSingleOptionUI(
-                  constraints,
-                  option,
-                  question['options'].indexOf(option),
-                  question,
-                )),
-          ],
-        ),
-        if (question['type'] == 1 &&
-            context.read<SubscriptionProvider>().entitlement ==
-                Entitlement.unpaid)
-          Container(
-            width: Responsive.height(100, context),
-            height: Responsive.height(100, context),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 1),
-              child: Container(
-                  color: Colors.white.withOpacity(0.8),
-                  padding: EdgeInsets.only(
-                    top: Responsive.height(20, context),
-                  ),
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Container(
-                      //   alignment: Alignment.topCenter,
-                      //   margin: EdgeInsets.only(top: 3),
-                      //   width: constraints.maxWidth * 0.90,
-                      //   child: AutoSizeText('Question Source: DVSA', textAlign: TextAlign.center, style: AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w400, color: Dark)),
-                      // ),
+    return Consumer<SubscriptionProvider>(builder: (context, data, _) {
+      return Stack(
+        children: <Widget>[
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 15),
+                width: constraints.maxWidth * 1,
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (question['questionImg'] != '')
                       Container(
-                        alignment: Alignment.topCenter,
-                        margin: EdgeInsets.only(top: 20),
-                        width: constraints.maxWidth * 0.90,
-                        child:
-                            AutoSizeText('Please subscribe for more questions.',
-                                textAlign: TextAlign.center,
-                                style: AppTextStyle.textStyle.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                )),
-                      ),
-                      Container(
-                        height: 6 * SizeConfig.blockSizeVertical,
-                        width: constraints.maxWidth * 0.50,
-                        alignment: Alignment.topCenter,
-                        margin: EdgeInsets.only(top: 10),
-                        child: Material(
-                          borderRadius: BorderRadius.circular(10),
-                          elevation: 5.0,
-                          child: GestureDetector(
-                            onTap: () {
-                              subscriptionConfirmAlert(context);
-                            },
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                return Container(
-                                    width: constraints.maxWidth * 1,
-                                    height: constraints.maxHeight * 1,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        gradient: RadialGradient(
-                                          colors: [
-                                            AppColors.primary,
-                                            AppColors.secondary,
-                                            AppColors.secondary,
-                                          ],
-                                          radius: 10,
-                                          focal: Alignment(-1.1, -3.0),
-                                        )),
-                                    child: SizedBox(
-                                      width: constraints.maxWidth * 1,
-                                      child: AutoSizeText('Subscribe',
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              AppTextStyle.textStyle.copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                          )),
-                                    ));
-                              },
+                        transform: Matrix4.translationValues(0, -5, 0),
+                        alignment: Alignment.center,
+                        height: 17 * SizeConfig.blockSizeVertical,
+                        width: constraints.maxWidth * 1,
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/spinner.gif',
+                          image: question['questionImg'],
+                          imageErrorBuilder: (context, url, error) => Container(
+                            child: Column(
+                              children: [
+                                new Icon(Icons.error,
+                                    color: Colors.grey,
+                                    size: 5 * SizeConfig.blockSizeVertical),
+                                // Text(
+                                //   "Image not found!",
+                                //   style: TextStyle(
+                                //       fontSize: 2 * SizeConfig.blockSizeVertical,
+                                //       color: Colors.redAccent),
+                                // )
+                              ],
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        // alignment: Alignment.topCenter,
-                        margin: EdgeInsets.only(top: 20),
-                        width: constraints.maxWidth * 0.90,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                // width: constraints.maxWidth * 0.18,
-                                alignment: Alignment.topCenter,
-                                child: Text("NOTE:   ",
-                                    style: AppTextStyle.textStyle.copyWith(
-                                        color: AppColors.red1,
-                                        fontWeight: FontWeight.w500))),
-                            Container(
-                                width: constraints.maxWidth * 0.72,
-                                child: Text(
-                                    // textAlign: TextAlign.justify,
-                                    'Please purchase license to access more question in this category',
-                                    style: AppTextStyle.disStyle.copyWith(
-                                        fontWeight: FontWeight.w400))),
-                          ],
-                        ),
+                    SizedBox(height: 10),
+                    if (question['title'] != '')
+                      Text(
+                        question['title'],
+                        style: _questionTextStyle,
                       ),
-                    ],
+                    // Container(
+                    //     width: constraints.maxWidth * 1,
+                    //     margin: EdgeInsets.only(top: 5),
+                    //     child: AutoSizeText(
+                    //       question['type'] == 0
+                    //           ? 'Question Source: MDT'
+                    //           : 'Question Source: DVSA',
+                    //       style: TextStyle(
+                    //           fontSize: 2 * SizeConfig.blockSizeVertical,
+                    //           color: Colors.black26,
+                    //           fontWeight: FontWeight.w500),
+                    //     ))
+                  ],
+                ),
+              ),
+              ...question['options'].map((option) => radioSingleOptionUI(
+                    constraints,
+                    option,
+                    question['options'].indexOf(option),
+                    question,
                   )),
-            ),
-          )
-      ],
-    );
+            ],
+          ),
+          if (question['type'] == 1 && data.entitlement == Entitlement.unpaid)
+            Container(
+              width: Responsive.height(100, context),
+              height: Responsive.height(100, context),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 1),
+                child: Container(
+                    color: Colors.white.withOpacity(0.8),
+                    padding: EdgeInsets.only(
+                      top: Responsive.height(20, context),
+                    ),
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Container(
+                        //   alignment: Alignment.topCenter,
+                        //   margin: EdgeInsets.only(top: 3),
+                        //   width: constraints.maxWidth * 0.90,
+                        //   child: AutoSizeText('Question Source: DVSA', textAlign: TextAlign.center, style: AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w400, color: Dark)),
+                        // ),
+                        Container(
+                          alignment: Alignment.topCenter,
+                          margin: EdgeInsets.only(top: 20),
+                          width: constraints.maxWidth * 0.90,
+                          child: AutoSizeText(
+                              'Please subscribe for more questions.',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyle.textStyle.copyWith(
+                                fontWeight: FontWeight.w400,
+                              )),
+                        ),
+                        Container(
+                          height: 6 * SizeConfig.blockSizeVertical,
+                          width: constraints.maxWidth * 0.50,
+                          alignment: Alignment.topCenter,
+                          margin: EdgeInsets.only(top: 10),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(10),
+                            elevation: 5.0,
+                            child: GestureDetector(
+                              onTap: () {
+                                subscriptionConfirmAlert(context);
+                              },
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  return Container(
+                                      width: constraints.maxWidth * 1,
+                                      height: constraints.maxHeight * 1,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          gradient: RadialGradient(
+                                            colors: [
+                                              AppColors.primary,
+                                              AppColors.secondary,
+                                              AppColors.secondary,
+                                            ],
+                                            radius: 10,
+                                            focal: Alignment(-1.1, -3.0),
+                                          )),
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 1,
+                                        child: AutoSizeText('Subscribe',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                AppTextStyle.textStyle.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                            )),
+                                      ));
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          // alignment: Alignment.topCenter,
+                          margin: EdgeInsets.only(top: 20),
+                          width: constraints.maxWidth * 0.90,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  // width: constraints.maxWidth * 0.18,
+                                  alignment: Alignment.topCenter,
+                                  child: Text("NOTE:   ",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          color: AppColors.red1,
+                                          fontWeight: FontWeight.w500))),
+                              Container(
+                                  width: constraints.maxWidth * 0.72,
+                                  child: Text(
+                                      // textAlign: TextAlign.justify,
+                                      'Please purchase license to access more question in this category',
+                                      style: AppTextStyle.disStyle.copyWith(
+                                          fontWeight: FontWeight.w400))),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
+            )
+          else ...[SizedBox()]
+        ],
+      );
+    });
   }
 
   Widget answerExplanation(Map question) {
@@ -1481,64 +1485,65 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
           print('walletDetail: ${walletDetail}');
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 80, vertical: 5),
-            child: CustomButton(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              onTap: (selectedOptionIndex == null &&
-                      (questionsList[selectedQuestionIndex]['type'] == 0 ||
-                          (questionsList[selectedQuestionIndex]['type'] == 1 &&
-                              context
-                                      .read<SubscriptionProvider>()
-                                      .entitlement ==
-                                  Entitlement.paid)))
-                  ? null
-                  : () {
-                      testQuestionsForResult.add({
-                        'questionId': questionsList[selectedQuestionIndex]
-                            ['id'],
-                        'type': questionsList[selectedQuestionIndex]['type'],
-                        'question': questionsList[selectedQuestionIndex]
-                            ['title'],
-                        'correct': (selectedOptionIndex != null &&
-                                questionsList[selectedQuestionIndex]['options']
-                                        [selectedOptionIndex]['correct'] ==
-                                    true)
-                            ? 'Correct Answer'
-                            : 'Wrong Answer'
-                      });
-                      if ((selectedQuestionIndex + 1) < questionsList.length) {
-                        _controller.animateTo(0,
-                            duration: Duration(microseconds: 1000),
-                            curve: Curves.slowMiddle);
-                        setState(() {
-                          selectedOptionIndex = null;
-                          selectedQuestionIndex += 1;
+            child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
+              return CustomButton(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                onTap: (selectedOptionIndex == null &&
+                        (questionsList[selectedQuestionIndex]['type'] == 0 ||
+                            (questionsList[selectedQuestionIndex]['type'] ==
+                                    1 &&
+                                val.entitlement == Entitlement.paid)))
+                    ? null
+                    : () {
+                        testQuestionsForResult.add({
+                          'questionId': questionsList[selectedQuestionIndex]
+                              ['id'],
+                          'type': questionsList[selectedQuestionIndex]['type'],
+                          'question': questionsList[selectedQuestionIndex]
+                              ['title'],
+                          'correct': (selectedOptionIndex != null &&
+                                  questionsList[selectedQuestionIndex]
+                                              ['options'][selectedOptionIndex]
+                                          ['correct'] ==
+                                      true)
+                              ? 'Correct Answer'
+                              : 'Wrong Answer'
                         });
-                      }
-                      // else if (questionsList[selectedQuestionIndex]['type'] ==
-                      //     1) {
-                      //   context.read<AuthProvider>().changeView = false;
-                      //   setState(() {});
-                      // }
-                      else {
-                        CustomSpinner.showLoadingDialog(
-                            context, _keyLoader, "Test Submitting...");
-                        submitTestByApi().then((value) {
-                          Navigator.of(_keyLoader.currentContext!,
-                                  rootNavigator: true)
-                              .pop();
-                          testCompleAlertBox(context);
-                        });
-                      }
-                    },
-              title: selectedQuestionIndex < questionsList.length - 1
-                  ? context.read<SubscriptionProvider>().entitlement ==
-                              Entitlement.unpaid &&
-                          // walletDetail!['dvsa_subscription'] <= 0 &&
-                          questionsList[selectedQuestionIndex]['type'] == 1
-                      ? 'Skip'
-                      : 'Next'
-                  : 'Test Submit',
-            ),
+                        if ((selectedQuestionIndex + 1) <
+                            questionsList.length) {
+                          _controller.animateTo(0,
+                              duration: Duration(microseconds: 1000),
+                              curve: Curves.slowMiddle);
+                          setState(() {
+                            selectedOptionIndex = null;
+                            selectedQuestionIndex += 1;
+                          });
+                        }
+                        // else if (questionsList[selectedQuestionIndex]['type'] ==
+                        //     1) {
+                        //   context.read<AuthProvider>().changeView = false;
+                        //   setState(() {});
+                        // }
+                        else {
+                          CustomSpinner.showLoadingDialog(
+                              context, _keyLoader, "Test Submitting...");
+                          submitTestByApi().then((value) {
+                            Navigator.of(_keyLoader.currentContext!,
+                                    rootNavigator: true)
+                                .pop();
+                            testCompleAlertBox(context);
+                          });
+                        }
+                      },
+                title: selectedQuestionIndex < questionsList.length - 1
+                    ? val.entitlement == Entitlement.unpaid &&
+                            // walletDetail!['dvsa_subscription'] <= 0 &&
+                            questionsList[selectedQuestionIndex]['type'] == 1
+                        ? 'Skip'
+                        : 'Next'
+                    : 'Test Submit',
+              );
+            }),
           );
         },
       ),
@@ -1902,11 +1907,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            PurchaseSub.purchasePackage(
-                                val.package.first, context);
-                            // context
-                            //     .read<SubscriptionProvider>()
-                            //     .isUserPurchaseTest();
+
+                            purchasePackage(val.package.first, context);
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -1945,6 +1947,27 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 );
               }),
             ));
+  }
+
+  purchasePackage(Package package, BuildContext context) async {
+    loading(value: true);
+    try {
+      loading(value: true);
+      // await Purchases.purchasePackage(packageToPurchase).
+      await Purchases.purchasePackage(package).then((value) {
+        loading(value: false);
+        print('HHHHHHHHH');
+        context.read<SubscriptionProvider>().isUserPurchaseTest();
+      }).catchError((e) {
+        loading(value: false);
+        print("ERROR ====== $e");
+
+        return e;
+      });
+    } catch (e) {
+      loading(value: false);
+      print("ERROR ====== $e");
+    }
   }
 }
 

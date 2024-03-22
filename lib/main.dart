@@ -68,33 +68,31 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final authProvider = Provider.of<AuthProvider>(context);
-    return Consumer<SubscriptionProvider>(builder: (context, sub, _) {
-      return Consumer<UserProvider>(
-        builder: (context, user, child) {
-          sub.isUserPurchaseTest();
-          switch (user.status) {
-            case Status.Uninitialized:
-              return SplashScreen();
-            //          case Status.RouteLogin:
-            //          case Status.Authenticating:
-            //            return SignInForm();
-            case Status.Unauthenticated:
-              return Welcome();
-            case Status.Authenticating:
-              return Welcome();
-            case Status.Authenticated:
-              //  return LayoutTemplate(user: user.user);
-              // return MyBooking();
-              return HomeScreen();
-            //    return ChangeNotifierProvider(
-            // builder: (context) => TodoProvider(authProvider),
-            //    child: HomeView(),
-            //  );
-            default:
-              return Welcome();
-          }
-        },
-      );
-    });
+    return Consumer<UserProvider>(
+      builder: (context, user, child) {
+        // sub.isUserPurchaseTest();
+        switch (user.status) {
+          case Status.Uninitialized:
+            return SplashScreen();
+          //          case Status.RouteLogin:
+          //          case Status.Authenticating:
+          //            return SignInForm();
+          case Status.Unauthenticated:
+            return Welcome();
+          case Status.Authenticating:
+            return Welcome();
+          case Status.Authenticated:
+            //  return LayoutTemplate(user: user.user);
+            // return MyBooking();
+            return HomeScreen();
+          //    return ChangeNotifierProvider(
+          // builder: (context) => TodoProvider(authProvider),
+          //    child: HomeView(),
+          //  );
+          default:
+            return Welcome();
+        }
+      },
+    );
   }
 }

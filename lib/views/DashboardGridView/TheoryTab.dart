@@ -9,6 +9,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:Smart_Theory_Test/external.dart';
@@ -151,13 +152,39 @@ class _TheoryTabState extends State<TheoryTab> {
   @override
   void initState() {
     super.initState();
+    // Purchases.restorePurchases().then((value) {
+    //   print('RESTORE PURCHASE +++++++++ $value');
+    // });
 
+    checkSubscriptionStatus();
     getStatus();
     getCategoriesFromApi();
 
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
+  }
+
+  void checkSubscriptionStatus() async {
+    // try {
+    CustomerInfo purchaserInfo = await Purchases.restorePurchases();
+
+    log("///////////////////////////// ${jsonEncode(purchaserInfo.originalAppUserId)}");
+    Purchases.getCustomerInfo().then((value) {
+      log("///////////////////////////// ${jsonEncode(value.originalAppUserId)} ${jsonEncode(purchaserInfo.allExpirationDates)}");
+      print(jsonEncode(purchaserInfo.activeSubscriptions));
+    });
+    if (purchaserInfo.entitlements.all["One time purchase"]!.isActive) {
+      print("Active subscription found!");
+      // Proceed with app logic for active subscription
+    } else {
+      print("No active subscription found.");
+      // Handle the case when no active subscription is found
+    }
+    // } catch (e) {
+    //   print("Error checking subscription status: $e");
+    //   // Handle the error appropriately
+    // }
   }
 
   Future<Map> getAllRecordsFromApi() async {

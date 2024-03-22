@@ -47,10 +47,6 @@ class SubscriptionProvider extends ChangeNotifier {
   }
 
   isUserPurchaseTest() {
-    Purchases.getCustomerInfo().then((value) async {
-      print('INFOOOOOOOO ${value.originalAppUserId} ');
-      // Fluttertoast.showToast(msg: "${value.entitlements}");
-    });
     Purchases.addCustomerInfoUpdateListener((customerInfo) {
       EntitlementInfo? entitlementInfo =
           customerInfo.entitlements.all['One time purchase'];
@@ -58,7 +54,6 @@ class SubscriptionProvider extends ChangeNotifier {
       if (entitlementInfo != null) {
         if (entitlementInfo.isActive) {
           _entitlement = Entitlement.paid;
-
           Fluttertoast.showToast(msg: "${entitlement}");
         } else {
           Fluttertoast.showToast(msg: "${entitlement}");
@@ -67,14 +62,10 @@ class SubscriptionProvider extends ChangeNotifier {
       } else {
         Fluttertoast.showToast(msg: "${entitlement}");
       }
-      // Fluttertoast.showToast(msg: "${customerInfo.entitlements}");
-      // notifyListeners();
+      notifyListeners();
     });
   }
-// }
 }
-
-final NavigationService _navigationService = locator<NavigationService>();
 
 class PurchaseSub {
   static String _key = Platform.isIOS
