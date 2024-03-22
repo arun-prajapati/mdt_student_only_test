@@ -105,11 +105,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       });
       // await getTheoryContent(
       //         walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
-      await getTheoryContent(context.read<SubscriptionProvider>().entitlement ==
-                  Entitlement.unpaid
-              ? "no"
-              : "yes")
-          .then((value) async {
+      await getTheoryContent().then((value) async {
         await fetchUserTheoryProgress(_userId!).then((res) {
           print("Progress fetch : $res");
           setState(() {
@@ -164,15 +160,16 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   }
 
   //Fetch topics with description
-  Future<Map> getTheoryContent(String isFree) async {
+  Future<Map> getTheoryContent() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
     };
-    final url = Uri.parse('$api/api/ai_get_theory_content/${isFree}');
+    final url = Uri.parse(
+        '$api/api/ai_get_theory_content/${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid ? "no" : "yes"}');
     final response = await http.get(url, headers: header);
-    print("URL +++++++ $api/api/ai_get_theory_content/${isFree}");
+    print("URL +++++++ $url");
     if (response.statusCode == 200) {
       var parsedData = jsonDecode(response.body);
       if (parsedData['success'] == true) {
@@ -187,6 +184,29 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     }
 
     return jsonDecode(response.body);
+  }
+
+  purchasePackage(Package package, BuildContext context) async {
+    loading(value: true);
+    try {
+      loading(value: true);
+      // await Purchases.purchasePackage(packageToPurchase).
+      await Purchases.purchasePackage(package).then((value) {
+        loading(value: false);
+        print('HHHHHHHHH');
+        getTheoryContent();
+        // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+        context.read<SubscriptionProvider>().isUserPurchaseTest();
+      }).catchError((e) {
+        loading(value: false);
+        print("ERROR ====== $e");
+        // Fluttertoast.showToast(msg: e.toString());
+        return e;
+      });
+    } catch (e) {
+      loading(value: false);
+      print("ERROR ====== $e");
+    }
   }
 
   Future<Map> getTopicAiContent(String topic) async {
@@ -225,6 +245,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       'topic_id': topicId,
     };
     final response = await http.post(url, body: body, headers: header);
+    print('BODY ${jsonEncode(body)}');
     print('URL ===== $api/api/update/progress');
     print('RESPONSE ===== ${response.body}');
     return jsonDecode(response.body);
@@ -396,7 +417,11 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             return GestureDetector(
                               onTap: () {
                                 print(
-                                    '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${theoryContent[index].isFree}');
+                                    '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 1${theoryContent[index].isFree}');
+                                context
+                                    .read<SubscriptionProvider>()
+                                    .isUserPurchaseTest();
+
                                 if (context
                                         .read<SubscriptionProvider>()
                                         .entitlement ==
@@ -439,9 +464,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     key: Key(index.toString()),
                                     initiallyExpanded: index == selected,
                                     maintainState: true,
-                                    onExpansionChanged: (val) {
+                                    onExpansionChanged: (val) async {
+                                      context
+                                          .read<SubscriptionProvider>()
+                                          .isUserPurchaseTest();
                                       print(
-                                          '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${theoryContent[index].isFree}');
+                                          '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${theoryContent[index].isFree} $index $selected $val');
                                       if (context
                                               .read<SubscriptionProvider>()
                                               .entitlement ==
@@ -460,7 +488,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           });
                                         } else {
                                           setState(() {
-                                            selected = -1;
+                                            selected = index;
                                             _dataStatus = DataStatus.Initial;
                                             // _w = DataStatus.Initial;
                                             topicData = {};
@@ -896,14 +924,13 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                             'readContent------------${readContentTheory[index]}');
                                                       });
                                                       print(
-                                                          'readContent------------${readContentTheory[index]}');
+                                                          'readContent------------${theoryContent[index].id}');
                                                       // print(_userId.runtimeType);
                                                       // print(theoryContent[index]["id"].runtimeType);
                                                       await updateTopicProgress(
                                                           _userId!.toString(),
                                                           theoryContent[index]
                                                               .id
-                                                              .toString()
                                                               .toString());
                                                     },
                                               fillColor: MaterialStateColor
@@ -1275,10 +1302,10 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             Navigator.pop(context);
                             Navigator.pop(context);
 
-                            PurchaseSub.purchasePackage(val.package.first);
-                            context
-                                .read<SubscriptionProvider>()
-                                .isUserPurchaseTest();
+                            purchasePackage(val.package.first, context);
+                            // context
+                            //     .read<SubscriptionProvider>()
+                            //     .isUserPurchaseTest();
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(

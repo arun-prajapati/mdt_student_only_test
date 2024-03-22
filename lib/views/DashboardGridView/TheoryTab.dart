@@ -129,7 +129,7 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   getStatus() async {
-    // context.read<SubscriptionProvider>().isUserPurchaseTest();
+    context.read<SubscriptionProvider>().isUserPurchaseTest();
     print('Call Popup Box--- ${context.read<UserProvider>().googleNavigate}');
     context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();
@@ -181,7 +181,9 @@ class _TheoryTabState extends State<TheoryTab> {
         walletDetail = records_list['other_data'];
       });
       log("Subscription status : ${res['dvsa_subscription']}");
-      if (res['dvsa_subscription'] == 1) {
+      // if (res['dvsa_subscription'] == 1) {
+      if (context.read<SubscriptionProvider>().entitlement ==
+          Entitlement.paid) {
         if (mounted) {
           setState(() {
             isSubscribed = true;
@@ -218,7 +220,7 @@ class _TheoryTabState extends State<TheoryTab> {
   // }
   Future<List> getCategoriesFromApi() async {
     loading(value: true);
-    categories = await test_api_services.getCategories();
+    categories = await test_api_services.getTheoryContent(context);
 
     // http.Response.
     print('RESPONSE DATA :: $categories');
@@ -235,7 +237,7 @@ class _TheoryTabState extends State<TheoryTab> {
     final url = Uri.parse('$api/api/fetch/progress/${driverId}');
     //print("URL : $url");
     final response = await http.get(url, headers: header);
-    print("fetchUserTheoryProgress URL $api/api/fetch/progress/${driverId}");
+    print("fetchUserTheoryProgress URL $url");
     log("RESPONSE fetchUserTheoryProgress ++++++++++++++++ ${response.body}");
     return jsonDecode(response.body);
   }
@@ -311,68 +313,82 @@ class _TheoryTabState extends State<TheoryTab> {
                   padding: EdgeInsets.only(top: 15),
                   child: GestureDetector(
                     onTap: () {
-                      showModalBottomSheet(
-                          isDismissible: false,
-                          isScrollControlled: true,
-                          constraints: BoxConstraints.expand(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.80),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0)),
-                          backgroundColor: Colors.white,
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              height: Responsive.height(55, context),
-                              padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 25),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('', style: _categoryTextStyle),
-                                          Text('${_userName}\'s Progress:',
-                                              style: _categoryTextStyle),
-                                          InkWell(
-                                              onTap: () =>
-                                                  Navigator.pop(context),
-                                              child: Icon(Icons.close,
-                                                  color: AppColors.black)),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: List.generate(
-                                              categories.length, (index) {
-                                            // print("CATEGORY LIST :: ${categories_list}");
-                                            // log("CATEGORY :: ${categories}");
-                                            return Column(
-                                              children: [
-                                                LinearPercentIndicatorWidget(
-                                                  perTitle: categories[index]
-                                                          ["theory_progress"]
-                                                      .toDouble(),
-                                                  // perTitle: "${((() * 100).toStringAsFixed(0))}%",
-                                                  textTitle: categories[index]
-                                                      ["name"],
-                                                )
-                                              ],
-                                            );
-                                          }),
+                      getCategoriesFromApi().then((value) =>
+                          showModalBottomSheet(
+                              isDismissible: false,
+                              isScrollControlled: true,
+                              constraints: BoxConstraints.expand(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.80),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              backgroundColor: Colors.white,
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  height: Responsive.height(55, context),
+                                  padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
+                                  child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 25),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('',
+                                                  style: _categoryTextStyle),
+                                              Text('${_userName}\'s Progress:',
+                                                  style: _categoryTextStyle),
+                                              InkWell(
+                                                  onTap: () =>
+                                                      Navigator.pop(context),
+                                                  child: Icon(Icons.close,
+                                                      color: AppColors.black)),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ]),
-                            );
-                          });
+                                        Expanded(
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: List.generate(
+                                                  categories.length, (index) {
+                                                // print("CATEGORY LIST :: ${categories_list}");
+                                                // log("CATEGORY :: ${categories}");
+                                                return Column(
+                                                  children: [
+                                                    LinearPercentIndicatorWidget(
+                                                      perTitle: categories[
+                                                                  index][
+                                                              "theory_progress"]
+                                                          .toDouble(),
+                                                      // perTitle: "${((() * 100).toStringAsFixed(0))}%",
+                                                      textTitle: categories[
+                                                                      index]
+                                                                  ['topic_name']
+                                                              .replaceAll(
+                                                                  '_', ' ')
+                                                              .substring(0, 1)
+                                                              .toUpperCase() +
+                                                          categories[index]
+                                                                  ['topic_name']
+                                                              .replaceAll(
+                                                                  '_', ' ')
+                                                              .substring(1),
+                                                    )
+                                                  ],
+                                                );
+                                              }),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                );
+                              }));
+
 /*
                           showDialog(
                           context: context,
@@ -1090,10 +1106,11 @@ class _TheoryTabState extends State<TheoryTab> {
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            PurchaseSub.purchasePackage(val.package.first);
-                            context
-                                .read<SubscriptionProvider>()
-                                .isUserPurchaseTest();
+                            PurchaseSub.purchasePackage(
+                                val.package.first, context);
+                            // context
+                            //     .read<SubscriptionProvider>()
+                            //     .isUserPurchaseTest();
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(

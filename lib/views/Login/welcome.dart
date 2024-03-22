@@ -400,7 +400,7 @@ class Welcome extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Let\'s Get Started',
+                        Text('Let\'s Get Started YYYY',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500)),
                         SizedBox(height: 30),

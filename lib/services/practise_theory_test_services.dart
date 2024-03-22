@@ -1,5 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:Smart_Theory_Test/routing/route.dart';
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,6 +25,26 @@ class PractiseTheoryTestServices {
     data = jsonDecode(response.body);
     userData = data["data"];
     print('CATEGORY ****************** $token');
+    return userData;
+  }
+
+  Future<List> getTheoryContent(BuildContext context) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
+    final url = Uri.parse(
+        '$api/api/ai_get_theory_content/${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid ? "no" : "yes"}');
+    final response = await http.get(url, headers: header);
+    print("URL +++++++ $url");
+    if (response.statusCode == 200) {
+      data = jsonDecode(response.body);
+      userData = data["message"];
+    } else {
+      log('ERORRRR ${response.body}');
+    }
+
     return userData;
   }
 

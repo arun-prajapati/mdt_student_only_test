@@ -2,8 +2,13 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:Smart_Theory_Test/external.dart';
+import 'package:Smart_Theory_Test/locater.dart';
+import 'package:Smart_Theory_Test/main.dart';
+import 'package:Smart_Theory_Test/services/navigation_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 enum Entitlement { unpaid, paid }
@@ -42,8 +47,8 @@ class SubscriptionProvider extends ChangeNotifier {
   }
 
   isUserPurchaseTest() {
-    Purchases.getCustomerInfo().then((value) {
-      print('INFOOOOOOOO ${value}');
+    Purchases.getCustomerInfo().then((value) async {
+      print('INFOOOOOOOO ${value.originalAppUserId} ');
       // Fluttertoast.showToast(msg: "${value.entitlements}");
     });
     Purchases.addCustomerInfoUpdateListener((customerInfo) {
@@ -53,9 +58,14 @@ class SubscriptionProvider extends ChangeNotifier {
       if (entitlementInfo != null) {
         if (entitlementInfo.isActive) {
           _entitlement = Entitlement.paid;
+
+          Fluttertoast.showToast(msg: "${entitlement}");
         } else {
+          Fluttertoast.showToast(msg: "${entitlement}");
           _entitlement = Entitlement.unpaid;
         }
+      } else {
+        Fluttertoast.showToast(msg: "${entitlement}");
       }
       // Fluttertoast.showToast(msg: "${customerInfo.entitlements}");
       // notifyListeners();
@@ -63,6 +73,8 @@ class SubscriptionProvider extends ChangeNotifier {
   }
 // }
 }
+
+final NavigationService _navigationService = locator<NavigationService>();
 
 class PurchaseSub {
   static String _key = Platform.isIOS
@@ -77,21 +89,26 @@ class PurchaseSub {
     // print('APP USERID ${configuration.appUserID}');
   }
 
-  static Future<bool> purchasePackage(Package package) async {
-    // loading(value: true);
+  static Future<bool> purchasePackage(
+      Package package, BuildContext context) async {
+    loading(value: true);
     try {
-      //loading(value: true);
+      loading(value: true);
+      // await Purchases.purchasePackage(packageToPurchase).
       await Purchases.purchasePackage(package).then((value) {
-        // loading(value: false);
+        loading(value: false);
+        print('HHHHHHHHH');
+        // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+        context.read<SubscriptionProvider>().isUserPurchaseTest();
       }).catchError((e) {
-        // loading(value: false);
+        loading(value: false);
         print("ERROR ====== $e");
         // Fluttertoast.showToast(msg: e.toString());
         return e;
       });
       return true;
     } catch (e) {
-      // loading(value: false);
+      loading(value: false);
       print("ERROR ====== $e");
       return false;
     }
