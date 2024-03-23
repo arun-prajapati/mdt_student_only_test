@@ -198,6 +198,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH');
+        Purchases.logIn(_userId.toString()).then((value) {
+          print('Purchases.logIn ${jsonEncode(value.customerInfo)}');
+        });
         getTheoryContent('yes');
       }).catchError((e) {
         loading(value: false);
@@ -419,23 +422,29 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                 walletDetail != null &&
                                 walletDetail!['dvsa_subscription'] <= 0) {
                               return GestureDetector(
-                                onTap: () {
-                                  print(
-                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 1${theoryContent[index].isFree}');
-                                  setState(() {});
-                                  context
-                                      .read<SubscriptionProvider>()
-                                      .isUserPurchaseTest();
+                                onTap: context
+                                            .read<SubscriptionProvider>()
+                                            .entitlement ==
+                                        Entitlement.paid
+                                    ? null
+                                    : () {
+                                        print(
+                                            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 1${theoryContent[index].isFree}');
+                                        setState(() {});
+                                        context
+                                            .read<SubscriptionProvider>()
+                                            .isUserPurchaseTest();
 
-                                  if (context
-                                          .read<SubscriptionProvider>()
-                                          .entitlement ==
-                                      Entitlement.unpaid) {
-                                    GetPremium(context);
-                                  } else {
-                                    print('ELSEEEEE ============++++++++++');
-                                  }
-                                },
+                                        if (context
+                                                .read<SubscriptionProvider>()
+                                                .entitlement ==
+                                            Entitlement.unpaid) {
+                                          GetPremium(context);
+                                        } else {
+                                          print(
+                                              'ELSEEEEE ============++++++++++');
+                                        }
+                                      },
                                 child: Container(
                                   width: double.infinity,
                                   //height: constraints.maxHeight * 0.11,

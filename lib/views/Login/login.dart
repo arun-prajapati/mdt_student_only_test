@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:Smart_Theory_Test/views/Login/otp_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_udid/flutter_udid.dart';
@@ -85,24 +86,24 @@ class _SignInFormState extends State<SignInForm> {
   TextEditingController password = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  Future<String?> getId() async {
-    //  deviceId = await PlatformDeviceId.getDeviceId;
-    var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      // import 'dart:io'
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      deviceId = await iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else if (Platform.isAndroid) {
-      print("deviceId $deviceId");
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      deviceId = androidDeviceInfo.id;
-      //"TP1A.220624.014"; // unique ID on Android
-    }
-
-    //deviceId = Uuid().v4();
-
-    return deviceId;
-  }
+  // Future<String?> getId() async {
+  //   //  deviceId = await PlatformDeviceId.getDeviceId;
+  //   var deviceInfo = DeviceInfoPlugin();
+  //   if (Platform.isIOS) {
+  //     // import 'dart:io'
+  //     var iosDeviceInfo = await deviceInfo.iosInfo;
+  //     deviceId = await iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  //   } else if (Platform.isAndroid) {
+  //     print("deviceId $deviceId");
+  //     var androidDeviceInfo = await deviceInfo.androidInfo;
+  //     deviceId = androidDeviceInfo.id;
+  //     //"TP1A.220624.014"; // unique ID on Android
+  //   }
+  //
+  //   //deviceId = Uuid().v4();
+  //
+  //   return deviceId;
+  // }
 
   showValidationDialog(BuildContext context, String message) {
     //print("valid");
@@ -281,31 +282,37 @@ class _SignInFormState extends State<SignInForm> {
               alignment: Alignment.topCenter,
               children: <Widget>[
                 Image.asset(
-                  AppImages.bgLogin,
-                  //height: 300,
+                  "assets/bg1.png",
+                  height: 290,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
+                // Image.asset(
+                //   AppImages.bgLogin,
+                //   //height: 300,
+                //   width: MediaQuery.of(context).size.width,
+                //   fit: BoxFit.fitWidth,
+                // ),
                 Positioned(
                     left: 25,
                     top: SizeConfig.blockSizeVertical * 8,
                     child: backArrowCustom()),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 18,
-                  left: SizeConfig.blockSizeHorizontal * 28,
-                  child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 20,
-                    backgroundColor: Colors.white,
-                    child: Container(
-                      child: Image.asset(
-                        "assets/s_logo.png",
-                        height: 180,
-                        width: 182,
-                        //fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   top: SizeConfig.blockSizeVertical * 18,
+                //   left: SizeConfig.blockSizeHorizontal * 28,
+                //   child: CircleAvatar(
+                //     radius: SizeConfig.blockSizeHorizontal * 20,
+                //     backgroundColor: Colors.white,
+                //     child: Container(
+                //       child: Image.asset(
+                //         "assets/s_logo.png",
+                //         height: 180,
+                //         width: 182,
+                //         //fit: BoxFit.contain,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // CustomPaint(
                 //   size: Size(width, height),
                 //   painter: HeaderPainter(),
@@ -348,7 +355,7 @@ class _SignInFormState extends State<SignInForm> {
                 //     ),
                 //   ),
                 // ),
-                SizedBox(height: 20),
+                // SizedBox(height: 10),
                 Container(
                   // width: SizeConfig.blockSizeHorizontal * 85,
                   // height: SizeConfig.blockSizeVertical * 80,
@@ -361,7 +368,7 @@ class _SignInFormState extends State<SignInForm> {
                   //color: Colors.black12,
                   child: Padding(
                     padding: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 34,
+                        top: SizeConfig.blockSizeVertical * 40,
                         left: 15,
                         right: 15,
                         bottom: 15),
@@ -377,7 +384,7 @@ class _SignInFormState extends State<SignInForm> {
                             child: Text('Fill Up Your Details below to login',
                                 style: AppTextStyle.textStyle),
                           ),
-                          SizedBox(height: 35),
+                          SizedBox(height: 20),
                           //Field 1
                           CustomTextField(
                             controller: emailController,

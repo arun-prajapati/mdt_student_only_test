@@ -2,12 +2,15 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:Smart_Theory_Test/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
@@ -74,28 +77,53 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   Timer? timer;
   Map response = new Map();
   late String deviceType;
-  String? deviceId = '';
+  String deviceId = '';
 
-  Future<String?> getId() async {
-    //  deviceId = await PlatformDeviceId.getDeviceId;
+  // Future<String?> getId() async {
+  //   //  deviceId = await PlatformDeviceId.getDeviceId;
+  //   var deviceInfo = DeviceInfoPlugin();
+  //   if (Platform.isIOS) {
+  //     // import 'dart:io'
+  //     var iosDeviceInfo = await deviceInfo.iosInfo;
+  //     deviceId = await iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  //   } else if (Platform.isAndroid) {
+  //     var androidDeviceInfo = await deviceInfo.androidInfo;
+  //     deviceId = await androidDeviceInfo.id; // unique ID on Android
+  //   }
+  //   print('*************** DEVICE ID *********** $deviceId');
+  //   //deviceId = Uuid().v4();
+  //
+  //   return deviceId;
+  // }
+  getDeviceId() async {
+    // var platform = PlatformDeviceId.deviceInfoPlugin;
     var deviceInfo = DeviceInfoPlugin();
+    String udid = await FlutterUdid.udid;
+    String consistentUdid = await FlutterUdid.consistentUdid;
+    log(udid, name: "UNIQUE_ID");
+    log(consistentUdid, name: "consistent_Udid");
     if (Platform.isIOS) {
-      // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
-      deviceId = await iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else if (Platform.isAndroid) {
+      // String consistentUdid = await FlutterUdid.consistentUdid;
+      // String udid = await FlutterUdid.udid;
+      // log(udid, name: "UNIQUE_ID");
+      // log(consistentUdid, name: "consistent_Udid");
+      deviceId = consistentUdid;
+      print(
+          "========== IOS =========== ${iosDeviceInfo.identifierForVendor} ${iosDeviceInfo.data}");
+      return consistentUdid;
+    } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      deviceId = await androidDeviceInfo.id; // unique ID on Android
+      deviceId = consistentUdid;
+      print("========== ANDROID =========== ${androidDeviceInfo.id}");
+      return consistentUdid;
     }
-    print('*************** DEVICE ID *********** $deviceId');
-    //deviceId = Uuid().v4();
-
-    return deviceId;
   }
 
   @override
   void initState() {
-    getId();
+    // getId();
+    getDeviceId();
     timer = Timer.periodic(Duration(seconds: 1), (_) {
       if (secondsRemaining != 0) {
         setState(() {
@@ -128,9 +156,15 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       alignment: Alignment.topCenter,
       children: [
         Stack(children: [
+          // Image.asset(
+          //   AppImages.bgLogin,
+          //   //height: 300,
+          //   width: MediaQuery.of(context).size.width,
+          //   fit: BoxFit.fitWidth,
+          // ),
           Image.asset(
-            AppImages.bgLogin,
-            //height: 300,
+            "assets/bg1.png",
+            height: 290,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.fitWidth,
           ),
@@ -138,22 +172,22 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               left: 25,
               top: SizeConfig.blockSizeVertical * 8,
               child: backArrowCustom()),
-          Positioned(
-            top: SizeConfig.blockSizeVertical * 15,
-            left: SizeConfig.blockSizeHorizontal * 28,
-            child: CircleAvatar(
-              radius: SizeConfig.blockSizeHorizontal * 22,
-              backgroundColor: Colors.white,
-              child: Container(
-                child: Image.asset(
-                  "assets/s_logo.png",
-                  height: 180,
-                  width: 182,
-                  //fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: SizeConfig.blockSizeVertical * 15,
+          //   left: SizeConfig.blockSizeHorizontal * 28,
+          //   child: CircleAvatar(
+          //     radius: SizeConfig.blockSizeHorizontal * 22,
+          //     backgroundColor: Colors.white,
+          //     child: Container(
+          //       child: Image.asset(
+          //         "assets/s_logo.png",
+          //         height: 180,
+          //         width: 182,
+          //         //fit: BoxFit.contain,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ]),
 
         // Positioned(
@@ -329,7 +363,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
           //color: Colors.black12,
           margin: EdgeInsets.fromLTRB(
             SizeConfig.blockSizeHorizontal * 7.5,
-            SizeConfig.blockSizeVertical * 42,
+            SizeConfig.blockSizeVertical * 45,
             SizeConfig.blockSizeHorizontal * 7.5,
             0.0,
           ),
@@ -404,10 +438,12 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              Text(
-                                "Resend Code",
-                                style: AppTextStyle.textStyle.copyWith(
-                                  fontWeight: FontWeight.w600,
+                              Expanded(
+                                child: Text(
+                                  "Resend Code",
+                                  style: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ],
@@ -482,7 +518,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                               } else {
                                 await Provider.of<UserProvider>(context,
                                         listen: false)
-                                    .register(deviceId: deviceId!);
+                                    .register(deviceId: deviceId);
                                 loading(value: false);
                                 // 'TP1A.220624.014'!);
                                 if (Provider.of<UserProvider>(context,

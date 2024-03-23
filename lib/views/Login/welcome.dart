@@ -202,27 +202,27 @@ class Welcome extends StatelessWidget {
             children: [
               Stack(children: [
                 Image.asset(
-                  AppImages.bgRegister,
+                  "assets/bg1.png",
                   //height: 300,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 24,
-                  left: SizeConfig.blockSizeHorizontal * 28,
-                  child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 22,
-                    backgroundColor: Colors.white,
-                    child: Container(
-                      child: Image.asset(
-                        "assets/s_logo.png",
-                        height: 180,
-                        width: 182,
-                        //fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   top: SizeConfig.blockSizeVertical * 21,
+                //   left: SizeConfig.blockSizeHorizontal * 28,
+                //   child: CircleAvatar(
+                //     radius: SizeConfig.blockSizeHorizontal * 22,
+                //     backgroundColor: Colors.white,
+                //     child: Container(
+                //       child: Image.asset(
+                //         "assets/s_logo.png",
+                //         height: 180,
+                //         width: 182,
+                //         //fit: BoxFit.contain,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // Positioned(
                 //   top: 415,
                 //   left: 25,
@@ -377,10 +377,10 @@ class Welcome extends StatelessWidget {
                 //   ),
                 // ),
               ]),
-              SizedBox(height: 25),
+              // SizedBox(height: 25),
               Padding(
                 padding:
-                    EdgeInsets.only(top: 15, bottom: 5, left: 20, right: 20),
+                    EdgeInsets.only(top: 0, bottom: 5, left: 20, right: 20),
                 child: Container(
                   height: 390,
                   decoration: BoxDecoration(
@@ -491,7 +491,7 @@ class Welcome extends StatelessWidget {
                                       'Click ***********************----------- ');
                                 },
                               ),
-                              SizedBox(width: 30),
+                              SizedBox(width: Platform.isIOS ? 30 : 0),
                               Platform.isIOS
                                   ? socialIconCustom(
                                       image: AppImages.apple,

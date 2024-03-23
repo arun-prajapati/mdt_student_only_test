@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -41,6 +42,7 @@ class SubscriptionProvider extends ChangeNotifier {
     package = offerList.current!.availablePackages;
     log("======= SUBSCRIPTION ======= ${package.first.storeProduct}");
     isUserPurchaseTest();
+
     // Purchases.purchasePackage(offerList.current!.availablePackages.first);
     notifyListeners();
     // }
@@ -81,7 +83,7 @@ class PurchaseSub {
   }
 
   static Future<bool> purchasePackage(
-      Package package, BuildContext context) async {
+      Package package, BuildContext context, String userId) async {
     loading(value: true);
     try {
       loading(value: true);
@@ -89,6 +91,9 @@ class PurchaseSub {
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH');
+        Purchases.logIn(userId).then((value) {
+          print('Purchases.logIn ${jsonEncode(value.customerInfo)}');
+        });
         // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
         context.read<SubscriptionProvider>().isUserPurchaseTest();
       }).catchError((e) {

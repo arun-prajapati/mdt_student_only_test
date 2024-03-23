@@ -43,7 +43,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final _controller = ScrollController();
   final PractiseTheoryTestServices test_api_services =
-      new PractiseTheoryTestServices();
+  new PractiseTheoryTestServices();
   final PaymentService _paymentService = new PaymentService();
 
   // final AuthProvider auth_services = new AuthProvider();
@@ -112,7 +112,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   //Call APi Services
   Future<int> getUserDetail() async {
     Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    await Provider.of<UserProvider>(context, listen: false).getUserData();
     _userId = response['id'];
     userName = "${response['first_name']} ${response['last_name']}";
     return _userId;
@@ -134,7 +134,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         categoryList = (parsedData['data'] as List)
             .map(
               (e) => PracticeTestCategoryModel.fromJson(e),
-            )
+        )
             .toList();
         setState(() {});
         return SizedBox();
@@ -202,7 +202,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     SizeConfig().init(context);
     ToastContext().init(context);
     print(
-        "auth_services.changeView ${context.read<UserProvider>().changeView}");
+        "auth_services.changeView ${context
+            .read<UserProvider>()
+            .changeView}");
     print("------------ responseList 1 ${responseList}");
 
     /* if (context.read<UserProvider>().changeView) {
@@ -282,124 +284,129 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: context.read<UserProvider>().changeView
+      body: context
+          .read<UserProvider>()
+          .changeView
           ? TestSettingDialogBox(
-              categories_list: responseList,
-              onSetValue: (_categoryId) {
-                log("Category id : $_categoryId");
-                // if (_categoryId == 0) {
-                //   Fluttertoast.showToast(
-                //       msg: 'Please select category', gravity: ToastGravity.TOP);
-                // } else {
-                gainPoint = 0;
-                questionsList = [];
-                testQuestionsForResult = [];
-                selectedQuestionIndex = 0;
-                selectedOptionIndex = null;
-                category_id = _categoryId;
-                CustomSpinner.showLoadingDialog(
-                    context, _keyLoader, "Test loading...");
-                getQuestionsFromApi().then((response_list) {
-                  Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
-                      .pop();
-                  questionsList = response_list;
-                  setState(() => isTestStarted = true);
-                  // context.read<AuthProvider>().changeView = true;
-                  setState(() {});
-                });
-                // }
-              },
-            )
+        categories_list: responseList,
+        onSetValue: (_categoryId) {
+          log("Category id : $_categoryId");
+          // if (_categoryId == 0) {
+          //   Fluttertoast.showToast(
+          //       msg: 'Please select category', gravity: ToastGravity.TOP);
+          // } else {
+          gainPoint = 0;
+          questionsList = [];
+          testQuestionsForResult = [];
+          selectedQuestionIndex = 0;
+          selectedOptionIndex = null;
+          category_id = _categoryId;
+          CustomSpinner.showLoadingDialog(
+              context, _keyLoader, "Test loading...");
+          getQuestionsFromApi().then((response_list) {
+            Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
+                .pop();
+            questionsList = response_list;
+            setState(() => isTestStarted = true);
+            // context.read<AuthProvider>().changeView = true;
+            setState(() {});
+          });
+          // }
+        },
+      )
           : Stack(
-              children: <Widget>[
-                CustomAppBar(
-                  preferedHeight: Responsive.height(11, context),
-                  title: 'Practice Theory Test Questions',
-                  textWidth: Responsive.width(35, context),
-                  iconLeft: Icons.arrow_back,
-                  iconRight: Icons.refresh_rounded,
-                  onTap1: () {
-                    _navigationService.goBack();
-                  },
-                  onTapRightbtn: () {
-                    initializeApi("Refreshing...");
-                  },
-                ),
-                Container(
-                    margin: EdgeInsets.fromLTRB(
-                        //Responsive.width(3, context),
-                        0,
-                        MediaQuery.of(context).size.height * 0.115,
-                        0,
-                        0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    height: Responsive.height(83, context),
-                    width: Responsive.width(100, context),
-                    padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
-                    child: LayoutBuilder(builder: (context, constraints) {
-                      return SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          //mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CustomAppBar(
+            preferedHeight: Responsive.height(11, context),
+            title: 'Practice Theory Test Questions',
+            textWidth: Responsive.width(35, context),
+            iconLeft: Icons.arrow_back,
+            iconRight: Icons.refresh_rounded,
+            onTap1: () {
+              _navigationService.goBack();
+            },
+            onTapRightbtn: () {
+              initializeApi("Refreshing...");
+            },
+          ),
+          Container(
+              margin: EdgeInsets.fromLTRB(
+                //Responsive.width(3, context),
+                  0,
+                  MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.115,
+                  0,
+                  0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              height: Responsive.height(83, context),
+              width: Responsive.width(100, context),
+              padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+              child: LayoutBuilder(builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: constraints.maxWidth * 1,
+                        // padding: isTestStarted
+                        //     ? EdgeInsets.only(
+                        //         top: constraints.maxHeight * .03)
+                        //     : EdgeInsets.all(0),
+                        height: isTestStarted
+                            ? constraints.maxHeight * .85
+                            : constraints.maxHeight * .78,
+                        child: ListView(
+                          controller: _controller,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          //padding: EdgeInsets.only(top: 10),
+                          shrinkWrap: true,
                           children: [
-                            Container(
-                              width: constraints.maxWidth * 1,
-                              // padding: isTestStarted
-                              //     ? EdgeInsets.only(
-                              //         top: constraints.maxHeight * .03)
-                              //     : EdgeInsets.all(0),
-                              height: isTestStarted
-                                  ? constraints.maxHeight * .85
-                                  : constraints.maxHeight * .78,
-                              child: ListView(
-                                controller: _controller,
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                //padding: EdgeInsets.only(top: 10),
-                                shrinkWrap: true,
-                                children: [
-                                  // if (!isTestStarted)
-                                  //   scoreRecordsGrid(context, constraints),
-                                  if (isTestStarted)
-                                    Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(20, 10, 20, 2),
-                                      child: LayoutBuilder(
-                                        builder: (context, _constraints) {
-                                          return testQuestionWidget(
-                                            context,
-                                            _constraints,
-                                            questionsList[
-                                                selectedQuestionIndex],
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  if (selectedOptionIndex != null &&
-                                      isTestStarted)
-                                    answerExplanation(
-                                      questionsList[selectedQuestionIndex],
-                                    ),
-                                  if (selectedOptionIndex != null &&
-                                      isTestStarted)
-                                    answerStatus(
-                                      questionsList[selectedQuestionIndex],
-                                    ),
-                                ],
-                              ),
-                            ),
-                            if (!isTestStarted)
-                              startButtonWidget(context, constraints),
+                            // if (!isTestStarted)
+                            //   scoreRecordsGrid(context, constraints),
                             if (isTestStarted)
-                              nextButtonWidget(context, constraints),
+                              Container(
+                                padding:
+                                EdgeInsets.fromLTRB(20, 10, 20, 2),
+                                child: LayoutBuilder(
+                                  builder: (context, _constraints) {
+                                    return testQuestionWidget(
+                                      context,
+                                      _constraints,
+                                      questionsList[
+                                      selectedQuestionIndex],
+                                    );
+                                  },
+                                ),
+                              ),
+                            if (selectedOptionIndex != null &&
+                                isTestStarted)
+                              answerExplanation(
+                                questionsList[selectedQuestionIndex],
+                              ),
+                            if (selectedOptionIndex != null &&
+                                isTestStarted)
+                              answerStatus(
+                                questionsList[selectedQuestionIndex],
+                              ),
                           ],
                         ),
-                      );
-                    })),
-              ],
-            ),
+                      ),
+                      if (!isTestStarted)
+                        startButtonWidget(context, constraints),
+                      if (isTestStarted)
+                        nextButtonWidget(context, constraints),
+                    ],
+                  ),
+                );
+              })),
+        ],
+      ),
     );
     // }
   }
@@ -1037,8 +1044,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     );
   }
 
-  Widget radioSingleOptionUI(
-      BoxConstraints constraints, option, int option_no, question) {
+  Widget radioSingleOptionUI(BoxConstraints constraints, option, int option_no,
+      question) {
     TextStyle _answerTextStyle = AppTextStyle.textStyle
         .copyWith(color: Colors.black, fontWeight: FontWeight.w400);
     return Container(
@@ -1050,7 +1057,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
           Container(
             width: constraints.maxWidth * 0.09,
             child:
-                Text((option_no + 1).toString() + '.', style: _answerTextStyle),
+            Text((option_no + 1).toString() + '.', style: _answerTextStyle),
           ),
           Container(
             alignment: Alignment.centerLeft,
@@ -1066,21 +1073,21 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 onChanged: selectedOptionIndex != null
                     ? null
                     : (val) {
-                        setState(() {
-                          selectedOptionIndex = val as int;
-                        });
-                        calculatePoint(question);
-                        if (selectedOptionIndex != null &&
-                            question['options'][selectedOptionIndex]
-                                    ['correct'] ==
-                                true) {
-                          showCorrectAnswerDialog(
-                              context, question['explanation']);
-                        } else {
-                          showWrongAnswerDialog(
-                              context, question['explanation']);
-                        }
-                      },
+                  setState(() {
+                    selectedOptionIndex = val as int;
+                  });
+                  calculatePoint(question);
+                  if (selectedOptionIndex != null &&
+                      question['options'][selectedOptionIndex]
+                      ['correct'] ==
+                          true) {
+                    showCorrectAnswerDialog(
+                        context, question['explanation']);
+                  } else {
+                    showWrongAnswerDialog(
+                        context, question['explanation']);
+                  }
+                },
               ),
             ),
           ),
@@ -1098,7 +1105,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         calculatePoint(question);
                         if (selectedOptionIndex != null &&
                             question['options'][selectedOptionIndex]
-                                    ['correct'] ==
+                            ['correct'] ==
                                 true) {
                           showCorrectAnswerDialog(
                               context, question['explanation']);
@@ -1116,21 +1123,23 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/spinner.gif',
                         image: option['optionImg'],
-                        imageErrorBuilder: (context, url, error) => Container(
-                          child: Column(
-                            children: [
-                              new Icon(Icons.error,
-                                  color: Colors.grey,
-                                  size: 5 * SizeConfig.blockSizeVertical),
-                              Text(
-                                "Image not found!",
-                                style: TextStyle(
-                                    fontSize: 2 * SizeConfig.blockSizeVertical,
-                                    color: Colors.redAccent),
-                              )
-                            ],
-                          ),
-                        ),
+                        imageErrorBuilder: (context, url, error) =>
+                            Container(
+                              child: Column(
+                                children: [
+                                  new Icon(Icons.error,
+                                      color: Colors.grey,
+                                      size: 5 * SizeConfig.blockSizeVertical),
+                                  Text(
+                                    "Image not found!",
+                                    style: TextStyle(
+                                        fontSize: 2 *
+                                            SizeConfig.blockSizeVertical,
+                                        color: Colors.redAccent),
+                                  )
+                                ],
+                              ),
+                            ),
                       ),
                     ),
                   ),
@@ -1151,7 +1160,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 calculatePoint(question);
                                 if (selectedOptionIndex != null &&
                                     question['options'][selectedOptionIndex]
-                                            ['correct'] ==
+                                    ['correct'] ==
                                         true) {
                                   showCorrectAnswerDialog(
                                       context, question['explanation']);
@@ -1171,8 +1180,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     );
   }
 
-  Widget testQuestionWidget(
-      BuildContext context, BoxConstraints constraints, question) {
+  Widget testQuestionWidget(BuildContext context, BoxConstraints constraints,
+      question) {
     TextStyle _questionTextStyle = AppTextStyle.titleStyle
         .copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
     return Consumer<SubscriptionProvider>(builder: (context, data, _) {
@@ -1196,21 +1205,22 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/spinner.gif',
                           image: question['questionImg'],
-                          imageErrorBuilder: (context, url, error) => Container(
-                            child: Column(
-                              children: [
-                                new Icon(Icons.error,
-                                    color: Colors.grey,
-                                    size: 5 * SizeConfig.blockSizeVertical),
-                                // Text(
-                                //   "Image not found!",
-                                //   style: TextStyle(
-                                //       fontSize: 2 * SizeConfig.blockSizeVertical,
-                                //       color: Colors.redAccent),
-                                // )
-                              ],
-                            ),
-                          ),
+                          imageErrorBuilder: (context, url, error) =>
+                              Container(
+                                child: Column(
+                                  children: [
+                                    new Icon(Icons.error,
+                                        color: Colors.grey,
+                                        size: 5 * SizeConfig.blockSizeVertical),
+                                    // Text(
+                                    //   "Image not found!",
+                                    //   style: TextStyle(
+                                    //       fontSize: 2 * SizeConfig.blockSizeVertical,
+                                    //       color: Colors.redAccent),
+                                    // )
+                                  ],
+                                ),
+                              ),
                         ),
                       ),
                     SizedBox(height: 10),
@@ -1234,7 +1244,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   ],
                 ),
               ),
-              ...question['options'].map((option) => radioSingleOptionUI(
+              ...question['options'].map((option) =>
+                  radioSingleOptionUI(
                     constraints,
                     option,
                     question['options'].indexOf(option),
@@ -1294,7 +1305,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           gradient: RadialGradient(
                                             colors: [
                                               AppColors.primary,
@@ -1309,7 +1320,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         child: AutoSizeText('Subscribe',
                                             textAlign: TextAlign.center,
                                             style:
-                                                AppTextStyle.textStyle.copyWith(
+                                            AppTextStyle.textStyle.copyWith(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
                                             )),
@@ -1327,7 +1338,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  // width: constraints.maxWidth * 0.18,
+                                // width: constraints.maxWidth * 0.18,
                                   alignment: Alignment.topCenter,
                                   child: Text("NOTE:   ",
                                       style: AppTextStyle.textStyle.copyWith(
@@ -1336,7 +1347,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                               Container(
                                   width: constraints.maxWidth * 0.72,
                                   child: Text(
-                                      // textAlign: TextAlign.justify,
+                                    // textAlign: TextAlign.justify,
                                       'Please purchase license to access more question in this category',
                                       style: AppTextStyle.disStyle.copyWith(
                                           fontWeight: FontWeight.w400))),
@@ -1347,7 +1358,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     )),
               ),
             )
-          else ...[SizedBox()]
+          else
+            ...[SizedBox()]
         ],
       );
     });
@@ -1378,7 +1390,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     TextStyle _statusText = TextStyle(
         fontSize: 2 * SizeConfig.blockSizeVertical,
         color: (selectedOptionIndex != null &&
-                question['options'][selectedOptionIndex]['correct'] == true)
+            question['options'][selectedOptionIndex]['correct'] == true)
             ? Colors.green
             : Colors.red,
         fontWeight: FontWeight.normal);
@@ -1393,7 +1405,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         child: RichText(
           text: TextSpan(
             text: (selectedOptionIndex != null &&
-                    question['options'][selectedOptionIndex]['correct'] == true)
+                question['options'][selectedOptionIndex]['correct'] == true)
                 ? 'Right Answer!'
                 : 'Wrong Answer!',
             style: _statusText,
@@ -1417,7 +1429,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             onPressed: () {
               CustomSpinner.showLoadingDialog(
                   context, _keyLoader, "Loading...");
-              context.read<UserProvider>().changeView = true;
+              context
+                  .read<UserProvider>()
+                  .changeView = true;
               setState(() {});
               getCategoriesFromApi().then((response_list) {
                 log("Category : $response_list");
@@ -1489,58 +1503,58 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
               return CustomButton(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 onTap: (selectedOptionIndex == null &&
-                        (questionsList[selectedQuestionIndex]['type'] == 0 ||
-                            (questionsList[selectedQuestionIndex]['type'] ==
-                                    1 &&
-                                val.entitlement == Entitlement.paid)))
+                    (questionsList[selectedQuestionIndex]['type'] == 0 ||
+                        (questionsList[selectedQuestionIndex]['type'] ==
+                            1 &&
+                            val.entitlement == Entitlement.paid)))
                     ? null
                     : () {
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer'
-                        });
-                        if ((selectedQuestionIndex + 1) <
-                            questionsList.length) {
-                          _controller.animateTo(0,
-                              duration: Duration(microseconds: 1000),
-                              curve: Curves.slowMiddle);
-                          setState(() {
-                            selectedOptionIndex = null;
-                            selectedQuestionIndex += 1;
-                          });
-                        }
-                        // else if (questionsList[selectedQuestionIndex]['type'] ==
-                        //     1) {
-                        //   context.read<AuthProvider>().changeView = false;
-                        //   setState(() {});
-                        // }
-                        else {
-                          CustomSpinner.showLoadingDialog(
-                              context, _keyLoader, "Test Submitting...");
-                          submitTestByApi().then((value) {
-                            Navigator.of(_keyLoader.currentContext!,
-                                    rootNavigator: true)
-                                .pop();
-                            testCompleAlertBox(context);
-                          });
-                        }
-                      },
+                  testQuestionsForResult.add({
+                    'questionId': questionsList[selectedQuestionIndex]
+                    ['id'],
+                    'type': questionsList[selectedQuestionIndex]['type'],
+                    'question': questionsList[selectedQuestionIndex]
+                    ['title'],
+                    'correct': (selectedOptionIndex != null &&
+                        questionsList[selectedQuestionIndex]
+                        ['options'][selectedOptionIndex]
+                        ['correct'] ==
+                            true)
+                        ? 'Correct Answer'
+                        : 'Wrong Answer'
+                  });
+                  if ((selectedQuestionIndex + 1) <
+                      questionsList.length) {
+                    _controller.animateTo(0,
+                        duration: Duration(microseconds: 1000),
+                        curve: Curves.slowMiddle);
+                    setState(() {
+                      selectedOptionIndex = null;
+                      selectedQuestionIndex += 1;
+                    });
+                  }
+                  // else if (questionsList[selectedQuestionIndex]['type'] ==
+                  //     1) {
+                  //   context.read<AuthProvider>().changeView = false;
+                  //   setState(() {});
+                  // }
+                  else {
+                    CustomSpinner.showLoadingDialog(
+                        context, _keyLoader, "Test Submitting...");
+                    submitTestByApi().then((value) {
+                      Navigator.of(_keyLoader.currentContext!,
+                          rootNavigator: true)
+                          .pop();
+                      testCompleAlertBox(context);
+                    });
+                  }
+                },
                 title: selectedQuestionIndex < questionsList.length - 1
                     ? val.entitlement == Entitlement.unpaid &&
-                            // walletDetail!['dvsa_subscription'] <= 0 &&
-                            questionsList[selectedQuestionIndex]['type'] == 1
-                        ? 'Skip'
-                        : 'Next'
+                    // walletDetail!['dvsa_subscription'] <= 0 &&
+                    questionsList[selectedQuestionIndex]['type'] == 1
+                    ? 'Skip'
+                    : 'Next'
                     : 'Test Submit',
               );
             }),
@@ -1605,10 +1619,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   SizedBox(height: 20),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 48),
+                                    EdgeInsets.symmetric(horizontal: 48),
                                     child: CustomButton(
                                       padding:
-                                          EdgeInsets.symmetric(vertical: 10),
+                                      EdgeInsets.symmetric(vertical: 10),
                                       onTap: () {
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
@@ -1721,7 +1735,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 height: 10,
                               ),
                               Text(
-                                "Total charges: ${context.read<SubscriptionProvider>().package.first.storeProduct.priceString}"
+                                "Total charges: ${context
+                                    .read<SubscriptionProvider>()
+                                    .package
+                                    .first
+                                    .storeProduct
+                                    .priceString}"
                                     .toString(),
                                 style: TextStyle(
                                     color: Color(0xFF797979),
@@ -1737,7 +1756,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     Expanded(
                                       child: CustomButton(
                                         padding:
-                                            EdgeInsets.symmetric(vertical: 10),
+                                        EdgeInsets.symmetric(vertical: 10),
                                         title: 'Buy Now',
                                         onTap: () {
                                           payWallBottomSheet();
@@ -1768,7 +1787,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     Expanded(
                                       child: CustomButton(
                                         padding:
-                                            EdgeInsets.symmetric(vertical: 10),
+                                        EdgeInsets.symmetric(vertical: 10),
                                         title: 'Cancel',
                                         onTap: () {
                                           Navigator.of(context).pop();
@@ -1870,7 +1889,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             )),
         backgroundColor: Colors.white,
         context: context,
-        builder: (_) => PopScope(
+        builder: (_) =>
+            PopScope(
               canPop: false,
               child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
                 return Padding(
@@ -1926,13 +1946,15 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54)),
                                 Text(
-                                    "${val.package.first.storeProduct.description}",
+                                    "${val.package.first.storeProduct
+                                        .description}",
                                     style: AppTextStyle.disStyle.copyWith(
-                                        // fontSize: 15,
+                                      // fontSize: 15,
 
                                         color: Colors.grey)),
                                 Text(
-                                  "${val.package.first.storeProduct.priceString}",
+                                  "${val.package.first.storeProduct
+                                      .priceString}",
                                   style: AppTextStyle.disStyle
                                       .copyWith(color: Colors.black),
                                 ),
@@ -1957,6 +1979,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH');
+        Purchases.logIn(_userId.toString()).then((value) {
+          print('Purchases.logIn 88 ${jsonEncode(value.customerInfo)}');
+        });
         context.read<SubscriptionProvider>().isUserPurchaseTest();
       }).catchError((e) {
         loading(value: false);

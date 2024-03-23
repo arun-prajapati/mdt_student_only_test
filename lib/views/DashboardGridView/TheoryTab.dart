@@ -47,13 +47,13 @@ class _TheoryTabState extends State<TheoryTab> {
   List categories = [];
   bool isAllCategoriesSelected = true;
   TextStyle _categoryTextStyle =
-      AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600);
+  AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600);
   final NavigationService _navigationService = locator<NavigationService>();
   late Future<List>? _recentBooking = null;
   final BookingService _bookingService = BookingService();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final PractiseTheoryTestServices test_api_services =
-      new PractiseTheoryTestServices();
+  new PractiseTheoryTestServices();
   Map? walletDetail = null;
   final PaymentService _paymentService = new PaymentService();
   int? userId;
@@ -71,7 +71,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'icon': AppImages.practice,
       'title': 'Practice',
       'subTitle':
-          'Understand the questions you will likely be asked in DVSA theory test',
+      'Understand the questions you will likely be asked in DVSA theory test',
       'type': 'theoryTest',
       'buttonText': 'Start'
     },
@@ -79,7 +79,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'icon': AppImages.hazards,
       'title': 'Practice Hazard Perception',
       'subTitle':
-          'Understand the questions you will likely be asked in a hazard perception test',
+      'Understand the questions you will likely be asked in a hazard perception test',
       'type': 'hazard',
       'buttonText': 'Start'
     },
@@ -119,7 +119,7 @@ class _TheoryTabState extends State<TheoryTab> {
 
   Future<Map> getUserDetail() async {
     Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    await Provider.of<UserProvider>(context, listen: false).getUserData();
 
     return response;
   }
@@ -131,7 +131,9 @@ class _TheoryTabState extends State<TheoryTab> {
 
   getStatus() async {
     context.read<SubscriptionProvider>().isUserPurchaseTest();
-    print('Call Popup Box--- ${context.read<UserProvider>().googleNavigate}');
+    print('Call Popup Box--- ${context
+        .read<UserProvider>()
+        .googleNavigate}');
     context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();
     var sharedPref = await SharedPreferences.getInstance();
@@ -141,7 +143,9 @@ class _TheoryTabState extends State<TheoryTab> {
       // if (!context.read<UserProvider>().googleNavigate) {
       //   Navigator.of(context).pop();
       // }
-      if (context.read<SubscriptionProvider>().entitlement ==
+      if (context
+          .read<SubscriptionProvider>()
+          .entitlement ==
           Entitlement.unpaid) {
         theoryTestPractice();
       }
@@ -169,9 +173,12 @@ class _TheoryTabState extends State<TheoryTab> {
     // try {
     CustomerInfo purchaserInfo = await Purchases.restorePurchases();
 
-    log("///////////////////////////// ${jsonEncode(purchaserInfo.originalAppUserId)}");
+    log("///////////////////////////// ${jsonEncode(
+        purchaserInfo.originalAppUserId)}");
     Purchases.getCustomerInfo().then((value) {
-      log("///////////////////////////// ${jsonEncode(value.originalAppUserId)} ${jsonEncode(purchaserInfo.allExpirationDates)}");
+      log("///////////////////////////// ${jsonEncode(
+          value.originalAppUserId)} ${jsonEncode(
+          purchaserInfo.allExpirationDates)}");
       print(jsonEncode(purchaserInfo.activeSubscriptions));
     });
     if (purchaserInfo.entitlements.all["One time purchase"]!.isActive) {
@@ -209,7 +216,9 @@ class _TheoryTabState extends State<TheoryTab> {
       });
       log("Subscription status : ${res['dvsa_subscription']}");
       // if (res['dvsa_subscription'] == 1) {
-      if (context.read<SubscriptionProvider>().entitlement ==
+      if (context
+          .read<SubscriptionProvider>()
+          .entitlement ==
           Entitlement.paid) {
         if (mounted) {
           setState(() {
@@ -289,11 +298,19 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   String? _userName;
+  String _userId = "";
 
   Future<String> getUserName() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String userName = storage.getString('userName').toString();
+    String id = storage.getString('userId').toString();
     return userName;
+  }
+
+  Future<String> getUserId() async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String id = storage.getString('userId').toString();
+    return id;
   }
 
   // Future<List> getCategoriesFromApi() async {
@@ -310,6 +327,11 @@ class _TheoryTabState extends State<TheoryTab> {
         _userName = value;
       });
     });
+    getUserId().then((value) {
+      setState(() {
+        _userId = value;
+      });
+    });
   }
 
   @override
@@ -322,10 +344,16 @@ class _TheoryTabState extends State<TheoryTab> {
         // Navigator.pop(context);
       },
       child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
         decoration: BoxDecoration(
-            // color: Colors.green,
+          // color: Colors.green,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -345,7 +373,10 @@ class _TheoryTabState extends State<TheoryTab> {
                               isDismissible: false,
                               isScrollControlled: true,
                               constraints: BoxConstraints.expand(
-                                  height: MediaQuery.of(context).size.height *
+                                  height: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height *
                                       0.80),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0)),
@@ -363,7 +394,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                               horizontal: 25),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text('',
                                                   style: _categoryTextStyle),
@@ -389,21 +420,21 @@ class _TheoryTabState extends State<TheoryTab> {
                                                   children: [
                                                     LinearPercentIndicatorWidget(
                                                       perTitle: categories[
-                                                                  index][
-                                                              "theory_progress"]
+                                                      index][
+                                                      "theory_progress"]
                                                           .toDouble(),
                                                       // perTitle: "${((() * 100).toStringAsFixed(0))}%",
                                                       textTitle: categories[
-                                                                      index]
-                                                                  ['topic_name']
-                                                              .replaceAll(
-                                                                  '_', ' ')
-                                                              .substring(0, 1)
-                                                              .toUpperCase() +
+                                                      index]
+                                                      ['topic_name']
+                                                          .replaceAll(
+                                                          '_', ' ')
+                                                          .substring(0, 1)
+                                                          .toUpperCase() +
                                                           categories[index]
-                                                                  ['topic_name']
+                                                          ['topic_name']
                                                               .replaceAll(
-                                                                  '_', ' ')
+                                                              '_', ' ')
                                                               .substring(1),
                                                     )
                                                   ],
@@ -562,8 +593,14 @@ class _TheoryTabState extends State<TheoryTab> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.8),
+                      childAspectRatio: MediaQuery
+                          .of(context)
+                          .size
+                          .width /
+                          (MediaQuery
+                              .of(context)
+                              .size
+                              .height / 1.8),
                       // childAspectRatio: 2 / 3,
                     ),
                     //shrinkWrap: true,
@@ -574,11 +611,17 @@ class _TheoryTabState extends State<TheoryTab> {
                         onDoubleTap: () {},
                         onTap: () {
                           if (cards[index]["type"] == 'theoryTest') {
-                            context.read<UserProvider>().changeView = true;
+                            context
+                                .read<UserProvider>()
+                                .changeView = true;
                             setState(() {});
                             print(
-                                "auth_services.changeView ${context.read<UserProvider>().changeView}");
-                            if (context.read<UserProvider>().changeView) {
+                                "auth_services.changeView ${context
+                                    .read<UserProvider>()
+                                    .changeView}");
+                            if (context
+                                .read<UserProvider>()
+                                .changeView) {
                               // getCategoriesFromApi().then((response_list) {
                               //  responseList = response_list;
                               //  print("------------ responseList $responseList");
@@ -678,10 +721,11 @@ class _TheoryTabState extends State<TheoryTab> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => WebViewContainer(
-                                  'https://www.gov.uk/take-practice-theory-test',
-                                  'DVSA Mock Theory Test',
-                                ),
+                                builder: (context) =>
+                                    WebViewContainer(
+                                      'https://www.gov.uk/take-practice-theory-test',
+                                      'DVSA Mock Theory Test',
+                                    ),
                               ),
                             );
                           } else {
@@ -803,7 +847,10 @@ class _TheoryTabState extends State<TheoryTab> {
                 ),
                 SizedBox(height: 10),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.73,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.73,
                   padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
                   child: GridView.builder(
                     shrinkWrap: true,
@@ -813,143 +860,156 @@ class _TheoryTabState extends State<TheoryTab> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
-                      childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.5),
+                      childAspectRatio: MediaQuery
+                          .of(context)
+                          .size
+                          .width /
+                          (MediaQuery
+                              .of(context)
+                              .size
+                              .height / 1.5),
                     ),
                     itemCount: _resourceCards.length,
                     //shrinkWrap: true,
-                    itemBuilder: (context, index) => Container(
-                      decoration: BoxDecoration(
-                          color: AppColors.bgColor,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 15, bottom: 1, left: 15, right: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (_resourceCards[index]["type"] ==
-                                'highwayCode') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                          'https://www.gov.uk/guidance/the-highway-code',
-                                          'Highway Code')));
-                            } else if (_resourceCards[index]["type"] ==
-                                'theoryTestGuidance') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                          'https://mockdrivingtest.com/static/practice-theory-test',
-                                          'Theory Test Guidance')));
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                          'https://www.gov.uk/book-theory-test',
-                                          'Book DVSA Theory Test')));
-                            }
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
+                    itemBuilder: (context, index) =>
+                        Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.bgColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 15, bottom: 1, left: 15, right: 15),
+                            child: GestureDetector(
+                              onTap: () {
+                                if (_resourceCards[index]["type"] ==
+                                    'highwayCode') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              WebViewContainer(
+                                                  'https://www.gov.uk/guidance/the-highway-code',
+                                                  'Highway Code')));
+                                } else if (_resourceCards[index]["type"] ==
+                                    'theoryTestGuidance') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              WebViewContainer(
+                                                  'https://mockdrivingtest.com/static/practice-theory-test',
+                                                  'Theory Test Guidance')));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              WebViewContainer(
+                                                  'https://www.gov.uk/book-theory-test',
+                                                  'Book DVSA Theory Test')));
+                                }
+                              },
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                     children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(right: 2),
-                                          child: Text(
-                                              _resourceCards[index]["title"],
-                                              style: AppTextStyle.textStyle
-                                                  .copyWith(
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: 2),
+                                              child: Text(
+                                                  _resourceCards[index]["title"],
+                                                  style: AppTextStyle.textStyle
+                                                      .copyWith(
                                                       height: 1.2,
                                                       fontWeight:
-                                                          FontWeight.w500)
-                                              //overflow: TextOverflow.ellipsis,
+                                                      FontWeight.w500)
+                                                //overflow: TextOverflow.ellipsis,
                                               ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 2),
+                                          Expanded(
+                                            flex: 0,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                if (_resourceCards[index]["type"] ==
+                                                    'highwayCode') {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebViewContainer(
+                                                                  'https://www.gov.uk/guidance/the-highway-code',
+                                                                  'Highway Code')));
+                                                } else if (_resourceCards[index]
+                                                ["type"] ==
+                                                    'theoryTestGuidance') {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebViewContainer(
+                                                                  'https://mockdrivingtest.com/static/practice-theory-test',
+                                                                  'Theory Test Guidance')));
+                                                } else {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebViewContainer(
+                                                                  'https://www.gov.uk/book-theory-test',
+                                                                  'Book DVSA Theory Test')));
+                                                }
+                                              },
+                                              child: Image.asset(
+                                                AppImages.rightArrow,
+                                                height: 19,
+                                                width: 20,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 3),
+                                        child: Text(
+                                          _resourceCards[index]["subTitle"],
+                                          maxLines: 3,
+                                          style: AppTextStyle.disStyle.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.5,
+                                              height: 1.2,
+                                              fontSize: 11,
+                                              overflow: TextOverflow.ellipsis),
+                                          softWrap: true,
                                         ),
                                       ),
-                                      SizedBox(width: 2),
-                                      Expanded(
-                                        flex: 0,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            if (_resourceCards[index]["type"] ==
-                                                'highwayCode') {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://www.gov.uk/guidance/the-highway-code',
-                                                              'Highway Code')));
-                                            } else if (_resourceCards[index]
-                                                    ["type"] ==
-                                                'theoryTestGuidance') {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://mockdrivingtest.com/static/practice-theory-test',
-                                                              'Theory Test Guidance')));
-                                            } else {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://www.gov.uk/book-theory-test',
-                                                              'Book DVSA Theory Test')));
-                                            }
-                                          },
-                                          child: Image.asset(
-                                            AppImages.rightArrow,
-                                            height: 19,
-                                            width: 20,
-                                          ),
-                                        ),
-                                      )
                                     ],
                                   ),
-                                  SizedBox(height: 5),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 3),
-                                    child: Text(
-                                      _resourceCards[index]["subTitle"],
-                                      maxLines: 3,
-                                      style: AppTextStyle.disStyle.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.5,
-                                          height: 1.2,
-                                          fontSize: 11,
-                                          overflow: TextOverflow.ellipsis),
-                                      softWrap: true,
-                                    ),
-                                  ),
+                                  Image.asset(
+                                    _resourceCards[index]['image'],
+                                    height: 75,
+                                    width: 150,
+                                  )
                                 ],
                               ),
-                              Image.asset(
-                                _resourceCards[index]['image'],
-                                height: 75,
-                                width: 150,
-                              )
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
                   ),
                 ),
                 SizedBox(height: 25),
@@ -1096,7 +1156,8 @@ class _TheoryTabState extends State<TheoryTab> {
             )),
         backgroundColor: Colors.white,
         context: context,
-        builder: (_) => PopScope(
+        builder: (_) =>
+            PopScope(
               canPop: false,
               child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
                 return Padding(
@@ -1134,7 +1195,7 @@ class _TheoryTabState extends State<TheoryTab> {
                             Navigator.pop(context);
                             Navigator.pop(context);
                             PurchaseSub.purchasePackage(
-                                val.package.first, context);
+                                val.package.first, context, _userId);
                             // context
                             //     .read<SubscriptionProvider>()
                             //     .isUserPurchaseTest();
@@ -1155,13 +1216,15 @@ class _TheoryTabState extends State<TheoryTab> {
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54)),
                                 Text(
-                                    "${val.package.first.storeProduct.description}",
+                                    "${val.package.first.storeProduct
+                                        .description}",
                                     style: AppTextStyle.disStyle.copyWith(
-                                        // fontSize: 15,
+                                      // fontSize: 15,
 
                                         color: Colors.grey)),
                                 Text(
-                                  "${val.package.first.storeProduct.priceString}",
+                                  "${val.package.first.storeProduct
+                                      .priceString}",
                                   style: AppTextStyle.disStyle
                                       .copyWith(color: Colors.black),
                                 ),
@@ -1191,109 +1254,113 @@ class _TheoryTabState extends State<TheoryTab> {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => PopScope(
-        canPop: false,
-        child: Dialog(
-          insetPadding: EdgeInsets.all(20),
-          backgroundColor: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                gradient: LinearGradient(
-                  begin: Alignment(0.0, -1.0),
-                  end: Alignment(0.0, 1.0),
-                  colors: [Dark, Light],
-                  stops: [0.0, 1.0],
-                )),
-            child: MCard.Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              elevation: 0.0,
+      builder: (context) =>
+          PopScope(
+            canPop: false,
+            child: Dialog(
+              insetPadding: EdgeInsets.all(20),
+              backgroundColor: Colors.transparent,
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Theory Test Practice Module",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize:
-                                    SizeConfig.blockSizeHorizontal * 4.5))),
-                    Container(
-                      //width: constraints.maxWidth,
-                      margin: EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(Icons.check_circle,
-                                  size: SizeConfig.blockSizeHorizontal * 4,
-                                  color: Colors.green),
-                              SizedBox(width: 5),
-                              Expanded(
-                                child: Text(
-                                    //"2000+ Questions from 14 official question categories set by DVSA.",
-                                    "2000+ Questions "),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(Icons.check_circle,
-                                  size: SizeConfig.blockSizeHorizontal * 4,
-                                  color: Colors.green),
-                              SizedBox(width: 5),
-                              Expanded(
-                                  child: Text(
-                                "Free Mock Theory tests to check your test readiness.",
-                              ))
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.check_circle,
-                                size: SizeConfig.blockSizeHorizontal * 4,
-                                color: Colors.green,
-                              ),
-                              // SizedBox(
-                              //   width:
-                              //       constraints.maxWidth * 0.02,
-                              // ),
-                              SizedBox(width: 5),
-                              Expanded(
-                                child: Text(
-                                    'The Only AI powered App In The Market'
-                                    //"For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
-                                    ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, -1.0),
+                      end: Alignment(0.0, 1.0),
+                      colors: [Dark, Light],
+                      stops: [0.0, 1.0],
+                    )),
+                child: MCard.Card(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  elevation: 0.0,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Expanded(
-                          child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(top: 10),
-                              child: GestureDetector(
-                                  onTap: () async {
-                                    callDialog();
-                                    /*  print("payment");
+                        Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Theory Test Practice Module",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize:
+                                    SizeConfig.blockSizeHorizontal * 4.5))),
+                        Container(
+                          //width: constraints.maxWidth,
+                          margin: EdgeInsets.only(top: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.check_circle,
+                                      size: SizeConfig.blockSizeHorizontal * 4,
+                                      color: Colors.green),
+                                  SizedBox(width: 5),
+                                  Expanded(
+                                    child: Text(
+                                      //"2000+ Questions from 14 official question categories set by DVSA.",
+                                        "2000+ Questions "),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.check_circle,
+                                      size: SizeConfig.blockSizeHorizontal * 4,
+                                      color: Colors.green),
+                                  SizedBox(width: 5),
+                                  Expanded(
+                                      child: Text(
+                                        "Free Mock Theory tests to check your test readiness.",
+                                      ))
+                                ],
+                              ),
+                              SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.check_circle,
+                                    size: SizeConfig.blockSizeHorizontal * 4,
+                                    color: Colors.green,
+                                  ),
+                                  // SizedBox(
+                                  //   width:
+                                  //       constraints.maxWidth * 0.02,
+                                  // ),
+                                  SizedBox(width: 5),
+                                  Expanded(
+                                    child: Text(
+                                        'The Only AI powered App In The Market'
+                                      //"For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: GestureDetector(
+                                      onTap: () async {
+                                        callDialog();
+                                        /*  print("payment");
                                     //
                                     loading(value: true);
                                     Stripe.publishableKey = stripePublic;
@@ -1315,69 +1382,69 @@ class _TheoryTabState extends State<TheoryTab> {
                                             metaData: params)
                                         .then((value) => loading(value: false));
                                     log("Called after payment");*/
-                                    payWallBottomSheet();
-                                  },
-                                  child: Container(
-                                      // width: constraints.maxWidth * 0.8,
-                                      padding:
+                                        payWallBottomSheet();
+                                      },
+                                      child: Container(
+                                        // width: constraints.maxWidth * 0.8,
+                                          padding:
                                           EdgeInsets.symmetric(vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: Dark,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Buy now",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize:
+                                          decoration: BoxDecoration(
+                                            color: Dark,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Buy now",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize:
                                                 SizeConfig.blockSizeHorizontal *
                                                     4),
-                                      )))),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 10),
-                            child: GestureDetector(
-                              onTap: () {
-                                callDialog();
-                                Navigator.pop(context);
-                              },
+                                          )))),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
                               child: Container(
-                                // width: constraints.maxWidth * 0.8,
-                                padding: EdgeInsets.symmetric(vertical: 12),
-                                decoration: BoxDecoration(
-                                  color: Dark,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(5),
-                                  ),
-                                ),
                                 alignment: Alignment.center,
-                                child: Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize:
+                                margin: EdgeInsets.only(top: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    callDialog();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    // width: constraints.maxWidth * 0.8,
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    decoration: BoxDecoration(
+                                      color: Dark,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize:
                                           SizeConfig.blockSizeHorizontal * 4),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 }
@@ -1390,6 +1457,6 @@ class Tabcardbottom {
   final String btn1;
   final VoidCallback onTapbtn1;
 
-  Tabcardbottom(
-      this.heading1, this.imagepath, this.data, this.btn1, this.onTapbtn1);
+  Tabcardbottom(this.heading1, this.imagepath, this.data, this.btn1,
+      this.onTapbtn1);
 }

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:Smart_Theory_Test/main.dart';
+import 'package:Smart_Theory_Test/routing/route.dart';
 import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -95,17 +96,21 @@ class UserProvider with ChangeNotifier {
       Map<String, dynamic> apiResponse = json.decode(response.body);
       print("userData ${jsonEncode(body)}");
       print("RESSS **************************           $apiResponse");
+      print(
+          "RESSS **************************           ${apiResponse['user_id']}");
       googleNavigate = false;
       // _status = Status.Authenticated;
       _token = apiResponse['token'];
       _userType = apiResponse['user_type'];
       _userName = apiResponse['user_name'];
       _eMail = apiResponse['e_mail'];
+
       //print(_token);
       await storeUserData(apiResponse);
       await Purchases.restorePurchases().then((value) {
         print('RESTORE PURCHASE +++++++++ $value');
       });
+
       _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => HomeScreen()),
           (route) => false);
@@ -158,7 +163,7 @@ class UserProvider with ChangeNotifier {
           params['social_site_id'] +
           "&email=" +
           email_);
-    print(url);
+    print("SOCIAL LOGIN URL $url");
     final response = await http.get(url);
     final responseParse = json.decode(response.body);
     if (responseParse['success'] == false) {
@@ -320,6 +325,10 @@ class UserProvider with ChangeNotifier {
     await storage.setString('userName',
         apiResponse['user_name'] == null ? '' : apiResponse['user_name']);
     await storage.setString('eMail', apiResponse['e_mail']);
+    await storage.setString('userId', apiResponse['user_id'].toString());
+    Purchases.logIn(apiResponse['user_id'].toString()).then((value) {
+      print('Purchases.logIn $value');
+    });
   }
 
   /// SEND OTP ///
@@ -470,6 +479,7 @@ class UserProvider with ChangeNotifier {
     }
     notifyListeners();
     SharedPreferences storage = await SharedPreferences.getInstance();
+    Purchases.logOut();
     await storage.clear();
   }
 }
