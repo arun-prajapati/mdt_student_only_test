@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -503,16 +504,19 @@ class Welcome extends StatelessWidget {
                                       },
                                     )
                                   : SizedBox(),
-                              // SizedBox(width: Platform.isIOS ? 30 : 0),
-                              // socialIconCustom(
-                              //   image: AppImages.facebook,
-                              //   onTap: () {
-                              //     _facebookUrl =
-                              //         "https://www.facebook.com/mockdrivingtest/";
-                              //     print(_facebookUrl);
-                              //     _launchURL(_facebookUrl);
-                              //   },
-                              // ),
+                              SizedBox(width: Platform.isIOS ? 30 : 0),
+                              socialIconCustom(
+                                image: AppImages.facebook,
+                                onTap: () {
+                                  // context
+                                  //     .read<UserProvider>()
+                                  //     .facebookSignIn(context);
+                                  _facebookUrl =
+                                      "https://www.facebook.com/mockdrivingtest/";
+                                  print(_facebookUrl);
+                                  _launchURL(_facebookUrl);
+                                },
+                              ),
                             ],
                           ),
                         )
@@ -769,56 +773,56 @@ callDialog() async {
   print(sharedPref);
 }
 
-class LandingPagePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint0 = Paint()
-      //..color = TestColor
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1.0;
-    paint0.shader = ui.Gradient.linear(
-      Offset(size.width * 0.5, -size.height * 0.06),
-      Offset(size.width, size.height * 0.10),
-      [Light, Dark],
-      [0.00, 0.70],
-    );
-
-    Path path0 = Path();
-    path0.moveTo(0, 0);
-    path0.lineTo(0, size.height * 0.21);
-    path0.quadraticBezierTo(
-        size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
-    path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
-    //path0.lineTo(0,0);
-    path0.close();
-
-    canvas.drawPath(path0, paint0);
-
-    Paint paint1 = Paint()
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1.0;
-
-    paint1.shader = ui.Gradient.linear(
-      Offset(size.width * 0.5, -size.height * 0.05),
-      Offset(size.width, size.height * 0.10),
-      [Light, Dark],
-      [0.00, 0.70],
-    );
-
-    Path path1 = Path();
-    path1.moveTo(0, 0);
-    path1.lineTo(0, size.height * 0.20);
-    path1.quadraticBezierTo(
-        size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
-    path1.quadraticBezierTo(size.width, size.height * 0.22, size.width, 0);
-    path1.lineTo(0, 0);
-    path1.close();
-
-    canvas.drawPath(path1, paint1);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
+// class LandingPagePainter extends CustomPainter {
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     Paint paint0 = Paint()
+//       //..color = TestColor
+//       ..style = PaintingStyle.fill
+//       ..strokeWidth = 1.0;
+//     paint0.shader = ui.Gradient.linear(
+//       Offset(size.width * 0.5, -size.height * 0.06),
+//       Offset(size.width, size.height * 0.10),
+//       [Light, Dark],
+//       [0.00, 0.70],
+//     );
+//
+//     Path path0 = Path();
+//     path0.moveTo(0, 0);
+//     path0.lineTo(0, size.height * 0.21);
+//     path0.quadraticBezierTo(
+//         size.width * 0.15, size.height * 0.42, size.width, size.height * 0.25);
+//     path0.quadraticBezierTo(size.width, size.height * 0.15, size.width, 0);
+//     //path0.lineTo(0,0);
+//     path0.close();
+//
+//     canvas.drawPath(path0, paint0);
+//
+//     Paint paint1 = Paint()
+//       ..style = PaintingStyle.fill
+//       ..strokeWidth = 1.0;
+//
+//     paint1.shader = ui.Gradient.linear(
+//       Offset(size.width * 0.5, -size.height * 0.05),
+//       Offset(size.width, size.height * 0.10),
+//       [Light, Dark],
+//       [0.00, 0.70],
+//     );
+//
+//     Path path1 = Path();
+//     path1.moveTo(0, 0);
+//     path1.lineTo(0, size.height * 0.20);
+//     path1.quadraticBezierTo(
+//         size.width * 0.2, size.height * 0.35, size.width, size.height * 0.13);
+//     path1.quadraticBezierTo(size.width, size.height * 0.22, size.width, 0);
+//     path1.lineTo(0, 0);
+//     path1.close();
+//
+//     canvas.drawPath(path1, paint1);
+//   }
+//
+//   @override
+//   bool shouldRepaint(covariant CustomPainter oldDelegate) {
+//     return true;
+//   }
+// }

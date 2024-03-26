@@ -1,4 +1,6 @@
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
@@ -44,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<String> getUserName() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String userName = storage.getString('userName').toString();
+    context.read<SubscriptionProvider>().isUserPurchaseTest();
     return userName;
   }
 

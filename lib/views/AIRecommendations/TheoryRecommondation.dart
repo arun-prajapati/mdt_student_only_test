@@ -194,14 +194,11 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     loading(value: true);
     try {
       loading(value: true);
-      // await Purchases.purchasePackage(packageToPurchase).
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH');
-        Purchases.logIn(_userId.toString()).then((value) {
-          print('Purchases.logIn ${jsonEncode(value.customerInfo)}');
-        });
         getTheoryContent('yes');
+        context.read<SubscriptionProvider>().checkActiveUser();
       }).catchError((e) {
         loading(value: false);
         print("ERROR ====== $e");
@@ -436,9 +433,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                             .isUserPurchaseTest();
 
                                         if (context
-                                                .read<SubscriptionProvider>()
-                                                .entitlement ==
-                                            Entitlement.unpaid) {
+                                                    .read<
+                                                        SubscriptionProvider>()
+                                                    .entitlement ==
+                                                Entitlement.unpaid &&
+                                            theoryContent[index].isFree ==
+                                                "not-free") {
                                           GetPremium(context);
                                         } else {
                                           print(
@@ -1314,11 +1314,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.pop(context);
-
                             purchasePackage(val.package.first, context);
-                            // context
-                            //     .read<SubscriptionProvider>()
-                            //     .isUserPurchaseTest();
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(

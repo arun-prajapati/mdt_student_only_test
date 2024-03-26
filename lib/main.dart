@@ -67,10 +67,8 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final authProvider = Provider.of<AuthProvider>(context);
     return Consumer<UserProvider>(
       builder: (context, user, child) {
-        // sub.isUserPurchaseTest();
         switch (user.status) {
           case Status.Uninitialized:
             return SplashScreen();

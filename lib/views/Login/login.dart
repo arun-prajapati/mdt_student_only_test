@@ -204,7 +204,7 @@ class _SignInFormState extends State<SignInForm> {
     final form = _formKey.currentState;
     if (form!.validate()) {
       //await Provider.of<AuthProvider>(context, listen: false).login(email, password.text, usertype, deviceId!);
-      await Provider.of<UserProvider>(context, listen: false).login(
+      await Provider.of<UserProvider>(context, listen: false).login(context,
           deviceId: deviceId!,
           email: email,
           usertype: "2",

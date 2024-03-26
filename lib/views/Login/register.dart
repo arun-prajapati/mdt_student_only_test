@@ -407,6 +407,7 @@ reg data
                           //disableLengthCheck: true,
                           controller: phoneTextControl,
                           focusNode: _phoneFocusNode,
+
                           cursorColor: Dark,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
@@ -469,6 +470,11 @@ reg data
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           style: AppTextStyle.textStyle,
+                          onCountryChanged: (val) {
+                            countryCode = "+${val.dialCode}";
+                            setState(() {});
+                            print(';;;; $countryCode');
+                          },
                           onSubmitted: (_) {
                             setFocus(context, focusNode: null);
                             submit();

@@ -164,9 +164,12 @@ Page resource error:
                       strokeWidth: 3.2,
                       color: Dark,
                     ))
-                  : WebViewWidget(
-                      key: _key,
-                      controller: _controller,
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: 100),
+                      child: WebViewWidget(
+                        key: _key,
+                        controller: _controller,
+                      ),
                     ),
             ),
           ),

@@ -11,6 +11,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb934749024955543</string>
 				<string>com.googleusercontent.apps.825629569582-vmjj0oc8j2ndd5ddj2jokdr3s4q9g49c</string>
 			</array>
 		</dict>
@@ -68,5 +69,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>FacebookAppID</key>
+	<string>934749024955543</string>
+	<key>FacebookClientToken</key>
+	<string>9ee11ccd15a81b54a9e0e996ca45f9d9</string>
+	<key>FacebookDisplayName</key>
+	<string>Smart Theory Test</string>
 </dict>
 </plist>

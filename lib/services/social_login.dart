@@ -454,43 +454,43 @@ class SocialLoginService {
     }
   } */
 
-  /*  Future<void> facebookSignIn() async {
-    try {
-      showLoader("Loading...");
-      final facebookLogin = FacebookLogin();
-      bool checkSignIn = await facebookLogin.isLoggedIn;
-      if (checkSignIn) facebookLogin.logOut();
-      final result = await facebookLogin.logIn(["email"]);
-      switch (result.status) {
-        case FacebookLoginStatus.loggedIn:
-          getFacebookUserDetail(result.accessToken.token).then((detail) {
-            print("facebook detail.....");
-            print(detail);
-            Map params = {
-              'token': result.accessToken.token,
-              'social_type': 'facebook',
-              'social_site_id': detail['id'],
-              'email': detail['email'] != null ? detail['email'] : null,
-              'phone': detail['phone'] != null ? detail['phone'] : null,
-              'accessType': 'login',
-            };
-            socialLoginApi(params);
-          });
-          break;
-        case FacebookLoginStatus.cancelledByUser:
-          closeLoader();
-          break;
-        case FacebookLoginStatus.error:
-          closeLoader();
-          Toast.show(result.errorMessage,
-              duration: Toast.lengthLong, gravity: Toast.bottom);
-          break;
-      }
-    } catch (e) {
-      closeLoader();
-      print(e);
-    }
-  } */
+  // Future<void> facebookSignIn() async {
+  //   try {
+  //     showLoader("Loading...");
+  //     final facebookLogin = FacebookLogin();
+  //     bool checkSignIn = await facebookLogin.isLoggedIn;
+  //     if (checkSignIn) facebookLogin.logOut();
+  //     final result = await facebookLogin.logIn(["email"]);
+  //     switch (result.status) {
+  //       case FacebookLoginStatus.loggedIn:
+  //         getFacebookUserDetail(result.accessToken.token).then((detail) {
+  //           print("facebook detail.....");
+  //           print(detail);
+  //           Map params = {
+  //             'token': result.accessToken.token,
+  //             'social_type': 'facebook',
+  //             'social_site_id': detail['id'],
+  //             'email': detail['email'] != null ? detail['email'] : null,
+  //             'phone': detail['phone'] != null ? detail['phone'] : null,
+  //             'accessType': 'login',
+  //           };
+  //           socialLoginApi(params);
+  //         });
+  //         break;
+  //       case FacebookLoginStatus.cancelledByUser:
+  //         closeLoader();
+  //         break;
+  //       case FacebookLoginStatus.error:
+  //         closeLoader();
+  //         Toast.show(result.errorMessage,
+  //             duration: Toast.lengthLong, gravity: Toast.bottom);
+  //         break;
+  //     }
+  //   } catch (e) {
+  //     closeLoader();
+  //     print(e);
+  //   }
+  // }
 
   /*   Future<void> appleSignIn() async {
     try {
@@ -583,7 +583,7 @@ class SocialLoginService {
     try {
       Map? loginResponse =
           await Provider.of<auth.UserProvider>(globalContext, listen: false)
-              .socialLoginWithMdtRegister(params);
+              .socialLoginWithMdtRegister(globalContext, params);
       closeLoader();
       print('JJKJKJKJK ${loginResponse}');
       print('DFDFDFDFF ${params}');

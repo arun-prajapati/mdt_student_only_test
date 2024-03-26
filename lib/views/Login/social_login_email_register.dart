@@ -84,7 +84,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
         authData.socialToken = paramArguments['token'];
         authData.socialSiteId = paramArguments['social_site_id'];
         authData.socialType = paramArguments['social_type'];
-
+        print("RESPONSE OF CHECK NUMBER ======== ${res}");
         setState(() {});
         authData.printData();
         if (res['success'] == false) {
@@ -468,7 +468,12 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                   controller: phoneTextControl,
                                                   focusNode: _phoneFocusNode,
                                                   cursorColor: Dark,
-
+                                                  onCountryChanged: (val) {
+                                                    countryCode =
+                                                        "+${val.dialCode}";
+                                                    setState(() {});
+                                                    print(';;;; $countryCode');
+                                                  },
                                                   textInputAction:
                                                       TextInputAction.next,
                                                   decoration: InputDecoration(
@@ -617,7 +622,9 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                                                             .symmetric(
                                                                 vertical: 12),
                                                         title: 'SignUp',
-                                                        onTap: submit,
+                                                        onTap: () {
+                                                          submit();
+                                                        },
                                                       ),
                                                     ),
                                             ]),

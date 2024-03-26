@@ -5,10 +5,13 @@ import 'dart:io';
 
 import 'package:Smart_Theory_Test/main.dart';
 import 'package:Smart_Theory_Test/routing/route.dart';
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
@@ -66,7 +69,7 @@ class UserProvider with ChangeNotifier {
 //    _status = Status.RouteLogin;
 //    notifyListeners();
 //  }
-  Future<bool> login(
+  Future<bool> login(BuildContext context,
       {required String email,
       required String password,
       required String usertype,
@@ -106,11 +109,8 @@ class UserProvider with ChangeNotifier {
       _eMail = apiResponse['e_mail'];
 
       //print(_token);
-      await storeUserData(apiResponse);
-      await Purchases.restorePurchases().then((value) {
-        print('RESTORE PURCHASE +++++++++ $value');
-      });
-
+      await storeUserData(context, apiResponse);
+      context.read<SubscriptionProvider>().isUserPurchaseTest();
       _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => HomeScreen()),
           (route) => false);
@@ -131,7 +131,8 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  Future<Map?> socialLoginWithMdtRegister(Map params) async {
+  Future<Map?> socialLoginWithMdtRegister(
+      BuildContext context, Map params) async {
     print("hello");
     if (params['accessType'] == 'register') {
       _status = Status.Authenticating;
@@ -186,7 +187,8 @@ class UserProvider with ChangeNotifier {
         _userName =
             apiResponse['user_name'] == null ? '' : apiResponse['user_name'];
         _eMail = apiResponse['e_mail'];
-        await storeUserData(apiResponse);
+        await storeUserData(context, apiResponse);
+        context.read<SubscriptionProvider>().isUserPurchaseTest();
         print('NAVIGATE ==================== ');
         _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -318,7 +320,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  storeUserData(apiResponse) async {
+  storeUserData(BuildContext context, apiResponse) async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     await storage.setString('token', apiResponse['token']);
     await storage.setInt('userType', apiResponse['user_type']);
@@ -326,9 +328,10 @@ class UserProvider with ChangeNotifier {
         apiResponse['user_name'] == null ? '' : apiResponse['user_name']);
     await storage.setString('eMail', apiResponse['e_mail']);
     await storage.setString('userId', apiResponse['user_id'].toString());
-    Purchases.logIn(apiResponse['user_id'].toString()).then((value) {
-      print('Purchases.logIn $value');
-    });
+    UserData.userId = apiResponse['user_id'].toString();
+    context.read<SubscriptionProvider>().checkActiveUser();
+
+    print('UserData.userId ${UserData.userId}');
   }
 
   /// SEND OTP ///
@@ -420,6 +423,36 @@ class UserProvider with ChangeNotifier {
     });
   }
 
+  facebookSignIn(BuildContext context) async {
+    print("%%%%%%%%%%%%%%%%%");
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login(
+        permissions: ["public_profile", "email"],
+        loginBehavior: LoginBehavior.dialogOnly,
+      );
+      if (loginResult.status == LoginStatus.success) {
+        _status = Status.Authenticated;
+        // var apiResponseLongToken =
+        //     await repository.longLivedAccessTokenFacebook(
+        //         token: loginResult.accessToken!.token);
+        // longLivedToken = apiResponseLongToken.response.data['access_token'];
+      }
+      await FacebookAuth.instance.getUserData();
+      final token = loginResult.accessToken!.token;
+      if (token.isNotEmpty) {
+        // await loginWithFacebookAccount(
+        //     longLivedToken, spinnerItemId, invitekey, context);
+      }
+      // }
+    } catch (e) {
+      _status = Status.Unauthenticated;
+      print('888888*********** $e');
+      // snackBar(context, message: e.toString(), color: Colors.red);
+    }
+    // _loading = false;
+    notifyListeners();
+  }
+
   validateOTP(
     String code,
     BuildContext context, {
@@ -471,7 +504,7 @@ class UserProvider with ChangeNotifier {
     return token;
   }
 
-  logOut([bool tokenExpired = false]) async {
+  logOut(BuildContext context, [bool tokenExpired = false]) async {
     _status = Status.Unauthenticated;
     if (tokenExpired == true) {
       _notification =
@@ -479,7 +512,13 @@ class UserProvider with ChangeNotifier {
     }
     notifyListeners();
     SharedPreferences storage = await SharedPreferences.getInstance();
-    Purchases.logOut();
+    Purchases.logOut().then((value) {
+      log('UUUUUIIIIII ${value.entitlements.active}');
+      if (value.entitlements.active == {}) {
+        log('value.entitlements ${jsonEncode(value.entitlements)} ${context.read<SubscriptionProvider>().entitlement}');
+        context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
+      }
+    });
     await storage.clear();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -329,6 +330,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     child: ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: categories.length,
                         itemBuilder: (c, index) => Row(
                               // crossAxisAlignment: CrossAxisAlignment.start,

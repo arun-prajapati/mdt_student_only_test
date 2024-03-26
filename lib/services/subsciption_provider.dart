@@ -12,40 +12,23 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../enums/Autentication_status.dart';
+
 enum Entitlement { unpaid, paid }
 
 class SubscriptionProvider extends ChangeNotifier {
-  Entitlement _entitlement = Entitlement.unpaid;
+  Entitlement entitlement = Entitlement.unpaid;
 
-  Entitlement get entitlement => _entitlement;
   List<Package> package = [];
 
   Future fetchOffer() async {
-    // await Purchases.getProducts(["fitgate_monthly_sub", "fitgate_2bhd_1m"]).then((value) {
-    //   for (var val in value) {
-    //     log("FETCH PRODUCTS ${val}");
-    //   }
-    //   log("||||||||||||||||||||||||||||||||| ${value}");
-    //   log("|||||||||||||||||||||| ${value.first.identifier}");
-    // }).catchError((e) {
-    //   print('ERROR ======== $e');
-    // });
-    // CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-    // print('========================= ${customerInfo.entitlements}');
-    // if (Platform.isAndroid) {
-    // final offering = await PurchaseSub().fetchOffer();
     final offerList = await Purchases.getOfferings();
-    // if (offering.isEmpty) {
 
-    //   showToast("No plans found");
-    // } else {
     package = offerList.current!.availablePackages;
     log("======= SUBSCRIPTION ======= ${package.first.storeProduct}");
     isUserPurchaseTest();
 
-    // Purchases.purchasePackage(offerList.current!.availablePackages.first);
     notifyListeners();
-    // }
   }
 
   isUserPurchaseTest() {
@@ -55,15 +38,33 @@ class SubscriptionProvider extends ChangeNotifier {
       print('CUSTOMER INFO $customerInfo');
       if (entitlementInfo != null) {
         if (entitlementInfo.isActive) {
-          _entitlement = Entitlement.paid;
+          entitlement = Entitlement.paid;
           Fluttertoast.showToast(msg: "${entitlement}");
         } else {
           Fluttertoast.showToast(msg: "${entitlement}");
-          _entitlement = Entitlement.unpaid;
+          entitlement = Entitlement.unpaid;
         }
       } else {
         Fluttertoast.showToast(msg: "${entitlement}");
       }
+      notifyListeners();
+    });
+  }
+
+  checkActiveUser() {
+    Purchases.logIn(UserData.userId.toString()).then((value) {
+      if (value.customerInfo.entitlements.active == true) {
+        entitlement = Entitlement.paid;
+        notifyListeners();
+      } else {
+        entitlement = Entitlement.unpaid;
+        notifyListeners();
+      }
+      print(
+          'UserData.userId ${UserData.userId} Purchases.logIn ${jsonEncode(value.customerInfo)}');
+      notifyListeners();
+    }).catchError((e) {
+      entitlement = Entitlement.unpaid;
       notifyListeners();
     });
   }
@@ -78,28 +79,21 @@ class PurchaseSub {
     PurchasesConfiguration configuration = PurchasesConfiguration(_key);
     await Purchases.configure(configuration);
     configuration.shouldShowInAppMessagesAutomatically = true;
-    // Purchases.logIn("${Global.userModel?.id}");
-    // print('APP USERID ${configuration.appUserID}');
   }
 
   static Future<bool> purchasePackage(
-      Package package, BuildContext context, String userId) async {
+      Package package, BuildContext context) async {
     loading(value: true);
     try {
       loading(value: true);
-      // await Purchases.purchasePackage(packageToPurchase).
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH');
-        Purchases.logIn(userId).then((value) {
-          print('Purchases.logIn ${jsonEncode(value.customerInfo)}');
-        });
-        // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+        context.read<SubscriptionProvider>().checkActiveUser();
         context.read<SubscriptionProvider>().isUserPurchaseTest();
       }).catchError((e) {
         loading(value: false);
         print("ERROR ====== $e");
-        // Fluttertoast.showToast(msg: e.toString());
         return e;
       });
       return true;
