@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Smart Theory Test</string>
-    <string name="facebook_app_id">934749024955543</string>
-    <string name="facebook_client_token">9ee11ccd15a81b54a9e0e996ca45f9d9</string>
-    <string name="fb_login_protocol_scheme">fb934749024955543</string>
+    <string name="facebook_app_id">1152085066156903</string>
+    <string name="facebook_client_token">1389968725d92af2a7f5f39c92777209</string>
+    <string name="fb_login_protocol_scheme">fb1152085066156903</string>
 </resources>

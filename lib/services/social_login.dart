@@ -7,6 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -276,7 +277,8 @@ class SocialLoginService {
           UserCredential user =
               await FirebaseAuth.instance.signInWithCredential(oauthCredential);
           User? userData = user.user;
-          print("UserData : ${user.credential}");
+          print("Userdata : $userData");
+          print("User credential : ${user.credential}");
           Map params = {
             'token': user.credential?.accessToken,
             'social_type': 'apple',
@@ -568,6 +570,60 @@ class SocialLoginService {
     try {
       Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
     } catch (e) {}
+  }
+
+  facebookSignIn() async {
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login(
+        permissions: ["public_profile", "email"],
+        loginBehavior: LoginBehavior.dialogOnly,
+      );
+      if (loginResult.status == LoginStatus.success) {
+        print("%%%%%%%%%%%%%%%%%");
+
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        FirebaseAuth.instance
+            .signInWithCredential(facebookAuthCredential)
+            .then((value) {
+          if (value.user != null) {
+            print("UserData : ${value.user}");
+            Map params = {
+              'token': loginResult.accessToken!.token,
+              'social_type': 'facebook',
+              'social_site_id': value.user?.uid,
+              'email': value.user?.email,
+              'phone': value.user?.phoneNumber != null
+                  ? value.user?.phoneNumber
+                  : null,
+              'accessType': 'login'
+            };
+            print("SOCIAL AUTH PARAM : ${jsonEncode(params)}");
+            socialLoginApi(params);
+          }
+        }).catchError((e) {
+          print('ERORRRR ========== $e');
+        });
+        // var apiResponseLongToken =
+        //     await repository.longLivedAccessTokenFacebook(
+        //         token: loginResult.accessToken!.token);
+        // longLivedToken = apiResponseLongToken.response.data['access_token'];
+      } else {}
+      await FacebookAuth.instance.getUserData().then((value) {
+        print("getUserData ${jsonEncode(value)}");
+      });
+      final token = loginResult.accessToken!.token;
+      print("FACEBOOK TOKEN $token");
+      if (token.isNotEmpty) {
+        // await loginWithFacebookAccount(
+        //     longLivedToken, spinnerItemId, invitekey, context);
+      }
+      // }
+    } catch (e) {
+      print('888888*********** $e');
+      // snackBar(context, message: e.toString(), color: Colors.red);
+    }
+    // _loading = false;
   }
 
   Future<Map> getFacebookUserDetail(String token) async {

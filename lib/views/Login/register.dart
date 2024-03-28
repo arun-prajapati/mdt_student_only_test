@@ -477,7 +477,7 @@ reg data
                           },
                           onSubmitted: (_) {
                             setFocus(context, focusNode: null);
-                            submit();
+                            // submit();
                           },
 
                           // onSubmitted: (_) {

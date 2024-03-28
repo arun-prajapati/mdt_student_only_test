@@ -504,17 +504,15 @@ class Welcome extends StatelessWidget {
                                       },
                                     )
                                   : SizedBox(),
-                              SizedBox(width: Platform.isIOS ? 30 : 0),
+                              SizedBox(width: 30),
                               socialIconCustom(
                                 image: AppImages.facebook,
                                 onTap: () {
-                                  // context
-                                  //     .read<UserProvider>()
-                                  //     .facebookSignIn(context);
-                                  _facebookUrl =
-                                      "https://www.facebook.com/mockdrivingtest/";
-                                  print(_facebookUrl);
-                                  _launchURL(_facebookUrl);
+                                  SocialLoginService(context).facebookSignIn();
+                                  // _facebookUrl =
+                                  //     "https://www.facebook.com/mockdrivingtest/";
+                                  // print(_facebookUrl);
+                                  //   _launchURL(_facebookUrl);
                                 },
                               ),
                             ],

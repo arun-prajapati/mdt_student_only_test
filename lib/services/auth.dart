@@ -423,36 +423,6 @@ class UserProvider with ChangeNotifier {
     });
   }
 
-  facebookSignIn(BuildContext context) async {
-    print("%%%%%%%%%%%%%%%%%");
-    try {
-      final LoginResult loginResult = await FacebookAuth.instance.login(
-        permissions: ["public_profile", "email"],
-        loginBehavior: LoginBehavior.dialogOnly,
-      );
-      if (loginResult.status == LoginStatus.success) {
-        _status = Status.Authenticated;
-        // var apiResponseLongToken =
-        //     await repository.longLivedAccessTokenFacebook(
-        //         token: loginResult.accessToken!.token);
-        // longLivedToken = apiResponseLongToken.response.data['access_token'];
-      }
-      await FacebookAuth.instance.getUserData();
-      final token = loginResult.accessToken!.token;
-      if (token.isNotEmpty) {
-        // await loginWithFacebookAccount(
-        //     longLivedToken, spinnerItemId, invitekey, context);
-      }
-      // }
-    } catch (e) {
-      _status = Status.Unauthenticated;
-      print('888888*********** $e');
-      // snackBar(context, message: e.toString(), color: Colors.red);
-    }
-    // _loading = false;
-    notifyListeners();
-  }
-
   validateOTP(
     String code,
     BuildContext context, {

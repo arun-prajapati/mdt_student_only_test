@@ -62,7 +62,7 @@ class _TheoryTabState extends State<TheoryTab> {
   List cards = [
     {
       'icon': AppImages.aiImage,
-      'title': 'AI Learn',
+      'title': 'Learn',
       'subTitle': 'Study theory test topics',
       'type': 'aiLearn',
       'buttonText': 'Learn'

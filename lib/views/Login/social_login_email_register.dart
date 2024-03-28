@@ -48,6 +48,7 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
   final _passwordService = PasswordServices();
 
   Future<void> submit() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final form = _formKey.currentState;
     var authData = context.read<UserProvider>();
     if (form!.validate() && phoneTextControl.text.isNotEmpty) {
