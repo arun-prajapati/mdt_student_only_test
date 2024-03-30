@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb1152085066156903</string>
+				<string>fb934749024955543</string>
 				<string>com.googleusercontent.apps.825629569582-vmjj0oc8j2ndd5ddj2jokdr3s4q9g49c</string>
 			</array>
 		</dict>
@@ -66,9 +66,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>FacebookAppID</key>
-    	<string>1152085066156903</string>
+    	<string>934749024955543</string>
     	<key>FacebookClientToken</key>
-    	<string>1389968725d92af2a7f5f39c92777209</string>
+    	<string>9ee11ccd15a81b54a9e0e996ca45f9d9</string>
     	<key>FacebookDisplayName</key>
     	<string>Smart Theory Test</string>
         <key>LSApplicationQueriesSchemes</key>

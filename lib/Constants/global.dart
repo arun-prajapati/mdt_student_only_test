@@ -16,3 +16,13 @@ Future<void> urlLauncher(String url) async {
     throw Exception('Could not launch $url');
   }
 }
+
+class AppConstant {
+  static String highwayCodeLink =
+      "https://www.gov.uk/guidance/the-highway-code";
+  static String theoryTestGuidance =
+      "https://mockdrivingtest.com/static/theory-test-guidance";
+  static String bookTheoryTest = "https://www.gov.uk/book-theory-test";
+  static String trafficSigns =
+      "https://assets.publishing.service.gov.uk/media/656ef4271104cf0013fa74ef/know-your-traffic-signs-dft.pdf";
+}

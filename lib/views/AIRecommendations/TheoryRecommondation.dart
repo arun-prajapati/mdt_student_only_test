@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:developer';
+import 'package:flutter/src/material/card.dart' as MCard;
 
 import 'package:Smart_Theory_Test/main.dart';
 import 'package:Smart_Theory_Test/views/AIRecommendations/youtube_video_player_screen.dart';
@@ -96,9 +97,13 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     super.dispose();
   }
 
-  initializeApi(String loaderMessage) {
+  initializeApi(String loaderMessage) async {
     checkInternet();
-
+    var sharedPref = await SharedPreferences.getInstance();
+    var data = sharedPref.getBool('showMessage');
+    if (data == null) {
+      showMessageDialog();
+    }
     showLoader(loaderMessage);
     getUserDetail().then((user_id) async {
       // fetch dvsa subscription status from db.
@@ -416,8 +421,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             print(
                                 "data : -----${theoryContent[index].topicName} ------");
                             if (theoryContent.isNotEmpty &&
-                                walletDetail != null &&
-                                walletDetail!['dvsa_subscription'] <= 0) {
+                                walletDetail != null) {
                               return GestureDetector(
                                 onTap: context
                                             .read<SubscriptionProvider>()
@@ -479,7 +483,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                       tilePadding:
                                           EdgeInsets.symmetric(horizontal: 15),
                                       key: Key(index.toString()),
-                                      initiallyExpanded: index == selected,
+                                      initiallyExpanded:
+                                          theoryContent[index].isFree == "free",
                                       maintainState: true,
                                       onExpansionChanged: (val) async {
                                         context
@@ -1353,6 +1358,83 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                 );
               }),
             ));
+  }
+
+  showMessageDialog({bool isTheoryTestGuidance = false}) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => PopScope(
+        canPop: false,
+        child: Dialog(
+          insetPadding: EdgeInsets.all(20),
+          backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                gradient: LinearGradient(
+                  begin: Alignment(0.0, -1.0),
+                  end: Alignment(0.0, 1.0),
+                  colors: [Dark, Light],
+                  stops: [0.0, 1.0],
+                )),
+            child: MCard.Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              elevation: 0.0,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child:
+                            Text("AI Learn", style: AppTextStyle.titleStyle)),
+                    Container(
+                      //width: constraints.maxWidth,
+                      margin: EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: [
+                          Text(
+                              "Our AI learn is powered by our proprietary AI solution which fetches high-quality content from the web to help you learn fast. We do not own this content and have no control over what is displayed."),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                                // style: ButtonStyle(
+                                //     visualDensity: VisualDensity.comfortable,
+                                //     padding: MaterialStateProperty.all(
+                                //         EdgeInsets.all(0)),
+                                //     overlayColor:
+                                //         MaterialStateProperty.all(Colors.blue)),
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  var sharedPref =
+                                      await SharedPreferences.getInstance();
+                                  sharedPref.setBool('showMessage', true);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  color: Colors.transparent,
+                                  child: Text(
+                                    "OK",
+                                    style: AppTextStyle.titleStyle
+                                        .copyWith(fontSize: 16),
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<Map> getAllRecordsFromApi() async {

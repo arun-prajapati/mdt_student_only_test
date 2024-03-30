@@ -577,7 +577,9 @@ class SocialLoginService {
       final LoginResult loginResult = await FacebookAuth.instance.login(
         permissions: ["public_profile", "email"],
         loginBehavior: LoginBehavior.dialogOnly,
-      );
+      ).catchError((e) {
+        print('ERORRRR ========== $e');
+      });
       if (loginResult.status == LoginStatus.success) {
         print("%%%%%%%%%%%%%%%%%");
 
@@ -608,7 +610,9 @@ class SocialLoginService {
         //     await repository.longLivedAccessTokenFacebook(
         //         token: loginResult.accessToken!.token);
         // longLivedToken = apiResponseLongToken.response.data['access_token'];
-      } else {}
+      } else {
+        print("%%%%%%%%%%%%%%%%% ELSE");
+      }
       await FacebookAuth.instance.getUserData().then((value) {
         print("getUserData ${jsonEncode(value)}");
       });

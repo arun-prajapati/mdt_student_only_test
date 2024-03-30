@@ -317,13 +317,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   title: 'Practice Theory Test Questions',
                   textWidth: Responsive.width(35, context),
                   iconLeft: Icons.arrow_back,
-                  iconRight: Icons.refresh_rounded,
+                  // iconRight: Icons.refresh_rounded,
                   onTap1: () {
                     _navigationService.goBack();
                   },
-                  onTapRightbtn: () {
-                    initializeApi("Refreshing...");
-                  },
+                  // onTapRightbtn: () {
+                  //   initializeApi("Refreshing...");
+                  // },
                 ),
                 Container(
                     margin: EdgeInsets.fromLTRB(

@@ -46,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<String> getUserName() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String userName = storage.getString('userName').toString();
-    context.read<SubscriptionProvider>().isUserPurchaseTest();
+    // context.read<SubscriptionProvider>().isUserPurchaseTest();
+    // context.read<SubscriptionProvider>().checkActiveUser();
     return userName;
   }
 

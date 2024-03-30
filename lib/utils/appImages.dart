@@ -17,6 +17,7 @@ class AppImages {
   static String illustraion2 = 'assets/images/illustraion2.png';
   static String booktest = 'assets/images/booktest.png';
   static String bookTest2 = 'assets/images/bookTest2.png';
+  static String traffic_sign = 'assets/images/traffic_sign.png';
   static String saftyMargin = 'assets/images/saftyMargin.png';
   static String Robot = 'assets/images/Robot.png';
   static String video = 'assets/images/video.png';

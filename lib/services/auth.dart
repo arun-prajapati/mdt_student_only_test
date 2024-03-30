@@ -110,7 +110,6 @@ class UserProvider with ChangeNotifier {
 
       //print(_token);
       await storeUserData(context, apiResponse);
-      context.read<SubscriptionProvider>().isUserPurchaseTest();
       _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => HomeScreen()),
           (route) => false);
@@ -188,7 +187,6 @@ class UserProvider with ChangeNotifier {
             apiResponse['user_name'] == null ? '' : apiResponse['user_name'];
         _eMail = apiResponse['e_mail'];
         await storeUserData(context, apiResponse);
-        context.read<SubscriptionProvider>().isUserPurchaseTest();
         print('NAVIGATE ==================== ');
         _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -329,7 +327,10 @@ class UserProvider with ChangeNotifier {
     await storage.setString('eMail', apiResponse['e_mail']);
     await storage.setString('userId', apiResponse['user_id'].toString());
     UserData.userId = apiResponse['user_id'].toString();
-    context.read<SubscriptionProvider>().checkActiveUser();
+    // Future.delayed(Duration());
+    context
+        .read<SubscriptionProvider>()
+        .checkActiveUser(context: context, isLogin: true);
 
     print('UserData.userId ${UserData.userId}');
   }
@@ -483,11 +484,13 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
     SharedPreferences storage = await SharedPreferences.getInstance();
     Purchases.logOut().then((value) {
-      log('UUUUUIIIIII ${value.entitlements.active}');
-      if (value.entitlements.active == {}) {
-        log('value.entitlements ${jsonEncode(value.entitlements)} ${context.read<SubscriptionProvider>().entitlement}');
-        context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
-      }
+      log('UUUUUIIIIII ${value.entitlements.active} ${SubscriptionProvider().entitlement}');
+      // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
+      // notifyListeners();
+      // if (value.entitlements.active == {}) {
+      // log('value.entitlements ${jsonEncode(value.entitlements)} ${context.read<SubscriptionProvider>().entitlement}');
+      // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
+      // }
     });
     await storage.clear();
   }

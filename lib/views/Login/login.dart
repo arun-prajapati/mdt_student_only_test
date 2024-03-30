@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:Smart_Theory_Test/views/Login/otp_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:provider/provider.dart';
@@ -85,6 +86,10 @@ class _SignInFormState extends State<SignInForm> {
 
   TextEditingController password = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  // TextEditingController password = TextEditingController(text: "12345678");
+  // TextEditingController emailController =
+  //     TextEditingController(text: "ktest@gmail.com");
 
   // Future<String?> getId() async {
   //   //  deviceId = await PlatformDeviceId.getDeviceId;
@@ -274,318 +279,310 @@ class _SignInFormState extends State<SignInForm> {
       key: _key,
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          child: Container(
-            height: Responsive.height(100, context),
-            //color: Colors.black12,
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
+        child: Column(
+          // alignment: Alignment.topCenter,
+          children: <Widget>[
+            Stack(
+              children: [
                 Image.asset(
                   "assets/bg1.png",
                   height: 290,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
-                // Image.asset(
-                //   AppImages.bgLogin,
-                //   //height: 300,
-                //   width: MediaQuery.of(context).size.width,
-                //   fit: BoxFit.fitWidth,
-                // ),
                 Positioned(
                     left: 25,
                     top: SizeConfig.blockSizeVertical * 8,
                     child: backArrowCustom()),
-                // Positioned(
-                //   top: SizeConfig.blockSizeVertical * 18,
-                //   left: SizeConfig.blockSizeHorizontal * 28,
-                //   child: CircleAvatar(
-                //     radius: SizeConfig.blockSizeHorizontal * 20,
-                //     backgroundColor: Colors.white,
-                //     child: Container(
-                //       child: Image.asset(
-                //         "assets/s_logo.png",
-                //         height: 180,
-                //         width: 182,
-                //         //fit: BoxFit.contain,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // CustomPaint(
-                //   size: Size(width, height),
-                //   painter: HeaderPainter(),
-                // ),
-                // Positioned(
-                //   top: SizeConfig.blockSizeVertical * 20,
-                //   left: SizeConfig.blockSizeHorizontal * 28,
-                //   child: CircleAvatar(
-                //     radius: SizeConfig.blockSizeHorizontal * 22,
-                //     backgroundColor: Colors.white,
-                //     child: Container(
-                //       child: Image.asset(
-                //         "assets/stt_s_logo.png",
-                //         height: SizeConfig.blockSizeVertical * 45,
-                //         width: SizeConfig.blockSizeHorizontal * 45,
-                //         fit: BoxFit.contain,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // Positioned(
-                //   top: SizeConfig.blockSizeVertical * 38,
-                //   child: Container(
-                //     child: Text(
-                //       'MDT Learner Driver',
-                //       style:
-                //           // GoogleFonts.caveat(
-                //           //   fontSize: SizeConfig.blockSizeHorizontal * 8,
-                //           //   color: Colors.black,
-                //           //   fontWeight: FontWeight.bold,
-                //           //   letterSpacing: 1.0,
-                //           // ),
-                //           TextStyle(
-                //         letterSpacing: 1.0,
-                //         fontFamily: 'Poppins',
-                //         fontSize: SizeConfig.blockSizeHorizontal * 6,
-                //         fontWeight: FontWeight.w600,
-                //         color: Colors.black,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // SizedBox(height: 10),
-                Container(
-                  // width: SizeConfig.blockSizeHorizontal * 85,
-                  // height: SizeConfig.blockSizeVertical * 80,
-                  // margin: EdgeInsets.fromLTRB(
-                  //   20,
-                  //   SizeConfig.blockSizeVertical * 34,
-                  //   0,
-                  //   0.0,
-                  // ),
-                  //color: Colors.black12,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        top: SizeConfig.blockSizeVertical * 40,
-                        left: 15,
-                        right: 15,
-                        bottom: 15),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Text('Welcome back!',
-                                style: AppTextStyle.titleStyle),
-                          ),
-                          SizedBox(height: 5),
-                          Center(
-                            child: Text('Fill Up Your Details below to login',
-                                style: AppTextStyle.textStyle),
-                          ),
-                          SizedBox(height: 20),
-                          //Field 1
-                          CustomTextField(
-                            controller: emailController,
-                            heading: 'Email',
-                            label: 'Enter Email',
-                            //prefixIcon: Icon(Icons.mail, color: Dark),
-                            validator: (value) {
-                              email = value!.trim();
-                              return Validate.validateEmail(value);
-                            },
-                            onChange: (val) {
-                              if (!_formKey.currentState!.validate()) {
-                                Validate.validateEmail(val);
-                              }
-                            },
-                            onFieldSubmitted: (_) => setFocus(context,
-                                focusNode: _passwordFocusNode),
-                            focusNode: _emailFocusNode,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                          ),
-                          //Field 2
-                          CustomTextField(
-                            // maxlines: 1,
-                            label: 'Enter Password',
-                            heading: 'Password',
-                            controller: password,
-                            // prefixIcon: Icon(Icons.key, color: Dark),
-                            validator: (value) {
-                              password.text = value!.trim();
-                              return Validate.passwordValidation(value);
-                            },
-                            onChange: (val) {
-                              if (!_formKey.currentState!.validate()) {
-                                Validate.passwordValidation(val);
-                              }
-                            },
-                            suffixOnTap: () {
-                              setState(() {
-                                isSecure = !isSecure;
-                              });
-                            },
-                            suffixIcon: Icon(
-                              isSecure
-                                  ? Icons.remove_red_eye_outlined
-                                  : Icons.visibility_off_outlined,
-                              color: Colors.black38,
-                            ),
-                            obscureText: !isSecure,
-                            onFieldSubmitted: (_) => submit(),
-                            focusNode: _passwordFocusNode,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.done,
-                          ),
-                          // SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            // child: InkWell(
-                            //   onTap: () {
-                            //     Navigator.of(context).push(
-                            //       MaterialPageRoute(
-                            //         builder: (context) => ForgotPassword(),
-                            //       ),
-                            //     );
-                            //     print('FORGOT T*/////');
-                            //     password.clear();
-                            //   },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
-                              child: GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<UserProvider>()
-                                      .isForgotPassword = true;
-                                  setState(() {});
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => ForgotPassword(),
-                                    ),
-                                  );
-                                  print(
-                                      'FORGOT T*/////${context.read<UserProvider>().isForgotPassword}');
-                                  password.clear();
-                                },
-                                child: GradientText('Forgot password?',
-                                    colors: [
-                                      AppColors.blueGrad7,
-                                      AppColors.blueGrad6,
-                                      AppColors.blueGrad5,
-                                      AppColors.blueGrad4,
-                                      AppColors.blueGrad3,
-                                      AppColors.blueGrad1,
-                                    ],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        decoration: TextDecoration.underline,
-                                        decorationThickness:
-                                            2) /*AppTextStyle.textStyle.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.underline)*/
-                                    ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 50),
-                          Provider.of<UserProvider>(context).status ==
-                                  Status.Authenticating
-                              ? Center(child: CircularProgressIndicator())
-                              : Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  child: CustomButton(
-                                    title: 'Login',
-                                    onTap: submit,
-                                  ),
-                                ),
-                          // Container(
-                          //         // height: constraints.maxHeight * 0.11,
-                          //         width: SizeConfig.blockSizeHorizontal * 50,
-                          //         margin: EdgeInsets.only(
-                          //             top: SizeConfig.blockSizeVertical * 5),
-                          //         child: Material(
-                          //           borderRadius: BorderRadius.circular(10),
-                          //           color: Dark,
-                          //           elevation: 5.0,
-                          //           child: MaterialButton(
-                          //             onPressed: submit,
-                          //             child: Text(
-                          //               'Login',
-                          //               style: TextStyle(
-                          //                 fontFamily: 'Poppins',
-                          //                 fontSize:
-                          //                     SizeConfig.blockSizeHorizontal * 5,
-                          //                 fontWeight: FontWeight.w700,
-                          //                 color:
-                          //                     Color.fromRGBO(255, 255, 255, 1.0),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          SizedBox(height: 20),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 0,
-                                  child: Text(
-                                    'Don\'t have an account yet? ',
-                                    style: AppTextStyle.textStyle,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 0,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) => Register('1'),
-                                        ),
-                                      );
-                                    },
-                                    child: ShaderMask(
-                                      blendMode: BlendMode.srcIn,
-                                      shaderCallback: (bounds) =>
-                                          textColorLiner.createShader(
-                                        Rect.fromLTWH(
-                                            0, 0, bounds.width, bounds.height),
-                                      ),
-                                      child: Text("Register here",
-                                          style:
-                                              AppTextStyle.textStyle.copyWith(
-                                            color: Dark,
-                                            fontWeight: FontWeight.w500,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          )),
-                                    ),
-                                  ),
-                                  /* child: Text(
-                                      'Register here',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                          decoration: TextDecoration.underline,
-                                          decorationThickness: 2),
-                                    ),*/
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
-          ),
+
+            // Image.asset(
+            //   AppImages.bgLogin,
+            //   //height: 300,
+            //   width: MediaQuery.of(context).size.width,
+            //   fit: BoxFit.fitWidth,
+            // ),
+            // Positioned(
+            //     left: 25,
+            //     top: SizeConfig.blockSizeVertical * 8,
+            //     child: backArrowCustom()),
+            // Positioned(
+            //   top: SizeConfig.blockSizeVertical * 18,
+            //   left: SizeConfig.blockSizeHorizontal * 28,
+            //   child: CircleAvatar(
+            //     radius: SizeConfig.blockSizeHorizontal * 20,
+            //     backgroundColor: Colors.white,
+            //     child: Container(
+            //       child: Image.asset(
+            //         "assets/s_logo.png",
+            //         height: 180,
+            //         width: 182,
+            //         //fit: BoxFit.contain,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // CustomPaint(
+            //   size: Size(width, height),
+            //   painter: HeaderPainter(),
+            // ),
+            // Positioned(
+            //   top: SizeConfig.blockSizeVertical * 20,
+            //   left: SizeConfig.blockSizeHorizontal * 28,
+            //   child: CircleAvatar(
+            //     radius: SizeConfig.blockSizeHorizontal * 22,
+            //     backgroundColor: Colors.white,
+            //     child: Container(
+            //       child: Image.asset(
+            //         "assets/stt_s_logo.png",
+            //         height: SizeConfig.blockSizeVertical * 45,
+            //         width: SizeConfig.blockSizeHorizontal * 45,
+            //         fit: BoxFit.contain,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Positioned(
+            //   top: SizeConfig.blockSizeVertical * 38,
+            //   child: Container(
+            //     child: Text(
+            //       'MDT Learner Driver',
+            //       style:
+            //           // GoogleFonts.caveat(
+            //           //   fontSize: SizeConfig.blockSizeHorizontal * 8,
+            //           //   color: Colors.black,
+            //           //   fontWeight: FontWeight.bold,
+            //           //   letterSpacing: 1.0,
+            //           // ),
+            //           TextStyle(
+            //         letterSpacing: 1.0,
+            //         fontFamily: 'Poppins',
+            //         fontSize: SizeConfig.blockSizeHorizontal * 6,
+            //         fontWeight: FontWeight.w600,
+            //         color: Colors.black,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 10),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    // top: MediaQuery.of(context).size.height * 0.45,
+                    top: 20,
+                    left: 15,
+                    right: 15,
+                    bottom: 15),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text('Welcome back!',
+                            style: AppTextStyle.titleStyle),
+                      ),
+                      SizedBox(height: 5),
+                      Center(
+                        child: Text('Fill Up Your Details below to login',
+                            style: AppTextStyle.textStyle),
+                      ),
+                      SizedBox(height: 20),
+                      //Field 1
+                      CustomTextField(
+                        controller: emailController,
+                        heading: 'Email',
+                        label: 'Enter Email',
+                        //prefixIcon: Icon(Icons.mail, color: Dark),
+                        validator: (value) {
+                          email = value!.trim();
+                          return Validate.validateEmail(value);
+                        },
+                        onChange: (val) {
+                          if (!_formKey.currentState!.validate()) {
+                            Validate.validateEmail(val);
+                          }
+                        },
+                        onFieldSubmitted: (_) =>
+                            setFocus(context, focusNode: _passwordFocusNode),
+                        focusNode: _emailFocusNode,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                      ),
+                      //Field 2
+                      CustomTextField(
+                        // maxlines: 1,
+                        label: 'Enter Password',
+                        heading: 'Password',
+                        controller: password,
+                        // prefixIcon: Icon(Icons.key, color: Dark),
+                        validator: (value) {
+                          password.text = value!.trim();
+                          return Validate.passwordValidation(value);
+                        },
+                        onChange: (val) {
+                          if (!_formKey.currentState!.validate()) {
+                            Validate.passwordValidation(val);
+                          }
+                        },
+                        suffixOnTap: () {
+                          setState(() {
+                            isSecure = !isSecure;
+                          });
+                        },
+                        suffixIcon: Icon(
+                          isSecure
+                              ? Icons.remove_red_eye_outlined
+                              : Icons.visibility_off_outlined,
+                          color: Colors.black38,
+                        ),
+                        obscureText: !isSecure,
+                        onFieldSubmitted: (_) => submit(),
+                        focusNode: _passwordFocusNode,
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.done,
+                      ),
+                      // SizedBox(height: 10),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        // child: InkWell(
+                        //   onTap: () {
+                        //     Navigator.of(context).push(
+                        //       MaterialPageRoute(
+                        //         builder: (context) => ForgotPassword(),
+                        //       ),
+                        //     );
+                        //     print('FORGOT T*/////');
+                        //     password.clear();
+                        //   },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: GestureDetector(
+                            onTap: () {
+                              context.read<UserProvider>().isForgotPassword =
+                                  true;
+                              setState(() {});
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotPassword(),
+                                ),
+                              );
+                              print(
+                                  'FORGOT T*/////${context.read<UserProvider>().isForgotPassword}');
+                              password.clear();
+                            },
+                            child: GradientText('Forgot password?',
+                                colors: [
+                                  AppColors.blueGrad7,
+                                  AppColors.blueGrad6,
+                                  AppColors.blueGrad5,
+                                  AppColors.blueGrad4,
+                                  AppColors.blueGrad3,
+                                  AppColors.blueGrad1,
+                                ],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    decoration: TextDecoration.underline,
+                                    decorationThickness:
+                                        2) /*AppTextStyle.textStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.underline)*/
+                                ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                      Provider.of<UserProvider>(context).status ==
+                              Status.Authenticating
+                          ? Center(child: CircularProgressIndicator())
+                          : Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              child: CustomButton(
+                                title: 'Login',
+                                onTap: submit,
+                              ),
+                            ),
+                      // Container(
+                      //         // height: constraints.maxHeight * 0.11,
+                      //         width: SizeConfig.blockSizeHorizontal * 50,
+                      //         margin: EdgeInsets.only(
+                      //             top: SizeConfig.blockSizeVertical * 5),
+                      //         child: Material(
+                      //           borderRadius: BorderRadius.circular(10),
+                      //           color: Dark,
+                      //           elevation: 5.0,
+                      //           child: MaterialButton(
+                      //             onPressed: submit,
+                      //             child: Text(
+                      //               'Login',
+                      //               style: TextStyle(
+                      //                 fontFamily: 'Poppins',
+                      //                 fontSize:
+                      //                     SizeConfig.blockSizeHorizontal * 5,
+                      //                 fontWeight: FontWeight.w700,
+                      //                 color:
+                      //                     Color.fromRGBO(255, 255, 255, 1.0),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      SizedBox(height: 20),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 0,
+                              child: Text(
+                                'Don\'t have an account yet? ',
+                                style: AppTextStyle.textStyle,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => Register('1'),
+                                    ),
+                                  );
+                                },
+                                child: ShaderMask(
+                                  blendMode: BlendMode.srcIn,
+                                  shaderCallback: (bounds) =>
+                                      textColorLiner.createShader(
+                                    Rect.fromLTWH(
+                                        0, 0, bounds.width, bounds.height),
+                                  ),
+                                  child: Text("Register here",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                        color: Dark,
+                                        fontWeight: FontWeight.w500,
+                                        decoration: TextDecoration.underline,
+                                      )),
+                                ),
+                              ),
+                              /* child: Text(
+                                  'Register here',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                      decoration: TextDecoration.underline,
+                                      decorationThickness: 2),
+                                ),*/
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
