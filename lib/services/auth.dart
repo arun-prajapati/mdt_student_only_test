@@ -328,9 +328,6 @@ class UserProvider with ChangeNotifier {
     await storage.setString('userId', apiResponse['user_id'].toString());
     UserData.userId = apiResponse['user_id'].toString();
     // Future.delayed(Duration());
-    context
-        .read<SubscriptionProvider>()
-        .checkActiveUser(context: context, isLogin: true);
 
     print('UserData.userId ${UserData.userId}');
   }

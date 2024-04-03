@@ -45,13 +45,13 @@ class SubscriptionProvider extends ChangeNotifier {
       if (entitlementInfo != null) {
         if (entitlementInfo.isActive) {
           entitlement = Entitlement.paid;
-          Fluttertoast.showToast(msg: "${entitlement}");
+          // Fluttertoast.showToast(msg: "${entitlement}");
         } else {
-          Fluttertoast.showToast(msg: "${entitlement}");
+          // Fluttertoast.showToast(msg: "${entitlement}");
           entitlement = Entitlement.unpaid;
         }
       } else {
-        Fluttertoast.showToast(msg: "${entitlement}");
+        // Fluttertoast.showToast(msg: "${entitlement}");
       }
       notifyListeners();
     });
@@ -73,10 +73,14 @@ class SubscriptionProvider extends ChangeNotifier {
         // var data = sharedPref.getBool('isOpen');
         notifyListeners();
       } else {
-        print('UserData.userId CHECK_USER ++++ ${isLogin}');
         entitlement = Entitlement.unpaid;
         if (isLogin) {
-          theoryTestPractice(context: context!);
+          var sharedPref = await SharedPreferences.getInstance();
+          var data = sharedPref.getBool('theoryTestPractice');
+          print('UserData.userId CHECK_USER ++++ ${isLogin} $data');
+          if (data == null) {
+            theoryTestPractice(context: context!);
+          }
         }
         notifyListeners();
       }
@@ -287,28 +291,6 @@ theoryTestPractice({BuildContext? context}) {
                             child: GestureDetector(
                                 onTap: () async {
                                   callDialog();
-                                  /*  print("payment");
-                                    //
-                                    loading(value: true);
-                                    Stripe.publishableKey = stripePublic;
-                                    Map params = {
-                                      'total_cost':
-                                          walletDetail!['subscription_cost'],
-                                      'user_type': 2,
-                                      'parentPageName': "dvsaSubscriptionHome"
-                                    };
-                                    log("Called before payment");
-                                    await _paymentService
-                                        .makePayment(
-                                            amount: walletDetail![
-                                                'subscription_cost'],
-                                            currency: 'GBP',
-                                            context: context,
-                                            desc:
-                                                'DVSA Subscription by ${userName} (App)',
-                                            metaData: params)
-                                        .then((value) => loading(value: false));
-                                    log("Called after payment");*/
                                   payWallBottomSheet(context);
                                 },
                                 child: Container(

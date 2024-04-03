@@ -1956,7 +1956,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH');
-        context.read<SubscriptionProvider>().checkActiveUser();
+        context.read<SubscriptionProvider>().checkActiveUser(context: context);
         context.read<SubscriptionProvider>().isUserPurchaseTest();
       }).catchError((e) {
         loading(value: false);

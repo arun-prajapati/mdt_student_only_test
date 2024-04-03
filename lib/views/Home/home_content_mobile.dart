@@ -6,7 +6,7 @@ import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 import 'package:Smart_Theory_Test/views/DashboardGridView/TheoryTab.dart';
 import 'package:Smart_Theory_Test/widget/navigation_drawer/navigation_drawer.dart'
-    as NB;
+as NB;
 
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
@@ -64,6 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    context
+        .read<SubscriptionProvider>()
+        .checkActiveUser(context: context, isLogin: true);
     getUserName().then((value) {
       setState(() {
         _userName = value;
@@ -229,7 +232,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned(
             top: 90,
             child: SizedBox(
-                height: MediaQuery.of(context).size.height, child: TheoryTab()),
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height, child: TheoryTab()),
           ),
         ],
       ),
@@ -259,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return Column(
               children: <Widget>[
                 Container(
-                    //color: Colors.red,
+                  //color: Colors.red,
                     width: constraints.maxWidth * 0.95,
                     margin: EdgeInsets.fromLTRB(
                         constraints.maxWidth * 0.025,
@@ -288,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Container(
-                              //color: Colors.black26,
+                            //color: Colors.black26,
                               width: constraints.maxWidth * 0.12,
                               child: GestureDetector(
                                 child: FittedBox(
@@ -322,17 +328,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             return Container(
                                 alignment: Alignment.center,
                                 child:
-                                    Center(child: CircularProgressIndicator()));
+                                Center(child: CircularProgressIndicator()));
                           }
                           if (snapshot.connectionState ==
-                                  ConnectionState.done &&
+                              ConnectionState.done &&
                               bookingList.length == 0) {
                             return Container(
                                 margin: EdgeInsets.only(top: 50),
                                 child: Text("No Booking",
                                     style: TextStyle(
                                         fontSize:
-                                            2 * SizeConfig.blockSizeVertical,
+                                        2 * SizeConfig.blockSizeVertical,
                                         color: Colors.black38)));
                           }
                           if (snapshot.hasError) {
@@ -350,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (BuildContext context, int index) {
                                 Map _booking = bookingList[index];
                                 DateTime requested_date =
-                                    DateTime.parse(_booking["requested_date"]);
+                                DateTime.parse(_booking["requested_date"]);
                                 String requested_date_formate =
                                     requested_date.day.toString() +
                                         '-' +
@@ -373,195 +379,212 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 constraints.maxHeight * 0.1)),
                                         child: LayoutBuilder(
                                             builder: (context, constraints) {
-                                          return Row(
-                                            mainAxisAlignment:
+                                              return Row(
+                                                mainAxisAlignment:
                                                 MainAxisAlignment.center,
-                                            crossAxisAlignment:
+                                                crossAxisAlignment:
                                                 CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Container(
-                                                  height: constraints.maxHeight,
-                                                  width: constraints.maxWidth *
-                                                      0.3,
-                                                  child: LayoutBuilder(builder:
-                                                      (context, constraints) {
-                                                    return Container(
-                                                      //width: constraints.maxWidth*0.1,
-                                                      //height: constraints.maxHeight*0.1,
-                                                      margin: EdgeInsets.all(
-                                                          constraints
-                                                                  .maxHeight *
-                                                              0.07),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.blue,
-                                                          shape:
-                                                              BoxShape.circle),
-                                                      padding:
-                                                          EdgeInsets.fromLTRB(
-                                                              5, 4, 5, 0),
-                                                      child: Center(
-                                                        child: Container(
-                                                          width: constraints
-                                                                  .maxWidth *
-                                                              0.5,
-                                                          //color: Colors.amber,
-                                                          child: FittedBox(
-                                                            fit: BoxFit.contain,
-                                                            child: Text(
-                                                              _booking[
-                                                                  'booking_type'],
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'poppins',
-                                                                fontSize: 50,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
+                                                children: <Widget>[
+                                                  Container(
+                                                      height: constraints
+                                                          .maxHeight,
+                                                      width: constraints
+                                                          .maxWidth *
+                                                          0.3,
+                                                      child: LayoutBuilder(
+                                                          builder:
+                                                              (context,
+                                                              constraints) {
+                                                            return Container(
+                                                              //width: constraints.maxWidth*0.1,
+                                                              //height: constraints.maxHeight*0.1,
+                                                              margin: EdgeInsets
+                                                                  .all(
+                                                                  constraints
+                                                                      .maxHeight *
+                                                                      0.07),
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  shape:
+                                                                  BoxShape
+                                                                      .circle),
+                                                              padding:
+                                                              EdgeInsets
+                                                                  .fromLTRB(
+                                                                  5, 4, 5, 0),
+                                                              child: Center(
+                                                                child: Container(
+                                                                  width: constraints
+                                                                      .maxWidth *
+                                                                      0.5,
+                                                                  //color: Colors.amber,
+                                                                  child: FittedBox(
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                    child: Text(
+                                                                      _booking[
+                                                                      'booking_type'],
+                                                                      style: TextStyle(
+                                                                        fontFamily:
+                                                                        'poppins',
+                                                                        fontSize: 50,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                      ),
+                                                                      //textAlign: TextAlign.center,
+                                                                    ),
+                                                                  ),
+                                                                ),
                                                               ),
-                                                              //textAlign: TextAlign.center,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  })),
-                                              Container(
-                                                  alignment:
+                                                            );
+                                                          })),
+                                                  Container(
+                                                      alignment:
                                                       Alignment.centerLeft,
-                                                  width: constraints.maxWidth *
-                                                      0.7,
-                                                  child: LayoutBuilder(builder:
-                                                      (context, constraints) {
-                                                    return Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Container(
-                                                          //color: Colors.black26,
-                                                          margin: EdgeInsets.fromLTRB(
-                                                              constraints
+                                                      width: constraints
+                                                          .maxWidth *
+                                                          0.7,
+                                                      child: LayoutBuilder(
+                                                          builder:
+                                                              (context,
+                                                              constraints) {
+                                                            return Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                Container(
+                                                                  //color: Colors.black26,
+                                                                  margin: EdgeInsets
+                                                                      .fromLTRB(
+                                                                      constraints
+                                                                          .maxWidth *
+                                                                          0.025,
+                                                                      0,
+                                                                      constraints
+                                                                          .maxWidth *
+                                                                          0.025,
+                                                                      0),
+                                                                  width: constraints
                                                                       .maxWidth *
-                                                                  0.025,
-                                                              0,
-                                                              constraints
+                                                                      0.9,
+                                                                  child: FittedBox(
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                    child: Text(
+                                                                      _booking['type'],
+                                                                      style: TextStyle(
+                                                                        fontFamily:
+                                                                        'Poppins',
+                                                                        fontSize: 50.0,
+                                                                        color: const Color(
+                                                                            0xff040404),
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                        height:
+                                                                        0.7647058823529411,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: constraints
+                                                                      .maxHeight *
+                                                                      0.1,
+                                                                ),
+                                                                Container(
+                                                                  //color: Colors.black26,
+                                                                  margin: EdgeInsets
+                                                                      .fromLTRB(
+                                                                      constraints
+                                                                          .maxWidth *
+                                                                          0.025,
+                                                                      0,
+                                                                      constraints
+                                                                          .maxWidth *
+                                                                          0.025,
+                                                                      0),
+                                                                  width: constraints
                                                                       .maxWidth *
-                                                                  0.025,
-                                                              0),
-                                                          width: constraints
-                                                                  .maxWidth *
-                                                              0.9,
-                                                          child: FittedBox(
-                                                            fit: BoxFit.contain,
-                                                            child: Text(
-                                                              _booking['type'],
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 50.0,
-                                                                color: const Color(
-                                                                    0xff040404),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                height:
-                                                                    0.7647058823529411,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: constraints
-                                                                  .maxHeight *
-                                                              0.1,
-                                                        ),
-                                                        Container(
-                                                          //color: Colors.black26,
-                                                          margin: EdgeInsets.fromLTRB(
-                                                              constraints
-                                                                      .maxWidth *
-                                                                  0.025,
-                                                              0,
-                                                              constraints
-                                                                      .maxWidth *
-                                                                  0.025,
-                                                              0),
-                                                          width: constraints
-                                                                  .maxWidth *
-                                                              0.7,
-                                                          child: FittedBox(
-                                                            fit: BoxFit.contain,
-                                                            child: Text(
-                                                              requested_date_formate +
-                                                                  ' ' +
-                                                                  (_booking['requested_time'] ==
-                                                                          null
-                                                                      ? 'Any Time'
-                                                                      : _booking[
+                                                                      0.7,
+                                                                  child: FittedBox(
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                    child: Text(
+                                                                      requested_date_formate +
+                                                                          ' ' +
+                                                                          (_booking['requested_time'] ==
+                                                                              null
+                                                                              ? 'Any Time'
+                                                                              : _booking[
                                                                           'requested_time']),
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 13,
-                                                                color: const Color(
-                                                                    0xff040404),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                height:
-                                                                    0.7647058823529411,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        // SizedBox(
-                                                        //     height: constraints
-                                                        //             .maxHeight *
-                                                        //         0.1),
-                                                        // Container(
-                                                        //   //color: Colors.black26,
-                                                        //   margin: EdgeInsets.fromLTRB(
-                                                        //       constraints
-                                                        //               .maxWidth *
-                                                        //           0.025,
-                                                        //       0,
-                                                        //       constraints
-                                                        //               .maxWidth *
-                                                        //           0.025,
-                                                        //       0),
-                                                        //   width: constraints
-                                                        //           .maxWidth *
-                                                        //       0.4,
-                                                        //   child: FittedBox(
-                                                        //     fit: BoxFit.contain,
-                                                        //     child: Text(
-                                                        //       'Pending',
-                                                        //       style: TextStyle(
-                                                        //         fontFamily:
-                                                        //             'Poppins',
-                                                        //         fontSize: 13,
-                                                        //         color: const Color(
-                                                        //             0xff040404),
-                                                        //         fontWeight:
-                                                        //             FontWeight
-                                                        //                 .w700,
-                                                        //         height:
-                                                        //             0.7647058823529411,
-                                                        //       ),
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
-                                                      ],
-                                                    );
-                                                  })),
-                                            ],
-                                          );
-                                        })),
+                                                                      style: TextStyle(
+                                                                        fontFamily:
+                                                                        'Poppins',
+                                                                        fontSize: 13,
+                                                                        color: const Color(
+                                                                            0xff040404),
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                        height:
+                                                                        0.7647058823529411,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                // SizedBox(
+                                                                //     height: constraints
+                                                                //             .maxHeight *
+                                                                //         0.1),
+                                                                // Container(
+                                                                //   //color: Colors.black26,
+                                                                //   margin: EdgeInsets.fromLTRB(
+                                                                //       constraints
+                                                                //               .maxWidth *
+                                                                //           0.025,
+                                                                //       0,
+                                                                //       constraints
+                                                                //               .maxWidth *
+                                                                //           0.025,
+                                                                //       0),
+                                                                //   width: constraints
+                                                                //           .maxWidth *
+                                                                //       0.4,
+                                                                //   child: FittedBox(
+                                                                //     fit: BoxFit.contain,
+                                                                //     child: Text(
+                                                                //       'Pending',
+                                                                //       style: TextStyle(
+                                                                //         fontFamily:
+                                                                //             'Poppins',
+                                                                //         fontSize: 13,
+                                                                //         color: const Color(
+                                                                //             0xff040404),
+                                                                //         fontWeight:
+                                                                //             FontWeight
+                                                                //                 .w700,
+                                                                //         height:
+                                                                //             0.7647058823529411,
+                                                                //       ),
+                                                                //     ),
+                                                                //   ),
+                                                                // ),
+                                                              ],
+                                                            );
+                                                          })),
+                                                ],
+                                              );
+                                            })),
                                   ],
                                 );
                               });

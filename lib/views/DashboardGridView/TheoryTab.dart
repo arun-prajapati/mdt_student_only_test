@@ -138,12 +138,12 @@ class _TheoryTabState extends State<TheoryTab> {
   }
 
   getStatus() async {
-    context.read<SubscriptionProvider>().checkActiveUser();
+    // context.read<SubscriptionProvider>().checkActiveUser();
     print(
         'Call Popup Box--- ${context.read<SubscriptionProvider>().entitlement}');
     context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();
-    var sharedPref = await SharedPreferences.getInstance();
+    /* var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('theoryTestPractice');
 
     if (data == null) {
@@ -154,8 +154,8 @@ class _TheoryTabState extends State<TheoryTab> {
           Entitlement.unpaid) {
         theoryTestPractice();
       }
-    }
-    log('SharedPref Data $data');
+    }*/
+    // log('SharedPref Data $data');
   }
 
   @override
@@ -165,7 +165,7 @@ class _TheoryTabState extends State<TheoryTab> {
     //   print('RESTORE PURCHASE +++++++++ $value');
     // });
 
-    // getStatus();
+    getStatus();
     getCategoriesFromApi();
 
     Future.delayed(Duration.zero, () {

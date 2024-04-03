@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:developer';
+import 'package:Smart_Theory_Test/views/AIRecommendations/ai_reading_screen.dart';
 import 'package:flutter/src/material/card.dart' as MCard;
 
 import 'package:Smart_Theory_Test/main.dart';
@@ -73,7 +74,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   //
   // DataStatus _w = DataStatus.Initial;
 
-  int selected = 0;
+  int selected = -1;
 
   // bool isExpanded = false;
   int randomIndex = 0;
@@ -203,7 +204,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
         loading(value: false);
         print('HHHHHHHHH');
         getTheoryContent('yes');
-        context.read<SubscriptionProvider>().checkActiveUser();
+        context.read<SubscriptionProvider>().checkActiveUser(context: context);
       }).catchError((e) {
         loading(value: false);
         print("ERROR ====== $e");
@@ -418,6 +419,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           padding: EdgeInsets.all(0),
                           key: Key('builder ${selected.toString()}'),
                           itemBuilder: (context, index) {
+                            // if (theoryContent[index].isFree == "free") {
+                            //   selected = index;
+                            // }
                             print(
                                 "data : -----${theoryContent[index].topicName} ------");
                             if (theoryContent.isNotEmpty &&
@@ -431,7 +435,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     : () {
                                         print(
                                             '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 1${theoryContent[index].isFree}');
-                                        setState(() {});
+
                                         context
                                             .read<SubscriptionProvider>()
                                             .isUserPurchaseTest();
@@ -483,7 +487,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                       tilePadding:
                                           EdgeInsets.symmetric(horizontal: 15),
                                       key: Key(index.toString()),
-                                      initiallyExpanded:
+                                      initiallyExpanded: index == selected ||
                                           theoryContent[index].isFree == "free",
                                       maintainState: true,
                                       onExpansionChanged: (val) async {
@@ -500,7 +504,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         } else {
                                           theoryContent[index].isExpand =
                                               !theoryContent[index].isExpand;
-                                          setState(() {});
+
                                           if (val) {
                                             setState(() {
                                               selected = index;
@@ -510,7 +514,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                             });
                                           } else {
                                             setState(() {
-                                              selected = index;
+                                              selected = -1;
                                               _dataStatus = DataStatus.Initial;
                                               // _w = DataStatus.Initial;
                                               topicData = {};
@@ -748,11 +752,29 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                           topicData = data;
                                                           print(
                                                               'RRRRGJGJKGJKG $topicData');
-                                                          _handleURLButtonPress(
+                                                          Navigator.push(
                                                               context,
-                                                              topicData['data'][
-                                                                      "reading_links"]
-                                                                  [0]);
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => AIReadingScreen(
+                                                                      data: topicData[
+                                                                              'data']
+                                                                          [
+                                                                          "ai_reading"],
+                                                                      heading: theoryContent[index]
+                                                                              .topicName!
+                                                                              .replaceAll('_',
+                                                                                  ' ')
+                                                                              .substring(0,
+                                                                                  1)
+                                                                              .toUpperCase() +
+                                                                          theoryContent[index]
+                                                                              .topicName!
+                                                                              .replaceAll('_', ' ')
+                                                                              .substring(1))));
+                                                          // _handleURLButtonPress(
+                                                          //     context,
+                                                          //     topicData['data'][
+                                                          //         "ai_reading"]);
                                                         });
                                                       });
                                                     })),
@@ -1549,5 +1571,8 @@ void _handleURLButtonPress(BuildContext context, String url) {
   Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => WebViewContainer(url, 'AI Learning')));
+          builder: (context) => AIReadingScreen(
+                data: url,
+                heading: '',
+              )));
 }
