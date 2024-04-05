@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -867,6 +868,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => WebViewContainer(
+                                          isTrafficSign: true,
                                           AppConstant.trafficSigns,
                                           'Traffic Signs')));
                             } else {

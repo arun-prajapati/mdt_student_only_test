@@ -181,9 +181,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return response;
   }
 
-  initializeApi(String loaderMessage) {
+  initializeApi(String loaderMessage) async {
     // auth_services.changeView = false;
     // setState(() {});
+   await context.read<SubscriptionProvider>().fetchOffer();
+
     checkInternet();
     CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
     getUserDetail().then((user_id) {

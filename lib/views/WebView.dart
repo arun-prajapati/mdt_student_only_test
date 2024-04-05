@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:Smart_Theory_Test/constants/global.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -12,8 +16,9 @@ import '../widget/CustomAppBar.dart';
 class WebViewContainer extends StatefulWidget {
   final url;
   final heading;
+  final bool isTrafficSign;
 
-  WebViewContainer(this.url, this.heading);
+  WebViewContainer(this.url, this.heading, {this.isTrafficSign = false});
 
   @override
   createState() => _WebViewContainerState(this.url, this.heading);
@@ -91,41 +96,6 @@ Page resource error:
 
     SizeConfig().init(context);
     return Scaffold(
-        /*appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: CustomAppBar(
-              preferedHeight: Responsive.height(10, context),
-              iconLeft: Icons.arrow_back,
-              title: heading,
-              textWidth: Responsive.width(12, context),
-              onTap1: () {
-                _navigationService.goBack();
-              },
-              iconRight: null),
-        ),*/
-        // AppBar(
-        //   //automaticallyImplyLeading: true,
-        //   iconTheme: IconThemeData(color: Colors.black),
-        //   title: Text(
-        //     heading,
-        //     style: TextStyle(
-        //         fontSize: SizeConfig.blockSizeHorizontal * 6,
-        //         fontWeight: FontWeight.w500,
-        //         color: Colors.black
-        //     ),
-        //   ),
-        //   elevation: 0.0,
-        //   flexibleSpace: Container(
-        //     decoration:  BoxDecoration(
-        //       gradient: LinearGradient(
-        //         begin: Alignment(0.0, -1.0),
-        //         end: Alignment(0.0, 1.0),
-        //         colors: [Dark, Light],
-        //         stops: [0.0, 1.0],
-        //       ),
-        //     ),
-        //   ),
-        // ),
         body: Stack(
       children: [
         Positioned(
@@ -144,6 +114,8 @@ Page resource error:
         ),
         Positioned(
           top: MediaQuery.of(context).size.height * 0.125,
+          right: 0,
+          left: 0,
           child: ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -158,19 +130,27 @@ Page resource error:
                     topRight: Radius.circular(20),
                   ),
                   color: Colors.white),
-              child: isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(
-                      strokeWidth: 3.2,
-                      color: Dark,
-                    ))
-                  : Padding(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      child: WebViewWidget(
-                        key: _key,
-                        controller: _controller,
-                      ),
-                    ),
+              child: Platform.isAndroid && widget.isTrafficSign
+                  ? SfPdfViewer.network(
+                      AppConstant.trafficSigns,
+                      canShowPageLoadingIndicator: false,
+                      canShowPaginationDialog: false,
+                      // canShowScrollStatus: false,
+                      canShowScrollHead: false,
+                    )
+                  : isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                          strokeWidth: 3.2,
+                          color: Dark,
+                        ))
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 100),
+                          child: WebViewWidget(
+                            key: _key,
+                            controller: _controller,
+                          ),
+                        ),
             ),
           ),
         )

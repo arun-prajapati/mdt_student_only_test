@@ -1123,6 +1123,8 @@ PODS:
     - StripeUICore (= 23.16.0)
   - StripeUICore (23.16.0):
     - StripeCore (= 23.16.0)
+  - syncfusion_flutter_pdfviewer (0.0.1):
+    - Flutter
   - Toast (4.1.0)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -1156,6 +1158,7 @@ DEPENDENCIES:
   - smart_auth (from `.symlinks/plugins/smart_auth/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
+  - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
@@ -1257,6 +1260,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/darwin"
   stripe_ios:
     :path: ".symlinks/plugins/stripe_ios/ios"
+  syncfusion_flutter_pdfviewer:
+    :path: ".symlinks/plugins/syncfusion_flutter_pdfviewer/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   wakelock_plus:
@@ -1333,6 +1338,7 @@ SPEC CHECKSUMS:
   StripePaymentSheet: 06ea6bbf49be869769c46bf31be4fbc3e23b5b19
   StripePaymentsUI: 24a0349ae8c7e8c7402086703720fe06c52ddea0
   StripeUICore: ce85e040a22bf0335061d14973d37757528b3d2d
+  syncfusion_flutter_pdfviewer: bb9998884b864cfedf72628df3503bdf57e397c0
   Toast: ec33c32b8688982cecc6348adeae667c1b9938da
   url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
   wakelock_plus: 8b09852c8876491e4b6d179e17dfe2a0b5f60d47

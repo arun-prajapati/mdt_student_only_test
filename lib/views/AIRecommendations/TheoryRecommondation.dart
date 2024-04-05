@@ -99,6 +99,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   }
 
   initializeApi(String loaderMessage) async {
+    await context.read<SubscriptionProvider>().fetchOffer();
     checkInternet();
     var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('showMessage');
@@ -1205,9 +1206,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   onTap: () async {
                                     // Navigator.of(context).pop();
                                     // showLoader("Loading");
-                                    context
-                                        .read<SubscriptionProvider>()
-                                        .fetchOffer();
+
                                     // Stripe.publishableKey = stripePublic;
                                     payWallBottomSheet();
                                     // closeLoader();

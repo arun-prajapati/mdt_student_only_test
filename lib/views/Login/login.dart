@@ -84,12 +84,12 @@ class _SignInFormState extends State<SignInForm> {
   //   }
   // }
 
-  TextEditingController password = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  // TextEditingController password = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
 
-  // TextEditingController password = TextEditingController(text: "12345678");
-  // TextEditingController emailController =
-  //     TextEditingController(text: "ktest@gmail.com");
+  TextEditingController password = TextEditingController(text: "12345678");
+  TextEditingController emailController =
+      TextEditingController(text: "ktest@gmail.com");
 
   // Future<String?> getId() async {
   //   //  deviceId = await PlatformDeviceId.getDeviceId;
@@ -162,15 +162,15 @@ class _SignInFormState extends State<SignInForm> {
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
                 Text(
-                  'You seem to have changed your phone. Please contact our'
-                  ' support team to connect your new phone to the app.',
+                  'You seem to have changed your phone. Would you like to'
+                  ' move your app to your new phone?',
                   style: AppTextStyle.textStyle.copyWith(
                       fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 1.5,
                 ),
-                Text('Thanks'),
+                // Text('Thanks'),
               ],
             ),
             //Text('${userName.substring(0,1).toUpperCase()+userName.substring(1)} $contact'),
@@ -187,15 +187,20 @@ class _SignInFormState extends State<SignInForm> {
               ),
               TextButton(
                 onPressed: () {
-                  launchUrl(
-                    Uri(
-                      scheme: 'tel',
-                      path: '$contact',
-                    ),
-                    mode: LaunchMode.externalApplication,
-                  );
+                  Navigator.pop(context);
+                  // launchUrl(
+                  //   Uri(
+                  //     scheme: 'tel',
+                  //     path: '$contact',
+                  //   ),
+                  //   mode: LaunchMode.externalApplication,
+                  // );
                 },
-                child: const Text('CALL NOW'),
+                child: Text(
+                  'Cancel',
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
               ),
             ],
             actionsAlignment: MainAxisAlignment.start,
