@@ -266,19 +266,19 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
                           Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: constraints.maxWidth * 0.6,
-                                  height: constraints.maxHeight * 0.06,
-                                  margin: EdgeInsets.fromLTRB(0.0,
-                                      constraints.maxHeight * 0.01, 0.0, 0.0),
-                                  child: FittedBox(
-                                    fit: BoxFit.contain,
-                                    child: Consumer<UserProvider>(
-                                      builder: (context, provider, child) =>
-                                          provider.notification,
-                                    ),
-                                  ),
-                                ),
+                                // Container(
+                                //   width: constraints.maxWidth * 0.6,
+                                //   height: constraints.maxHeight * 0.06,
+                                //   margin: EdgeInsets.fromLTRB(0.0,
+                                //       constraints.maxHeight * 0.01, 0.0, 0.0),
+                                //   child: FittedBox(
+                                //     fit: BoxFit.contain,
+                                //     child: Consumer<UserProvider>(
+                                //       builder: (context, provider, child) =>
+                                //           provider.notification,
+                                //     ),
+                                //   ),
+                                // ),
                                 Text(
                                   "SignUp With " +
                                       (paramArguments.isEmpty

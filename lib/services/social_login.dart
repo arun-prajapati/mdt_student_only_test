@@ -1,13 +1,20 @@
 import 'dart:convert';
 import 'dart:developer' as devtools;
+import 'dart:developer';
+import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/responsive/size_config.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
 import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:crypto/crypto.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -33,9 +40,30 @@ class SocialLoginService {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   late BuildContext globalContext;
+  String deviceId = '';
+
+  getDeviceId() async {
+    // var platform = PlatformDeviceId.deviceInfoPlugin;
+    String consistentUdid = await FlutterUdid.consistentUdid;
+    log(consistentUdid, name: "consistent_Udid");
+    if (Platform.isIOS) {
+      // String consistentUdid = await FlutterUdid.consistentUdid;
+      // String udid = await FlutterUdid.udid;
+      // log(udid, name: "UNIQUE_ID");
+      // log(consistentUdid, name: "consistent_Udid");
+      deviceId = consistentUdid;
+      print("========== IOS =========== $consistentUdid");
+      return consistentUdid;
+    } else {
+      deviceId = consistentUdid;
+      print("========== ANDROID =========== $consistentUdid");
+      return consistentUdid;
+    }
+  }
 
   SocialLoginService(BuildContext context) {
     globalContext = context;
+    getDeviceId();
   }
 
   Future<void> googleSignIn() async {
@@ -74,7 +102,8 @@ class SocialLoginService {
               'social_site_id': googleSignInAccount.id,
               'email': googleSignInAccount.email,
               'phone': _user?.phoneNumber != null ? _user?.phoneNumber : null,
-              'accessType': 'login'
+              'accessType': 'login',
+              'device_id': deviceId,
             };
             print("Goggle Email..:");
             devtools.log("Social user: $params");
@@ -286,7 +315,8 @@ class SocialLoginService {
             'email': user.user?.email,
             'phone':
                 user.user?.phoneNumber != null ? user.user?.phoneNumber : null,
-            'accessType': 'login'
+            'accessType': 'login',
+            'device_id': deviceId,
           };
           socialLoginApi(params);
         } else {
@@ -649,7 +679,94 @@ class SocialLoginService {
       print('DFDFDFDFF ${params}');
       if (loginResponse != null) {
         if (loginResponse['success'] == false) {
-          navigateFromEmailRegister(params);
+          if (loginResponse['message'] == 'device-exist') {
+            print('loginResponse ${loginResponse['message']}');
+            showDialog(
+                context: globalContext,
+                barrierDismissible: false,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Smart Theory Test',
+                        style: AppTextStyle.appBarStyle),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hey there ${loginResponse['user_name'].toString().substring(0, 1).toUpperCase() + loginResponse['user_name'].toString().substring(1)}",
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        Text(
+                          'You seem to have changed your phone. Would you like to'
+                          ' move your app to your new phone?',
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        // Text('Thanks'),
+                      ],
+                    ),
+                    //Text('${userName.substring(0,1).toUpperCase()+userName.substring(1)} $contact'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          globalContext.read<UserProvider>().updateDeviceID();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Ok',
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // launchUrl(
+                          //   Uri(
+                          //     scheme: 'tel',
+                          //     path: '$contact',
+                          //   ),
+                          //   mode: LaunchMode.externalApplication,
+                          // );
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                    actionsAlignment: MainAxisAlignment.start,
+                    contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 1.0),
+                  );
+                });
+
+            // _userId = apiResponse['user_id'];
+            // globalContext.read<UserProvider>().showDeviceExistDialog(
+            //       globalContext,
+            //       Provider.of<UserProvider>(globalContext, listen: false)
+            //           .userName,
+            //       Provider.of<UserProvider>(globalContext, listen: false)
+            //           .contact,
+            //     );
+          } else {
+            navigateFromEmailRegister(params);
+          }
         }
       }
       if (loginResponse == null && params['accessType'] == 'login') {

@@ -1,3 +1,4 @@
+import 'package:Smart_Theory_Test/datamodels/user_location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const int delay = 15;
@@ -25,4 +26,5 @@ class AppConstant {
   static String bookTheoryTest = "https://www.gov.uk/book-theory-test";
   static String trafficSigns =
       "https://assets.publishing.service.gov.uk/media/656ef4271104cf0013fa74ef/know-your-traffic-signs-dft.pdf";
+  static UserModel? userModel;
 }

@@ -104,8 +104,8 @@ class _TheoryTabState extends State<TheoryTab> {
     },
     {
       'title': 'Highway Code',
-      'subTitle': 'The Highway Code is a rule book issues by the DVSA.'
-          'The DVSA theory test tests learner drivers for understanding of these rules.',
+      'subTitle': 'The Highway Code is a rule book issues by the DVSA.',
+      // 'The DVSA theory test tests learner drivers for understanding of these rules.',
       'type': 'highwayCode',
       'buttonText': 'Read now',
       'image': AppImages.highway2,
@@ -837,49 +837,47 @@ class _TheoryTabState extends State<TheoryTab> {
                     ),
                     itemCount: _resourceCards.length,
                     //shrinkWrap: true,
-                    itemBuilder: (context, index) => Container(
-                      decoration: BoxDecoration(
-                          color: AppColors.bgColor,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 15, bottom: 1, left: 15, right: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (_resourceCards[index]["type"] ==
-                                'highwayCode') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                          AppConstant.highwayCodeLink,
-                                          'Highway Code')));
-                            } else if (_resourceCards[index]["type"] ==
-                                'theoryTestGuidance') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                          AppConstant.theoryTestGuidance,
-                                          'Theory Test Guidance')));
-                            } else if (_resourceCards[index]["type"] ==
-                                'signs') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                          isTrafficSign: true,
-                                          AppConstant.trafficSigns,
-                                          'Traffic Signs')));
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebViewContainer(
-                                          AppConstant.bookTheoryTest,
-                                          'Book DVSA Theory Test')));
-                            }
-                          },
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        if (_resourceCards[index]["type"] == 'highwayCode') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      AppConstant.highwayCodeLink,
+                                      'Highway Code')));
+                        } else if (_resourceCards[index]["type"] ==
+                            'theoryTestGuidance') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      AppConstant.theoryTestGuidance,
+                                      'Theory Test Guidance')));
+                        } else if (_resourceCards[index]["type"] == 'signs') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      isTrafficSign: true,
+                                      AppConstant.trafficSigns,
+                                      'Traffic Signs')));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      AppConstant.bookTheoryTest,
+                                      'Book DVSA Theory Test')));
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.bgColor,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 15, bottom: 1, left: 15, right: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -911,42 +909,10 @@ class _TheoryTabState extends State<TheoryTab> {
                                       SizedBox(width: 2),
                                       Expanded(
                                         flex: 0,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            if (_resourceCards[index]["type"] ==
-                                                'highwayCode') {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://www.gov.uk/guidance/the-highway-code',
-                                                              'Highway Code')));
-                                            } else if (_resourceCards[index]
-                                                    ["type"] ==
-                                                'theoryTestGuidance') {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://mockdrivingtest.com/static/practice-theory-test',
-                                                              'Theory Test Guidance')));
-                                            } else {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebViewContainer(
-                                                              'https://www.gov.uk/book-theory-test',
-                                                              'Book DVSA Theory Test')));
-                                            }
-                                          },
-                                          child: Image.asset(
-                                            AppImages.rightArrow,
-                                            height: 19,
-                                            width: 20,
-                                          ),
+                                        child: Image.asset(
+                                          AppImages.rightArrow,
+                                          height: 19,
+                                          width: 20,
                                         ),
                                       )
                                     ],
@@ -954,7 +920,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                   SizedBox(height: 5),
                                   Text(
                                     _resourceCards[index]["subTitle"],
-                                    // maxLines: 3,
+                                    maxLines: 3,
                                     style: AppTextStyle.disStyle.copyWith(
                                         fontWeight: FontWeight.w400,
                                         letterSpacing: 0.5,

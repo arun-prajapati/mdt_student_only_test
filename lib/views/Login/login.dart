@@ -43,31 +43,24 @@ class _SignInFormState extends State<SignInForm> {
   // late String password;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
-  static final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   String usertype = '2';
   String? deviceId = "";
 
   getDeviceId() async {
     // var platform = PlatformDeviceId.deviceInfoPlugin;
-    var deviceInfo = DeviceInfoPlugin();
-    String udid = await FlutterUdid.udid;
     String consistentUdid = await FlutterUdid.consistentUdid;
-    log(udid, name: "UNIQUE_ID");
     log(consistentUdid, name: "consistent_Udid");
     if (Platform.isIOS) {
-      var iosDeviceInfo = await deviceInfo.iosInfo;
       // String consistentUdid = await FlutterUdid.consistentUdid;
       // String udid = await FlutterUdid.udid;
       // log(udid, name: "UNIQUE_ID");
       // log(consistentUdid, name: "consistent_Udid");
       deviceId = consistentUdid;
-      print(
-          "========== IOS =========== ${iosDeviceInfo.identifierForVendor} ${iosDeviceInfo.data}");
+      print("========== IOS =========== $consistentUdid");
       return consistentUdid;
     } else {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
       deviceId = consistentUdid;
-      print("========== ANDROID =========== ${androidDeviceInfo.id}");
+      print("========== ANDROID =========== $consistentUdid");
       return consistentUdid;
     }
   }
@@ -142,73 +135,6 @@ class _SignInFormState extends State<SignInForm> {
         });
   }
 
-  showDeviceExistDialog(BuildContext context, String userName, String contact) {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}",
-                  style: AppTextStyle.textStyle.copyWith(
-                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 1.5,
-                ),
-                Text(
-                  'You seem to have changed your phone. Would you like to'
-                  ' move your app to your new phone?',
-                  style: AppTextStyle.textStyle.copyWith(
-                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 1.5,
-                ),
-                // Text('Thanks'),
-              ],
-            ),
-            //Text('${userName.substring(0,1).toUpperCase()+userName.substring(1)} $contact'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Ok',
-                  style: AppTextStyle.textStyle.copyWith(
-                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  // launchUrl(
-                  //   Uri(
-                  //     scheme: 'tel',
-                  //     path: '$contact',
-                  //   ),
-                  //   mode: LaunchMode.externalApplication,
-                  // );
-                },
-                child: Text(
-                  'Cancel',
-                  style: AppTextStyle.textStyle.copyWith(
-                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
-                ),
-              ),
-            ],
-            actionsAlignment: MainAxisAlignment.start,
-            contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 1.0),
-          );
-        });
-  }
-
   Future<void> submit() async {
     FocusManager.instance.primaryFocus?.unfocus();
     final form = _formKey.currentState;
@@ -219,6 +145,8 @@ class _SignInFormState extends State<SignInForm> {
           email: email,
           usertype: "2",
           password: password.text);
+      // var data = jsonDecode(response.body);
+
       if (Provider.of<UserProvider>(context, listen: false).notification.text !=
               'device-exist' &&
           Provider.of<UserProvider>(context, listen: false).notification.text !=
@@ -228,13 +156,6 @@ class _SignInFormState extends State<SignInForm> {
             Provider.of<UserProvider>(context, listen: false)
                 .notification
                 .text);
-      }
-      if (Provider.of<UserProvider>(context, listen: false).notification.text ==
-          'device-exist') {
-        showDeviceExistDialog(
-            context,
-            Provider.of<UserProvider>(context, listen: false).userName,
-            Provider.of<UserProvider>(context, listen: false).contact);
       }
     }
   }
@@ -504,7 +425,9 @@ class _SignInFormState extends State<SignInForm> {
                               padding: EdgeInsets.symmetric(horizontal: 12),
                               child: CustomButton(
                                 title: 'Login',
-                                onTap: submit,
+                                onTap: () {
+                                  submit();
+                                },
                               ),
                             ),
                       // Container(

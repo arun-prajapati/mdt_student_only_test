@@ -19,50 +19,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Provider.of<UserProvider>(context).initAuthProvider();
   }
 
-  getStatus() async {
-    var sharedPref = await SharedPreferences.getInstance();
-    var data = sharedPref.getBool('theoryTestPractice');
-
-    if (data == null) {
-      setState(() {});
-      //theoryTestPractice();
-    }
-    log('SharedPref Data $data');
-  }
-
   @override
   void initState() {
-    Timer(Duration(seconds: 2), () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Welcome()));
-//                   Consumer<UserProvider>(
-//                     builder: (context, user, child) {
-//                       switch (user.status) {
-//                         case Status.Uninitialized:
-//                           return SplashScreen();
-// //          case Status.RouteLogin:
-// //          case Status.Authenticating:
-// //            return SignInForm();
-//                         case Status.Unauthenticated:
-//                           return Welcome();
-//                         case Status.Authenticating:
-//                           return Welcome();
-//                         case Status.Authenticated:
-//                           //  return LayoutTemplate(user: user.user);
-//                           // return MyBooking();
-//                           return HomeScreen();
-//                         //    return ChangeNotifierProvider(
-//                         // builder: (context) => TodoProvider(authProvider),
-//                         //    child: HomeView(),
-//                         //  );
-//                         default:
-//                           return Welcome();
-//                       }
-//                     },
-//                   ))
-    });
+    // Timer(Duration(seconds: 2), () {
+    //   Navigator.push(
+    //       context, MaterialPageRoute(builder: (context) => Welcome()));
+    // });
     super.initState();
-    getStatus();
   }
 
   @override

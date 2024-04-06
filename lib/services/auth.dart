@@ -3,13 +3,16 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:Smart_Theory_Test/datamodels/user_location.dart';
 import 'package:Smart_Theory_Test/main.dart';
+import 'package:Smart_Theory_Test/responsive/size_config.dart';
 import 'package:Smart_Theory_Test/routing/route.dart';
 import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -33,6 +36,8 @@ class UserProvider with ChangeNotifier {
   late String _eMail;
   late String _contact;
   late int _userType;
+  String userId = "";
+  String _deviceId = "";
   NotificationText _notification = NotificationText('', '');
 
   int get userType => _userType;
@@ -51,7 +56,9 @@ class UserProvider with ChangeNotifier {
 
   //final String api = 'https://mockdrivingtest.com';
   initAuthProvider() async {
+    print('))))))))))))))))))');
     String? token = await getToken();
+    fetchUser();
     if (token != null) {
       _token = token;
       print(_token);
@@ -69,7 +76,7 @@ class UserProvider with ChangeNotifier {
 //    _status = Status.RouteLogin;
 //    notifyListeners();
 //  }
-  Future<bool> login(BuildContext context,
+  login(BuildContext context,
       {required String email,
       required String password,
       required String usertype,
@@ -94,13 +101,12 @@ class UserProvider with ChangeNotifier {
       url,
       body: body,
     );
-    print(response);
+    _deviceId = deviceId;
     if (response.statusCode == 200) {
       Map<String, dynamic> apiResponse = json.decode(response.body);
       print("userData ${jsonEncode(body)}");
       print("RESSS **************************           $apiResponse");
-      print(
-          "RESSS **************************           ${apiResponse['user_id']}");
+
       googleNavigate = false;
       // _status = Status.Authenticated;
       _token = apiResponse['token'];
@@ -115,18 +121,25 @@ class UserProvider with ChangeNotifier {
           (route) => false);
       // _navigationService.goBack();
       notifyListeners();
-      return true;
+      return response;
     } else {
       Map<String, dynamic> apiResponse = json.decode(response.body);
+
       _status = Status.Unauthenticated;
       _notification = NotificationText(apiResponse['message'], '');
+
       if (apiResponse.containsKey('contact')) {
         _contact = apiResponse['contact'][0]['number'];
         _userName = apiResponse['user_name'];
       }
+      if (apiResponse['message'] == "device-exist") {
+        showDeviceExistDialog(context, userName, contact);
+      }
       log("Api res : $apiResponse");
+      userId = apiResponse['user_id'].toString();
+      print("RESSS **************************           ${userId}");
       notifyListeners();
-      return false;
+      return response;
     }
   }
 
@@ -142,37 +155,49 @@ class UserProvider with ChangeNotifier {
     String phone_ = params['phone'] == null ? '' : params['phone'];
     var url = null;
     if (params['accessType'] == 'register')
-      url = Uri.parse("$api/api/social-login?token=" +
-          params['token'] +
-          "&social_type=" +
-          params['social_type'] +
-          "&id=" +
-          params['social_site_id'] +
-          "&email=" +
-          email_ +
-          "&user_type=" +
-          params['user_type'] +
-          "&phone=" +
-          phone_);
+      url = Uri.parse(
+        "$api/api/social-login?token=" +
+            params['token'] +
+            "&social_type=" +
+            params['social_type'] +
+            "&id=" +
+            params['social_site_id'] +
+            "&email=" +
+            email_ +
+            "&user_type=" +
+            params['user_type'] +
+            "&phone=" +
+            phone_ +
+            "&device_id=" +
+            params['device_id'],
+      );
     else
-      url = Uri.parse("$api/api/social-login?token=" +
-          params['token'] +
-          "&social_type=" +
-          params['social_type'] +
-          "&id=" +
-          params['social_site_id'] +
-          "&email=" +
-          email_);
+      url = Uri.parse(
+        "$api/api/social-login?token=" +
+            params['token'] +
+            "&social_type=" +
+            params['social_type'] +
+            "&id=" +
+            params['social_site_id'] +
+            "&email=" +
+            email_ +
+            "&device_id=" +
+            params['device_id'],
+      );
     print("SOCIAL LOGIN URL $url");
+    _deviceId = params['device_id'];
     final response = await http.get(url);
     final responseParse = json.decode(response.body);
+
     if (responseParse['success'] == false) {
+      userId = responseParse['user_id'].toString();
       print('$_status----------------------Status');
       if (params['accessType'] == 'register') {
         _status = Status.Unauthenticated;
+
         notifyListeners();
       }
-      log('RESPONSE PARRRRRRRRRRRRRRRRRRRRRRR       *****************        $responseParse');
+
       return responseParse;
     } else {
       if (response.statusCode == 200) {
@@ -290,6 +315,30 @@ class UserProvider with ChangeNotifier {
     return false;
   }
 
+  updateDeviceID() async {
+    final url = Uri.parse('$api/api/update_device_id');
+    Map<String, String> body = {
+      'id': userId,
+      'device_id': _deviceId,
+    };
+    print('UPDATE DEVICE_ID URL $url');
+    print('UPDATE DEVICE_ID ${jsonEncode(body)}');
+    final response = await http.post(
+      url,
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      print('UPDATE ${response.body}');
+      var data = jsonDecode(response.body);
+      Fluttertoast.showToast(msg: data['message'], gravity: ToastGravity.TOP);
+      notifyListeners();
+      return true;
+    } else {
+      print('UPDATE ${response.body}');
+    }
+    return false;
+  }
+
   Future<Map> getUserData() async {
     final url = Uri.parse('$api/api/user');
     SharedPreferences storage = await SharedPreferences.getInstance();
@@ -326,10 +375,13 @@ class UserProvider with ChangeNotifier {
         apiResponse['user_name'] == null ? '' : apiResponse['user_name']);
     await storage.setString('eMail', apiResponse['e_mail']);
     await storage.setString('userId', apiResponse['user_id'].toString());
+    await storage.setString('user_data', jsonEncode(apiResponse));
+    AppConstant.userModel = UserModel.fromJson(apiResponse);
+
     UserData.userId = apiResponse['user_id'].toString();
     // Future.delayed(Duration());
 
-    print('UserData.userId ${UserData.userId}');
+    print('Plan type ======== ${AppConstant.userModel?.planType}');
   }
 
   /// SEND OTP ///
@@ -472,6 +524,16 @@ class UserProvider with ChangeNotifier {
     return token;
   }
 
+  fetchUser() async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String? data = storage.getString('user_data');
+
+    if (data != null) {
+      AppConstant.userModel = UserModel.fromJson(jsonDecode(data));
+      print('+++++++++DATA  ${AppConstant.userModel?.planType}');
+    }
+  }
+
   logOut(BuildContext context, [bool tokenExpired = false]) async {
     _status = Status.Unauthenticated;
     if (tokenExpired == true) {
@@ -490,5 +552,77 @@ class UserProvider with ChangeNotifier {
       // }
     });
     await storage.clear();
+  }
+
+  showDeviceExistDialog(
+    BuildContext context,
+    String userName,
+    String contact,
+  ) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Hey there ${userName.substring(0, 1).toUpperCase() + userName.substring(1)}",
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 1.5,
+                ),
+                Text(
+                  'You seem to have changed your phone. Would you like to'
+                  ' move your app to your new phone?',
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 1.5,
+                ),
+                // Text('Thanks'),
+              ],
+            ),
+            //Text('${userName.substring(0,1).toUpperCase()+userName.substring(1)} $contact'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  updateDeviceID();
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Ok',
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  // launchUrl(
+                  //   Uri(
+                  //     scheme: 'tel',
+                  //     path: '$contact',
+                  //   ),
+                  //   mode: LaunchMode.externalApplication,
+                  // );
+                },
+                child: Text(
+                  'Cancel',
+                  style: AppTextStyle.textStyle.copyWith(
+                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+            actionsAlignment: MainAxisAlignment.start,
+            contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 1.0),
+          );
+        });
   }
 }
