@@ -184,7 +184,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   initializeApi(String loaderMessage) async {
     // auth_services.changeView = false;
     // setState(() {});
-   await context.read<SubscriptionProvider>().fetchOffer();
+    await context.read<SubscriptionProvider>().fetchOffer();
 
     checkInternet();
     CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
@@ -1244,7 +1244,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   )),
             ],
           ),
-          if (question['type'] == 1 && data.entitlement == Entitlement.unpaid)
+          if (question['type'] == 1 &&
+              data.entitlement == Entitlement.unpaid &&
+              AppConstant.userModel?.planType == "free")
             Container(
               width: Responsive.height(100, context),
               height: Responsive.height(100, context),
@@ -1874,7 +1876,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         context: context,
         builder: (_) => PopScope(
               canPop: false,
-              child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
+              child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
                   child: Column(
@@ -1958,6 +1960,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH');
+        context.read<SubscriptionProvider>().updateUserPlan(
+            value.entitlements.active['One time purchase']?.isActive == true
+                ? "paid"
+                : AppConstant.userModel?.planType == "gift"
+                    ? "gift"
+                    : "free");
         context.read<SubscriptionProvider>().checkActiveUser(context: context);
         context.read<SubscriptionProvider>().isUserPurchaseTest();
       }).catchError((e) {

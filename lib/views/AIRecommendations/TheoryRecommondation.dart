@@ -115,7 +115,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       // await getTheoryContent(
       //         walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
       await getTheoryContent(
-              '${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid ? "no" : "yes"}')
+              '${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid && AppConstant.userModel?.planType == "free" ? "no" : "yes"}')
           .then((value) async {
         await fetchUserTheoryProgress(_userId!).then((res) {
           print("Progress fetch : $res");
@@ -203,8 +203,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       loading(value: true);
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
-        print('HHHHHHHHH');
+        print('HHHHHHHHH ${value.entitlements.all}');
         getTheoryContent('yes');
+        context.read<SubscriptionProvider>().updateUserPlan(
+            value.entitlements.active['One time purchase']?.isActive == true
+                ? "paid"
+                : AppConstant.userModel?.planType == "gift"
+                    ? "gift"
+                    : "free");
         context.read<SubscriptionProvider>().checkActiveUser(context: context);
       }).catchError((e) {
         loading(value: false);
@@ -447,7 +453,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                     .entitlement ==
                                                 Entitlement.unpaid &&
                                             theoryContent[index].isFree ==
-                                                "not-free") {
+                                                "not-free" &&
+                                            AppConstant.userModel?.planType ==
+                                                "free") {
                                           GetPremium(context);
                                         } else {
                                           print(
@@ -480,9 +488,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         dividerColor: Colors.transparent),
                                     child: ExpansionTile(
                                       enabled: context
-                                                  .read<SubscriptionProvider>()
-                                                  .entitlement ==
-                                              Entitlement.unpaid
+                                                      .read<
+                                                          SubscriptionProvider>()
+                                                      .entitlement ==
+                                                  Entitlement.unpaid &&
+                                              AppConstant.userModel?.planType ==
+                                                  "free"
                                           ? false
                                           : true,
                                       tilePadding:
@@ -498,9 +509,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                         print(
                                             '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${theoryContent[index].isFree} $index $selected $val');
                                         if (context
-                                                .read<SubscriptionProvider>()
-                                                .entitlement ==
-                                            Entitlement.unpaid) {
+                                                    .read<
+                                                        SubscriptionProvider>()
+                                                    .entitlement ==
+                                                Entitlement.unpaid &&
+                                            AppConstant.userModel?.planType ==
+                                                "free") {
                                           GetPremium(context);
                                         } else {
                                           theoryContent[index].isExpand =
@@ -1305,7 +1319,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
         context: context,
         builder: (_) => PopScope(
               canPop: false,
-              child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
+              child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
                   child: Column(

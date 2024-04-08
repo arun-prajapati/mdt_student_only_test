@@ -244,82 +244,82 @@ class _ContactUs extends State<ContactUs> {
                                 },
                               ),
                             ),
-                            SizedBox(height: 30),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Phone     :',
-                                        style: AppTextStyle.textStyle.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.black
-                                                .withOpacity(0.8)),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        '+44 203 129 7741',
-                                        style: AppTextStyle.textStyle.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.black
-                                                .withOpacity(0.8)),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Email      :',
-                                        style: AppTextStyle.textStyle.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.black
-                                                .withOpacity(0.8)),
-                                      ),
-                                      SizedBox(width: 10),
-                                      InkWell(
-                                        onTap: () {
-                                          // print('TAPP $gmailUrl');
-                                          // openGmailApp(gmailUrl);
-                                          openGmailApp(
-                                              "theory@mockdrivingtest.com");
-                                        },
-                                        child: Text(
-                                          'theory@mockdrivingtest.com',
-                                          style:
-                                              AppTextStyle.textStyle.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            color: const Color(0xad0e9bcf),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Address :',
-                                        style: AppTextStyle.textStyle.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.black
-                                                .withOpacity(0.8)),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
-                                        style: AppTextStyle.textStyle.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.black
-                                                .withOpacity(0.8)),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // SizedBox(height: 30),
+                            // Padding(
+                            //   padding: EdgeInsets.symmetric(horizontal: 0),
+                            //   child: Column(
+                            //     children: [
+                            //       Row(
+                            //         children: [
+                            //           Text(
+                            //             'Phone     :',
+                            //             style: AppTextStyle.textStyle.copyWith(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: AppColors.black
+                            //                     .withOpacity(0.8)),
+                            //           ),
+                            //           SizedBox(width: 10),
+                            //           Text(
+                            //             '+44 203 129 7741',
+                            //             style: AppTextStyle.textStyle.copyWith(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: AppColors.black
+                            //                     .withOpacity(0.8)),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       SizedBox(height: 10),
+                            //       Row(
+                            //         children: [
+                            //           Text(
+                            //             'Email      :',
+                            //             style: AppTextStyle.textStyle.copyWith(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: AppColors.black
+                            //                     .withOpacity(0.8)),
+                            //           ),
+                            //           SizedBox(width: 10),
+                            //           InkWell(
+                            //             onTap: () {
+                            //               // print('TAPP $gmailUrl');
+                            //               // openGmailApp(gmailUrl);
+                            //               openGmailApp(
+                            //                   "theory@mockdrivingtest.com");
+                            //             },
+                            //             child: Text(
+                            //               'theory@mockdrivingtest.com',
+                            //               style:
+                            //                   AppTextStyle.textStyle.copyWith(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: const Color(0xad0e9bcf),
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       SizedBox(height: 10),
+                            //       Row(
+                            //         children: [
+                            //           Text(
+                            //             'Address :',
+                            //             style: AppTextStyle.textStyle.copyWith(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: AppColors.black
+                            //                     .withOpacity(0.8)),
+                            //           ),
+                            //           SizedBox(width: 10),
+                            //           Text(
+                            //             'The Long Lodge, 265-269 \nKingston Road, London, \nSW19 3NW',
+                            //             style: AppTextStyle.textStyle.copyWith(
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: AppColors.black
+                            //                     .withOpacity(0.8)),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

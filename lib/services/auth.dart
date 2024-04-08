@@ -350,12 +350,24 @@ class UserProvider with ChangeNotifier {
       url,
       headers: header,
     );
-    log('Response....... ${response.body}');
+    // log('Response....... ${response.body}');
     Map data = jsonDecode(response.body);
     try {
       if (response.statusCode == 200) {
-        print('.....200............');
         Map userDetails = data['message'];
+        AppConstant.userModel = UserModel.fromJson(
+          {
+            'success': data['success'],
+            'token': token,
+            'user_id': data['message']['id'].toString(),
+            'user_type': data['message']['user_type'],
+            'user_name': data['message']['first_name'],
+            'e_mail': data['message']['email'],
+            'plan_type': data['message']['plan_type'],
+          },
+        );
+        print(
+            '.....200............ ${jsonEncode(AppConstant.userModel?.toJson())}');
         return userDetails;
       } else {
         print('.....500............');
