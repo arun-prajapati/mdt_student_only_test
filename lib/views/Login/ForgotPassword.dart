@@ -626,8 +626,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Future<void> submit(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    /// https://mdt.developersforflutter.com/api/verify-mobile
-
     final form = _formKey.currentState;
     print("form state : ${form!.validate()}");
 

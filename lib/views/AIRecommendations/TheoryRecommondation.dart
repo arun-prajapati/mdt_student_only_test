@@ -1204,7 +1204,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   style: AppTextStyle.titleStyle)),
                           SizedBox(height: 8),
                           Text(
-                            'Get Premium service for getting AI data for this topic',
+                            'Buy premium license now to unlock exclusive content and maximize your learning experience.',
                             style: AppTextStyle.disStyle.copyWith(
                                 fontWeight: FontWeight.w300,
                                 color: AppColors.black),

@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/HLSCachingReverseProxyServer/HLSCachingReverseProxyServer.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/HLSCachingReverseProxyServer.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/HLSCachingReverseProxyServer/HLSCachingReverseProxyServer.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "HLSCachingReverseProxyServer-Swift.h",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/HLSCachingReverseProxyServer.build/unextended-interface-header.h",
+    }]
+    }]
+}

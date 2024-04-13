@@ -1,0 +1,140 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeApplePay-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeApplePay-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeApplePay-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeApplePay-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeApplePay-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeApplePay-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/ApplePayContext/STPAPIClient+ApplePay.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAPIClient+ApplePay.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAPIClient+ApplePay.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAPIClient+ApplePay.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/ApplePayContext/STPApplePayContext.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPApplePayContext.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPApplePayContext.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPApplePayContext.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/ApplePayContext/STPApplePayContext+LegacySupport.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPApplePayContext+LegacySupport.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPApplePayContext+LegacySupport.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPApplePayContext+LegacySupport.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/Blocks.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Blocks.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Blocks.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Blocks.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/Extensions/BillingDetails+ApplePay.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/BillingDetails+ApplePay.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/BillingDetails+ApplePay.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/BillingDetails+ApplePay.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/Extensions/PKContact+Stripe.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PKContact+Stripe.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PKContact+Stripe.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PKContact+Stripe.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/Extensions/PKPayment+Stripe.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PKPayment+Stripe.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PKPayment+Stripe.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PKPayment+Stripe.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/Analytics/STPAnalyticsClient+Payments.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAnalyticsClient+Payments.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAnalyticsClient+Payments.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAnalyticsClient+Payments.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/Analytics/STPAnalyticsClient+PaymentsAPI.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAnalyticsClient+PaymentsAPI.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAnalyticsClient+PaymentsAPI.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAnalyticsClient+PaymentsAPI.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/Address.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Address.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Address.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Address.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/BillingDetails.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/BillingDetails.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/BillingDetails.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/BillingDetails.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/CardBrand.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/CardBrand.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/CardBrand.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/CardBrand.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/PaymentIntent.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntent.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntent.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntent.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/PaymentIntentParams.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntentParams.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntentParams.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntentParams.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/PaymentMethod.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethod.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethod.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethod.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/PaymentMethodParams.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethodParams.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethodParams.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethodParams.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/SetupIntent.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntent.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntent.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntent.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/SetupIntentParams.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntentParams.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntentParams.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntentParams.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/ShippingDetails.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/ShippingDetails.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/ShippingDetails.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/ShippingDetails.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Models/Token.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Token.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Token.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Token.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/PaymentIntent+API.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntent+API.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntent+API.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentIntent+API.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/PaymentMethod+API.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethod+API.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethod+API.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/PaymentMethod+API.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/SetupIntent+API.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntent+API.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntent+API.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/SetupIntent+API.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/API/Token+API.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Token+API.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Token+API.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/Token+API.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/PaymentsCore/Categories/STPAPIClient+PaymentsCore.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAPIClient+PaymentsCore.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAPIClient+PaymentsCore.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/STPAPIClient+PaymentsCore.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/StripeApplePay/StripeApplePay/StripeApplePay/Source/StripeCore+Import.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeCore+Import.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeCore+Import.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeApplePay.build/Objects-normal/arm64/StripeCore+Import.o"
+  }
+}

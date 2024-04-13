@@ -1,0 +1,10 @@
+framework module StripeApplePay {
+  umbrella header "StripeApplePay-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module StripeApplePay.__Swift {
+  exclude header "StripeApplePay-Swift.h"
+}

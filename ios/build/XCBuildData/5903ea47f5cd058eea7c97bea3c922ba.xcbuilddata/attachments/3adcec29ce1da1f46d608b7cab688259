@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/syncfusion_flutter_pdfviewer-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/syncfusion_flutter_pdfviewer-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/syncfusion_flutter_pdfviewer-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/syncfusion_flutter_pdfviewer-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/syncfusion_flutter_pdfviewer-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/syncfusion_flutter_pdfviewer-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/syncfusion_flutter_pdfviewer-23.1.39/ios/Classes/SwiftSyncfusionFlutterPdfViewerPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/SwiftSyncfusionFlutterPdfViewerPlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/SwiftSyncfusionFlutterPdfViewerPlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/Objects-normal/arm64/SwiftSyncfusionFlutterPdfViewerPlugin.o"
+  }
+}

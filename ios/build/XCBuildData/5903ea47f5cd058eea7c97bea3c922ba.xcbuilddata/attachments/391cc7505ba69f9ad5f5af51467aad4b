@@ -1,0 +1,10 @@
+framework module StripePaymentsUI {
+  umbrella header "StripePaymentsUI-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module StripePaymentsUI.__Swift {
+  exclude header "StripePaymentsUI-Swift.h"
+}

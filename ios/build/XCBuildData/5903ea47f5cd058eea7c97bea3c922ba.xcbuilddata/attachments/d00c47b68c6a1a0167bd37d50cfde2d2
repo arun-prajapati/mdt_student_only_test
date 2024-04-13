@@ -1,0 +1,30 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/sign_in_with_apple-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/sign_in_with_apple-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/sign_in_with_apple-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/sign_in_with_apple-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/sign_in_with_apple-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/sign_in_with_apple-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/sign_in_with_apple-4.3.0/ios/Classes/SignInWithAppleAvailablePlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleAvailablePlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleAvailablePlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleAvailablePlugin.o"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/sign_in_with_apple-4.3.0/ios/Classes/SignInWithAppleError.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleError.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleError.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleError.o"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/sign_in_with_apple-4.3.0/ios/Classes/SignInWithAppleUnavailablePlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleUnavailablePlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleUnavailablePlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SignInWithAppleUnavailablePlugin.o"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/sign_in_with_apple-4.3.0/ios/Classes/SwiftSignInWithApplePlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SwiftSignInWithApplePlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SwiftSignInWithApplePlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/sign_in_with_apple.build/Objects-normal/arm64/SwiftSignInWithApplePlugin.o"
+  }
+}

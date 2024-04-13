@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/StripeCore/StripeCore.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeCore.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/StripeCore/StripeCore.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "StripeCore-Swift.h",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/StripeCore.build/unextended-interface-header.h",
+    }]
+    }]
+}

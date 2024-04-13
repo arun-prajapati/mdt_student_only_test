@@ -1,0 +1,11 @@
+framework module stripe_ios {
+  umbrella header "stripe_ios-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module stripe_ios.Swift {
+  header "stripe_ios-Swift.h"
+  requires objc
+}

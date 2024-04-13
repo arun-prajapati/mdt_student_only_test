@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/flutter_udid-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/flutter_udid-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/flutter_udid-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/flutter_udid-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/flutter_udid-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/flutter_udid-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/flutter_udid-3.0.0/ios/Classes/FlutterUdidPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/FlutterUdidPlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/FlutterUdidPlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_udid.build/Objects-normal/arm64/FlutterUdidPlugin.o"
+  }
+}

@@ -1,0 +1,10 @@
+framework module StripeUICore {
+  umbrella header "StripeUICore-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module StripeUICore.__Swift {
+  exclude header "StripeUICore-Swift.h"
+}
