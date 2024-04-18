@@ -74,8 +74,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => HomePage());
     case routes.HighwayCodeRoute:
       return MaterialPageRoute(builder: (context) => HighwayCode());
-    case routes.MyBookingRoute:
-      return MaterialPageRoute(builder: (context) => MyBooking());
+    // case routes.MyBookingRoute:
+    //   return MaterialPageRoute(builder: (context) => MyBooking());
 
     // case routes.BiddingDetailRoute:
     //   return MaterialPageRoute(builder: (context) => BiddingDetails());

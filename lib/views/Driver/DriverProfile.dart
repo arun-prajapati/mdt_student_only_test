@@ -14,6 +14,7 @@ import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.da
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
@@ -888,7 +889,9 @@ class _driverProfile extends State<DriverProfile> {
                                                   color: Colors.blue,
                                                   tooltip:
                                                       'Add Image/File By Gallery',
-                                                  onPressed: _openGallery,
+                                                  onPressed: () {
+                                                    _openGallery();
+                                                  },
                                                 ),
                                               ),
                                           ],
@@ -960,8 +963,10 @@ class _driverProfile extends State<DriverProfile> {
   }
 
   void _openGallery() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    await Permission.photos.request();
+    var imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+
     final bytes = Io.File(pickedFile!.path).readAsBytesSync();
     String base64_ = base64Encode(bytes, getImageExtension(pickedFile.path));
     // var pref = await SharedPreferences.getInstance();

@@ -64,15 +64,15 @@ dependencies:
   dots_indicator: ^2.1.0
   better_player_plus: ^1.0.5
   # flutter_inappwebview: 3.3.0
-  # flutter_secure_storage: ^7.0.1
-  permission_handler: ^10.2.0
+  # flutter_secure_storage: ^7.0.
+  permission_handler: ^10.4.3
   material_design_icons_flutter: ^6.0.7096
   get_it: ^7.2.0
-  table_calendar: ^3.0.8
+  #  table_calendar: ^3.0.8
   webview_flutter: ^4.0.2
   fluttertoast: ^8.1.2
-  flutter_stripe: ^9.5.0+1
-  youtube_player_iframe: ^4.0.4
+  #  flutter_stripe: ^9.5.0+1
+  #  youtube_player_iframe: ^4.0.4
   firebase_auth: ^4.15.3
   google_sign_in: ^6.2.1
   firebase_core: ^2.24.2
@@ -93,7 +93,7 @@ dependencies:
   #  syncfusion_flutter_gauges: ^24.1.47
   percent_indicator: ^4.2.3
   purchases_flutter: ^6.19.0
-  custom_network_image: ^0.0.3
+  #  custom_network_image: ^0.0.3
   cached_network_image: ^3.3.1
   flutter_facebook_auth: ^6.1.1
 
