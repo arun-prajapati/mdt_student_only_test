@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/syncfusion_flutter_pdfviewer/syncfusion_flutter_pdfviewer.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/syncfusion_flutter_pdfviewer/syncfusion_flutter_pdfviewer.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "syncfusion_flutter_pdfviewer-Swift.h",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/syncfusion_flutter_pdfviewer.build/unextended-interface-header.h",
+    }]
+    }]
+}

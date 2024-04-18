@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 //import 'package:Smart_Theory_Test/main.dart';
 import 'package:Smart_Theory_Test/main.dart';
 import 'package:Smart_Theory_Test/views/AIRecommendations/LessonRecommendations.dart';
@@ -39,6 +40,7 @@ import '../views/Login/register.dart';
 import 'route_names.dart' as routes;
 
 String? user;
+
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case routes.WelcomeRoute:
@@ -65,15 +67,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.ChangePasswordRoute:
       return MaterialPageRoute(builder: (context) => ChangePassword());
     case routes.RegisterRoute:
-    // return MaterialPageRoute(builder: (context) => Register());
-    case routes.SplashRoute:
+      // return MaterialPageRoute(builder: (context) => Register());
+      // case routes.SplashRoute:
       return MaterialPageRoute(builder: (context) => SplashScreen());
     case routes.HomePageRoute:
       return MaterialPageRoute(builder: (context) => HomePage());
     case routes.HighwayCodeRoute:
       return MaterialPageRoute(builder: (context) => HighwayCode());
-    case routes.MyBookingRoute:
-      return MaterialPageRoute(builder: (context) => MyBooking());
+    // case routes.MyBookingRoute:
+    //   return MaterialPageRoute(builder: (context) => MyBooking());
 
     // case routes.BiddingDetailRoute:
     //   return MaterialPageRoute(builder: (context) => BiddingDetails());

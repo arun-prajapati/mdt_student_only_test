@@ -174,9 +174,15 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
+                // Image.asset(
+                //   AppImages.bgLogin,
+                //   //height: 300,
+                //   width: MediaQuery.of(context).size.width,
+                //   fit: BoxFit.fitWidth,
+                // ),
                 Image.asset(
-                  AppImages.bgLogin,
-                  //height: 300,
+                  "assets/bg1.png",
+                  height: 290,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
@@ -184,22 +190,22 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
                 //     left: 25,
                 //     top: SizeConfig.blockSizeVertical * 8,
                 //     child: backArrowCustom()),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 18,
-                  left: SizeConfig.blockSizeHorizontal * 28,
-                  child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 22,
-                    backgroundColor: Colors.white,
-                    child: Container(
-                      child: Image.asset(
-                        "assets/stt_Logo.png",
-                        height: 180,
-                        width: 182,
-                        //fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   top: SizeConfig.blockSizeVertical * 18,
+                //   left: SizeConfig.blockSizeHorizontal * 28,
+                //   child: CircleAvatar(
+                //     radius: SizeConfig.blockSizeHorizontal * 22,
+                //     backgroundColor: Colors.white,
+                //     child: Container(
+                //       child: Image.asset(
+                //         "assets/s_logo.png",
+                //         height: 180,
+                //         width: 182,
+                //         //fit: BoxFit.contain,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // Positioned(
                 //   top: SizeConfig.blockSizeVertical * 38,
                 //   child: Container(

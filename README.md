@@ -1,4 +1,4 @@
-# student_app
+# Smart_Theory_Test
 
 A new Flutter project.
 

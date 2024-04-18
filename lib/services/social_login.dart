@@ -1,11 +1,20 @@
 import 'dart:convert';
 import 'dart:developer' as devtools;
+import 'dart:developer';
+import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/responsive/size_config.dart';
+import 'package:Smart_Theory_Test/utils/app_colors.dart';
+import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:crypto/crypto.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -31,9 +40,30 @@ class SocialLoginService {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   late BuildContext globalContext;
+  String deviceId = '';
+
+  getDeviceId() async {
+    // var platform = PlatformDeviceId.deviceInfoPlugin;
+    String consistentUdid = await FlutterUdid.consistentUdid;
+    log(consistentUdid, name: "consistent_Udid");
+    if (Platform.isIOS) {
+      // String consistentUdid = await FlutterUdid.consistentUdid;
+      // String udid = await FlutterUdid.udid;
+      // log(udid, name: "UNIQUE_ID");
+      // log(consistentUdid, name: "consistent_Udid");
+      deviceId = consistentUdid;
+      print("========== IOS =========== $consistentUdid");
+      return consistentUdid;
+    } else {
+      deviceId = consistentUdid;
+      print("========== ANDROID =========== $consistentUdid");
+      return consistentUdid;
+    }
+  }
 
   SocialLoginService(BuildContext context) {
     globalContext = context;
+    getDeviceId();
   }
 
   Future<void> googleSignIn() async {
@@ -46,7 +76,8 @@ class SocialLoginService {
           scopes: <String>['email'],
         );
         bool checkSignIn = await googleSignIn.isSignedIn();
-        if (checkSignIn) googleSignIn.signOut();
+        if (checkSignIn) googleSignIn.disconnect();
+        print('jjjjjjjjJJJJJJJ $checkSignIn');
         final GoogleSignInAccount? googleSignInAccount =
             await googleSignIn.signIn();
         if (googleSignInAccount != null) {
@@ -71,7 +102,8 @@ class SocialLoginService {
               'social_site_id': googleSignInAccount.id,
               'email': googleSignInAccount.email,
               'phone': _user?.phoneNumber != null ? _user?.phoneNumber : null,
-              'accessType': 'login'
+              'accessType': 'login',
+              'device_id': deviceId,
             };
             print("Goggle Email..:");
             devtools.log("Social user: $params");
@@ -274,7 +306,8 @@ class SocialLoginService {
           UserCredential user =
               await FirebaseAuth.instance.signInWithCredential(oauthCredential);
           User? userData = user.user;
-          print("UserData : ${user.credential}");
+          print("Userdata : $userData");
+          print("User credential : ${user.credential}");
           Map params = {
             'token': user.credential?.accessToken,
             'social_type': 'apple',
@@ -282,7 +315,8 @@ class SocialLoginService {
             'email': user.user?.email,
             'phone':
                 user.user?.phoneNumber != null ? user.user?.phoneNumber : null,
-            'accessType': 'login'
+            'accessType': 'login',
+            'device_id': deviceId,
           };
           socialLoginApi(params);
         } else {
@@ -452,43 +486,43 @@ class SocialLoginService {
     }
   } */
 
-  /*  Future<void> facebookSignIn() async {
-    try {
-      showLoader("Loading...");
-      final facebookLogin = FacebookLogin();
-      bool checkSignIn = await facebookLogin.isLoggedIn;
-      if (checkSignIn) facebookLogin.logOut();
-      final result = await facebookLogin.logIn(["email"]);
-      switch (result.status) {
-        case FacebookLoginStatus.loggedIn:
-          getFacebookUserDetail(result.accessToken.token).then((detail) {
-            print("facebook detail.....");
-            print(detail);
-            Map params = {
-              'token': result.accessToken.token,
-              'social_type': 'facebook',
-              'social_site_id': detail['id'],
-              'email': detail['email'] != null ? detail['email'] : null,
-              'phone': detail['phone'] != null ? detail['phone'] : null,
-              'accessType': 'login',
-            };
-            socialLoginApi(params);
-          });
-          break;
-        case FacebookLoginStatus.cancelledByUser:
-          closeLoader();
-          break;
-        case FacebookLoginStatus.error:
-          closeLoader();
-          Toast.show(result.errorMessage,
-              duration: Toast.lengthLong, gravity: Toast.bottom);
-          break;
-      }
-    } catch (e) {
-      closeLoader();
-      print(e);
-    }
-  } */
+  // Future<void> facebookSignIn() async {
+  //   try {
+  //     showLoader("Loading...");
+  //     final facebookLogin = FacebookLogin();
+  //     bool checkSignIn = await facebookLogin.isLoggedIn;
+  //     if (checkSignIn) facebookLogin.logOut();
+  //     final result = await facebookLogin.logIn(["email"]);
+  //     switch (result.status) {
+  //       case FacebookLoginStatus.loggedIn:
+  //         getFacebookUserDetail(result.accessToken.token).then((detail) {
+  //           print("facebook detail.....");
+  //           print(detail);
+  //           Map params = {
+  //             'token': result.accessToken.token,
+  //             'social_type': 'facebook',
+  //             'social_site_id': detail['id'],
+  //             'email': detail['email'] != null ? detail['email'] : null,
+  //             'phone': detail['phone'] != null ? detail['phone'] : null,
+  //             'accessType': 'login',
+  //           };
+  //           socialLoginApi(params);
+  //         });
+  //         break;
+  //       case FacebookLoginStatus.cancelledByUser:
+  //         closeLoader();
+  //         break;
+  //       case FacebookLoginStatus.error:
+  //         closeLoader();
+  //         Toast.show(result.errorMessage,
+  //             duration: Toast.lengthLong, gravity: Toast.bottom);
+  //         break;
+  //     }
+  //   } catch (e) {
+  //     closeLoader();
+  //     print(e);
+  //   }
+  // }
 
   /*   Future<void> appleSignIn() async {
     try {
@@ -568,6 +602,64 @@ class SocialLoginService {
     } catch (e) {}
   }
 
+  facebookSignIn() async {
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login(
+        permissions: ["public_profile", "email"],
+        loginBehavior: LoginBehavior.dialogOnly,
+      ).catchError((e) {
+        print('ERORRRR ========== $e');
+      });
+      if (loginResult.status == LoginStatus.success) {
+        print("%%%%%%%%%%%%%%%%%");
+
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        FirebaseAuth.instance
+            .signInWithCredential(facebookAuthCredential)
+            .then((value) {
+          if (value.user != null) {
+            print("UserData : ${value.user}");
+            Map params = {
+              'token': loginResult.accessToken!.token,
+              'social_type': 'facebook',
+              'social_site_id': value.user?.uid,
+              'email': value.user?.email,
+              'phone': value.user?.phoneNumber != null
+                  ? value.user?.phoneNumber
+                  : null,
+              'accessType': 'login'
+            };
+            print("SOCIAL AUTH PARAM : ${jsonEncode(params)}");
+            socialLoginApi(params);
+          }
+        }).catchError((e) {
+          print('ERORRRR ========== $e');
+        });
+        // var apiResponseLongToken =
+        //     await repository.longLivedAccessTokenFacebook(
+        //         token: loginResult.accessToken!.token);
+        // longLivedToken = apiResponseLongToken.response.data['access_token'];
+      } else {
+        print("%%%%%%%%%%%%%%%%% ELSE");
+      }
+      await FacebookAuth.instance.getUserData().then((value) {
+        print("getUserData ${jsonEncode(value)}");
+      });
+      final token = loginResult.accessToken!.token;
+      print("FACEBOOK TOKEN $token");
+      if (token.isNotEmpty) {
+        // await loginWithFacebookAccount(
+        //     longLivedToken, spinnerItemId, invitekey, context);
+      }
+      // }
+    } catch (e) {
+      print('888888*********** $e');
+      // snackBar(context, message: e.toString(), color: Colors.red);
+    }
+    // _loading = false;
+  }
+
   Future<Map> getFacebookUserDetail(String token) async {
     final url = Uri.parse(
         "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture&access_token=" +
@@ -581,23 +673,112 @@ class SocialLoginService {
     try {
       Map? loginResponse =
           await Provider.of<auth.UserProvider>(globalContext, listen: false)
-              .socialLoginWithMdtRegister(params);
+              .socialLoginWithMdtRegister(globalContext, params);
       closeLoader();
       print('JJKJKJKJK ${loginResponse}');
       print('DFDFDFDFF ${params}');
       if (loginResponse != null) {
         if (loginResponse['success'] == false) {
-          navigateFromEmailRegister(params);
+          if (loginResponse['message'] == 'device-exist') {
+            print('loginResponse ${loginResponse['message']}');
+            showDialog(
+                context: globalContext,
+                barrierDismissible: false,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Smart Theory Test',
+                        style: AppTextStyle.appBarStyle),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hey there ${loginResponse['user_name'].toString().substring(0, 1).toUpperCase() + loginResponse['user_name'].toString().substring(1)}",
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        Text(
+                          'You seem to have changed your phone. Would you like to'
+                          ' move your app to your new phone?',
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        // Text('Thanks'),
+                      ],
+                    ),
+                    //Text('${userName.substring(0,1).toUpperCase()+userName.substring(1)} $contact'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          globalContext.read<UserProvider>().updateDeviceID();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Ok',
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // launchUrl(
+                          //   Uri(
+                          //     scheme: 'tel',
+                          //     path: '$contact',
+                          //   ),
+                          //   mode: LaunchMode.externalApplication,
+                          // );
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: AppTextStyle.textStyle.copyWith(
+                              fontSize: 16,
+                              color: Dark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                    actionsAlignment: MainAxisAlignment.start,
+                    contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 1.0),
+                  );
+                });
+
+            // _userId = apiResponse['user_id'];
+            // globalContext.read<UserProvider>().showDeviceExistDialog(
+            //       globalContext,
+            //       Provider.of<UserProvider>(globalContext, listen: false)
+            //           .userName,
+            //       Provider.of<UserProvider>(globalContext, listen: false)
+            //           .contact,
+            //     );
+          } else {
+            navigateFromEmailRegister(params);
+          }
         }
       }
       if (loginResponse == null && params['accessType'] == 'login') {
+        // var authData = globalContext.read<UserProvider>();
         // print("ZZZZZZZZZZZZ ${globalContext
         //     .read<auth.UserProvider>()
         //     .status}");
         // globalContext.read<auth.UserProvider>().status = Status.Authenticated;
         // _navigationService.navigateToReplacement('/Authorization');
-        // _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
-        //     MaterialPageRoute(builder: (_) => HomePage()), (route) => false);
+        _navigationService.navigatorKey.currentState?.pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => HomeScreen()), (route) => false);
+        // authData.googleNavigate = true;
       }
     } catch (e) {
       closeLoader();

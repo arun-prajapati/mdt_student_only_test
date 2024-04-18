@@ -1,0 +1,20 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/flutter_facebook_auth-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/flutter_facebook_auth-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/flutter_facebook_auth-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/flutter_facebook_auth-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/flutter_facebook_auth-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/flutter_facebook_auth-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/flutter_facebook_auth-6.1.1/ios/Classes/FacebookAuth.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/FacebookAuth.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/FacebookAuth.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/FacebookAuth.o"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/flutter_facebook_auth-6.1.1/ios/Classes/SwiftFlutterFacebookAuthPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/SwiftFlutterFacebookAuthPlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/SwiftFlutterFacebookAuthPlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/flutter_facebook_auth.build/Objects-normal/arm64/SwiftFlutterFacebookAuthPlugin.o"
+  }
+}

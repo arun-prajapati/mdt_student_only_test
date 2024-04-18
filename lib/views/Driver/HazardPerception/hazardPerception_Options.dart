@@ -171,7 +171,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
             left: 0,
             right: 0,
             child: CustomAppBar(
-                preferedHeight: Responsive.height(10, context),
+                preferedHeight: Responsive.height(12, context),
                 title: 'Hazard Perception Test',
                 textWidth: Responsive.width(45, context),
                 iconLeft: Icons.arrow_back,
@@ -181,7 +181,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
                 iconRight: null),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.104,
+            top: MediaQuery.of(context).size.height * 0.12,
             child: Container(
               height: Responsive.height(82, context),
               width: Responsive.width(100, context),

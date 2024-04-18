@@ -1,0 +1,175 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Cache-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Cache-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Cache-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Cache-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Cache-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Cache-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/iOS/UIImage+Extensions.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/UIImage+Extensions.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/UIImage+Extensions.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/UIImage+Extensions.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Configuration/DiskConfig.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DiskConfig.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DiskConfig.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DiskConfig.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Configuration/MemoryConfig.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryConfig.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryConfig.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryConfig.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Extensions/Date+Extensions.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Date+Extensions.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Date+Extensions.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Date+Extensions.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Extensions/Hasher+constantAccrossExecutions.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Hasher+constantAccrossExecutions.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Hasher+constantAccrossExecutions.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Hasher+constantAccrossExecutions.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Extensions/JSONDecoder+Extensions.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONDecoder+Extensions.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONDecoder+Extensions.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONDecoder+Extensions.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/DataSerializer.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DataSerializer.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DataSerializer.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DataSerializer.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/Entry.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Entry.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Entry.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Entry.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/ExpirationMode.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ExpirationMode.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ExpirationMode.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ExpirationMode.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/Expiry.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Expiry.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Expiry.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Expiry.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/ImageWrapper.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ImageWrapper.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ImageWrapper.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ImageWrapper.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/JSONArrayWrapper.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONArrayWrapper.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONArrayWrapper.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONArrayWrapper.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/JSONDictionaryWrapper.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONDictionaryWrapper.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONDictionaryWrapper.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/JSONDictionaryWrapper.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/MD5.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MD5.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MD5.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MD5.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/MemoryCapsule.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryCapsule.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryCapsule.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryCapsule.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/ObservationToken.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ObservationToken.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ObservationToken.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/ObservationToken.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/Optional+Extension.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Optional+Extension.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Optional+Extension.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Optional+Extension.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/Result.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Result.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Result.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Result.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/StorageError.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageError.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageError.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageError.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/Transformer.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Transformer.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Transformer.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Transformer.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/TransformerFactory.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/TransformerFactory.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/TransformerFactory.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/TransformerFactory.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/Types.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Types.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Types.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Types.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Library/TypeWrapper.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/TypeWrapper.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/TypeWrapper.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/TypeWrapper.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/AsyncStorage.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/AsyncStorage.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/AsyncStorage.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/AsyncStorage.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/DiskStorage.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DiskStorage.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DiskStorage.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/DiskStorage.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/HybridStorage.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/HybridStorage.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/HybridStorage.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/HybridStorage.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/KeyObservationRegistry.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/KeyObservationRegistry.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/KeyObservationRegistry.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/KeyObservationRegistry.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/MemoryStorage.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryStorage.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryStorage.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/MemoryStorage.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/Storage.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Storage.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Storage.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Storage.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/Storage+Transform.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Storage+Transform.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Storage+Transform.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/Storage+Transform.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/StorageAware.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageAware.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageAware.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageAware.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/StorageObservationRegistry.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageObservationRegistry.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageObservationRegistry.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/StorageObservationRegistry.o"
+  },
+  "/Users/saurabhinfosys/Desktop/stt/ios/Pods/Cache/Source/Shared/Storage/SyncStorage.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/SyncStorage.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/SyncStorage.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/Cache.build/Objects-normal/arm64/SyncStorage.o"
+  }
+}

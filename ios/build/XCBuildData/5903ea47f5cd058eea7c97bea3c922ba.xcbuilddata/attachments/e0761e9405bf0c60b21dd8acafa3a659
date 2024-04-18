@@ -1,0 +1,30 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/connectivity_plus-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/connectivity_plus-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/connectivity_plus-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/connectivity_plus-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/connectivity_plus-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/connectivity_plus-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/connectivity_plus-3.0.6/ios/Classes/ConnectivityProvider.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/ConnectivityProvider.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/ConnectivityProvider.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/ConnectivityProvider.o"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/connectivity_plus-3.0.6/ios/Classes/PathMonitorConnectivityProvider.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/PathMonitorConnectivityProvider.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/PathMonitorConnectivityProvider.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/PathMonitorConnectivityProvider.o"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/connectivity_plus-3.0.6/ios/Classes/ReachabilityConnectivityProvider.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/ReachabilityConnectivityProvider.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/ReachabilityConnectivityProvider.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/ReachabilityConnectivityProvider.o"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/connectivity_plus-3.0.6/ios/Classes/SwiftConnectivityPlusPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/SwiftConnectivityPlusPlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/SwiftConnectivityPlusPlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/connectivity_plus.build/Objects-normal/arm64/SwiftConnectivityPlusPlugin.o"
+  }
+}

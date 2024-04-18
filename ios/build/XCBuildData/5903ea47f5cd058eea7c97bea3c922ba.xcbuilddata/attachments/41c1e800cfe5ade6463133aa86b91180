@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/smart_auth-master.swiftconstvalues",
+    "dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/smart_auth-master.d",
+    "diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/smart_auth-master.dia",
+    "emit-module-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/smart_auth-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/smart_auth-master-emit-module.dia",
+    "swift-dependencies" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/smart_auth-master.swiftdeps"
+  },
+  "/Users/saurabhinfosys/.pub-cache/hosted/pub.dev/smart_auth-1.1.1/ios/Classes/SwiftSmartAuthPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/SwiftSmartAuthPlugin.o",
+    "llvm-bc" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/SwiftSmartAuthPlugin.bc",
+    "object" : "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/smart_auth.build/Objects-normal/arm64/SwiftSmartAuthPlugin.o"
+  }
+}

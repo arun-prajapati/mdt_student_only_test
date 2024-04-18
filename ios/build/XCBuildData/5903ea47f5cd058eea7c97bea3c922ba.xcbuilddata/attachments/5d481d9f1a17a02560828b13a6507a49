@@ -1,0 +1,5 @@
+ extern const unsigned char purchases_flutterVersionString[];
+ extern const double purchases_flutterVersionNumber;
+
+ const unsigned char purchases_flutterVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:purchases_flutter  PROJECT:Pods-1" "\n";
+ const double purchases_flutterVersionNumber __attribute__ ((used)) = (double)1.;

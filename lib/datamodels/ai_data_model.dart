@@ -1,26 +1,30 @@
-class AIDataModel {
-  String? categoryName;
-  List<String>? ytLinks;
-  List<String>? readingLinks;
-  bool isSelected = false;
+class TheoryContentModel {
+  int? id;
+  String? topicName;
+  String? topicDescription;
+  String? isFree;
+  bool isExpand = false;
 
-  AIDataModel(
-      {this.categoryName,
-      this.ytLinks,
-      this.readingLinks,
-      this.isSelected = false});
+  TheoryContentModel(
+      {this.id,
+      this.topicName,
+      this.topicDescription,
+      this.isFree,
+      this.isExpand = false});
 
-  AIDataModel.fromJson(Map<String, dynamic> json) {
-    categoryName = json['category_name'];
-    ytLinks = json['yt_links'].cast<String>();
-    readingLinks = json['reading_links'].cast<String>();
+  TheoryContentModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    topicName = json['topic_name'];
+    topicDescription = json['topic_description'];
+    isFree = json['isFree'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category_name'] = this.categoryName;
-    data['yt_links'] = this.ytLinks;
-    data['reading_links'] = this.readingLinks;
+    data['id'] = this.id;
+    data['topic_name'] = this.topicName;
+    data['topic_description'] = this.topicDescription;
+    data['isFree'] = this.isFree;
     return data;
   }
 }

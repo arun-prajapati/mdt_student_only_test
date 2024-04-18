@@ -133,7 +133,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
             child: Stack(children: <Widget>[
               CustomAppBar(
                   hasIcon: true,
-                  preferedHeight: Responsive.height(15, context),
+                  preferedHeight: Responsive.height(18, context),
                   title: 'Results - CGI Video ${videoIndex + 1}',
                   textWidth: Responsive.width(70, context),
                   iconLeft: Icons.close,

@@ -2,6 +2,7 @@ class Validate {
   // RegEx pattern for validating email addresses.
   static String emailPattern = r'^.+@[a-zA-Z]+\.[a-zA-Z]+(\.?[a-zA-Z]+)$';
   static RegExp emailRegEx = RegExp(emailPattern);
+
   // Validates an email address.
 
   static bool isEmail(String value) {
@@ -16,6 +17,7 @@ class Validate {
   static late String passwordPattern =
       r"^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$";
   static RegExp passwordRegEx = RegExp(passwordPattern);
+
   static bool isPassword(String value) {
     if (passwordRegEx.hasMatch(value.trim())) {
       return true;
@@ -86,9 +88,9 @@ class Validate {
 
     if (!isMobile(value) && !isEmail(value)) {
       if (!isNumeric(value)) {
-        return 'Email is not Valid';
+        return 'Email is not valid';
       } else {
-        return 'Phone Number is not Valid';
+        return 'Phone number is not valid';
       }
     } else if (isMobile(value)) {
       return null;

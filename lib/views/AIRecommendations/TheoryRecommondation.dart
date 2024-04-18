@@ -1,9 +1,15 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
+import 'dart:developer';
+import 'package:Smart_Theory_Test/views/AIRecommendations/ai_reading_screen.dart';
+import 'package:flutter/src/material/card.dart' as MCard;
 
+import 'package:Smart_Theory_Test/main.dart';
+import 'package:Smart_Theory_Test/views/AIRecommendations/youtube_video_player_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
@@ -11,12 +17,14 @@ import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/datamodels/ai_data_model.dart';
 import 'package:Smart_Theory_Test/external.dart';
 import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
+// import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../Constants/app_colors.dart';
 import '../../Constants/global.dart';
 import '../../locater.dart';
@@ -49,13 +57,15 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final PaymentService _paymentService = new PaymentService();
   Map? walletDetail = null;
-  List theoryContent = [];
+  List<TheoryContentModel> theoryContent = [];
   Map topicData = {};
   bool expandAll = false;
   bool isWatchVideo = false;
-  var controller = YoutubePlayerController(
-      params: YoutubePlayerParams(
-          mute: false, showControls: true, showFullscreenButton: false));
+  YoutubePlayerController? youtubePlayerController;
+
+  // var controller = YoutubePlayerController(
+  //     params: YoutubePlayerParams(
+  //         mute: false, showControls: true, showFullscreenButton: false));
   bool _isSelected = false;
   List<bool> readContentTheory = [];
 
@@ -64,8 +74,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   //
   // DataStatus _w = DataStatus.Initial;
 
-  int selected = 0;
-  bool isExpanded = false;
+  int selected = -1;
+
+  // bool isExpanded = false;
   int randomIndex = 0;
   String userName = '';
 
@@ -75,6 +86,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   void initState() {
     //changingData = changingData.toList();
     //print(readContentTheory);
+    context.read<SubscriptionProvider>().isUserPurchaseTest();
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
@@ -86,22 +98,29 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     super.dispose();
   }
 
-  initializeApi(String loaderMessage) {
+  initializeApi(String loaderMessage) async {
+    await context.read<SubscriptionProvider>().fetchOffer();
     checkInternet();
-
+    var sharedPref = await SharedPreferences.getInstance();
+    var data = sharedPref.getBool('showMessage');
+    if (data == null) {
+      showMessageDialog();
+    }
     showLoader(loaderMessage);
     getUserDetail().then((user_id) async {
       // fetch dvsa subscription status from db.
       await getAllRecordsFromApi().then((records_list) {
         walletDetail = records_list['other_data'];
       });
+      // await getTheoryContent(
+      //         walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
       await getTheoryContent(
-              walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
+              '${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid && AppConstant.userModel?.planType == "free" ? "no" : "yes"}')
           .then((value) async {
         await fetchUserTheoryProgress(_userId!).then((res) {
           print("Progress fetch : $res");
           setState(() {
-            theoryContent = value["message"];
+            // theoryContent = value["message"];
           });
           if (res["message"].length == 0) {
             for (int i = 0; i < theoryContent.length; i++) {
@@ -121,7 +140,6 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
           }
         });
         print("Status : $readContentTheory");
-        print("TheoryContent : ${theoryContent}");
       });
       // await callApiGetRecommendatedTheory().then((data) { //fetch all theory content.
       //   print(dataSub!["hazard awareness theory test"]);
@@ -159,11 +177,51 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     Map<String, String> header = {
       'token': token,
     };
-    final url = Uri.parse('$api/api/ai_get_theory_content/${isFree}');
+    final url = Uri.parse('$api/api/ai_get_theory_content/$isFree');
     final response = await http.get(url, headers: header);
-    print("URL +++++++ $api/api/ai_get_theory_content/${isFree}");
+    print("URL +++++++ $url");
+    if (response.statusCode == 200) {
+      var parsedData = jsonDecode(response.body);
+      if (parsedData['success'] == true) {
+        theoryContent.clear();
+        List<TheoryContentModel> data = (parsedData["message"] as List)
+            .map((e) => TheoryContentModel.fromJson(e))
+            .toList();
+        theoryContent.addAll(data);
+        print("RESPONESE +++++++ $parsedData");
+      }
+    } else {
+      log('ERORRRR ${response.body}');
+    }
 
     return jsonDecode(response.body);
+  }
+
+  purchasePackage(Package package, BuildContext context) async {
+    loading(value: true);
+    try {
+      loading(value: true);
+      await Purchases.purchasePackage(package).then((value) {
+        loading(value: false);
+        print('HHHHHHHHH ${value.entitlements.all}');
+        getTheoryContent('yes');
+        context.read<SubscriptionProvider>().updateUserPlan(
+            value.entitlements.active['One time purchase']?.isActive == true
+                ? "paid"
+                : AppConstant.userModel?.planType == "gift"
+                    ? "gift"
+                    : "free");
+        context.read<SubscriptionProvider>().checkActiveUser(context: context);
+      }).catchError((e) {
+        loading(value: false);
+        print("ERROR ====== $e");
+
+        return e;
+      });
+    } catch (e) {
+      loading(value: false);
+      print("ERROR ====== $e");
+    }
   }
 
   Future<Map> getTopicAiContent(String topic) async {
@@ -202,6 +260,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       'topic_id': topicId,
     };
     final response = await http.post(url, body: body, headers: header);
+    print('BODY ${jsonEncode(body)}');
     print('URL ===== $api/api/update/progress');
     print('RESPONSE ===== ${response.body}');
     return jsonDecode(response.body);
@@ -310,7 +369,11 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pop(true);
+                          print('tapppppppppppppppp');
+                          SystemChrome.setPreferredOrientations(
+                              [DeviceOrientation.portraitUp]).then((_) {
+                            Navigator.of(context).pop(true);
+                          });
                         },
                         child: Container(
                           padding: EdgeInsets.all(6),
@@ -357,580 +420,611 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                     child: Padding(
                       padding: EdgeInsets.only(
                           left: 12, right: 10, top: 0, bottom: 12),
-                      child: ListView.builder(
-                        padding: EdgeInsets.all(0),
-                        key: Key('builder ${selected.toString()}'),
-                        itemBuilder: (context, index) {
-                          print(
-                              "data : -----${theoryContent[index]['topic_name']} ------");
-                          if (theoryContent.isNotEmpty &&
-                              walletDetail != null &&
-                              walletDetail!['dvsa_subscription'] <= 0) {
-                            if (theoryContent[index]['isFree'] == "free") {
-                              return Container(
-                                width: double.infinity,
-                                //height: constraints.maxHeight * 0.11,
-                                margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                                decoration: BoxDecoration(
-                                  // gradient: LinearGradient(
-                                  //     begin: Alignment.topCenter,
-                                  //     end: Alignment.bottomCenter,
-                                  //     colors: [
-                                  // Colors.white,
-                                  // AppColors.borderblue.withOpacity(0.1),
-                                  // AppColors.borderblue.withOpacity(0.2)
-                                  // ]),
-                                  color: AppColors.borderblue.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      color:
-                                          AppColors.borderblue.withOpacity(0.5),
-                                      width: 1),
-                                ),
-                                child: Theme(
-                                  data: ThemeData(
-                                      dividerColor: Colors.transparent),
-                                  child: ExpansionTile(
-                                    tilePadding:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    key: Key(index.toString()),
-                                    initiallyExpanded: index == selected,
-                                    maintainState: true,
-                                    onExpansionChanged: (val) {
-                                      isExpanded = val;
-                                      setState(() {});
-                                      if (val) {
-                                        setState(() {
-                                          selected = index;
-                                          _dataStatus = DataStatus.Initial;
-                                          // _w = DataStatus.Initial;
-                                          topicData = {};
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selected = -1;
-                                          _dataStatus = DataStatus.Initial;
-                                          // _w = DataStatus.Initial;
-                                          topicData = {};
-                                        });
-                                      }
-                                    },
-                                    trailing: Container(
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                AppColors.blueGrad7
-                                                    .withOpacity(0.3),
-                                                AppColors.blueGrad6
-                                                    .withOpacity(0.2),
-                                                AppColors.blueGrad5
-                                                    .withOpacity(0.2),
-                                                AppColors.blueGrad4
-                                                    .withOpacity(0.2),
-                                                AppColors.blueGrad3
-                                                    .withOpacity(0.2),
-                                                AppColors.blueGrad2
-                                                    .withOpacity(0.2),
-                                                AppColors.blueGrad1
-                                                    .withOpacity(0.2),
-                                              ]),
-                                          shape: BoxShape.circle
-                                          //borderRadius: BorderRadius.circular(10),
-                                          ),
-                                      child: Icon(
-                                          isExpanded
-                                              ? Icons.keyboard_arrow_up
-                                              : Icons.keyboard_arrow_down,
-                                          color: AppColors.blueGrad6),
-                                    ),
-                                    childrenPadding: EdgeInsets.only(
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 10,
-                                        top: 0),
-                                    title: Text(
-                                        theoryContent[index]["topic_name"]
-                                                .replaceAll('_', ' ')
-                                                .substring(0, 1)
-                                                .toUpperCase() +
-                                            theoryContent[index]["topic_name"]
-                                                .replaceAll('_', ' ')
-                                                .substring(1),
-                                        style: AppTextStyle.textStyle.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15)),
-                                    children: [
-                                      Text(
-                                        theoryContent[index]
-                                            ["topic_description"],
-                                        textAlign: TextAlign.left,
-                                        style: AppTextStyle.disStyle.copyWith(
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      /*Visibility(
-                                        visible: _dataStatus == DataStatus.Loaded
-                                            ? false
-                                            : true,
-                                        child: Container(
-                                          //color: Colors.red[200],
-                                          margin: EdgeInsets.only(top: 10),
-                                          width: double.infinity,
-                                          child: _dataStatus == DataStatus.Loading
-                                              ? Center(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(16.0),
-                                                    child: CircularProgressIndicator(),
-                                                  ),
-                                                )
-                                              : Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    RichText(
-                                                      text: TextSpan(
-                                                          text: "Read AI article",
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Dark,
-                                                          ),
-                                                          recognizer:
-                                                              TapGestureRecognizer()
-                                                                ..onTap = () async {
-                                                                  print("Clicked!!");
-                                                                  setState(() {
-                                                                    _dataStatus =
-                                                                        DataStatus
-                                                                            .Loading;
-                                                                  });
-                                                                  await getTopicAiContent(
-                                                                          theoryContent[
-                                                                                  index][
-                                                                              "topic_name"])
-                                                                      .then((data) {
-                                                                    print(
-                                                                        "Topic : $data");
-                                                                    setState(() {
-                                                                      _dataStatus =
-                                                                          DataStatus
-                                                                              .Loaded;
-                                                                      topicData = data;
-                                                                    });
-                                                                  });
-                                                                }),
-                                                    ),
-                                                    SizedBox(height: 3),
-                                                    RichText(
-                                                      text: TextSpan(
-                                                          text: "Watch Video",
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Dark,
-                                                          ),
-                                                          recognizer:
-                                                              TapGestureRecognizer()
-                                                                ..onTap = () async {
-                                                                  print("Clicked!!");
-                                                                  setState(() {
-                                                                    _dataStatus =
-                                                                        DataStatus
-                                                                            .Loading;
-                                                                  });
-                                                                  await getTopicAiContent(
-                                                                          theoryContent[
-                                                                                  index][
-                                                                              "topic_name"])
-                                                                      .then((data) {
-                                                                    print(
-                                                                        "Topic : $data");
-                                                                    setState(() {
-                                                                      _dataStatus =
-                                                                          DataStatus
-                                                                              .Loaded;
-                                                                      topicData = data;
-                                                                    });
-                                                                  });
-                                                                }),
-                                                    ),
-                                                  ],
-                                                ),
-                                        ),
-                                      ),
-                                      Visibility(
-                                        visible: _dataStatus == DataStatus.Loaded
-                                            ? true
-                                            : false,
-                                        child: Container(
-                                          child: topicData.isNotEmpty
-                                              ? Column(
-                                                  children: [
-                                                    ListTile(
-                                                      title: Text("Read article",
-                                                          style: TextStyle(color: Dark)),
-                                                      onTap: () {
-                                                        _handleURLButtonPress(
-                                                            context,
-                                                            topicData["reading_links"]
-                                                                [0]);
-                                                      },
-                                                    ),
-                                                    ListTile(
-                                                      title: YoutubePlayer(
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        controller:
-                                                            YoutubePlayerController(
-                                                          params: YoutubePlayerParams(
-                                                              mute: false,
-                                                              showControls: true,
-                                                              showFullscreenButton:
-                                                                  false),
-                                                        )..loadVideo(
-                                                                topicData["yt_links"][0]),
-                                                        // width: 250,
-                                                      ),
-                                                      // onTap: () {
-                                                      //   _handleURLButtonPress(context,
-                                                      //       "https://www.youtube.com/watch?v=sI2Bbs_IvcU");
-                                                      // },
-                                                    )
-                                                  ],
-                                                )
-                                              : Text("No data"),
-                                        ),
-                                      ),*/
-                                      SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                              child: CustomButton(
-                                                  isfontSize: true,
-                                                  isfontWeight: true,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                  isImage: true,
-                                                  title: "Read AI article",
-                                                  image: AppImages.readAi,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 10),
-                                                  onTap: () async {
-                                                    print("Clicked!!");
-                                                    setState(() {
-                                                      _dataStatus =
-                                                          DataStatus.Loading;
-                                                    });
-                                                    await getTopicAiContent(
-                                                            theoryContent[index]
-                                                                ["topic_name"])
-                                                        .then((data) {
-                                                      print("Topic : $data");
-                                                      setState(() {
-                                                        _dataStatus =
-                                                            DataStatus.Loaded;
-                                                        topicData = data;
-                                                        print(
-                                                            'RRRRGJGJKGJKG $topicData');
-                                                        _handleURLButtonPress(
-                                                            context,
-                                                            topicData['data'][
-                                                                    "reading_links"]
-                                                                [0]);
-                                                      });
-                                                    });
-                                                  })),
-                                          // Expanded(
-                                          //   child: RichText(
-                                          //     text: TextSpan(
-                                          //         text: "Read AI article",
-                                          //         style: TextStyle(
-                                          //           fontSize: 15,
-                                          //           fontWeight: FontWeight.w500,
-                                          //           color: Dark,
-                                          //         ),
-                                          //         recognizer:
-                                          //             TapGestureRecognizer()
-                                          //               ..onTap = () async {
-                                          //                 print("Clicked!!");
-                                          //                 setState(() {
-                                          //                   _dataStatus =
-                                          //                       DataStatus
-                                          //                           .Loading;
-                                          //                 });
-                                          //                 await getTopicAiContent(
-                                          //                         theoryContent[
-                                          //                                 index]
-                                          //                             [
-                                          //                             "topic_name"])
-                                          //                     .then((data) {
-                                          //                   print(
-                                          //                       "Topic : $data");
-                                          //                   setState(() {
-                                          //                     _dataStatus =
-                                          //                         DataStatus
-                                          //                             .Loaded;
-                                          //                     topicData = data;
-                                          //                   });
-                                          //                 });
-                                          //               }),
-                                          //   ),
-                                          // ),
-                                          SizedBox(width: 8),
-                                          Expanded(
-                                              child: CustomButton(
-                                                  isImage: true,
-                                                  title: "Watch Video",
-                                                  fontSize: 12,
-                                                  isfontSize: true,
-                                                  isfontWeight: true,
-                                                  fontWeight: FontWeight.w500,
-                                                  image: AppImages.video,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 10),
-                                                  onTap: () async {
-                                                    print("Clicked!!");
-                                                    setState(() {
-                                                      _dataStatus =
-                                                          DataStatus.Loading;
-                                                      isWatchVideo = true;
-                                                    });
-                                                    await getTopicAiContent(
-                                                            theoryContent[index]
-                                                                ["topic_name"])
-                                                        .then((data) {
-                                                      print("Topic : $data");
-                                                      setState(() {
-                                                        _dataStatus =
-                                                            DataStatus.Loaded;
-                                                        topicData = data;
-                                                        urlLauncher(
-                                                            "${topicData['data']["yt_links"][0]}");
+                      child: Consumer<SubscriptionProvider>(
+                          builder: (context, snapshot, _) {
+                        return ListView.builder(
+                          padding: EdgeInsets.all(0),
+                          key: Key('builder ${selected.toString()}'),
+                          itemBuilder: (context, index) {
+                            // if (theoryContent[index].isFree == "free") {
+                            //   selected = index;
+                            // }
+                            print(
+                                "data : -----${theoryContent[index].topicName} ------");
+                            if (theoryContent.isNotEmpty &&
+                                walletDetail != null) {
+                              return GestureDetector(
+                                onTap: context
+                                            .read<SubscriptionProvider>()
+                                            .entitlement ==
+                                        Entitlement.paid
+                                    ? null
+                                    : () {
+                                        print(
+                                            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 1${theoryContent[index].isFree}');
 
-                                                        // YoutubePlayerController.convertUrlToId(url)
-                                                        // controller.
-                                                        // controller.loadVideo(
-                                                        //     topicData['data']
-                                                        //             ['yt_links']
-                                                        //         [0]);
-                                                      });
-                                                    });
-                                                  })),
-                                          // Expanded(
-                                          //   child: Column(
-                                          //     children: [
-                                          //       RichText(
-                                          //         text: TextSpan(
-                                          //             text: "Watch Video",
-                                          //             style: TextStyle(
-                                          //               fontSize: 15,
-                                          //               fontWeight:
-                                          //                   FontWeight.w500,
-                                          //               color: Dark,
-                                          //             ),
-                                          //             recognizer:
-                                          //                 TapGestureRecognizer()
-                                          //                   ..onTap = () async {
-                                          //                     print(
-                                          //                         "Clicked!!");
-                                          //                     setState(() {
-                                          //                       _dataStatus =
-                                          //                           DataStatus
-                                          //                               .Loading;
-                                          //                     });
-                                          //                     await getTopicAiContent(
-                                          //                             theoryContent[
-                                          //                                     index]
-                                          //                                 [
-                                          //                                 "topic_name"])
-                                          //                         .then((data) {
-                                          //                       print(
-                                          //                           "Topic : $data");
-                                          //                       setState(() {
-                                          //                         _dataStatus =
-                                          //                             DataStatus
-                                          //                                 .Loaded;
-                                          //                         topicData =
-                                          //                             data;
-                                          //                       });
-                                          //                     });
-                                          //                   }),
-                                          //       ),
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                        ],
+                                        context
+                                            .read<SubscriptionProvider>()
+                                            .isUserPurchaseTest();
+
+                                        if (context
+                                                    .read<
+                                                        SubscriptionProvider>()
+                                                    .entitlement ==
+                                                Entitlement.unpaid &&
+                                            theoryContent[index].isFree ==
+                                                "not-free" &&
+                                            AppConstant.userModel?.planType ==
+                                                "free") {
+                                          GetPremium(context);
+                                        } else {
+                                          print(
+                                              'ELSEEEEE ============++++++++++');
+                                        }
+                                      },
+                                child: Container(
+                                  width: double.infinity,
+                                  //height: constraints.maxHeight * 0.11,
+                                  margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                                  decoration: BoxDecoration(
+                                    // gradient: LinearGradient(
+                                    //     begin: Alignment.topCenter,
+                                    //     end: Alignment.bottomCenter,
+                                    //     colors: [
+                                    // Colors.white,
+                                    // AppColors.borderblue.withOpacity(0.1),
+                                    // AppColors.borderblue.withOpacity(0.2)
+                                    // ]),
+                                    color:
+                                        AppColors.borderblue.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: AppColors.borderblue
+                                            .withOpacity(0.5),
+                                        width: 1),
+                                  ),
+                                  child: Theme(
+                                    data: ThemeData(
+                                        dividerColor: Colors.transparent),
+                                    child: ExpansionTile(
+                                      enabled: context
+                                                      .read<
+                                                          SubscriptionProvider>()
+                                                      .entitlement ==
+                                                  Entitlement.unpaid &&
+                                              AppConstant.userModel?.planType ==
+                                                  "free"
+                                          ? false
+                                          : true,
+                                      tilePadding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      key: Key(index.toString()),
+                                      initiallyExpanded: index == selected ||
+                                          theoryContent[index].isFree == "free",
+                                      maintainState: true,
+                                      onExpansionChanged: (val) async {
+                                        context
+                                            .read<SubscriptionProvider>()
+                                            .isUserPurchaseTest();
+                                        print(
+                                            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${theoryContent[index].isFree} $index $selected $val');
+                                        if (context
+                                                    .read<
+                                                        SubscriptionProvider>()
+                                                    .entitlement ==
+                                                Entitlement.unpaid &&
+                                            AppConstant.userModel?.planType ==
+                                                "free") {
+                                          GetPremium(context);
+                                        } else {
+                                          theoryContent[index].isExpand =
+                                              !theoryContent[index].isExpand;
+
+                                          if (val) {
+                                            setState(() {
+                                              selected = index;
+                                              _dataStatus = DataStatus.Initial;
+                                              // _w = DataStatus.Initial;
+                                              topicData = {};
+                                            });
+                                          } else {
+                                            setState(() {
+                                              selected = -1;
+                                              _dataStatus = DataStatus.Initial;
+                                              // _w = DataStatus.Initial;
+                                              topicData = {};
+                                            });
+                                          }
+                                        }
+                                      },
+                                      trailing: Container(
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: [
+                                                  AppColors.blueGrad7
+                                                      .withOpacity(0.3),
+                                                  AppColors.blueGrad6
+                                                      .withOpacity(0.2),
+                                                  AppColors.blueGrad5
+                                                      .withOpacity(0.2),
+                                                  AppColors.blueGrad4
+                                                      .withOpacity(0.2),
+                                                  AppColors.blueGrad3
+                                                      .withOpacity(0.2),
+                                                  AppColors.blueGrad2
+                                                      .withOpacity(0.2),
+                                                  AppColors.blueGrad1
+                                                      .withOpacity(0.2),
+                                                ]),
+                                            shape: BoxShape.circle
+                                            //borderRadius: BorderRadius.circular(10),
+                                            ),
+                                        child: Icon(
+                                            theoryContent[index].isExpand
+                                                ? Icons.keyboard_arrow_up
+                                                : Icons.keyboard_arrow_down,
+                                            color: AppColors.blueGrad6),
                                       ),
-                                      SizedBox(height: 8),
-                                      Visibility(
-                                        visible:
-                                            _dataStatus == DataStatus.Loaded
-                                                ? true
-                                                : false,
-                                        child: Container(
-                                          child: topicData.isNotEmpty
-                                              ? Column(
-                                                  children: [
-                                                    // ListTile(
-                                                    //   title: Text(
-                                                    //       "Read article",
-                                                    //       style: TextStyle(
-                                                    //           color: Dark)),
-                                                    //   onTap: () {
-                                                    //     _handleURLButtonPress(
-                                                    //         context,
-                                                    //         topicData['data'][
-                                                    //                 "reading_links"]
-                                                    //             [0]);
-                                                    //   },
-                                                    // ),
-                                                    isWatchVideo
-                                                        ? SizedBox()
-                                                        : SizedBox()
-                                                  ],
-                                                )
-                                              : Text("No data"),
+                                      childrenPadding: EdgeInsets.only(
+                                          left: 16,
+                                          right: 16,
+                                          bottom: 10,
+                                          top: 0),
+                                      title: Text(
+                                          theoryContent[index]
+                                                  .topicName!
+                                                  .replaceAll('_', ' ')
+                                                  .substring(0, 1)
+                                                  .toUpperCase() +
+                                              theoryContent[index]
+                                                  .topicName!
+                                                  .replaceAll('_', ' ')
+                                                  .substring(1),
+                                          style: AppTextStyle.textStyle
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 15)),
+                                      // subtitle: Text(
+                                      //     "${context.read<SubscriptionProvider>().entitlement}"),
+                                      children: [
+                                        Text(
+                                          theoryContent[index]
+                                              .topicDescription
+                                              .toString(),
+                                          textAlign: TextAlign.left,
+                                          style: AppTextStyle.disStyle.copyWith(
+                                              fontWeight: FontWeight.w400),
                                         ),
-                                      ),
-                                      SizedBox(height: 8),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: Checkbox(
-                                              shape: ContinuousRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12)),
-                                              value: readContentTheory[index],
-                                              onChanged: readContentTheory[
-                                                      index]
-                                                  ? null
-                                                  : (value) async {
-                                                      setState(() {
-                                                        readContentTheory[
-                                                                index] =
-                                                            !readContentTheory[
-                                                                index];
-                                                        print(
-                                                            'readContent------------${readContentTheory[index]}');
-                                                      });
-                                                      print(
-                                                          'readContent------------${readContentTheory[index]}');
-                                                      // print(_userId.runtimeType);
-                                                      // print(theoryContent[index]["id"].runtimeType);
-                                                      await updateTopicProgress(
-                                                          _userId!.toString(),
-                                                          theoryContent[index]
-                                                                  ["id"]
-                                                              .toString());
-                                                    },
-                                              fillColor: MaterialStateColor
-                                                  .resolveWith(
-                                                (Set<MaterialState> states) {
-                                                  if (states.contains(
-                                                      MaterialState.disabled)) {
-                                                    return Color(0xFF3F57A0);
-                                                  }
-                                                  return AppColors.transparent;
-                                                },
+                                        /*Visibility(
+                                              visible: _dataStatus == DataStatus.Loaded
+                                                  ? false
+                                                  : true,
+                                              child: Container(
+                                                //color: Colors.red[200],
+                                                margin: EdgeInsets.only(top: 10),
+                                                width: double.infinity,
+                                                child: _dataStatus == DataStatus.Loading
+                                                    ? Center(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(16.0),
+                                                          child: CircularProgressIndicator(),
+                                                        ),
+                                                      )
+                                                    : Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                        children: [
+                                                          RichText(
+                                                            text: TextSpan(
+                                                                text: "Read AI article",
+                                                                style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Dark,
+                                                                ),
+                                                                recognizer:
+                                                                    TapGestureRecognizer()
+                                                                      ..onTap = () async {
+                                                                        print("Clicked!!");
+                                                                        setState(() {
+                                                                          _dataStatus =
+                                                                              DataStatus
+                                                                                  .Loading;
+                                                                        });
+                                                                        await getTopicAiContent(
+                                                                                theoryContent[
+                                                                                        index][
+                                                                                    "topic_name"])
+                                                                            .then((data) {
+                                                                          print(
+                                                                              "Topic : $data");
+                                                                          setState(() {
+                                                                            _dataStatus =
+                                                                                DataStatus
+                                                                                    .Loaded;
+                                                                            topicData = data;
+                                                                          });
+                                                                        });
+                                                                      }),
+                                                          ),
+                                                          SizedBox(height: 3),
+                                                          RichText(
+                                                            text: TextSpan(
+                                                                text: "Watch Video",
+                                                                style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Dark,
+                                                                ),
+                                                                recognizer:
+                                                                    TapGestureRecognizer()
+                                                                      ..onTap = () async {
+                                                                        print("Clicked!!");
+                                                                        setState(() {
+                                                                          _dataStatus =
+                                                                              DataStatus
+                                                                                  .Loading;
+                                                                        });
+                                                                        await getTopicAiContent(
+                                                                                theoryContent[
+                                                                                        index][
+                                                                                    "topic_name"])
+                                                                            .then((data) {
+                                                                          print(
+                                                                              "Topic : $data");
+                                                                          setState(() {
+                                                                            _dataStatus =
+                                                                                DataStatus
+                                                                                    .Loaded;
+                                                                            topicData = data;
+                                                                          });
+                                                                        });
+                                                                      }),
+                                                          ),
+                                                        ],
+                                                      ),
                                               ),
                                             ),
+                                            Visibility(
+                                              visible: _dataStatus == DataStatus.Loaded
+                                                  ? true
+                                                  : false,
+                                              child: Container(
+                                                child: topicData.isNotEmpty
+                                                    ? Column(
+                                                        children: [
+                                                          ListTile(
+                                                            title: Text("Read article",
+                                                                style: TextStyle(color: Dark)),
+                                                            onTap: () {
+                                                              _handleURLButtonPress(
+                                                                  context,
+                                                                  topicData["reading_links"]
+                                                                      [0]);
+                                                            },
+                                                          ),
+                                                          ListTile(
+                                                            title: YoutubePlayer(
+                                                              backgroundColor:
+                                                                  Colors.transparent,
+                                                              controller:
+                                                                  YoutubePlayerController(
+                                                                params: YoutubePlayerParams(
+                                                                    mute: false,
+                                                                    showControls: true,
+                                                                    showFullscreenButton:
+                                                                        false),
+                                                              )..loadVideo(
+                                                                      topicData["yt_links"][0]),
+                                                              // width: 250,
+                                                            ),
+                                                            // onTap: () {
+                                                            //   _handleURLButtonPress(context,
+                                                            //       "https://www.youtube.com/watch?v=sI2Bbs_IvcU");
+                                                            // },
+                                                          )
+                                                        ],
+                                                      )
+                                                    : Text("No data"),
+                                              ),
+                                            ),*/
+                                        SizedBox(height: 8),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                                child: CustomButton(
+                                                    isfontSize: true,
+                                                    isfontWeight: true,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                    isImage: true,
+                                                    title: "Read AI article",
+                                                    image: AppImages.readAi,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10,
+                                                            horizontal: 10),
+                                                    onTap: () async {
+                                                      print("Clicked!!");
+                                                      setState(() {
+                                                        _dataStatus =
+                                                            DataStatus.Loading;
+                                                      });
+                                                      await getTopicAiContent(
+                                                              theoryContent[
+                                                                      index]
+                                                                  .topicName
+                                                                  .toString())
+                                                          .then((data) {
+                                                        print("Topic : $data");
+                                                        setState(() {
+                                                          _dataStatus =
+                                                              DataStatus.Loaded;
+                                                          topicData = data;
+                                                          print(
+                                                              'RRRRGJGJKGJKG $topicData');
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => AIReadingScreen(
+                                                                      data: topicData[
+                                                                              'data']
+                                                                          [
+                                                                          "ai_reading"],
+                                                                      heading: theoryContent[index]
+                                                                              .topicName!
+                                                                              .replaceAll('_',
+                                                                                  ' ')
+                                                                              .substring(0,
+                                                                                  1)
+                                                                              .toUpperCase() +
+                                                                          theoryContent[index]
+                                                                              .topicName!
+                                                                              .replaceAll('_', ' ')
+                                                                              .substring(1))));
+                                                          // _handleURLButtonPress(
+                                                          //     context,
+                                                          //     topicData['data'][
+                                                          //         "ai_reading"]);
+                                                        });
+                                                      });
+                                                    })),
+                                            // Expanded(
+                                            //   child: RichText(
+                                            //     text: TextSpan(
+                                            //         text: "Read AI article",
+                                            //         style: TextStyle(
+                                            //           fontSize: 15,
+                                            //           fontWeight: FontWeight.w500,
+                                            //           color: Dark,
+                                            //         ),
+                                            //         recognizer:
+                                            //             TapGestureRecognizer()
+                                            //               ..onTap = () async {
+                                            //                 print("Clicked!!");
+                                            //                 setState(() {
+                                            //                   _dataStatus =
+                                            //                       DataStatus
+                                            //                           .Loading;
+                                            //                 });
+                                            //                 await getTopicAiContent(
+                                            //                         theoryContent[
+                                            //                                 index]
+                                            //                             [
+                                            //                             "topic_name"])
+                                            //                     .then((data) {
+                                            //                   print(
+                                            //                       "Topic : $data");
+                                            //                   setState(() {
+                                            //                     _dataStatus =
+                                            //                         DataStatus
+                                            //                             .Loaded;
+                                            //                     topicData = data;
+                                            //                   });
+                                            //                 });
+                                            //               }),
+                                            //   ),
+                                            // ),
+                                            SizedBox(width: 8),
+                                            Expanded(
+                                                child: CustomButton(
+                                                    isImage: true,
+                                                    title: "Watch Video",
+                                                    fontSize: 12,
+                                                    isfontSize: true,
+                                                    isfontWeight: true,
+                                                    fontWeight: FontWeight.w500,
+                                                    image: AppImages.video,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10,
+                                                            horizontal: 10),
+                                                    onTap: () async {
+                                                      print("Clicked!!");
+                                                      setState(() {
+                                                        _dataStatus =
+                                                            DataStatus.Loading;
+                                                        isWatchVideo = true;
+                                                      });
+                                                      await getTopicAiContent(
+                                                              theoryContent[
+                                                                      index]
+                                                                  .topicName
+                                                                  .toString())
+                                                          .then((data) {
+                                                        print("Topic : $data");
+                                                        setState(() {
+                                                          _dataStatus =
+                                                              DataStatus.Loaded;
+                                                          topicData = data;
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (_) =>
+                                                                      YoutubeVideoPlayerScreen(
+                                                                        title: theoryContent[index].topicName!.replaceAll('_', ' ').substring(0, 1).toUpperCase() +
+                                                                            theoryContent[index].topicName!.replaceAll('_', ' ').substring(1),
+                                                                        desc: theoryContent[index]
+                                                                            .topicDescription
+                                                                            .toString(),
+                                                                        data: topicData['data']
+                                                                            [
+                                                                            'yt_links'][0],
+                                                                      )));
+                                                          // YoutubePlayerController.convertUrlToId(
+                                                          //         topicData['data']
+                                                          //                 [
+                                                          //                 'yt_links']
+                                                          //             [0]);
+                                                          // urlLauncher(
+                                                          //     "${topicData['data']["yt_links"][0]}");
+                                                          // var id = topicData[
+                                                          //             'data']
+                                                          //         ["yt_links"][0]
+                                                          //     .toString()
+                                                          //     .split("=")
+                                                          //     .last;
+                                                          // var id = YoutubePlayer
+                                                          //     .convertUrlToId(
+                                                          //         "https://www.youtube.com/watch?v=o0FCW-iN9OU");
+                                                          // print(
+                                                          //     'YOUTUBE VIDEO ID ============= $id');
+                                                          // youtubePlayerController =
+                                                          //     YoutubePlayerController(
+                                                          //         initialVideoId: id
+                                                          //             .toString(),
+                                                          //         flags:
+                                                          //             YoutubePlayerFlags());
+
+                                                          // controller.loadVideo(
+                                                          //     topicData['data']
+                                                          //             ['yt_links']
+                                                          //         [0]);
+                                                        });
+                                                      });
+                                                    })),
+                                          ],
+                                        ),
+                                        SizedBox(height: 8),
+                                        Visibility(
+                                          visible:
+                                              _dataStatus == DataStatus.Loaded
+                                                  ? true
+                                                  : false,
+                                          child: Container(
+                                            child: topicData.isNotEmpty
+                                                ? !isWatchVideo
+                                                    ? SizedBox()
+                                                    : SizedBox()
+                                                // Column(
+                                                //             crossAxisAlignment:
+                                                //                 CrossAxisAlignment
+                                                //                     .end,
+                                                //             children: [
+                                                //               Padding(
+                                                //                 padding:
+                                                //                     const EdgeInsets
+                                                //                         .only(
+                                                //                         right: 10.0),
+                                                //                 child: InkWell(
+                                                //                     onTap: () {
+                                                //                       isWatchVideo =
+                                                //                           false;
+                                                //                       setState(() {});
+                                                //                       youtubePlayerController
+                                                //                           ?.dispose();
+                                                //                     },
+                                                //                     child: Icon(
+                                                //                         Icons.close)),
+                                                //               ),
+                                                //               youtubePlayerController ==
+                                                //                       null
+                                                //                   ? SizedBox()
+                                                //                   : SizedBox()
+                                                //             ],
+                                                //           )
+                                                : Text("No data"),
                                           ),
-                                          SizedBox(width: 10),
-                                          Text(
-                                            "I have read the content",
-                                            style:
-                                                AppTextStyle.disStyle.copyWith(
-                                              color: AppColors.black,
-                                              fontWeight: FontWeight.w500,
+                                        ),
+                                        SizedBox(height: 8),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: Checkbox(
+                                                shape:
+                                                    ContinuousRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                value: readContentTheory[index],
+                                                onChanged: readContentTheory[
+                                                        index]
+                                                    ? null
+                                                    : (value) async {
+                                                        setState(() {
+                                                          readContentTheory[
+                                                                  index] =
+                                                              !readContentTheory[
+                                                                  index];
+                                                          print(
+                                                              'readContent------------${readContentTheory[index]}');
+                                                        });
+                                                        print(
+                                                            'readContent------------${theoryContent[index].id}');
+                                                        // print(_userId.runtimeType);
+                                                        // print(theoryContent[index]["id"].runtimeType);
+                                                        await updateTopicProgress(
+                                                            _userId!.toString(),
+                                                            theoryContent[index]
+                                                                .id
+                                                                .toString());
+                                                      },
+                                                fillColor: MaterialStateColor
+                                                    .resolveWith(
+                                                  (Set<MaterialState> states) {
+                                                    if (states.contains(
+                                                        MaterialState
+                                                            .disabled)) {
+                                                      return Color(0xFF3F57A0);
+                                                    }
+                                                    return AppColors
+                                                        .transparent;
+                                                  },
+                                                ),
+                                              ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      // _buildTilesX(context, changingData[index]),
-                                    ],
+                                            SizedBox(width: 10),
+                                            Text(
+                                              "I have read the content",
+                                              style: AppTextStyle.disStyle
+                                                  .copyWith(
+                                                color: AppColors.black,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        // _buildTilesX(context, changingData[index]),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
+                            } else {
+                              return SizedBox();
                             }
-                            return Container(
-                              width: double.infinity,
-                              //height: constraints.maxHeight * 0.11,
-                              margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                              decoration: BoxDecoration(
-                                // gradient: LinearGradient(
-                                //     begin: Alignment.topCenter,
-                                //     end: Alignment.bottomCenter,
-                                //     colors: [
-                                //       AppColors.borderblue.withOpacity(0.1),
-                                //       AppColors.borderblue.withOpacity(0.3)
-                                //     ]),
-                                color: AppColors.borderblue.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color:
-                                        AppColors.borderblue.withOpacity(0.5),
-                                    width: 1),
-                              ),
-                              child: ListTile(
-                                visualDensity: VisualDensity.comfortable,
-                                // dense: true,
-                                title: Text(
-                                    theoryContent[index]["topic_name"]
-                                            .replaceAll('_', ' ')
-                                            .substring(0, 1)
-                                            .toUpperCase() +
-                                        theoryContent[index]["topic_name"]
-                                            .replaceAll('_', ' ')
-                                            .substring(1),
-                                    style: AppTextStyle.textStyle.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15)),
-                                onTap: () async {
-                                  GetPremium(context);
-                                },
-                                trailing: Container(
-                                  // padding: EdgeInsets.all(0),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          AppColors.blueGrad7.withOpacity(0.3),
-                                          AppColors.blueGrad6.withOpacity(0.2),
-                                          AppColors.blueGrad5.withOpacity(0.2),
-                                          AppColors.blueGrad4.withOpacity(0.2),
-                                          AppColors.blueGrad3.withOpacity(0.2),
-                                          AppColors.blueGrad2.withOpacity(0.2),
-                                          AppColors.blueGrad1.withOpacity(0.2),
-                                        ]),
-                                    shape: BoxShape.circle,
-                                    // borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Icon(
-                                      // isExpanded
-                                      //     ? Icons.keyboard_arrow_up
-                                      //     :
-                                      Icons.keyboard_arrow_down,
-                                      color: Color(0xFF3F57A0)),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        },
-                        itemCount: theoryContent.length,
-                      ),
+                          },
+                          itemCount: theoryContent.length,
+                        );
+                      }),
                     ),
                   ),
                 ),
@@ -1078,6 +1172,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
           return PopScope(
             canPop: false,
             child: Dialog(
+              insetPadding: EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)), //this right here
               child: Container(
@@ -1109,7 +1204,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   style: AppTextStyle.titleStyle)),
                           SizedBox(height: 8),
                           Text(
-                            'Get Premium service for getting AI data for this topic',
+                            'Buy premium license now to unlock exclusive content and maximize your learning experience.',
                             style: AppTextStyle.disStyle.copyWith(
                                 fontWeight: FontWeight.w300,
                                 color: AppColors.black),
@@ -1125,9 +1220,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                   onTap: () async {
                                     // Navigator.of(context).pop();
                                     // showLoader("Loading");
-                                    context
-                                        .read<SubscriptionProvider>()
-                                        .fetchOffer();
+
                                     // Stripe.publishableKey = stripePublic;
                                     payWallBottomSheet();
                                     // closeLoader();
@@ -1176,8 +1269,6 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                 child: GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context, false);
-                                    //Provider.of<AuthProvider>(context, listen: false).logOut();
-                                    // _navigationService.navigateTo('/Authorization');
                                   },
                                   child: Container(
                                       // width: constraints.maxWidth * 0.8,
@@ -1228,22 +1319,33 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
         context: context,
         builder: (_) => PopScope(
               canPop: false,
-              child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
+              child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                            padding: EdgeInsets.all(0),
-                            visualDensity: VisualDensity.comfortable,
-                            iconSize: 20,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.clear)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 20),
+                          Text("Purchase",
+                              style: AppTextStyle.titleStyle.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black54)),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                                padding: EdgeInsets.all(0),
+                                visualDensity: VisualDensity.comfortable,
+                                iconSize: 20,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.clear)),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 10),
                       Padding(
@@ -1252,7 +1354,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            PurchaseSub.purchasePackage(val.package.first);
+                            purchasePackage(val.package.first, context);
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -1263,11 +1365,18 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Row(),
                                 Text("${val.package.first.storeProduct.title}",
                                     style: AppTextStyle.titleStyle.copyWith(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54)),
+                                Text(
+                                    "${val.package.first.storeProduct.description}",
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        // fontSize: 15,
+
+                                        color: Colors.grey)),
                                 Text(
                                   "${val.package.first.storeProduct.priceString}",
                                   style: AppTextStyle.disStyle
@@ -1278,12 +1387,89 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 40),
                     ],
                   ),
                 );
               }),
             ));
+  }
+
+  showMessageDialog({bool isTheoryTestGuidance = false}) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => PopScope(
+        canPop: false,
+        child: Dialog(
+          insetPadding: EdgeInsets.all(20),
+          backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                gradient: LinearGradient(
+                  begin: Alignment(0.0, -1.0),
+                  end: Alignment(0.0, 1.0),
+                  colors: [Dark, Light],
+                  stops: [0.0, 1.0],
+                )),
+            child: MCard.Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              elevation: 0.0,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child:
+                            Text("AI Learn", style: AppTextStyle.titleStyle)),
+                    Container(
+                      //width: constraints.maxWidth,
+                      margin: EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: [
+                          Text(
+                              "Our AI learn is powered by our proprietary AI solution which fetches high-quality content from the web to help you learn fast. We do not own this content and have no control over what is displayed."),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                                // style: ButtonStyle(
+                                //     visualDensity: VisualDensity.comfortable,
+                                //     padding: MaterialStateProperty.all(
+                                //         EdgeInsets.all(0)),
+                                //     overlayColor:
+                                //         MaterialStateProperty.all(Colors.blue)),
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  var sharedPref =
+                                      await SharedPreferences.getInstance();
+                                  sharedPref.setBool('showMessage', true);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  color: Colors.transparent,
+                                  child: Text(
+                                    "OK",
+                                    style: AppTextStyle.titleStyle
+                                        .copyWith(fontSize: 16),
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<Map> getAllRecordsFromApi() async {
@@ -1398,5 +1584,8 @@ void _handleURLButtonPress(BuildContext context, String url) {
   Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => WebViewContainer(url, 'AI Learning')));
+          builder: (context) => AIReadingScreen(
+                data: url,
+                heading: '',
+              )));
 }

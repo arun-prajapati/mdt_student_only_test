@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter/services.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
@@ -76,6 +77,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                   iconRight: Icons.arrow_forward_ios,
                   hasIcon: true,
                   onTapRightbtn: () {
+                    print('===========================');
                     SystemChrome.setPreferredOrientations(
                         [DeviceOrientation.landscapeLeft]).then((_) {
                       _localServices.setIndexOfVideo(0);

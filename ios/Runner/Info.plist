@@ -11,12 +11,13 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb934749024955543</string>
 				<string>com.googleusercontent.apps.825629569582-vmjj0oc8j2ndd5ddj2jokdr3s4q9g49c</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>Student Theory Test</string>
+	<string>Smart Theory Test</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -35,16 +36,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>This application requires camera  to put user&apos;s license photo.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This application requires location services to get loaction of login user.</string>
+	<string>This application requires location services to get location of login user.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This application requires location services to get loaction of login user.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This application requires photo library  to put user&apos;s license photo.</string>
+	<string>This application requires location services to get location of login user.</string>
+	<key>NSCameraUsageDescription</key>
+    <string>We need access to your camera to upload driving license document.</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>This app does not require access to the microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This application requires photo library  to put user&apos;s license photo.</string>
+    <string>We need access to your photo library to upload driving license document.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -52,7 +53,7 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>ama
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
@@ -68,5 +69,29 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>FacebookAppID</key>
+	<string>934749024955543</string>
+	<key>FacebookClientToken</key>
+	<string>9ee11ccd15a81b54a9e0e996ca45f9d9</string>
+	<key>FacebookDisplayName</key>
+	<string>Smart Theory Test</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fbapi20130214</string>
+		<string>fbapi20130410</string>
+		<string>fbapi20130702</string>
+		<string>fbapi20131010</string>
+		<string>fbapi20131219</string>
+		<string>fbapi20140410</string>
+		<string>fbapi20140116</string>
+		<string>fbapi20150313</string>
+		<string>fbapi20150629</string>
+		<string>fbapi20160328</string>
+		<string>fbauth</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>

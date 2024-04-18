@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/better_player_plus/better_player_plus.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/better_player_plus.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/saurabhinfosys/Desktop/stt/ios/build/Release-iphoneos/better_player_plus/better_player_plus.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "better_player_plus-Swift.h",
+      'external-contents': "/Users/saurabhinfosys/Desktop/stt/ios/build/Pods.build/Release-iphoneos/better_player_plus.build/unextended-interface-header.h",
+    }]
+    }]
+}

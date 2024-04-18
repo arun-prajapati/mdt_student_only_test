@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ Future main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocator();
   PurchaseSub.init();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
 
@@ -64,18 +67,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final authProvider = Provider.of<AuthProvider>(context);
     return Consumer<UserProvider>(
       builder: (context, user, child) {
         switch (user.status) {
           case Status.Uninitialized:
             return SplashScreen();
-//          case Status.RouteLogin:
-//          case Status.Authenticating:
-//            return SignInForm();
+          //          case Status.RouteLogin:
+          //          case Status.Authenticating:
+          //            return SignInForm();
           case Status.Unauthenticated:
             return Welcome();
           case Status.Authenticating:

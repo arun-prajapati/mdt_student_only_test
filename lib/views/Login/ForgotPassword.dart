@@ -159,449 +159,462 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     var width = MediaQuery.of(context).size.width;
     var height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    return Scaffold(
-      key: _key,
-      backgroundColor: Colors.white,
-      body: Form(
-        key: _formKey,
-        child: Container(
-          height: Responsive.height(100, context),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Stack(children: [
-                Image.asset(
-                  AppImages.bgLogin,
-                  //height: 300,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.fitWidth,
-                ),
-                Positioned(
-                    left: 25,
-                    top: SizeConfig.blockSizeVertical * 8,
-                    child: backArrowCustom()),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 15,
-                  left: SizeConfig.blockSizeHorizontal * 28,
-                  child: CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 22,
-                    backgroundColor: Colors.white,
-                    child: Container(
-                      child: Image.asset(
-                        "assets/stt_Logo.png",
-                        height: 180,
-                        width: 182,
-                        //fit: BoxFit.contain,
-                      ),
-                    ),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        key: _key,
+        backgroundColor: Colors.white,
+        body: Form(
+          key: _formKey,
+          child: Container(
+            height: Responsive.height(100, context),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Stack(children: [
+                  // Image.asset(
+                  //   AppImages.bgLogin,
+                  //   //height: 300,
+                  //   width: MediaQuery.of(context).size.width,
+                  //   fit: BoxFit.fitWidth,
+                  // ),
+                  Image.asset(
+                    "assets/bg1.png",
+                    height: 290,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.fitWidth,
                   ),
-                ),
-              ]),
+                  Positioned(
+                      left: 25,
+                      top: SizeConfig.blockSizeVertical * 8,
+                      child: backArrowCustom()),
+                  // Positioned(
+                  //   top: SizeConfig.blockSizeVertical * 15,
+                  //   left: SizeConfig.blockSizeHorizontal * 28,
+                  //   child: CircleAvatar(
+                  //     radius: SizeConfig.blockSizeHorizontal * 22,
+                  //     backgroundColor: Colors.white,
+                  //     child: Container(
+                  //       child: Image.asset(
+                  //         "assets/s_logo.png",
+                  //         height: 180,
+                  //         width: 182,
+                  //         //fit: BoxFit.contain,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ]),
 
-              // Positioned(
-              //   top: 415,
-              //   left: 25,
-              //   right: 25,
-              //   child: SizedBox(
-              //     height: 400,
-              //     child: Padding(
-              //       padding: EdgeInsets.all(20),
-              //       child: Container(
-              //         decoration: BoxDecoration(
-              //             color: Colors.white,
-              //             borderRadius: BorderRadius.circular(20),
-              //             boxShadow: [
-              //               BoxShadow(
-              //                   color: Colors.black.withOpacity(0.1),
-              //                   blurRadius: 15,
-              //                   spreadRadius: 0),
-              //             ]),
-              //         child: Padding(
-              //           padding: EdgeInsets.all(20),
-              //           child: Column(
-              //             children: [
-              //               CustomButton(
-              //                   onTap: () {
-              //                     Navigator.of(context).push(
-              //                       MaterialPageRoute(
-              //                         builder: (context) => Register('2'),
-              //                       ),
-              //                     );
-              //                   },
-              //                   gradient: LinearGradient(
-              //                       end: Alignment.centerLeft,
-              //                       begin: Alignment.centerRight,
-              //                       colors: [
-              //                         AppColors.blueGrad1,
-              //                         AppColors.blueGrad2,
-              //                         AppColors.blueGrad3,
-              //                         AppColors.blueGrad4,
-              //                         AppColors.blueGrad5,
-              //                         AppColors.blueGrad6,
-              //                         AppColors.blueGrad7,
-              //                       ])),
-              //               CustomButton(
-              //                   gradient: LinearGradient(
-              //                       end: Alignment.centerLeft,
-              //                       begin: Alignment.centerRight,
-              //                       colors: [
-              //                     AppColors.primary,
-              //                     AppColors.secondary,
-              //                   ])),
-              //               // Row(
-              //               //   children: [
-              //               //     Expanded(
-              //               //       child: GestureDetector(
-              //               //         onTap: () {
-              //               //           Navigator.of(context).push(
-              //               //             MaterialPageRoute(
-              //               //               builder: (context) => Register('2'),
-              //               //             ),
-              //               //           );
-              //               //         },
-              //               //         child: Container(
-              //               //           decoration: BoxDecoration(
-              //               //               borderRadius: BorderRadius.circular(10),
-              //               //               gradient: LinearGradient(
-              //               //                   end: Alignment.centerLeft,
-              //               //                   begin: Alignment.centerRight,
-              //               //                   colors: [
-              //               //                     AppColors.blueGrad1,
-              //               //                     AppColors.blueGrad2,
-              //               //                     AppColors.blueGrad3,
-              //               //                     AppColors.blueGrad4,
-              //               //                     AppColors.blueGrad5,
-              //               //                     AppColors.blueGrad6,
-              //               //                     AppColors.blueGrad7,
-              //               //                   ])),
-              //               //           child: Padding(
-              //               //             padding: EdgeInsets.symmetric(vertical: 15),
-              //               //             child: Text('Register',
-              //               //                 textAlign: TextAlign.center,
-              //               //                 style: TextStyle(
-              //               //                   fontFamily: 'Poppins',
-              //               //                   fontSize: 15,
-              //               //                   color: AppColors.white,
-              //               //                   fontWeight: FontWeight.w600,
-              //               //                 )),
-              //               //           ),
-              //               //         ),
-              //               //       ),
-              //               //     ),
-              //               //   ],
-              //               // ),
-              //               SizedBox(height: 10),
-              //               Material(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 borderOnForeground: true,
-              //                 color: Dark,
-              //                 elevation: 5.0,
-              //                 child: MaterialButton(
-              //                   onPressed: () {
-              //                     Navigator.of(context).push(
-              //                       MaterialPageRoute(
-              //                         builder: (context) => SignInForm(),
-              //                       ),
-              //                     );
-              //                   },
-              //                   child: Padding(
-              //                     padding: EdgeInsets.symmetric(
-              //                         horizontal: 15, vertical: 10),
-              //                     child: Text(
-              //                       'Login',
-              //                       style: TextStyle(
-              //                         fontFamily: 'Poppins',
-              //                         fontSize: SizeConfig.blockSizeHorizontal * 4.8,
-              //                         fontWeight: FontWeight.w700,
-              //                         color: Colors.white,
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ),
-              //               ),
-              //               Row(
-              //                 children: [
-              //                   Container(
-              //                     width: SizeConfig.blockSizeHorizontal * 11,
-              //                     child: Divider(
-              //                       thickness: 2,
-              //                       color: AppColors.grey,
-              //                     ),
-              //                   ),
-              //                   Center(
-              //                     child: Text(
-              //                       "Or connect with",
-              //                       style: TextStyle(
-              //                           letterSpacing: 2,
-              //                           fontSize: 15,
-              //                           color: AppColors.grey,
-              //                           fontWeight: FontWeight.w400),
-              //                     ),
-              //                   ),
-              //                   Divider(
-              //                     thickness: 2,
-              //                     color: Dark,
-              //                   ),
-              //                 ],
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Positioned(
-              //   top: SizeConfig.blockSizeVertical * 38,
-              //   child: Container(
-              //     child: Text(
-              //       'MDT Learner Driver',
-              //       style: TextStyle(
-              //           letterSpacing: 1.0,
-              //           fontFamily: 'Poppins',
-              //           fontSize: SizeConfig.blockSizeHorizontal * 6,
-              //           fontWeight: FontWeight.w600,
-              //           color: Colors.black),
-              //     ),
-              //   ),
-              // ),
-              Container(
-                width: SizeConfig.blockSizeHorizontal * 85,
-                //height: SizeConfig.blockSizeVertical * 54,
-                //color: Colors.black12,
-                margin: EdgeInsets.fromLTRB(
-                  SizeConfig.blockSizeHorizontal * 7.5,
-                  SizeConfig.blockSizeVertical * 45,
-                  SizeConfig.blockSizeHorizontal * 7.5,
-                  0.0,
-                ),
-                child: Consumer<UserProvider>(builder: (context, authData, _) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(height: 40),
-                        /*   CustomTextField(
-                            label: 'Email',
-                            // prefixIcon: const Icon(
-                            //   Icons.mail,
-                            //   color: Dark,
-                            // ),
-                            validator: (value) {
-                              email = value!.trim();
-                              print('VALL  //////      $value');
-                              return Validate.validateEmail(email);
+                // Positioned(
+                //   top: 415,
+                //   left: 25,
+                //   right: 25,
+                //   child: SizedBox(
+                //     height: 400,
+                //     child: Padding(
+                //       padding: EdgeInsets.all(20),
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //             color: Colors.white,
+                //             borderRadius: BorderRadius.circular(20),
+                //             boxShadow: [
+                //               BoxShadow(
+                //                   color: Colors.black.withOpacity(0.1),
+                //                   blurRadius: 15,
+                //                   spreadRadius: 0),
+                //             ]),
+                //         child: Padding(
+                //           padding: EdgeInsets.all(20),
+                //           child: Column(
+                //             children: [
+                //               CustomButton(
+                //                   onTap: () {
+                //                     Navigator.of(context).push(
+                //                       MaterialPageRoute(
+                //                         builder: (context) => Register('2'),
+                //                       ),
+                //                     );
+                //                   },
+                //                   gradient: LinearGradient(
+                //                       end: Alignment.centerLeft,
+                //                       begin: Alignment.centerRight,
+                //                       colors: [
+                //                         AppColors.blueGrad1,
+                //                         AppColors.blueGrad2,
+                //                         AppColors.blueGrad3,
+                //                         AppColors.blueGrad4,
+                //                         AppColors.blueGrad5,
+                //                         AppColors.blueGrad6,
+                //                         AppColors.blueGrad7,
+                //                       ])),
+                //               CustomButton(
+                //                   gradient: LinearGradient(
+                //                       end: Alignment.centerLeft,
+                //                       begin: Alignment.centerRight,
+                //                       colors: [
+                //                     AppColors.primary,
+                //                     AppColors.secondary,
+                //                   ])),
+                //               // Row(
+                //               //   children: [
+                //               //     Expanded(
+                //               //       child: GestureDetector(
+                //               //         onTap: () {
+                //               //           Navigator.of(context).push(
+                //               //             MaterialPageRoute(
+                //               //               builder: (context) => Register('2'),
+                //               //             ),
+                //               //           );
+                //               //         },
+                //               //         child: Container(
+                //               //           decoration: BoxDecoration(
+                //               //               borderRadius: BorderRadius.circular(10),
+                //               //               gradient: LinearGradient(
+                //               //                   end: Alignment.centerLeft,
+                //               //                   begin: Alignment.centerRight,
+                //               //                   colors: [
+                //               //                     AppColors.blueGrad1,
+                //               //                     AppColors.blueGrad2,
+                //               //                     AppColors.blueGrad3,
+                //               //                     AppColors.blueGrad4,
+                //               //                     AppColors.blueGrad5,
+                //               //                     AppColors.blueGrad6,
+                //               //                     AppColors.blueGrad7,
+                //               //                   ])),
+                //               //           child: Padding(
+                //               //             padding: EdgeInsets.symmetric(vertical: 15),
+                //               //             child: Text('Register',
+                //               //                 textAlign: TextAlign.center,
+                //               //                 style: TextStyle(
+                //               //                   fontFamily: 'Poppins',
+                //               //                   fontSize: 15,
+                //               //                   color: AppColors.white,
+                //               //                   fontWeight: FontWeight.w600,
+                //               //                 )),
+                //               //           ),
+                //               //         ),
+                //               //       ),
+                //               //     ),
+                //               //   ],
+                //               // ),
+                //               SizedBox(height: 10),
+                //               Material(
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 borderOnForeground: true,
+                //                 color: Dark,
+                //                 elevation: 5.0,
+                //                 child: MaterialButton(
+                //                   onPressed: () {
+                //                     Navigator.of(context).push(
+                //                       MaterialPageRoute(
+                //                         builder: (context) => SignInForm(),
+                //                       ),
+                //                     );
+                //                   },
+                //                   child: Padding(
+                //                     padding: EdgeInsets.symmetric(
+                //                         horizontal: 15, vertical: 10),
+                //                     child: Text(
+                //                       'Login',
+                //                       style: TextStyle(
+                //                         fontFamily: 'Poppins',
+                //                         fontSize: SizeConfig.blockSizeHorizontal * 4.8,
+                //                         fontWeight: FontWeight.w700,
+                //                         color: Colors.white,
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //               Row(
+                //                 children: [
+                //                   Container(
+                //                     width: SizeConfig.blockSizeHorizontal * 11,
+                //                     child: Divider(
+                //                       thickness: 2,
+                //                       color: AppColors.grey,
+                //                     ),
+                //                   ),
+                //                   Center(
+                //                     child: Text(
+                //                       "Or connect with",
+                //                       style: TextStyle(
+                //                           letterSpacing: 2,
+                //                           fontSize: 15,
+                //                           color: AppColors.grey,
+                //                           fontWeight: FontWeight.w400),
+                //                     ),
+                //                   ),
+                //                   Divider(
+                //                     thickness: 2,
+                //                     color: Dark,
+                //                   ),
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Positioned(
+                //   top: SizeConfig.blockSizeVertical * 38,
+                //   child: Container(
+                //     child: Text(
+                //       'MDT Learner Driver',
+                //       style: TextStyle(
+                //           letterSpacing: 1.0,
+                //           fontFamily: 'Poppins',
+                //           fontSize: SizeConfig.blockSizeHorizontal * 6,
+                //           fontWeight: FontWeight.w600,
+                //           color: Colors.black),
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  width: SizeConfig.blockSizeHorizontal * 85,
+                  //height: SizeConfig.blockSizeVertical * 54,
+                  //color: Colors.black12,
+                  margin: EdgeInsets.fromLTRB(
+                    SizeConfig.blockSizeHorizontal * 7.5,
+                    SizeConfig.blockSizeVertical * 45,
+                    SizeConfig.blockSizeHorizontal * 7.5,
+                    0.0,
+                  ),
+                  child:
+                      Consumer<UserProvider>(builder: (context, authData, _) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: 40),
+                          /*   CustomTextField(
+                              label: 'Email',
+                              // prefixIcon: const Icon(
+                              //   Icons.mail,
+                              //   color: Dark,
+                              // ),
+                              validator: (value) {
+                                email = value!.trim();
+                                print('VALL  //////      $value');
+                                return Validate.validateEmail(email);
+                              },
+                              onChange: (val) {
+                                if (!_formKey.currentState!.validate()) {
+                                  Validate.validateEmail(val);
+                                }
+                              },
+                              onFieldSubmitted: (_) {
+                                setFocus(context, focusNode: null);
+                                submit(context);
+                              },
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.done,
+                            ),*/
+                          // authData.isSendOtp
+                          //     ? Center(
+                          //         child: Pinput(
+                          //           controller: code,
+                          //           autofocus: true,
+                          //           length: 6,
+                          //           defaultPinTheme: submittedPinTheme,
+                          //           submittedPinTheme: submittedPinTheme,
+                          //           focusedPinTheme: focusPinTheme,
+                          //           androidSmsAutofillMethod:
+                          //               AndroidSmsAutofillMethod.smsRetrieverApi,
+                          //           pinputAutovalidateMode:
+                          //               PinputAutovalidateMode.onSubmit,
+                          //           showCursor: true,
+                          //           onSubmitted: (pin) async {},
+                          //         ),
+                          //       )
+                          //     :
+                          IntlPhoneField(
+                            onCountryChanged: (c) {
+                              countryCode = "+${c.dialCode}";
+                              print("Code :: ${countryCode}");
                             },
-                            onChange: (val) {
-                              if (!_formKey.currentState!.validate()) {
-                                Validate.validateEmail(val);
-                              }
-                            },
-                            onFieldSubmitted: (_) {
+                            autofocus: false,
+                            textAlign: TextAlign.left,
+                            dropdownIcon: Icon(Icons.keyboard_arrow_down,
+                                color: Colors.black),
+                            dropdownIconPosition: IconPosition.trailing,
+                            flagsButtonMargin: EdgeInsets.only(left: 10),
+                            //disableLengthCheck: true,
+                            autovalidateMode: AutovalidateMode.disabled,
+                            //disableLengthCheck: true,
+                            controller: phoneTextControl,
+                            cursorColor: Dark,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                              counterText: "",
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 20),
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                    color: AppColors.black.withOpacity(0.5),
+                                    width: 1.1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                      color: AppColors.black.withOpacity(0.5),
+                                      width: 1.1)),
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                      color: AppColors.black.withOpacity(0.5),
+                                      width: 1.1)),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                      color: AppColors.black.withOpacity(0.5),
+                                      width: 1.1)),
+                              focusColor: Dark,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                    color: AppColors.black.withOpacity(0.5),
+                                    width: 1.1),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                    color: AppColors.black.withOpacity(0.5),
+                                    width: 1.1),
+                              ),
+                              hintStyle: AppTextStyle.disStyle.copyWith(
+                                  color: AppColors.grey,
+                                  fontWeight: FontWeight.w400),
+                              hintText: 'Enter Mobile Number',
+                              errorStyle: AppTextStyle.textStyle
+                                  .copyWith(color: AppColors.red1),
+                              floatingLabelStyle: TextStyle(color: Dark),
+                              // errorStyle: TextStyle(
+                              //     fontSize: constraints.maxWidth * 0.05),
+                            ),
+                            initialCountryCode: 'GB',
+                            // showCountryFlag: false,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            style: AppTextStyle.textStyle,
+                            onSubmitted: (_) {
                               setFocus(context, focusNode: null);
                               submit(context);
                             },
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.done,
+
+                            // onSubmitted: (_) {
+                            //   setFocus(context, focusNode: _addressFocusNode);
+                            // },
+                            onChanged: (phone) {
+                              print(phone);
+
+                              Validate.validateEmail(phoneTextControl.text);
+                              setState(() {
+                                mobile = phone.completeNumber;
+                                phoneTextControl.selection =
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset: phoneTextControl.text.length));
+                                countryCode = phone.countryCode;
+                                context.read<UserProvider>().countryCode =
+                                    phone.countryCode;
+                              });
+                            },
+                          ),
+                          /*  Align(
+                            alignment: Alignment.topRight,
+                            child: Text(
+                              secondsRemaining == 0 ? '' : timerText,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: GestureDetector(
+                              onTap: enableResend
+                                  ? () {
+                                      secondsRemaining = 60;
+                                      enableResend = false;
+                                      setState(() {});
+                                    }
+                                  : null,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Don’t receive the Code? ",
+                                  ),
+                                  Text(
+                                    "Resend Code",
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),*/
-                        // authData.isSendOtp
-                        //     ? Center(
-                        //         child: Pinput(
-                        //           controller: code,
-                        //           autofocus: true,
-                        //           length: 6,
-                        //           defaultPinTheme: submittedPinTheme,
-                        //           submittedPinTheme: submittedPinTheme,
-                        //           focusedPinTheme: focusPinTheme,
-                        //           androidSmsAutofillMethod:
-                        //               AndroidSmsAutofillMethod.smsRetrieverApi,
-                        //           pinputAutovalidateMode:
-                        //               PinputAutovalidateMode.onSubmit,
-                        //           showCursor: true,
-                        //           onSubmitted: (pin) async {},
-                        //         ),
-                        //       )
-                        //     :
-                        IntlPhoneField(
-                          onCountryChanged: (c) {
-                            countryCode = c.dialCode;
-                            print("Code :: ${countryCode}");
-                          },
-                          autofocus: false,
-                          textAlign: TextAlign.left,
-                          dropdownIcon: Icon(Icons.keyboard_arrow_down,
-                              color: Colors.black),
-                          dropdownIconPosition: IconPosition.trailing,
-                          flagsButtonMargin: EdgeInsets.only(left: 10),
-                          //disableLengthCheck: true,
-                          autovalidateMode: AutovalidateMode.disabled,
-                          //disableLengthCheck: true,
-                          controller: phoneTextControl,
-                          cursorColor: Dark,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            counterText: "",
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 20),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                  color: AppColors.black.withOpacity(0.5),
-                                  width: 1.1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                    color: AppColors.black.withOpacity(0.5),
-                                    width: 1.1)),
-                            disabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                    color: AppColors.black.withOpacity(0.5),
-                                    width: 1.1)),
-                            errorBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                    color: AppColors.black.withOpacity(0.5),
-                                    width: 1.1)),
-                            focusColor: Dark,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                  color: AppColors.black.withOpacity(0.5),
-                                  width: 1.1),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                  color: AppColors.black.withOpacity(0.5),
-                                  width: 1.1),
-                            ),
-                            hintStyle: AppTextStyle.disStyle.copyWith(
-                                color: AppColors.grey,
-                                fontWeight: FontWeight.w400),
-                            hintText: 'Enter Mobile Number',
-                            errorStyle: AppTextStyle.textStyle
-                                .copyWith(color: AppColors.red1),
-                            floatingLabelStyle: TextStyle(color: Dark),
-                            // errorStyle: TextStyle(
-                            //     fontSize: constraints.maxWidth * 0.05),
+                          SizedBox(height: 15),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 80,
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 4.8),
+                            //color: Colors.black12,
+                            child: loadingValue
+                                ? Center(
+                                    child:
+                                        CircularProgressIndicator(color: Dark))
+                                : CustomButton(
+                                    title:
+                                        // authData.isSendOtp
+                                        //     ? 'Verify Code'
+                                        //     :
+                                        'Send Code',
+                                    onTap: () {
+                                      submit(context);
+                                    }),
+                            // Material(
+                            //   borderRadius: BorderRadius.circular(25),
+                            //   borderOnForeground: true,
+                            //   color: Dark,
+                            //   elevation: 5.0,
+                            //   child: MaterialButton(
+                            //     onPressed: () {
+                            //       submit(context);
+                            //     },
+                            //     child: Padding(
+                            //       padding: EdgeInsets.symmetric(
+                            //           horizontal: 15, vertical: 10),
+                            //       child: Text(
+                            //         'Send Code',
+                            //         style: TextStyle(
+                            //           fontFamily: 'Poppins',
+                            //           fontSize: SizeConfig.blockSizeHorizontal * 5,
+                            //           fontWeight: FontWeight.w700,
+                            //           color: Colors.white,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ),
-                          initialCountryCode: 'GB',
-                          // showCountryFlag: false,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          style: AppTextStyle.textStyle,
-                          onSubmitted: (_) {
-                            setFocus(context, focusNode: null);
-                            submit(context);
-                          },
-
-                          // onSubmitted: (_) {
-                          //   setFocus(context, focusNode: _addressFocusNode);
-                          // },
-                          onChanged: (phone) {
-                            print(phone);
-
-                            Validate.validateEmail(phoneTextControl.text);
-                            setState(() {
-                              mobile = phone.completeNumber;
-                              phoneTextControl.selection =
-                                  TextSelection.fromPosition(TextPosition(
-                                      offset: phoneTextControl.text.length));
-                              countryCode = phone.countryCode;
-                              context.read<UserProvider>().countryCode =
-                                  phone.countryCode;
-                            });
-                          },
-                        ),
-                        /*  Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            secondsRemaining == 0 ? '' : timerText,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: GestureDetector(
-                            onTap: enableResend
-                                ? () {
-                                    secondsRemaining = 60;
-                                    enableResend = false;
-                                    setState(() {});
-                                  }
-                                : null,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Don’t receive the Code? ",
-                                ),
-                                Text(
-                                  "Resend Code",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),*/
-                        SizedBox(height: 15),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 80,
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 4.8),
-                          //color: Colors.black12,
-                          child: loadingValue
-                              ? Center(
-                                  child: CircularProgressIndicator(color: Dark))
-                              : CustomButton(
-                                  title:
-                                      // authData.isSendOtp
-                                      //     ? 'Verify Code'
-                                      //     :
-                                      'Send Code',
-                                  onTap: () {
-                                    submit(context);
-                                  }),
-                          // Material(
-                          //   borderRadius: BorderRadius.circular(25),
-                          //   borderOnForeground: true,
-                          //   color: Dark,
-                          //   elevation: 5.0,
-                          //   child: MaterialButton(
-                          //     onPressed: () {
-                          //       submit(context);
-                          //     },
-                          //     child: Padding(
-                          //       padding: EdgeInsets.symmetric(
-                          //           horizontal: 15, vertical: 10),
-                          //       child: Text(
-                          //         'Send Code',
-                          //         style: TextStyle(
-                          //           fontFamily: 'Poppins',
-                          //           fontSize: SizeConfig.blockSizeHorizontal * 5,
-                          //           fontWeight: FontWeight.w700,
-                          //           color: Colors.white,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-            ],
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -613,16 +626,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Future<void> submit(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    Map<String, dynamic> formData = {
-      "phone": phoneTextControl.text.trim(),
-      "user_type": "2",
-    };
-
-    /// https://mdt.developersforflutter.com/api/verify-mobile
-
     final form = _formKey.currentState;
     print("form state : ${form!.validate()}");
-    var authData = context.read<UserProvider>();
 
     if (form.validate() && phoneTextControl.text.isNotEmpty) {
       // if (!authData.isSendOtp) {
@@ -638,11 +643,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           print("ERROE$res");
           // var fetchData = jsonDecode('$res');
           // print('fetch Data:  $fetchData');
-          showValidationDialog(
-              context,
-              res['message'] == "The phone has already been taken."
-                  ? "The phone number has already been taken."
-                  : res["message"]);
+          showValidationDialog(context, res['message']);
         } else {
           Provider.of<UserProvider>(context, listen: false)
               .verifyPhone(context, phoneTextControl.text);
