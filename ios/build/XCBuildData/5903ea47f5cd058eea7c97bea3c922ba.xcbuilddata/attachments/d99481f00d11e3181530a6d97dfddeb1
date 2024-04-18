@@ -1,5 +1,0 @@
- extern const unsigned char better_player_plusVersionString[];
- extern const double better_player_plusVersionNumber;
-
- const unsigned char better_player_plusVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:better_player_plus  PROJECT:Pods-1" "\n";
- const double better_player_plusVersionNumber __attribute__ ((used)) = (double)1.;
