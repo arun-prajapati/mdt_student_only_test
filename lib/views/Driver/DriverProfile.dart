@@ -807,7 +807,7 @@ class _driverProfile extends State<DriverProfile> {
                                                                         child:
                                                                             CachedNetworkImage(
                                                                           imageUrl:
-                                                                              "${imageBaseUrl}$licenceHttpPath",
+                                                                              "$licenceHttpPath",
                                                                           fit: BoxFit
                                                                               .cover,
                                                                           placeholder:
@@ -839,13 +839,13 @@ class _driverProfile extends State<DriverProfile> {
                                                           )),
                                                     ),
                                                     Positioned(
-                                                      top: -12,
+                                                      top: -6,
                                                       right: Responsive.width(
                                                           17, context),
                                                       child: IconButton(
                                                         icon: Icon(Icons
-                                                            .remove_circle),
-                                                        iconSize: 30,
+                                                            .highlight_remove_sharp),
+                                                        iconSize: 25,
                                                         color: Colors.red,
                                                         onPressed: () => {
                                                           this.setState(() {
@@ -963,7 +963,6 @@ class _driverProfile extends State<DriverProfile> {
   }
 
   void _openGallery() async {
-    await Permission.photos.request();
     var imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
@@ -978,8 +977,8 @@ class _driverProfile extends State<DriverProfile> {
   }
 
   void _openCamera() async {
-    print('|||||||||||');
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
+    var imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
     final bytes = Io.File(pickedFile!.path).readAsBytesSync();
     String base64_ = base64Encode(bytes, getImageExtension(pickedFile.path));
     log('WWWWWWWWWW ${base64_}');
