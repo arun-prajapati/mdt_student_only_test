@@ -283,14 +283,22 @@ class SubscriptionProvider extends ChangeNotifier {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(Icons.check_circle,
-                                  size: SizeConfig.blockSizeHorizontal * 4,
-                                  color: Colors.green),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Icon(Icons.check_circle,
+                                    size: SizeConfig.blockSizeHorizontal * 4,
+                                    color: Colors.green),
+                              ),
                               SizedBox(width: 5),
                               Expanded(
-                                child: Text(
-                                    //"2000+ Questions from 14 official question categories set by DVSA.",
-                                    "2000+ Questions "),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("The only AI powered app with AI "),
+                                    Text(
+                                        "recommendations to help you learn fast"),
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -299,13 +307,16 @@ class SubscriptionProvider extends ChangeNotifier {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(Icons.check_circle,
-                                  size: SizeConfig.blockSizeHorizontal * 4,
-                                  color: Colors.green),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Icon(Icons.check_circle,
+                                    size: SizeConfig.blockSizeHorizontal * 4,
+                                    color: Colors.green),
+                              ),
                               SizedBox(width: 5),
                               Expanded(
                                   child: Text(
-                                "Free Mock Theory tests to check your test readiness.",
+                                "3 times more practice questions than any app",
                               ))
                             ],
                           ),
@@ -314,10 +325,13 @@ class SubscriptionProvider extends ChangeNotifier {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(
-                                Icons.check_circle,
-                                size: SizeConfig.blockSizeHorizontal * 4,
-                                color: Colors.green,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: Icon(
+                                  Icons.check_circle,
+                                  size: SizeConfig.blockSizeHorizontal * 4,
+                                  color: Colors.green,
+                                ),
                               ),
                               // SizedBox(
                               //   width:
@@ -325,8 +339,7 @@ class SubscriptionProvider extends ChangeNotifier {
                               // ),
                               SizedBox(width: 5),
                               Expanded(
-                                child: Text(
-                                    'The Only AI powered App In The Market'
+                                child: Text('Licensed by DVSA'
                                     //"For each correct answer, earn 1 token! Answer 400 questions correctly and get your DVSA Theory Test free!",
                                     ),
                               )
