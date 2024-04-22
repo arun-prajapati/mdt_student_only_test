@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -102,10 +103,10 @@ class NavigationDrawer extends StatelessWidget {
                               SizedBox(height: constraints.maxHeight * 0.025),
                               NavBarItem('Home', '/home', context,
                                   icon: Icons.space_dashboard_outlined),
-                              SizedBox(height: constraints.maxHeight * 0.025),
+                              SizedBox(height: constraints.maxHeight * 0.030),
                               NavBarItem('Profile', '/driver_profile', context,
                                   icon: FontAwesomeIcons.userCircle),
-                              SizedBox(height: constraints.maxHeight * 0.025),
+                              SizedBox(height: constraints.maxHeight * 0.015),
 
                               ///commented by Khushali
                               /* GestureDetector(
@@ -215,7 +216,7 @@ class NavigationDrawer extends StatelessWidget {
                               // ),
 
                               Divider(
-                                  height: constraints.maxHeight * 0.02,
+                                  height: constraints.maxHeight * 0.03,
                                   endIndent: constraints.maxWidth * 0.035,
                                   indent: constraints.maxWidth * 0.035,
                                   color: Colors.grey[350],
@@ -223,14 +224,59 @@ class NavigationDrawer extends StatelessWidget {
                               SizedBox(height: constraints.maxHeight * 0.015),
                               NavBarItem('Settings', '/setting', context,
                                   icon: Icons.settings),
-                              SizedBox(height: constraints.maxHeight * 0.025),
+                              SizedBox(height: constraints.maxHeight * 0.030),
                               NavBarItem('Help', '/help', context,
                                   icon: Icons.help),
 
-                              SizedBox(height: constraints.maxHeight * 0.025),
+                              SizedBox(height: constraints.maxHeight * 0.030),
                               NavBarItem('Contact Us', '/contact', context,
                                   icon: Icons.phone),
-                              SizedBox(height: constraints.maxHeight * 0.025),
+                              SizedBox(height: constraints.maxHeight * 0.030),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.pop(context);
+                                  deleteAccount(context);
+                                },
+                                child: Container(
+                                  //color: Colors.red,
+                                  margin: EdgeInsets.fromLTRB(
+                                      constraints.maxWidth * 0.05,
+                                      0,
+                                      constraints.maxWidth * 0.05,
+                                      0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: constraints.maxWidth * 0.08,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                              fit: BoxFit.contain,
+                                              child:
+                                                  Icon(Icons.delete_outlined));
+                                        }),
+                                      ),
+                                      SizedBox(
+                                        width: constraints.maxWidth * 0.05,
+                                      ),
+                                      Container(
+                                        //width:textWidth,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                              'Delete Account',
+                                              style: AppTextStyle.textStyle,
+                                            ),
+                                          );
+                                        }),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: constraints.maxHeight * 0.030),
                               GestureDetector(
                                 onTap: () {
                                   // Navigator.pop(context);
@@ -338,6 +384,74 @@ class NavigationDrawer extends StatelessWidget {
                               height: 1.2, fontWeight: FontWeight.w600),
                         ),
                         onPressed: () async {
+                          Provider.of<UserProvider>(context, listen: false)
+                              .logOut(context);
+                          await GoogleSignIn().signOut();
+                          Navigator.pop(context);
+                          _navigationService
+                              .navigateToReplacement('/Authorization');
+                        },
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+    return null;
+  }
+
+  Widget? deleteAccount(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Delete Account',
+                    style: AppTextStyle.titleStyle
+                        .copyWith(height: 1.2, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    'Are you sure! You want to delete your account?',
+                    style: AppTextStyle.textStyle
+                        .copyWith(height: 1.2, fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        child: Text(
+                          "No",
+                          style: AppTextStyle.titleStyle.copyWith(
+                              height: 1.2, fontWeight: FontWeight.w600),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          "Yes",
+                          style: AppTextStyle.titleStyle.copyWith(
+                              height: 1.2, fontWeight: FontWeight.w600),
+                        ),
+                        onPressed: () async {
+                          Fluttertoast.showToast(
+                              msg: "Your account will be deleted soon",
+                              gravity: ToastGravity.TOP);
                           Provider.of<UserProvider>(context, listen: false)
                               .logOut(context);
                           await GoogleSignIn().signOut();

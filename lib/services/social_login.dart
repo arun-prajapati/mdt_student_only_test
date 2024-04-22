@@ -74,6 +74,10 @@ class SocialLoginService {
         FirebaseAuth auth = FirebaseAuth.instance;
         final GoogleSignIn googleSignIn = GoogleSignIn(
           scopes: <String>['email'],
+          // clientId:
+          //     "825629569582-bci1rmu8nq0qi8f3ubu7l18qf5g7emjj.apps.googleusercontent.com",
+          // serverClientId:
+          //     "825629569582-ro8vjoi5q3t59bhb55m589bjfe4lglrm.apps.googleusercontent.com",
         );
         bool checkSignIn = await googleSignIn.isSignedIn();
         if (checkSignIn) googleSignIn.disconnect();

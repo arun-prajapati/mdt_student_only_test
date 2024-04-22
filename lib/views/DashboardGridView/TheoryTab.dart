@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/card.dart' as MCard;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/percent_indicator.dart';
@@ -540,7 +541,7 @@ class _TheoryTabState extends State<TheoryTab> {
                   //margin: EdgeInsets.zero,
                   //width: 155,
                   child: Text(
-                    'Theory Learning \n Progress',
+                    'Your Progress',
                     textAlign: TextAlign.center,
                     style: AppTextStyle.textStyle
                         .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
@@ -563,7 +564,7 @@ class _TheoryTabState extends State<TheoryTab> {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.8),
+                          (MediaQuery.of(context).size.height / 2.1),
                       // childAspectRatio: 2 / 3,
                     ),
                     //shrinkWrap: true,
@@ -595,82 +596,6 @@ class _TheoryTabState extends State<TheoryTab> {
                               _navigationService
                                   .navigateTo(routes.PracticeTheoryTestRoute);
                             }
-                            /*showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        child: startButtonWidget(
-                                            context, constraints),
-                                        // TextButton(
-                                        //     child: Text('Start Test'),
-                                        //     onPressed: () {
-                                        //       _navigationService.navigateTo(
-                                        //           routes
-                                        //               .PracticeTheoryTestRoute);
-                                        //       // CustomSpinner.showLoadingDialog(
-                                        //       //     context,
-                                        //       //     _keyLoader,
-                                        //       //     "Loading...");
-                                        //       // getCategoriesFromApi()
-                                        //       //     .then((response_list) {
-                                        //       //   log("Category : $response_list");
-                                        //       //
-                                        //       //   // Navigator.of(
-                                        //       //   //         _keyLoader
-                                        //       //   //             .currentContext!,
-                                        //       //   //         rootNavigator: true)
-                                        //       //   //     .pop();
-                                        //       //   showDialog(
-                                        //       //       context: context,
-                                        //       //       builder:
-                                        //       //           (BuildContext context) {
-                                        //       //         return TestSettingDialogBox(
-                                        //       //           parentConstraints:
-                                        //       //               constraints,
-                                        //       //           categories_list:
-                                        //       //               response_list,
-                                        //       //           onSetValue:
-                                        //       //               (_categoryId) {
-                                        //       //             log("Category id : $_categoryId");
-                                        //       //             gainPoint = 0;
-                                        //       //             questionsList = [];
-                                        //       //             testQuestionsForResult =
-                                        //       //                 [];
-                                        //       //             selectedQuestionIndex =
-                                        //       //                 0;
-                                        //       //             selectedOptionIndex =
-                                        //       //                 null;
-                                        //       //             category_id =
-                                        //       //                 _categoryId;
-                                        //       //             CustomSpinner
-                                        //       //                 .showLoadingDialog(
-                                        //       //                     context,
-                                        //       //                     _keyLoader,
-                                        //       //                     "Test loading...");
-                                        //       //             getQuestionsFromApi()
-                                        //       //                 .then(
-                                        //       //                     (response_list) {
-                                        //       //               Navigator.of(
-                                        //       //                       _keyLoader
-                                        //       //                           .currentContext!,
-                                        //       //                       rootNavigator:
-                                        //       //                           true)
-                                        //       //                   .pop();
-                                        //       //               questionsList =
-                                        //       //                   response_list;
-                                        //       //               setState(() => {
-                                        //       //                     isTestStarted =
-                                        //       //                         true
-                                        //       //                   });
-                                        //       //             });
-                                        //       //           },
-                                        //       //         );
-                                        //       //       });
-                                        //       // });
-                                        //     }),
-                                      );
-                                      // return
-                                    });*/
                           } else if (cards[index]["type"] == 'hazard') {
                             _navigationService.navigateTo(
                                 routes.HazardPerceptionOptionsRoute);
@@ -718,7 +643,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                 flex: 0,
                                 child: Center(
                                   child: Image.asset(cards[index]["icon"],
-                                      height: 50),
+                                      height: 42),
                                 ),
                               ),
                               SizedBox(height: 10),
@@ -731,24 +656,9 @@ class _TheoryTabState extends State<TheoryTab> {
                               // ),
                               Expanded(
                                 flex: 0,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '${cards[index]["title"]} →',
-                                        style: AppTextStyle.boldStyle,
-                                      ),
-                                    ),
-                                    // Tesxt(
-                                    //   '→',
-                                    //   style: TextStyle(
-                                    //     fontSize: 25,
-                                    //     height: 1,
-                                    //     color: AppColors.black,
-                                    //     fontWeight: FontWeight.w300,
-                                    //   ),
-                                    // ),
-                                  ],
+                                child: Text(
+                                  '${cards[index]["title"]} →',
+                                  style: AppTextStyle.boldStyle,
                                 ),
                                 // RichText(
                                 //   textAlign: TextAlign.start,
@@ -771,20 +681,17 @@ class _TheoryTabState extends State<TheoryTab> {
                                 // ),
                               ),
                               SizedBox(height: 5),
-                              Expanded(
-                                //flex: 0,
-                                child: Text(
-                                  cards[index]["subTitle"],
-                                  maxLines: 4,
-                                  style: AppTextStyle.disStyle.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 0.5,
-                                      height: 1.2,
-                                      fontSize: 11,
-                                      overflow: TextOverflow.clip),
-                                  softWrap: true,
-                                  //  textAlign: TextAlign.justify,
-                                ),
+                              Text(
+                                cards[index]["subTitle"],
+                                maxLines: 4,
+                                style: AppTextStyle.disStyle.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: 0.5,
+                                    height: 1.2,
+                                    fontSize: 11,
+                                    overflow: TextOverflow.ellipsis),
+                                softWrap: true,
+                                //  textAlign: TextAlign.justify,
                               ),
                               //SizedBox(width: 15),
                             ],
@@ -833,7 +740,7 @@ class _TheoryTabState extends State<TheoryTab> {
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.6),
+                          (MediaQuery.of(context).size.height / 1.9),
                     ),
                     itemCount: _resourceCards.length,
                     //shrinkWrap: true,
@@ -900,6 +807,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                               style: AppTextStyle.textStyle
                                                   .copyWith(
                                                       height: 1.2,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w500)
                                               //overflow: TextOverflow.ellipsis,
@@ -933,7 +841,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               ),
                               Image.asset(
                                 _resourceCards[index]['image'],
-                                height: 80,
+                                height: 70,
                                 width: 150,
                               )
                             ],
