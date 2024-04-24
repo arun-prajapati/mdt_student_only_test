@@ -564,7 +564,7 @@ class _TheoryTabState extends State<TheoryTab> {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 2.1),
+                          (MediaQuery.of(context).size.height / 1.7),
                       // childAspectRatio: 2 / 3,
                     ),
                     //shrinkWrap: true,

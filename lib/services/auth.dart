@@ -554,15 +554,15 @@ class UserProvider with ChangeNotifier {
     }
     notifyListeners();
     SharedPreferences storage = await SharedPreferences.getInstance();
-    Purchases.logOut().then((value) {
-      log('UUUUUIIIIII ${value.entitlements.active} ${SubscriptionProvider().entitlement}');
-      // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
-      // notifyListeners();
-      // if (value.entitlements.active == {}) {
-      // log('value.entitlements ${jsonEncode(value.entitlements)} ${context.read<SubscriptionProvider>().entitlement}');
-      // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
-      // }
-    });
+    // Purchases.logOut().then((value) {
+    //   log('UUUUUIIIIII ${value.entitlements.active} ${SubscriptionProvider().entitlement}');
+    //   // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
+    //   // notifyListeners();
+    //   // if (value.entitlements.active == {}) {
+    //   // log('value.entitlements ${jsonEncode(value.entitlements)} ${context.read<SubscriptionProvider>().entitlement}');
+    //   // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
+    //   // }
+    // });
     await storage.clear();
   }
 

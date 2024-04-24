@@ -40,43 +40,31 @@ class SubscriptionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  isUserPurchaseTest() {
-    Purchases.addCustomerInfoUpdateListener((customerInfo) {
+  isUserPurchaseTest({bool isLogin = false, BuildContext? context}) {
+    Purchases.addCustomerInfoUpdateListener((customerInfo) async {
       EntitlementInfo? entitlementInfo =
-          customerInfo.entitlements.all['One time purchase'];
+          customerInfo.entitlements.active['One time purchase'];
       print('CUSTOMER INFO $customerInfo');
       if (entitlementInfo != null) {
-        if (entitlementInfo.isActive) {
+        if (customerInfo.entitlements.active['One time purchase']!.isActive ==
+            true) {
           entitlement = Entitlement.paid;
           // Fluttertoast.showToast(msg: "${entitlement}");
         } else {
+          print(
+              'AppConstant.userModel?.planType ${isLogin} ${AppConstant.userModel?.planType}');
           // Fluttertoast.showToast(msg: "${entitlement}");
           entitlement = Entitlement.unpaid;
+          if (isLogin && AppConstant.userModel?.planType == "free") {
+            var sharedPref = await SharedPreferences.getInstance();
+            var data = sharedPref.getBool('theoryTestPractice');
+            print('UserData.userId CHECK_USER ++++ ${isLogin} $data');
+            if (data == null) {
+              theoryTestPractice(context: context!);
+            }
+          }
         }
       } else {
-        // Fluttertoast.showToast(msg: "${entitlement}");
-      }
-      notifyListeners();
-    });
-  }
-
-  checkActiveUser({bool isLogin = false, BuildContext? context}) {
-    Purchases.logIn(UserData.userId.toString()).then((value) async {
-      print(
-          '+++++++++++++++++++TTTTT   ${jsonEncode(value.customerInfo.entitlements.active['One time purchase']?.isActive)}');
-      if ((value.customerInfo.entitlements.active['One time purchase'] !=
-              null) &&
-          value.customerInfo.entitlements.active['One time purchase']!
-                  .isActive ==
-              true) {
-        print('UserData.userId CHECK_USER ====');
-        entitlement = Entitlement.paid;
-
-        // var sharedPref = await SharedPreferences.getInstance();
-        // var data = sharedPref.getBool('isOpen');
-        notifyListeners();
-      } else {
-        entitlement = Entitlement.unpaid;
         if (isLogin && AppConstant.userModel?.planType == "free") {
           var sharedPref = await SharedPreferences.getInstance();
           var data = sharedPref.getBool('theoryTestPractice');
@@ -85,17 +73,48 @@ class SubscriptionProvider extends ChangeNotifier {
             theoryTestPractice(context: context!);
           }
         }
-        notifyListeners();
+        // Fluttertoast.showToast(msg: "${entitlement}");
       }
-
-      print(
-          'UserData.userId CHECK_USER ${UserData.userId} Purchases.logIn ${jsonEncode(value.customerInfo)}');
-      notifyListeners();
-    }).catchError((e) {
-      // entitlement = Entitlement.unpaid;
       notifyListeners();
     });
   }
+
+  // checkActiveUser({bool isLogin = false, BuildContext? context}) {
+  //   Purchases.logIn(UserData.userId.toString()).then((value) async {
+  //     print(
+  //         '+++++++++++++++++++TTTTT   ${jsonEncode(value.customerInfo.entitlements.active['One time purchase']?.isActive)}');
+  //     if ((value.customerInfo.entitlements.active['One time purchase'] !=
+  //             null) &&
+  //         value.customerInfo.entitlements.active['One time purchase']!
+  //                 .isActive ==
+  //             true) {
+  //       print('UserData.userId CHECK_USER ====');
+  //       entitlement = Entitlement.paid;
+  //
+  //       // var sharedPref = await SharedPreferences.getInstance();
+  //       // var data = sharedPref.getBool('isOpen');
+  //       notifyListeners();
+  //     } else {
+  //       entitlement = Entitlement.unpaid;
+  //       if (isLogin && AppConstant.userModel?.planType == "free") {
+  //         var sharedPref = await SharedPreferences.getInstance();
+  //         var data = sharedPref.getBool('theoryTestPractice');
+  //         print('UserData.userId CHECK_USER ++++ ${isLogin} $data');
+  //         if (data == null) {
+  //           theoryTestPractice(context: context!);
+  //         }
+  //       }
+  //       notifyListeners();
+  //     }
+  //
+  //     print(
+  //         'UserData.userId CHECK_USER ${UserData.userId} Purchases.logIn ${jsonEncode(value.customerInfo)}');
+  //     notifyListeners();
+  //   }).catchError((e) {
+  //     // entitlement = Entitlement.unpaid;
+  //     notifyListeners();
+  //   });
+  // }
 
   updateUserPlan(String planType) async {
     final url = Uri.parse('$api/api/update_plan');
@@ -128,7 +147,7 @@ class SubscriptionProvider extends ChangeNotifier {
         loading(value: false);
         print(
             'HHHHHHHHH ${jsonEncode(value.entitlements.active['One time purchase']?.isActive)}');
-        checkActiveUser();
+        isUserPurchaseTest();
         updateUserPlan(
             value.entitlements.active['One time purchase']?.isActive == true
                 ? "paid"

@@ -211,7 +211,9 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                 : AppConstant.userModel?.planType == "gift"
                     ? "gift"
                     : "free");
-        context.read<SubscriptionProvider>().checkActiveUser(context: context);
+        context
+            .read<SubscriptionProvider>()
+            .isUserPurchaseTest(context: context);
       }).catchError((e) {
         loading(value: false);
         print("ERROR ====== $e");
@@ -385,7 +387,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        'AI Learning',
+                        'Learn',
                         style: AppTextStyle.appBarStyle,
                       ),
                     ],
@@ -1425,8 +1427,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                   children: [
                     Container(
                         alignment: Alignment.centerLeft,
-                        child:
-                            Text("AI Learn", style: AppTextStyle.titleStyle)),
+                        child: Text("Learn", style: AppTextStyle.titleStyle)),
                     Container(
                       //width: constraints.maxWidth,
                       margin: EdgeInsets.only(top: 10),

@@ -1271,12 +1271,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           alignment: Alignment.topCenter,
                           margin: EdgeInsets.only(top: 20),
                           width: constraints.maxWidth * 0.90,
-                          child: AutoSizeText(
-                              'Please subscribe for more questions.',
-                              textAlign: TextAlign.center,
-                              style: AppTextStyle.textStyle.copyWith(
-                                fontWeight: FontWeight.w400,
-                              )),
+                          child:
+                              AutoSizeText('Please buy now for more questions.',
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyle.textStyle.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                  )),
                         ),
                         Container(
                           height: 6 * SizeConfig.blockSizeVertical,
@@ -1310,7 +1310,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                           )),
                                       child: SizedBox(
                                         width: constraints.maxWidth * 1,
-                                        child: AutoSizeText('Subscribe',
+                                        child: AutoSizeText('Buy Now',
                                             textAlign: TextAlign.center,
                                             style:
                                                 AppTextStyle.textStyle.copyWith(
@@ -1714,7 +1714,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                               //   height: 30,
                               // ),
                               Text(
-                                "Are you sure you want to get subscription for more questions?",
+                                "Are you sure you want to buy now for more questions?",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color(0xFF595959),
@@ -1966,7 +1966,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 : AppConstant.userModel?.planType == "gift"
                     ? "gift"
                     : "free");
-        context.read<SubscriptionProvider>().checkActiveUser(context: context);
+        context
+            .read<SubscriptionProvider>()
+            .isUserPurchaseTest(context: context);
         context.read<SubscriptionProvider>().isUserPurchaseTest();
       }).catchError((e) {
         loading(value: false);
