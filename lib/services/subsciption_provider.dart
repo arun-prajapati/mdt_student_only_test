@@ -12,7 +12,6 @@ import 'package:Smart_Theory_Test/responsive/size_config.dart';
 import 'package:Smart_Theory_Test/services/navigation_service.dart';
 import 'package:Smart_Theory_Test/utils/app_colors.dart';
 import 'package:Smart_Theory_Test/views/Login/welcome.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';

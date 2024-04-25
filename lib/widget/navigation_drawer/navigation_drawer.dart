@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -235,51 +238,6 @@ class NavigationDrawer extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   // Navigator.pop(context);
-                                  deleteAccount(context);
-                                },
-                                child: Container(
-                                  //color: Colors.red,
-                                  margin: EdgeInsets.fromLTRB(
-                                      constraints.maxWidth * 0.05,
-                                      0,
-                                      constraints.maxWidth * 0.05,
-                                      0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        width: constraints.maxWidth * 0.08,
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return FittedBox(
-                                              fit: BoxFit.contain,
-                                              child:
-                                                  Icon(Icons.delete_outlined));
-                                        }),
-                                      ),
-                                      SizedBox(
-                                        width: constraints.maxWidth * 0.05,
-                                      ),
-                                      Container(
-                                        //width:textWidth,
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return FittedBox(
-                                            fit: BoxFit.contain,
-                                            child: Text(
-                                              'Delete Account',
-                                              style: AppTextStyle.textStyle,
-                                            ),
-                                          );
-                                        }),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: constraints.maxHeight * 0.030),
-                              GestureDetector(
-                                onTap: () {
-                                  // Navigator.pop(context);
                                   LogOut(context);
                                 },
                                 child: Container(
@@ -320,6 +278,54 @@ class NavigationDrawer extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              SizedBox(height: constraints.maxHeight * 0.030),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.pop(context);
+                                  deleteAccount(context);
+                                },
+                                child: Container(
+                                  //color: Colors.red,
+                                  margin: EdgeInsets.fromLTRB(
+                                      constraints.maxWidth * 0.05,
+                                      0,
+                                      constraints.maxWidth * 0.05,
+                                      0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: constraints.maxWidth * 0.08,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: Icon(
+                                                Icons.delete_outlined,
+                                                color: Colors.red,
+                                              ));
+                                        }),
+                                      ),
+                                      SizedBox(
+                                        width: constraints.maxWidth * 0.05,
+                                      ),
+                                      Container(
+                                        //width:textWidth,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return FittedBox(
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                              'Delete Account',
+                                              style: AppTextStyle.textStyle
+                                                  .copyWith(color: Colors.red),
+                                            ),
+                                          );
+                                        }),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -342,10 +348,11 @@ class NavigationDrawer extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
+            insetPadding: EdgeInsets.all(20),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
+                borderRadius: BorderRadius.circular(10.0)), //this right here
             child: Padding(
-              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 5),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -358,7 +365,7 @@ class NavigationDrawer extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    'Are you sure! You want to SignOut?',
+                    'Are you sure! you want to SignOut?',
                     style: AppTextStyle.textStyle
                         .copyWith(height: 1.2, fontWeight: FontWeight.w400),
                   ),
@@ -407,10 +414,11 @@ class NavigationDrawer extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
+            insetPadding: EdgeInsets.all(20),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
+                borderRadius: BorderRadius.circular(10.0)), //this right here
             child: Padding(
-              padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+              padding: EdgeInsets.fromLTRB(15, 20, 15, 10),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -423,7 +431,15 @@ class NavigationDrawer extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    'Are you sure! You want to delete your account?',
+                    'Account deletion will delete all your data that includes learning and progress data and you will also lose license to this app.',
+                    style: AppTextStyle.textStyle.copyWith(
+                      height: 1.2,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Are you sure you want to delete your account?',
                     style: AppTextStyle.textStyle
                         .copyWith(height: 1.2, fontWeight: FontWeight.w400),
                   ),
@@ -432,33 +448,35 @@ class NavigationDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      TextButton(
-                        child: Text(
-                          "No",
-                          style: AppTextStyle.titleStyle.copyWith(
-                              height: 1.2, fontWeight: FontWeight.w600),
+                      GestureDetector(
+                        onTap: () async {
+                          context.read<UserProvider>().deleteAccount();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "Yes",
+                            style: AppTextStyle.titleStyle.copyWith(
+                                height: 1.2,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.red),
+                          ),
                         ),
-                        onPressed: () {
+                      ),
+                      SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
                           Navigator.pop(context, false);
                         },
-                      ),
-                      TextButton(
-                        child: Text(
-                          "Yes",
-                          style: AppTextStyle.titleStyle.copyWith(
-                              height: 1.2, fontWeight: FontWeight.w600),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "No",
+                            style: AppTextStyle.titleStyle.copyWith(
+                                height: 1.2, fontWeight: FontWeight.w600),
+                          ),
                         ),
-                        onPressed: () async {
-                          Fluttertoast.showToast(
-                              msg: "Your account will be deleted soon",
-                              gravity: ToastGravity.TOP);
-                          Provider.of<UserProvider>(context, listen: false)
-                              .logOut(context);
-                          await GoogleSignIn().signOut();
-                          Navigator.pop(context);
-                          _navigationService
-                              .navigateToReplacement('/Authorization');
-                        },
                       )
                     ],
                   )

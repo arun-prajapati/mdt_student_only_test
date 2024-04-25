@@ -37,6 +37,7 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
 
   List<Map<String, double>> warningSlot = [];
   List<Map<String, double>> clickDurationSlot = [];
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState _applicationState) {
     print("_applicationState..." + _applicationState.toString());
@@ -278,16 +279,6 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
               ),
             ),
 
-            ///------------------------------
-            // Container(
-            //   // transform: Matrix4.translationValues(
-            //   //     (Responsive.width(46, context)),
-            //   //     -(Responsive.height(34, context)),
-            //   //     0),
-            //   child:
-
-            // ),
-
             Align(
               //alignment: Alignment.bottomCenter,
               child: Container(
@@ -385,10 +376,11 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
                                 fit: BoxFit.fill),
                           ),
                           Container(
-                            transform: Matrix4.translationValues(
-                                -Responsive.width(40, context),
-                                -Responsive.height(35, context),
-                                0),
+                            alignment: Alignment.topRight,
+                            // transform: Matrix4.translationValues(
+                            //     -Responsive.width(40, context),
+                            //     -Responsive.height(35, context),
+                            //     0),
                             child: IconButton(
                               icon: const Icon(Icons.cancel,
                                   size: 35, color: Colors.black),

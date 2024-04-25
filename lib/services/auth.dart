@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -636,5 +637,29 @@ class UserProvider with ChangeNotifier {
             contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 1.0),
           );
         });
+  }
+
+  deleteAccount() async {
+    final url = Uri.parse("$api/api/delete-account");
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
+    final response = await http.post(url, headers: header);
+    log("++++++++++++++++= $url");
+    log("++++++++++++++++= ${response.body} $header");
+    if (response.statusCode == 200) {
+      var parsedData = jsonDecode(response.body);
+      if (parsedData['success'] == true) {
+        Fluttertoast.showToast(
+            msg: "Your account is deleted successfully",
+            gravity: ToastGravity.TOP);
+        await GoogleSignIn().signOut();
+        _navigationService.navigateToReplacement('/Authorization');
+      } else {}
+    } else {
+      Fluttertoast.showToast(msg: "-----------", gravity: ToastGravity.TOP);
+    }
   }
 }

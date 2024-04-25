@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:Smart_Theory_Test/datamodels/ai_data_model.dart';
 import 'package:Smart_Theory_Test/external.dart';
 import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -51,8 +52,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   int selectedQuestionIndex = 0;
   int? selectedOptionIndex;
   int gainPoint = 0;
+  int wrongAnswerPoint = 0;
   late int _userId;
-  int category_id = 0;
+  String category_id = "0";
   Map? walletDetail = null;
   static int? selectedCategoryIndex;
   List questionsList = [];
@@ -64,14 +66,15 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   String userName = '';
 
-  getData() async {
-    return getCategoriesFromApi().then((response_list) {
-      responseList.clear();
-      responseList.addAll(response_list);
-      print("------------ responseList ${responseList}");
-      setState(() {});
-    });
-  }
+  //
+  // getData() async {
+  //   return getCategoriesFromApi().then((response_list) {
+  //     responseList.clear();
+  //     responseList.addAll(response_list);
+  //     print("------------ responseList ${responseList}");
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   void initState() {
@@ -80,7 +83,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
-    getData();
+    getTheoryContent(
+        '${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid && AppConstant.userModel?.planType == "free" ? "no" : "yes"}');
+    // getData();
   }
 
   @override
@@ -155,6 +160,32 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return response;
   }
 
+  Future<Map> getTheoryContent(String isFree) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
+    final url = Uri.parse('$api/api/ai_get_theory_content/$isFree');
+    final response = await http.get(url, headers: header);
+    print("URL +++++++ $url");
+    if (response.statusCode == 200) {
+      var parsedData = jsonDecode(response.body);
+      if (parsedData['success'] == true) {
+        responseList.clear();
+        List<TheoryContentModel> data = (parsedData["message"] as List)
+            .map((e) => TheoryContentModel.fromJson(e))
+            .toList();
+        responseList.addAll(data);
+        print("RESPONESE +++++++ $parsedData");
+      }
+    } else {
+      log('ERORRRR ${response.body}');
+    }
+
+    return jsonDecode(response.body);
+  }
+
   //call api for getQuestions
   Future<List> getQuestionsFromApi() async {
     List response = await test_api_services.getTestQuestions(category_id);
@@ -205,7 +236,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     ToastContext().init(context);
     print(
         "auth_services.changeView ${context.read<UserProvider>().changeView}");
-    print("------------ responseList 1 ${responseList}");
 
     /* if (context.read<UserProvider>().changeView) {
       getCategoriesFromApi().then((response_list) {
@@ -347,6 +377,29 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            SizedBox(height: 15),
+                            Text(
+                                "${questionsList[selectedQuestionIndex]['category']}",
+                                style: AppTextStyle.textStyle
+                                    .copyWith(fontWeight: FontWeight.w500)),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("$gainPoint Correct Answer",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.green)),
+                                  Text("$wrongAnswerPoint Wrong Answer",
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.red)),
+                                ],
+                              ),
+                            ),
                             Container(
                               width: constraints.maxWidth * 1,
                               // padding: isTestStarted
@@ -357,6 +410,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   ? constraints.maxHeight * .85
                                   : constraints.maxHeight * .78,
                               child: ListView(
+                                padding: EdgeInsets.all(0),
                                 controller: _controller,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 //padding: EdgeInsets.only(top: 10),
@@ -1251,9 +1305,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
               width: Responsive.height(100, context),
               height: Responsive.height(100, context),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 1),
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 1),
                 child: Container(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withOpacity(0.9),
                     padding: EdgeInsets.only(
                       top: Responsive.height(20, context),
                     ),
@@ -1481,7 +1535,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   Widget nextButtonWidget(BuildContext context, BoxConstraints constraints) {
     return Padding(
-      padding: EdgeInsets.only(top: 25, bottom: 5),
+      padding: EdgeInsets.only(top: 0, bottom: 5),
       child: LayoutBuilder(
         builder: (context, constraints) {
           print('index: $selectedQuestionIndex');
@@ -1499,6 +1553,16 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 val.entitlement == Entitlement.paid)))
                     ? null
                     : () {
+                        // calculatePoint(questionsList[selectedQuestionIndex]);
+                        if ((selectedOptionIndex != null &&
+                            questionsList[selectedQuestionIndex]['options']
+                                    [selectedOptionIndex]['correct'] ==
+                                false)) {
+                          wrongAnswerPoint += 1;
+                        }
+
+                        // log("Points earned : $gainPoint");
+                        // wrongAnswerPoint += 1;
                         testQuestionsForResult.add({
                           'questionId': questionsList[selectedQuestionIndex]
                               ['id'],
@@ -1522,6 +1586,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             selectedOptionIndex = null;
                             selectedQuestionIndex += 1;
                           });
+                          // submitTestByApi().then((value) {
+                          //   Navigator.of(_keyLoader.currentContext!,
+                          //           rootNavigator: true)
+                          //       .pop();
+                          //   testCompleAlertBox(context);
+                          // });
                         }
                         // else if (questionsList[selectedQuestionIndex]['type'] ==
                         //     1) {
@@ -1542,7 +1612,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 title: selectedQuestionIndex < questionsList.length - 1
                     ? val.entitlement == Entitlement.unpaid &&
                             // walletDetail!['dvsa_subscription'] <= 0 &&
-                            questionsList[selectedQuestionIndex]['type'] == 1
+                            questionsList[selectedQuestionIndex]['type'] == 1 &&
+                            AppConstant.userModel?.planType == "free"
                         ? 'Skip'
                         : 'Next'
                     : 'Test Submit',

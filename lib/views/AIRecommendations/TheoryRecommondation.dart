@@ -574,20 +574,62 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                           right: 16,
                                           bottom: 10,
                                           top: 0),
-                                      title: Text(
-                                          theoryContent[index]
-                                                  .topicName!
-                                                  .replaceAll('_', ' ')
-                                                  .substring(0, 1)
-                                                  .toUpperCase() +
-                                              theoryContent[index]
-                                                  .topicName!
-                                                  .replaceAll('_', ' ')
-                                                  .substring(1),
-                                          style: AppTextStyle.textStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 15)),
+                                      title: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                                theoryContent[index]
+                                                        .topicName!
+                                                        .replaceAll('_', ' ')
+                                                        .substring(0, 1)
+                                                        .toUpperCase() +
+                                                    theoryContent[index]
+                                                        .topicName!
+                                                        .replaceAll('_', ' ')
+                                                        .substring(1),
+                                                style: AppTextStyle.textStyle
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 15)),
+                                          ),
+                                          SizedBox(width: 5),
+                                          AppConstant.userModel?.planType ==
+                                                      "paid" ||
+                                                  AppConstant.userModel
+                                                          ?.planType ==
+                                                      "gift"
+                                              ? SizedBox()
+                                              : Expanded(
+                                                  flex: 0,
+                                                  child: Image.asset(
+                                                      theoryContent[index]
+                                                                      .isFree ==
+                                                                  "free" &&
+                                                              (AppConstant.userModel
+                                                                          ?.planType ==
+                                                                      "free" ||
+                                                                  AppConstant
+                                                                          .userModel
+                                                                          ?.planType ==
+                                                                      "gift")
+                                                          ? "assets/images/free.png"
+                                                          : "assets/images/premium.png",
+                                                      height: theoryContent[index]
+                                                                      .isFree ==
+                                                                  "free" &&
+                                                              (AppConstant.userModel
+                                                                          ?.planType ==
+                                                                      "free" ||
+                                                                  AppConstant
+                                                                          .userModel
+                                                                          ?.planType ==
+                                                                      "gift")
+                                                          ? 18
+                                                          : 15),
+                                                ),
+                                        ],
+                                      ),
                                       // subtitle: Text(
                                       //     "${context.read<SubscriptionProvider>().entitlement}"),
                                       children: [
@@ -638,7 +680,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                                                   .Loading;
                                                                         });
                                                                         await getTopicAiContent(
-                                                                                theoryContent[
+                                                                                get[
                                                                                         index][
                                                                                     "topic_name"])
                                                                             .then((data) {

@@ -1,9 +1,15 @@
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/Constants/global.dart';
+import 'package:Smart_Theory_Test/external.dart';
+import 'package:Smart_Theory_Test/responsive/size_config.dart';
+import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../custom_button.dart';
 import '../locater.dart';
@@ -13,9 +19,10 @@ import '../services/practise_theory_test_services.dart';
 import '../utils/appImages.dart';
 import '../utils/app_colors.dart';
 import '../views/Driver/PracticeTheoryTest.dart';
+import '../widget/CustomSwitch/CustomSwitch.dart';
 
 class TestSettingDialogBox extends StatefulWidget {
-  final IntCallback onSetValue;
+  final StringCallback onSetValue;
   final List categories_list;
 
   TestSettingDialogBox(
@@ -33,7 +40,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   TextStyle _categoryTextStyle = AppTextStyle.textStyle
       .copyWith(fontWeight: FontWeight.w400, color: AppColors.black);
   final NavigationService _navigationService = locator<NavigationService>();
-  int seledtedCategoryId = 0;
+  String seledtedCategoryId = "0";
   List categories = [];
   bool isAllCategoriesSelected = true;
   final PractiseTheoryTestServices test_api_services =
@@ -51,12 +58,36 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
     getCategoriesFromApi().then((response_list) {
       widget.categories_list.clear();
       widget.categories_list.addAll(response_list);
+      var idList = [];
       print('widget.categories_list ${widget.categories_list}');
       for (var e in widget.categories_list) {
         Map category = e;
-        category['selected'] = true;
+        print(
+            '=========== ${AppConstant.userModel?.planType} ${category['isFree']}');
+        if (category['isFree'] == "free" &&
+            (AppConstant.userModel?.planType == "free" ||
+                AppConstant.userModel?.planType == "gift")) {
+          category['selected'] = true;
+          if (category['isFree'] == "free" &&
+              (AppConstant.userModel?.planType == "free" ||
+                  AppConstant.userModel?.planType == "gift")) {
+            idList.add(category['id']);
+            idList.join();
+            var data = idList.join(",");
+            seledtedCategoryId = data;
+            print('------------ IF $data');
+          }
+        } else if (AppConstant.userModel?.planType == "gift" ||
+            AppConstant.userModel?.planType == "paid") {
+          category['selected'] = true;
+          idList.add(category['id']);
+          idList.join();
+          var data = idList.join(",");
+          seledtedCategoryId = data;
+          print('------------ ELSE $data');
+        }
         categories.add(category);
-        print('widget.categories_list ${widget.categories_list}');
+        print('widget.categories_list ${category}');
       }
       setState(() {});
     });
@@ -69,101 +100,11 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
         child: Container(
           // height: Responsive.height(56, context),
           alignment: Alignment.bottomCenter,
-          padding: EdgeInsets.fromLTRB(8, 12, 0, 5),
+          padding: EdgeInsets.fromLTRB(8, 5, 0, 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              // Container(
-              //   width: Responsive.width(100, context),
-              //   alignment: Alignment.centerLeft,
-              //   margin: EdgeInsets.only(bottom: 10),
-              //   child: Text("Select Mode Type*",
-              //       style: TextStyle(
-              //           fontSize: 15,
-              //           fontWeight: FontWeight.w300,
-              //           color: Colors.black38)),
-              // ),
-              // Row(
-              //   children: [
-              //     Container(
-              //       width: Responsive.width(25, context),
-              //       height: Responsive.height(5, context),
-              //       alignment: Alignment.topLeft,
-              //       child: Row(
-              //         children: [
-              //           Container(
-              //             alignment: Alignment.centerLeft,
-              //             width: 30,
-              //             height: 30,
-              //             child: Radio<String>(
-              //               activeColor: Dark,
-              //               value: 'mdt',
-              //               groupValue: _modeType,
-              //               onChanged: (val) {
-              //                 setState(() {
-              //                   _modeType = val;
-              //                 });
-              //               },
-              //             ),
-              //           ),
-              //           Container(
-              //             alignment: Alignment.centerLeft,
-              //             child: FlatButton(
-              //               padding: EdgeInsets.all(0),
-              //               height: 20,
-              //               minWidth: 30,
-              //               child: Text('MDT', style: _answerTextStyle),
-              //               onPressed: () => {
-              //                 setState(() {
-              //                   _modeType = 'mdt';
-              //                 })
-              //               },
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              //     Container(
-              //       width: Responsive.width(25, context),
-              //       height: Responsive.height(5, context),
-              //       alignment: Alignment.topLeft,
-              //       child: Row(
-              //         children: [
-              //           Container(
-              //             alignment: Alignment.centerLeft,
-              //             width: 30,
-              //             height: 30,
-              //             child: Radio<String>(
-              //               activeColor: Dark,
-              //               value: 'dvsa',
-              //               groupValue: _modeType,
-              //               onChanged: (val) {
-              //                 setState(() {
-              //                   _modeType = val;
-              //                 });
-              //               },
-              //             ),
-              //           ),
-              //           Container(
-              //             alignment: Alignment.centerLeft,
-              //             child: FlatButton(
-              //               padding: EdgeInsets.all(0),
-              //               height: 20,
-              //               minWidth: 30,
-              //               child: Text('DVSA', style: _answerTextStyle),
-              //               onPressed: () => {
-              //                 setState(() {
-              //                   _modeType = 'dvsa';
-              //                 })
-              //               },
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              //   ],
-              // ),
               Expanded(
                 flex: 0,
                 child: Padding(
@@ -191,7 +132,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              // SizedBox(height: 10),
               Expanded(
                 flex: 0,
                 child: Padding(
@@ -218,11 +159,32 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                         visualDensity: VisualDensity.comfortable,
                         onPressed: isAllCategoriesSelected
                             ? () {
+                                seledtedCategoryId = "0";
                                 resetAll(false);
                               }
                             : () {
                                 resetAll(true);
-                                seledtedCategoryId = 0;
+                                if (isAllCategoriesSelected) {
+                                  var idList = [];
+                                  for (var d in categories) {
+                                    if (d['isFree'] == "free" &&
+                                        (AppConstant.userModel?.planType ==
+                                                "free" ||
+                                            AppConstant.userModel?.planType ==
+                                                "gift")) {
+                                      idList.add(d['id']);
+                                      print('ID LISTTTTT $idList');
+                                      idList.join();
+                                      var data = idList.join(",");
+                                      seledtedCategoryId = data;
+                                      print('------------ $data');
+                                    }
+                                  }
+                                } else {
+                                  seledtedCategoryId = "0";
+                                }
+                                print('$seledtedCategoryId');
+                                setState(() {});
                               },
                         label: Image.asset(
                           isAllCategoriesSelected
@@ -232,98 +194,10 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                           width: isAllCategoriesSelected ? 23 : 20,
                         ),
                       ),
-
-                      // IconButton(
-                      //   iconSize: 3 * SizeConfig.blockSizeVertical,
-                      //   padding: EdgeInsets.only(right: 15),
-                      //   icon: Icon(
-                      //       isAllCategoriesSelected
-                      //           ? Icons.check_box
-                      //           : Icons.check_box_outline_blank_outlined,
-                      //       color: isAllCategoriesSelected
-                      //           ? AppColors.blueGrad6
-                      //           : AppColors.borderblue.withOpacity(0.3)),
-                      //   onPressed: isAllCategoriesSelected
-                      //       ? null
-                      //       :
-                      // ),
                     ],
                   ),
                 ),
               ),
-
-              // SizedBox(height: 10),
-              /* Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14),
-                child: Container(
-                    // height: Responsive.height(32, context),
-                    // width: Responsive.width(80, context),
-                    alignment: Alignment.topLeft,
-                    margin: EdgeInsets.only(bottom: 30, top: 0),
-                    child: ListView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        children: [
-                          ...categories.map(
-                            (category) {
-                              var index = categories.indexOf(category);
-                              return Row(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: AutoSizeText(category['name'],
-                                        style: _categoryTextStyle),
-                                  ),
-                                  Expanded(
-                                      flex: 0,
-                                      child: ActionChip(
-                                        backgroundColor: AppColors.transparent,
-                                        pressElevation: 0,
-                                        padding: EdgeInsets.all(0),
-                                        labelPadding: EdgeInsets.all(0),
-                                        visualDensity: VisualDensity.comfortable,
-                                        onPressed: () => {
-                                          setState(() {
-                                            resetAll(false);
-                                            seledtedCategoryId = category['id'];
-                                            categories[index]['selected'] = true;
-                                          })
-                                        },
-                                        label: Image.asset(
-                                          category['selected'] == true
-                                              ? AppImages.checkedbox
-                                              : AppImages.uncheckedbox,
-                                          height: 28,
-                                          width: 23,
-                                        ),
-                                      )
-                                      // IconButton(
-                                      //   iconSize: 3 * SizeConfig.blockSizeVertical,
-                                      //   padding: EdgeInsets.all(0),
-                                      //   icon: Icon(
-                                      //       category['selected'] == true
-                                      //           ? Icons.check_box
-                                      //           : Icons.check_box_outline_blank,
-                                      //       color: category['selected'] == true
-                                      //           ? AppColors.blueGrad6
-                                      //           : AppColors.borderblue
-                                      //               .withOpacity(0.3)),
-                                      //   onPressed: () => {
-                                      //     setState(() {
-                                      //       resetAll(false);
-                                      //       seledtedCategoryId = category['id'];
-                                      //       categories[index]['selected'] = true;
-                                      //     })
-                                      //   },
-                                      // ),
-                                      ),
-                                ],
-                              );
-                            },
-                          ).toList(),
-                        ])),
-              ),*/
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -337,37 +211,110 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Expanded(
-                                  child: Text(categories[index]['name'],
-                                      style: _categoryTextStyle.copyWith(
-                                          height: 0.5,
-                                          fontSize: 16,
-                                          overflow: TextOverflow.clip)),
+                                  child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "${categories[index]['name']}"
+                                                    .toString(),
+                                                style: AppTextStyle.textStyle
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                            Text(
+                                                "${categories[index]['correct_question_count']} of ${categories[index]['total_question_count']} attempted"
+                                                    .toString(),
+                                                style: AppTextStyle.textStyle
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.black)),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      AppConstant.userModel?.planType ==
+                                                  "paid" ||
+                                              AppConstant.userModel?.planType ==
+                                                  "gift"
+                                          ? SizedBox()
+                                          : Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 20.0),
+                                              child: Image.asset(
+                                                  categories[index]['isFree'] == "free" &&
+                                                          (AppConstant.userModel
+                                                                      ?.planType ==
+                                                                  "free" ||
+                                                              AppConstant
+                                                                      .userModel
+                                                                      ?.planType ==
+                                                                  "gift")
+                                                      ? "assets/images/free.png"
+                                                      : "assets/images/premium.png",
+                                                  height: categories[index]
+                                                                  ['isFree'] ==
+                                                              "free" &&
+                                                          (AppConstant.userModel
+                                                                      ?.planType ==
+                                                                  "free" ||
+                                                              AppConstant
+                                                                      .userModel
+                                                                      ?.planType ==
+                                                                  "gift")
+                                                      ? 18
+                                                      : 15),
+                                            ),
+                                    ],
+                                  ),
                                 ),
-                                ActionChip(
-                                  backgroundColor: AppColors.transparent,
-                                  pressElevation: 0,
-                                  padding: EdgeInsets.all(0),
-                                  labelPadding: EdgeInsets.all(0),
-                                  visualDensity: VisualDensity.comfortable,
-                                  onPressed: () => {
-                                    setState(() {
-                                      resetAll(false);
-                                      seledtedCategoryId =
-                                          categories[index]['id'];
-                                      categories[index]['selected'] = true;
-                                    })
-                                  },
-                                  label: Image.asset(
-                                    categories[index]['selected'] == true
-                                        ? AppImages.checkedbox
-                                        : AppImages.checkBox,
-                                    height:
-                                        categories[index]['selected'] == true
-                                            ? 23
-                                            : 20,
-                                    width: categories[index]['selected'] == true
-                                        ? 23
-                                        : 20,
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                  child: ActionChip(
+                                    backgroundColor: AppColors.transparent,
+                                    pressElevation: 0,
+                                    padding: EdgeInsets.all(0),
+                                    labelPadding: EdgeInsets.all(0),
+                                    visualDensity: VisualDensity.comfortable,
+                                    onPressed: categories[index]['isFree'] !=
+                                                "free" &&
+                                            (AppConstant.userModel?.planType ==
+                                                    "free" ||
+                                                AppConstant
+                                                        .userModel?.planType ==
+                                                    "gift")
+                                        ? () {
+                                            GetPremium(context);
+                                          }
+                                        : () => {
+                                              setState(() {
+                                                resetAll(false);
+                                                seledtedCategoryId =
+                                                    categories[index]['id']
+                                                        .toString();
+                                                categories[index]['selected'] =
+                                                    true;
+                                              })
+                                            },
+                                    label: Image.asset(
+                                      categories[index]['selected'] == true
+                                          ? AppImages.checkedbox
+                                          : AppImages.checkBox,
+                                      height:
+                                          categories[index]['selected'] == true
+                                              ? 23
+                                              : 20,
+                                      width:
+                                          categories[index]['selected'] == true
+                                              ? 23
+                                              : 20,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -379,7 +326,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                 flex: 0,
                 child: Padding(
                   padding:
-                      EdgeInsets.only(left: 55, right: 55, bottom: 20, top: 15),
+                      EdgeInsets.only(left: 55, right: 55, bottom: 15, top: 15),
                   child: CustomButton(
                     title: 'Continue',
                     onTap: () {
@@ -388,7 +335,8 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                       // auth_services.changeView = false;
                       context.read<UserProvider>().changeView = false;
                       setState(() {});
-                      if (!isAllCategoriesSelected && seledtedCategoryId == 0) {
+                      if (!isAllCategoriesSelected &&
+                          seledtedCategoryId == "0") {
                         Fluttertoast.showToast(
                             msg: 'Please select category',
                             gravity: ToastGravity.TOP);
@@ -403,53 +351,6 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                   ),
                 ),
               ),
-              // Container(
-              //   height: 5 * SizeConfig.blockSizeVertical,
-              //   width: Responsive.width(30, context),
-              //   alignment: Alignment.centerRight,
-              //   margin: EdgeInsets.only(
-              //     top: Responsive.height(2, context),
-              //   ),
-              //   child: Material(
-              //     borderRadius: BorderRadius.circular(10),
-              //     color: Dark,
-              //     elevation: 5.0,
-              //     child: MaterialButton(
-              //       onPressed: () {
-              //         // Navigator.push(
-              //         //     context,
-              //         //     MaterialPageRoute(
-              //         //         builder: (context) => PracticeTheoryTest()));
-              //         Navigator.pop(context, true);
-              //         this.widget.onSetValue(seledtedCategoryId);
-              //         // auth_services.changeView = false;
-              //         context.read<AuthProvider>().changeView = false;
-              //         setState(() {});
-              //         // setState(() {});
-              //         print(
-              //             'LLLL ${seledtedCategoryId} ${widget.onSetValue} ${context.read<AuthProvider>().changeView}');
-              //       },
-              //       child: LayoutBuilder(
-              //         builder: (context, constraints) {
-              //           return Container(
-              //             width: constraints.maxWidth * 1,
-              //             height: constraints.maxHeight * 1,
-              //             alignment: Alignment.center,
-              //             child: AutoSizeText(
-              //               'Continue',
-              //               style: TextStyle(
-              //                 fontFamily: 'Poppins',
-              //                 fontSize: 2.2 * SizeConfig.blockSizeVertical,
-              //                 fontWeight: FontWeight.w500,
-              //                 color: Color.fromRGBO(255, 255, 255, 1.0),
-              //               ),
-              //             ),
-              //           );
-              //         },
-              //       ),
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),
@@ -458,11 +359,254 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   }
 
   resetAll(bool isAllSelect) {
-    isAllCategoriesSelected = isAllSelect;
     categories.asMap().forEach((index, category) {
       setState(() {
-        categories[index]['selected'] = isAllSelect ? true : false;
+        if (categories[index]['isFree'] == "free" &&
+            (AppConstant.userModel?.planType == "free" ||
+                AppConstant.userModel?.planType == "gift")) {
+          categories[index]['selected'] = isAllSelect ? true : false;
+        } else if (AppConstant.userModel?.planType == "gift" ||
+            AppConstant.userModel?.planType == "paid") {
+          categories[index]['selected'] = isAllSelect ? true : false;
+        }
+        isAllCategoriesSelected = isAllSelect;
       });
     });
+  }
+
+  Widget? GetPremium(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PopScope(
+            canPop: false,
+            child: Dialog(
+              insetPadding: EdgeInsets.all(20),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)), //this right here
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, -1.0),
+                      end: Alignment(0.0, 1.0),
+                      colors: [Dark, Light],
+                      stops: [0.0, 1.0],
+                    )),
+                // height: Responsive.height(25, context),
+                child: Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              alignment: Alignment.topLeft,
+                              child: Text('Go For Premium !!!!',
+                                  style: AppTextStyle.titleStyle)),
+                          SizedBox(height: 8),
+                          Text(
+                            'Buy premium license now to unlock exclusive content and maximize your learning experience.',
+                            style: AppTextStyle.disStyle.copyWith(
+                                fontWeight: FontWeight.w300,
+                                color: AppColors.black),
+                          ),
+                          SizedBox(height: 18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              // margin: const EdgeInsets.only(right: 10),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    payWallBottomSheet();
+                                  },
+                                  child: Container(
+                                      // width: constraints.maxWidth * 0.8,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: Dark,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Buy now",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4),
+                                      )),
+                                ),
+                              ),
+                              SizedBox(width: 18),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context, false);
+                                  },
+                                  child: Container(
+                                      // width: constraints.maxWidth * 0.8,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: Dark,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4),
+                                      )),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
+    return null;
+  }
+
+  payWallBottomSheet() {
+    showModalBottomSheet(
+        isDismissible: false,
+        // enableDrag: false,
+        shape: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            )),
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (_) => PopScope(
+              canPop: false,
+              child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 20),
+                          Text("Purchase",
+                              style: AppTextStyle.titleStyle.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black54)),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                                padding: EdgeInsets.all(0),
+                                visualDensity: VisualDensity.comfortable,
+                                iconSize: 20,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.clear)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            purchasePackage(val.package.first, context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: AppColors.borderblue.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(),
+                                Text("${val.package.first.storeProduct.title}",
+                                    style: AppTextStyle.titleStyle.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black54)),
+                                Text(
+                                    "${val.package.first.storeProduct.description}",
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        // fontSize: 15,
+
+                                        color: Colors.grey)),
+                                Text(
+                                  "${val.package.first.storeProduct.priceString}",
+                                  style: AppTextStyle.disStyle
+                                      .copyWith(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                    ],
+                  ),
+                );
+              }),
+            ));
+  }
+
+  purchasePackage(Package package, BuildContext context) async {
+    loading(value: true);
+    try {
+      loading(value: true);
+      await Purchases.purchasePackage(package).then((value) {
+        loading(value: false);
+        print('HHHHHHHHH ${value.entitlements.all}');
+        test_api_services.getTheoryContent(context);
+        context.read<SubscriptionProvider>().updateUserPlan(
+            value.entitlements.active['One time purchase']?.isActive == true
+                ? "paid"
+                : AppConstant.userModel?.planType == "gift"
+                    ? "gift"
+                    : "free");
+        context
+            .read<SubscriptionProvider>()
+            .isUserPurchaseTest(context: context);
+      }).catchError((e) {
+        loading(value: false);
+        print("ERROR ====== $e");
+
+        return e;
+      });
+    } catch (e) {
+      loading(value: false);
+      print("ERROR ====== $e");
+    }
   }
 }

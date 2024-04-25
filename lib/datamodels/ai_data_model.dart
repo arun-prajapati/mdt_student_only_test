@@ -4,6 +4,7 @@ class TheoryContentModel {
   String? topicDescription;
   String? isFree;
   bool isExpand = false;
+  bool isSelected = false;
 
   TheoryContentModel(
       {this.id,

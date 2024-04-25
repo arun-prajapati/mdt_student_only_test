@@ -48,7 +48,7 @@ class PractiseTheoryTestServices {
     return userData;
   }
 
-  Future<List> getTestQuestions(int _categoryId) async {
+  Future<List> getTestQuestions(String _categoryId) async {
     String URL = "$api/api/get-questions?category_id=" + _categoryId.toString();
     final url = Uri.parse(URL);
     SharedPreferences storage = await SharedPreferences.getInstance();
@@ -85,8 +85,8 @@ class PractiseTheoryTestServices {
     return recordData;
   }
 
-  Future<Map> submitTest(
-      int _userType, int _userId, List test_question, int _category_id) async {
+  Future<Map> submitTest(int _userType, int _userId, List test_question,
+      String _category_id) async {
     var URL = "$api/api/save-theory-test?id=" +
         _userId.toString() +
         "&user_type=" +

@@ -23,35 +23,37 @@ showCorrectAnswerDialog(BuildContext context, String explanation) {
             ),
             actionsAlignment: MainAxisAlignment.center,
             contentPadding: EdgeInsets.fromLTRB(24.0, 15.0, 24.0, 5.0),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GradientText(
-                  'Good Job!',
-                  colors: [
-                    AppColors.blueGrad7,
-                    AppColors.blueGrad6,
-                    AppColors.blueGrad5,
-                    AppColors.blueGrad4,
-                    AppColors.blueGrad3,
-                    AppColors.blueGrad1,
-                  ],
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 30,
-                    decorationThickness: 2,
-                    fontWeight: FontWeight.w600,
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GradientText(
+                    'Good Job!',
+                    colors: [
+                      AppColors.blueGrad7,
+                      AppColors.blueGrad6,
+                      AppColors.blueGrad5,
+                      AppColors.blueGrad4,
+                      AppColors.blueGrad3,
+                      AppColors.blueGrad1,
+                    ],
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 30,
+                      decorationThickness: 2,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  explanation,
-                  style: AppTextStyle.disStyle.copyWith(
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.5,
-                      height: 1.2),
-                ),
-              ],
+                  SizedBox(height: 15),
+                  Text(
+                    explanation,
+                    style: AppTextStyle.disStyle.copyWith(
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.5,
+                        height: 1.2),
+                  ),
+                ],
+              ),
             ),
             actions: [
               Padding(
