@@ -115,7 +115,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       // await getTheoryContent(
       //         walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
       await getTheoryContent(
-              '${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid && AppConstant.userModel?.planType == "free" ? "no" : "yes"}')
+              '${AppConstant.userModel?.planType == "free" ? "no" : "yes"}')
           .then((value) async {
         await fetchUserTheoryProgress(_userId!).then((res) {
           print("Progress fetch : $res");
@@ -436,10 +436,10 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             if (theoryContent.isNotEmpty &&
                                 walletDetail != null) {
                               return GestureDetector(
-                                onTap: context
-                                            .read<SubscriptionProvider>()
-                                            .entitlement ==
-                                        Entitlement.paid
+                                onTap: AppConstant.userModel?.planType ==
+                                            "paid" ||
+                                        AppConstant.userModel?.planType ==
+                                            "gift"
                                     ? null
                                     : () {
                                         print(
@@ -449,12 +449,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                             .read<SubscriptionProvider>()
                                             .isUserPurchaseTest();
 
-                                        if (context
-                                                    .read<
-                                                        SubscriptionProvider>()
-                                                    .entitlement ==
-                                                Entitlement.unpaid &&
-                                            theoryContent[index].isFree ==
+                                        if (theoryContent[index].isFree ==
                                                 "not-free" &&
                                             AppConstant.userModel?.planType ==
                                                 "free") {
@@ -489,15 +484,11 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                     data: ThemeData(
                                         dividerColor: Colors.transparent),
                                     child: ExpansionTile(
-                                      enabled: context
-                                                      .read<
-                                                          SubscriptionProvider>()
-                                                      .entitlement ==
-                                                  Entitlement.unpaid &&
-                                              AppConstant.userModel?.planType ==
+                                      enabled:
+                                          AppConstant.userModel?.planType ==
                                                   "free"
-                                          ? false
-                                          : true,
+                                              ? false
+                                              : true,
                                       tilePadding:
                                           EdgeInsets.symmetric(horizontal: 15),
                                       key: Key(index.toString()),

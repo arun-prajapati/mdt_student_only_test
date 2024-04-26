@@ -5,6 +5,8 @@ import 'dart:ui';
 import 'package:Smart_Theory_Test/datamodels/ai_data_model.dart';
 import 'package:Smart_Theory_Test/external.dart';
 import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
+import 'package:Smart_Theory_Test/views/DashboardGridView/TheoryTab.dart';
+import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
@@ -83,8 +85,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     Future.delayed(Duration.zero, () {
       this.initializeApi("Loading...");
     });
-    getTheoryContent(
-        '${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid && AppConstant.userModel?.planType == "free" ? "no" : "yes"}');
+    // getTheoryContent(
+    //     '${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid && AppConstant.userModel?.planType == "free" ? "no" : "yes"}');
     // getData();
   }
 
@@ -124,39 +126,39 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   }
 
   /// =========== ///
-  Future<Widget> getNewCat() async {
-    final url = Uri.parse("$api/api/get-categories");
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
-    final response = await http.get(url, headers: header);
-    if (response.statusCode == 200) {
-      log("++++++++++++++++= ${response.body}");
-      var parsedData = jsonDecode(response.body);
-      if (parsedData['success'] == true) {
-        categoryList = (parsedData['data'] as List)
-            .map(
-              (e) => PracticeTestCategoryModel.fromJson(e),
-            )
-            .toList();
-        setState(() {});
-        return SizedBox();
-      } else {
-        categoryList = [];
-        setState(() {});
-        return SizedBox();
-      }
-    } else {
-      return SizedBox();
-    }
-  }
+  // Future<Widget> getNewCat() async {
+  //   final url = Uri.parse("$api/api/get-categories");
+  //   SharedPreferences storage = await SharedPreferences.getInstance();
+  //   String token = storage.getString('token').toString();
+  //   Map<String, String> header = {
+  //     'token': token,
+  //   };
+  //   final response = await http.get(url, headers: header);
+  //   if (response.statusCode == 200) {
+  //     log("++++++++++++++++= ${response.body}");
+  //     var parsedData = jsonDecode(response.body);
+  //     if (parsedData['success'] == true) {
+  //       categoryList = (parsedData['data'] as List)
+  //           .map(
+  //             (e) => PracticeTestCategoryModel.fromJson(e),
+  //           )
+  //           .toList();
+  //       setState(() {});
+  //       return SizedBox();
+  //     } else {
+  //       categoryList = [];
+  //       setState(() {});
+  //       return SizedBox();
+  //     }
+  //   } else {
+  //     return SizedBox();
+  //   }
+  // }
 
   /// ==========///
   //Call APi Services
   Future<List> getCategoriesFromApi() async {
-    List response = await test_api_services.getCategories();
+    List response = await test_api_services.getCategories(context);
     return response;
   }
 
@@ -351,7 +353,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   iconLeft: Icons.arrow_back,
                   // iconRight: Icons.refresh_rounded,
                   onTap1: () {
-                    _navigationService.goBack();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => HomeScreen()),
+                        (route) => false);
                   },
                   // onTapRightbtn: () {
                   //   initializeApi("Refreshing...");
@@ -382,19 +387,22 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                 "${questionsList[selectedQuestionIndex]['category']}",
                                 style: AppTextStyle.textStyle
                                     .copyWith(fontWeight: FontWeight.w500)),
+                            SizedBox(height: 10),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("$gainPoint Correct Answer",
                                       style: AppTextStyle.textStyle.copyWith(
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.green)),
                                   Text("$wrongAnswerPoint Wrong Answer",
                                       style: AppTextStyle.textStyle.copyWith(
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.red)),
                                 ],
@@ -1299,7 +1307,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
             ],
           ),
           if (question['type'] == 1 &&
-              data.entitlement == Entitlement.unpaid &&
               AppConstant.userModel?.planType == "free")
             Container(
               width: Responsive.height(100, context),
@@ -1563,20 +1570,47 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
                         // log("Points earned : $gainPoint");
                         // wrongAnswerPoint += 1;
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer'
-                        });
+                        if (AppConstant.userModel?.planType == "free" &&
+                            questionsList[selectedQuestionIndex]['type'] == 0) {
+                          testQuestionsForResult.add({
+                            'questionId': questionsList[selectedQuestionIndex]
+                                ['id'],
+                            'type': questionsList[selectedQuestionIndex]
+                                ['type'],
+                            'question': questionsList[selectedQuestionIndex]
+                                ['title'],
+                            'correct': (selectedOptionIndex != null &&
+                                    questionsList[selectedQuestionIndex]
+                                                ['options'][selectedOptionIndex]
+                                            ['correct'] ==
+                                        true)
+                                ? 'Correct Answer'
+                                : 'Wrong Answer'
+                          });
+                        } else if (AppConstant.userModel?.planType == "paid" ||
+                            AppConstant.userModel?.planType == "gift") {
+                          testQuestionsForResult.add({
+                            'questionId': questionsList[selectedQuestionIndex]
+                                ['id'],
+                            'type': questionsList[selectedQuestionIndex]
+                                ['type'],
+                            'question': questionsList[selectedQuestionIndex]
+                                ['title'],
+                            'correct': (selectedOptionIndex != null &&
+                                    questionsList[selectedQuestionIndex]
+                                                ['options'][selectedOptionIndex]
+                                            ['correct'] ==
+                                        true)
+                                ? 'Correct Answer'
+                                : 'Wrong Answer'
+                          });
+                          submitTestByApi().then((value) {
+                            Navigator.of(_keyLoader.currentContext!,
+                                    rootNavigator: true)
+                                .pop();
+                            testCompleAlertBox(context);
+                          });
+                        }
                         if ((selectedQuestionIndex + 1) <
                             questionsList.length) {
                           _controller.animateTo(0,
@@ -1685,8 +1719,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       padding:
                                           EdgeInsets.symmetric(vertical: 10),
                                       onTap: () {
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).pop();
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => HomeScreen()),
+                                            (route) => false);
+                                        // Navigator.of(context).pop();
+                                        // Navigator.of(context).pop();
                                         // setState(() => isTestStarted = false);
                                         // context
                                         //     .read<AuthProvider>()

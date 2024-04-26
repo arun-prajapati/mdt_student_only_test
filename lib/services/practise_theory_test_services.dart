@@ -13,8 +13,9 @@ class PractiseTheoryTestServices {
   late Map data;
   late List userData;
 
-  Future<List> getCategories() async {
-    final url = Uri.parse("$api/api/get-categories");
+  Future<List> getCategories(BuildContext context) async {
+    final url = Uri.parse(
+        "$api/api/get-categories?is_paid=${AppConstant.userModel?.planType == "free" ? "no" : "yes"}");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {

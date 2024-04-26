@@ -220,7 +220,8 @@ class _TheoryTabState extends State<TheoryTab> {
       fetchUserTheoryProgress(userId!).then((res) {
         setState(() {
           print({'%value: ${_progressValue * 100}'});
-          _progressValue = res["progress"].toDouble();
+          // _progressValue = res["progress"].toDouble();
+          _progressValue = res["question_progress"].toDouble();
         });
         loading(value: false);
       });
@@ -240,7 +241,7 @@ class _TheoryTabState extends State<TheoryTab> {
   // }
   Future<List> getCategoriesFromApi() async {
     loading(value: true);
-    categories = await test_api_services.getCategories();
+    categories = await test_api_services.getCategories(context);
 
     // http.Response.
     print('RESPONSE DATA :: $categories');
@@ -394,6 +395,11 @@ class _TheoryTabState extends State<TheoryTab> {
                                                 return Column(
                                                   children: [
                                                     LinearPercentIndicatorWidget(
+                                                      progress: categories[
+                                                                      index][
+                                                                  "theory_progress"]
+                                                              .toDouble() /
+                                                          100,
                                                       perTitle: categories[
                                                                   index][
                                                               "correct_question_count"]
@@ -444,7 +450,7 @@ class _TheoryTabState extends State<TheoryTab> {
                             Color(0xff78E6C9),
                             Color(0xff0E9BD0),
                           ]),
-                      percent: _progressValue,
+                      percent: _progressValue / 100,
                       //progressColor: AppColors.primary,
                       center: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -459,7 +465,7 @@ class _TheoryTabState extends State<TheoryTab> {
                           ),
                           SizedBox(height: 5),
                           GradientText(
-                            '${(((_progressValue) * 100).toStringAsFixed(0))}%',
+                            '${_progressValue}%',
                             colors: [
                               AppColors.blueGrad7,
                               AppColors.blueGrad6,

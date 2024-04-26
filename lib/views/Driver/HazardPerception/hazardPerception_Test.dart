@@ -264,7 +264,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
                     },
                     icon: Icon(
                       Icons.cancel,
-                      color: Colors.white,
+                      color: Colors.red,
                       size: 35,
                     ),
                   ),

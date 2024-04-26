@@ -5,6 +5,7 @@ import 'package:Smart_Theory_Test/utils/app_colors.dart';
 
 class LinearPercentIndicatorWidget extends StatelessWidget {
   final String? perTitle;
+  final double progress;
   final String? textTitle;
   final String? isFree;
   final String? planType;
@@ -16,7 +17,8 @@ class LinearPercentIndicatorWidget extends StatelessWidget {
       this.textTitle,
       this.isFree,
       this.planType,
-      this.total});
+      this.total,
+      this.progress = 0.0});
 
   @override
   Widget build(BuildContext context) {
@@ -50,44 +52,44 @@ class LinearPercentIndicatorWidget extends StatelessWidget {
           ),
           //TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black)),
         ),
-        SizedBox(height: 10),
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 15),
-        //   child: Row(
-        //     children: [
-        //       Expanded(
-        //         child: LinearPercentIndicator(
-        //           linearGradient: LinearGradient(
-        //               begin: Alignment.topLeft,
-        //               end: Alignment.centerRight,
-        //               colors: [
-        //                 Color(0xff78E6C9),
-        //                 Color(0xff0E9BD0),
-        //               ]),
-        //           backgroundColor: Color(0xfff0f4ec),
-        //           barRadius: Radius.circular(5),
-        //           animation: true,
-        //           lineHeight: 10,
-        //           // animationDuration: 1000,
-        //           percent: perTitle,
-        //         ),
-        //       ),
-        //       SizedBox(width: 19),
-        //       Text("${perTitle * 100 ~/ 1} %",
-        //           style: AppTextStyle.textStyle
-        //               .copyWith(fontWeight: FontWeight.w500)),
-        //       // SizedBox(
-        //       //   width: 50,
-        //       // ),
-        //       Expanded(
-        //           child: Text('',
-        //               style: TextStyle(
-        //                   fontSize: 15,
-        //                   fontWeight: FontWeight.w500,
-        //                   color: Colors.black)))
-        //     ],
-        //   ),
-        // ),
+        SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.only(left: 15, bottom: 5),
+          child: Row(
+            children: [
+              Expanded(
+                child: LinearPercentIndicator(
+                  linearGradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xff78E6C9),
+                        Color(0xff0E9BD0),
+                      ]),
+                  backgroundColor: Color(0xfff0f4ec),
+                  barRadius: Radius.circular(5),
+                  animation: true,
+                  lineHeight: 10,
+                  // animationDuration: 1000,
+                  percent: progress,
+                ),
+              ),
+              SizedBox(width: 19),
+              Text("${progress * 100 ~/ 1} %",
+                  style: AppTextStyle.textStyle
+                      .copyWith(fontWeight: FontWeight.w500)),
+              // SizedBox(
+              //   width: 50,
+              // ),
+              Expanded(
+                  child: Text('',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black)))
+            ],
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(left: 25),
           child: Column(

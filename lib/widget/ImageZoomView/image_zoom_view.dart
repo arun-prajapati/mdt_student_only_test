@@ -6,6 +6,7 @@ import '../../responsive/percentage_mediaquery.dart';
 
 class ZoomView extends StatelessWidget {
   ZoomView(this.imagePath, this.fileType);
+
   late final GlobalKey<State> _keyZoomImage = new GlobalKey<State>();
   late final String imagePath;
   late final String fileType; //file/http
@@ -30,7 +31,7 @@ class ZoomView extends StatelessWidget {
                 -(Responsive.height(42, context)),
                 0),
             child: IconButton(
-              icon: const Icon(Icons.cancel, size: 35, color: Colors.white),
+              icon: const Icon(Icons.cancel, size: 35, color: Colors.red),
               onPressed: () {
                 try {
                   Navigator.of(_keyZoomImage.currentContext!,

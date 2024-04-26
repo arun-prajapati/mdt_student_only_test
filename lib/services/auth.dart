@@ -170,7 +170,9 @@ class UserProvider with ChangeNotifier {
             "&phone=" +
             phone_ +
             "&device_id=" +
-            params['device_id'],
+            params['device_id'] +
+            "&device_type=" +
+            "${Platform.isIOS ? "iOS" : "android"}",
       );
     else
       url = Uri.parse(

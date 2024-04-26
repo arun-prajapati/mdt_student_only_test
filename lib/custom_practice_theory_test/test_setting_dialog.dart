@@ -48,7 +48,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   final UserProvider auth_services = new UserProvider();
 
   Future<List> getCategoriesFromApi() async {
-    List response = await test_api_services.getCategories();
+    List response = await test_api_services.getCategories(context);
     return response;
   }
 
@@ -588,7 +588,6 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
       await Purchases.purchasePackage(package).then((value) {
         loading(value: false);
         print('HHHHHHHHH ${value.entitlements.all}');
-        test_api_services.getTheoryContent(context);
         context.read<SubscriptionProvider>().updateUserPlan(
             value.entitlements.active['One time purchase']?.isActive == true
                 ? "paid"
@@ -598,6 +597,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
         context
             .read<SubscriptionProvider>()
             .isUserPurchaseTest(context: context);
+        Navigator.pop(context);
       }).catchError((e) {
         loading(value: false);
         print("ERROR ====== $e");

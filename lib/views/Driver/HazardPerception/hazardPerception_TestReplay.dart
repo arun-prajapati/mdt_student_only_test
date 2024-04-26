@@ -256,8 +256,8 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.cancel,
-                          size: 35, color: Colors.white),
+                      icon:
+                          const Icon(Icons.cancel, size: 35, color: Colors.red),
                       onPressed: () {
                         print("Cancel Video");
 
@@ -383,7 +383,7 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
                             //     0),
                             child: IconButton(
                               icon: const Icon(Icons.cancel,
-                                  size: 35, color: Colors.black),
+                                  size: 35, color: Colors.red),
                               onPressed: () {
                                 _betterPlayerController.play();
                                 startCursor();
