@@ -215,28 +215,13 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                     // mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                "${categories[index]['name']}"
-                                                    .toString(),
-                                                style: AppTextStyle.textStyle
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w500)),
-                                            Text(
-                                                "${categories[index]['correct_question_count']} of ${categories[index]['total_question_count']} attempted"
-                                                    .toString(),
-                                                style: AppTextStyle.textStyle
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.black)),
-                                          ],
-                                        ),
+                                        child: Text(
+                                            "${categories[index]['name']}"
+                                                .toString(),
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w500)),
                                       ),
                                       SizedBox(width: 5),
                                       AppConstant.userModel?.planType ==
@@ -246,7 +231,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                           ? SizedBox()
                                           : Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: 20.0),
+                                                  bottom: 0.0),
                                               child: Image.asset(
                                                   categories[index]['isFree'] == "free" &&
                                                           (AppConstant.userModel
@@ -275,7 +260,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                  padding: const EdgeInsets.only(bottom: 0.0),
                                   child: ActionChip(
                                     backgroundColor: AppColors.transparent,
                                     pressElevation: 0,
