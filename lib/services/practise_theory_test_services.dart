@@ -69,43 +69,43 @@ class PractiseTheoryTestServices {
     return userData;
   }
 
-  Future<List> getCategoryFromQuestionList(String _categoryId) async {
-    String URL = "$api/api/get-questions?category_id=" + _categoryId.toString();
-    final url = Uri.parse(URL);
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
-    final response = await http.get(url, headers: header);
-    data = jsonDecode(response.body);
-    print("getTestQuestions URL ${URL}");
-    log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
-
-    userData = data["category_list"];
-
-    return userData;
-  }
-
-  Future<int> getHasMoreResult(String _categoryId, page) async {
-    String URL = "$api/api/get-questions?category_id=" +
-        _categoryId.toString() +
-        "&page=$page";
-    final url = Uri.parse(URL);
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
-    final response = await http.get(url, headers: header);
-    data = jsonDecode(response.body);
-    print("getTestQuestions URL ${URL}");
-    log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
-
-    // userData = data["hasMoreResults"];
-
-    return data["hasMoreResults"];
-  }
+  // Future<List> getCategoryFromQuestionList(String _categoryId) async {
+  //   String URL = "$api/api/get-questions?category_id=" + _categoryId.toString();
+  //   final url = Uri.parse(URL);
+  //   SharedPreferences storage = await SharedPreferences.getInstance();
+  //   String token = storage.getString('token').toString();
+  //   Map<String, String> header = {
+  //     'token': token,
+  //   };
+  //   final response = await http.get(url, headers: header);
+  //   data = jsonDecode(response.body);
+  //   print("getTestQuestions URL ${URL}");
+  //   log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
+  //
+  //   userData = data["category_list"];
+  //
+  //   return userData;
+  // }
+  //
+  // Future<int> getHasMoreResult(String _categoryId, page) async {
+  //   String URL = "$api/api/get-questions?category_id=" +
+  //       _categoryId.toString() +
+  //       "&page=$page";
+  //   final url = Uri.parse(URL);
+  //   SharedPreferences storage = await SharedPreferences.getInstance();
+  //   String token = storage.getString('token').toString();
+  //   Map<String, String> header = {
+  //     'token': token,
+  //   };
+  //   final response = await http.get(url, headers: header);
+  //   data = jsonDecode(response.body);
+  //   print("getTestQuestions URL ${URL}");
+  //   log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
+  //
+  //   // userData = data["hasMoreResults"];
+  //
+  //   return data["hasMoreResults"];
+  // }
 
   Future<Map> getAllRecords(int _userType, int _userId) async {
     String URL = "$api/api/get-all-data?id=" +
