@@ -201,7 +201,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   //   return response;
   // }
 
-  Future<List> getTestQuestions(String _categoryId, page) async {
+  Future<List> getTestQuestions(String _categoryId) async {
     String URL = "$api/api/get-questions?category_id=" +
         _categoryId.toString() +
         "&page=$page";
@@ -218,6 +218,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     questionsList = data['data'];
     categoryFromQuestionsList = data['category_list'];
     haseMore = data['hasMoreResults'] == 1 ? true : false;
+    setState(() {});
     return data['data'];
   }
 
@@ -258,16 +259,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   PageController scrollController = PageController();
 
-  scroll() {
-    if (scrollController.position.maxScrollExtent - 500 ==
-        scrollController.position.pixels - 500) {
-      if (haseMore) {
-        page++;
-        getTestQuestions(category_id, page);
-      }
-    }
-  }
-
   initializeApi(String loaderMessage) async {
     // auth_services.changeView = false;
     // setState(() {});
@@ -275,7 +266,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
     checkInternet();
     CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
-    scrollController.addListener(scroll);
     getUserDetail().then((user_id) {
       getAllRecordsFromApi().then((records_list) {
         setState(() {
@@ -314,7 +304,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 category_id = _categoryId;
                 CustomSpinner.showLoadingDialog(
                     context, _keyLoader, "Test loading...");
-                getTestQuestions(category_id, page).then((response_list) {
+                getTestQuestions(category_id).then((response_list) {
                   Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                       .pop();
                   questionsList = response_list;
@@ -363,748 +353,206 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     width: Responsive.width(100, context),
                     padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
                     child: LayoutBuilder(builder: (context, constraints) {
-                      return PageView.builder(
-                          allowImplicitScrolling: false,
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: scrollController,
-                          itemCount: questionsList.length,
-                          itemBuilder: (c, index) {
-                            if (index == questionsList.length - 1 && haseMore) {
-                              return const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Center(
-                                    child: SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(color: Dark),
-                                )),
-                              );
-                            }
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 15),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 18.0),
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: const FractionalOffset(0.0, 0.0),
-                                        end: const FractionalOffset(1.0, 0.0),
-                                        colors: [
-                                          Color(0xFF79e6c9).withOpacity(0.1),
-                                          Color(0xFF38b8cd).withOpacity(0.1),
-                                        ],
-                                        stops: [0.0, 1.0],
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color:
-                                              AppColors.grey.withOpacity(.30)),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                            "${questionsList[selectedQuestionIndex]['category']}",
-                                            style: AppTextStyle.textStyle
-                                                .copyWith(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 18)),
-                                        // SizedBox(height: 10),
-
-                                        SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                      return questionsList.isEmpty
+                          ? Center(
+                              child: CircularProgressIndicator(color: Dark))
+                          : PageView.builder(
+                              allowImplicitScrolling: false,
+                              physics: NeverScrollableScrollPhysics(),
+                              controller: scrollController,
+                              itemCount: questionsList.length,
+                              // onPageChanged: (val) async {
+                              //   if (val == questionsList.length - 1) {
+                              //     page++;
+                              //     await getTestQuestions(category_id, page + 1,
+                              //         isMore: true);
+                              //   }
+                              //   print(
+                              //       'value---------- ${val} ${questionsList.length}');
+                              // },
+                              itemBuilder: (c, index) {
+                                if (index == questionsList.length - 1 &&
+                                    haseMore) {
+                                  return const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Center(
+                                        child: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                          color: Dark),
+                                    )),
+                                  );
+                                }
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  //mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 15),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 18.0),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: const FractionalOffset(
+                                                0.0, 0.0),
+                                            end: const FractionalOffset(
+                                                1.0, 0.0),
+                                            colors: [
+                                              Color(0xFF79e6c9)
+                                                  .withOpacity(0.1),
+                                              Color(0xFF38b8cd)
+                                                  .withOpacity(0.1),
+                                            ],
+                                            stops: [0.0, 1.0],
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                              color: AppColors.grey
+                                                  .withOpacity(.30)),
+                                        ),
+                                        child: Column(
                                           children: [
-                                            Column(
+                                            Text(
+                                                "${questionsList[selectedQuestionIndex]['category']}",
+                                                style: AppTextStyle.textStyle
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 18)),
+                                            // SizedBox(height: 10),
+
+                                            SizedBox(height: 10),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text("Correct : $gainPoint/66",
-                                                    style: AppTextStyle
-                                                        .textStyle
-                                                        .copyWith(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color:
-                                                                Colors.green)),
-                                                // Text("Correct Answer",
-                                                //     style: AppTextStyle.textStyle
-                                                //         .copyWith(
-                                                //             fontSize: 15,
-                                                //             fontWeight:
-                                                //                 FontWeight.w600,
-                                                //             color: Colors.green)),
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                        "Correct : $gainPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                        style: AppTextStyle
+                                                            .textStyle
+                                                            .copyWith(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .green)),
+                                                    // Text("Correct Answer",
+                                                    //     style: AppTextStyle.textStyle
+                                                    //         .copyWith(
+                                                    //             fontSize: 15,
+                                                    //             fontWeight:
+                                                    //                 FontWeight.w600,
+                                                    //             color: Colors.green)),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                        "Incorrect : $wrongAnswerPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                        style: AppTextStyle
+                                                            .textStyle
+                                                            .copyWith(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .red)),
+                                                    // Text("Wrong Answer",
+                                                    //     style: AppTextStyle.textStyle
+                                                    //         .copyWith(
+                                                    //             fontSize: 15,
+                                                    //             fontWeight:
+                                                    //                 FontWeight.w600,
+                                                    //             color: Colors.red)),
+                                                  ],
+                                                ),
                                               ],
                                             ),
-                                            Column(
-                                              children: [
-                                                Text(
-                                                    "Incorrect : $wrongAnswerPoint/66",
-                                                    style: AppTextStyle
-                                                        .textStyle
-                                                        .copyWith(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: Colors.red)),
-                                                // Text("Wrong Answer",
-                                                //     style: AppTextStyle.textStyle
-                                                //         .copyWith(
-                                                //             fontSize: 15,
-                                                //             fontWeight:
-                                                //                 FontWeight.w600,
-                                                //             color: Colors.red)),
-                                              ],
-                                            ),
+                                            SizedBox(height: 5),
                                           ],
                                         ),
-                                        SizedBox(height: 5),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                questionsList[selectedQuestionIndex]['type'] ==
-                                            1 &&
-                                        AppConstant.userModel?.planType ==
-                                            "free"
-                                    ? SizedBox()
-                                    : Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, top: 5),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                              "Question $currentQuestionCount of ${questionsList[selectedQuestionIndex]['total_question_count']}",
-                                              style: AppTextStyle.textStyle
-                                                  .copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.black)),
-                                        ),
                                       ),
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        if (isTestStarted)
-                                          Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                20, 10, 20, 2),
-                                            child: LayoutBuilder(
-                                              builder: (context, _constraints) {
-                                                return testQuestionWidget(
-                                                  context,
-                                                  _constraints,
-                                                  questionsList[
-                                                      selectedQuestionIndex],
-                                                );
-                                              },
+                                    ),
+                                    questionsList[selectedQuestionIndex]
+                                                    ['type'] ==
+                                                1 &&
+                                            AppConstant.userModel?.planType ==
+                                                "free"
+                                        ? SizedBox()
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0, top: 5),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                  "Question $currentQuestionCount of ${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                  style: AppTextStyle.textStyle
+                                                      .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.black)),
                                             ),
                                           ),
-                                        if (selectedOptionIndex != null &&
-                                            isTestStarted)
-                                          answerExplanation(
-                                            questionsList[
-                                                selectedQuestionIndex],
-                                          ),
-                                        if (selectedOptionIndex != null &&
-                                            isTestStarted)
-                                          answerStatus(
-                                            questionsList[
-                                                selectedQuestionIndex],
-                                          ),
-                                      ],
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            if (isTestStarted)
+                                              Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    20, 10, 20, 2),
+                                                child: LayoutBuilder(
+                                                  builder:
+                                                      (context, _constraints) {
+                                                    return testQuestionWidget(
+                                                      context,
+                                                      _constraints,
+                                                      questionsList[
+                                                          selectedQuestionIndex],
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            if (selectedOptionIndex != null &&
+                                                isTestStarted)
+                                              answerExplanation(
+                                                questionsList[
+                                                    selectedQuestionIndex],
+                                              ),
+                                            if (selectedOptionIndex != null &&
+                                                isTestStarted)
+                                              answerStatus(
+                                                questionsList[
+                                                    selectedQuestionIndex],
+                                              ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                if (!isTestStarted)
-                                  startButtonWidget(context, constraints),
-                                if (isTestStarted)
-                                  nextButtonWidget(context, constraints),
-                              ],
-                            );
-                          });
+                                    if (!isTestStarted)
+                                      startButtonWidget(context, constraints),
+                                    if (isTestStarted)
+                                      nextButtonWidget(context, constraints),
+                                  ],
+                                );
+                              });
                     })),
               ],
             ),
     );
     // }
   }
-
-  // Widget cardHeader(BuildContext context, BoxConstraints constraints) {
-  //   return Container(
-  //     alignment: Alignment.topCenter,
-  //     padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
-  //     margin: EdgeInsets.only(top: constraints.maxHeight * .02),
-  //     width: constraints.maxWidth * 1,
-  //     height: constraints.maxHeight * .10,
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Container(
-  //           height: 5 * SizeConfig.blockSizeVertical,
-  //           width: constraints.maxWidth * .45,
-  //           child: Material(
-  //             borderRadius: BorderRadius.all(Radius.circular(5)),
-  //             color: Dark,
-  //             elevation: 5.0,
-  //             child: MaterialButton(
-  //               onPressed: () => {walletUI(context, constraints)},
-  //               child: LayoutBuilder(
-  //                 builder: (context, constraints) {
-  //                   return Container(
-  //                       width: constraints.maxWidth * 1,
-  //                       height: constraints.maxHeight * 1,
-  //                       alignment: Alignment.center,
-  //                       child: SizedBox(
-  //                         width: constraints.maxWidth * 1,
-  //                         child: AutoSizeText(
-  //                           "My Tokens: " +
-  //                               ((walletDetail != null
-  //                                           ? walletDetail!['mdt_bal']
-  //                                           : 0) +
-  //                                       ((walletDetail != null &&
-  //                                               walletDetail![
-  //                                                       'dvsa_subscription'] >
-  //                                                   0)
-  //                                           ? (walletDetail!['dvsa_bal'])
-  //                                           : 0))
-  //                                   .toString(),
-  //                           textAlign: TextAlign.center,
-  //                           style: TextStyle(
-  //                               fontFamily: 'Poppins',
-  //                               fontSize: 2 * SizeConfig.blockSizeVertical,
-  //                               color: Colors.white),
-  //                         ),
-  //                       ));
-  //                 },
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         // if (walletDetail != null &&
-  //         //     walletDetail!['dvsa_subscription'] <= 0)
-  //         //   Container(
-  //         //     width: constraints.maxWidth * .45,
-  //         //     height: 5 * SizeConfig.blockSizeVertical,
-  //         //     margin: EdgeInsets.only(left: constraints.maxWidth * .08),
-  //         //     child: Material(
-  //         //       borderRadius: BorderRadius.all(Radius.circular(5)),
-  //         //       color: Dark,
-  //         //       elevation: 5.0,
-  //         //       child: MaterialButton(
-  //         //         onPressed: () {
-  //         //           subscriptionConfirmAlert(context);
-  //         //         },
-  //         //         child: LayoutBuilder(
-  //         //           builder: (context, constraints) {
-  //         //             return Container(
-  //         //                 width: constraints.maxWidth * 1,
-  //         //                 height: constraints.maxHeight * 1,
-  //         //                 alignment: Alignment.center,
-  //         //                 child: SizedBox(
-  //         //                   width: constraints.maxWidth * 1,
-  //         //                   child: AutoSizeText(
-  //         //                     "Subscribe for DVSA",
-  //         //                     textAlign: TextAlign.center,
-  //         //                     style: TextStyle(
-  //         //                         fontFamily: 'Poppins',
-  //         //                         fontSize:
-  //         //                             2 * SizeConfig.blockSizeVertical,
-  //         //                         color: Colors.white),
-  //         //                   ),
-  //         //                 ));
-  //         //           },
-  //         //         ),
-  //         //       ),
-  //         //     ),
-  //         //   ),
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
-  // Future<void> walletUI(
-  //     BuildContext context, BoxConstraints parentConstraints) async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: true,
-  //     barrierColor: Colors.transparent,
-  //     builder: (BuildContext context_) {
-  //       return new WillPopScope(
-  //         onWillPop: () {
-  //           return Future.value(true);
-  //         },
-  //         child: Padding(
-  //           padding: EdgeInsets.only(
-  //             left: parentConstraints.maxWidth * .10,
-  //             right: parentConstraints.maxWidth * .10,
-  //           ),
-  //           child: Dialog(
-  //             insetPadding: EdgeInsets.all(20),
-  //             shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(10)),
-  //             insetAnimationCurve: Curves.easeOutBack,
-  //             // insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-  //             clipBehavior: Clip.antiAliasWithSaveLayer,
-  //             backgroundColor: Colors.transparent,
-  //             child: Container(
-  //               height: Responsive.height(80, context),
-  //               alignment: Alignment.topCenter,
-  //               child: Container(
-  //                 height: Responsive.height(70, context),
-  //                 alignment: Alignment.topCenter,
-  //                 // padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(12.0),
-  //                   color: Colors.white,
-  //                 ),
-  //                 child: ListView(
-  //                   physics: const AlwaysScrollableScrollPhysics(),
-  //                   shrinkWrap: true,
-  //                   children: [
-  //                     Row(
-  //                       mainAxisAlignment: MainAxisAlignment.end,
-  //                       children: [
-  //                         IconButton(
-  //                             color: Colors.white,
-  //                             icon: Icon(
-  //                               Icons.close_rounded,
-  //                               size: 4 * SizeConfig.blockSizeVertical,
-  //                               color: Colors.black,
-  //                             ),
-  //                             onPressed: () {
-  //                               Navigator.of(context_).pop();
-  //                             }),
-  //                       ],
-  //                     ),
-  //                     SizedBox(height: 10),
-  //                     walletDetail != null &&
-  //                             walletDetail!['dvsa_subscription'] > 0
-  //                         ? Container()
-  //                         : Container(
-  //                             child: AutoSizeText(
-  //                               "Increase your chances of passing the Theory Driving "
-  //                               "Test on your very first attempt with MockDrivingTest.com."
-  //                               " We are here to provide you with an exclusive opportunity"
-  //                               " to get a real test like experience by earning our "
-  //                               "Theory Mock Driving Test created to emulate the actual DVSA test, for FREE!",
-  //                               style: TextStyle(
-  //                                 fontWeight: FontWeight.w400,
-  //                                 fontSize: 1.8 * SizeConfig.blockSizeVertical,
-  //                                 color: Colors.black,
-  //                               ),
-  //                             ),
-  //                             padding: EdgeInsets.only(
-  //                               left: Responsive.width(2, context),
-  //                               right: Responsive.width(2, context),
-  //                               bottom: 10,
-  //                             ),
-  //                           ),
-  //                     walletDetail != null &&
-  //                             walletDetail!['dvsa_subscription'] > 0
-  //                         ? Container()
-  //                         : Container(
-  //                             child: AutoSizeText(
-  //                               "All you have to do:-",
-  //                               style: TextStyle(
-  //                                 fontWeight: FontWeight.w600,
-  //                                 fontSize: 1.8 * SizeConfig.blockSizeVertical,
-  //                                 color: Colors.black,
-  //                               ),
-  //                             ),
-  //                             padding: EdgeInsets.only(
-  //                               left: Responsive.width(2, context),
-  //                               right: Responsive.width(2, context),
-  //                               bottom: 5,
-  //                             ),
-  //                           ),
-  //                     walletDetail != null &&
-  //                             walletDetail!['dvsa_subscription'] > 0
-  //                         ? Container()
-  //                         : Container(
-  //                             child: Column(
-  //                             children: [
-  //                               ListTile(
-  //                                   leading: Container(
-  //                                     child: Icon(
-  //                                       Icons.circle,
-  //                                       size: 1 * SizeConfig.blockSizeVertical,
-  //                                       color: Colors.black,
-  //                                     ),
-  //                                     padding: EdgeInsets.only(right: 10),
-  //                                   ),
-  //                                   title: AutoSizeText(
-  //                                       'Subscribe to our DVSA Theory Test practice module for just £ 9.99.',
-  //                                       style: TextStyle(
-  //                                         fontSize: 1.8 *
-  //                                             SizeConfig.blockSizeVertical,
-  //                                         color: Colors.black,
-  //                                       )),
-  //                                   horizontalTitleGap: 0,
-  //                                   minLeadingWidth: 15,
-  //                                   minVerticalPadding: 5),
-  //                               ListTile(
-  //                                   leading: Container(
-  //                                     child: Icon(
-  //                                       Icons.circle,
-  //                                       size: 1 * SizeConfig.blockSizeVertical,
-  //                                       color: Colors.black,
-  //                                     ),
-  //                                     padding: EdgeInsets.only(right: 10),
-  //                                   ),
-  //                                   title: AutoSizeText(
-  //                                       "Answer 400 questions correctly and earn 1 token for every correctly answered question.",
-  //                                       style: TextStyle(
-  //                                         fontSize: 1.8 *
-  //                                             SizeConfig.blockSizeVertical,
-  //                                         color: Colors.black,
-  //                                       )),
-  //                                   horizontalTitleGap: 0,
-  //                                   minLeadingWidth: 15,
-  //                                   minVerticalPadding: 5),
-  //                               ListTile(
-  //                                   leading: Container(
-  //                                     child: Icon(Icons.circle,
-  //                                         size:
-  //                                             1 * SizeConfig.blockSizeVertical,
-  //                                         color: Colors.black),
-  //                                     padding: EdgeInsets.only(right: 10),
-  //                                   ),
-  //                                   title: AutoSizeText(
-  //                                       "The 400 tokens will be split into 2 parts: "
-  //                                       "200 for the DVSA Theory Test practice module questions and"
-  //                                       " the remaining 200 for MockDrivingTest.com’s sample MCQ based "
-  //                                       "on the actual test pattern.",
-  //                                       style: TextStyle(
-  //                                           fontSize: 1.8 *
-  //                                               SizeConfig.blockSizeVertical,
-  //                                           color: Colors.black)),
-  //                                   horizontalTitleGap: 0,
-  //                                   minLeadingWidth: 15,
-  //                                   minVerticalPadding: 5),
-  //                               ListTile(
-  //                                   leading: Container(
-  //                                     child: Icon(Icons.circle,
-  //                                         size:
-  //                                             1 * SizeConfig.blockSizeVertical,
-  //                                         color: Colors.black),
-  //                                     padding: EdgeInsets.only(right: 10),
-  //                                   ),
-  //                                   title: AutoSizeText(
-  //                                       "After earning 200 tokens in each category, you will be eligible for our free DVSA Theory test",
-  //                                       style: TextStyle(
-  //                                           fontSize: 1.8 *
-  //                                               SizeConfig.blockSizeVertical,
-  //                                           color: Colors.black)),
-  //                                   horizontalTitleGap: 0,
-  //                                   minLeadingWidth: 15,
-  //                                   minVerticalPadding: 5),
-  //                             ],
-  //                           )),
-  //                     walletDetail != null &&
-  //                             walletDetail!['dvsa_subscription'] > 0
-  //                         ? Container()
-  //                         : Container(
-  //                             // padding: EdgeInsets.symmetric(
-  //                             //     horizontal: 2, vertical: 10),
-  //                             margin: EdgeInsets.only(
-  //                                 left: Responsive.width(2, context_),
-  //                                 right: Responsive.width(2, context_)),
-  //                             child: Divider(
-  //                               color: Colors.grey.withOpacity(0.4),
-  //                               thickness: 2,
-  //                             ),
-  //                           ),
-  //                     Container(
-  //                       height: Responsive.height(30, context_),
-  //                       margin: EdgeInsets.only(
-  //                         left: Responsive.width(2, context_),
-  //                         right: Responsive.width(2, context_),
-  //                       ),
-  //                       padding:
-  //                           EdgeInsets.symmetric(horizontal: 2, vertical: 10),
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(5),
-  //                         color: Colors.white,
-  //                       ),
-  //                       child: Column(
-  //                         crossAxisAlignment: CrossAxisAlignment.center,
-  //                         mainAxisAlignment: MainAxisAlignment.start,
-  //                         children: [
-  //                           AutoSizeText(
-  //                             "TOTAL TOKENS",
-  //                             style: TextStyle(
-  //                                 fontSize: 2 * SizeConfig.blockSizeVertical,
-  //                                 fontWeight: FontWeight.w300,
-  //                                 color: Colors.black),
-  //                           ),
-  //                           AutoSizeText(
-  //                             ((walletDetail != null
-  //                                         ? walletDetail!['mdt_bal']
-  //                                         : 0) +
-  //                                     ((walletDetail != null &&
-  //                                             walletDetail![
-  //                                                     'dvsa_subscription'] >
-  //                                                 0)
-  //                                         ? (walletDetail!['dvsa_bal'])
-  //                                         : 0))
-  //                                 .toString(),
-  //                             style: TextStyle(
-  //                               fontSize: 2 * SizeConfig.blockSizeVertical,
-  //                               fontWeight: FontWeight.w600,
-  //                               color: Colors.black,
-  //                             ),
-  //                           ),
-  //                           Container(
-  //                             width: Responsive.width(100, context_),
-  //                             margin: EdgeInsets.only(
-  //                               top: Responsive.height(1, context_),
-  //                             ),
-  //                             child: Row(
-  //                               children: [
-  //                                 Container(
-  //                                     width: Responsive.width(30, context_),
-  //                                     height: Responsive.height(15, context_),
-  //                                     margin: EdgeInsets.only(
-  //                                       left: Responsive.width(3, context_),
-  //                                       right: Responsive.width(2, context_),
-  //                                     ),
-  //                                     padding: EdgeInsets.all(10),
-  //                                     decoration: BoxDecoration(
-  //                                         borderRadius:
-  //                                             BorderRadius.circular(2.0),
-  //                                         color: Color.fromRGBO(
-  //                                           0,
-  //                                           204,
-  //                                           204,
-  //                                           1.0,
-  //                                         )),
-  //                                     child: Column(
-  //                                       crossAxisAlignment:
-  //                                           CrossAxisAlignment.start,
-  //                                       mainAxisAlignment:
-  //                                           MainAxisAlignment.start,
-  //                                       children: [
-  //                                         AutoSizeText("DVSA TOKENS",
-  //                                             style: TextStyle(
-  //                                               fontSize: 1.7 *
-  //                                                   SizeConfig
-  //                                                       .blockSizeVertical,
-  //                                               fontWeight: FontWeight.w300,
-  //                                               color: Colors.white,
-  //                                             )),
-  //                                         AutoSizeText(
-  //                                             (walletDetail != null
-  //                                                     ? walletDetail![
-  //                                                         'dvsa_bal']
-  //                                                     : 0)
-  //                                                 .toString(),
-  //                                             style: TextStyle(
-  //                                               fontSize: 2 *
-  //                                                   SizeConfig
-  //                                                       .blockSizeVertical,
-  //                                               fontWeight: FontWeight.w300,
-  //                                               color: Colors.white,
-  //                                             )),
-  //                                         SizedBox(
-  //                                             height: Responsive.width(
-  //                                                 4, context_)),
-  //                                         AutoSizeText("Remaining",
-  //                                             style: TextStyle(
-  //                                               fontSize: 1.7 *
-  //                                                   SizeConfig
-  //                                                       .blockSizeVertical,
-  //                                               fontWeight: FontWeight.w300,
-  //                                               color: Colors.white,
-  //                                             )),
-  //                                         AutoSizeText(
-  //                                             (200 -
-  //                                                     (walletDetail != null
-  //                                                         ? walletDetail![
-  //                                                             'dvsa_bal']
-  //                                                         : 0))
-  //                                                 .toString(),
-  //                                             style: TextStyle(
-  //                                               fontSize: 2 *
-  //                                                   SizeConfig
-  //                                                       .blockSizeVertical,
-  //                                               fontWeight: FontWeight.w300,
-  //                                               color: Colors.white,
-  //                                             ))
-  //                                       ],
-  //                                     )),
-  //                                 Container(
-  //                                   width: Responsive.width(30, context_),
-  //                                   height: Responsive.height(15, context_),
-  //                                   margin: EdgeInsets.only(
-  //                                       left: Responsive.width(3, context_),
-  //                                       right: Responsive.width(2, context_)),
-  //                                   padding: EdgeInsets.all(10),
-  //                                   decoration: BoxDecoration(
-  //                                       borderRadius:
-  //                                           BorderRadius.circular(2.0),
-  //                                       color: Color.fromRGBO(
-  //                                         115,
-  //                                         89,
-  //                                         255,
-  //                                         1.0,
-  //                                       )),
-  //                                   child: Column(
-  //                                     crossAxisAlignment:
-  //                                         CrossAxisAlignment.start,
-  //                                     mainAxisAlignment:
-  //                                         MainAxisAlignment.start,
-  //                                     children: [
-  //                                       AutoSizeText("MDT TOKENS",
-  //                                           style: TextStyle(
-  //                                             fontSize: 1.7 *
-  //                                                 SizeConfig.blockSizeVertical,
-  //                                             fontWeight: FontWeight.w300,
-  //                                             color: Colors.white,
-  //                                           )),
-  //                                       AutoSizeText(
-  //                                           (walletDetail != null
-  //                                                   ? walletDetail!['mdt_bal']
-  //                                                   : 0)
-  //                                               .toString(),
-  //                                           style: TextStyle(
-  //                                             fontSize: 2 *
-  //                                                 SizeConfig.blockSizeVertical,
-  //                                             fontWeight: FontWeight.w300,
-  //                                             color: Colors.white,
-  //                                           )),
-  //                                       SizedBox(
-  //                                           height:
-  //                                               Responsive.width(4, context_)),
-  //                                       AutoSizeText("Remaining",
-  //                                           style: TextStyle(
-  //                                             fontSize: 1.7 *
-  //                                                 SizeConfig.blockSizeVertical,
-  //                                             fontWeight: FontWeight.w300,
-  //                                             color: Colors.white,
-  //                                           )),
-  //                                       AutoSizeText(
-  //                                           (200 -
-  //                                                   (walletDetail != null
-  //                                                       ? walletDetail![
-  //                                                           'mdt_bal']
-  //                                                       : 0))
-  //                                               .toString(),
-  //                                           style: TextStyle(
-  //                                             fontSize: 2 *
-  //                                                 SizeConfig.blockSizeVertical,
-  //                                             fontWeight: FontWeight.w300,
-  //                                             color: Colors.white,
-  //                                           ))
-  //                                     ],
-  //                                   ),
-  //                                 )
-  //                               ],
-  //                             ),
-  //                           )
-  //                         ],
-  //                       ),
-  //                     )
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Widget scoreRecordsGrid(BuildContext context, BoxConstraints constraints) {
-  //   return Column(
-  //     mainAxisSize: MainAxisSize.min,
-  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //     children: [
-  //       Container(
-  //         color: Colors.black12,
-  //         padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-  //         margin: EdgeInsets.only(bottom: 10),
-  //         width: constraints.maxWidth * 1,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Container(
-  //               width: constraints.maxWidth * .30,
-  //               padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
-  //               child: AutoSizeText(
-  //                 'Category',
-  //                 style: TextStyle(
-  //                     fontSize: 2 * SizeConfig.blockSizeVertical,
-  //                     fontWeight: FontWeight.w600,
-  //                     color: Colors.black),
-  //               ),
-  //             ),
-  //             Container(
-  //               width: constraints.maxWidth * .225,
-  //               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-  //               child: AutoSizeText(
-  //                 'MDT S.',
-  //                 style: TextStyle(
-  //                     fontSize: 2 * SizeConfig.blockSizeVertical,
-  //                     fontWeight: FontWeight.w600,
-  //                     color: Colors.black),
-  //               ),
-  //             ),
-  //             // Container(
-  //             //   width: constraints.maxWidth * .225,
-  //             //   padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-  //             //   child: AutoSizeText(
-  //             //     'DVSA S.',
-  //             //     style: TextStyle(
-  //             //         fontSize: 2 * SizeConfig.blockSizeVertical,
-  //             //         fontWeight: FontWeight.w600,
-  //             //         color: Colors.black),
-  //             //   ),
-  //             // ),
-  //             Container(
-  //               width: constraints.maxWidth * .23,
-  //               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-  //               child: AutoSizeText(
-  //                 'Date',
-  //                 textAlign: TextAlign.left,
-  //                 style: TextStyle(
-  //                     fontSize: 2 * SizeConfig.blockSizeVertical,
-  //                     fontWeight: FontWeight.w600,
-  //                     color: Colors.black),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       if (resultRecordsList.length == 0)
-  //         Container(
-  //           margin: EdgeInsets.only(
-  //             top: Responsive.height(5, context),
-  //           ),
-  //           child: Text(
-  //             "No Record",
-  //             style: TextStyle(
-  //               fontSize: 2 * SizeConfig.blockSizeVertical,
-  //             ),
-  //           ),
-  //         ),
-  //       ...resultRecordsList.map(
-  //         (record) => scoreRecordRow(
-  //           constraints,
-  //           record,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Widget scoreRecordRow(BoxConstraints constraints, Map record) {
     return Container(
@@ -1391,12 +839,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Container(
-                        //   alignment: Alignment.topCenter,
-                        //   margin: EdgeInsets.only(top: 3),
-                        //   width: constraints.maxWidth * 0.90,
-                        //   child: AutoSizeText('Question Source: DVSA', textAlign: TextAlign.center, style: AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w400, color: Dark)),
-                        // ),
                         Container(
                           alignment: Alignment.topCenter,
                           margin: EdgeInsets.only(top: 20),
@@ -1609,12 +1051,28 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     );
   }
 
+  // void updateQuestionCount(int newSelectedCategoryIndex) {
+  //   int count = 0;
+  //   for (var data in categoryFromQuestionsList) {
+  //     if (selectedOptionIndex != null &&
+  //         questionsList[selectedQuestionIndex]['category_id'] == data['id']) {
+  //       count++;
+  //     }
+  //   }
+  //   setState(() {
+  //     currentQuestionCount = count;
+  //     selectedCategoryIndex = newSelectedCategoryIndex;
+  //   });
+  //   print(
+  //       '@@@@@@@@@========== $currentQuestionCount $newSelectedCategoryIndex');
+  // }
+
   Widget nextButtonWidget(BuildContext context, BoxConstraints constraints) {
     return LayoutBuilder(
       builder: (context, constraints) {
         print('index: $selectedQuestionIndex');
-        print('Length: ${questionsList.length}');
-        print('walletDetail: ${walletDetail}');
+        // print('Length: ${questionsList.length}');
+        // print('walletDetail: ${walletDetail}');
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 80, vertical: 0),
           child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
@@ -1624,119 +1082,92 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       (questionsList[selectedQuestionIndex]['type'] == 0 ||
                           (questionsList[selectedQuestionIndex]['type'] == 1 &&
                               val.entitlement == Entitlement.paid)))
-                  ? null
+                  ? () {
+                      print('IFFFF ------------');
+                    }
                   : () {
                       // calculatePoint(questionsList[selectedQuestionIndex]);
-                      print('9999========++++++++++ $haseMore');
-                      if ((selectedOptionIndex != null &&
-                          questionsList[selectedQuestionIndex]['options']
-                                  [selectedOptionIndex]['correct'] ==
-                              false)) {
-                        wrongAnswerPoint += 1;
+                      print('ELSE------------');
+                      if (questionsList[selectedQuestionIndex]
+                              ['total_question_count'] ==
+                          currentQuestionCount) {
+                        currentQuestionCount = 1;
+                      } else {
+                        currentQuestionCount += 1;
                       }
-                      for (var data in categoryFromQuestionsList) {
-                        if (selectedOptionIndex != null &&
-                            questionsList[selectedQuestionIndex]
-                                    ['category_id'] ==
-                                data['id']) {
-                          currentQuestionCount += 1;
-                        }
-                        print('ooooo============== ${data['id']}');
-                      }
+                      // for (var data in categoryFromQuestionsList) {
+                      //   if (selectedOptionIndex != null &&
+                      //       questionsList[selectedQuestionIndex]
+                      //               ['category_id'] ==
+                      //           data['id']) {
+                      //     questionsList.where((element) {
+                      //       if (element['category_id'] == data['id']) {
+                      //         currentQuestionCount += 1;
+                      //       }
+                      //       return true;
+                      //     });
+                      //     // currentQuestionCount += 1;
+                      //   }
+                      // }
+
+                      // for (var data in categoryFromQuestionsList) {
+                      //   if (selectedOptionIndex != null &&
+                      //       questionsList[selectedQuestionIndex]
+                      //               ['category_id'] ==
+                      //           data['id']) {
+                      //
+                      //
+                      //     currentQuestionCount++;
+                      //   }
+                      // }
+
+                      // int newSelectedCategoryIndex = selectedCategoryIndex + 1;
+                      // if (newSelectedCategoryIndex >=
+                      //     categoryFromQuestionsList.length) {
+                      //   newSelectedCategoryIndex = 0;
+                      // }
+                      // updateQuestionCount(newSelectedCategoryIndex);
+                      // print(
+                      //     'value---------- ${selectedQuestionIndex} ${questionsList.length}');
+                      // if (questionsList.length == selectedQuestionIndex) {
+                      //   print('pppp--------------');
+                      //   if (haseMore) {
+                      //     page++;
+                      //     getTestQuestions(category_id, page);
+                      //   }
+                      // }
                       // log("Points earned : $gainPoint");
                       // wrongAnswerPoint += 1;
-                      if (AppConstant.userModel?.planType == "free" &&
-                          questionsList[selectedQuestionIndex]['type'] == 0) {
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer'
-                        });
-                      } else if (AppConstant.userModel?.planType == "paid" ||
-                          AppConstant.userModel?.planType == "gift") {
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer'
-                        });
-                        print(
-                            '--------- type ${selectedQuestionIndex < questionsList.length - 1} $haseMore');
-                        // submitTestByApi().then((value) {
-                        // Navigator.of(_keyLoader.currentContext!,
-                        //         rootNavigator: true)
-                        //     .pop();
-                        // testCompleAlertBox(context);
-                        // });
-                      }
-
-                      // if (selectedQuestionIndex < questionsList.length - 1 ==
-                      //         false &&
-                      //     haseMore) {
-                      //   page += 1;
-
-                      // getHasMoreResult();
-                      // getQuestionsFromApi().then((response_list) {
-                      //   questionsList = response_list;
-                      // });
-
-                      if ((selectedQuestionIndex + 1) < questionsList.length) {
-                        _controller.animateTo(0,
-                            duration: Duration(microseconds: 1000),
-                            curve: Curves.slowMiddle);
-                        setState(() {
-                          selectedQuestionIndex += 1;
-                        });
-                        // submitTestByApi().then((value) {
-                        //   Navigator.of(_keyLoader.currentContext!,
-                        //           rootNavigator: true)
-                        //       .pop();
-                        //   testCompleAlertBox(context);
-                        // });
-                      }
-                      selectedOptionIndex = null;
-
-                      print(
-                          'selectedQuestionIndex ${selectedQuestionIndex} ${questionsList.length} $selectedOptionIndex');
-                      // _controller.animateTo(0,
-                      //     duration: Duration(microseconds: 1000),
-                      //     curve: Curves.slowMiddle);
-                      // setState(() {
-                      //   // selectedOptionIndex = null;
-                      //   selectedQuestionIndex += 1;
-                      // });
-                      // }
-                      if ((selectedQuestionIndex + 1) < questionsList.length) {
-                        _controller.animateTo(0,
-                            duration: Duration(microseconds: 1000),
-                            curve: Curves.slowMiddle);
-                        setState(() {
-                          selectedOptionIndex = null;
-                          selectedQuestionIndex += 1;
-                        });
-                        // submitTestByApi().then((value) {
-                        //   Navigator.of(_keyLoader.currentContext!,
-                        //           rootNavigator: true)
-                        //       .pop();
-                        //   testCompleAlertBox(context);
-                        // });
+                      testQuestionsForResult.add({
+                        'questionId': questionsList[selectedQuestionIndex]
+                            ['id'],
+                        'type': questionsList[selectedQuestionIndex]['type'],
+                        'question': questionsList[selectedQuestionIndex]
+                            ['title'],
+                        'correct': (selectedOptionIndex != null &&
+                                questionsList[selectedQuestionIndex]['options']
+                                        [selectedOptionIndex]['correct'] ==
+                                    true)
+                            ? 'Correct Answer'
+                            : 'Wrong Answer',
+                        "alternative_questions_id":
+                            questionsList[selectedQuestionIndex]
+                                ['alternative_questions_id'],
+                      });
+                      if (selectedOptionIndex != null) {
+                        if ((selectedQuestionIndex + 1) <
+                            questionsList.length) {
+                          _controller.animateTo(0,
+                              duration: Duration(microseconds: 1000),
+                              curve: Curves.slowMiddle);
+                          setState(() {
+                            selectedOptionIndex = null;
+                            selectedQuestionIndex += 1;
+                          });
+                          if (AppConstant.userModel?.planType != "free") {
+                            submitTestByApi().then((value) {});
+                          }
+                        }
                       }
                       // else if (questionsList[selectedQuestionIndex]['type'] ==
                       //     1) {
@@ -1755,6 +1186,16 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           });
                         }
                       }
+                      if (AppConstant.userModel?.planType != "free") {
+                        if (selectedQuestionIndex == questionsList.length - 1) {
+                          page++;
+                          questionsList.clear();
+                          selectedQuestionIndex = 0;
+
+                          getTestQuestions(category_id);
+                        }
+                      }
+                      print('questionsList ${questionsList.length}');
                     },
               title: selectedQuestionIndex < questionsList.length - 1
                   ? questionsList[selectedQuestionIndex]['type'] == 1 &&
@@ -1772,9 +1213,24 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   calculatePoint(question) {
     if (selectedOptionIndex != null &&
         question['options'][selectedOptionIndex]['correct'] == true) {
-      gainPoint += 1;
-
+      if (questionsList[selectedQuestionIndex]['total_question_count'] ==
+          currentQuestionCount) {
+        gainPoint = 0;
+      } else {
+        gainPoint += 1;
+      }
       log("Points earned : $gainPoint");
+    }
+    if ((selectedOptionIndex != null &&
+        questionsList[selectedQuestionIndex]['options'][selectedOptionIndex]
+                ['correct'] ==
+            false)) {
+      if (questionsList[selectedQuestionIndex]['total_question_count'] ==
+          currentQuestionCount) {
+        wrongAnswerPoint = 0;
+      } else {
+        wrongAnswerPoint += 1;
+      }
     }
   }
 

@@ -6,7 +6,7 @@ const String kGoogleApiKey = "AIzaSyBa4FdOlhksMcExaWa-z_EHeNppLz6c2ug";
 // const String api = 'https://mdt.developersforflutter.com';
 const String api = 'https://mockdrivingtest.com';
 // const String api = 'https://mockdvsatest.co.uk';
-// const String api = 'http://192.168.1.23';
+// const String api = 'http://192.168.1.32';
 const String imageBaseUrl = 'https://mockdrivingtest.com';
 const String stripePublic = "pk_live_uvawPT4fmctau9Zh6fyHH3Rd00kcvCqEv9";
 
