@@ -768,7 +768,6 @@ class socialIconCustom extends StatelessWidget {
 callDialog() async {
   var sharedPref = await SharedPreferences.getInstance();
   sharedPref.setBool('theoryTestPractice', true);
-  print(sharedPref);
 }
 
 // class LandingPagePainter extends CustomPainter {

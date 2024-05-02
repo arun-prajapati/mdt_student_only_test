@@ -113,6 +113,7 @@ class PractiseTheoryTestServices {
         "&user_type=" +
         _userType.toString();
     final url = Uri.parse(URL);
+    print("getAllRecords URL ${URL}");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -121,12 +122,11 @@ class PractiseTheoryTestServices {
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
     Map recordData = data["data"];
-    print("getAllRecords URL ${URL}");
-
+    log(response.body, name: 'iiii0===========');
     return recordData;
   }
 
-  Future<Map> submitTest(int _userType, int _userId, List test_question,
+  Future<Map> submitTest(int _userType, String _userId, List test_question,
       String _category_id) async {
     var URL = "$api/api/save-theory-test?id=" +
         _userId.toString() +

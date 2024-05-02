@@ -268,7 +268,7 @@ reg data
                     child: Column(
                   children: [
                     Text('Register Here', style: AppTextStyle.titleStyle),
-                    Text('Fill up your details below to register',
+                    Text('Fill in your details below to register',
                         style: AppTextStyle.textStyle),
                     SizedBox(height: 20),
                     CustomTextField(

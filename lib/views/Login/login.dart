@@ -82,7 +82,7 @@ class _SignInFormState extends State<SignInForm> {
 
   // TextEditingController password = TextEditingController(text: "123456");
   // TextEditingController emailController =
-  //     TextEditingController(text: "drivingtestmock@gmail.com");
+  //     TextEditingController(text: "d@gmail.com");
 
   // Future<String?> getId() async {
   //   //  deviceId = await PlatformDeviceId.getDeviceId;
@@ -309,7 +309,7 @@ class _SignInFormState extends State<SignInForm> {
                       ),
                       SizedBox(height: 5),
                       Center(
-                        child: Text('Fill Up Your Details below to login',
+                        child: Text('Fill in your details below to login',
                             style: AppTextStyle.textStyle),
                       ),
                       SizedBox(height: 20),

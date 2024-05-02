@@ -172,7 +172,9 @@ class UserProvider with ChangeNotifier {
             "&device_id=" +
             params['device_id'] +
             "&device_type=" +
-            "${Platform.isIOS ? "iOS" : "android"}",
+            "${Platform.isIOS ? "iOS" : "android"}" +
+            "&name=" +
+            params['name'],
       );
     else
       url = Uri.parse(
@@ -185,7 +187,11 @@ class UserProvider with ChangeNotifier {
             "&email=" +
             email_ +
             "&device_id=" +
-            params['device_id'],
+            params['device_id'] +
+            "&device_type=" +
+            "${Platform.isIOS ? "iOS" : "android"}" +
+            "&name=" +
+            params['name'],
       );
     print("SOCIAL LOGIN URL $url");
     _deviceId = params['device_id'];
@@ -373,10 +379,12 @@ class UserProvider with ChangeNotifier {
             '.....200............ ${jsonEncode(AppConstant.userModel?.toJson())}');
         return userDetails;
       } else {
+        logOut();
         print('.....500............');
         return {};
       }
     } catch (e) {
+      logOut();
       print(e);
       return {};
     }
@@ -408,7 +416,6 @@ class UserProvider with ChangeNotifier {
   verifyPhone(BuildContext context, String phoneNumber,
       {bool isResend = false}) async {
     loading(value: true);
-
     await FirebaseAuth.instance
         .verifyPhoneNumber(
             phoneNumber: "$countryCode$phoneNumber",
@@ -549,7 +556,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  logOut(BuildContext context, [bool tokenExpired = false]) async {
+  logOut([bool tokenExpired = false]) async {
     _status = Status.Unauthenticated;
     if (tokenExpired == true) {
       _notification =
@@ -557,15 +564,9 @@ class UserProvider with ChangeNotifier {
     }
     notifyListeners();
     SharedPreferences storage = await SharedPreferences.getInstance();
-    // Purchases.logOut().then((value) {
-    //   log('UUUUUIIIIII ${value.entitlements.active} ${SubscriptionProvider().entitlement}');
-    //   // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
-    //   // notifyListeners();
-    //   // if (value.entitlements.active == {}) {
-    //   // log('value.entitlements ${jsonEncode(value.entitlements)} ${context.read<SubscriptionProvider>().entitlement}');
-    //   // context.read<SubscriptionProvider>().entitlement = Entitlement.unpaid;
-    //   // }
-    // });
+    await GoogleSignIn().signOut();
+    _navigationService.navigatorKey.currentState?.pop();
+    _navigationService.navigateToRemoveUntil('/Authorization');
     await storage.clear();
   }
 
@@ -657,11 +658,17 @@ class UserProvider with ChangeNotifier {
         Fluttertoast.showToast(
             msg: "Your account is deleted successfully",
             gravity: ToastGravity.TOP);
+        _status = Status.Unauthenticated;
+        SharedPreferences storage = await SharedPreferences.getInstance();
+        await storage.clear();
         await GoogleSignIn().signOut();
-        _navigationService.navigateToReplacement('/Authorization');
-      } else {}
+        _navigationService.navigateToRemoveUntil('/Authorization');
+      } else {
+        logOut();
+      }
     } else {
-      Fluttertoast.showToast(msg: "-----------", gravity: ToastGravity.TOP);
+      logOut();
+      // Fluttertoast.showToast(msg: "-----------", gravity: ToastGravity.TOP);
     }
   }
 }

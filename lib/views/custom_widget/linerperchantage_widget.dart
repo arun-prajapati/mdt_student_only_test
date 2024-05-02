@@ -75,7 +75,7 @@ class LinearPercentIndicatorWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 19),
-              Text("${progress * 100 ~/ 1} %",
+              Text("${(progress * 100 ~/ 1)} %",
                   style: AppTextStyle.textStyle
                       .copyWith(fontWeight: FontWeight.w500)),
               // SizedBox(

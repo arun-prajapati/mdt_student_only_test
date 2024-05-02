@@ -56,7 +56,8 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   final AIRecommondationAPI _aIRecommondationService = AIRecommondationAPI();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final PaymentService _paymentService = new PaymentService();
-  Map? walletDetail = null;
+
+  // Map? walletDetail = null;
   List<TheoryContentModel> theoryContent = [];
   Map topicData = {};
   bool expandAll = false;
@@ -107,44 +108,44 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
       showMessageDialog();
     }
     showLoader(loaderMessage);
-    getUserDetail().then((user_id) async {
-      // fetch dvsa subscription status from db.
-      await getAllRecordsFromApi().then((records_list) {
-        walletDetail = records_list['other_data'];
-      });
-      // await getTheoryContent(
-      //         walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
-      await getTheoryContent(
-              '${AppConstant.userModel?.planType == "free" ? "no" : "yes"}')
-          .then((value) async {
-        await fetchUserTheoryProgress(_userId!).then((res) {
-          print("Progress fetch : $res");
-          setState(() {
-            // theoryContent = value["message"];
-          });
-          if (res["message"].length == 0) {
-            for (int i = 0; i < theoryContent.length; i++) {
-              readContentTheory.add(false);
-            }
-            closeLoader();
-          } else {
-            for (int i = 0; i < theoryContent.length; i++) {
-              readContentTheory.add(false);
-            }
-            for (int j = 0; j < res["message"].length; j++) {
-              setState(() {
-                readContentTheory[res["message"][j]["topic_id"] - 1] = true;
-              });
-            }
-            closeLoader();
-          }
+    // getUserDetail().then((user_id) async {
+    // fetch dvsa subscription status from db.
+    // await getAllRecordsFromApi().then((records_list) {
+    //   walletDetail = records_list['other_data'];
+    // });
+    // await getTheoryContent(
+    //         walletDetail!['dvsa_subscription'] <= 0 ? "no" : "yes")
+    await getTheoryContent(
+            '${AppConstant.userModel?.planType == "free" ? "no" : "yes"}')
+        .then((value) async {
+      await fetchUserTheoryProgress().then((res) {
+        print("Progress fetch : $res");
+        setState(() {
+          // theoryContent = value["message"];
         });
-        print("Status : $readContentTheory");
+        if (res["message"].length == 0) {
+          for (int i = 0; i < theoryContent.length; i++) {
+            readContentTheory.add(false);
+          }
+          closeLoader();
+        } else {
+          for (int i = 0; i < theoryContent.length; i++) {
+            readContentTheory.add(false);
+          }
+          for (int j = 0; j < res["message"].length; j++) {
+            setState(() {
+              readContentTheory[res["message"][j]["topic_id"] - 1] = true;
+            });
+          }
+          closeLoader();
+        }
       });
-      // await callApiGetRecommendatedTheory().then((data) { //fetch all theory content.
-      //   print(dataSub!["hazard awareness theory test"]);
-      // });
+      print("Status : $readContentTheory");
     });
+    // await callApiGetRecommendatedTheory().then((data) { //fetch all theory content.
+    //   print(dataSub!["hazard awareness theory test"]);
+    // });
+    // });
   }
 
   Future<bool> checkInternet() async {
@@ -268,13 +269,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     return jsonDecode(response.body);
   }
 
-  Future<Map> fetchUserTheoryProgress(int driverId) async {
+  Future<Map> fetchUserTheoryProgress() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
     };
-    final url = Uri.parse('$api/api/fetch/progress/${driverId}');
+    final url =
+        Uri.parse('$api/api/fetch/progress/${AppConstant.userModel?.userId}');
     //print("URL : $url");
     final response = await http.get(url, headers: header);
     return jsonDecode(response.body);
@@ -433,8 +435,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                             // }
                             print(
                                 "data : -----${theoryContent[index].topicName} ------");
-                            if (theoryContent.isNotEmpty &&
-                                walletDetail != null) {
+                            if (theoryContent.isNotEmpty) {
                               return GestureDetector(
                                 onTap: AppConstant.userModel?.planType ==
                                             "paid" ||
@@ -1330,7 +1331,12 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                       child: Column(
                         children: [
                           Text(
-                              "Our AI learn is powered by our proprietary AI solution which fetches high-quality content from the web to help you learn fast. We do not own this content and have no control over what is displayed."),
+                              "Our A.I. learning system is powered to find what it believes to be the most effective resources to help you fast track your theory test pass. We place no weighting on any resources it pulls, and our only input is to ensure that it is performing correctly.",
+                              textAlign: TextAlign.justify,
+                              style: AppTextStyle.disStyle.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: AppColors.black)),
                           Align(
                             alignment: Alignment.bottomRight,
                             child: GestureDetector(
@@ -1369,10 +1375,10 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     );
   }
 
-  Future<Map> getAllRecordsFromApi() async {
-    Map response = await test_api_services.getAllRecords(2, _userId!);
-    return response;
-  }
+// Future<Map> getAllRecordsFromApi() async {
+//   Map response = await test_api_services.getAllRecords(2, _userId!);
+//   return response;
+// }
 }
 
 // String? Gettopicdescription(String topicName) {

@@ -60,7 +60,7 @@ showCorrectAnswerDialog(BuildContext context, String explanation) {
                 padding: EdgeInsets.symmetric(horizontal: 65, vertical: 10),
                 child: CustomButton(
                   padding: EdgeInsets.symmetric(vertical: 11),
-                  title: 'Ok,Continue',
+                  title: 'Continue',
                   // fontSize: 15,
                   // isfontSize: true,
                   onTap: () {
@@ -96,32 +96,34 @@ showWrongAnswerDialog(BuildContext context, String explanation) {
               color: AppColors.white,
               borderRadius: BorderRadius.circular(40),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GradientText(
-                  'Ohh No!',
-                  colors: [
-                    AppColors.red1,
-                    AppColors.red2,
-                  ],
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 30,
-                    decorationThickness: 2,
-                    fontWeight: FontWeight.w600,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GradientText(
+                    'Ohh No!',
+                    colors: [
+                      AppColors.red1,
+                      AppColors.red2,
+                    ],
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 30,
+                      decorationThickness: 2,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  explanation,
-                  textAlign: TextAlign.justify,
-                  style: AppTextStyle.disStyle.copyWith(
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.5,
-                      height: 1.3),
-                )
-              ],
+                  SizedBox(height: 15),
+                  Text(
+                    explanation,
+                    textAlign: TextAlign.justify,
+                    style: AppTextStyle.disStyle.copyWith(
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.5,
+                        height: 1.3),
+                  )
+                ],
+              ),
             ),
           ),
           actions: [
@@ -129,7 +131,7 @@ showWrongAnswerDialog(BuildContext context, String explanation) {
               padding: EdgeInsets.symmetric(horizontal: 65, vertical: 10),
               child: CustomButton(
                 padding: EdgeInsets.symmetric(vertical: 11),
-                title: 'Ok,Continue',
+                title: 'Continue',
                 fontSize: 13,
                 isfontSize: true,
                 onTap: () {

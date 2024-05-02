@@ -57,7 +57,8 @@ class _TheoryTabState extends State<TheoryTab> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
-  Map? walletDetail = null;
+
+  // Map? walletDetail = null;
   final PaymentService _paymentService = new PaymentService();
   int? userId;
   String userName = '';
@@ -195,37 +196,36 @@ class _TheoryTabState extends State<TheoryTab> {
     //   theoryTestPractice();
     // }
     // log('SharedPref Data $data');
-    getUserDetail().then((res) async {
-      userId = res['id'];
-      await getAllRecordsFromApi().then((records_list) {
-        walletDetail = records_list['other_data'];
-      });
-      log("Subscription status : ${res['dvsa_subscription']}");
-      // if (res['dvsa_subscription'] == 1) {
-      if (context.read<SubscriptionProvider>().entitlement ==
-          Entitlement.paid) {
-        if (mounted) {
-          setState(() {
-            isSubscribed = true;
-          });
-        }
-      } else {
-        // closeLoader();
-        if (mounted) {
-          setState(() {
-            isSubscribed = false;
-          });
-        }
-      }
-      fetchUserTheoryProgress(userId!).then((res) {
+    getUserDetail();
+    //   userId = res['id'];
+    //   await getAllRecordsFromApi().then((records_list) {
+    //     walletDetail = records_list['other_data'];
+    //   });
+    // log("Subscription status : ${res['dvsa_subscription']}");
+    // if (res['dvsa_subscription'] == 1) {
+    if (context.read<SubscriptionProvider>().entitlement == Entitlement.paid) {
+      if (mounted) {
         setState(() {
-          print({'%value: ${_progressValue * 100}'});
-          // _progressValue = res["progress"].toDouble();
-          _progressValue = res["question_progress"].toDouble();
+          isSubscribed = true;
         });
-        loading(value: false);
+      }
+    } else {
+      // closeLoader();
+      if (mounted) {
+        setState(() {
+          isSubscribed = false;
+        });
+      }
+    }
+    fetchUserTheoryProgress().then((res) {
+      setState(() {
+        print({'%value: ${_progressValue * 100}'});
+        // _progressValue = res["progress"].toDouble();
+        _progressValue = res["question_progress"].toDouble();
       });
+      loading(value: false);
     });
+
     if (this.mounted) {
       setState(() {
         // CreateTopCard();
@@ -249,13 +249,14 @@ class _TheoryTabState extends State<TheoryTab> {
     return categories;
   }
 
-  Future<Map> fetchUserTheoryProgress(int driverId) async {
+  Future<Map> fetchUserTheoryProgress() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
     };
-    final url = Uri.parse('$api/api/fetch/progress/${driverId}');
+    final url =
+        Uri.parse('$api/api/fetch/progress/${AppConstant.userModel?.userId}');
     //print("URL : $url");
     final response = await http.get(url, headers: header);
     print("fetchUserTheoryProgress URL $url");
@@ -282,42 +283,12 @@ class _TheoryTabState extends State<TheoryTab> {
     return false;
   }
 
-  String? _userName;
-  String _userId = "";
-
-  Future<String> getUserName() async {
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    String userName = storage.getString('userName').toString();
-    String id = storage.getString('userId').toString();
-    return userName;
-  }
-
-  Future<String> getUserId() async {
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    String id = storage.getString('userId').toString();
-    return id;
-  }
+  // String? _userName;
 
   // Future<List> getCategoriesFromApi() async {
   //   List response = await test_api_services.getCategories();
   //   return response;
   // }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    getUserName().then((value) {
-      setState(() {
-        _userName = value;
-      });
-    });
-    getUserId().then((value) {
-      setState(() {
-        _userId = value;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -374,7 +345,8 @@ class _TheoryTabState extends State<TheoryTab> {
                                             children: [
                                               Text('',
                                                   style: _categoryTextStyle),
-                                              Text('${_userName}\'s Progress:',
+                                              Text(
+                                                  '${AppConstant.userModel?.userName}\'s Progress:',
                                                   style: _categoryTextStyle),
                                               InkWell(
                                                   onTap: () =>
@@ -545,7 +517,7 @@ class _TheoryTabState extends State<TheoryTab> {
                     // ),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 10),
                 Container(
                   //margin: EdgeInsets.zero,
                   //width: 155,
@@ -556,7 +528,7 @@ class _TheoryTabState extends State<TheoryTab> {
                         .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
                   ),
                 ),
-                SizedBox(height: 15),
+                // SizedBox(height: 15),
                 Divider(color: AppColors.black.withOpacity(0.05), thickness: 1),
                 Container(
                   // width: Responsive.width(100, context),
@@ -688,7 +660,7 @@ class _TheoryTabState extends State<TheoryTab> {
                   color: AppColors.black.withOpacity(0.1),
                   thickness: 1,
                 ),
-                SizedBox(height: 15),
+                // SizedBox(height: 15),
                 Padding(
                   padding: EdgeInsets.only(left: 18),
                   child: Align(
@@ -830,7 +802,7 @@ class _TheoryTabState extends State<TheoryTab> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                SizedBox(height: 45),
               ],
             );
           },

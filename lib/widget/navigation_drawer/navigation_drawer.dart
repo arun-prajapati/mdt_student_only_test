@@ -392,11 +392,7 @@ class NavigationDrawer extends StatelessWidget {
                         ),
                         onPressed: () async {
                           Provider.of<UserProvider>(context, listen: false)
-                              .logOut(context);
-                          await GoogleSignIn().signOut();
-                          Navigator.pop(context);
-                          _navigationService
-                              .navigateToReplacement('/Authorization');
+                              .logOut();
                         },
                       )
                     ],
@@ -431,13 +427,23 @@ class NavigationDrawer extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    'Account deletion will delete all your data that includes learning and progress data and you will also lose license to this app.',
+                    'Account deletion will delete all your data, includes learning and progress date.',
+                    textAlign: TextAlign.justify,
                     style: AppTextStyle.textStyle.copyWith(
                       height: 1.2,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
+                  Text(
+                    'You will also lose license to this app.',
+                    textAlign: TextAlign.justify,
+                    style: AppTextStyle.textStyle.copyWith(
+                      height: 1.2,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 5),
                   Text(
                     'Are you sure you want to delete your account?',
                     style: AppTextStyle.textStyle

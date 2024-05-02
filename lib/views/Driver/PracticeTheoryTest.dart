@@ -46,10 +46,12 @@ class PracticeTheoryTest extends StatefulWidget {
 class _practiceTheoryTest extends State<PracticeTheoryTest> {
   final NavigationService _navigationService = locator<NavigationService>();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  final _controller = ScrollController();
+
+  // final _controller = ScrollController();
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
   final PaymentService _paymentService = new PaymentService();
+  PageController _controller = PageController();
 
   // final AuthProvider auth_services = new AuthProvider();
   var haseMore = false;
@@ -59,9 +61,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   int gainPoint = 0;
   int currentQuestionCount = 1;
   int wrongAnswerPoint = 0;
-  late int _userId;
+
+  // late int _userId;
   String category_id = "0";
-  Map? walletDetail = null;
+
+  // Map? walletDetail = null;
   int selectedCategoryIndex = 0;
   int page = 1;
   List questionsList = [];
@@ -72,7 +76,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   List resultRecordsList = [];
   late Map recordOtherData;
 
-  String userName = '';
+  // String userName = '';
 
   //
   // getData() async {
@@ -123,13 +127,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   }
 
   //Call APi Services
-  Future<int> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
-    _userId = response['id'];
-    userName = "${response['first_name']} ${response['last_name']}";
-    return _userId;
-  }
+  // Future<int> getUserDetail() async {
+  //   Map response =
+  //       await Provider.of<UserProvider>(context, listen: false).getUserData();
+  //   _userId = response['id'];
+  //   // userName = "${response['first_name']} ${response['last_name']}";
+  //   return _userId;
+  // }
 
   /// =========== ///
   // Future<Widget> getNewCat() async {
@@ -239,10 +243,10 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   // }
 
   //call api for getQuestions
-  Future<Map> getAllRecordsFromApi() async {
-    Map response = await test_api_services.getAllRecords(2, _userId);
-    return response;
-  }
+  // Future<Map> getAllRecordsFromApi() async {
+  //   Map response = await test_api_services.getAllRecords(2, _userId);
+  //   return response;
+  // }
 
   //call api for getQuestions
   Future<Map> submitTestByApi() async {
@@ -250,7 +254,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     log("Category id : $category_id");
     Map response = await test_api_services.submitTest(
       2,
-      _userId,
+      AppConstant.userModel!.userId!,
       testQuestionsForResult,
       category_id,
     );
@@ -265,16 +269,16 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     await context.read<SubscriptionProvider>().fetchOffer();
 
     checkInternet();
-    CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
-    getUserDetail().then((user_id) {
-      getAllRecordsFromApi().then((records_list) {
-        setState(() {
-          walletDetail = records_list['other_data'];
-          resultRecordsList = records_list['test_record'] as List;
-        });
-        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-      });
-    });
+    // CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
+    // getUserDetail().then((user_id) {
+    //   getAllRecordsFromApi().then((records_list) {
+    //     setState(() {
+    //       walletDetail = records_list['other_data'];
+    //       resultRecordsList = records_list['test_record'] as List;
+    //     });
+    //     Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+    //   });
+    // });
   }
 
   @override
@@ -357,9 +361,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           ? Center(
                               child: CircularProgressIndicator(color: Dark))
                           : PageView.builder(
+                              controller: _controller,
                               allowImplicitScrolling: false,
                               physics: NeverScrollableScrollPhysics(),
-                              controller: scrollController,
                               itemCount: questionsList.length,
                               // onPageChanged: (val) async {
                               //   if (val == questionsList.length - 1) {
@@ -999,32 +1003,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 log("Category : $response_list");
                 Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                     .pop();
-                /*showModalBottomSheet(
-                    isDismissible: false,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return TestSettingDialogBox(
-                        categories_list: response_list,
-                        onSetValue: (_categoryId) {
-                          log("Category id : $_categoryId");
-                          gainPoint = 0;
-                          questionsList = [];
-                          testQuestionsForResult = [];
-                          selectedQuestionIndex = 0;
-                          selectedOptionIndex = null;
-                          category_id = _categoryId;
-                          CustomSpinner.showLoadingDialog(
-                              context, _keyLoader, "Test loading...");
-                          getQuestionsFromApi().then((response_list) {
-                            Navigator.of(_keyLoader.currentContext!,
-                                    rootNavigator: true)
-                                .pop();
-                            questionsList = response_list;
-                            setState(() => isTestStarted = true);
-                          });
-                        },
-                      );
-                    });*/
               });
             },
             child: LayoutBuilder(
@@ -1086,7 +1064,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       print('IFFFF ------------');
                     }
                   : () {
-                      // calculatePoint(questionsList[selectedQuestionIndex]);
                       print('ELSE------------');
                       if (questionsList[selectedQuestionIndex]
                               ['total_question_count'] ==
@@ -1095,65 +1072,45 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       } else {
                         currentQuestionCount += 1;
                       }
-                      // for (var data in categoryFromQuestionsList) {
-                      //   if (selectedOptionIndex != null &&
-                      //       questionsList[selectedQuestionIndex]
-                      //               ['category_id'] ==
-                      //           data['id']) {
-                      //     questionsList.where((element) {
-                      //       if (element['category_id'] == data['id']) {
-                      //         currentQuestionCount += 1;
-                      //       }
-                      //       return true;
-                      //     });
-                      //     // currentQuestionCount += 1;
-                      //   }
-                      // }
+                      if (questionsList[selectedQuestionIndex]['type'] == 0 &&
+                          AppConstant.userModel?.planType == "free") {
+                        testQuestionsForResult.add({
+                          'questionId': questionsList[selectedQuestionIndex]
+                              ['id'],
+                          'type': questionsList[selectedQuestionIndex]['type'],
+                          'question': questionsList[selectedQuestionIndex]
+                              ['title'],
+                          'correct': (selectedOptionIndex != null &&
+                                  questionsList[selectedQuestionIndex]
+                                              ['options'][selectedOptionIndex]
+                                          ['correct'] ==
+                                      true)
+                              ? 'Correct Answer'
+                              : 'Wrong Answer',
+                          "alternative_questions_id":
+                              questionsList[selectedQuestionIndex]
+                                  ['alternative_questions_id'],
+                        });
+                      } else if (AppConstant.userModel?.planType != "free") {
+                        testQuestionsForResult.add({
+                          'questionId': questionsList[selectedQuestionIndex]
+                              ['id'],
+                          'type': questionsList[selectedQuestionIndex]['type'],
+                          'question': questionsList[selectedQuestionIndex]
+                              ['title'],
+                          'correct': (selectedOptionIndex != null &&
+                                  questionsList[selectedQuestionIndex]
+                                              ['options'][selectedOptionIndex]
+                                          ['correct'] ==
+                                      true)
+                              ? 'Correct Answer'
+                              : 'Wrong Answer',
+                          "alternative_questions_id":
+                              questionsList[selectedQuestionIndex]
+                                  ['alternative_questions_id'],
+                        });
+                      }
 
-                      // for (var data in categoryFromQuestionsList) {
-                      //   if (selectedOptionIndex != null &&
-                      //       questionsList[selectedQuestionIndex]
-                      //               ['category_id'] ==
-                      //           data['id']) {
-                      //
-                      //
-                      //     currentQuestionCount++;
-                      //   }
-                      // }
-
-                      // int newSelectedCategoryIndex = selectedCategoryIndex + 1;
-                      // if (newSelectedCategoryIndex >=
-                      //     categoryFromQuestionsList.length) {
-                      //   newSelectedCategoryIndex = 0;
-                      // }
-                      // updateQuestionCount(newSelectedCategoryIndex);
-                      // print(
-                      //     'value---------- ${selectedQuestionIndex} ${questionsList.length}');
-                      // if (questionsList.length == selectedQuestionIndex) {
-                      //   print('pppp--------------');
-                      //   if (haseMore) {
-                      //     page++;
-                      //     getTestQuestions(category_id, page);
-                      //   }
-                      // }
-                      // log("Points earned : $gainPoint");
-                      // wrongAnswerPoint += 1;
-                      testQuestionsForResult.add({
-                        'questionId': questionsList[selectedQuestionIndex]
-                            ['id'],
-                        'type': questionsList[selectedQuestionIndex]['type'],
-                        'question': questionsList[selectedQuestionIndex]
-                            ['title'],
-                        'correct': (selectedOptionIndex != null &&
-                                questionsList[selectedQuestionIndex]['options']
-                                        [selectedOptionIndex]['correct'] ==
-                                    true)
-                            ? 'Correct Answer'
-                            : 'Wrong Answer',
-                        "alternative_questions_id":
-                            questionsList[selectedQuestionIndex]
-                                ['alternative_questions_id'],
-                      });
                       if (selectedOptionIndex != null) {
                         if ((selectedQuestionIndex + 1) <
                             questionsList.length) {
@@ -1195,12 +1152,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           getTestQuestions(category_id);
                         }
                       }
-                      print('questionsList ${questionsList.length}');
+                      print(
+                          'testQuestionsForResult ${testQuestionsForResult.length}');
                     },
               title: selectedQuestionIndex < questionsList.length - 1
                   ? questionsList[selectedQuestionIndex]['type'] == 1 &&
                           AppConstant.userModel?.planType == "free"
-                      ? 'Skip'
+                      ? 'Test Submit'
                       : 'Next'
                   : 'Test Submit',
             );
@@ -1274,7 +1232,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       "Total score: " +
                                           gainPoint.toString() +
                                           " / " +
-                                          ((questionsList.length).toString()),
+                                          ((questionsList.length - 10)
+                                              .toString()),
                                       style: AppTextStyle.disStyle.copyWith(
                                           fontWeight: FontWeight.w400)),
                                   SizedBox(height: 20),
@@ -1397,9 +1356,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16),
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
+                              SizedBox(height: 10),
                               Text(
                                 "Total charges: ${context.read<SubscriptionProvider>().package.first.storeProduct.priceString}"
                                     .toString(),

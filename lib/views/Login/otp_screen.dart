@@ -110,8 +110,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       // log(consistentUdid, name: "consistent_Udid");
       deviceId = consistentUdid;
       print(
-          "========== IOS =========== ${iosDeviceInfo
-              .identifierForVendor} ${iosDeviceInfo.data}");
+          "========== IOS =========== ${iosDeviceInfo.identifierForVendor} ${iosDeviceInfo.data}");
       return consistentUdid;
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
@@ -151,8 +150,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     Duration clockTimer = Duration(seconds: secondsRemaining);
 
     String timerText =
-        '0${clockTimer.inMinutes.remainder(60).toString()}:${clockTimer
-        .inSeconds.remainder(60).toString().padLeft(2, '0')}';
+        '0${clockTimer.inMinutes.remainder(60).toString()}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
     return Scaffold(
         backgroundColor: Colors.white,
         body: Column(children: [
@@ -161,10 +159,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               Image.asset(
                 "assets/bg1.png",
                 // height: 290,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 fit: BoxFit.fitWidth,
               ),
               Positioned(
@@ -200,8 +195,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           SizedBox(height: 8),
                           Center(
                             child: Text(
-                              "Please type the verification code we sent to ${widget
-                                  .CountryCode} ${widget.phone}",
+                              "Please type the verification code we sent to ${widget.CountryCode} ${widget.phone}",
                               style: AppTextStyle.textStyle,
                               textAlign: TextAlign.center,
                               maxLines: 2,
@@ -217,9 +211,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                               submittedPinTheme: submittedPinTheme,
                               focusedPinTheme: focusPinTheme,
                               androidSmsAutofillMethod:
-                              AndroidSmsAutofillMethod.smsRetrieverApi,
+                                  AndroidSmsAutofillMethod.smsRetrieverApi,
                               pinputAutovalidateMode:
-                              PinputAutovalidateMode.onSubmit,
+                                  PinputAutovalidateMode.onSubmit,
                               showCursor: true,
                               onSubmitted: (pin) async {},
                             ),
@@ -237,15 +231,15 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                             child: GestureDetector(
                               onTap: enableResend
                                   ? () {
-                                secondsRemaining = 60;
-                                enableResend = false;
-                                setState(() {});
-                                authData.verifyPhone(
-                                  context,
-                                  widget.phone,
-                                  isResend: true,
-                                );
-                              }
+                                      secondsRemaining = 60;
+                                      enableResend = false;
+                                      setState(() {});
+                                      authData.verifyPhone(
+                                        context,
+                                        widget.phone,
+                                        isResend: true,
+                                      );
+                                    }
                                   : null,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -282,9 +276,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                               loading(value: true);
                               setState(() {});
                               final PhoneAuthCredential credential =
-                              PhoneAuthProvider.credential(
-                                  verificationId: authData.verificationCode,
-                                  smsCode: code.text);
+                                  PhoneAuthProvider.credential(
+                                      verificationId: authData.verificationCode,
+                                      smsCode: code.text);
                               FirebaseAuth.instance
                                   .signInWithCredential(credential)
                                   .then((value) async {
@@ -297,7 +291,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                                 ForgotNextScreen(
                                                     phone: widget.phone,
                                                     countryCode:
-                                                    widget.CountryCode)));
+                                                        widget.CountryCode)));
                                   } else if (authData.isSocialLogin) {
                                     Map formParams = {
                                       'token': authData.socialToken,
@@ -305,21 +299,20 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                       'social_site_id': authData.socialSiteId,
                                       'email': authData.email,
                                       'phone':
-                                      "${authData.countryCode}${authData
-                                          .phoneNumber}",
+                                          "${authData.countryCode}${authData.phoneNumber}",
                                       'user_type': "2",
                                       'accessType': 'register',
                                       'device_id': deviceId,
+                                      'name': value.user?.displayName ?? "",
                                     };
                                     print(
-                                        "Data on submit : ${jsonEncode(
-                                            formParams)}");
+                                        "Data on submit : ${jsonEncode(formParams)}");
                                     ToastContext().init(context);
                                     Map? apiResponse =
-                                    await Provider.of<UserProvider>(context,
-                                        listen: false)
-                                        .socialLoginWithMdtRegister(
-                                        context, formParams);
+                                        await Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .socialLoginWithMdtRegister(
+                                                context, formParams);
                                     print(
                                         "Response from registrant 1: $apiResponse");
                                     if (apiResponse != null &&
@@ -338,22 +331,20 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                     }
                                   } else {
                                     await Provider.of<UserProvider>(context,
-                                        listen: false)
+                                            listen: false)
                                         .register(deviceId: deviceId);
                                     loading(value: false);
                                     // 'TP1A.220624.014'!);
-                                    if (Provider
-                                        .of<UserProvider>(context,
-                                        listen: false)
-                                        .notification
-                                        .text !=
+                                    if (Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .notification
+                                            .text !=
                                         '') {
                                       // Spinner.close(context);
                                       showValidationDialog(
                                           context,
-                                          Provider
-                                              .of<UserProvider>(context,
-                                              listen: false)
+                                          Provider.of<UserProvider>(context,
+                                                  listen: false)
                                               .notification
                                               .text);
                                     }
@@ -364,7 +355,6 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                 }
                               }).catchError((e) {
                                 loading(value: false);
-                                setState(() {});
                                 print('HHHHHHH ${e}');
                                 if (e.code == "invalid-verification-code") {
                                   authData.showErrorDialog(
@@ -412,10 +402,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
             actions: [
               TextButton(
                 onPressed: () {
-                  if (Provider
-                      .of<UserProvider>(context, listen: false)
-                      .notification
-                      .text ==
+                  if (Provider.of<UserProvider>(context, listen: false)
+                          .notification
+                          .text ==
                       'Registration successful, please Login into your account.') {
                     // Navigator.of(context).pop();
                     Navigator.of(context).pushReplacement(

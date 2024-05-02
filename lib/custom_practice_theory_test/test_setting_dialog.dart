@@ -19,6 +19,7 @@ import '../services/practise_theory_test_services.dart';
 import '../utils/appImages.dart';
 import '../utils/app_colors.dart';
 import '../views/Driver/PracticeTheoryTest.dart';
+import '../widget/CustomSpinner.dart';
 import '../widget/CustomSwitch/CustomSwitch.dart';
 
 class TestSettingDialogBox extends StatefulWidget {
@@ -52,10 +53,14 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
     return response;
   }
 
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
   @override
   void initState() {
     super.initState();
+    loading(value: true);
     getCategoriesFromApi().then((response_list) {
+      loading(value: false);
       widget.categories_list.clear();
       widget.categories_list.addAll(response_list);
       var idList = [];

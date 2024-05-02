@@ -108,6 +108,7 @@ class SocialLoginService {
               'phone': _user?.phoneNumber != null ? _user?.phoneNumber : null,
               'accessType': 'login',
               'device_id': deviceId,
+              'name': _user?.displayName ?? "",
             };
             print("Goggle Email..:");
             devtools.log("Social user: $params");
@@ -321,6 +322,7 @@ class SocialLoginService {
                 user.user?.phoneNumber != null ? user.user?.phoneNumber : null,
             'accessType': 'login',
             'device_id': deviceId,
+            'name': user.user?.displayName ?? "",
           };
           socialLoginApi(params);
         } else {
@@ -387,7 +389,9 @@ class SocialLoginService {
               'phone': value.user?.phoneNumber != null
                   ? value.user?.phoneNumber
                   : null,
-              'accessType': 'login'
+              'accessType': 'login',
+              'device_id': deviceId,
+              'name': value.user?.displayName ?? "",
             };
             print("SOCIAL AUTH PARAM : ${jsonEncode(params)}");
             socialLoginApi(params);

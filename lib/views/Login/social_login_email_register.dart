@@ -108,16 +108,6 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
   @override
   void initState() {
     super.initState();
-    // KeyboardVisibilityNotification().addNewListener(
-    //   onChange: (bool visible) {
-    //     if (!visible) {
-    //       FocusScopeNode currentFocus = FocusScope.of(context);
-    //       if (!currentFocus.hasPrimaryFocus) {
-    //         currentFocus.unfocus();
-    //       }
-    //     }
-    //   },
-    // );
     _emailFocusNode = FocusNode();
     _phoneFocusNode = FocusNode();
   }
