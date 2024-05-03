@@ -498,7 +498,7 @@ reg data
                           ? Icon(Icons.visibility_off_outlined)
                           : Icon(Icons.remove_red_eye_outlined),
                       obscureText: isSecureconf,
-                      onFieldSubmitted: (_) => submit(),
+                      // onFieldSubmitted: (_) => submit(),
                       focusNode: _confirmPasswordFocusNode,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,

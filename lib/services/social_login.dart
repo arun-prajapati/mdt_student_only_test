@@ -110,7 +110,10 @@ class SocialLoginService {
               'device_id': deviceId,
               'name': _user?.displayName ?? "",
             };
-            print("Goggle Email..:");
+            globalContext.read<UserProvider>().socialUserName =
+                _user?.displayName ?? "";
+            print(
+                "Goggle Email..: ${globalContext.read<UserProvider>().socialUserName}");
             devtools.log("Social user: $params");
             socialLoginApi(params);
           } catch (e, s) {
@@ -325,6 +328,10 @@ class SocialLoginService {
             'name': user.user?.displayName ?? "",
           };
           socialLoginApi(params);
+          globalContext.read<UserProvider>().socialUserName =
+              user.user?.displayName ?? "";
+          print(
+              "APPPLEE..: ${globalContext.read<UserProvider>().socialUserName}");
         } else {
           print('PRINT ');
           closeLoader();
@@ -394,6 +401,10 @@ class SocialLoginService {
               'name': value.user?.displayName ?? "",
             };
             print("SOCIAL AUTH PARAM : ${jsonEncode(params)}");
+            globalContext.read<UserProvider>().socialUserName =
+                value.user?.displayName ?? "";
+            print(
+                "FACEBOOK Email..: ${globalContext.read<UserProvider>().socialUserName}");
             socialLoginApi(params);
           }
         }).catchError((e) {

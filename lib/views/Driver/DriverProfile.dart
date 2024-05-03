@@ -1064,7 +1064,7 @@ class _driverProfile extends State<DriverProfile> {
       };
       print('Licence Expiry Date---------- ${jsonEncode(formData)}');
       Map response = await api_services.updateProfileDetail(formData);
-      log('WWWWWWWWWW ${licenceBase64}');
+      log('WWWWWWWWWW ${licenceBase64} ${first_name?.text}');
 
       if (response['message'] != null) {
         Toast.show(response['message'],

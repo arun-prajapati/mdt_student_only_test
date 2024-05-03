@@ -54,26 +54,6 @@ class _SocialLoginEmailRegister extends State<SocialLoginEmailRegister> {
     final form = _formKey.currentState;
     var authData = context.read<UserProvider>();
     if (form!.validate() && phoneTextControl.text.isNotEmpty) {
-      /*  Map formParams = {
-        'token': paramArguments['token'],
-        'social_type': paramArguments['social_type'],
-        'social_site_id': paramArguments['social_site_id'],
-        'email': email,
-        'phone': mobile,
-        'user_type': userType,
-        'accessType': 'register'
-      };
-      print("Data on submit : ${jsonEncode(formParams)}");
-      ToastContext().init(context);
-
-      Map? apiResponse = await Provider.of<UserProvider>(context, listen: false)
-          .socialLoginWithMdtRegister(formParams);
-      print("Response from registrant 1: $apiResponse");
-      if (apiResponse != null && apiResponse['success'] == false) {
-        print("Response from registrant 2 : $apiResponse");
-        Toast.show(apiResponse['message'],
-            duration: Toast.lengthLong, gravity: Toast.center);
-      }*/
       authData.isSocialLogin = true;
       Map data = {
         'phone': '${countryCode}${phoneTextControl.text}',

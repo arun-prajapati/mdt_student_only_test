@@ -34,7 +34,7 @@ class LinearPercentIndicatorWidget extends StatelessWidget {
                   style: AppTextStyle.textStyle
                       .copyWith(fontWeight: FontWeight.w500)),
               SizedBox(width: 5),
-              planType == "paid" || planType == "gift"
+              planType != "free"
                   ? SizedBox()
                   : Expanded(
                       flex: 0,

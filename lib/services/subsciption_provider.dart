@@ -45,8 +45,9 @@ class SubscriptionProvider extends ChangeNotifier {
           customerInfo.entitlements.active['One time purchase'];
       print('CUSTOMER INFO $customerInfo');
       if (entitlementInfo != null) {
-        if (customerInfo.entitlements.active['One time purchase']!.isActive ==
-            true) {
+        if ((customerInfo.entitlements.active['One time purchase']!.isActive ==
+                true &&
+            AppConstant.userModel?.planType != 'free')) {
           entitlement = Entitlement.paid;
           // Fluttertoast.showToast(msg: "${entitlement}");
         } else {
@@ -130,8 +131,7 @@ class SubscriptionProvider extends ChangeNotifier {
     );
     if (response.statusCode == 200) {
       print('UPDATE ${response.body}');
-      // var data = jsonDecode(response.body);
-      // Fluttertoast.showToast(msg: data['message'], gravity: ToastGravity.TOP);
+      AppConstant.userModel?.planType = "paid";
       notifyListeners();
     } else {
       print('UPDATE ${response.body}');

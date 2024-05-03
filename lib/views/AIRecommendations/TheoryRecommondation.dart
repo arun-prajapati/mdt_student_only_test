@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -50,7 +51,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   final NavigationService _navigationService = locator<NavigationService>();
 
   //List<Entry> changingData = List.empty();
-  int? _userId;
+  // int? _userId;
   final PractiseTheoryTestServices test_api_services =
       new PractiseTheoryTestServices();
   final AIRecommondationAPI _aIRecommondationService = AIRecommondationAPI();
@@ -162,17 +163,17 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   }
 
   //Call APi Services
-  Future<Map> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
-    _userId = response['id'];
-    userName = "${response['first_name']} ${response['last_name']}";
-
-    return response;
-  }
+  // Future<Map> getUserDetail() async {
+  //   Map response =
+  //       await Provider.of<UserProvider>(context, listen: false).getUserData();
+  //   _userId = response['id'];
+  //   userName = "${response['first_name']} ${response['last_name']}";
+  //
+  //   return response;
+  // }
 
   //Fetch topics with description
-  Future<Map> getTheoryContent(String isFree) async {
+  getTheoryContent(String isFree) async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -202,10 +203,10 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     loading(value: true);
     try {
       loading(value: true);
-      await Purchases.purchasePackage(package).then((value) {
+      await Purchases.purchasePackage(package).then((value) async {
         loading(value: false);
         print('HHHHHHHHH ${value.entitlements.all}');
-        getTheoryContent('yes');
+        await getTheoryContent('yes');
         context.read<SubscriptionProvider>().updateUserPlan(
             value.entitlements.active['One time purchase']?.isActive == true
                 ? "paid"
@@ -217,12 +218,14 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
             .isUserPurchaseTest(context: context);
       }).catchError((e) {
         loading(value: false);
+        Fluttertoast.showToast(msg: "Something went wrong");
         print("ERROR ====== $e");
 
         return e;
       });
     } catch (e) {
       loading(value: false);
+      Fluttertoast.showToast(msg: "Something went wrong");
       print("ERROR ====== $e");
     }
   }
@@ -250,7 +253,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     }
   }
 
-  Future<Map> updateTopicProgress(String driverId, String topicId) async {
+  Future<Map> updateTopicProgress(String topicId) async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -259,7 +262,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     final url = Uri.parse('$api/api/update/progress');
 
     Map<String, String> body = {
-      'driver_id': driverId,
+      'driver_id': AppConstant.userModel!.userId.toString(),
       'topic_id': topicId,
     };
     final response = await http.post(url, body: body, headers: header);
@@ -282,13 +285,13 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     return jsonDecode(response.body);
   }
 
-  Future<void> callApiGetRecommendatedTheory() async {
-    // getUserDetail();
-    if (_userId != null)
-      dataSub = (await _aIRecommondationService.getrecommondedtheory());
-
-    print("Theory Data : ${dataSub!["hazard awareness theory test"]}");
-  }
+  // Future<void> callApiGetRecommendatedTheory() async {
+  //   // getUserDetail();
+  //   if (_userId != null)
+  //     dataSub = (await _aIRecommondationService.getrecommondedtheory());
+  //
+  //   print("Theory Data : ${dataSub!["hazard awareness theory test"]}");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -437,10 +440,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                 "data : -----${theoryContent[index].topicName} ------");
                             if (theoryContent.isNotEmpty) {
                               return GestureDetector(
-                                onTap: AppConstant.userModel?.planType ==
-                                            "paid" ||
-                                        AppConstant.userModel?.planType ==
-                                            "gift"
+                                onTap: AppConstant.userModel?.planType != "free"
                                     ? null
                                     : () {
                                         print(
@@ -881,7 +881,6 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                         // print(_userId.runtimeType);
                                                         // print(theoryContent[index]["id"].runtimeType);
                                                         await updateTopicProgress(
-                                                            _userId!.toString(),
                                                             theoryContent[index]
                                                                 .id
                                                                 .toString());

@@ -157,7 +157,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
           Stack(
             children: [
               Image.asset(
-                "assets/bg1.png",
+                "assets/bg.png",
                 // height: 290,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.fitWidth,
@@ -303,7 +303,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                       'user_type': "2",
                                       'accessType': 'register',
                                       'device_id': deviceId,
-                                      'name': value.user?.displayName ?? "",
+                                      'name': authData.socialUserName,
                                     };
                                     print(
                                         "Data on submit : ${jsonEncode(formParams)}");

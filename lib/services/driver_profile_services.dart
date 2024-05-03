@@ -38,7 +38,7 @@ class DriverProfileServices {
     };
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
-    print('---- URL ---- $api/api/update-profile');
+    print('---- URL ---- $url');
     print('---- RESPONSE ---- ${response.body}');
     return data;
   }

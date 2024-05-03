@@ -72,6 +72,7 @@ class UserProvider with ChangeNotifier {
   }
 
   bool changeView = false;
+  String socialUserName = "";
 
 //  loginRoutes() async {
 //    _status = Status.RouteLogin;
@@ -565,6 +566,7 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
     SharedPreferences storage = await SharedPreferences.getInstance();
     await GoogleSignIn().signOut();
+    await FirebaseAuth.instance.signOut();
     _navigationService.navigatorKey.currentState?.pop();
     _navigationService.navigateToRemoveUntil('/Authorization');
     await storage.clear();
@@ -643,6 +645,7 @@ class UserProvider with ChangeNotifier {
   }
 
   deleteAccount() async {
+    loading(value: true);
     final url = Uri.parse("$api/api/delete-account");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
@@ -655,15 +658,13 @@ class UserProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       var parsedData = jsonDecode(response.body);
       if (parsedData['success'] == true) {
+        loading(value: false);
         Fluttertoast.showToast(
             msg: "Your account is deleted successfully",
             gravity: ToastGravity.TOP);
-        _status = Status.Unauthenticated;
-        SharedPreferences storage = await SharedPreferences.getInstance();
-        await storage.clear();
-        await GoogleSignIn().signOut();
-        _navigationService.navigateToRemoveUntil('/Authorization');
+        logOut();
       } else {
+        loading(value: false);
         logOut();
       }
     } else {
