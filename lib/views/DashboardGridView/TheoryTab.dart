@@ -50,13 +50,13 @@ class _TheoryTabState extends State<TheoryTab> {
   List categories = [];
   bool isAllCategoriesSelected = true;
   TextStyle _categoryTextStyle =
-  AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600);
+      AppTextStyle.titleStyle.copyWith(fontWeight: FontWeight.w600);
   final NavigationService _navigationService = locator<NavigationService>();
   late Future<List>? _recentBooking = null;
   final BookingService _bookingService = BookingService();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final PractiseTheoryTestServices test_api_services =
-  new PractiseTheoryTestServices();
+      new PractiseTheoryTestServices();
 
   // Map? walletDetail = null;
   final PaymentService _paymentService = new PaymentService();
@@ -75,7 +75,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'icon': AppImages.practice,
       'title': 'Practice',
       'subTitle':
-      'Practice theory test questions with our AI-powered question bank based on DVSA licensed material',
+          'Practice theory test questions with our AI-powered question bank based on DVSA licensed material',
       'type': 'theoryTest',
       'buttonText': 'Start'
     },
@@ -83,7 +83,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'icon': AppImages.hazards,
       'title': 'Practice Hazard Perception',
       'subTitle':
-      'Prepare for the hazard perception test with interactive videos',
+          'Prepare for the hazard perception test with interactive videos',
       'type': 'hazard',
       'buttonText': 'Start'
     },
@@ -91,7 +91,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'icon': AppImages.dvsaTest,
       'title': 'DVSA Mock Theory Test',
       'subTitle':
-      'Use DVSA’s official mock tests to test your learning progress',
+          'Use DVSA’s official mock tests to test your learning progress',
       'type': 'dvsaMock',
       'buttonText': 'Start test'
     }
@@ -101,7 +101,7 @@ class _TheoryTabState extends State<TheoryTab> {
     {
       'title': 'Theory Test Journey',
       'subTitle':
-      'Read this to understand what theory test is and learn how to excel at it',
+          'Read this to understand what theory test is and learn how to excel at it',
       'type': 'theoryTestGuidance',
       'buttonText': 'Read more',
       'image': AppImages.illustraion2,
@@ -109,7 +109,7 @@ class _TheoryTabState extends State<TheoryTab> {
     {
       'title': 'Highway Code',
       'subTitle':
-      'The Highway Code is a set of guidelines, advice, guides, and mandatory rules for road users. Most of the theory test questions are based on this. Study it to do well at your test',
+          'The Highway Code is a set of guidelines, advice, guides, and mandatory rules for road users. Most of the theory test questions are based on this. Study it to do well at your test',
       // 'The DVSA theory test tests learner drivers for understanding of these rules.',
       'type': 'highwayCode',
       'buttonText': 'Read now',
@@ -118,7 +118,7 @@ class _TheoryTabState extends State<TheoryTab> {
     {
       'title': 'Traffic Signs',
       'subTitle':
-      'Traffic signs use specific shapes, colors, and symbols to convey information to road users and ensure safety on the roads. Study them to perform better at your Theory Test',
+          'Traffic signs use specific shapes, colors, and symbols to convey information to road users and ensure safety on the roads. Study them to perform better at your Theory Test',
       'type': 'signs',
       'buttonText': 'Book now',
       'image': AppImages.traffic_sign,
@@ -126,7 +126,7 @@ class _TheoryTabState extends State<TheoryTab> {
     {
       'title': 'Book Theory Test',
       'subTitle':
-      'Click here to go to the DVSA website to book your theory test',
+          'Click here to go to the DVSA website to book your theory test',
       'type': 'bookTheoryTest',
       'buttonText': 'Book now',
       'image': AppImages.bookTest2,
@@ -135,7 +135,7 @@ class _TheoryTabState extends State<TheoryTab> {
 
   Future<Map> getUserDetail() async {
     Map response =
-    await Provider.of<UserProvider>(context, listen: false).getUserData();
+        await Provider.of<UserProvider>(context, listen: false).getUserData();
 
     return response;
   }
@@ -148,9 +148,7 @@ class _TheoryTabState extends State<TheoryTab> {
   getStatus() async {
     // context.read<SubscriptionProvider>().checkActiveUser();
     print(
-        'Call Popup Box--- ${context
-            .read<SubscriptionProvider>()
-            .entitlement} ${AppConstant.userModel?.planType}');
+        'Call Popup Box--- ${context.read<SubscriptionProvider>().entitlement} ${AppConstant.userModel?.planType}');
     context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();
     /* var sharedPref = await SharedPreferences.getInstance();
@@ -205,9 +203,7 @@ class _TheoryTabState extends State<TheoryTab> {
     //   });
     // log("Subscription status : ${res['dvsa_subscription']}");
     // if (res['dvsa_subscription'] == 1) {
-    if (context
-        .read<SubscriptionProvider>()
-        .entitlement == Entitlement.paid) {
+    if (context.read<SubscriptionProvider>().entitlement == Entitlement.paid) {
       if (mounted) {
         setState(() {
           isSubscribed = true;
@@ -260,7 +256,7 @@ class _TheoryTabState extends State<TheoryTab> {
       'token': token,
     };
     final url =
-    Uri.parse('$api/api/fetch/progress/${AppConstant.userModel?.userId}');
+        Uri.parse('$api/api/fetch/progress/${AppConstant.userModel?.userId}');
     //print("URL : $url");
     final response = await http.get(url, headers: header);
     print("fetchUserTheoryProgress URL $url");
@@ -304,16 +300,10 @@ class _TheoryTabState extends State<TheoryTab> {
         // Navigator.pop(context);
       },
       child: Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          // color: Colors.green,
+            // color: Colors.green,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -333,10 +323,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               isDismissible: false,
                               isScrollControlled: true,
                               constraints: BoxConstraints.expand(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  height: MediaQuery.of(context).size.height *
                                       0.80),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0)),
@@ -354,13 +341,12 @@ class _TheoryTabState extends State<TheoryTab> {
                                               horizontal: 25),
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text('',
                                                   style: _categoryTextStyle),
                                               Text(
-                                                  '${AppConstant.userModel
-                                                      ?.userName}\'s Progress:',
+                                                  '${AppConstant.userModel?.userName}\'s Progress:',
                                                   style: _categoryTextStyle),
                                               InkWell(
                                                   onTap: () =>
@@ -382,22 +368,22 @@ class _TheoryTabState extends State<TheoryTab> {
                                                   children: [
                                                     LinearPercentIndicatorWidget(
                                                       progress: categories[
-                                                      index][
-                                                      "theory_progress"]
-                                                          .toDouble() /
+                                                                      index][
+                                                                  "theory_progress"]
+                                                              .toDouble() /
                                                           100,
                                                       perTitle: categories[
-                                                      index][
-                                                      "correct_question_count"]
+                                                                  index][
+                                                              "attempt_question_count"]
                                                           .toString(),
                                                       total: categories[index][
-                                                      "attempt_question_count"]
+                                                              "total_question_count"]
                                                           .toString(),
                                                       textTitle:
-                                                      categories[index]
-                                                      ['name'],
+                                                          categories[index]
+                                                              ['name'],
                                                       isFree: categories[index]
-                                                      ['isFree'],
+                                                          ['isFree'],
                                                       planType: AppConstant
                                                           .userModel?.planType,
                                                     )
@@ -558,17 +544,11 @@ class _TheoryTabState extends State<TheoryTab> {
                         onDoubleTap: () {},
                         onTap: () {
                           if (cards[index]["type"] == 'theoryTest') {
-                            context
-                                .read<UserProvider>()
-                                .changeView = true;
+                            context.read<UserProvider>().changeView = true;
                             setState(() {});
                             print(
-                                "auth_services.changeView ${context
-                                    .read<UserProvider>()
-                                    .changeView}");
-                            if (context
-                                .read<UserProvider>()
-                                .changeView) {
+                                "auth_services.changeView ${context.read<UserProvider>().changeView}");
+                            if (context.read<UserProvider>().changeView) {
                               // getCategoriesFromApi().then((response_list) {
                               //  responseList = response_list;
                               //  print("------------ responseList $responseList");
@@ -592,11 +572,10 @@ class _TheoryTabState extends State<TheoryTab> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    WebViewContainer(
-                                      'https://www.gov.uk/take-practice-theory-test',
-                                      'DVSA Mock Theory Test',
-                                    ),
+                                builder: (context) => WebViewContainer(
+                                  'https://www.gov.uk/take-practice-theory-test',
+                                  'DVSA Mock Theory Test',
+                                ),
                               ),
                             );
                           } else {
@@ -647,6 +626,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               SizedBox(height: 5),
                               Text(
                                 cards[index]["subTitle"],
+                                maxLines: 4,
                                 style: AppTextStyle.disStyle.copyWith(
                                     fontWeight: FontWeight.w400,
                                     letterSpacing: 0.5,
@@ -692,10 +672,7 @@ class _TheoryTabState extends State<TheoryTab> {
                 ),
                 SizedBox(height: 10),
                 Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
                   child: GridView.builder(
                     shrinkWrap: true,
@@ -710,116 +687,108 @@ class _TheoryTabState extends State<TheoryTab> {
                     ),
                     itemCount: _resourceCards.length,
                     //shrinkWrap: true,
-                    itemBuilder: (context, index) =>
-                        GestureDetector(
-                          onTap: () {
-                            if (_resourceCards[index]["type"] ==
-                                'highwayCode') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          WebViewContainer(
-                                              AppConstant.highwayCodeLink,
-                                              'Highway Code')));
-                            } else if (_resourceCards[index]["type"] ==
-                                'theoryTestGuidance') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          WebViewContainer(
-                                              AppConstant.theoryTestGuidance,
-                                              'Theory Test Guidance')));
-                            } else
-                            if (_resourceCards[index]["type"] == 'signs') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          WebViewContainer(
-                                              isTrafficSign: true,
-                                              AppConstant.trafficSigns,
-                                              'Traffic Signs')));
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          WebViewContainer(
-                                              AppConstant.bookTheoryTest,
-                                              'Book DVSA Theory Test')));
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: AppColors.bgColor,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 15, bottom: 1, left: 15, right: 15),
-                              child: Column(
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        if (_resourceCards[index]["type"] == 'highwayCode') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      AppConstant.highwayCodeLink,
+                                      'Highway Code')));
+                        } else if (_resourceCards[index]["type"] ==
+                            'theoryTestGuidance') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      AppConstant.theoryTestGuidance,
+                                      'Theory Test Guidance')));
+                        } else if (_resourceCards[index]["type"] == 'signs') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      isTrafficSign: true,
+                                      AppConstant.trafficSigns,
+                                      'Traffic Signs')));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                      AppConstant.bookTheoryTest,
+                                      'Book DVSA Theory Test')));
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.bgColor,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 15, bottom: 1, left: 15, right: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(right: 2),
-                                          child: Text(
-                                              _resourceCards[index]["title"],
-                                              style: AppTextStyle.textStyle
-                                                  .copyWith(
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(right: 2),
+                                      child: Text(
+                                          _resourceCards[index]["title"],
+                                          style: AppTextStyle.textStyle
+                                              .copyWith(
                                                   height: 1.2,
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500)
-                                            //overflow: TextOverflow.ellipsis,
+                                          //overflow: TextOverflow.ellipsis,
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      Expanded(
-                                        flex: 0,
-                                        child: Image.asset(
-                                          AppImages.rightArrow,
-                                          height: 19,
-                                          width: 20,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 5),
-                                  Expanded(
-                                    child: Text(
-                                      _resourceCards[index]["subTitle"],
-                                      maxLines: 4,
-                                      style: AppTextStyle.disStyle.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.5,
-                                          height: 1.2,
-                                          fontSize: 11,
-                                          overflow: TextOverflow.ellipsis),
-                                      // softWrap: true,
                                     ),
                                   ),
-                                  SizedBox(height: 10),
+                                  SizedBox(width: 2),
                                   Expanded(
+                                    flex: 0,
                                     child: Image.asset(
-                                      _resourceCards[index]['image'],
-                                      height: 70,
-                                      width: 150,
+                                      AppImages.rightArrow,
+                                      height: 19,
+                                      width: 20,
                                     ),
                                   )
                                 ],
                               ),
-                            ),
+                              SizedBox(height: 5),
+                              Expanded(
+                                child: Text(
+                                  _resourceCards[index]["subTitle"],
+                                  maxLines: 4,
+                                  style: AppTextStyle.disStyle.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 0.5,
+                                      height: 1.2,
+                                      fontSize: 11,
+                                      overflow: TextOverflow.ellipsis),
+                                  // softWrap: true,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Expanded(
+                                child: Image.asset(
+                                  _resourceCards[index]['image'],
+                                  height: 70,
+                                  width: 150,
+                                ),
+                              )
+                            ],
                           ),
                         ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 45),
@@ -1136,6 +1105,6 @@ class Tabcardbottom {
   final String btn1;
   final VoidCallback onTapbtn1;
 
-  Tabcardbottom(this.heading1, this.imagepath, this.data, this.btn1,
-      this.onTapbtn1);
+  Tabcardbottom(
+      this.heading1, this.imagepath, this.data, this.btn1, this.onTapbtn1);
 }

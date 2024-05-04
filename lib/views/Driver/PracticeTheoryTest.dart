@@ -61,6 +61,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   int gainPoint = 0;
   int currentQuestionCount = 1;
   int wrongAnswerPoint = 0;
+  var questionMap = {};
+  bool showblur = false;
 
   // late int _userId;
   String category_id = "0";
@@ -219,6 +221,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     var data = jsonDecode(response.body);
     print("getTestQuestions URL ${URL}");
     log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
+    questionMap = data;
     questionsList = data['data'];
     categoryFromQuestionsList = data['category_list'];
     haseMore = data['hasMoreResults'] == 1 ? true : false;
@@ -256,6 +259,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       2,
       AppConstant.userModel!.userId!,
       testQuestionsForResult,
+      category_id,
+    );
+    return response;
+  }
+
+  Future<Map> resetTestByApi() async {
+    Map response = await test_api_services.resetTest(
       category_id,
     );
     return response;
@@ -309,12 +319,26 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 CustomSpinner.showLoadingDialog(
                     context, _keyLoader, "Test loading...");
                 getTestQuestions(category_id).then((response_list) {
+                  questionsList = response_list;
+                  if (AppConstant.userModel?.planType != "free") {
+                    currentQuestionCount = questionsList[selectedQuestionIndex]
+                            ['attempt_question_count'] +
+                        1;
+                    gainPoint = questionsList[selectedQuestionIndex]
+                        ['correct_question_count'];
+                    wrongAnswerPoint = questionsList[selectedQuestionIndex]
+                        ['incorrect_question_count'];
+                  } else {
+                    currentQuestionCount =
+                        questionMap['attempt_question_count'];
+                    gainPoint = questionMap['correct_question_count'];
+                    wrongAnswerPoint = questionMap['incorrect_question_count'];
+                  }
+                  setState(() => isTestStarted = true);
                   Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                       .pop();
-                  questionsList = response_list;
-                  setState(() => isTestStarted = true);
+
                   // context.read<AuthProvider>().changeView = true;
-                  setState(() {});
 
                   // getHasMoreResult();
                 });
@@ -438,8 +462,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                               children: [
                                                 Column(
                                                   children: [
-                                                    Text(
-                                                        "Correct : $gainPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                    Text("Correct : $gainPoint",
                                                         style: AppTextStyle
                                                             .textStyle
                                                             .copyWith(
@@ -449,19 +472,23 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                                                         .w400,
                                                                 color: Colors
                                                                     .green)),
-                                                    // Text("Correct Answer",
-                                                    //     style: AppTextStyle.textStyle
+                                                    // Text(
+                                                    //     "Correct : $gainPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                    //     style: AppTextStyle
+                                                    //         .textStyle
                                                     //         .copyWith(
                                                     //             fontSize: 15,
                                                     //             fontWeight:
-                                                    //                 FontWeight.w600,
-                                                    //             color: Colors.green)),
+                                                    //                 FontWeight
+                                                    //                     .w400,
+                                                    //             color: Colors
+                                                    //                 .green)),
                                                   ],
                                                 ),
                                                 Column(
                                                   children: [
                                                     Text(
-                                                        "Incorrect : $wrongAnswerPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                        "Incorrect : $wrongAnswerPoint",
                                                         style: AppTextStyle
                                                             .textStyle
                                                             .copyWith(
@@ -471,13 +498,17 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                                                         .w400,
                                                                 color: Colors
                                                                     .red)),
-                                                    // Text("Wrong Answer",
-                                                    //     style: AppTextStyle.textStyle
+                                                    // Text(
+                                                    //     "Incorrect : $wrongAnswerPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                    //     style: AppTextStyle
+                                                    //         .textStyle
                                                     //         .copyWith(
                                                     //             fontSize: 15,
                                                     //             fontWeight:
-                                                    //                 FontWeight.w600,
-                                                    //             color: Colors.red)),
+                                                    //                 FontWeight
+                                                    //                     .w400,
+                                                    //             color: Colors
+                                                    //                 .red)),
                                                   ],
                                                 ),
                                               ],
@@ -487,27 +518,20 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         ),
                                       ),
                                     ),
-                                    questionsList[selectedQuestionIndex]
-                                                    ['type'] ==
-                                                1 &&
-                                            AppConstant.userModel?.planType ==
-                                                "free"
-                                        ? SizedBox()
-                                        : Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20.0, top: 5),
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                  "Question $currentQuestionCount of ${questionsList[selectedQuestionIndex]['total_question_count']}",
-                                                  style: AppTextStyle.textStyle
-                                                      .copyWith(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.black)),
-                                            ),
-                                          ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20.0, top: 5),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                            "Question $currentQuestionCount of ${questionMap['total_question_count']}",
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black)),
+                                      ),
+                                    ),
                                     Expanded(
                                       child: SingleChildScrollView(
                                         child: Column(
@@ -547,7 +571,14 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     if (!isTestStarted)
                                       startButtonWidget(context, constraints),
                                     if (isTestStarted)
-                                      nextButtonWidget(context, constraints),
+                                      questionsList[selectedQuestionIndex]
+                                                      ['type'] ==
+                                                  1 &&
+                                              AppConstant.userModel?.planType ==
+                                                  "free"
+                                          ? SizedBox()
+                                          : nextButtonWidget(
+                                              context, constraints),
                                   ],
                                 );
                               });
@@ -827,8 +858,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   )),
             ],
           ),
-          if (question['type'] == 1 &&
-              AppConstant.userModel?.planType == "free")
+          // if (question['type'] == 1 &&
+          //     AppConstant.userModel?.planType == "free")
+          //   SizedBox(),
+          if (AppConstant.userModel?.planType == "free" &&
+              question['type'] == 1)
             Container(
               width: Responsive.height(100, context),
               height: Responsive.height(100, context),
@@ -1064,96 +1098,116 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       print('IFFFF ------------');
                     }
                   : () {
-                      print('ELSE------------');
-                      if (questionsList[selectedQuestionIndex]
-                              ['total_question_count'] ==
-                          currentQuestionCount) {
-                        currentQuestionCount = 1;
+                      // resetTestByApi();
+                      if (currentQuestionCount >=
+                              questionMap['total_question_count'] &&
+                          !category_id.contains(',')) {
+                        testResetAlertBox(context);
                       } else {
-                        currentQuestionCount += 1;
-                      }
-                      if (questionsList[selectedQuestionIndex]['type'] == 0 &&
-                          AppConstant.userModel?.planType == "free") {
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer',
-                          "alternative_questions_id":
-                              questionsList[selectedQuestionIndex]
-                                  ['alternative_questions_id'],
-                        });
-                      } else if (AppConstant.userModel?.planType != "free") {
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer',
-                          "alternative_questions_id":
-                              questionsList[selectedQuestionIndex]
-                                  ['alternative_questions_id'],
-                        });
-                      }
+                        if (selectedOptionIndex != null) {
+                          if (questionMap['total_question_count'] ==
+                              currentQuestionCount) {
+                            currentQuestionCount = 1;
+                          } else {
+                            currentQuestionCount += 1;
+                          }
+                        }
 
-                      if (selectedOptionIndex != null) {
-                        if ((selectedQuestionIndex + 1) <
-                            questionsList.length) {
-                          _controller.animateTo(0,
-                              duration: Duration(microseconds: 1000),
-                              curve: Curves.slowMiddle);
-                          setState(() {
-                            selectedOptionIndex = null;
-                            selectedQuestionIndex += 1;
+                        print(
+                            'ELSE------------ ${currentQuestionCount} == ${category_id.contains(',')}');
+                        if (AppConstant.userModel?.planType == "free") {
+                          testQuestionsForResult.clear();
+                          testQuestionsForResult.add({
+                            'questionId': questionsList[selectedQuestionIndex]
+                                ['id'],
+                            'type': questionsList[selectedQuestionIndex]
+                                ['type'],
+                            'question': questionsList[selectedQuestionIndex]
+                                ['title'],
+                            'correct': (selectedOptionIndex != null &&
+                                    questionsList[selectedQuestionIndex]
+                                                ['options'][selectedOptionIndex]
+                                            ['correct'] ==
+                                        true)
+                                ? 'Correct Answer'
+                                : 'Wrong Answer',
+                            "alternative_questions_id":
+                                questionsList[selectedQuestionIndex]
+                                    ['alternative_questions_id'],
                           });
-                          if (AppConstant.userModel?.planType != "free") {
+                        } else if (AppConstant.userModel?.planType != "free") {
+                          testQuestionsForResult.clear();
+                          testQuestionsForResult.add({
+                            'questionId': questionsList[selectedQuestionIndex]
+                                ['id'],
+                            'type': questionsList[selectedQuestionIndex]
+                                ['type'],
+                            'question': questionsList[selectedQuestionIndex]
+                                ['title'],
+                            'correct': (selectedOptionIndex != null &&
+                                    questionsList[selectedQuestionIndex]
+                                                ['options'][selectedOptionIndex]
+                                            ['correct'] ==
+                                        true)
+                                ? 'Correct Answer'
+                                : 'Wrong Answer',
+                            "alternative_questions_id":
+                                questionsList[selectedQuestionIndex]
+                                    ['alternative_questions_id'],
+                          });
+                        }
+
+                        if (selectedOptionIndex != null) {
+                          if ((selectedQuestionIndex + 1) <
+                              questionsList.length) {
+                            _controller.animateTo(0,
+                                duration: Duration(microseconds: 1000),
+                                curve: Curves.slowMiddle);
+                            setState(() {
+                              selectedOptionIndex = null;
+                              selectedQuestionIndex += 1;
+                            });
+                            // if (AppConstant.userModel?.planType != "free") {
                             submitTestByApi().then((value) {});
+                            // resetTestByApi();
+                            // }
+                          }
+                        }
+                        // else {
+                        //   if (AppConstant.userModel?.planType == "free") {
+                        //     CustomSpinner.showLoadingDialog(
+                        //         context, _keyLoader, "Test Submitting...");
+                        //     // submitTestByApi().then((value) {
+                        //     //   Navigator.of(_keyLoader.currentContext!,
+                        //     //           rootNavigator: true)
+                        //     //       .pop();
+                        //     testCompleAlertBox(context);
+                        //     // });
+                        //   }
+                        // }
+                        if (AppConstant.userModel?.planType != "free") {
+                          if (selectedQuestionIndex ==
+                                  questionsList.length - 1 &&
+                              haseMore) {
+                            page++;
+                            questionsList.clear();
+                            selectedQuestionIndex = 0;
+
+                            getTestQuestions(category_id);
                           }
                         }
                       }
-                      // else if (questionsList[selectedQuestionIndex]['type'] ==
-                      //     1) {
-                      //   context.read<AuthProvider>().changeView = false;
-                      //   setState(() {});
+                      // resetTestByApi();
+                      if (AppConstant.userModel?.planType == "free" &&
+                          currentQuestionCount > 10) {
+                        showblur = true;
+                      }
+                      // if (!haseMore) {
+                      //   testResetAlertBox(context);
                       // }
-                      else {
-                        if (AppConstant.userModel?.planType == "free") {
-                          CustomSpinner.showLoadingDialog(
-                              context, _keyLoader, "Test Submitting...");
-                          submitTestByApi().then((value) {
-                            Navigator.of(_keyLoader.currentContext!,
-                                    rootNavigator: true)
-                                .pop();
-                            testCompleAlertBox(context);
-                          });
-                        }
-                      }
-                      if (AppConstant.userModel?.planType != "free") {
-                        if (selectedQuestionIndex == questionsList.length - 1) {
-                          page++;
-                          questionsList.clear();
-                          selectedQuestionIndex = 0;
-
-                          getTestQuestions(category_id);
-                        }
-                      }
                       print(
                           'testQuestionsForResult ${testQuestionsForResult.length}');
+                      print('type------------ ${selectedQuestionIndex}');
                     },
               title: selectedQuestionIndex < questionsList.length - 1
                   ? questionsList[selectedQuestionIndex]['type'] == 1 &&
@@ -1232,7 +1286,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       "Total score: " +
                                           gainPoint.toString() +
                                           " / " +
-                                          ((questionsList.length - 10)
+                                          ((questionsList.length - 1)
                                               .toString()),
                                       style: AppTextStyle.disStyle.copyWith(
                                           fontWeight: FontWeight.w400)),
@@ -1309,6 +1363,106 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   //     ),
                                   //   ),
                                   // )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  )));
+        });
+  }
+
+  Future<void> testResetAlertBox(BuildContext parent_context) async {
+    return showDialog<void>(
+        context: parent_context,
+        barrierDismissible: false,
+        barrierColor: Colors.black45,
+        builder: (BuildContext context) {
+          return new WillPopScope(
+              onWillPop: () async => false,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      left: Responsive.width(5, parent_context),
+                      right: Responsive.width(5, parent_context)),
+                  child: Dialog(
+                    insetPadding: EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
+                    //this right here
+                    child: Container(
+                      // height: Responsive.height(30, parent_context),
+                      padding: EdgeInsets.fromLTRB(10, 12, 10, 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        //  mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text("Test Reset",
+                                      style: AppTextStyle.titleStyle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black54)),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                      "Reset test will reset all your question",
+                                      style: AppTextStyle.disStyle.copyWith(
+                                          fontWeight: FontWeight.w500)),
+                                  Text(
+                                      "Are you sure you want to reset your test?",
+                                      style: AppTextStyle.disStyle.copyWith(
+                                          fontWeight: FontWeight.w500)),
+                                  SizedBox(height: 20),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 38),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomButton(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            onTap: () {
+                                              // _navigationService.goBack();
+                                              CustomSpinner.showLoadingDialog(
+                                                  context,
+                                                  _keyLoader,
+                                                  "Test Reset...");
+                                              resetTestByApi().then((value) {
+                                                Navigator.of(
+                                                        _keyLoader
+                                                            .currentContext!,
+                                                        rootNavigator: true)
+                                                    .pop();
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            HomeScreen()),
+                                                    (route) => false);
+                                              });
+                                            },
+                                            title: 'Yes',
+                                          ),
+                                        ),
+                                        SizedBox(width: 20),
+                                        Expanded(
+                                          child: CustomButton(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            onTap: () {
+                                              _navigationService.goBack();
+                                            },
+                                            title: 'No',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ]),
                           )
                         ],

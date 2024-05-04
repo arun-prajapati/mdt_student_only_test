@@ -115,6 +115,7 @@ class CustomAppBar extends StatelessWidget {
                             alignment: Alignment.topLeft,
                             child: Text(
                               '${title}',
+                              overflow: TextOverflow.ellipsis,
                               style: AppTextStyle.appBarStyle,
                             ),
                           ),
