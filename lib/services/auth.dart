@@ -380,6 +380,7 @@ class UserProvider with ChangeNotifier {
             '.....200............ ${jsonEncode(AppConstant.userModel?.toJson())}');
         return userDetails;
       } else {
+        _navigationService.goBack();
         logOut();
         print('.....500............');
         return {};

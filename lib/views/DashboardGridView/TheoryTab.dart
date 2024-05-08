@@ -224,6 +224,9 @@ class _TheoryTabState extends State<TheoryTab> {
         _progressValue = res["question_progress"].toDouble();
       });
       loading(value: false);
+    }).catchError((e) {
+      print('ERORR ==========$e');
+      loading(value: false);
     });
 
     if (this.mounted) {
@@ -584,12 +587,12 @@ class _TheoryTabState extends State<TheoryTab> {
                               MaterialPageRoute(
                                 builder: (context) => TheoryRecommendations(),
                               ),
-                            ).then((value) {
-                              print('QQQQQQQ $value');
-                              if (value) {
-                                initializeApi("Loading...");
-                              }
-                            });
+                            );
+                            //     .then((value) {
+                            //   if (value) {
+                            //     initializeApi("Loading...");
+                            //   }
+                            // });
                           }
                         },
                         child: Container(

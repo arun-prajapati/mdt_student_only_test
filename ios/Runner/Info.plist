@@ -33,31 +33,27 @@
 			</array>
 		</dict>
 		<dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-                <array>
-                    <string>fb934749024955543</string>
-                    <string>com.googleusercontent.apps.825629569582-bci1rmu8nq0qi8f3ubu7l18qf5g7emjj</string>
-                </array>
-        </dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb934749024955543</string>
+				<string>com.googleusercontent.apps.825629569582-bci1rmu8nq0qi8f3ubu7l18qf5g7emjj</string>
+			</array>
+		</dict>
 	</array>
-	<key>GIDClientID</key>
-    <string>825629569582-bci1rmu8nq0qi8f3ubu7l18qf5g7emjj.apps.googleusercontent.com</string>
-    <key>GIDServerClientID</key>
-    <string>825629569582-ro8vjoi5q3t59bhb55m589bjfe4lglrm.apps.googleusercontent.com</string>
-    <key>keychain-access-groups</key>
-        <array>
-            <string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
-        </array>
 	<key>CFBundleVersion</key>
-    <string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
 	<string>934749024955543</string>
 	<key>FacebookClientToken</key>
 	<string>9ee11ccd15a81b54a9e0e996ca45f9d9</string>
 	<key>FacebookDisplayName</key>
 	<string>Smart Theory Test</string>
+	<key>GIDClientID</key>
+	<string>825629569582-bci1rmu8nq0qi8f3ubu7l18qf5g7emjj.apps.googleusercontent.com</string>
+	<key>GIDServerClientID</key>
+	<string>825629569582-ro8vjoi5q3t59bhb55m589bjfe4lglrm.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -106,6 +102,10 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
 	</array>
 </dict>
 </plist>

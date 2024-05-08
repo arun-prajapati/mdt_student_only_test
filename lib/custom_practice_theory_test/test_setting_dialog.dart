@@ -60,7 +60,6 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
     super.initState();
     loading(value: true);
     getCategoriesFromApi().then((response_list) {
-      loading(value: false);
       widget.categories_list.clear();
       widget.categories_list.addAll(response_list);
       var idList = [];
@@ -94,6 +93,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
         categories.add(category);
         print('widget.categories_list ${category}');
       }
+      loading(value: false);
       setState(() {});
     });
   }

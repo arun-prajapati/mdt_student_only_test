@@ -28,9 +28,7 @@ class SubscriptionProvider extends ChangeNotifier {
   List<Package> package = [];
 
   fetchOffer() async {
-    final offerList = await Purchases.getOfferings().catchError((e) {
-      print('******************* $e');
-    });
+    final offerList = await Purchases.getOfferings();
     print('******************* $offerList');
     package = offerList.current!.availablePackages;
     log("======= SUBSCRIPTION ======= ${package.first.storeProduct}");

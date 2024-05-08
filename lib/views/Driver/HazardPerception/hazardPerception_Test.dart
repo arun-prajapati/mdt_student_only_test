@@ -237,20 +237,27 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
                     //     Responsive.height(42, context), 0),
                     child: Visibility(
                   visible: _onTouch,
-                  child: IconButton(
-                    icon: isPause ? Icon(Icons.pause) : Icon(Icons.play_arrow),
-                    iconSize: 35,
-                    color: Colors.white,
-                    onPressed: () {
-                      isPause = !isPause;
-                      setState(() {});
-                      if (isPause) {
-                        _betterPlayerController.play();
-                      } else {
-                        _betterPlayerController.pause();
-                      }
-                      // print('${_betterPlayerController.videoPlayerController.videoEventStreamController.}');
-                    },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black26,
+                    ),
+                    child: IconButton(
+                      icon:
+                          isPause ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                      iconSize: 40,
+                      color: Colors.white,
+                      onPressed: () {
+                        isPause = !isPause;
+                        setState(() {});
+                        if (isPause) {
+                          _betterPlayerController.play();
+                        } else {
+                          _betterPlayerController.pause();
+                        }
+                        // print('${_betterPlayerController.videoPlayerController.videoEventStreamController.}');
+                      },
+                    ),
                   ),
                 )),
               ),

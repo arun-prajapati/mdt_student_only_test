@@ -71,6 +71,7 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
       clickDurationSlot
           .add({'micro_time': flagMilliseconds.toDouble(), 'width_start': 0.0});
     });
+    print('HazardPerceptionTestResultRoute $selectedFlags');
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     fToast = FToast();

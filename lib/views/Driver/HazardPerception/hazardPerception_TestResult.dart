@@ -77,6 +77,8 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
   @override
   void didChangeDependencies() {
     final arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    print(
+        '************=============== $gainedRating ${arguments['rightClick']}');
     try {
       this.testComplete = arguments['pattern_out'] == false ? true : false;
       num missedRatingPoint = 5 - arguments['rightClick'];
@@ -93,7 +95,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
         }
       });
     } catch (e) {
-      print("Exception...:" + e.toString());
+      print("Exception...: $e");
     } finally {
       super.didChangeDependencies();
     }

@@ -71,7 +71,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   int selectedCategoryIndex = 0;
   int page = 1;
   List questionsList = [];
-  List categoryFromQuestionsList = [];
+
+  // List categoryFromQuestionsList = [];
   List<PracticeTestCategoryModel> categoryList = [];
   List responseList = [];
   List testQuestionsForResult = [];
@@ -174,6 +175,25 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return response;
   }
 
+  getCountFromCategory() async {
+    final url = Uri.parse(
+        "$api/api/get-categories?is_paid=${AppConstant.userModel?.planType == "free" ? "no" : "yes"}&category_id=$category_id");
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    String token = storage.getString('token').toString();
+    Map<String, String> header = {
+      'token': token,
+    };
+    print('URL getCategories ****************** $url');
+    final response = await http.get(url, headers: header);
+    var data = jsonDecode(response.body);
+    log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
+    questionMap = data;
+    // gainPoint = questionMap['correct_question_count'];
+    // wrongAnswerPoint = questionMap['incorrect_question_count'];
+    setState(() {});
+    print('============== ${questionMap['attempt_question_count']}');
+  }
+
   Future<Map> getTheoryContent(String isFree) async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
@@ -221,10 +241,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     var data = jsonDecode(response.body);
     print("getTestQuestions URL ${URL}");
     log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
-    questionMap = data;
+
+    // questionMap = data;
     questionsList = data['data'];
-    categoryFromQuestionsList = data['category_list'];
+    // categoryFromQuestionsList = data['category_list'];
     haseMore = data['hasMoreResults'] == 1 ? true : false;
+
     setState(() {});
     return data['data'];
   }
@@ -277,7 +299,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     // auth_services.changeView = false;
     // setState(() {});
     await context.read<SubscriptionProvider>().fetchOffer();
-
     checkInternet();
     // CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
     // getUserDetail().then((user_id) {
@@ -316,27 +337,43 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                 selectedCategoryIndex = 0;
                 selectedOptionIndex = null;
                 category_id = _categoryId;
+                getCountFromCategory();
                 CustomSpinner.showLoadingDialog(
                     context, _keyLoader, "Test loading...");
                 getTestQuestions(category_id).then((response_list) {
                   questionsList = response_list;
                   if (AppConstant.userModel?.planType != "free") {
-                    currentQuestionCount = questionsList[selectedQuestionIndex]
-                            ['attempt_question_count'] +
-                        1;
+                    if (questionsList[selectedQuestionIndex]
+                            ['attempt_question_count'] !=
+                        0) {
+                      currentQuestionCount =
+                          questionsList[selectedQuestionIndex]
+                                  ['attempt_question_count'] +
+                              1;
+                    }
                     gainPoint = questionsList[selectedQuestionIndex]
                         ['correct_question_count'];
                     wrongAnswerPoint = questionsList[selectedQuestionIndex]
                         ['incorrect_question_count'];
                   } else {
-                    currentQuestionCount =
-                        questionMap['attempt_question_count'];
+                    if (questionMap['attempt_question_count'] != 0) {
+                      currentQuestionCount =
+                          questionMap['attempt_question_count'] + 1;
+                    }
                     gainPoint = questionMap['correct_question_count'];
                     wrongAnswerPoint = questionMap['incorrect_question_count'];
                   }
+
+                  // else {
                   setState(() => isTestStarted = true);
                   Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                       .pop();
+                  if (currentQuestionCount >=
+                          questionMap['total_question_count'] &&
+                      !category_id.contains(',')) {
+                    testResetAlertBox(context, isInit: true);
+                  }
+                  // }
 
                   // context.read<AuthProvider>().changeView = true;
 
@@ -381,10 +418,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     width: Responsive.width(100, context),
                     padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
                     child: LayoutBuilder(builder: (context, constraints) {
-                      return questionsList.isEmpty
-                          ? Center(
-                              child: CircularProgressIndicator(color: Dark))
-                          : PageView.builder(
+                      return
+                          // questionsList.isEmpty
+                          //   ? Center(
+                          //       child: CircularProgressIndicator(color: Dark))
+                          //   :
+                          PageView.builder(
                               controller: _controller,
                               allowImplicitScrolling: false,
                               physics: NeverScrollableScrollPhysics(),
@@ -524,7 +563,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       child: Align(
                                         alignment: Alignment.topLeft,
                                         child: Text(
-                                            "Question $currentQuestionCount of ${questionMap['total_question_count']}",
+                                            "Question $currentQuestionCount of ${AppConstant.userModel?.planType != "free" ? questionsList[selectedQuestionIndex]['total_question_count'] : questionMap['total_question_count']}",
                                             style: AppTextStyle.textStyle
                                                 .copyWith(
                                                     fontSize: 14,
@@ -572,10 +611,14 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                       startButtonWidget(context, constraints),
                                     if (isTestStarted)
                                       questionsList[selectedQuestionIndex]
-                                                      ['type'] ==
-                                                  1 &&
-                                              AppConstant.userModel?.planType ==
-                                                  "free"
+                                                          ['type'] ==
+                                                      1 &&
+                                                  AppConstant.userModel
+                                                          ?.planType ==
+                                                      "free" ||
+                                              questionMap[
+                                                      'attempt_question_count'] ==
+                                                  10
                                           ? SizedBox()
                                           : nextButtonWidget(
                                               context, constraints),
@@ -862,7 +905,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
           //     AppConstant.userModel?.planType == "free")
           //   SizedBox(),
           if (AppConstant.userModel?.planType == "free" &&
-              question['type'] == 1)
+              // question['type'] == 1 ||
+              currentQuestionCount > 10)
             Container(
               width: Responsive.height(100, context),
               height: Responsive.height(100, context),
@@ -898,6 +942,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             elevation: 5.0,
                             child: GestureDetector(
                               onTap: () {
+                                // resetTestByApi();
                                 subscriptionConfirmAlert(context);
                               },
                               child: LayoutBuilder(
@@ -1095,9 +1140,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           (questionsList[selectedQuestionIndex]['type'] == 1 &&
                               val.entitlement == Entitlement.paid)))
                   ? () {
+                      // resetTestByApi();
                       print('IFFFF ------------');
                     }
                   : () {
+                      // getCountFromCategory();
                       // resetTestByApi();
                       if (currentQuestionCount >=
                               questionMap['total_question_count'] &&
@@ -1109,7 +1156,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                               currentQuestionCount) {
                             currentQuestionCount = 1;
                           } else {
+                            // if (selectedQuestionIndex != 0) {
                             currentQuestionCount += 1;
+                            // }
                           }
                         }
 
@@ -1189,32 +1238,41 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           if (selectedQuestionIndex ==
                                   questionsList.length - 1 &&
                               haseMore) {
+                            CustomSpinner.showLoadingDialog(
+                                context, _keyLoader, "Load more question...");
                             page++;
-                            questionsList.clear();
+                            // questionsList.clear();
                             selectedQuestionIndex = 0;
 
-                            getTestQuestions(category_id);
+                            getTestQuestions(category_id).then((value) {
+                              questionsList = value;
+                              setState(() {});
+                              Navigator.of(_keyLoader.currentContext!,
+                                      rootNavigator: true)
+                                  .pop();
+                            });
                           }
                         }
                       }
                       // resetTestByApi();
-                      if (AppConstant.userModel?.planType == "free" &&
-                          currentQuestionCount > 10) {
-                        showblur = true;
-                      }
+                      // if (AppConstant.userModel?.planType == "free" &&
+                      //     currentQuestionCount > 10) {
+                      //   showblur = true;
+                      // }
                       // if (!haseMore) {
                       //   testResetAlertBox(context);
                       // }
                       print(
                           'testQuestionsForResult ${testQuestionsForResult.length}');
-                      print('type------------ ${selectedQuestionIndex}');
+                      print(
+                          'type------------ ${currentQuestionCount}  ${questionMap['total_question_count']}');
                     },
-              title: selectedQuestionIndex < questionsList.length - 1
+              title: currentQuestionCount != questionMap['total_question_count']
                   ? questionsList[selectedQuestionIndex]['type'] == 1 &&
                           AppConstant.userModel?.planType == "free"
                       ? 'Test Submit'
                       : 'Next'
-                  : 'Test Submit',
+                  : 'Test Reset',
             );
           }),
         );
@@ -1237,8 +1295,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         questionsList[selectedQuestionIndex]['options'][selectedOptionIndex]
                 ['correct'] ==
             false)) {
-      if (questionsList[selectedQuestionIndex]['total_question_count'] ==
-          currentQuestionCount) {
+      if (questionMap['total_question_count'] == currentQuestionCount) {
         wrongAnswerPoint = 0;
       } else {
         wrongAnswerPoint += 1;
@@ -1372,7 +1429,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         });
   }
 
-  Future<void> testResetAlertBox(BuildContext parent_context) async {
+  Future<void> testResetAlertBox(BuildContext parent_context,
+      {bool isInit = false}) async {
     return showDialog<void>(
         context: parent_context,
         barrierDismissible: false,
@@ -1420,10 +1478,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                   Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 38),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: CustomButton(
+                                    child: isInit
+                                        ? CustomButton(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 10),
                                             onTap: () {
@@ -1446,22 +1502,53 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                                     (route) => false);
                                               });
                                             },
-                                            title: 'Yes',
+                                            title: 'OK',
+                                          )
+                                        : Row(
+                                            children: [
+                                              Expanded(
+                                                child: CustomButton(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                                  onTap: () {
+                                                    // _navigationService.goBack();
+                                                    CustomSpinner
+                                                        .showLoadingDialog(
+                                                            context,
+                                                            _keyLoader,
+                                                            "Test Reset...");
+                                                    resetTestByApi()
+                                                        .then((value) {
+                                                      Navigator.of(
+                                                              _keyLoader
+                                                                  .currentContext!,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop();
+                                                      Navigator.pushAndRemoveUntil(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) =>
+                                                                  HomeScreen()),
+                                                          (route) => false);
+                                                    });
+                                                  },
+                                                  title: 'Yes',
+                                                ),
+                                              ),
+                                              SizedBox(width: 20),
+                                              Expanded(
+                                                child: CustomButton(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                                  onTap: () {
+                                                    _navigationService.goBack();
+                                                  },
+                                                  title: 'No',
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        SizedBox(width: 20),
-                                        Expanded(
-                                          child: CustomButton(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            onTap: () {
-                                              _navigationService.goBack();
-                                            },
-                                            title: 'No',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                   ),
                                 ]),
                           )
@@ -1532,26 +1619,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         title: 'Buy Now',
                                         onTap: () {
                                           payWallBottomSheet();
-                                          // Navigator.of(context).pop();
-                                          // showLoader("Loading");
-                                          // isTestStarted = true;
-                                          // Stripe.publishableKey = stripePublic;
-                                          // Map params = {
-                                          //   'total_cost': walletDetail![
-                                          //       'subscription_cost'],
-                                          //   'user_type': 2,
-                                          //   'parentPageName': "dvsaSubscription"
-                                          // };
-                                          // _paymentService
-                                          //     .makePayment(
-                                          //         amount: walletDetail![
-                                          //             'subscription_cost'],
-                                          //         currency: 'GBP',
-                                          //         context: parent_context,
-                                          //         desc:
-                                          //             'DVSA Subscription by ${userName} (App)',
-                                          //         metaData: params)
-                                          //     .then((value) => closeLoader());
                                         },
                                       ),
                                     ),
@@ -1566,77 +1633,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                         },
                                       ),
                                     ),
-                                    // Container(
-                                    //   height: 40,
-                                    //   width: 100,
-                                    //   alignment: Alignment.bottomCenter,
-                                    //   child: Material(
-                                    //     borderRadius: BorderRadius.circular(10),
-                                    //     color: Dark,
-                                    //     elevation: 5.0,
-                                    //     child: MaterialButton(onPressed: () {
-                                    //
-                                    //     }
-                                    //         // child: LayoutBuilder(
-                                    //         //   builder: (context, constraints) {
-                                    //         //     return
-                                    //         //     //   Container(
-                                    //         //     //   width:
-                                    //         //     //       constraints.maxWidth * 0.35,
-                                    //         //     //   child: FittedBox(
-                                    //         //     //     fit: BoxFit.contain,
-                                    //         //     //     child: Text(
-                                    //         //     //       'Yes',
-                                    //         //     //       style: TextStyle(
-                                    //         //     //         fontFamily: 'Poppins',
-                                    //         //     //         fontSize: 40,
-                                    //         //     //         fontWeight: FontWeight.w500,
-                                    //         //     //         color: Color.fromRGBO(
-                                    //         //     //             255, 255, 255, 1.0),
-                                    //         //     //       ),
-                                    //         //     //     ),
-                                    //         //     //   ),
-                                    //         //     // );
-                                    //         //   },
-                                    //         // ),
-                                    //         ),
-                                    //   ),
-                                    // ),
-                                    // SizedBox(width: 30),
-                                    // Container(
-                                    //   height: 40,
-                                    //   width: 100,
-                                    //   alignment: Alignment.bottomCenter,
-                                    //   child: Material(
-                                    //     borderRadius: BorderRadius.circular(10),
-                                    //     color: Colors.black45,
-                                    //     elevation: 5.0,
-                                    //     child: MaterialButton(
-                                    //       onPressed: () {},
-                                    //       child: LayoutBuilder(
-                                    //         builder: (context, constraints) {
-                                    //           return Container(
-                                    //             width:
-                                    //                 constraints.maxWidth * 0.35,
-                                    //             child: FittedBox(
-                                    //               fit: BoxFit.contain,
-                                    //               child: Text(
-                                    //                 'No',
-                                    //                 style: TextStyle(
-                                    //                   fontFamily: 'Poppins',
-                                    //                   fontSize: 40,
-                                    //                   fontWeight: FontWeight.w500,
-                                    //                   color: Color.fromRGBO(
-                                    //                       255, 255, 255, 1.0),
-                                    //                 ),
-                                    //               ),
-                                    //             ),
-                                    //           );
-                                    //         },
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // )
                                   ],
                                 ),
                               )

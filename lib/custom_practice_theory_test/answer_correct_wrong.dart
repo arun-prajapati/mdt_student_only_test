@@ -132,8 +132,7 @@ showWrongAnswerDialog(BuildContext context, String explanation) {
               child: CustomButton(
                 padding: EdgeInsets.symmetric(vertical: 11),
                 title: 'Continue',
-                fontSize: 13,
-                isfontSize: true,
+                // isfontSize: true,
                 onTap: () {
                   Navigator.of(context).pop();
                 },

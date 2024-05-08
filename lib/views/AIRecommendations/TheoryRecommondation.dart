@@ -379,7 +379,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                           print('tapppppppppppppppp');
                           SystemChrome.setPreferredOrientations(
                               [DeviceOrientation.portraitUp]).then((_) {
-                            Navigator.of(context).pop(true);
+                            Navigator.of(context).pop();
                           });
                         },
                         child: Container(
