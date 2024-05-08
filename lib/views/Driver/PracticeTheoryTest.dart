@@ -418,12 +418,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     width: Responsive.width(100, context),
                     padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
                     child: LayoutBuilder(builder: (context, constraints) {
-                      return
-                          // questionsList.isEmpty
-                          //   ? Center(
-                          //       child: CircularProgressIndicator(color: Dark))
-                          //   :
-                          PageView.builder(
+                      return questionsList.isEmpty && !haseMore
+                          ? Center(child: Text("No question found"))
+                          : PageView.builder(
                               controller: _controller,
                               allowImplicitScrolling: false,
                               physics: NeverScrollableScrollPhysics(),
@@ -610,15 +607,9 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                     if (!isTestStarted)
                                       startButtonWidget(context, constraints),
                                     if (isTestStarted)
-                                      questionsList[selectedQuestionIndex]
-                                                          ['type'] ==
-                                                      1 &&
-                                                  AppConstant.userModel
-                                                          ?.planType ==
-                                                      "free" ||
-                                              questionMap[
-                                                      'attempt_question_count'] ==
-                                                  10
+                                      AppConstant.userModel?.planType ==
+                                                  "free" &&
+                                              currentQuestionCount > 10
                                           ? SizedBox()
                                           : nextButtonWidget(
                                               context, constraints),
@@ -1220,6 +1211,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             submitTestByApi().then((value) {});
                             // resetTestByApi();
                             // }
+                          } else {
+                            print('opopoposz');
                           }
                         }
                         // else {
@@ -1262,14 +1255,15 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       // if (!haseMore) {
                       //   testResetAlertBox(context);
                       // }
+                      // setState(() {});
                       print(
                           'testQuestionsForResult ${testQuestionsForResult.length}');
                       print(
-                          'type------------ ${currentQuestionCount}  ${questionMap['total_question_count']}');
+                          'type------------ ${currentQuestionCount}  ${questionMap['total_question_count']} ${questionsList.length}');
                     },
               title: currentQuestionCount != questionMap['total_question_count']
-                  ? questionsList[selectedQuestionIndex]['type'] == 1 &&
-                          AppConstant.userModel?.planType == "free"
+                  ? AppConstant.userModel?.planType == "free" &&
+                          currentQuestionCount > 10
                       ? 'Test Submit'
                       : 'Next'
                   : 'Test Reset',
