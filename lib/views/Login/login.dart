@@ -77,12 +77,12 @@ class _SignInFormState extends State<SignInForm> {
   //   }
   // }
 
-  // TextEditingController password = TextEditingController();
-  // TextEditingController emailController = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
-  TextEditingController password = TextEditingController(text: "123456");
-  TextEditingController emailController =
-      TextEditingController(text: "d@gmail.com");
+  // TextEditingController password = TextEditingController(text: "123456");
+  // TextEditingController emailController =
+  //     TextEditingController(text: "d@gmail.com");
 
   // Future<String?> getId() async {
   //   //  deviceId = await PlatformDeviceId.getDeviceId;

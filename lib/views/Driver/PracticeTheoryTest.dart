@@ -342,7 +342,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     context, _keyLoader, "Test loading...");
                 getTestQuestions(category_id).then((response_list) {
                   questionsList = response_list;
-                  if (AppConstant.userModel?.planType != "free") {
+                  if (AppConstant.userModel?.planType != "free"&&questionsList.isNotEmpty) {
                     if (questionsList[selectedQuestionIndex]
                             ['attempt_question_count'] !=
                         0) {
@@ -356,19 +356,22 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     wrongAnswerPoint = questionsList[selectedQuestionIndex]
                         ['incorrect_question_count'];
                   } else {
+                    if(questionsList.isNotEmpty){
                     if (questionMap['attempt_question_count'] != 0) {
                       currentQuestionCount =
                           questionMap['attempt_question_count'] + 1;
                     }
                     gainPoint = questionMap['correct_question_count'];
-                    wrongAnswerPoint = questionMap['incorrect_question_count'];
+                    wrongAnswerPoint = questionMap['incorrect_question_count'];}
                   }
 
                   // else {
                   setState(() => isTestStarted = true);
                   Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                       .pop();
-                  if (currentQuestionCount >=
+                  if (
+                  // currentQuestionCount >=
+                          questionMap['attempt_question_count'] >=
                           questionMap['total_question_count'] &&
                       !category_id.contains(',')) {
                     testResetAlertBox(context, isInit: true);
@@ -1137,8 +1140,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   : () {
                       // getCountFromCategory();
                       // resetTestByApi();
-                      if (currentQuestionCount >=
-                              questionMap['total_question_count'] &&
+                      if (questionMap['attempt_question_count'] >
+                          questionMap['total_question_count'] &&
                           !category_id.contains(',')) {
                         testResetAlertBox(context);
                       } else {
@@ -1212,7 +1215,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             // resetTestByApi();
                             // }
                           } else {
-                            print('opopoposz');
+                            if (questionMap['attempt_question_count'] <
+                                questionMap['total_question_count'] &&
+                                !category_id.contains(',')) {
+                              submitTestByApi();
+                              // testResetAlertBox(context);
+                            }
+                            print('opopoposz ${questionMap['attempt_question_count']} > ${questionMap['total_question_count'] }');
                           }
                         }
                         // else {

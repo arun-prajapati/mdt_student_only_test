@@ -74,8 +74,8 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                   },
 
                   // isRightBtn: true,
-                  iconRight: Icons.arrow_forward_ios,
-                  hasIcon: true,
+                  // iconRight: Icons.arrow_forward_ios,
+                  // hasIcon: true,
                   onTapRightbtn: () {
                     print('===========================');
                     SystemChrome.setPreferredOrientations(
