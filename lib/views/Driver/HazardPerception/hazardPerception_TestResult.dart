@@ -77,21 +77,20 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
   @override
   void didChangeDependencies() {
     final arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    print(
-        '************=============== $gainedRating ${arguments['rightClick']}');
+    print('************=============== $gainedRating');
     try {
       this.testComplete = arguments['pattern_out'] == false ? true : false;
-      num missedRatingPoint = 5 - arguments['rightClick'];
+      num missedRatingPoint = 5 - 2;
       setState(() {
-        this.setResultMessage(arguments['rightClick']);
+        this.setResultMessage(2);
       });
       rattingAnimation = Timer.periodic(Duration(milliseconds: 700), (timer) {
         if (gainedRating == (5 - missedRatingPoint)) {
           timer.cancel();
         } else {
-          setState(() {
-            gainedRating -= 1;
-          });
+          // setState(() {
+          gainedRating -= 1;
+          // });
         }
       });
     } catch (e) {

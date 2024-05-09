@@ -155,11 +155,21 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
     log("video path ${videoPaths[videoIndex]}");
   }
 
+  bool _isVideoComplete = false;
+
   initializeVideoPlayer(String videoPath) {
     _betterPlayerController = VideoPlayerController.file(File(videoPath))
-      ..initialize().then((_) {
+      ..initialize().then((value) {
         setState(() {}); // Ensure the widget rebuilds with the video loaded
         _betterPlayerController.play();
+        _betterPlayerController.addListener(() {
+          if (_betterPlayerController.value.position >=
+              _betterPlayerController.value.duration) {
+            setState(() {
+              _isVideoComplete = true;
+            });
+          }
+        });
       }).catchError((e) {
         print('--------------------- $e');
       });
@@ -192,6 +202,16 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isVideoComplete) {
+      _navigationService.goBack();
+    }
+    print('============ $_isVideoComplete');
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return
         // ActionChip(
@@ -218,17 +238,27 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
                 //     tapEvent();
                 //   },
                 //   label:
-                GestureDetector(
-                  onTap: () {
-                    tapEvent();
-                  },
-                  child: Container(
-                    // width: Responsive.width(85, context),
-                    // height: Responsive.height(100, context),
-                    alignment: Alignment.center,
-                    child: VideoPlayer(_betterPlayerController),
-                  ),
-                ),
+                ValueListenableBuilder(
+                    valueListenable: _betterPlayerController,
+                    builder: (context, snapshot, _) {
+                      // print(
+                      //     'DURATION ${snapshot.position} ${snapshot.duration} ${snapshot.isInitialized}');
+                      if (snapshot.position >= snapshot.duration &&
+                          snapshot.isInitialized) {
+                        _navigationService.goBack();
+                      }
+                      return GestureDetector(
+                        onTap: () {
+                          tapEvent();
+                        },
+                        child: Container(
+                          // width: Responsive.width(85, context),
+                          // height: Responsive.height(100, context),
+                          alignment: Alignment.center,
+                          child: VideoPlayer(_betterPlayerController),
+                        ),
+                      );
+                    }),
               // ),
               Positioned(
                 // bottom: 100,
