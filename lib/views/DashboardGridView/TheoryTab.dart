@@ -627,17 +627,19 @@ class _TheoryTabState extends State<TheoryTab> {
                                 ),
                               ),
                               SizedBox(height: 5),
-                              Text(
-                                cards[index]["subTitle"],
-                                maxLines: 4,
-                                style: AppTextStyle.disStyle.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 0.5,
-                                    height: 1.2,
-                                    fontSize: 11,
-                                    overflow: TextOverflow.clip),
-                                softWrap: true,
-                                //  textAlign: TextAlign.justify,
+                              Expanded(
+                                child: Text(
+                                  cards[index]["subTitle"],
+                                  maxLines: 3,
+                                  style: AppTextStyle.disStyle.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 0.5,
+                                      height: 1.2,
+                                      fontSize: 11,
+                                      overflow: TextOverflow.ellipsis),
+                                  softWrap: true,
+                                  //  textAlign: TextAlign.justify,
+                                ),
                               ),
                               //SizedBox(width: 15),
                             ],
@@ -769,7 +771,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               Expanded(
                                 child: Text(
                                   _resourceCards[index]["subTitle"],
-                                  maxLines: 4,
+                                  maxLines: 2,
                                   style: AppTextStyle.disStyle.copyWith(
                                       fontWeight: FontWeight.w400,
                                       letterSpacing: 0.5,
@@ -779,7 +781,7 @@ class _TheoryTabState extends State<TheoryTab> {
                                   // softWrap: true,
                                 ),
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 5),
                               Expanded(
                                 child: Image.asset(
                                   _resourceCards[index]['image'],

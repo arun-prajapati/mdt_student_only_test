@@ -1,3 +1,6 @@
+import 'package:Smart_Theory_Test/Constants/global.dart';
+import 'package:Smart_Theory_Test/utils/appImages.dart';
+import 'package:Smart_Theory_Test/views/Login/welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +10,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../locater.dart';
 import '../../responsive/percentage_mediaquery.dart';
@@ -33,14 +35,7 @@ class NavigationDrawer extends StatelessWidget {
     return userType;
   }
 
-  void _launchURL(String _url) async {
-    print("hello");
-    try {
-      await launch(_url);
-    } catch (e) {
-      print(e);
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +254,7 @@ class NavigationDrawer extends StatelessWidget {
                                         }),
                                       ),
                                       SizedBox(
-                                        width: constraints.maxWidth * 0.05,
+                                        width: constraints.maxWidth * 0.05
                                       ),
                                       Container(
                                         //width:textWidth,
@@ -326,6 +321,7 @@ class NavigationDrawer extends StatelessWidget {
                                   ),
                                 ),
                               ),
+
                             ],
                           ),
                         ),
@@ -333,7 +329,54 @@ class NavigationDrawer extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                      bottom: 0, right: 0, left: 0, child: NavigationFotter())
+                    bottom: 60, right: 0, left: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: socialIconCustom1(
+                              image: AppImages.twitter,
+                              onTap: () {
+                                launchSocialURL(twitterURL);
+                              },
+                            ),
+                          ),
+                          // SizedBox(width:  10 ),
+                          Expanded(
+                            child: socialIconCustom1(
+                              image: AppImages.facebook,
+                              onTap: () {
+                                launchSocialURL(facebookURL);
+                              },
+                            ),
+                          )
+                          ,
+                          // SizedBox(width: 10),
+                          Expanded(
+                            child: socialIconCustom1(
+                              image: AppImages.instagram,
+                              onTap: () {
+                                launchSocialURL(instagramURL);
+                              },
+                            ),
+                          ),
+                          // SizedBox(width: 10),
+                          Expanded(
+                            child: socialIconCustom1(
+                              image: AppImages.tiktok,
+                              onTap: () {
+                                launchSocialURL(tiktokURL);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                      bottom: 10, right: 0, left: 0, child: NavigationFotter())
                 ],
               ),
             );
@@ -342,7 +385,10 @@ class NavigationDrawer extends StatelessWidget {
       },
     );
   }
-
+   String tiktokURL = "https://tiktok.com/smarttheorytest";
+   String twitterURL = "https://twitter.com/SmartTheoryTest";
+   String instagramURL = "https://instagram.com/smarttheoryofficial";
+   String facebookURL = "https://facebook.com/smarttheorytest";
   Widget? LogOut(BuildContext context) {
     showDialog(
         context: context,

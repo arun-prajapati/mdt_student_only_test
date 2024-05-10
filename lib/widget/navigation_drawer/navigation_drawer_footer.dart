@@ -1,3 +1,6 @@
+import 'package:Smart_Theory_Test/Constants/global.dart';
+import 'package:Smart_Theory_Test/utils/appImages.dart';
+import 'package:Smart_Theory_Test/views/Login/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,6 +39,8 @@ class NavigationFotter extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // SizedBox(height: 50),
+
             GestureDetector(
               onTap: () {
                 _tandc =
@@ -122,3 +127,7 @@ class NavigationFotter extends StatelessWidget {
     );
   }
 }
+String tiktokURL = "https://tiktok.com/smarttheorytest";
+String twitterURL = "https://twitter.com/SmartTheoryTest";
+String instagramURL = "https://instagram.com/smarttheoryofficial";
+String facebookURL = "https://facebook.com/smarttheorytest";

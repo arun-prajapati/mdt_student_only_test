@@ -764,6 +764,41 @@ class socialIconCustom extends StatelessWidget {
     );
   }
 }
+class socialIconCustom1 extends StatelessWidget {
+  final VoidCallback? onTap;
+  final String? image;
+
+  const socialIconCustom1({
+    super.key,
+    this.onTap,
+    this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: AppColors.black.withOpacity(0.1),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(9),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Image.asset(
+            '${image}',
+            height: 25,
+            width: 25,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 callDialog() async {
   var sharedPref = await SharedPreferences.getInstance();

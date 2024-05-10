@@ -1,5 +1,8 @@
 class AppImages {
   static String google = 'assets/images/google.png';
+  static String twitter = 'assets/twitter.png';
+  static String instagram = 'assets/instagram.png';
+  static String tiktok = 'assets/tiktok.png';
   static String apple = 'assets/images/apple.png';
   static String bgLogin = 'assets/images/bglogin.png';
   static String bgWelcome = 'assets/images/bgregister.png';

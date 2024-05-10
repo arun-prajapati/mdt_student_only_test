@@ -13,7 +13,7 @@ const String stripePublic = "pk_live_uvawPT4fmctau9Zh6fyHH3Rd00kcvCqEv9";
 ///tesing url
 // const String api = 'https://mockdvsatest.co.uk';
 // const String stripePublic = "pk_test_1Z6fcQ67ZMbJB35tlLE6VqtH00kqRc5995";
-Future<void> urlLauncher(String url) async {
+Future<void> launchSocialURL(String url) async {
   if (!await launchUrl(Uri.parse(url))) {
     // showToast("URL not found");
     throw Exception('Could not launch $url');
@@ -26,7 +26,7 @@ class AppConstant {
   static String theoryTestGuidance =
       "https://mockdrivingtest.com/static/theory-test-guidance";
   static String bookTheoryTest = "https://www.gov.uk/book-theory-test";
-  static String trafficSigns =
-      "https://assets.publishing.service.gov.uk/media/656ef4271104cf0013fa74ef/know-your-traffic-signs-dft.pdf";
+
+  static String trafficSigns = "https://assets.publishing.service.gov.uk/media/656ef4271104cf0013fa74ef/know-your-traffic-signs-dft.pdf";
   static UserModel? userModel;
 }
