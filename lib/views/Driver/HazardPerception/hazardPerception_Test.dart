@@ -245,7 +245,29 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
                       //     'DURATION ${snapshot.position} ${snapshot.duration} ${snapshot.isInitialized}');
                       if (snapshot.position >= snapshot.duration &&
                           snapshot.isInitialized) {
-                        _navigationService.goBack();
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Map params = {'pattern_out': true};
+                          _navigationService.navigateToReplacement(
+                            routes.HazardPerceptionTestResultRoute,
+                            arguments: params,
+                          );
+                        });
+                        // try {
+                        //   Map params = {'pattern_out': true};
+                        //   _navigationService.navigateToReplacement(
+                        //       routes.HazardPerceptionTestResultRoute,
+                        //       arguments: params);
+                        // } catch (e) {
+                        //   print("Error navigating to HazardPerceptionTestResultRoute: $e");
+                        // }
+                        // _navigationService.navigateTo(
+                        //     routes.HazardPerceptionTestResultRoute,
+                        //     arguments: {'pattern_out': true});
+                        // setState(() {
+                        //
+                        // });
+                        // checkTapDurationDifference();
+                        // _navigationService.goBack();
                       }
                       return GestureDetector(
                         onTap: () {
