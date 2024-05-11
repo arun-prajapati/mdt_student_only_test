@@ -700,7 +700,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               MaterialPageRoute(
                                   builder: (context) => WebViewContainer(
                                       AppConstant.highwayCodeLink,
-                                      'Highway Code')));
+                                      _resourceCards[index]["title"])));
                         } else if (_resourceCards[index]["type"] ==
                             'theoryTestGuidance') {
                           Navigator.push(
@@ -708,7 +708,7 @@ class _TheoryTabState extends State<TheoryTab> {
                               MaterialPageRoute(
                                   builder: (context) => WebViewContainer(
                                       AppConstant.theoryTestGuidance,
-                                      'Theory Test Guidance')));
+                                      _resourceCards[index]["title"])));
                         } else if (_resourceCards[index]["type"] == 'signs') {
                           Navigator.push(
                               context,
@@ -716,14 +716,14 @@ class _TheoryTabState extends State<TheoryTab> {
                                   builder: (context) => WebViewContainer(
                                       isTrafficSign: true,
                                       AppConstant.trafficSigns,
-                                      'Traffic Signs')));
+                                      _resourceCards[index]["title"])));
                         } else {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => WebViewContainer(
                                       AppConstant.bookTheoryTest,
-                                      'Book DVSA Theory Test')));
+                                      _resourceCards[index]["title"])));
                         }
                       },
                       child: Container(

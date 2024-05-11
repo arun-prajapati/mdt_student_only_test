@@ -30,8 +30,6 @@
 	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
-	<key>FacebookAdvertiserIDCollectionEnabled</key>
-    <false></false>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:825629569582:ios:aa2dece8930b72964c65bf</string>
 </dict>

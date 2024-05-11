@@ -188,10 +188,17 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     var data = jsonDecode(response.body);
     log("RESPONSE getTestQuestions ++++++++++++++++ ${response.body}");
     questionMap = data;
+    if (
+        // currentQuestionCount >=
+        data['attempt_question_count'] >= data['total_question_count'] &&
+            !category_id.contains(',')) {
+      testResetAlertBox(context, isInit: true);
+    }
     // gainPoint = questionMap['correct_question_count'];
     // wrongAnswerPoint = questionMap['incorrect_question_count'];
     setState(() {});
-    print('============== ${questionMap['attempt_question_count']}');
+    print(
+        '============== ${questionMap['attempt_question_count']} $category_id');
   }
 
   Future<Map> getTheoryContent(String isFree) async {
@@ -246,7 +253,11 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     questionsList = data['data'];
     // categoryFromQuestionsList = data['category_list'];
     haseMore = data['hasMoreResults'] == 1 ? true : false;
-
+    print("HASMORE $haseMore");
+    if (!haseMore) {
+      page = 1;
+      print("HASMORE PAGE $page");
+    }
     setState(() {});
     return data['data'];
   }
@@ -342,7 +353,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     context, _keyLoader, "Test loading...");
                 getTestQuestions(category_id).then((response_list) {
                   questionsList = response_list;
-                  if (AppConstant.userModel?.planType != "free"&&questionsList.isNotEmpty) {
+                  if (AppConstant.userModel?.planType != "free" &&
+                      questionsList.isNotEmpty) {
                     if (questionsList[selectedQuestionIndex]
                             ['attempt_question_count'] !=
                         0) {
@@ -356,26 +368,24 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                     wrongAnswerPoint = questionsList[selectedQuestionIndex]
                         ['incorrect_question_count'];
                   } else {
-                    if(questionsList.isNotEmpty){
-                    if (questionMap['attempt_question_count'] != 0) {
-                      currentQuestionCount =
-                          questionMap['attempt_question_count'] + 1;
+                    if (questionsList.isNotEmpty) {
+                      if (questionMap['attempt_question_count'] != 0) {
+                        currentQuestionCount =
+                            questionMap['attempt_question_count'] + 1;
+                      }
+                      gainPoint = questionMap['correct_question_count'];
+                      wrongAnswerPoint =
+                          questionMap['incorrect_question_count'];
                     }
-                    gainPoint = questionMap['correct_question_count'];
-                    wrongAnswerPoint = questionMap['incorrect_question_count'];}
                   }
 
                   // else {
                   setState(() => isTestStarted = true);
                   Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
                       .pop();
-                  if (
-                  // currentQuestionCount >=
-                          questionMap['attempt_question_count'] >=
-                          questionMap['total_question_count'] &&
-                      !category_id.contains(',')) {
-                    testResetAlertBox(context, isInit: true);
-                  }
+                  // print(
+                  // "COUNT ${questionMap['attempt_question_count']} ${questionMap['total_question_count']}");
+
                   // }
 
                   // context.read<AuthProvider>().changeView = true;
@@ -1140,122 +1150,134 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   : () {
                       // getCountFromCategory();
                       // resetTestByApi();
-                      if (questionMap['attempt_question_count'] >
-                          questionMap['total_question_count'] &&
+                      // if (questionMap['attempt_question_count'] >
+                      //         questionMap['total_question_count'] &&
+                      //     !category_id.contains(',')) {
+                      //   testResetAlertBox(context);
+                      // } else {
+                      print(
+                          'IFFFF ------------ ${questionsList[selectedQuestionIndex]['total_question_count']}');
+                      if (currentQuestionCount >=
+                              questionsList[selectedQuestionIndex]
+                                  ['total_question_count'] &&
                           !category_id.contains(',')) {
                         testResetAlertBox(context);
-                      } else {
-                        if (selectedOptionIndex != null) {
-                          if (questionMap['total_question_count'] ==
-                              currentQuestionCount) {
-                            currentQuestionCount = 1;
-                          } else {
+                      }
+                      if (selectedOptionIndex != null) {
+                        if (questionMap['total_question_count'] ==
+                            currentQuestionCount) {
+                          currentQuestionCount = 1;
+                        } else {
+                          if (currentQuestionCount !=
+                              questionsList[selectedQuestionIndex]
+                                  ['total_question_count']) {
                             // if (selectedQuestionIndex != 0) {
                             currentQuestionCount += 1;
-                            // }
                           }
-                        }
-
-                        print(
-                            'ELSE------------ ${currentQuestionCount} == ${category_id.contains(',')}');
-                        if (AppConstant.userModel?.planType == "free") {
-                          testQuestionsForResult.clear();
-                          testQuestionsForResult.add({
-                            'questionId': questionsList[selectedQuestionIndex]
-                                ['id'],
-                            'type': questionsList[selectedQuestionIndex]
-                                ['type'],
-                            'question': questionsList[selectedQuestionIndex]
-                                ['title'],
-                            'correct': (selectedOptionIndex != null &&
-                                    questionsList[selectedQuestionIndex]
-                                                ['options'][selectedOptionIndex]
-                                            ['correct'] ==
-                                        true)
-                                ? 'Correct Answer'
-                                : 'Wrong Answer',
-                            "alternative_questions_id":
-                                questionsList[selectedQuestionIndex]
-                                    ['alternative_questions_id'],
-                          });
-                        } else if (AppConstant.userModel?.planType != "free") {
-                          testQuestionsForResult.clear();
-                          testQuestionsForResult.add({
-                            'questionId': questionsList[selectedQuestionIndex]
-                                ['id'],
-                            'type': questionsList[selectedQuestionIndex]
-                                ['type'],
-                            'question': questionsList[selectedQuestionIndex]
-                                ['title'],
-                            'correct': (selectedOptionIndex != null &&
-                                    questionsList[selectedQuestionIndex]
-                                                ['options'][selectedOptionIndex]
-                                            ['correct'] ==
-                                        true)
-                                ? 'Correct Answer'
-                                : 'Wrong Answer',
-                            "alternative_questions_id":
-                                questionsList[selectedQuestionIndex]
-                                    ['alternative_questions_id'],
-                          });
-                        }
-
-                        if (selectedOptionIndex != null) {
-                          if ((selectedQuestionIndex + 1) <
-                              questionsList.length) {
-                            _controller.animateTo(0,
-                                duration: Duration(microseconds: 1000),
-                                curve: Curves.slowMiddle);
-                            setState(() {
-                              selectedOptionIndex = null;
-                              selectedQuestionIndex += 1;
-                            });
-                            // if (AppConstant.userModel?.planType != "free") {
-                            submitTestByApi().then((value) {});
-                            // resetTestByApi();
-                            // }
-                          } else {
-                            if (questionMap['attempt_question_count'] <
-                                questionMap['total_question_count'] &&
-                                !category_id.contains(',')) {
-                              submitTestByApi();
-                              // testResetAlertBox(context);
-                            }
-                            print('opopoposz ${questionMap['attempt_question_count']} > ${questionMap['total_question_count'] }');
-                          }
-                        }
-                        // else {
-                        //   if (AppConstant.userModel?.planType == "free") {
-                        //     CustomSpinner.showLoadingDialog(
-                        //         context, _keyLoader, "Test Submitting...");
-                        //     // submitTestByApi().then((value) {
-                        //     //   Navigator.of(_keyLoader.currentContext!,
-                        //     //           rootNavigator: true)
-                        //     //       .pop();
-                        //     testCompleAlertBox(context);
-                        //     // });
-                        //   }
-                        // }
-                        if (AppConstant.userModel?.planType != "free") {
-                          if (selectedQuestionIndex ==
-                                  questionsList.length - 1 &&
-                              haseMore) {
-                            CustomSpinner.showLoadingDialog(
-                                context, _keyLoader, "Load more question...");
-                            page++;
-                            // questionsList.clear();
-                            selectedQuestionIndex = 0;
-
-                            getTestQuestions(category_id).then((value) {
-                              questionsList = value;
-                              setState(() {});
-                              Navigator.of(_keyLoader.currentContext!,
-                                      rootNavigator: true)
-                                  .pop();
-                            });
-                          }
+                          // }
                         }
                       }
+
+                      print(
+                          'ELSE------------ ${currentQuestionCount} == ${category_id.contains(',')}');
+                      if (AppConstant.userModel?.planType == "free") {
+                        testQuestionsForResult.clear();
+                        testQuestionsForResult.add({
+                          'questionId': questionsList[selectedQuestionIndex]
+                              ['id'],
+                          'type': questionsList[selectedQuestionIndex]['type'],
+                          'question': questionsList[selectedQuestionIndex]
+                              ['title'],
+                          'correct': (selectedOptionIndex != null &&
+                                  questionsList[selectedQuestionIndex]
+                                              ['options'][selectedOptionIndex]
+                                          ['correct'] ==
+                                      true)
+                              ? 'Correct Answer'
+                              : 'Wrong Answer',
+                          "alternative_questions_id":
+                              questionsList[selectedQuestionIndex]
+                                  ['alternative_questions_id'],
+                        });
+                      } else if (AppConstant.userModel?.planType != "free") {
+                        testQuestionsForResult.clear();
+                        testQuestionsForResult.add({
+                          'questionId': questionsList[selectedQuestionIndex]
+                              ['id'],
+                          'type': questionsList[selectedQuestionIndex]['type'],
+                          'question': questionsList[selectedQuestionIndex]
+                              ['title'],
+                          'correct': (selectedOptionIndex != null &&
+                                  questionsList[selectedQuestionIndex]
+                                              ['options'][selectedOptionIndex]
+                                          ['correct'] ==
+                                      true)
+                              ? 'Correct Answer'
+                              : 'Wrong Answer',
+                          "alternative_questions_id":
+                              questionsList[selectedQuestionIndex]
+                                  ['alternative_questions_id'],
+                        });
+                      }
+                      print(
+                          "[[[[[[[[[[[]]]]]]]]]]] ${currentQuestionCount} ${questionsList.length}");
+                      if (selectedOptionIndex != null) {
+                        if ((selectedQuestionIndex + 1) <
+                            questionsList.length) {
+                          _controller.animateTo(0,
+                              duration: Duration(microseconds: 1000),
+                              curve: Curves.slowMiddle);
+                          setState(() {
+                            selectedOptionIndex = null;
+                            selectedQuestionIndex += 1;
+                          });
+                          // if (AppConstant.userModel?.planType != "free") {
+                          submitTestByApi().then((value) {});
+                          // resetTestByApi();
+                          // }
+                        } else {
+                          if (questionMap['attempt_question_count'] <
+                                  questionMap['total_question_count'] &&
+                              !category_id.contains(',')) {
+                            submitTestByApi();
+                            // testResetAlertBox(context);
+                          }
+
+                          // print(
+                          // 'opopoposz ${questionMap['attempt_question_count']} > ${questionMap['total_question_count']} ${questionsList.length}');
+                        }
+                      }
+                      // else {
+                      //   if (AppConstant.userModel?.planType == "free") {
+                      //     CustomSpinner.showLoadingDialog(
+                      //         context, _keyLoader, "Test Submitting...");
+                      //     // submitTestByApi().then((value) {
+                      //     //   Navigator.of(_keyLoader.currentContext!,
+                      //     //           rootNavigator: true)
+                      //     //       .pop();
+                      //     testCompleAlertBox(context);
+                      //     // });
+                      //   }
+                      // }
+                      if (AppConstant.userModel?.planType != "free") {
+                        if (selectedQuestionIndex == questionsList.length - 1 &&
+                            haseMore) {
+                          CustomSpinner.showLoadingDialog(
+                              context, _keyLoader, "Load more question...");
+                          page = 1;
+                          // questionsList.clear();
+                          selectedQuestionIndex = 0;
+
+                          getTestQuestions(category_id).then((value) {
+                            questionsList = value;
+                            setState(() {});
+                            Navigator.of(_keyLoader.currentContext!,
+                                    rootNavigator: true)
+                                .pop();
+                          });
+                        }
+                      }
+                      // }
                       // resetTestByApi();
                       // if (AppConstant.userModel?.planType == "free" &&
                       //     currentQuestionCount > 10) {
@@ -1286,8 +1308,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   calculatePoint(question) {
     if (selectedOptionIndex != null &&
         question['options'][selectedOptionIndex]['correct'] == true) {
-      if (questionsList[selectedQuestionIndex]['total_question_count'] >
-          currentQuestionCount) {
+      if (currentQuestionCount >
+          questionsList[selectedQuestionIndex]['total_question_count']) {
         gainPoint = 0;
       } else {
         gainPoint += 1;
@@ -1298,7 +1320,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         questionsList[selectedQuestionIndex]['options'][selectedOptionIndex]
                 ['correct'] ==
             false)) {
-      if (questionMap['total_question_count'] > currentQuestionCount) {
+      if (currentQuestionCount >
+          questionsList[selectedQuestionIndex]['total_question_count']) {
         wrongAnswerPoint = 0;
       } else {
         wrongAnswerPoint += 1;
@@ -1479,80 +1502,81 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                           fontWeight: FontWeight.w500)),
                                   SizedBox(height: 20),
                                   Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 38),
-                                    child: isInit
-                                        ? CustomButton(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            onTap: () {
-                                              // _navigationService.goBack();
-                                              CustomSpinner.showLoadingDialog(
-                                                  context,
-                                                  _keyLoader,
-                                                  "Test Reset...");
-                                              resetTestByApi().then((value) {
-                                                Navigator.of(
-                                                        _keyLoader
-                                                            .currentContext!,
-                                                        rootNavigator: true)
-                                                    .pop();
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            HomeScreen()),
-                                                    (route) => false);
-                                              });
-                                            },
-                                            title: 'OK',
-                                          )
-                                        : Row(
-                                            children: [
-                                              Expanded(
-                                                child: CustomButton(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                                  onTap: () {
-                                                    // _navigationService.goBack();
-                                                    CustomSpinner
-                                                        .showLoadingDialog(
-                                                            context,
-                                                            _keyLoader,
-                                                            "Test Reset...");
-                                                    resetTestByApi()
-                                                        .then((value) {
-                                                      Navigator.of(
-                                                              _keyLoader
-                                                                  .currentContext!,
-                                                              rootNavigator:
-                                                                  true)
-                                                          .pop();
-                                                      Navigator.pushAndRemoveUntil(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (_) =>
-                                                                  HomeScreen()),
-                                                          (route) => false);
-                                                    });
-                                                  },
-                                                  title: 'Yes',
-                                                ),
-                                              ),
-                                              SizedBox(width: 20),
-                                              Expanded(
-                                                child: CustomButton(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                                  onTap: () {
-                                                    _navigationService.goBack();
-                                                  },
-                                                  title: 'No',
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                  ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 38),
+                                      child:
+                                          // isInit
+                                          //     ?
+                                          CustomButton(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        onTap: () {
+                                          // _navigationService.goBack();
+                                          CustomSpinner.showLoadingDialog(
+                                              context,
+                                              _keyLoader,
+                                              "Test Reset...");
+                                          resetTestByApi().then((value) {
+                                            Navigator.of(
+                                                    _keyLoader.currentContext!,
+                                                    rootNavigator: true)
+                                                .pop();
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        HomeScreen()),
+                                                (route) => false);
+                                          });
+                                        },
+                                        title: 'OK',
+                                      )
+                                      // : Row(
+                                      //     children: [
+                                      //       Expanded(
+                                      //         child: CustomButton(
+                                      //           padding: EdgeInsets.symmetric(
+                                      //               vertical: 10),
+                                      //           onTap: () {
+                                      //             // _navigationService.goBack();
+                                      //             CustomSpinner
+                                      //                 .showLoadingDialog(
+                                      //                     context,
+                                      //                     _keyLoader,
+                                      //                     "Test Reset...");
+                                      //             resetTestByApi()
+                                      //                 .then((value) {
+                                      //               Navigator.of(
+                                      //                       _keyLoader
+                                      //                           .currentContext!,
+                                      //                       rootNavigator:
+                                      //                           true)
+                                      //                   .pop();
+                                      //               Navigator.pushAndRemoveUntil(
+                                      //                   context,
+                                      //                   MaterialPageRoute(
+                                      //                       builder: (_) =>
+                                      //                           HomeScreen()),
+                                      //                   (route) => false);
+                                      //             });
+                                      //           },
+                                      //           title: 'Yes',
+                                      //         ),
+                                      //       ),
+                                      //       SizedBox(width: 20),
+                                      //       Expanded(
+                                      //         child: CustomButton(
+                                      //           padding: EdgeInsets.symmetric(
+                                      //               vertical: 10),
+                                      //           onTap: () {
+                                      //             _navigationService.goBack();
+                                      //           },
+                                      //           title: 'No',
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      ),
                                 ]),
                           )
                         ],

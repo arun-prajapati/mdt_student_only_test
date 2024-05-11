@@ -22,13 +22,9 @@ const bool debugEnableDeviceSimulator = true;
 //final storage = FlutterSecureStorage();
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   if (Platform.isIOS) {
-    await Firebase.initializeApp(
-        options: FirebaseOptions(
-            apiKey: "AIzaSyALNe6dM9EXGsBgu7dtJc6GKcIxO8DhMdo",
-            appId: "1:825629569582:android:53175cc9585227f14c65bf",
-            messagingSenderId: "825629569582",
-            projectId: "smart-theory-test"));
+    await Firebase.initializeApp();
   } else {
     await Firebase.initializeApp(
         options: FirebaseOptions(

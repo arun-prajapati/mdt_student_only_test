@@ -74,6 +74,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This application requires camera  to put user's license photo.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

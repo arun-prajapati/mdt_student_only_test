@@ -172,7 +172,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
             right: 0,
             child: CustomAppBar(
                 preferedHeight: Responsive.height(12, context),
-                title: 'Hazard Perception Test',
+                title: 'Practice Hazard Perception',
                 textWidth: Responsive.width(45, context),
                 iconLeft: Icons.arrow_back,
                 onTap1: () {

@@ -43,7 +43,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
             PlatformWebViewControllerCreationParams());
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
+      ..setBackgroundColor(Color.fromARGB(0, 35, 31, 31))
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
@@ -58,6 +58,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
             debugPrint('Page finished loading: $url');
           },
           onWebResourceError: (WebResourceError error) {
+            print("ERRORRRRRRRRRRRRR $error");
             debugPrint('''
 Page resource error:
   code: ${error.errorCode}

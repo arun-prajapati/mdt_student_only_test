@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "mdt_student_only_test",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}
