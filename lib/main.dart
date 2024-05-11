@@ -25,12 +25,17 @@ Future main() async {
   if (Platform.isIOS) {
     await Firebase.initializeApp(
         options: FirebaseOptions(
+            apiKey: "AIzaSyALNe6dM9EXGsBgu7dtJc6GKcIxO8DhMdo",
+            appId: "1:825629569582:android:53175cc9585227f14c65bf",
+            messagingSenderId: "825629569582",
+            projectId: "smart-theory-test"));
+  } else {
+    await Firebase.initializeApp(
+        options: FirebaseOptions(
             apiKey: "AIzaSyDzBy37Xp2_udzDrnMYdqMxn0IFiZtyEzQ",
             appId: "1:825629569582:ios:aa2dece8930b72964c65bf",
             messagingSenderId: "825629569582",
             projectId: "smart-theory-test"));
-  } else {
-    await Firebase.initializeApp();
   }
   // ignore: invalid_use_of_visible_for_testing_member
   // SharedPreferences.setMockInitialValues({});

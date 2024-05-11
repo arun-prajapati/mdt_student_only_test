@@ -21,7 +21,7 @@ class Help extends StatefulWidget {
 class _Help extends State<Help> {
   final NavigationService _navigationService = locator<NavigationService>();
 
-  late String _termConditionUrl;
+  // late String _termConditionUrl;
   late int _userType = 2;
 
   void _launchURL(String _url) async {
@@ -77,10 +77,7 @@ class _Help extends State<Help> {
                       SizedBox(height: 30),
                       GestureDetector(
                         onTap: () {
-                          _termConditionUrl =
-                              "$api/static/terms-and-conditions-of-use";
-                          print(_termConditionUrl);
-                          _launchURL(_termConditionUrl);
+                          _launchURL(AppConstant.termsAndCondition);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,10 +89,8 @@ class _Help extends State<Help> {
                             ),
                             GestureDetector(
                                 onTap: () {
-                                  _termConditionUrl =
-                                      "$api/static/terms-and-conditions-of-use";
-                                  print(_termConditionUrl);
-                                  _launchURL(_termConditionUrl);
+                                  print(AppConstant.termsAndCondition);
+                                  _launchURL(AppConstant.termsAndCondition);
                                 },
                                 child: Icon(
                                   Icons.keyboard_arrow_right,
@@ -115,7 +110,7 @@ class _Help extends State<Help> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => WebViewContainer(
-                                    'https://mockdrivingtest.com/static/privacy-policy',
+                                    AppConstant.privacyPolicy,
                                     'Privacy Policy')),
                           );
                         },
@@ -133,7 +128,7 @@ class _Help extends State<Help> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => WebViewContainer(
-                                            'https://mockdrivingtest.com/static/privacy-policy',
+                                            AppConstant.privacyPolicy,
                                             'Privacy Policy')),
                                   );
                                 },

@@ -26,7 +26,11 @@ class AppConstant {
   static String theoryTestGuidance =
       "https://mockdrivingtest.com/static/theory-test-guidance";
   static String bookTheoryTest = "https://www.gov.uk/book-theory-test";
-
-  static String trafficSigns = "https://assets.publishing.service.gov.uk/media/656ef4271104cf0013fa74ef/know-your-traffic-signs-dft.pdf";
+  static String privacyPolicy =
+      "https://www.smarttheorytest.com/privacy-policy";
+  static String termsAndCondition =
+      "https://mockdrivingtest.com/uk-en/static/terms-and-conditions-of-use";
+  static String trafficSigns =
+      "https://assets.publishing.service.gov.uk/media/656ef4271104cf0013fa74ef/know-your-traffic-signs-dft.pdf";
   static UserModel? userModel;
 }

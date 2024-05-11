@@ -1286,7 +1286,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   calculatePoint(question) {
     if (selectedOptionIndex != null &&
         question['options'][selectedOptionIndex]['correct'] == true) {
-      if (questionsList[selectedQuestionIndex]['total_question_count'] ==
+      if (questionsList[selectedQuestionIndex]['total_question_count'] >
           currentQuestionCount) {
         gainPoint = 0;
       } else {
@@ -1298,7 +1298,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         questionsList[selectedQuestionIndex]['options'][selectedOptionIndex]
                 ['correct'] ==
             false)) {
-      if (questionMap['total_question_count'] == currentQuestionCount) {
+      if (questionMap['total_question_count'] > currentQuestionCount) {
         wrongAnswerPoint = 0;
       } else {
         wrongAnswerPoint += 1;

@@ -764,6 +764,7 @@ class socialIconCustom extends StatelessWidget {
     );
   }
 }
+
 class socialIconCustom1 extends StatelessWidget {
   final VoidCallback? onTap;
   final String? image;
@@ -777,8 +778,8 @@ class socialIconCustom1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      width: 50,
+      height: 40,
+      width: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
@@ -786,7 +787,7 @@ class socialIconCustom1 extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(9),
+        padding: EdgeInsets.all(6),
         child: GestureDetector(
           onTap: onTap,
           child: Image.asset(
