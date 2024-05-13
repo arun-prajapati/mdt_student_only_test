@@ -329,309 +329,319 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     ToastContext().init(context);
     print(
         "auth_services.changeView ${context.read<UserProvider>().changeView}");
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: context.read<UserProvider>().changeView
-          ? TestSettingDialogBox(
-              categories_list: responseList,
-              onSetValue: (_categoryId) {
-                log("Category id : $_categoryId");
-                // if (_categoryId == 0) {
-                //   Fluttertoast.showToast(
-                //       msg: 'Please select category', gravity: ToastGravity.TOP);
-                // } else {
-                gainPoint = 0;
-                questionsList = [];
-                testQuestionsForResult = [];
-                selectedQuestionIndex = 0;
-                selectedCategoryIndex = 0;
-                selectedOptionIndex = null;
-                category_id = _categoryId;
-                getCountFromCategory();
-                CustomSpinner.showLoadingDialog(
-                    context, _keyLoader, "Test loading...");
-                getTestQuestions(category_id).then((response_list) {
-                  questionsList = response_list;
-                  if (AppConstant.userModel?.planType != "free" &&
-                      questionsList.isNotEmpty) {
-                    if (questionsList[selectedQuestionIndex]
-                            ['attempt_question_count'] !=
-                        0) {
-                      currentQuestionCount =
-                          questionsList[selectedQuestionIndex]
-                                  ['attempt_question_count'] +
-                              1;
-                    }
-                    gainPoint = questionsList[selectedQuestionIndex]
-                        ['correct_question_count'];
-                    wrongAnswerPoint = questionsList[selectedQuestionIndex]
-                        ['incorrect_question_count'];
-                  } else {
-                    if (questionsList.isNotEmpty) {
-                      if (questionMap['attempt_question_count'] != 0) {
+    return PopScope(
+      onPopInvoked: (val) {
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (_) => HomeScreen()), (route) => false);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: context.read<UserProvider>().changeView
+            ? TestSettingDialogBox(
+                categories_list: responseList,
+                onSetValue: (_categoryId) {
+                  log("Category id : $_categoryId");
+                  // if (_categoryId == 0) {
+                  //   Fluttertoast.showToast(
+                  //       msg: 'Please select category', gravity: ToastGravity.TOP);
+                  // } else {
+                  gainPoint = 0;
+                  questionsList = [];
+                  testQuestionsForResult = [];
+                  selectedQuestionIndex = 0;
+                  selectedCategoryIndex = 0;
+                  selectedOptionIndex = null;
+                  category_id = _categoryId;
+                  getCountFromCategory();
+                  CustomSpinner.showLoadingDialog(
+                      context, _keyLoader, "Test loading...");
+                  getTestQuestions(category_id).then((response_list) {
+                    questionsList = response_list;
+                    if (AppConstant.userModel?.planType != "free" &&
+                        questionsList.isNotEmpty) {
+                      if (questionsList[selectedQuestionIndex]
+                              ['attempt_question_count'] !=
+                          0) {
                         currentQuestionCount =
-                            questionMap['attempt_question_count'] + 1;
+                            questionsList[selectedQuestionIndex]
+                                    ['attempt_question_count'] +
+                                1;
                       }
-                      gainPoint = questionMap['correct_question_count'];
-                      wrongAnswerPoint =
-                          questionMap['incorrect_question_count'];
+                      gainPoint = questionsList[selectedQuestionIndex]
+                          ['correct_question_count'];
+                      wrongAnswerPoint = questionsList[selectedQuestionIndex]
+                          ['incorrect_question_count'];
+                    } else {
+                      if (questionsList.isNotEmpty) {
+                        if (questionMap['attempt_question_count'] != 0) {
+                          currentQuestionCount =
+                              questionMap['attempt_question_count'] + 1;
+                        }
+                        gainPoint = questionMap['correct_question_count'];
+                        wrongAnswerPoint =
+                            questionMap['incorrect_question_count'];
+                      }
                     }
-                  }
 
-                  // else {
-                  setState(() => isTestStarted = true);
-                  Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
-                      .pop();
-                  // print(
-                  // "COUNT ${questionMap['attempt_question_count']} ${questionMap['total_question_count']}");
+                    // else {
+                    setState(() => isTestStarted = true);
+                    Navigator.of(_keyLoader.currentContext!,
+                            rootNavigator: true)
+                        .pop();
+                    // print(
+                    // "COUNT ${questionMap['attempt_question_count']} ${questionMap['total_question_count']}");
 
+                    // }
+
+                    // context.read<AuthProvider>().changeView = true;
+
+                    // getHasMoreResult();
+                  });
+                  // getCategoryFromQuestions().then((category) {
+                  //   categoryFromQuestionsList = category;
+                  // });
                   // }
-
-                  // context.read<AuthProvider>().changeView = true;
-
-                  // getHasMoreResult();
-                });
-                // getCategoryFromQuestions().then((category) {
-                //   categoryFromQuestionsList = category;
-                // });
-                // }
-              },
-            )
-          : Stack(
-              children: <Widget>[
-                CustomAppBar(
-                  preferedHeight: Responsive.height(11, context),
-                  title: 'Practice Theory Test Questions',
-                  textWidth: Responsive.width(35, context),
-                  iconLeft: Icons.arrow_back,
-                  // iconRight: Icons.refresh_rounded,
-                  onTap1: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (_) => HomeScreen()),
-                        (route) => false);
-                  },
-                  // onTapRightbtn: () {
-                  //   initializeApi("Refreshing...");
-                  // },
-                ),
-                Container(
-                    margin: EdgeInsets.fromLTRB(
-                        //Responsive.width(3, context),
-                        0,
-                        MediaQuery.of(context).size.height * 0.115,
-                        0,
-                        0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    height: Responsive.height(83, context),
-                    width: Responsive.width(100, context),
-                    padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
-                    child: LayoutBuilder(builder: (context, constraints) {
-                      return questionsList.isEmpty && !haseMore
-                          ? Center(child: Text("No question found"))
-                          : PageView.builder(
-                              controller: _controller,
-                              allowImplicitScrolling: false,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: questionsList.length,
-                              // onPageChanged: (val) async {
-                              //   if (val == questionsList.length - 1) {
-                              //     page++;
-                              //     await getTestQuestions(category_id, page + 1,
-                              //         isMore: true);
-                              //   }
-                              //   print(
-                              //       'value---------- ${val} ${questionsList.length}');
-                              // },
-                              itemBuilder: (c, index) {
-                                if (index == questionsList.length - 1 &&
-                                    haseMore) {
-                                  return const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Center(
-                                        child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                          color: Dark),
-                                    )),
-                                  );
-                                }
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  //mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 15),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 18.0),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: const FractionalOffset(
-                                                0.0, 0.0),
-                                            end: const FractionalOffset(
-                                                1.0, 0.0),
-                                            colors: [
-                                              Color(0xFF79e6c9)
-                                                  .withOpacity(0.1),
-                                              Color(0xFF38b8cd)
-                                                  .withOpacity(0.1),
-                                            ],
-                                            stops: [0.0, 1.0],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.grey
-                                                  .withOpacity(.30)),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                                "${questionsList[selectedQuestionIndex]['category']}",
-                                                style: AppTextStyle.textStyle
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 18)),
-                                            // SizedBox(height: 10),
-
-                                            SizedBox(height: 10),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Text("Correct : $gainPoint",
-                                                        style: AppTextStyle
-                                                            .textStyle
-                                                            .copyWith(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: Colors
-                                                                    .green)),
-                                                    // Text(
-                                                    //     "Correct : $gainPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
-                                                    //     style: AppTextStyle
-                                                    //         .textStyle
-                                                    //         .copyWith(
-                                                    //             fontSize: 15,
-                                                    //             fontWeight:
-                                                    //                 FontWeight
-                                                    //                     .w400,
-                                                    //             color: Colors
-                                                    //                 .green)),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                        "Incorrect : $wrongAnswerPoint",
-                                                        style: AppTextStyle
-                                                            .textStyle
-                                                            .copyWith(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: Colors
-                                                                    .red)),
-                                                    // Text(
-                                                    //     "Incorrect : $wrongAnswerPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
-                                                    //     style: AppTextStyle
-                                                    //         .textStyle
-                                                    //         .copyWith(
-                                                    //             fontSize: 15,
-                                                    //             fontWeight:
-                                                    //                 FontWeight
-                                                    //                     .w400,
-                                                    //             color: Colors
-                                                    //                 .red)),
-                                                  ],
-                                                ),
+                },
+              )
+            : Stack(
+                children: <Widget>[
+                  CustomAppBar(
+                    preferedHeight: Responsive.height(11, context),
+                    title: 'Practice Theory Test Questions',
+                    textWidth: Responsive.width(35, context),
+                    iconLeft: Icons.arrow_back,
+                    // iconRight: Icons.refresh_rounded,
+                    onTap1: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (_) => HomeScreen()),
+                          (route) => false);
+                    },
+                    // onTapRightbtn: () {
+                    //   initializeApi("Refreshing...");
+                    // },
+                  ),
+                  Container(
+                      margin: EdgeInsets.fromLTRB(
+                          //Responsive.width(3, context),
+                          0,
+                          MediaQuery.of(context).size.height * 0.115,
+                          0,
+                          0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      height: Responsive.height(83, context),
+                      width: Responsive.width(100, context),
+                      padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        return questionsList.isEmpty && !haseMore
+                            ? Center(child: Text("No question found"))
+                            : PageView.builder(
+                                controller: _controller,
+                                allowImplicitScrolling: false,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: questionsList.length,
+                                // onPageChanged: (val) async {
+                                //   if (val == questionsList.length - 1) {
+                                //     page++;
+                                //     await getTestQuestions(category_id, page + 1,
+                                //         isMore: true);
+                                //   }
+                                //   print(
+                                //       'value---------- ${val} ${questionsList.length}');
+                                // },
+                                itemBuilder: (c, index) {
+                                  if (index == questionsList.length - 1 &&
+                                      haseMore) {
+                                    return const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Center(
+                                          child: SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                            color: Dark),
+                                      )),
+                                    );
+                                  }
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    //mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 15),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 18.0),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: const FractionalOffset(
+                                                  0.0, 0.0),
+                                              end: const FractionalOffset(
+                                                  1.0, 0.0),
+                                              colors: [
+                                                Color(0xFF79e6c9)
+                                                    .withOpacity(0.1),
+                                                Color(0xFF38b8cd)
+                                                    .withOpacity(0.1),
                                               ],
+                                              stops: [0.0, 1.0],
                                             ),
-                                            SizedBox(height: 5),
-                                          ],
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                                color: AppColors.grey
+                                                    .withOpacity(.30)),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                  "${questionsList[selectedQuestionIndex]['category']}",
+                                                  style: AppTextStyle.textStyle
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 18)),
+                                              // SizedBox(height: 10),
+
+                                              SizedBox(height: 10),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                          "Correct : $gainPoint",
+                                                          style: AppTextStyle
+                                                              .textStyle
+                                                              .copyWith(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .green)),
+                                                      // Text(
+                                                      //     "Correct : $gainPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                      //     style: AppTextStyle
+                                                      //         .textStyle
+                                                      //         .copyWith(
+                                                      //             fontSize: 15,
+                                                      //             fontWeight:
+                                                      //                 FontWeight
+                                                      //                     .w400,
+                                                      //             color: Colors
+                                                      //                 .green)),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                          "Incorrect : $wrongAnswerPoint",
+                                                          style: AppTextStyle
+                                                              .textStyle
+                                                              .copyWith(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .red)),
+                                                      // Text(
+                                                      //     "Incorrect : $wrongAnswerPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                      //     style: AppTextStyle
+                                                      //         .textStyle
+                                                      //         .copyWith(
+                                                      //             fontSize: 15,
+                                                      //             fontWeight:
+                                                      //                 FontWeight
+                                                      //                     .w400,
+                                                      //             color: Colors
+                                                      //                 .red)),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 5),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20.0, top: 5),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                            "Question $currentQuestionCount of ${AppConstant.userModel?.planType != "free" ? questionsList[selectedQuestionIndex]['total_question_count'] : questionMap['total_question_count']}",
-                                            style: AppTextStyle.textStyle
-                                                .copyWith(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black)),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, top: 5),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                              "Question $currentQuestionCount of ${AppConstant.userModel?.planType != "free" ? questionsList[selectedQuestionIndex]['total_question_count'] : questionMap['total_question_count']}",
+                                              style: AppTextStyle.textStyle
+                                                  .copyWith(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors.black)),
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            if (isTestStarted)
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    20, 10, 20, 2),
-                                                child: LayoutBuilder(
-                                                  builder:
-                                                      (context, _constraints) {
-                                                    return testQuestionWidget(
-                                                      context,
-                                                      _constraints,
-                                                      questionsList[
-                                                          selectedQuestionIndex],
-                                                    );
-                                                  },
+                                      Expanded(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              if (isTestStarted)
+                                                Container(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      20, 10, 20, 2),
+                                                  child: LayoutBuilder(
+                                                    builder: (context,
+                                                        _constraints) {
+                                                      return testQuestionWidget(
+                                                        context,
+                                                        _constraints,
+                                                        questionsList[
+                                                            selectedQuestionIndex],
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
-                                              ),
-                                            if (selectedOptionIndex != null &&
-                                                isTestStarted)
-                                              answerExplanation(
-                                                questionsList[
-                                                    selectedQuestionIndex],
-                                              ),
-                                            if (selectedOptionIndex != null &&
-                                                isTestStarted)
-                                              answerStatus(
-                                                questionsList[
-                                                    selectedQuestionIndex],
-                                              ),
-                                          ],
+                                              if (selectedOptionIndex != null &&
+                                                  isTestStarted)
+                                                answerExplanation(
+                                                  questionsList[
+                                                      selectedQuestionIndex],
+                                                ),
+                                              if (selectedOptionIndex != null &&
+                                                  isTestStarted)
+                                                answerStatus(
+                                                  questionsList[
+                                                      selectedQuestionIndex],
+                                                ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    if (!isTestStarted)
-                                      startButtonWidget(context, constraints),
-                                    if (isTestStarted)
-                                      AppConstant.userModel?.planType ==
-                                                  "free" &&
-                                              currentQuestionCount > 10
-                                          ? SizedBox()
-                                          : nextButtonWidget(
-                                              context, constraints),
-                                  ],
-                                );
-                              });
-                    })),
-              ],
-            ),
+                                      if (!isTestStarted)
+                                        startButtonWidget(context, constraints),
+                                      if (isTestStarted)
+                                        AppConstant.userModel?.planType ==
+                                                    "free" &&
+                                                currentQuestionCount > 10
+                                            ? SizedBox()
+                                            : nextButtonWidget(
+                                                context, constraints),
+                                    ],
+                                  );
+                                });
+                      })),
+                ],
+              ),
+      ),
     );
     // }
   }

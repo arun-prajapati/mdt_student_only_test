@@ -280,53 +280,53 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
               ),
             ),
 
-            Align(
-              //alignment: Alignment.bottomCenter,
-              child: Container(
-                  height: 60,
-                  width: Responsive.width(95, context),
-                  alignment: Alignment.center,
-                  color: Color.fromRGBO(191, 190, 188, .6),
-                  transform: Matrix4.translationValues(
-                      0, Responsive.height(42, context), 0),
-                  child: Container(
-                    height: 10,
-                    width: Responsive.width(progressBarLength, context),
-                    decoration: new BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(width: 5, color: Colors.white)),
-                  )),
-            ),
-            ...warningSlot
-                .map((slot) => GestureDetector(
-                      onTap: () {
-                        print('${slot['width']}.............');
-                      },
-                      child: Align(
-                        //  alignment: Alignment.bottomCenter,
-                        child: Container(
-                          transform:
-                              Matrix4.translationValues(double.infinity, 42, 0),
-                          width: 100,
-                          height: 10,
-                          decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.rectangle,
-                              border: Border.all(width: 5, color: Colors.red)),
-                        ),
-                      ),
-                    ))
-                .toList(),
-            ...clickDurationSlot
-                .map((flag) => Container(
-                    transform: Matrix4.translationValues(
-                        Responsive.width(flag['width_start']!, context),
-                        Responsive.height(38, context),
-                        0),
-                    child: Icon(Icons.flag, size: 27, color: Colors.red)))
-                .toList(),
+            // Align(
+            //   //alignment: Alignment.bottomCenter,
+            //   child: Container(
+            //       height: 60,
+            //       width: Responsive.width(95, context),
+            //       alignment: Alignment.center,
+            //       color: Color.fromRGBO(191, 190, 188, .6),
+            //       transform: Matrix4.translationValues(
+            //           0, Responsive.height(42, context), 0),
+            //       child: Container(
+            //         height: 10,
+            //         width: Responsive.width(progressBarLength, context),
+            //         decoration: new BoxDecoration(
+            //             color: Colors.white,
+            //             shape: BoxShape.rectangle,
+            //             borderRadius: BorderRadius.all(Radius.circular(10)),
+            //             border: Border.all(width: 5, color: Colors.white)),
+            //       )),
+            // ),
+            // ...warningSlot
+            //     .map((slot) => GestureDetector(
+            //           onTap: () {
+            //             print('${slot['width']}.............');
+            //           },
+            //           child: Align(
+            //             //  alignment: Alignment.bottomCenter,
+            //             child: Container(
+            //               transform:
+            //                   Matrix4.translationValues(double.infinity, 42, 0),
+            //               width: 100,
+            //               height: 10,
+            //               decoration: new BoxDecoration(
+            //                   color: Colors.red,
+            //                   shape: BoxShape.rectangle,
+            //                   border: Border.all(width: 5, color: Colors.red)),
+            //             ),
+            //           ),
+            //         ))
+            //     .toList(),
+            // ...clickDurationSlot
+            //     .map((flag) => Container(
+            //         transform: Matrix4.translationValues(
+            //             Responsive.width(flag['width_start']!, context),
+            //             Responsive.height(38, context),
+            //             0),
+            //         child: Icon(Icons.flag, size: 27, color: Colors.red)))
+            //     .toList(),
             GestureDetector(
               onTap: moveVideo,
               child: Container(

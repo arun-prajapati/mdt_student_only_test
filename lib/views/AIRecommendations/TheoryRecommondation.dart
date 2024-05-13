@@ -641,7 +641,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w500,
                                                     isImage: true,
-                                                    title: "Read AI article",
+                                                    title: "Read article",
                                                     image: AppImages.readAi,
                                                     padding:
                                                         EdgeInsets.symmetric(
