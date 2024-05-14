@@ -60,10 +60,12 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   int? selectedOptionIndex;
   int gainPoint = 0;
   int currentQuestionCount = 1;
+  int totalQuestionCount = 1;
+
   int wrongAnswerPoint = 0;
   var questionMap = {};
   bool showblur = false;
-
+  bool isLoading = true;
   // late int _userId;
   String category_id = "0";
 
@@ -354,22 +356,17 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   selectedCategoryIndex = 0;
                   selectedOptionIndex = null;
                   category_id = _categoryId;
-                  if (!category_id.contains(',')) {
-                    getCountFromCategory().then((value) {
-                      if (value['attempt_question_count'] != 0) {
-                        currentQuestionCount =
-                            value['attempt_question_count'] + 1;
-                      }
-                      gainPoint = value['correct_question_count'];
-                      wrongAnswerPoint = value['incorrect_question_count'];
-                    });
-                  }
+                  // if (category_id.contains(',')) {
+
+                  // }
                   CustomSpinner.showLoadingDialog(
                       context, _keyLoader, "Test loading...");
                   getTestQuestions(category_id).then((response_list) {
                     questionsList = response_list;
-                    if (AppConstant.userModel?.planType != "free" &&
-                        questionsList.isNotEmpty) {
+                    if (!category_id.contains(',')) {
+                      print("object ---------------------------- 1");
+                      totalQuestionCount = questionsList[selectedQuestionIndex]
+                          ['total_question_count'];
                       if (questionsList[selectedQuestionIndex]
                               ['attempt_question_count'] !=
                           0) {
@@ -382,13 +379,29 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           ['correct_question_count'];
                       wrongAnswerPoint = questionsList[selectedQuestionIndex]
                           ['incorrect_question_count'];
+                      isLoading = false;
+                    } else if (category_id.contains(',')) {
+                      print("object ----------------------------");
+                      getCountFromCategory().then((value) {
+                        if (value['attempt_question_count'] != 0) {
+                          currentQuestionCount =
+                              value['attempt_question_count'] + 1;
+                        }
+                        totalQuestionCount = value['total_question_count'];
+                        gainPoint = value['correct_question_count'];
+                        wrongAnswerPoint = value['incorrect_question_count'];
+                        isLoading = false;
+                      });
                     }
 
                     // else {
+
                     setState(() => isTestStarted = true);
+                    context.read<UserProvider>().changeView = false;
                     Navigator.of(_keyLoader.currentContext!,
                             rootNavigator: true)
                         .pop();
+
                     // print(
                     // "COUNT ${questionMap['attempt_question_count']} ${questionMap['total_question_count']}");
 
@@ -437,207 +450,217 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       width: Responsive.width(100, context),
                       padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
                       child: LayoutBuilder(builder: (context, constraints) {
-                        return questionsList.isEmpty && !haseMore
-                            ? Center(child: Text("No question found"))
-                            : PageView.builder(
-                                controller: _controller,
-                                allowImplicitScrolling: false,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: questionsList.length,
-                                // onPageChanged: (val) async {
-                                //   if (val == questionsList.length - 1) {
-                                //     page++;
-                                //     await getTestQuestions(category_id, page + 1,
-                                //         isMore: true);
-                                //   }
-                                //   print(
-                                //       'value---------- ${val} ${questionsList.length}');
-                                // },
-                                itemBuilder: (c, index) {
-                                  if (index == questionsList.length - 1 &&
-                                      haseMore) {
-                                    return const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Center(
-                                          child: SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(
-                                            color: Dark),
-                                      )),
-                                    );
-                                  }
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    //mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 15),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 18.0),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: const FractionalOffset(
-                                                  0.0, 0.0),
-                                              end: const FractionalOffset(
-                                                  1.0, 0.0),
-                                              colors: [
-                                                Color(0xFF79e6c9)
-                                                    .withOpacity(0.1),
-                                                Color(0xFF38b8cd)
-                                                    .withOpacity(0.1),
-                                              ],
-                                              stops: [0.0, 1.0],
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                                color: AppColors.grey
-                                                    .withOpacity(.30)),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                  "${questionsList[selectedQuestionIndex]['category']}",
-                                                  style: AppTextStyle.textStyle
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 18)),
-                                              // SizedBox(height: 10),
-
-                                              SizedBox(height: 10),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                        return isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : questionsList.isEmpty && !haseMore
+                                ? Center(child: Text("No question found"))
+                                : PageView.builder(
+                                    controller: _controller,
+                                    allowImplicitScrolling: false,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: questionsList.length,
+                                    // onPageChanged: (val) async {
+                                    //   if (val == questionsList.length - 1) {
+                                    //     page++;
+                                    //     await getTestQuestions(category_id, page + 1,
+                                    //         isMore: true);
+                                    //   }
+                                    //   print(
+                                    //       'value---------- ${val} ${questionsList.length}');
+                                    // },
+                                    itemBuilder: (c, index) {
+                                      if (index == questionsList.length - 1 &&
+                                          haseMore) {
+                                        return const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Center(
+                                              child: SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                                color: Dark),
+                                          )),
+                                        );
+                                      }
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        //mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(height: 15),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 18.0),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin: const FractionalOffset(
+                                                      0.0, 0.0),
+                                                  end: const FractionalOffset(
+                                                      1.0, 0.0),
+                                                  colors: [
+                                                    Color(0xFF79e6c9)
+                                                        .withOpacity(0.1),
+                                                    Color(0xFF38b8cd)
+                                                        .withOpacity(0.1),
+                                                  ],
+                                                  stops: [0.0, 1.0],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                    color: AppColors.grey
+                                                        .withOpacity(.30)),
+                                              ),
+                                              child: Column(
                                                 children: [
-                                                  Column(
+                                                  Text(
+                                                      "${questionsList[selectedQuestionIndex]['category']}",
+                                                      style: AppTextStyle
+                                                          .textStyle
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 18)),
+                                                  // SizedBox(height: 10),
+
+                                                  SizedBox(height: 10),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
-                                                      Text(
-                                                          "Correct : $gainPoint",
-                                                          style: AppTextStyle
-                                                              .textStyle
-                                                              .copyWith(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .green)),
-                                                      // Text(
-                                                      //     "Correct : $gainPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
-                                                      //     style: AppTextStyle
-                                                      //         .textStyle
-                                                      //         .copyWith(
-                                                      //             fontSize: 15,
-                                                      //             fontWeight:
-                                                      //                 FontWeight
-                                                      //                     .w400,
-                                                      //             color: Colors
-                                                      //                 .green)),
+                                                      Column(
+                                                        children: [
+                                                          Text(
+                                                              "Correct : $gainPoint",
+                                                              style: AppTextStyle
+                                                                  .textStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      color: Colors
+                                                                          .green)),
+                                                          // Text(
+                                                          //     "Correct : $gainPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                          //     style: AppTextStyle
+                                                          //         .textStyle
+                                                          //         .copyWith(
+                                                          //             fontSize: 15,
+                                                          //             fontWeight:
+                                                          //                 FontWeight
+                                                          //                     .w400,
+                                                          //             color: Colors
+                                                          //                 .green)),
+                                                        ],
+                                                      ),
+                                                      Column(
+                                                        children: [
+                                                          Text(
+                                                              "Incorrect : $wrongAnswerPoint",
+                                                              style: AppTextStyle
+                                                                  .textStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      color: Colors
+                                                                          .red)),
+                                                          // Text(
+                                                          //     "Incorrect : $wrongAnswerPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
+                                                          //     style: AppTextStyle
+                                                          //         .textStyle
+                                                          //         .copyWith(
+                                                          //             fontSize: 15,
+                                                          //             fontWeight:
+                                                          //                 FontWeight
+                                                          //                     .w400,
+                                                          //             color: Colors
+                                                          //                 .red)),
+                                                        ],
+                                                      ),
                                                     ],
                                                   ),
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                          "Incorrect : $wrongAnswerPoint",
-                                                          style: AppTextStyle
-                                                              .textStyle
-                                                              .copyWith(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .red)),
-                                                      // Text(
-                                                      //     "Incorrect : $wrongAnswerPoint/${questionsList[selectedQuestionIndex]['total_question_count']}",
-                                                      //     style: AppTextStyle
-                                                      //         .textStyle
-                                                      //         .copyWith(
-                                                      //             fontSize: 15,
-                                                      //             fontWeight:
-                                                      //                 FontWeight
-                                                      //                     .w400,
-                                                      //             color: Colors
-                                                      //                 .red)),
-                                                    ],
-                                                  ),
+                                                  SizedBox(height: 5),
                                                 ],
                                               ),
-                                              SizedBox(height: 5),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, top: 5),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                              "Question $currentQuestionCount of ${AppConstant.userModel?.planType != "free" ? questionsList[selectedQuestionIndex]['total_question_count'] : questionMap['total_question_count']}",
-                                              style: AppTextStyle.textStyle
-                                                  .copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.black)),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            children: [
-                                              if (isTestStarted)
-                                                Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      20, 10, 20, 2),
-                                                  child: LayoutBuilder(
-                                                    builder: (context,
-                                                        _constraints) {
-                                                      return testQuestionWidget(
-                                                        context,
-                                                        _constraints,
-                                                        questionsList[
-                                                            selectedQuestionIndex],
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              if (selectedOptionIndex != null &&
-                                                  isTestStarted)
-                                                answerExplanation(
-                                                  questionsList[
-                                                      selectedQuestionIndex],
-                                                ),
-                                              if (selectedOptionIndex != null &&
-                                                  isTestStarted)
-                                                answerStatus(
-                                                  questionsList[
-                                                      selectedQuestionIndex],
-                                                ),
-                                            ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0, top: 5),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                  "Question $currentQuestionCount of $totalQuestionCount",
+                                                  style: AppTextStyle.textStyle
+                                                      .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.black)),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      if (!isTestStarted)
-                                        startButtonWidget(context, constraints),
-                                      if (isTestStarted)
-                                        AppConstant.userModel?.planType ==
-                                                    "free" &&
-                                                currentQuestionCount > 10
-                                            ? SizedBox()
-                                            : nextButtonWidget(
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  if (isTestStarted)
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              20, 10, 20, 2),
+                                                      child: LayoutBuilder(
+                                                        builder: (context,
+                                                            _constraints) {
+                                                          return testQuestionWidget(
+                                                            context,
+                                                            _constraints,
+                                                            questionsList[
+                                                                selectedQuestionIndex],
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  if (selectedOptionIndex !=
+                                                          null &&
+                                                      isTestStarted)
+                                                    answerExplanation(
+                                                      questionsList[
+                                                          selectedQuestionIndex],
+                                                    ),
+                                                  if (selectedOptionIndex !=
+                                                          null &&
+                                                      isTestStarted)
+                                                    answerStatus(
+                                                      questionsList[
+                                                          selectedQuestionIndex],
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          if (!isTestStarted)
+                                            startButtonWidget(
                                                 context, constraints),
-                                    ],
-                                  );
-                                });
+                                          if (isTestStarted)
+                                            AppConstant.userModel?.planType ==
+                                                        "free" &&
+                                                    currentQuestionCount > 10
+                                                ? SizedBox()
+                                                : nextButtonWidget(
+                                                    context, constraints),
+                                        ],
+                                      );
+                                    });
                       })),
                 ],
               ),
@@ -1165,25 +1188,32 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       //     !category_id.contains(',')) {
                       //   testResetAlertBox(context);
                       // } else {
-                      print(
-                          'IFFFF ------------ ${questionsList[selectedQuestionIndex]['total_question_count']}');
-                      if (currentQuestionCount >=
-                              questionsList[selectedQuestionIndex]
-                                  ['total_question_count'] &&
-                          !category_id.contains(',')) {
-                        testResetAlertBox(context);
+                      // print(
+                      // 'IFFFF ------------ ${currentQuestionCount} ${}');
+                      if (!category_id.contains(',')) {
+                        if (currentQuestionCount >=
+                            questionsList[selectedQuestionIndex]
+                                ['total_question_count']) {
+                          testResetAlertBox(context);
+                        }
+                      } else if (category_id.contains(',')) {
+                        if (currentQuestionCount >=
+                            questionMap['total_question_count']) {
+                          testResetAlertBox(context);
+                        }
                       }
+
                       if (selectedOptionIndex != null) {
-                        if (questionMap['total_question_count'] ==
-                            currentQuestionCount) {
-                          currentQuestionCount = 1;
-                        } else {
-                          if (currentQuestionCount !=
-                              questionsList[selectedQuestionIndex]
-                                  ['total_question_count']) {
-                            // if (selectedQuestionIndex != 0) {
-                            currentQuestionCount += 1;
-                          }
+                        // if (questionMap['total_question_count'] ==
+                        //     currentQuestionCount) {
+                        //   currentQuestionCount = 1;
+                        // } else {
+                        if (currentQuestionCount !=
+                            questionsList[selectedQuestionIndex]
+                                ['total_question_count']) {
+                          // if (selectedQuestionIndex != 0) {
+                          currentQuestionCount += 1;
+                          // }
                           // }
                         }
                       }
@@ -1284,6 +1314,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             Navigator.of(_keyLoader.currentContext!,
                                     rootNavigator: true)
                                 .pop();
+                            isLoading = false;
                           });
                         }
                       }
@@ -1299,8 +1330,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                       // setState(() {});
                       print(
                           'testQuestionsForResult ${testQuestionsForResult.length}');
-                      print(
-                          'type------------ ${currentQuestionCount}  ${questionMap['total_question_count']} ${questionsList.length}');
+                      // print(
+                      // 'type------------ ${currentQuestionCount}  ${questionMap['total_question_count']} ${questionsList.length}');
                     },
               title: currentQuestionCount != questionMap['total_question_count']
                   ? AppConstant.userModel?.planType == "free" &&
@@ -1318,24 +1349,24 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   calculatePoint(question) {
     if (selectedOptionIndex != null &&
         question['options'][selectedOptionIndex]['correct'] == true) {
-      if (currentQuestionCount >
-          questionsList[selectedQuestionIndex]['total_question_count']) {
-        gainPoint = 0;
-      } else {
-        gainPoint += 1;
-      }
+      // if (currentQuestionCount >
+      //     questionsList[selectedQuestionIndex]['total_question_count']) {
+      //   gainPoint = 0;
+      // } else {
+      gainPoint += 1;
+      // }
       log("Points earned : $gainPoint");
     }
     if ((selectedOptionIndex != null &&
         questionsList[selectedQuestionIndex]['options'][selectedOptionIndex]
                 ['correct'] ==
             false)) {
-      if (currentQuestionCount >
-          questionsList[selectedQuestionIndex]['total_question_count']) {
-        wrongAnswerPoint = 0;
-      } else {
-        wrongAnswerPoint += 1;
-      }
+      // if (currentQuestionCount >
+      //     questionsList[selectedQuestionIndex]['total_question_count']) {
+      //   wrongAnswerPoint = 0;
+      // } else {
+      wrongAnswerPoint += 1;
+      // }
     }
   }
 

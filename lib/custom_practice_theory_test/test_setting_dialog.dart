@@ -323,8 +323,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                       // Navigator.pop(context, true);
 
                       // auth_services.changeView = false;
-                      context.read<UserProvider>().changeView = false;
-                      setState(() {});
+
                       if (!isAllCategoriesSelected &&
                           seledtedCategoryId == "0") {
                         Fluttertoast.showToast(
