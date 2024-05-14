@@ -175,7 +175,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     return response;
   }
 
-  getCountFromCategory() async {
+  Future<Map> getCountFromCategory() async {
     final url = Uri.parse(
         "$api/api/get-categories?is_paid=${AppConstant.userModel?.planType == "free" ? "no" : "yes"}&category_id=$category_id");
     SharedPreferences storage = await SharedPreferences.getInstance();
@@ -198,7 +198,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     // wrongAnswerPoint = questionMap['incorrect_question_count'];
     setState(() {});
     print(
-        '============== ${questionMap['attempt_question_count']} $category_id');
+        '============== ${data['attempt_question_count']} ${data['total_question_count']}');
+    return data;
   }
 
   Future<Map> getTheoryContent(String isFree) async {
@@ -353,7 +354,16 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                   selectedCategoryIndex = 0;
                   selectedOptionIndex = null;
                   category_id = _categoryId;
-                  getCountFromCategory();
+                  if (!category_id.contains(',')) {
+                    getCountFromCategory().then((value) {
+                      if (value['attempt_question_count'] != 0) {
+                        currentQuestionCount =
+                            value['attempt_question_count'] + 1;
+                      }
+                      gainPoint = value['correct_question_count'];
+                      wrongAnswerPoint = value['incorrect_question_count'];
+                    });
+                  }
                   CustomSpinner.showLoadingDialog(
                       context, _keyLoader, "Test loading...");
                   getTestQuestions(category_id).then((response_list) {
@@ -372,16 +382,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                           ['correct_question_count'];
                       wrongAnswerPoint = questionsList[selectedQuestionIndex]
                           ['incorrect_question_count'];
-                    } else {
-                      if (questionsList.isNotEmpty) {
-                        if (questionMap['attempt_question_count'] != 0) {
-                          currentQuestionCount =
-                              questionMap['attempt_question_count'] + 1;
-                        }
-                        gainPoint = questionMap['correct_question_count'];
-                        wrongAnswerPoint =
-                            questionMap['incorrect_question_count'];
-                      }
                     }
 
                     // else {

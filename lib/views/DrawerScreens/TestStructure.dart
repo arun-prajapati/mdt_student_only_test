@@ -509,3 +509,160 @@ class TestStructure extends StatelessWidget {
     );
   }
 }
+
+class NewRecipeModel {
+  int? status;
+  String? message;
+  NewRecipeResult? result;
+
+  NewRecipeModel({this.status, this.message, this.result});
+
+  NewRecipeModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    result = json['result'] != null
+        ? new NewRecipeResult.fromJson(json['result'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.result != null) {
+      data['result'] = this.result!.toJson();
+    }
+    return data;
+  }
+}
+
+class NewRecipeResult {
+  String? id;
+  String? title;
+  String? description;
+  String? imageUrl;
+  int? serves;
+  String? prepTime;
+  String? cookTime;
+  int? calories;
+  int? protein;
+  int? carbs;
+  int? fat;
+  List<GetResourcesNutritionMeal>? getResourcesNutritionMeal;
+
+  NewRecipeResult(
+      {this.id,
+      this.title,
+      this.description,
+      this.imageUrl,
+      this.serves,
+      this.prepTime,
+      this.cookTime,
+      this.calories,
+      this.protein,
+      this.carbs,
+      this.fat,
+      this.getResourcesNutritionMeal});
+
+  NewRecipeResult.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
+    imageUrl = json['imageUrl'];
+    serves = json['serves'];
+    prepTime = json['prepTime'];
+    cookTime = json['cookTime'];
+    calories = json['calories'];
+    protein = json['protein'];
+    carbs = json['carbs'];
+    fat = json['fat'];
+    if (json['getResourcesNutritionMeal'] != null) {
+      getResourcesNutritionMeal = <GetResourcesNutritionMeal>[];
+      json['getResourcesNutritionMeal'].forEach((v) {
+        getResourcesNutritionMeal!
+            .add(new GetResourcesNutritionMeal.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['description'] = this.description;
+    data['imageUrl'] = this.imageUrl;
+    data['serves'] = this.serves;
+    data['prepTime'] = this.prepTime;
+    data['cookTime'] = this.cookTime;
+    data['calories'] = this.calories;
+    data['protein'] = this.protein;
+    data['carbs'] = this.carbs;
+    data['fat'] = this.fat;
+    if (this.getResourcesNutritionMeal != null) {
+      data['getResourcesNutritionMeal'] =
+          this.getResourcesNutritionMeal!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class GetResourcesNutritionMeal {
+  String? id;
+  String? resourceLibraryId;
+  String? categoryId;
+  String? type;
+  String? qtyType;
+  String? foodName;
+  int? weight;
+  String? calories;
+  String? protein;
+  String? carbs;
+  String? fat;
+  String? image;
+
+  GetResourcesNutritionMeal(
+      {this.id,
+      this.resourceLibraryId,
+      this.categoryId,
+      this.type,
+      this.qtyType,
+      this.foodName,
+      this.weight,
+      this.calories,
+      this.protein,
+      this.carbs,
+      this.fat,
+      this.image});
+
+  GetResourcesNutritionMeal.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    resourceLibraryId = json['resourceLibraryId'];
+    categoryId = json['categoryId'];
+    type = json['type'];
+    qtyType = json['qtyType'];
+    foodName = json['foodName'];
+    weight = json['weight'];
+    calories = json['calories'];
+    protein = json['protein'];
+    carbs = json['carbs'];
+    fat = json['fat'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['resourceLibraryId'] = this.resourceLibraryId;
+    data['categoryId'] = this.categoryId;
+    data['type'] = this.type;
+    data['qtyType'] = this.qtyType;
+    data['foodName'] = this.foodName;
+    data['weight'] = this.weight;
+    data['calories'] = this.calories;
+    data['protein'] = this.protein;
+    data['carbs'] = this.carbs;
+    data['fat'] = this.fat;
+    data['image'] = this.image;
+    return data;
+  }
+}
