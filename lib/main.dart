@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +33,7 @@ Future main() async {
             messagingSenderId: "825629569582",
             projectId: "smart-theory-test"));
   }
+  FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   // ignore: invalid_use_of_visible_for_testing_member
   // SharedPreferences.setMockInitialValues({});
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
       ],
       child: MaterialApp(
+        navigatorObservers: [],
         // title: "Student Theory Test",
         //locale: DevicePreview.ofDeviceOrientation(context).locale, // <--- Add the locale
         //builder: DevicePreview.appBuilder,
