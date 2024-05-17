@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Constants/hazard_perception_data.dart';
 import '../../../locater.dart';
@@ -49,8 +51,10 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
 
   @override
   void initState() {
+    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+
     videoPaths = _localServices.getRevVideosList();
-    videoIndex = _localServices.getIndexOfVideo();
+    videoIndex = videoIndexProvider.indexOfVideo;
     videoDurationInSeconds = _localServices.getVideoDuration();
     String videoName = (videoPaths[videoIndex]).substring(
         videoPaths[videoIndex].lastIndexOf('/') + 1,

@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 // import 'package:better_player_plus/better_player_plus.dart';
+import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../Constants/hazard_perception_data.dart';
@@ -142,17 +144,21 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
 
   @override
   void initState() {
+    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+
     videoPaths = _localServices.getVideosList();
-    videoIndex = _localServices.getIndexOfVideo();
+    videoIndex = videoIndexProvider.indexOfVideo != 0 ? videoIndexProvider.indexOfVideo - 1 : videoIndexProvider.indexOfVideo ;
+  
     String videoName = (videoPaths[videoIndex]).substring(
         videoPaths[videoIndex].lastIndexOf('/') + 1,
         videoPaths[videoIndex].lastIndexOf('.'));
     videosTimeSlot[videoName]!.forEach((timeSlot) {
       this.clickDurationSlot.add(timeSlot);
     });
+    
     super.initState();
     initializeVideoPlayer(videoPaths[videoIndex]);
-    log("video path ${videoPaths[videoIndex]}");
+
   }
 
   bool _isVideoComplete = false;

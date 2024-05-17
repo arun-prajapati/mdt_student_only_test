@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter/services.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
+import 'package:provider/provider.dart';
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
@@ -59,6 +63,8 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
 
   @override
   Widget build(BuildContext context) {
+    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: WillPopScope(
@@ -80,7 +86,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                     print('===========================');
                     SystemChrome.setPreferredOrientations(
                         [DeviceOrientation.landscapeLeft]).then((_) {
-                      _localServices.setIndexOfVideo(0);
+                      videoIndexProvider.setIndexOfVideo(0);
                       _navigationService
                           .navigateTo(routes.HazardPerceptionTestRoute);
                     });
@@ -106,57 +112,127 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                       ),
                       Container(
                         width: Responsive.width(70, context),
-                        height: Responsive.height(30, context),
+                        height: Responsive.height(25, context),
                         // controller: gifControl,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage("assets/road-in-eye.gif")),
                         ),
                       ),
-                      Container(
-                        height: Responsive.height(27, context),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                SystemChrome.setPreferredOrientations(
-                                        [DeviceOrientation.landscapeLeft])
-                                    .then((_) {
-                                  Future.delayed(Duration(milliseconds: 300),
-                                      () {
-                                    _navigationService.navigateToReplacement(
-                                        routes.HazardPerceptionTutorialRoute);
+                      Consumer<VideoIndexProvider>(
+                        builder: (context, valueController, child) => 
+                         Container(
+                          height: Responsive.height(27, context),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                             valueController.indexOfVideo > 0 ? ElevatedButton(
+                                onPressed: () {
+                                       SystemChrome.setPreferredOrientations(
+                                          [DeviceOrientation.landscapeLeft])
+                                      .then((_) {
+                                int totalVideos = _localServices.getVideosList().length;
+                                int currentIndex = valueController.indexOfVideo;
+                        
+                                  if (currentIndex <= 0 || currentIndex >= totalVideos) {
+                                      currentIndex = 0;
+                                    } else if (currentIndex > 0) {
+                                      currentIndex -= 1;
+                                    } else {
+                                      currentIndex = totalVideos - 1;
+                                    }
+                                    valueController.setIndexOfVideo(currentIndex);
+                                    _navigationService.navigateTo(
+                                        routes.HazardPerceptionTestRoute);
+                                
                                   });
-                                });
-                              },
-                              style: buttonStyle(),
-                              child: Text(
-                                'SHOW ME AGAIN',
-                                style: textStyle(),
+                                 
+                                },
+                                style: buttonStyle(),
+                                child: Text(
+                                  'PREVIOUS',
+                                  style: textStyle(),
+                                ),
+                              ) : ElevatedButton(
+                                onPressed: () {
+                                  SystemChrome.setPreferredOrientations(
+                                          [DeviceOrientation.landscapeLeft])
+                                      .then((_) {
+                                    Future.delayed(Duration(milliseconds: 300),
+                                        () {
+                                      _navigationService.navigateToReplacement(
+                                          routes.HazardPerceptionTutorialRoute);
+                                    });
+                                  });
+                                },
+                                style: buttonStyle(),
+                                child: Text(
+                                  'WATCH TUTORIAL',
+                                  style: textStyle(),
+                                ),
                               ),
-                            ),
-                            SizedBox(width: Responsive.width(3, context)),
-                            ElevatedButton(
-                              onPressed: () {
-                                SystemChrome.setPreferredOrientations(
-                                        [DeviceOrientation.landscapeLeft])
-                                    .then((_) {
-                                  _localServices.setIndexOfVideo(0);
-                                  _navigationService.navigateTo(
-                                      routes.HazardPerceptionTestRoute);
-                                });
-                              },
-                              style: buttonStyle(),
-                              child: Text(
-                                'START TEST',
-                                style: textStyle(),
+                              SizedBox(width: Responsive.width(3, context)),
+                              ElevatedButton(
+                                onPressed: () {
+                                  SystemChrome.setPreferredOrientations(
+                                          [DeviceOrientation.landscapeLeft])
+                                      .then((_) {
+                                
+                                   int totalVideos =
+                                        _localServices.getVideosList().length;
+                        
+                                    if (valueController.indexOfVideo <
+                                        (totalVideos - 1))
+                                      valueController.setIndexOfVideo(
+                                          valueController.indexOfVideo + 1);
+                                    else
+                                      valueController.setIndexOfVideo(0);
+                                    _navigationService.navigateTo(
+                                        routes.HazardPerceptionTestRoute);
+                                 
+                                  });
+                                 
+                                },
+                                style: buttonStyle(),
+                                child: Text( valueController.indexOfVideo == 0 ?
+                                  'START TEST' : "NEXT",
+                                  style: textStyle(),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: Responsive.height(5, context),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          _localServices.getVideosList().length,
+                          (index) => Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Consumer<VideoIndexProvider>(
+                                builder: (context, videoIndexProvider, child) {
+
+                                  print(videoIndexProvider.indexOfVideo);
+                                  return Container(
+                                    height: 7,
+                                    width: 7,
+                                    decoration: BoxDecoration(
+                                      color: index == videoIndexProvider.indexOfVideo
+                                          ? Colors.green
+                                          : Colors.black,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  );
+                                },
+                              ),
+
+                          ),
+                        ),
+                      ),
                     ],
                   )),
             ])));

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
+          ChangeNotifierProvider(create: (_) => VideoIndexProvider()),
       ],
       child: MaterialApp(
         navigatorObservers: [],

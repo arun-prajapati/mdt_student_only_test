@@ -3,7 +3,7 @@ class LocalServices {
   late List<String> revVideosList;
   late List<String> tutorialVideos;
   late List<int> flagsForReplayVideo;
-  late int indexOfVideo;
+  late int indexOfVideo = 0;
   late int videoduration = 0; //in Seconds
   static final LocalServices _instance = LocalServices._internal();
 
@@ -38,9 +38,9 @@ class LocalServices {
   //short setter for my variable
   void setRevVideosList(List<String> list) => revVideosList = list;
 
-  int getIndexOfVideo() => indexOfVideo;
+  // int getIndexOfVideo() => indexOfVideo;
 
-  void setIndexOfVideo(int index) => indexOfVideo = index;
+  // void setIndexOfVideo(int index) => indexOfVideo = index;
 
   //short getter for my variable
   List<int> getSelectedFlagsList() => flagsForReplayVideo;

@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 import 'package:Smart_Theory_Test/utils/app_colors.dart';
+import 'package:provider/provider.dart';
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
@@ -39,7 +41,9 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
 
   @override
   void initState() {
-    videoIndex = _localServices.getIndexOfVideo();
+    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+
+    videoIndex = videoIndexProvider.indexOfVideo;
     // initializeGifAnimation();
     super.initState();
   }
@@ -126,6 +130,8 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
   // final TWO_PI = 3.2 * 2;
   @override
   Widget build(BuildContext context) {
+    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+    
     return Scaffold(
         key: _scaffoldKey,
         resizeToAvoidBottomInset: false,
@@ -145,16 +151,17 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                   iconRight: Icons.arrow_forward_ios,
                   onTapRightbtn: () {
                     int totalVideos = _localServices.getVideosList().length;
-                    if (_localServices.getIndexOfVideo() < (totalVideos - 1))
-                      _localServices.setIndexOfVideo(
-                          _localServices.getIndexOfVideo() + 1);
+                    if (videoIndexProvider.indexOfVideo < (totalVideos - 1))
+                      videoIndexProvider.setIndexOfVideo(
+                          videoIndexProvider.indexOfVideo + 1);
                     else
-                      _localServices.setIndexOfVideo(0);
+                    videoIndexProvider.setIndexOfVideo(0);
                     SystemChrome.setPreferredOrientations(
                         [DeviceOrientation.landscapeLeft]).then((_) {
                       _navigationService.navigateToReplacement(
                           routes.HazardPerceptionTestRoute);
                     });
+              
                   }),
               Container(
                   alignment: Alignment.topCenter,
