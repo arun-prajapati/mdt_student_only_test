@@ -63,7 +63,8 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
 
   @override
   Widget build(BuildContext context) {
-    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+    final videoIndexProvider =
+        Provider.of<VideoIndexProvider>(context, listen: false);
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -119,84 +120,179 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                               image: AssetImage("assets/road-in-eye.gif")),
                         ),
                       ),
+                      // Consumer<VideoIndexProvider>(
+                      //   builder: (context, valueController, child) =>
+                      //    Container(
+                      //     height: Responsive.height(27, context),
+                      //     child: Row(
+                      //       crossAxisAlignment: CrossAxisAlignment.end,
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //        valueController.indexOfVideo > 0 ? ElevatedButton(
+                      //           onPressed: () {
+                      //                  SystemChrome.setPreferredOrientations(
+                      //                     [DeviceOrientation.landscapeLeft])
+                      //                 .then((_) {
+                      //           int totalVideos = _localServices.getVideosList().length;
+                      //           int currentIndex = valueController.indexOfVideo;
+
+                      //             if (currentIndex <= 0 || currentIndex >= totalVideos) {
+                      //                 currentIndex = 0;
+                      //               } else if (currentIndex > 0) {
+                      //                 currentIndex -= 1;
+                      //               } else {
+                      //                 currentIndex = totalVideos - 1;
+                      //               }
+                      //               valueController.setIndexOfVideo(currentIndex);
+                      //               _navigationService.navigateTo(
+                      //                   routes.HazardPerceptionTestRoute);
+
+                      //             });
+
+                      //           },
+                      //           style: buttonStyle(),
+                      //           child: Text(
+                      //             'PREVIOUS',
+                      //             style: textStyle(),
+                      //           ),
+                      //         ) : ElevatedButton(
+                      //           onPressed: () {
+                      //             SystemChrome.setPreferredOrientations(
+                      //                     [DeviceOrientation.landscapeLeft])
+                      //                 .then((_) {
+                      //               Future.delayed(Duration(milliseconds: 300),
+                      //                   () {
+                      //                 _navigationService.navigateToReplacement(
+                      //                     routes.HazardPerceptionTutorialRoute);
+                      //               });
+                      //             });
+                      //           },
+                      //           style: buttonStyle(),
+                      //           child: Text(
+                      //             'WATCH TUTORIAL',
+                      //             style: textStyle(),
+                      //           ),
+                      //         ),
+                      //         SizedBox(width: Responsive.width(3, context)),
+                      //         ElevatedButton(
+                      //           onPressed: () {
+                      //             SystemChrome.setPreferredOrientations(
+                      //                     [DeviceOrientation.landscapeLeft])
+                      //                 .then((_) {
+
+                      //              int totalVideos =
+                      //                   _localServices.getVideosList().length;
+
+                      //               if (valueController.indexOfVideo <
+                      //                   (totalVideos - 1))
+                      //                 valueController.setIndexOfVideo(
+                      //                     valueController.indexOfVideo + 1);
+                      //               else
+                      //                 valueController.setIndexOfVideo(0);
+                      //               _navigationService.navigateTo(
+                      //                   routes.HazardPerceptionTestRoute);
+
+                      //             });
+
+                      //           },
+                      //           style: buttonStyle(),
+                      //           child: Text( valueController.indexOfVideo == 0 ?
+                      //             'START TEST' : "NEXT",
+                      //             style: textStyle(),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       Consumer<VideoIndexProvider>(
-                        builder: (context, valueController, child) => 
-                         Container(
+                        builder: (context, valueController, child) => Container(
                           height: Responsive.height(27, context),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                             valueController.indexOfVideo > 0 ? ElevatedButton(
-                                onPressed: () {
-                                       SystemChrome.setPreferredOrientations(
-                                          [DeviceOrientation.landscapeLeft])
-                                      .then((_) {
-                                int totalVideos = _localServices.getVideosList().length;
-                                int currentIndex = valueController.indexOfVideo;
-                        
-                                  if (currentIndex <= 0 || currentIndex >= totalVideos) {
-                                      currentIndex = 0;
-                                    } else if (currentIndex > 0) {
-                                      currentIndex -= 1;
-                                    } else {
-                                      currentIndex = totalVideos - 1;
-                                    }
-                                    valueController.setIndexOfVideo(currentIndex);
-                                    _navigationService.navigateTo(
-                                        routes.HazardPerceptionTestRoute);
-                                
-                                  });
-                                 
-                                },
-                                style: buttonStyle(),
-                                child: Text(
-                                  'PREVIOUS',
-                                  style: textStyle(),
-                                ),
-                              ) : ElevatedButton(
-                                onPressed: () {
-                                  SystemChrome.setPreferredOrientations(
-                                          [DeviceOrientation.landscapeLeft])
-                                      .then((_) {
-                                    Future.delayed(Duration(milliseconds: 300),
-                                        () {
-                                      _navigationService.navigateToReplacement(
-                                          routes.HazardPerceptionTutorialRoute);
-                                    });
-                                  });
-                                },
-                                style: buttonStyle(),
-                                child: Text(
-                                  'WATCH TUTORIAL',
-                                  style: textStyle(),
-                                ),
-                              ),
+                              // Previous Button
+                              valueController.indexOfVideo > 0
+                                  ? ElevatedButton(
+                                      onPressed: () {
+                                        SystemChrome.setPreferredOrientations([
+                                          DeviceOrientation.landscapeLeft
+                                        ]).then((_) {
+                                          int totalVideos = _localServices
+                                              .getVideosList()
+                                              .length;
+
+                                          valueController
+                                              .previousVideo(totalVideos);
+                                          _navigationService.navigateTo(
+                                              routes.HazardPerceptionTestRoute);
+                                          if (valueController.indexOfVideo ==
+                                                  0 &&
+                                              valueController.testStarted) {
+                                            valueController.startTest(
+                                                valueController.testStarted);
+                                          }
+//////
+                                          // valueController
+                                          //     .previousVideo(totalVideos);
+                                          // _navigationService.navigateTo(
+                                          //     routes.HazardPerceptionTestRoute);
+                                        });
+                                      },
+                                      style: buttonStyle(),
+                                      child: Text(
+                                        'PREVIOUS',
+                                        style: textStyle(),
+                                      ),
+                                    )
+                                  : ElevatedButton(
+                                      onPressed: () {
+                                        SystemChrome.setPreferredOrientations([
+                                          DeviceOrientation.landscapeLeft
+                                        ]).then((_) {
+                                          Future.delayed(
+                                              Duration(milliseconds: 300), () {
+                                            _navigationService
+                                                .navigateToReplacement(routes
+                                                    .HazardPerceptionTutorialRoute);
+                                          });
+                                        });
+                                      },
+                                      style: buttonStyle(),
+                                      child: Text(
+                                        'WATCH TUTORIAL',
+                                        style: textStyle(),
+                                      ),
+                                    ),
                               SizedBox(width: Responsive.width(3, context)),
+                              // Next Button
                               ElevatedButton(
                                 onPressed: () {
                                   SystemChrome.setPreferredOrientations(
                                           [DeviceOrientation.landscapeLeft])
                                       .then((_) {
-                                
-                                   int totalVideos =
+                                    int totalVideos =
                                         _localServices.getVideosList().length;
-                        
-                                    if (valueController.indexOfVideo <
-                                        (totalVideos - 1))
-                                      valueController.setIndexOfVideo(
-                                          valueController.indexOfVideo + 1);
-                                    else
-                                      valueController.setIndexOfVideo(0);
-                                    _navigationService.navigateTo(
-                                        routes.HazardPerceptionTestRoute);
-                                 
+                                    if (valueController.indexOfVideo == 0 &&
+                                        !valueController.testStarted) {
+                                      valueController.startTest(
+                                          valueController.testStarted);
+                                      _navigationService.navigateTo(
+                                          routes.HazardPerceptionTestRoute);
+                                    } else {
+                                      valueController.nextVideo(totalVideos);
+                                      _navigationService.navigateTo(
+                                          routes.HazardPerceptionTestRoute);
+                                    }
                                   });
-                                 
                                 },
                                 style: buttonStyle(),
-                                child: Text( valueController.indexOfVideo == 0 ?
-                                  'START TEST' : "NEXT",
+                                child: Text(
+                                  (valueController.indexOfVideo == 0 &&
+                                          !valueController.testStarted)
+                                      ? 'START TEST'
+                                      : 'NEXT',
                                   style: textStyle(),
                                 ),
                               ),
@@ -204,6 +300,7 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                           ),
                         ),
                       ),
+
                       SizedBox(
                         height: Responsive.height(5, context),
                       ),
@@ -214,22 +311,21 @@ class _HazardPerceptionConfirmation extends State<HazardPerceptionConfirmation>
                           (index) => Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: Consumer<VideoIndexProvider>(
-                                builder: (context, videoIndexProvider, child) {
-
-                                  print(videoIndexProvider.indexOfVideo);
-                                  return Container(
-                                    height: 7,
-                                    width: 7,
-                                    decoration: BoxDecoration(
-                                      color: index == videoIndexProvider.indexOfVideo
-                                          ? Colors.green
-                                          : Colors.black,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  );
-                                },
-                              ),
-
+                              builder: (context, videoIndexProvider, child) {
+                                print(videoIndexProvider.indexOfVideo);
+                                return Container(
+                                  height: 7,
+                                  width: 7,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        index == videoIndexProvider.indexOfVideo
+                                            ? Colors.green
+                                            : Colors.black,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

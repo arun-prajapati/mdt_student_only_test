@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 // import 'package:better_player_plus/better_player_plus.dart';
@@ -144,21 +143,22 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
 
   @override
   void initState() {
-    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+    final videoIndexProvider =
+        Provider.of<VideoIndexProvider>(context, listen: false);
 
     videoPaths = _localServices.getVideosList();
-    videoIndex = videoIndexProvider.indexOfVideo != 0 ? videoIndexProvider.indexOfVideo - 1 : videoIndexProvider.indexOfVideo ;
-  
+    videoIndex = videoIndexProvider.indexOfVideo;
+
     String videoName = (videoPaths[videoIndex]).substring(
         videoPaths[videoIndex].lastIndexOf('/') + 1,
         videoPaths[videoIndex].lastIndexOf('.'));
     videosTimeSlot[videoName]!.forEach((timeSlot) {
       this.clickDurationSlot.add(timeSlot);
     });
-    
+
     super.initState();
     initializeVideoPlayer(videoPaths[videoIndex]);
-
+    print('Index incremented to:--- ${videoIndexProvider.indexOfVideo}');
   }
 
   bool _isVideoComplete = false;
