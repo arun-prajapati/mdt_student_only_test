@@ -39,7 +39,7 @@ Future main() async {
   // SharedPreferences.setMockInitialValues({});
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocator();
-  PurchaseSub.init();
+  // PurchaseSub.init();
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
@@ -56,8 +56,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
-          ChangeNotifierProvider(create: (_) => VideoIndexProvider()),
+        // ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
+        ChangeNotifierProvider(create: (_) => VideoIndexProvider()),
       ],
       child: MaterialApp(
         navigatorObservers: [],

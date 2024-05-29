@@ -64,9 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    context
-        .read<SubscriptionProvider>()
-        .isUserPurchaseTest(context: context, isLogin: true);
+    // context
+    //     .read<SubscriptionProvider>()
+    //     .isUserPurchaseTest(context: context, isLogin: true);
     getUserName().then((value) {
       setState(() {
         _userName = value;

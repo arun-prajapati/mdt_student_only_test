@@ -179,7 +179,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
 
   Future<Map> getCountFromCategory() async {
     final url = Uri.parse(
-        "$api/api/get-categories?is_paid=${AppConstant.userModel?.planType == "free" ? "no" : "yes"}&category_id=$category_id");
+        "$api/api/get-categories?is_paid=yes&category_id=$category_id");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -312,7 +312,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   initializeApi(String loaderMessage) async {
     // auth_services.changeView = false;
     // setState(() {});
-    await context.read<SubscriptionProvider>().fetchOffer();
+    // await context.read<SubscriptionProvider>().fetchOffer();
     checkInternet();
     // CustomSpinner.showLoadingDialog(context, _keyLoader, loaderMessage);
     // getUserDetail().then((user_id) {
@@ -652,12 +652,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                             startButtonWidget(
                                                 context, constraints),
                                           if (isTestStarted)
-                                            AppConstant.userModel?.planType ==
-                                                        "free" &&
-                                                    currentQuestionCount > 10
-                                                ? SizedBox()
-                                                : nextButtonWidget(
-                                                    context, constraints),
+                                            nextButtonWidget(
+                                                context, constraints),
                                         ],
                                       );
                                     });
@@ -871,182 +867,180 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
       BuildContext context, BoxConstraints constraints, question) {
     TextStyle _questionTextStyle = AppTextStyle.titleStyle
         .copyWith(fontWeight: FontWeight.w500, color: AppColors.black);
-    return Consumer<SubscriptionProvider>(builder: (context, data, _) {
-      return Stack(
-        children: <Widget>[
-          Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 15),
-                width: constraints.maxWidth * 1,
-                alignment: Alignment.topLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (question['questionImg'] != '')
-                      Container(
-                        transform: Matrix4.translationValues(0, -5, 0),
-                        alignment: Alignment.center,
-                        height: 17 * SizeConfig.blockSizeVertical,
-                        width: constraints.maxWidth * 1,
-                        child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/spinner.gif',
-                          image: question['questionImg'],
-                          imageErrorBuilder: (context, url, error) => Container(
-                            child: Column(
-                              children: [
-                                new Icon(Icons.error,
-                                    color: Colors.grey,
-                                    size: 5 * SizeConfig.blockSizeVertical),
-                                // Text(
-                                //   "Image not found!",
-                                //   style: TextStyle(
-                                //       fontSize: 2 * SizeConfig.blockSizeVertical,
-                                //       color: Colors.redAccent),
-                                // )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    SizedBox(height: 10),
-                    if (question['title'] != '')
-                      Text(
-                        question['title'],
-                        style: _questionTextStyle,
-                      ),
-                    // Container(
-                    //     width: constraints.maxWidth * 1,
-                    //     margin: EdgeInsets.only(top: 5),
-                    //     child: AutoSizeText(
-                    //       question['type'] == 0
-                    //           ? 'Question Source: MDT'
-                    //           : 'Question Source: DVSA',
-                    //       style: TextStyle(
-                    //           fontSize: 2 * SizeConfig.blockSizeVertical,
-                    //           color: Colors.black26,
-                    //           fontWeight: FontWeight.w500),
-                    //     ))
-                  ],
-                ),
-              ),
-              ...question['options'].map((option) => radioSingleOptionUI(
-                    constraints,
-                    option,
-                    question['options'].indexOf(option),
-                    question,
-                  )),
-            ],
-          ),
-          // if (question['type'] == 1 &&
-          //     AppConstant.userModel?.planType == "free")
-          //   SizedBox(),
-          if (AppConstant.userModel?.planType == "free" &&
-              // question['type'] == 1 ||
-              currentQuestionCount > 10)
+    return Stack(
+      children: <Widget>[
+        Column(
+          children: [
             Container(
-              width: Responsive.height(100, context),
-              height: Responsive.height(100, context),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 1),
-                child: Container(
-                    color: Colors.white.withOpacity(0.9),
-                    padding: EdgeInsets.only(
-                      top: Responsive.height(20, context),
-                    ),
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(top: 20),
-                          width: constraints.maxWidth * 0.90,
-                          child:
-                              AutoSizeText('Please buy now for more questions.',
-                                  textAlign: TextAlign.center,
-                                  style: AppTextStyle.textStyle.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                        ),
-                        Container(
-                          height: 6 * SizeConfig.blockSizeVertical,
-                          width: constraints.maxWidth * 0.50,
-                          alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(top: 10),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(10),
-                            elevation: 5.0,
-                            child: GestureDetector(
-                              onTap: () {
-                                // resetTestByApi();
-                                subscriptionConfirmAlert(context);
-                              },
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  return Container(
-                                      width: constraints.maxWidth * 1,
-                                      height: constraints.maxHeight * 1,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          gradient: RadialGradient(
-                                            colors: [
-                                              AppColors.primary,
-                                              AppColors.secondary,
-                                              AppColors.secondary,
-                                            ],
-                                            radius: 10,
-                                            focal: Alignment(-1.1, -3.0),
-                                          )),
-                                      child: SizedBox(
-                                        width: constraints.maxWidth * 1,
-                                        child: AutoSizeText('Buy Now',
-                                            textAlign: TextAlign.center,
-                                            style:
-                                                AppTextStyle.textStyle.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                            )),
-                                      ));
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(top: 20),
-                          width: constraints.maxWidth * 0.90,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+              margin: EdgeInsets.only(bottom: 15),
+              width: constraints.maxWidth * 1,
+              alignment: Alignment.topLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (question['questionImg'] != '')
+                    Container(
+                      transform: Matrix4.translationValues(0, -5, 0),
+                      alignment: Alignment.center,
+                      height: 17 * SizeConfig.blockSizeVertical,
+                      width: constraints.maxWidth * 1,
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/spinner.gif',
+                        image: question['questionImg'],
+                        imageErrorBuilder: (context, url, error) => Container(
+                          child: Column(
                             children: [
-                              Container(
-                                  // width: constraints.maxWidth * 0.18,
-                                  alignment: Alignment.topCenter,
-                                  child: Text("NOTE:   ",
-                                      style: AppTextStyle.textStyle.copyWith(
-                                          color: AppColors.red1,
-                                          fontWeight: FontWeight.w500))),
-                              Container(
-                                  width: constraints.maxWidth * 0.72,
-                                  child: Text(
-                                      // textAlign: TextAlign.justify,
-                                      'Please purchase license to access more question in this category',
-                                      style: AppTextStyle.disStyle.copyWith(
-                                          fontWeight: FontWeight.w400))),
+                              new Icon(Icons.error,
+                                  color: Colors.grey,
+                                  size: 5 * SizeConfig.blockSizeVertical),
+                              // Text(
+                              //   "Image not found!",
+                              //   style: TextStyle(
+                              //       fontSize: 2 * SizeConfig.blockSizeVertical,
+                              //       color: Colors.redAccent),
+                              // )
                             ],
                           ),
                         ),
-                      ],
-                    )),
+                      ),
+                    ),
+                  SizedBox(height: 10),
+                  if (question['title'] != '')
+                    Text(
+                      question['title'],
+                      style: _questionTextStyle,
+                    ),
+                  // Container(
+                  //     width: constraints.maxWidth * 1,
+                  //     margin: EdgeInsets.only(top: 5),
+                  //     child: AutoSizeText(
+                  //       question['type'] == 0
+                  //           ? 'Question Source: MDT'
+                  //           : 'Question Source: DVSA',
+                  //       style: TextStyle(
+                  //           fontSize: 2 * SizeConfig.blockSizeVertical,
+                  //           color: Colors.black26,
+                  //           fontWeight: FontWeight.w500),
+                  //     ))
+                ],
               ),
-            )
-          else ...[SizedBox()]
-        ],
-      );
-    });
+            ),
+            ...question['options'].map((option) => radioSingleOptionUI(
+                  constraints,
+                  option,
+                  question['options'].indexOf(option),
+                  question,
+                )),
+          ],
+        ),
+        // if (question['type'] == 1 &&
+        //     AppConstant.userModel?.planType == "free")
+        //   SizedBox(),
+        // if (AppConstant.userModel?.planType == "free" &&
+        //     // question['type'] == 1 ||
+        //     currentQuestionCount > 10)
+        //   Container(
+        //     width: Responsive.height(100, context),
+        //     height: Responsive.height(100, context),
+        //     child: BackdropFilter(
+        //       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 1),
+        //       child: Container(
+        //           color: Colors.white.withOpacity(0.9),
+        //           padding: EdgeInsets.only(
+        //             top: Responsive.height(20, context),
+        //           ),
+        //           alignment: Alignment.topCenter,
+        //           child: Column(
+        //             crossAxisAlignment: CrossAxisAlignment.center,
+        //             children: [
+        //               Container(
+        //                 alignment: Alignment.topCenter,
+        //                 margin: EdgeInsets.only(top: 20),
+        //                 width: constraints.maxWidth * 0.90,
+        //                 child:
+        //                     AutoSizeText('Please buy now for more questions.',
+        //                         textAlign: TextAlign.center,
+        //                         style: AppTextStyle.textStyle.copyWith(
+        //                           fontWeight: FontWeight.w400,
+        //                         )),
+        //               ),
+        //               Container(
+        //                 height: 6 * SizeConfig.blockSizeVertical,
+        //                 width: constraints.maxWidth * 0.50,
+        //                 alignment: Alignment.topCenter,
+        //                 margin: EdgeInsets.only(top: 10),
+        //                 child: Material(
+        //                   borderRadius: BorderRadius.circular(10),
+        //                   elevation: 5.0,
+        //                   child: GestureDetector(
+        //                     onTap: () {
+        //                       // resetTestByApi();
+        //                       subscriptionConfirmAlert(context);
+        //                     },
+        //                     child: LayoutBuilder(
+        //                       builder: (context, constraints) {
+        //                         return Container(
+        //                             width: constraints.maxWidth * 1,
+        //                             height: constraints.maxHeight * 1,
+        //                             alignment: Alignment.center,
+        //                             decoration: BoxDecoration(
+        //                                 borderRadius:
+        //                                     BorderRadius.circular(10),
+        //                                 gradient: RadialGradient(
+        //                                   colors: [
+        //                                     AppColors.primary,
+        //                                     AppColors.secondary,
+        //                                     AppColors.secondary,
+        //                                   ],
+        //                                   radius: 10,
+        //                                   focal: Alignment(-1.1, -3.0),
+        //                                 )),
+        //                             child: SizedBox(
+        //                               width: constraints.maxWidth * 1,
+        //                               child: AutoSizeText('Buy Now',
+        //                                   textAlign: TextAlign.center,
+        //                                   style:
+        //                                       AppTextStyle.textStyle.copyWith(
+        //                                     color: Colors.white,
+        //                                     fontWeight: FontWeight.w600,
+        //                                   )),
+        //                             ));
+        //                       },
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //               Container(
+        //                 // alignment: Alignment.topCenter,
+        //                 margin: EdgeInsets.only(top: 20),
+        //                 width: constraints.maxWidth * 0.90,
+        //                 child: Row(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     Container(
+        //                         // width: constraints.maxWidth * 0.18,
+        //                         alignment: Alignment.topCenter,
+        //                         child: Text("NOTE:   ",
+        //                             style: AppTextStyle.textStyle.copyWith(
+        //                                 color: AppColors.red1,
+        //                                 fontWeight: FontWeight.w500))),
+        //                     Container(
+        //                         width: constraints.maxWidth * 0.72,
+        //                         child: Text(
+        //                             // textAlign: TextAlign.justify,
+        //                             'Please purchase license to access more question in this category',
+        //                             style: AppTextStyle.disStyle.copyWith(
+        //                                 fontWeight: FontWeight.w400))),
+        //                   ],
+        //                 ),
+        //               ),
+        //             ],
+        //           )),
+        //     ),
+        //   )
+        // else ...[SizedBox()]
+      ],
+    );
   }
 
   Widget answerExplanation(Map question) {
@@ -1169,178 +1163,166 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         // print('walletDetail: ${walletDetail}');
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 80, vertical: 0),
-          child: Consumer<SubscriptionProvider>(builder: (context, val, _) {
-            return CustomButton(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              onTap: (selectedOptionIndex == null &&
-                      (questionsList[selectedQuestionIndex]['type'] == 0 ||
-                          (questionsList[selectedQuestionIndex]['type'] == 1 &&
-                              val.entitlement == Entitlement.paid)))
-                  ? () {
-                      // resetTestByApi();
-                      print('IFFFF ------------');
+          child: CustomButton(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            onTap: selectedOptionIndex == null
+                ? () {
+                    // resetTestByApi();
+                    print('IFFFF ------------');
+                  }
+                : () {
+                    // getCountFromCategory();
+                    // resetTestByApi();
+                    // if (questionMap['attempt_question_count'] >
+                    //         questionMap['total_question_count'] &&
+                    //     !category_id.contains(',')) {
+                    //   testResetAlertBox(context);
+                    // } else {
+                    // print(
+                    // 'IFFFF ------------ ${currentQuestionCount} ${}');
+                    if (!category_id.contains(',')) {
+                      if (currentQuestionCount >=
+                          questionsList[selectedQuestionIndex]
+                              ['total_question_count']) {
+                        testResetAlertBox(context);
+                      }
+                    } else if (category_id.contains(',')) {
+                      if (currentQuestionCount >=
+                          questionMap['total_question_count']) {
+                        testResetAlertBox(context);
+                      }
                     }
-                  : () {
-                      // getCountFromCategory();
-                      // resetTestByApi();
-                      // if (questionMap['attempt_question_count'] >
-                      //         questionMap['total_question_count'] &&
-                      //     !category_id.contains(',')) {
-                      //   testResetAlertBox(context);
+
+                    if (selectedOptionIndex != null) {
+                      // if (questionMap['total_question_count'] ==
+                      //     currentQuestionCount) {
+                      //   currentQuestionCount = 1;
                       // } else {
-                      // print(
-                      // 'IFFFF ------------ ${currentQuestionCount} ${}');
-                      if (!category_id.contains(',')) {
-                        if (currentQuestionCount >=
-                            questionsList[selectedQuestionIndex]
-                                ['total_question_count']) {
-                          testResetAlertBox(context);
-                        }
-                      } else if (category_id.contains(',')) {
-                        if (currentQuestionCount >=
-                            questionMap['total_question_count']) {
-                          testResetAlertBox(context);
-                        }
+                      if (currentQuestionCount !=
+                          questionsList[selectedQuestionIndex]
+                              ['total_question_count']) {
+                        // if (selectedQuestionIndex != 0) {
+                        currentQuestionCount += 1;
+                        // }
+                        // }
                       }
+                    }
 
-                      if (selectedOptionIndex != null) {
-                        // if (questionMap['total_question_count'] ==
-                        //     currentQuestionCount) {
-                        //   currentQuestionCount = 1;
-                        // } else {
-                        if (currentQuestionCount !=
-                            questionsList[selectedQuestionIndex]
-                                ['total_question_count']) {
-                          // if (selectedQuestionIndex != 0) {
-                          currentQuestionCount += 1;
-                          // }
-                          // }
-                        }
-                      }
-
-                      print(
-                          'ELSE------------ ${currentQuestionCount} == ${category_id.contains(',')}');
-                      if (AppConstant.userModel?.planType == "free") {
-                        testQuestionsForResult.clear();
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer',
-                          "alternative_questions_id":
-                              questionsList[selectedQuestionIndex]
-                                  ['alternative_questions_id'],
+                    print(
+                        'ELSE------------ ${currentQuestionCount} == ${category_id.contains(',')}');
+                    // if (AppConstant.userModel?.planType == "free") {
+                    testQuestionsForResult.clear();
+                    testQuestionsForResult.add({
+                      'questionId': questionsList[selectedQuestionIndex]['id'],
+                      'type': questionsList[selectedQuestionIndex]['type'],
+                      'question': questionsList[selectedQuestionIndex]['title'],
+                      'correct': (selectedOptionIndex != null &&
+                              questionsList[selectedQuestionIndex]['options']
+                                      [selectedOptionIndex]['correct'] ==
+                                  true)
+                          ? 'Correct Answer'
+                          : 'Wrong Answer',
+                      "alternative_questions_id":
+                          questionsList[selectedQuestionIndex]
+                              ['alternative_questions_id'],
+                    });
+                    // } else if (AppConstant.userModel?.planType != "free") {
+                    //   testQuestionsForResult.clear();
+                    //   testQuestionsForResult.add({
+                    //     'questionId': questionsList[selectedQuestionIndex]
+                    //         ['id'],
+                    //     'type': questionsList[selectedQuestionIndex]['type'],
+                    //     'question': questionsList[selectedQuestionIndex]
+                    //         ['title'],
+                    //     'correct': (selectedOptionIndex != null &&
+                    //             questionsList[selectedQuestionIndex]
+                    //                         ['options'][selectedOptionIndex]
+                    //                     ['correct'] ==
+                    //                 true)
+                    //         ? 'Correct Answer'
+                    //         : 'Wrong Answer',
+                    //     "alternative_questions_id":
+                    //         questionsList[selectedQuestionIndex]
+                    //             ['alternative_questions_id'],
+                    //   });
+                    // }
+                    print(
+                        "[[[[[[[[[[[]]]]]]]]]]] ${currentQuestionCount} ${questionsList.length}");
+                    if (selectedOptionIndex != null) {
+                      if ((selectedQuestionIndex + 1) < questionsList.length) {
+                        _controller.animateTo(0,
+                            duration: Duration(microseconds: 1000),
+                            curve: Curves.slowMiddle);
+                        setState(() {
+                          selectedOptionIndex = null;
+                          selectedQuestionIndex += 1;
                         });
-                      } else if (AppConstant.userModel?.planType != "free") {
-                        testQuestionsForResult.clear();
-                        testQuestionsForResult.add({
-                          'questionId': questionsList[selectedQuestionIndex]
-                              ['id'],
-                          'type': questionsList[selectedQuestionIndex]['type'],
-                          'question': questionsList[selectedQuestionIndex]
-                              ['title'],
-                          'correct': (selectedOptionIndex != null &&
-                                  questionsList[selectedQuestionIndex]
-                                              ['options'][selectedOptionIndex]
-                                          ['correct'] ==
-                                      true)
-                              ? 'Correct Answer'
-                              : 'Wrong Answer',
-                          "alternative_questions_id":
-                              questionsList[selectedQuestionIndex]
-                                  ['alternative_questions_id'],
-                        });
-                      }
-                      print(
-                          "[[[[[[[[[[[]]]]]]]]]]] ${currentQuestionCount} ${questionsList.length}");
-                      if (selectedOptionIndex != null) {
-                        if ((selectedQuestionIndex + 1) <
-                            questionsList.length) {
-                          _controller.animateTo(0,
-                              duration: Duration(microseconds: 1000),
-                              curve: Curves.slowMiddle);
-                          setState(() {
-                            selectedOptionIndex = null;
-                            selectedQuestionIndex += 1;
-                          });
-                          // if (AppConstant.userModel?.planType != "free") {
-                          submitTestByApi().then((value) {});
-                          // resetTestByApi();
-                          // }
-                        } else {
-                          if (questionMap['attempt_question_count'] <
-                                  questionMap['total_question_count'] &&
-                              !category_id.contains(',')) {
-                            submitTestByApi();
-                            // testResetAlertBox(context);
-                          }
-
-                          // print(
-                          // 'opopoposz ${questionMap['attempt_question_count']} > ${questionMap['total_question_count']} ${questionsList.length}');
+                        // if (AppConstant.userModel?.planType != "free") {
+                        submitTestByApi().then((value) {});
+                        // resetTestByApi();
+                        // }
+                      } else {
+                        if (questionMap['attempt_question_count'] <
+                                questionMap['total_question_count'] &&
+                            !category_id.contains(',')) {
+                          submitTestByApi();
+                          // testResetAlertBox(context);
                         }
-                      }
-                      // else {
-                      //   if (AppConstant.userModel?.planType == "free") {
-                      //     CustomSpinner.showLoadingDialog(
-                      //         context, _keyLoader, "Test Submitting...");
-                      //     // submitTestByApi().then((value) {
-                      //     //   Navigator.of(_keyLoader.currentContext!,
-                      //     //           rootNavigator: true)
-                      //     //       .pop();
-                      //     testCompleAlertBox(context);
-                      //     // });
-                      //   }
-                      // }
-                      if (AppConstant.userModel?.planType != "free") {
-                        if (selectedQuestionIndex == questionsList.length - 1 &&
-                            haseMore) {
-                          CustomSpinner.showLoadingDialog(
-                              context, _keyLoader, "Load more question...");
-                          page = 1;
-                          // questionsList.clear();
-                          selectedQuestionIndex = 0;
 
-                          getTestQuestions(category_id).then((value) {
-                            questionsList = value;
-                            setState(() {});
-                            Navigator.of(_keyLoader.currentContext!,
-                                    rootNavigator: true)
-                                .pop();
-                            isLoading = false;
-                          });
-                        }
+                        // print(
+                        // 'opopoposz ${questionMap['attempt_question_count']} > ${questionMap['total_question_count']} ${questionsList.length}');
                       }
-                      // }
-                      // resetTestByApi();
-                      // if (AppConstant.userModel?.planType == "free" &&
-                      //     currentQuestionCount > 10) {
-                      //   showblur = true;
-                      // }
-                      // if (!haseMore) {
-                      //   testResetAlertBox(context);
-                      // }
-                      // setState(() {});
-                      print(
-                          'testQuestionsForResult ${testQuestionsForResult.length}');
-                      // print(
-                      // 'type------------ ${currentQuestionCount}  ${questionMap['total_question_count']} ${questionsList.length}');
-                    },
-              title: currentQuestionCount != questionMap['total_question_count']
-                  ? AppConstant.userModel?.planType == "free" &&
-                          currentQuestionCount > 10
-                      ? 'Test Submit'
-                      : 'Next'
-                  : 'Test Reset',
-            );
-          }),
+                    }
+                    // else {
+                    //   if (AppConstant.userModel?.planType == "free") {
+                    //     CustomSpinner.showLoadingDialog(
+                    //         context, _keyLoader, "Test Submitting...");
+                    //     // submitTestByApi().then((value) {
+                    //     //   Navigator.of(_keyLoader.currentContext!,
+                    //     //           rootNavigator: true)
+                    //     //       .pop();
+                    //     testCompleAlertBox(context);
+                    //     // });
+                    //   }
+                    // }
+                    // if (AppConstant.userModel?.planType != "free") {
+                    if (selectedQuestionIndex == questionsList.length - 1 &&
+                        haseMore) {
+                      CustomSpinner.showLoadingDialog(
+                          context, _keyLoader, "Load more question...");
+                      page = 1;
+                      // questionsList.clear();
+                      selectedQuestionIndex = 0;
+
+                      getTestQuestions(category_id).then((value) {
+                        questionsList = value;
+                        setState(() {});
+                        Navigator.of(_keyLoader.currentContext!,
+                                rootNavigator: true)
+                            .pop();
+                        isLoading = false;
+                      });
+                    }
+                    // }
+                    // }
+                    // resetTestByApi();
+                    // if (AppConstant.userModel?.planType == "free" &&
+                    //     currentQuestionCount > 10) {
+                    //   showblur = true;
+                    // }
+                    // if (!haseMore) {
+                    //   testResetAlertBox(context);
+                    // }
+                    // setState(() {});
+                    print(
+                        'testQuestionsForResult ${testQuestionsForResult.length}');
+                    // print(
+                    // 'type------------ ${currentQuestionCount}  ${questionMap['total_question_count']} ${questionsList.length}');
+                  },
+            title: currentQuestionCount != questionMap['total_question_count']
+                ? 'Next'
+                : 'Test Reset',
+          ),
         );
       },
     );
@@ -1627,211 +1609,211 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
         });
   }
 
-  Future<void> subscriptionConfirmAlert(BuildContext parent_context) async {
-    return showDialog<void>(
-        context: parent_context,
-        barrierDismissible: false,
-        barrierColor: Colors.black45,
-        builder: (parent_context) {
-          return new PopScope(
-              onPopInvoked: (val) async => false,
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      left: Responsive.width(2, parent_context),
-                      right: Responsive.width(2, parent_context)),
-                  child: Dialog(
-                    insetPadding: EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    //this right here
-                    child: Container(
-                      // height: Responsive.height(30, parent_context),
-                      padding: EdgeInsets.fromLTRB(10, 25, 10, 25),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Column(children: [
-                              // SizedBox(
-                              //   height: 30,
-                              // ),
-                              Text(
-                                "Are you sure you want to buy now for more questions?",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xFF595959),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Total charges: ${context.read<SubscriptionProvider>().package.first.storeProduct.priceString}"
-                                    .toString(),
-                                style: TextStyle(
-                                    color: Color(0xFF797979),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18),
-                              ),
-                              SizedBox(height: 20),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: CustomButton(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        title: 'Buy Now',
-                                        onTap: () {
-                                          payWallBottomSheet();
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Expanded(
-                                      child: CustomButton(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        title: 'Cancel',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ]),
-                          )
-                        ],
-                      ),
-                    ),
-                  )));
-        });
-  }
+  // Future<void> subscriptionConfirmAlert(BuildContext parent_context) async {
+  //   return showDialog<void>(
+  //       context: parent_context,
+  //       barrierDismissible: false,
+  //       barrierColor: Colors.black45,
+  //       builder: (parent_context) {
+  //         return new PopScope(
+  //             onPopInvoked: (val) async => false,
+  //             child: Padding(
+  //                 padding: EdgeInsets.only(
+  //                     left: Responsive.width(2, parent_context),
+  //                     right: Responsive.width(2, parent_context)),
+  //                 child: Dialog(
+  //                   insetPadding: EdgeInsets.all(20),
+  //                   shape: RoundedRectangleBorder(
+  //                       borderRadius: BorderRadius.circular(5.0)),
+  //                   //this right here
+  //                   child: Container(
+  //                     // height: Responsive.height(30, parent_context),
+  //                     padding: EdgeInsets.fromLTRB(10, 25, 10, 25),
+  //                     child: Column(
+  //                       mainAxisSize: MainAxisSize.min,
+  //                       mainAxisAlignment: MainAxisAlignment.center,
+  //                       crossAxisAlignment: CrossAxisAlignment.center,
+  //                       children: [
+  //                         Center(
+  //                           child: Column(children: [
+  //                             // SizedBox(
+  //                             //   height: 30,
+  //                             // ),
+  //                             Text(
+  //                               "Are you sure you want to buy now for more questions?",
+  //                               textAlign: TextAlign.center,
+  //                               style: TextStyle(
+  //                                   color: Color(0xFF595959),
+  //                                   fontWeight: FontWeight.w600,
+  //                                   fontSize: 16),
+  //                             ),
+  //                             SizedBox(height: 10),
+  //                             Text(
+  //                               "Total charges: ${context.read<SubscriptionProvider>().package.first.storeProduct.priceString}"
+  //                                   .toString(),
+  //                               style: TextStyle(
+  //                                   color: Color(0xFF797979),
+  //                                   fontWeight: FontWeight.w600,
+  //                                   fontSize: 18),
+  //                             ),
+  //                             SizedBox(height: 20),
+  //                             Padding(
+  //                               padding: EdgeInsets.symmetric(horizontal: 12),
+  //                               child: Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Expanded(
+  //                                     child: CustomButton(
+  //                                       padding:
+  //                                           EdgeInsets.symmetric(vertical: 10),
+  //                                       title: 'Buy Now',
+  //                                       onTap: () {
+  //                                         payWallBottomSheet();
+  //                                       },
+  //                                     ),
+  //                                   ),
+  //                                   SizedBox(width: 20),
+  //                                   Expanded(
+  //                                     child: CustomButton(
+  //                                       padding:
+  //                                           EdgeInsets.symmetric(vertical: 10),
+  //                                       title: 'Cancel',
+  //                                       onTap: () {
+  //                                         Navigator.of(context).pop();
+  //                                       },
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ]),
+  //                         )
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 )));
+  //       });
+  // }
 
-  payWallBottomSheet() {
-    showModalBottomSheet(
-        isDismissible: false,
-        // enableDrag: false,
-        shape: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            )),
-        backgroundColor: Colors.white,
-        context: context,
-        builder: (_) => PopScope(
-              canPop: false,
-              child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(width: 20),
-                          Text("Purchase",
-                              style: AppTextStyle.titleStyle.copyWith(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black54)),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                                padding: EdgeInsets.all(0),
-                                visualDensity: VisualDensity.comfortable,
-                                iconSize: 20,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(Icons.clear)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
+//   payWallBottomSheet() {
+//     showModalBottomSheet(
+//         isDismissible: false,
+//         // enableDrag: false,
+//         shape: OutlineInputBorder(
+//             borderSide: BorderSide(color: Colors.white),
+//             borderRadius: BorderRadius.only(
+//               topLeft: Radius.circular(20),
+//               topRight: Radius.circular(20),
+//             )),
+//         backgroundColor: Colors.white,
+//         context: context,
+//         builder: (_) => PopScope(
+//               canPop: false,
+//               child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
+//                 return Padding(
+//                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+//                   child: Column(
+//                     mainAxisSize: MainAxisSize.min,
+//                     children: [
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           SizedBox(width: 20),
+//                           Text("Purchase",
+//                               style: AppTextStyle.titleStyle.copyWith(
+//                                   fontSize: 15,
+//                                   fontWeight: FontWeight.w600,
+//                                   color: Colors.black54)),
+//                           Align(
+//                             alignment: Alignment.topRight,
+//                             child: IconButton(
+//                                 padding: EdgeInsets.all(0),
+//                                 visualDensity: VisualDensity.comfortable,
+//                                 iconSize: 20,
+//                                 onPressed: () {
+//                                   Navigator.pop(context);
+//                                 },
+//                                 icon: Icon(Icons.clear)),
+//                           ),
+//                         ],
+//                       ),
+//                       SizedBox(height: 10),
+//                       Padding(
+//                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+//                         child: GestureDetector(
+//                           onTap: () {
+//                             Navigator.pop(context);
+//                             Navigator.pop(context);
 
-                            purchasePackage(val.package.first, context);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            decoration: BoxDecoration(
-                                color: AppColors.borderblue.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(),
-                                Text("${val.package.first.storeProduct.title}",
-                                    style: AppTextStyle.titleStyle.copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black54)),
-                                Text(
-                                    "${val.package.first.storeProduct.description}",
-                                    style: AppTextStyle.disStyle.copyWith(
-                                        // fontSize: 15,
+//                             purchasePackage(val.package.first, context);
+//                           },
+//                           child: Container(
+//                             padding: EdgeInsets.symmetric(
+//                                 vertical: 10, horizontal: 20),
+//                             decoration: BoxDecoration(
+//                                 color: AppColors.borderblue.withOpacity(0.1),
+//                                 borderRadius: BorderRadius.circular(5)),
+//                             child: Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 Row(),
+//                                 Text("${val.package.first.storeProduct.title}",
+//                                     style: AppTextStyle.titleStyle.copyWith(
+//                                         fontSize: 15,
+//                                         fontWeight: FontWeight.w600,
+//                                         color: Colors.black54)),
+//                                 Text(
+//                                     "${val.package.first.storeProduct.description}",
+//                                     style: AppTextStyle.disStyle.copyWith(
+//                                         // fontSize: 15,
 
-                                        color: Colors.grey)),
-                                Text(
-                                  "${val.package.first.storeProduct.priceString}",
-                                  style: AppTextStyle.disStyle
-                                      .copyWith(color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 40),
-                    ],
-                  ),
-                );
-              }),
-            ));
-  }
+//                                         color: Colors.grey)),
+//                                 Text(
+//                                   "${val.package.first.storeProduct.priceString}",
+//                                   style: AppTextStyle.disStyle
+//                                       .copyWith(color: Colors.black),
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       SizedBox(height: 40),
+//                     ],
+//                   ),
+//                 );
+//               }),
+//             ));
+//   }
 
-  purchasePackage(Package package, BuildContext context) async {
-    loading(value: true);
-    try {
-      loading(value: true);
-      await Purchases.purchasePackage(package).then((value) {
-        loading(value: false);
-        print('HHHHHHHHH');
-        context.read<SubscriptionProvider>().updateUserPlan(
-            value.entitlements.active['One time purchase']?.isActive == true
-                ? "paid"
-                : AppConstant.userModel?.planType == "gift"
-                    ? "gift"
-                    : "free");
-        context
-            .read<SubscriptionProvider>()
-            .isUserPurchaseTest(context: context);
-        context.read<SubscriptionProvider>().isUserPurchaseTest();
-      }).catchError((e) {
-        loading(value: false);
-        print("ERROR ====== $e");
+//   purchasePackage(Package package, BuildContext context) async {
+//     loading(value: true);
+//     try {
+//       loading(value: true);
+//       await Purchases.purchasePackage(package).then((value) {
+//         loading(value: false);
+//         print('HHHHHHHHH');
+//         context.read<SubscriptionProvider>().updateUserPlan(
+//             value.entitlements.active['One time purchase']?.isActive == true
+//                 ? "paid"
+//                 : AppConstant.userModel?.planType == "gift"
+//                     ? "gift"
+//                     : "free");
+//         context
+//             .read<SubscriptionProvider>()
+//             .isUserPurchaseTest(context: context);
+//         context.read<SubscriptionProvider>().isUserPurchaseTest();
+//       }).catchError((e) {
+//         loading(value: false);
+//         print("ERROR ====== $e");
 
-        return e;
-      });
-    } catch (e) {
-      loading(value: false);
-      print("ERROR ====== $e");
-    }
-  }
+//         return e;
+//       });
+//     } catch (e) {
+//       loading(value: false);
+//       print("ERROR ====== $e");
+//     }
+//   }
 }
 
 typedef IntCallback = Function(int num);

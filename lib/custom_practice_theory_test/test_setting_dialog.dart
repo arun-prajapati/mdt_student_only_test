@@ -66,30 +66,30 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
       print('widget.categories_list ${widget.categories_list}');
       for (var e in widget.categories_list) {
         Map category = e;
-        print(
-            '=========== ${AppConstant.userModel?.planType} ${category['isFree']}');
-        if (category['isFree'] == "free" &&
-            (AppConstant.userModel?.planType == "free" ||
-                AppConstant.userModel?.planType == "gift")) {
-          category['selected'] = true;
-          if (category['isFree'] == "free" &&
-              (AppConstant.userModel?.planType == "free" ||
-                  AppConstant.userModel?.planType == "gift")) {
-            idList.add(category['id']);
-            idList.join();
-            var data = idList.join(",");
-            seledtedCategoryId = data;
-            print('------------ IF $data');
-          }
-        } else if (AppConstant.userModel?.planType == "gift" ||
-            AppConstant.userModel?.planType == "paid") {
-          category['selected'] = true;
-          idList.add(category['id']);
-          idList.join();
-          var data = idList.join(",");
-          seledtedCategoryId = data;
-          print('------------ ELSE $data');
-        }
+        // print(
+        //     '=========== ${AppConstant.userModel?.planType} ${category['isFree']}');
+        // if (category['isFree'] == "free" &&
+        //     (AppConstant.userModel?.planType == "free" ||
+        //         AppConstant.userModel?.planType == "gift")) {
+        //   category['selected'] = true;
+        //   if (category['isFree'] == "free" &&
+        //       (AppConstant.userModel?.planType == "free" ||
+        //           AppConstant.userModel?.planType == "gift")) {
+        idList.add(category['id']);
+        idList.join();
+        var data = idList.join(",");
+        seledtedCategoryId = data;
+        print('------------ IF $data');
+        // }
+        // } else if (AppConstant.userModel?.planType == "gift" ||
+        //     AppConstant.userModel?.planType == "paid") {
+        //   category['selected'] = true;
+        //   idList.add(category['id']);
+        //   idList.join();
+        //   var data = idList.join(",");
+        //   seledtedCategoryId = data;
+        //   print('------------ ELSE $data');
+        // }
         categories.add(category);
         print('widget.categories_list ${category}');
       }
@@ -172,18 +172,18 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                 if (isAllCategoriesSelected) {
                                   var idList = [];
                                   for (var d in categories) {
-                                    if (d['isFree'] == "free" &&
-                                        (AppConstant.userModel?.planType ==
-                                                "free" ||
-                                            AppConstant.userModel?.planType ==
-                                                "gift")) {
-                                      idList.add(d['id']);
-                                      print('ID LISTTTTT $idList');
-                                      idList.join();
-                                      var data = idList.join(",");
-                                      seledtedCategoryId = data;
-                                      print('------------ $data');
-                                    }
+                                    // if (d['isFree'] == "free" &&
+                                    //     (AppConstant.userModel?.planType ==
+                                    //             "free" ||
+                                    //         AppConstant.userModel?.planType ==
+                                    //             "gift")) {
+                                    idList.add(d['id']);
+                                    print('ID LISTTTTT $idList');
+                                    idList.join();
+                                    var data = idList.join(",");
+                                    seledtedCategoryId = data;
+                                    print('------------ $data');
+                                    // }
                                   }
                                 } else {
                                   seledtedCategoryId = "0";
@@ -215,55 +215,9 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Row(
-                                    // mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                            "${categories[index]['name']}"
-                                                .toString(),
-                                            style: AppTextStyle.textStyle
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                      ),
-                                      SizedBox(width: 5),
-                                      AppConstant.userModel?.planType ==
-                                                  "paid" ||
-                                              AppConstant.userModel?.planType ==
-                                                  "gift"
-                                          ? SizedBox()
-                                          : Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 0.0),
-                                              child: Image.asset(
-                                                  categories[index]['isFree'] == "free" &&
-                                                          (AppConstant.userModel
-                                                                      ?.planType ==
-                                                                  "free" ||
-                                                              AppConstant
-                                                                      .userModel
-                                                                      ?.planType ==
-                                                                  "gift")
-                                                      ? "assets/images/free.png"
-                                                      : "assets/images/premium.png",
-                                                  height: categories[index]
-                                                                  ['isFree'] ==
-                                                              "free" &&
-                                                          (AppConstant.userModel
-                                                                      ?.planType ==
-                                                                  "free" ||
-                                                              AppConstant
-                                                                      .userModel
-                                                                      ?.planType ==
-                                                                  "gift")
-                                                      ? 18
-                                                      : 15),
-                                            ),
-                                    ],
-                                  ),
-                                ),
+                                Text("${categories[index]['name']}".toString(),
+                                    style: AppTextStyle.textStyle
+                                        .copyWith(fontWeight: FontWeight.w500)),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 0.0),
                                   child: ActionChip(
@@ -272,26 +226,14 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                                     padding: EdgeInsets.all(0),
                                     labelPadding: EdgeInsets.all(0),
                                     visualDensity: VisualDensity.comfortable,
-                                    onPressed: categories[index]['isFree'] !=
-                                                "free" &&
-                                            (AppConstant.userModel?.planType ==
-                                                    "free" ||
-                                                AppConstant
-                                                        .userModel?.planType ==
-                                                    "gift")
-                                        ? () {
-                                            GetPremium(context);
-                                          }
-                                        : () => {
-                                              setState(() {
-                                                resetAll(false);
-                                                seledtedCategoryId =
-                                                    categories[index]['id']
-                                                        .toString();
-                                                categories[index]['selected'] =
-                                                    true;
-                                              })
-                                            },
+                                    onPressed: () => {
+                                      setState(() {
+                                        resetAll(false);
+                                        seledtedCategoryId =
+                                            categories[index]['id'].toString();
+                                        categories[index]['selected'] = true;
+                                      })
+                                    },
                                     label: Image.asset(
                                       categories[index]['selected'] == true
                                           ? AppImages.checkedbox
@@ -350,252 +292,252 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   resetAll(bool isAllSelect) {
     categories.asMap().forEach((index, category) {
       setState(() {
-        if (categories[index]['isFree'] == "free" &&
-            (AppConstant.userModel?.planType == "free" ||
-                AppConstant.userModel?.planType == "gift")) {
-          categories[index]['selected'] = isAllSelect ? true : false;
-        } else if (AppConstant.userModel?.planType == "gift" ||
-            AppConstant.userModel?.planType == "paid") {
-          categories[index]['selected'] = isAllSelect ? true : false;
-        }
+        // if (categories[index]['isFree'] == "free" &&
+        //     (AppConstant.userModel?.planType == "free" ||
+        //         AppConstant.userModel?.planType == "gift")) {
+        //   categories[index]['selected'] = isAllSelect ? true : false;
+        // } else if (AppConstant.userModel?.planType == "gift" ||
+        //     AppConstant.userModel?.planType == "paid") {
+        categories[index]['selected'] = isAllSelect ? true : false;
+        // }
         isAllCategoriesSelected = isAllSelect;
       });
     });
   }
 
-  Widget? GetPremium(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return PopScope(
-            canPop: false,
-            child: Dialog(
-              insetPadding: EdgeInsets.all(20),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)), //this right here
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    gradient: LinearGradient(
-                      begin: Alignment(0.0, -1.0),
-                      end: Alignment(0.0, 1.0),
-                      colors: [Dark, Light],
-                      stops: [0.0, 1.0],
-                    )),
-                // height: Responsive.height(25, context),
-                child: Padding(
-                  padding: EdgeInsets.all(4),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              alignment: Alignment.topLeft,
-                              child: Text('Go For Premium !!!!',
-                                  style: AppTextStyle.titleStyle)),
-                          SizedBox(height: 8),
-                          Text(
-                            'Buy premium license now to unlock exclusive content and maximize your learning experience.',
-                            style: AppTextStyle.disStyle.copyWith(
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.black),
-                          ),
-                          SizedBox(height: 18),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              // margin: const EdgeInsets.only(right: 10),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    payWallBottomSheet();
-                                  },
-                                  child: Container(
-                                      // width: constraints.maxWidth * 0.8,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 8),
-                                      decoration: BoxDecoration(
-                                        color: Dark,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Buy now",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4),
-                                      )),
-                                ),
-                              ),
-                              SizedBox(width: 18),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context, false);
-                                  },
-                                  child: Container(
-                                      // width: constraints.maxWidth * 0.8,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 8),
-                                      decoration: BoxDecoration(
-                                        color: Dark,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4),
-                                      )),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
-        });
-    return null;
-  }
+  // Widget? GetPremium(BuildContext context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return PopScope(
+  //           canPop: false,
+  //           child: Dialog(
+  //             insetPadding: EdgeInsets.all(20),
+  //             shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(10)), //this right here
+  //             child: Container(
+  //               decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(10.0),
+  //                   gradient: LinearGradient(
+  //                     begin: Alignment(0.0, -1.0),
+  //                     end: Alignment(0.0, 1.0),
+  //                     colors: [Dark, Light],
+  //                     stops: [0.0, 1.0],
+  //                   )),
+  //               // height: Responsive.height(25, context),
+  //               child: Padding(
+  //                 padding: EdgeInsets.all(4),
+  //                 child: Container(
+  //                   decoration: BoxDecoration(
+  //                       color: AppColors.white,
+  //                       borderRadius: BorderRadius.circular(10)),
+  //                   child: Padding(
+  //                     padding: EdgeInsets.all(15),
+  //                     child: Column(
+  //                       mainAxisSize: MainAxisSize.min,
+  //                       mainAxisAlignment: MainAxisAlignment.start,
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       children: [
+  //                         Container(
+  //                             alignment: Alignment.topLeft,
+  //                             child: Text('Go For Premium !!!!',
+  //                                 style: AppTextStyle.titleStyle)),
+  //                         SizedBox(height: 8),
+  //                         Text(
+  //                           'Buy premium license now to unlock exclusive content and maximize your learning experience.',
+  //                           style: AppTextStyle.disStyle.copyWith(
+  //                               fontWeight: FontWeight.w300,
+  //                               color: AppColors.black),
+  //                         ),
+  //                         SizedBox(height: 18),
+  //                         Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           crossAxisAlignment: CrossAxisAlignment.end,
+  //                           children: [
+  //                             // margin: const EdgeInsets.only(right: 10),
+  //                             Expanded(
+  //                               child: GestureDetector(
+  //                                 onTap: () async {
+  //                                   payWallBottomSheet();
+  //                                 },
+  //                                 child: Container(
+  //                                     // width: constraints.maxWidth * 0.8,
+  //                                     padding:
+  //                                         EdgeInsets.symmetric(vertical: 8),
+  //                                     decoration: BoxDecoration(
+  //                                       color: Dark,
+  //                                       borderRadius: BorderRadius.all(
+  //                                           Radius.circular(5)),
+  //                                     ),
+  //                                     alignment: Alignment.center,
+  //                                     child: Text(
+  //                                       "Buy now",
+  //                                       style: TextStyle(
+  //                                           color: Colors.white,
+  //                                           fontWeight: FontWeight.w500,
+  //                                           fontSize:
+  //                                               SizeConfig.blockSizeHorizontal *
+  //                                                   4),
+  //                                     )),
+  //                               ),
+  //                             ),
+  //                             SizedBox(width: 18),
+  //                             Expanded(
+  //                               child: GestureDetector(
+  //                                 onTap: () {
+  //                                   Navigator.pop(context, false);
+  //                                 },
+  //                                 child: Container(
+  //                                     // width: constraints.maxWidth * 0.8,
+  //                                     padding:
+  //                                         EdgeInsets.symmetric(vertical: 8),
+  //                                     decoration: BoxDecoration(
+  //                                       color: Dark,
+  //                                       borderRadius: BorderRadius.all(
+  //                                           Radius.circular(5)),
+  //                                     ),
+  //                                     alignment: Alignment.center,
+  //                                     child: Text(
+  //                                       "Cancel",
+  //                                       style: TextStyle(
+  //                                           color: Colors.white,
+  //                                           fontWeight: FontWeight.w500,
+  //                                           fontSize:
+  //                                               SizeConfig.blockSizeHorizontal *
+  //                                                   4),
+  //                                     )),
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         )
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       });
+  //   return null;
+  // }
 
-  payWallBottomSheet() {
-    showModalBottomSheet(
-        isDismissible: false,
-        // enableDrag: false,
-        shape: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            )),
-        backgroundColor: Colors.white,
-        context: context,
-        builder: (_) => PopScope(
-              canPop: false,
-              child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(width: 20),
-                          Text("Purchase",
-                              style: AppTextStyle.titleStyle.copyWith(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black54)),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                                padding: EdgeInsets.all(0),
-                                visualDensity: VisualDensity.comfortable,
-                                iconSize: 20,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(Icons.clear)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            purchasePackage(val.package.first, context);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            decoration: BoxDecoration(
-                                color: AppColors.borderblue.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(),
-                                Text("${val.package.first.storeProduct.title}",
-                                    style: AppTextStyle.titleStyle.copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black54)),
-                                Text(
-                                    "${val.package.first.storeProduct.description}",
-                                    style: AppTextStyle.disStyle.copyWith(
-                                        // fontSize: 15,
+  // payWallBottomSheet() {
+  //   showModalBottomSheet(
+  //       isDismissible: false,
+  //       // enableDrag: false,
+  //       shape: OutlineInputBorder(
+  //           borderSide: BorderSide(color: Colors.white),
+  //           borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(20),
+  //             topRight: Radius.circular(20),
+  //           )),
+  //       backgroundColor: Colors.white,
+  //       context: context,
+  //       builder: (_) => PopScope(
+  //             canPop: false,
+  //             child: Consumer<SubscriptionProvider>(builder: (c, val, _) {
+  //               return Padding(
+  //                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+  //                 child: Column(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     Row(
+  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                       children: [
+  //                         SizedBox(width: 20),
+  //                         Text("Purchase",
+  //                             style: AppTextStyle.titleStyle.copyWith(
+  //                                 fontSize: 15,
+  //                                 fontWeight: FontWeight.w600,
+  //                                 color: Colors.black54)),
+  //                         Align(
+  //                           alignment: Alignment.topRight,
+  //                           child: IconButton(
+  //                               padding: EdgeInsets.all(0),
+  //                               visualDensity: VisualDensity.comfortable,
+  //                               iconSize: 20,
+  //                               onPressed: () {
+  //                                 Navigator.pop(context);
+  //                               },
+  //                               icon: Icon(Icons.clear)),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 10),
+  //                     Padding(
+  //                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+  //                       child: GestureDetector(
+  //                         onTap: () {
+  //                           Navigator.pop(context);
+  //                           Navigator.pop(context);
+  //                           purchasePackage(val.package.first, context);
+  //                         },
+  //                         child: Container(
+  //                           padding: EdgeInsets.symmetric(
+  //                               vertical: 10, horizontal: 20),
+  //                           decoration: BoxDecoration(
+  //                               color: AppColors.borderblue.withOpacity(0.1),
+  //                               borderRadius: BorderRadius.circular(5)),
+  //                           child: Column(
+  //                             crossAxisAlignment: CrossAxisAlignment.start,
+  //                             children: [
+  //                               Row(),
+  //                               Text("${val.package.first.storeProduct.title}",
+  //                                   style: AppTextStyle.titleStyle.copyWith(
+  //                                       fontSize: 15,
+  //                                       fontWeight: FontWeight.w600,
+  //                                       color: Colors.black54)),
+  //                               Text(
+  //                                   "${val.package.first.storeProduct.description}",
+  //                                   style: AppTextStyle.disStyle.copyWith(
+  //                                       // fontSize: 15,
 
-                                        color: Colors.grey)),
-                                Text(
-                                  "${val.package.first.storeProduct.priceString}",
-                                  style: AppTextStyle.disStyle
-                                      .copyWith(color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 40),
-                    ],
-                  ),
-                );
-              }),
-            ));
-  }
+  //                                       color: Colors.grey)),
+  //                               Text(
+  //                                 "${val.package.first.storeProduct.priceString}",
+  //                                 style: AppTextStyle.disStyle
+  //                                     .copyWith(color: Colors.black),
+  //                               ),
+  //                             ],
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 40),
+  //                   ],
+  //                 ),
+  //               );
+  //             }),
+  //           ));
+  // }
 
-  purchasePackage(Package package, BuildContext context) async {
-    loading(value: true);
-    try {
-      loading(value: true);
-      await Purchases.purchasePackage(package).then((value) {
-        loading(value: false);
-        print('HHHHHHHHH ${value.entitlements.all}');
-        context.read<SubscriptionProvider>().updateUserPlan(
-            value.entitlements.active['One time purchase']?.isActive == true
-                ? "paid"
-                : AppConstant.userModel?.planType == "gift"
-                    ? "gift"
-                    : "free");
-        context
-            .read<SubscriptionProvider>()
-            .isUserPurchaseTest(context: context);
-        Navigator.pop(context);
-      }).catchError((e) {
-        loading(value: false);
-        print("ERROR ====== $e");
+  // purchasePackage(Package package, BuildContext context) async {
+  //   loading(value: true);
+  //   try {
+  //     loading(value: true);
+  //     await Purchases.purchasePackage(package).then((value) {
+  //       loading(value: false);
+  //       print('HHHHHHHHH ${value.entitlements.all}');
+  //       context.read<SubscriptionProvider>().updateUserPlan(
+  //           value.entitlements.active['One time purchase']?.isActive == true
+  //               ? "paid"
+  //               : AppConstant.userModel?.planType == "gift"
+  //                   ? "gift"
+  //                   : "free");
+  //       context
+  //           .read<SubscriptionProvider>()
+  //           .isUserPurchaseTest(context: context);
+  //       Navigator.pop(context);
+  //     }).catchError((e) {
+  //       loading(value: false);
+  //       print("ERROR ====== $e");
 
-        return e;
-      });
-    } catch (e) {
-      loading(value: false);
-      print("ERROR ====== $e");
-    }
-  }
+  //       return e;
+  //     });
+  //   } catch (e) {
+  //     loading(value: false);
+  //     print("ERROR ====== $e");
+  //   }
+  // }
 }

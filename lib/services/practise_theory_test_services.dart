@@ -14,8 +14,7 @@ class PractiseTheoryTestServices {
   late List userData;
 
   Future<List> getCategories(BuildContext context) async {
-    final url = Uri.parse(
-        "$api/api/get-categories?is_paid=${AppConstant.userModel?.planType == "free" ? "no" : "yes"}");
+    final url = Uri.parse("$api/api/get-categories?is_paid= yes");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
     Map<String, String> header = {
@@ -35,8 +34,7 @@ class PractiseTheoryTestServices {
     Map<String, String> header = {
       'token': token,
     };
-    final url = Uri.parse(
-        '$api/api/ai_get_theory_content/${context.read<SubscriptionProvider>().entitlement == Entitlement.unpaid ? "no" : "yes"}');
+    final url = Uri.parse('$api/api/ai_get_theory_content/yes');
     final response = await http.get(url, headers: header);
     print("URL +++++++ $url");
     if (response.statusCode == 200) {

@@ -14,11 +14,59 @@
       },
       "oauth_client": [
         {
+          "client_id": "825629569582-4d01kh9guvntrpidu9964qm9tj8ro5i1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytest",
+            "certificate_hash": "e391187a21eafe427a5e96cd9bc39358c41a647b"
+          }
+        },
+        {
           "client_id": "825629569582-f0v550ktckk6t0h32lsr504lh11scjqp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.vinsolutions.smarttheorytest",
             "certificate_hash": "bb3aa1f7ef992267105e8c7cb860051084948c00"
+          }
+        },
+        {
+          "client_id": "825629569582-h3sln7j9u870uj6h8b4qee6ek4jgpdnu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytest",
+            "certificate_hash": "c6c87797bf5335e0ef501900a1b699bc403db580"
+          }
+        },
+        {
+          "client_id": "825629569582-iihuf7fn1s8esv983gt7a1k4f664risc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytest",
+            "certificate_hash": "6c1eb1b754cf6f2dc5d42121befc78f3dd7f0a95"
+          }
+        },
+        {
+          "client_id": "825629569582-k7vsaa9vdp09rf078354utns6ukjmpsr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytest",
+            "certificate_hash": "27e946d607419c5b48370ad8aa61f5af5011fd55"
+          }
+        },
+        {
+          "client_id": "825629569582-qe487dl7k918hfgtsn8cu251uhdolv4n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytest",
+            "certificate_hash": "2b0dcf506e5322d61149d10c547b85918efc0027"
+          }
+        },
+        {
+          "client_id": "825629569582-srnv692it3bajvaifqrd68pgof210e9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytest",
+            "certificate_hash": "a6384c180cda1a37a92094f7acfd630ac8155795"
           }
         },
         {
@@ -39,7 +87,59 @@
               "client_type": 3
             },
             {
-              "client_id": "825629569582-vmjj0oc8j2ndd5ddj2jokdr3s4q9g49c.apps.googleusercontent.com",
+              "client_id": "825629569582-bci1rmu8nq0qi8f3ubu7l18qf5g7emjj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vinsolutions.smarttheorytest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825629569582:android:ca74578aca6c08334c65bf",
+        "android_client_info": {
+          "package_name": "com.vinsolutions.smarttheorytestapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825629569582-mblrmlt167tc2g4301eu7bmp5cu4j12r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytestapp",
+            "certificate_hash": "c6c87797bf5335e0ef501900a1b699bc403db580"
+          }
+        },
+        {
+          "client_id": "825629569582-ts4dhuvmr8gq0ku7frffbs6e8m6lmvg8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinsolutions.smarttheorytestapp",
+            "certificate_hash": "6c1eb1b754cf6f2dc5d42121befc78f3dd7f0a95"
+          }
+        },
+        {
+          "client_id": "825629569582-ro8vjoi5q3t59bhb55m589bjfe4lglrm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALNe6dM9EXGsBgu7dtJc6GKcIxO8DhMdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825629569582-ro8vjoi5q3t59bhb55m589bjfe4lglrm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "825629569582-bci1rmu8nq0qi8f3ubu7l18qf5g7emjj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.vinsolutions.smarttheorytest"

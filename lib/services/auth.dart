@@ -406,7 +406,7 @@ class UserProvider with ChangeNotifier {
     UserData.userId = apiResponse['user_id'].toString();
     // Future.delayed(Duration());
 
-    print('Plan type ======== ${AppConstant.userModel?.planType}');
+    // print('Plan type ======== ${AppConstant.userModel?.planType}');
   }
 
   /// SEND OTP ///
@@ -554,7 +554,7 @@ class UserProvider with ChangeNotifier {
 
     if (data != null) {
       AppConstant.userModel = UserModel.fromJson(jsonDecode(data));
-      print('+++++++++DATA  ${AppConstant.userModel?.planType}');
+      // print('+++++++++DATA  ${AppConstant.userModel?.planType}');
     }
   }
 

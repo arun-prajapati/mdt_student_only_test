@@ -147,9 +147,9 @@ class _TheoryTabState extends State<TheoryTab> {
 
   getStatus() async {
     // context.read<SubscriptionProvider>().checkActiveUser();
-    print(
-        'Call Popup Box--- ${context.read<SubscriptionProvider>().entitlement} ${AppConstant.userModel?.planType}');
-    context.read<SubscriptionProvider>().fetchOffer();
+    // print(
+    //     'Call Popup Box--- ${context.read<SubscriptionProvider>().entitlement} ${AppConstant.userModel?.planType}');
+    // context.read<SubscriptionProvider>().fetchOffer();
     // context.read<SubscriptionProvider>().fetchOffer();
     /* var sharedPref = await SharedPreferences.getInstance();
     var data = sharedPref.getBool('theoryTestPractice');
@@ -173,7 +173,7 @@ class _TheoryTabState extends State<TheoryTab> {
     //   print('RESTORE PURCHASE +++++++++ $value');
     // });
 
-    getStatus();
+    // getStatus();
     getCategoriesFromApi();
 
     Future.delayed(Duration.zero, () {
@@ -203,20 +203,20 @@ class _TheoryTabState extends State<TheoryTab> {
     //   });
     // log("Subscription status : ${res['dvsa_subscription']}");
     // if (res['dvsa_subscription'] == 1) {
-    if (context.read<SubscriptionProvider>().entitlement == Entitlement.paid) {
-      if (mounted) {
-        setState(() {
-          isSubscribed = true;
-        });
-      }
-    } else {
-      // closeLoader();
-      if (mounted) {
-        setState(() {
-          isSubscribed = false;
-        });
-      }
-    }
+    // if (context.read<SubscriptionProvider>().entitlement == Entitlement.paid) {
+    //   if (mounted) {
+    //     setState(() {
+    //       isSubscribed = true;
+    //     });
+    //   }
+    // } else {
+    //   // closeLoader();
+    //   if (mounted) {
+    //     setState(() {
+    //       isSubscribed = false;
+    //     });
+    //   }
+    // }
     fetchUserTheoryProgress().then((res) {
       setState(() {
         print({'%value: ${_progressValue * 100}'});
@@ -387,8 +387,8 @@ class _TheoryTabState extends State<TheoryTab> {
                                                               ['name'],
                                                       isFree: categories[index]
                                                           ['isFree'],
-                                                      planType: AppConstant
-                                                          .userModel?.planType,
+                                                      // planType: AppConstant
+                                                      //     .userModel?.planType,
                                                     )
                                                   ],
                                                 );

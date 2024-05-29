@@ -12,16 +12,17 @@ class UserModel {
   int? userType;
   String? userName;
   String? eMail;
-  String? planType;
+  // String? planType;
 
-  UserModel(
-      {this.success,
-      this.token,
-      this.userId,
-      this.userType,
-      this.userName,
-      this.eMail,
-      this.planType});
+  UserModel({
+    this.success,
+    this.token,
+    this.userId,
+    this.userType,
+    this.userName,
+    this.eMail,
+    // this.planType
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -30,7 +31,7 @@ class UserModel {
     userType = json['user_type'];
     userName = json['user_name'];
     eMail = json['e_mail'];
-    planType = json['plan_type'];
+    // planType = json['plan_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,7 +42,7 @@ class UserModel {
     data['user_type'] = this.userType;
     data['user_name'] = this.userName;
     data['e_mail'] = this.eMail;
-    data['plan_type'] = this.planType;
+    // data['plan_type'] = this.planType;
     return data;
   }
 }
