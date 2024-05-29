@@ -215,9 +215,12 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("${categories[index]['name']}".toString(),
-                                    style: AppTextStyle.textStyle
-                                        .copyWith(fontWeight: FontWeight.w500)),
+                                Expanded(
+                                  child: Text(
+                                      "${categories[index]['name']}".toString(),
+                                      style: AppTextStyle.textStyle.copyWith(
+                                          fontWeight: FontWeight.w500)),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 0.0),
                                   child: ActionChip(
