@@ -63,7 +63,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
   Map topicData = {};
   bool expandAll = false;
   bool isWatchVideo = false;
-  YoutubePlayerController? youtubePlayerController;
+  // YoutubePlayerController? youtubePlayerController;
 
   // var controller = YoutubePlayerController(
   //     params: YoutubePlayerParams(
