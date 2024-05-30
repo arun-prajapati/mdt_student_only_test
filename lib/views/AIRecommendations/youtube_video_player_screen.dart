@@ -91,9 +91,7 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvoked: (val) {
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-        ]);
+        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
       },
       child:
           // OrientationBuilder(builder: (context, orientation) {
@@ -237,9 +235,8 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
                               onTap: () {
                                 print('tapppppppppppppppp');
                                 SystemChrome.setPreferredOrientations(
-                                    [DeviceOrientation.portraitUp]).then((_) {
-                                  Navigator.of(context).pop(true);
-                                });
+                                    [DeviceOrientation.portraitUp]);
+                                Navigator.of(context).pop(true);
                               },
                               child: Container(
                                 padding: EdgeInsets.all(6),
@@ -271,6 +268,7 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
                         // VideoPlayer(videoPlayer),
                         // YoutubePlayer(controller: youtubePlayerController!),
                         YoutubePlayerScaffold(
+                            backgroundColor: AppColors.black,
                             builder: (context, player) {
                               return Column(
                                 children: [
@@ -284,7 +282,7 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
                           child: GestureDetector(
                             onTap: () {
                               SystemChrome.setPreferredOrientations(
-                                  [DeviceOrientation.portraitUp]).then((_) {});
+                                  [DeviceOrientation.portraitUp]);
                               Navigator.pop(context);
                             },
                             child: Icon(
@@ -334,6 +332,7 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
                                         //         videoPlayer.value.aspectRatio,
                                         //     child: VideoPlayer(videoPlayer)),
                                         YoutubePlayerScaffold(
+                                            backgroundColor: AppColors.black,
                                             builder: (context, player) {
                                               return Column(
                                                 children: [
