@@ -1,27 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
 
-import 'package:Smart_Theory_Test/datamodels/ai_data_model.dart';
-import 'package:Smart_Theory_Test/external.dart';
-import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
-import 'package:Smart_Theory_Test/views/DashboardGridView/TheoryTab.dart';
-import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/custom_button.dart';
+import 'package:Smart_Theory_Test/datamodels/ai_data_model.dart';
 import 'package:Smart_Theory_Test/json_model.dart';
+import 'package:Smart_Theory_Test/views/Home/home_content_mobile.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 import '../../Constants/global.dart';
@@ -734,30 +725,56 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     TextStyle _answerTextStyle = AppTextStyle.textStyle
         .copyWith(color: Colors.black, fontWeight: FontWeight.w400);
     return Container(
-      margin: EdgeInsets.only(bottom: 15),
+      margin: EdgeInsets.only(bottom: option['optionImg'] != '' ? 10 : 0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: constraints.maxWidth * 0.09,
-            child:
-                Text((option_no + 1).toString() + '.', style: _answerTextStyle),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            width: constraints.maxWidth * .10,
-            transform: Matrix4.translationValues(-10, -12, 0),
-            child: Transform.scale(
-              scale: .15 * SizeConfig.blockSizeVertical,
-              child: Radio(
+          Text((option_no + 1).toString() + '.', style: _answerTextStyle),
+          Expanded(
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                listTileTheme: ListTileThemeData(
+                    horizontalTitleGap: option['optionImg'] != '' ? 15 : 5),
+              ),
+              child: RadioListTile(
                 activeColor: Dark,
                 value: option_no,
+                contentPadding: EdgeInsets.zero,
+                title: option['optionImg'] != ''
+                    ? Container(
+                        margin: EdgeInsets.only(bottom: 3),
+                        height: 10 * SizeConfig.blockSizeVertical,
+                        width: constraints.maxWidth * .80,
+                        alignment: Alignment.topLeft,
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/spinner.gif',
+                          image: option['optionImg'],
+                          imageErrorBuilder: (context, url, error) => Container(
+                            child: Column(
+                              children: [
+                                new Icon(Icons.error,
+                                    color: Colors.grey,
+                                    size: 5 * SizeConfig.blockSizeVertical),
+                                Text(
+                                  "Image not found!",
+                                  style: TextStyle(
+                                      fontSize:
+                                          2 * SizeConfig.blockSizeVertical,
+                                      color: Colors.redAccent),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : Text(option['option'], style: _answerTextStyle),
                 visualDensity: VisualDensity.comfortable,
                 groupValue: selectedOptionIndex,
                 onChanged: selectedOptionIndex != null
                     ? null
-                    : (val) {
+                    : (val) async {
+                        final player = AudioPlayer();
                         setState(() {
                           selectedOptionIndex = val as int;
                         });
@@ -766,9 +783,13 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                             question['options'][selectedOptionIndex]
                                     ['correct'] ==
                                 true) {
+                          await player
+                              .play(AssetSource("audio/correct-answer.mp3"));
                           showCorrectAnswerDialog(
                               context, question['explanation']);
                         } else {
+                          await player
+                              .play(AssetSource("audio/wrong-answer.mp3"));
                           showWrongAnswerDialog(
                               context, question['explanation']);
                         }
@@ -776,88 +797,6 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
               ),
             ),
           ),
-          Container(
-            width: constraints.maxWidth * .80,
-            child: Column(
-              children: [
-                if (option['optionImg'] != '')
-                  GestureDetector(
-                    onTap: () {
-                      if (selectedOptionIndex == null) {
-                        setState(() {
-                          selectedOptionIndex = option_no;
-                        });
-                        calculatePoint(question);
-                        if (selectedOptionIndex != null &&
-                            question['options'][selectedOptionIndex]
-                                    ['correct'] ==
-                                true) {
-                          showCorrectAnswerDialog(
-                              context, question['explanation']);
-                        } else {
-                          showWrongAnswerDialog(
-                              context, question['explanation']);
-                        }
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 3),
-                      height: 10 * SizeConfig.blockSizeVertical,
-                      width: constraints.maxWidth * .80,
-                      alignment: Alignment.topLeft,
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/spinner.gif',
-                        image: option['optionImg'],
-                        imageErrorBuilder: (context, url, error) => Container(
-                          child: Column(
-                            children: [
-                              new Icon(Icons.error,
-                                  color: Colors.grey,
-                                  size: 5 * SizeConfig.blockSizeVertical),
-                              Text(
-                                "Image not found!",
-                                style: TextStyle(
-                                    fontSize: 2 * SizeConfig.blockSizeVertical,
-                                    color: Colors.redAccent),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                if (option['option'] != '')
-                  Container(
-                    width: constraints.maxWidth * .80,
-                    alignment: Alignment.topLeft,
-                    child: RichText(
-                      text: TextSpan(
-                          text: option['option'],
-                          style: _answerTextStyle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              if (selectedOptionIndex == null) {
-                                setState(() {
-                                  selectedOptionIndex = option_no;
-                                });
-                                calculatePoint(question);
-                                if (selectedOptionIndex != null &&
-                                    question['options'][selectedOptionIndex]
-                                            ['correct'] ==
-                                        true) {
-                                  showCorrectAnswerDialog(
-                                      context, question['explanation']);
-                                } else {
-                                  showWrongAnswerDialog(
-                                      context, question['explanation']);
-                                }
-                              }
-                            }),
-                    ),
-                  )
-              ],
-            ),
-          )
         ],
       ),
     );

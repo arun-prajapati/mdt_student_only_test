@@ -1,15 +1,7 @@
-import 'package:Smart_Theory_Test/Constants/app_colors.dart';
-import 'package:Smart_Theory_Test/Constants/global.dart';
 import 'package:Smart_Theory_Test/external.dart';
-import 'package:Smart_Theory_Test/responsive/size_config.dart';
-import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../custom_button.dart';
 import '../locater.dart';
@@ -18,8 +10,6 @@ import '../services/navigation_service.dart';
 import '../services/practise_theory_test_services.dart';
 import '../utils/appImages.dart';
 import '../utils/app_colors.dart';
-import '../views/Driver/PracticeTheoryTest.dart';
-import '../widget/CustomSpinner.dart';
 import '../widget/CustomSwitch/CustomSwitch.dart';
 
 class TestSettingDialogBox extends StatefulWidget {
@@ -91,6 +81,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
         //   print('------------ ELSE $data');
         // }
         categories.add(category);
+        resetAll(true);
         print('widget.categories_list ${category}');
       }
       loading(value: false);
