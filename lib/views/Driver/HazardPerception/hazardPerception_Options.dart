@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/src/material/card.dart' as MCard;
 
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../locater.dart';
 import '../../../responsive/percentage_mediaquery.dart';
@@ -134,6 +137,14 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
         buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
+  getData() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    var data = sharedPref.getBool('showHazardDialog');
+    if (data == null) {
+      showMessageDialog();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -142,6 +153,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
       if (_localServices.getVideosList().length == 0) {
         transferVideoToAppDocPath();
       }
+      getData();
       // animationStart();
     });
   }
@@ -263,18 +275,101 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
         ]));
   }
 
+  showMessageDialog({bool isTheoryTestGuidance = false}) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => PopScope(
+        canPop: false,
+        child: Dialog(
+          insetPadding: EdgeInsets.all(20),
+          backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                gradient: LinearGradient(
+                  begin: Alignment(0.0, -1.0),
+                  end: Alignment(0.0, 1.0),
+                  colors: [Dark, Light],
+                  stops: [0.0, 1.0],
+                )),
+            child: MCard.Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              elevation: 0.0,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                            "Good luck with your Hazard Perception Test!",
+                            style: AppTextStyle.titleStyle)),
+                    Container(
+                      //width: constraints.maxWidth,
+                      margin: EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: [
+                          Text(
+                              "Just so you know, at the end of every video, you will get an opportunity to see the correct answer.",
+                              textAlign: TextAlign.justify,
+                              style: AppTextStyle.disStyle.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: AppColors.black)),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                                // style: ButtonStyle(
+                                //     visualDensity: VisualDensity.comfortable,
+                                //     padding: MaterialStateProperty.all(
+                                //         EdgeInsets.all(0)),
+                                //     overlayColor:
+                                //         MaterialStateProperty.all(Colors.blue)),
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  var sharedPref =
+                                      await SharedPreferences.getInstance();
+                                  sharedPref.setBool('showHazardDialog', true);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  color: Colors.transparent,
+                                  child: Text(
+                                    "OK",
+                                    style: AppTextStyle.titleStyle
+                                        .copyWith(fontSize: 16),
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   ButtonStyle buttonStyle() {
     return ButtonStyle(
-      padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>((states) {
+      padding: WidgetStateProperty.resolveWith<EdgeInsetsGeometry>((states) {
         return EdgeInsets.symmetric(vertical: 20, horizontal: 20);
       }),
-      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+      backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
         return Colors.white;
       }),
-      textStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
+      textStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
         return TextStyle(fontSize: 14, color: Colors.black);
       }),
-      minimumSize: MaterialStateProperty.resolveWith<Size>((states) {
+      minimumSize: WidgetStateProperty.resolveWith<Size>((states) {
         return Size(Responsive.width(80, context), 40);
       }),
     );

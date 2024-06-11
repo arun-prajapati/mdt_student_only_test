@@ -90,8 +90,7 @@ class _TheoryTabState extends State<TheoryTab> {
     {
       'icon': AppImages.dvsaTest,
       'title': 'DVSA Mock Theory Test',
-      'subTitle':
-          'Use DVSA’s official mock tests to test your learning progress',
+      'subTitle': 'Use DVSA’s mock tests to test your learning progress',
       'type': 'dvsaMock',
       'buttonText': 'Start test'
     }
@@ -302,504 +301,532 @@ class _TheoryTabState extends State<TheoryTab> {
         // Navigator.pop(context);
         // Navigator.pop(context);
       },
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            // color: Colors.green,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            color: Colors.white),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return ListView(
-              padding: EdgeInsets.all(0),
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 15),
-                  child: GestureDetector(
-                    onTap: () {
-                      getCategoriesFromApi().then((value) =>
-                          showModalBottomSheet(
-                              isDismissible: false,
-                              isScrollControlled: true,
-                              constraints: BoxConstraints.expand(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.80),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                              backgroundColor: Colors.white,
-                              context: context,
-                              builder: (context) {
-                                return Container(
-                                  height: Responsive.height(55, context),
-                                  padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
-                                  child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 25),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text('',
-                                                  style: _categoryTextStyle),
-                                              Text(
-                                                  '${AppConstant.userModel?.userName}\'s Progress:',
-                                                  style: _categoryTextStyle),
-                                              InkWell(
-                                                  onTap: () =>
-                                                      Navigator.pop(context),
-                                                  child: Icon(Icons.close,
-                                                      color: AppColors.black)),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: List.generate(
-                                                  categories.length, (index) {
-                                                // print("CATEGORY LIST :: ${categories_list}");
-                                                // log("CATEGORY :: ${categories}");
-                                                return Column(
-                                                  children: [
-                                                    LinearPercentIndicatorWidget(
-                                                      progress: categories[
-                                                                      index][
-                                                                  "theory_progress"]
-                                                              .toDouble() /
-                                                          100,
-                                                      perTitle: categories[
-                                                                  index][
-                                                              "attempt_question_count"]
-                                                          .toString(),
-                                                      total: categories[index][
-                                                              "total_question_count"]
-                                                          .toString(),
-                                                      textTitle:
-                                                          categories[index]
-                                                              ['name'],
-                                                      isFree: categories[index]
-                                                          ['isFree'],
-                                                      // planType: AppConstant
-                                                      //     .userModel?.planType,
-                                                    )
-                                                  ],
-                                                );
-                                              }),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 60.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              // color: Colors.green,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              color: Colors.white),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return ListView(
+                padding: EdgeInsets.all(0),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: GestureDetector(
+                      onTap: () {
+                        getCategoriesFromApi().then((value) =>
+                            showModalBottomSheet(
+                                isDismissible: false,
+                                isScrollControlled: true,
+                                constraints: BoxConstraints.expand(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.80),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
+                                backgroundColor: Colors.white,
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                    height: Responsive.height(55, context),
+                                    padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
+                                    child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 25),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text('',
+                                                    style: _categoryTextStyle),
+                                                Text(
+                                                    '${AppConstant.userModel?.userName}\'s Progress:',
+                                                    style: _categoryTextStyle),
+                                                InkWell(
+                                                    onTap: () =>
+                                                        Navigator.pop(context),
+                                                    child: Icon(Icons.close,
+                                                        color:
+                                                            AppColors.black)),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ]),
-                                );
-                              }));
-                    },
-                    child: CircularPercentIndicator(
-                      backgroundColor: Color(0xfff0f4ec),
-                      // progressColor: Colors.red,
-                      radius: 78,
-                      lineWidth: 12,
-                      circularStrokeCap: CircularStrokeCap.round,
-                      linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Color(0xff78E6C9),
-                            Color(0xff0E9BD0),
-                          ]),
-                      percent: _progressValue / 100,
-                      //progressColor: AppColors.primary,
-                      center: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Image.asset(
-                              AppImages.Robot,
-                              height: 60,
-                              width: 60,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          GradientText(
-                            '${_progressValue}%',
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: List.generate(
+                                                    categories.length, (index) {
+                                                  // print("CATEGORY LIST :: ${categories_list}");
+                                                  // log("CATEGORY :: ${categories}");
+                                                  return Column(
+                                                    children: [
+                                                      LinearPercentIndicatorWidget(
+                                                        progress: categories[
+                                                                        index][
+                                                                    "theory_progress"]
+                                                                .toDouble() /
+                                                            100,
+                                                        perTitle: categories[
+                                                                    index][
+                                                                "attempt_question_count"]
+                                                            .toString(),
+                                                        total: categories[index]
+                                                                [
+                                                                "total_question_count"]
+                                                            .toString(),
+                                                        textTitle:
+                                                            categories[index]
+                                                                ['name'],
+                                                        isFree:
+                                                            categories[index]
+                                                                ['isFree'],
+                                                        // planType: AppConstant
+                                                        //     .userModel?.planType,
+                                                      )
+                                                    ],
+                                                  );
+                                                }),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                  );
+                                }));
+                      },
+                      child: CircularPercentIndicator(
+                        backgroundColor: Color(0xfff0f4ec),
+                        // progressColor: Colors.red,
+                        radius: 78,
+                        lineWidth: 12,
+                        circularStrokeCap: CircularStrokeCap.round,
+                        linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.centerRight,
                             colors: [
-                              AppColors.blueGrad7,
-                              AppColors.blueGrad6,
-                              AppColors.blueGrad5,
-                              AppColors.blueGrad4,
-                              AppColors.blueGrad3,
-                              //AppColors.blueGrad2,
-                              AppColors.blueGrad1,
-                            ],
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 22,
-                              decorationThickness: 2,
-                              fontWeight: FontWeight.w700,
+                              Color(0xff78E6C9),
+                              Color(0xff0E9BD0),
+                            ]),
+                        percent: _progressValue / 100,
+                        //progressColor: AppColors.primary,
+                        center: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Image.asset(
+                                AppImages.Robot,
+                                height: 60,
+                                width: 60,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            GradientText(
+                              '${_progressValue}%',
+                              colors: [
+                                AppColors.blueGrad7,
+                                AppColors.blueGrad6,
+                                AppColors.blueGrad5,
+                                AppColors.blueGrad4,
+                                AppColors.blueGrad3,
+                                //AppColors.blueGrad2,
+                                AppColors.blueGrad1,
+                              ],
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 22,
+                                decorationThickness: 2,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Column(
+                      //   children: [
+                      //     Container(
+                      //       padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+                      //       width: constraints.maxWidth,
+                      //       //color: Colors.black26,
+                      //       child: MCard.Card(
+                      //         color: Colors.white,
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(10.0),
+                      //         ),
+                      //         elevation: 8.0,
+                      //         child: Container(
+                      //           width: constraints.maxWidth,
+                      //           padding: EdgeInsets.symmetric(
+                      //               horizontal: 10, vertical: 18),
+                      //           child: Column(
+                      //             children: <Widget>[
+                      //               Row(
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.spaceBetween,
+                      //                 children: [
+                      //                   // Text("$api"),
+                      //                   Text('THEORY LEARNING PROGRESS',
+                      //                       style: TextStyle(
+                      //                           fontFamily: 'Poppins',
+                      //                           fontSize: 14,
+                      //                           color: Dark,
+                      //                           fontWeight: FontWeight.w700),
+                      //                       textAlign: TextAlign.left),
+                      //                   Text(
+                      //                     '${(_progressValue * 100).round()}%',
+                      //                     style: TextStyle(
+                      //                         fontFamily: 'Poppins',
+                      //                         fontSize: 14,
+                      //                         color: Dark,
+                      //                         fontWeight: FontWeight.w700),
+                      //                     textAlign: TextAlign.left,
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //               SizedBox(height: 8),
+                      //               LinearProgressIndicator(
+                      //                 borderRadius: BorderRadius.circular(5),
+                      //                 minHeight: 5,
+                      //                 backgroundColor: Dark.withOpacity(0.2),
+                      //                 valueColor:
+                      //                     new AlwaysStoppedAnimation<Color>(
+                      //                         Colors.red),
+                      //                 value: _progressValue,
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    //margin: EdgeInsets.zero,
+                    //width: 155,
+                    child: Text(
+                      'Your Progress',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyle.textStyle
+                          .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+                    ),
+                  ),
+                  // SizedBox(height: 15),
+                  Divider(
+                      color: AppColors.black.withOpacity(0.05), thickness: 1),
+                  Container(
+                    // width: Responsive.width(100, context),
+                    // height: Responsive.height(44, context),
+                    //height: constraints.maxHeight * 0.8,
+                    // height: 420,
+                    padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(0),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        // childAspectRatio: MediaQuery.of(context).size.width /
+                        //     (MediaQuery.of(context).size.height / 1.7),
+                        // childAspectRatio: 2 / 3,
+                      ),
+                      //shrinkWrap: true,
+                      itemCount: cards.length,
+                      // scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onDoubleTap: () {},
+                          onTap: () {
+                            if (cards[index]["type"] == 'theoryTest') {
+                              context.read<UserProvider>().changeView = true;
+                              setState(() {});
+                              print(
+                                  "auth_services.changeView ${context.read<UserProvider>().changeView}");
+                              if (context.read<UserProvider>().changeView) {
+                                // getCategoriesFromApi().then((response_list) {
+                                //  responseList = response_list;
+                                //  print("------------ responseList $responseList");
+                                //  setState(() {});
+                                // });
+                                showDialog(
+                                    useSafeArea: false,
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) => PracticeTheoryTest());
+                                // _navigationService
+                                //     .navigateTo(routes.PracticeTheoryTestRoute);
+                              } else {
+                                _navigationService
+                                    .navigateTo(routes.PracticeTheoryTestRoute);
+                              }
+                            } else if (cards[index]["type"] == 'hazard') {
+                              _navigationService.navigateTo(
+                                  routes.HazardPerceptionOptionsRoute);
+                            } else if (cards[index]["type"] == 'dvsaMock') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WebViewContainer(
+                                    'https://www.gov.uk/take-practice-theory-test',
+                                    'DVSA Mock Theory Test',
+                                  ),
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TheoryRecommendations(),
+                                ),
+                              );
+                              //     .then((value) {
+                              //   if (value) {
+                              //     initializeApi("Loading...");
+                              //   }
+                              // });
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: 12, bottom: 10, right: 12, left: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                  color: AppColors.borderblue.withOpacity(0.5),
+                                  width: 1),
+                            ),
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(10)),
+                            // elevation: 3.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 0,
+                                  child: Center(
+                                    child: Image.asset(cards[index]["icon"],
+                                        height: 42),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Expanded(
+                                  flex: 0,
+                                  child: Text(
+                                    '${cards[index]["title"]}',
+                                    style: AppTextStyle.boldStyle,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Expanded(
+                                  child: Text(
+                                    cards[index]["subTitle"],
+                                    maxLines: 3,
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 0.5,
+                                        height: 1.2,
+                                        fontSize: 11,
+                                        overflow: TextOverflow.ellipsis),
+                                    softWrap: true,
+                                    //  textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                //SizedBox(width: 15),
+                              ],
                             ),
                           ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Divider(
+                    color: AppColors.black.withOpacity(0.1),
+                    thickness: 1,
+                  ),
+                  // SizedBox(height: 15),
+                  Padding(
+                    padding: EdgeInsets.only(left: 18),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: GradientText(
+                        'Resources',
+                        colors: [
+                          AppColors.blueGrad7,
+                          AppColors.blueGrad6,
+                          AppColors.blueGrad5,
+                          AppColors.blueGrad4,
+                          AppColors.blueGrad3,
+                          //AppColors.blueGrad2,
+                          AppColors.blueGrad1
                         ],
+                        style: AppTextStyle.textStyle.copyWith(
+                            fontWeight: FontWeight.w500, fontSize: 18),
                       ),
                     ),
-                    // Column(
-                    //   children: [
-                    //     Container(
-                    //       padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
-                    //       width: constraints.maxWidth,
-                    //       //color: Colors.black26,
-                    //       child: MCard.Card(
-                    //         color: Colors.white,
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(10.0),
-                    //         ),
-                    //         elevation: 8.0,
-                    //         child: Container(
-                    //           width: constraints.maxWidth,
-                    //           padding: EdgeInsets.symmetric(
-                    //               horizontal: 10, vertical: 18),
-                    //           child: Column(
-                    //             children: <Widget>[
-                    //               Row(
-                    //                 mainAxisAlignment:
-                    //                     MainAxisAlignment.spaceBetween,
-                    //                 children: [
-                    //                   // Text("$api"),
-                    //                   Text('THEORY LEARNING PROGRESS',
-                    //                       style: TextStyle(
-                    //                           fontFamily: 'Poppins',
-                    //                           fontSize: 14,
-                    //                           color: Dark,
-                    //                           fontWeight: FontWeight.w700),
-                    //                       textAlign: TextAlign.left),
-                    //                   Text(
-                    //                     '${(_progressValue * 100).round()}%',
-                    //                     style: TextStyle(
-                    //                         fontFamily: 'Poppins',
-                    //                         fontSize: 14,
-                    //                         color: Dark,
-                    //                         fontWeight: FontWeight.w700),
-                    //                     textAlign: TextAlign.left,
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //               SizedBox(height: 8),
-                    //               LinearProgressIndicator(
-                    //                 borderRadius: BorderRadius.circular(5),
-                    //                 minHeight: 5,
-                    //                 backgroundColor: Dark.withOpacity(0.2),
-                    //                 valueColor:
-                    //                     new AlwaysStoppedAnimation<Color>(
-                    //                         Colors.red),
-                    //                 value: _progressValue,
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  //margin: EdgeInsets.zero,
-                  //width: 155,
-                  child: Text(
-                    'Your Progress',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyle.textStyle
-                        .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
-                  ),
-                ),
-                // SizedBox(height: 15),
-                Divider(color: AppColors.black.withOpacity(0.05), thickness: 1),
-                Container(
-                  // width: Responsive.width(100, context),
-                  // height: Responsive.height(44, context),
-                  //height: constraints.maxHeight * 0.8,
-                  // height: 420,
-                  padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                  child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(0),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      // childAspectRatio: MediaQuery.of(context).size.width /
-                      //     (MediaQuery.of(context).size.height / 1.7),
-                      // childAspectRatio: 2 / 3,
-                    ),
-                    //shrinkWrap: true,
-                    itemCount: cards.length,
-                    // scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onDoubleTap: () {},
+                  SizedBox(height: 10),
+                  Container(
+                    // height: MediaQuery.of(context).size.height * 0.57,
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                        // childAspectRatio: MediaQuery.of(context).size.width /
+                        //     (MediaQuery.of(context).size.height / 1.2),
+                      ),
+                      itemCount: _resourceCards.length,
+                      //shrinkWrap: true,
+                      itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          if (cards[index]["type"] == 'theoryTest') {
-                            context.read<UserProvider>().changeView = true;
-                            setState(() {});
-                            print(
-                                "auth_services.changeView ${context.read<UserProvider>().changeView}");
-                            if (context.read<UserProvider>().changeView) {
-                              // getCategoriesFromApi().then((response_list) {
-                              //  responseList = response_list;
-                              //  print("------------ responseList $responseList");
-                              //  setState(() {});
-                              // });
-                              showDialog(
-                                  useSafeArea: false,
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) => PracticeTheoryTest());
-                              // _navigationService
-                              //     .navigateTo(routes.PracticeTheoryTestRoute);
-                            } else {
-                              _navigationService
-                                  .navigateTo(routes.PracticeTheoryTestRoute);
-                            }
-                          } else if (cards[index]["type"] == 'hazard') {
-                            _navigationService.navigateTo(
-                                routes.HazardPerceptionOptionsRoute);
-                          } else if (cards[index]["type"] == 'dvsaMock') {
+                          if (_resourceCards[index]["type"] == 'highwayCode') {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => WebViewContainer(
-                                  'https://www.gov.uk/take-practice-theory-test',
-                                  'DVSA Mock Theory Test',
-                                ),
-                              ),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WebViewContainer(
+                                        AppConstant.highwayCodeLink,
+                                        _resourceCards[index]["title"])));
+                          } else if (_resourceCards[index]["type"] ==
+                              'theoryTestGuidance') {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WebViewContainer(
+                                        AppConstant.theoryTestGuidance,
+                                        _resourceCards[index]["title"])));
+                          } else if (_resourceCards[index]["type"] == 'signs') {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WebViewContainer(
+                                        isTrafficSign: true,
+                                        AppConstant.trafficSigns,
+                                        _resourceCards[index]["title"])));
                           } else {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TheoryRecommendations(),
-                              ),
-                            );
-                            //     .then((value) {
-                            //   if (value) {
-                            //     initializeApi("Loading...");
-                            //   }
-                            // });
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WebViewContainer(
+                                        AppConstant.bookTheoryTest,
+                                        _resourceCards[index]["title"])));
                           }
                         },
                         child: Container(
-                          padding: EdgeInsets.only(
-                              top: 12, bottom: 10, right: 12, left: 12),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                color: AppColors.borderblue.withOpacity(0.5),
-                                width: 1),
-                          ),
-                          // shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(10)),
-                          // elevation: 3.0,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 0,
-                                child: Center(
-                                  child: Image.asset(cards[index]["icon"],
-                                      height: 42),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Expanded(
-                                flex: 0,
-                                child: Text(
-                                  '${cards[index]["title"]}',
-                                  style: AppTextStyle.boldStyle,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Expanded(
-                                child: Text(
-                                  cards[index]["subTitle"],
-                                  maxLines: 3,
-                                  style: AppTextStyle.disStyle.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 0.5,
-                                      height: 1.2,
-                                      fontSize: 11,
-                                      overflow: TextOverflow.ellipsis),
-                                  softWrap: true,
-                                  //  textAlign: TextAlign.justify,
-                                ),
-                              ),
-                              //SizedBox(width: 15),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 8),
-                Divider(
-                  color: AppColors.black.withOpacity(0.1),
-                  thickness: 1,
-                ),
-                // SizedBox(height: 15),
-                Padding(
-                  padding: EdgeInsets.only(left: 18),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: GradientText(
-                      'Resources',
-                      colors: [
-                        AppColors.blueGrad7,
-                        AppColors.blueGrad6,
-                        AppColors.blueGrad5,
-                        AppColors.blueGrad4,
-                        AppColors.blueGrad3,
-                        //AppColors.blueGrad2,
-                        AppColors.blueGrad1
-                      ],
-                      style: AppTextStyle.textStyle
-                          .copyWith(fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 5),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 12,
-                      crossAxisSpacing: 12,
-                      // childAspectRatio: MediaQuery.of(context).size.width /
-                      //     (MediaQuery.of(context).size.height / 1.2),
-                    ),
-                    itemCount: _resourceCards.length,
-                    //shrinkWrap: true,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        if (_resourceCards[index]["type"] == 'highwayCode') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WebViewContainer(
-                                      AppConstant.highwayCodeLink,
-                                      _resourceCards[index]["title"])));
-                        } else if (_resourceCards[index]["type"] ==
-                            'theoryTestGuidance') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WebViewContainer(
-                                      AppConstant.theoryTestGuidance,
-                                      _resourceCards[index]["title"])));
-                        } else if (_resourceCards[index]["type"] == 'signs') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WebViewContainer(
-                                      isTrafficSign: true,
-                                      AppConstant.trafficSigns,
-                                      _resourceCards[index]["title"])));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WebViewContainer(
-                                      AppConstant.bookTheoryTest,
-                                      _resourceCards[index]["title"])));
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.bgColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 15, bottom: 1, left: 15, right: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(right: 2),
-                                      child: Text(
-                                          _resourceCards[index]["title"],
-                                          style: AppTextStyle.textStyle
-                                              .copyWith(
-                                                  height: 1.2,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500)
-                                          //overflow: TextOverflow.ellipsis,
-                                          ),
+                              color: AppColors.bgColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 15, bottom: 1, left: 15, right: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: 2),
+                                        child: Text(
+                                            _resourceCards[index]["title"],
+                                            style: AppTextStyle.textStyle
+                                                .copyWith(
+                                                    height: 1.2,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500)
+                                            //overflow: TextOverflow.ellipsis,
+                                            ),
+                                      ),
                                     ),
+                                    SizedBox(width: 2),
+                                    Expanded(
+                                      flex: 0,
+                                      child: Image.asset(
+                                        AppImages.rightArrow,
+                                        height: 19,
+                                        width: 20,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Expanded(
+                                  child: Text(
+                                    _resourceCards[index]["subTitle"],
+                                    maxLines: 2,
+                                    style: AppTextStyle.disStyle.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 0.5,
+                                        height: 1.2,
+                                        fontSize: 11,
+                                        overflow: TextOverflow.ellipsis),
+                                    // softWrap: true,
                                   ),
-                                  SizedBox(width: 2),
-                                  Expanded(
-                                    flex: 0,
-                                    child: Image.asset(
-                                      AppImages.rightArrow,
-                                      height: 19,
-                                      width: 20,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 5),
-                              Expanded(
-                                child: Text(
-                                  _resourceCards[index]["subTitle"],
-                                  maxLines: 2,
-                                  style: AppTextStyle.disStyle.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 0.5,
-                                      height: 1.2,
-                                      fontSize: 11,
-                                      overflow: TextOverflow.ellipsis),
-                                  // softWrap: true,
                                 ),
-                              ),
-                              SizedBox(height: 5),
-                              Expanded(
-                                child: Image.asset(
-                                  _resourceCards[index]['image'],
-                                  height: 70,
-                                  width: 150,
-                                ),
-                              )
-                            ],
+                                SizedBox(height: 5),
+                                Expanded(
+                                  child: Image.asset(
+                                    _resourceCards[index]['image'],
+                                    height: 70,
+                                    width: 150,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 45),
-              ],
-            );
-          },
+                  SizedBox(height: 10),
+                  Column(
+                    children: [
+                      Text(
+                        "Crown Copyright",
+                        style: AppTextStyle.titleStyle.copyWith(fontSize: 15),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          "The Driver and Vehicle Standards Agency (DVSA) has given permission for the reproduction of Crown copyright material. DVSA does not accept responsibility for the accuracy of the reproduction practice",
+                          style: AppTextStyle.disStyle.copyWith(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 45),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

@@ -600,6 +600,31 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                                           color: Colors.black)),
                                             ),
                                           ),
+                                          questionsList[selectedQuestionIndex]
+                                                      ['question_type_name']
+                                                  .isEmpty
+                                              ? SizedBox()
+                                              : Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 20.0, top: 10),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: Text(
+                                                        // "${questionsList[selectedQuestionIndex]['question_type_name'].isEmpty ? "" : "(${questionsList[selectedQuestionIndex]['question_type_name']})"}",
+                                                        "(${questionsList[selectedQuestionIndex]['question_type_name']})",
+                                                        style: AppTextStyle
+                                                            .textStyle
+                                                            .copyWith(
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .black)),
+                                                  ),
+                                                ),
                                           Expanded(
                                             child: SingleChildScrollView(
                                               child: Column(
@@ -608,7 +633,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
                                                     Container(
                                                       padding:
                                                           EdgeInsets.fromLTRB(
-                                                              20, 10, 20, 2),
+                                                              20, 0, 20, 2),
                                                       child: LayoutBuilder(
                                                         builder: (context,
                                                             _constraints) {

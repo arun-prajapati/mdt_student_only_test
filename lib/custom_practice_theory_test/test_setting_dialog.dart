@@ -1,8 +1,10 @@
+import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/external.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/src/material/card.dart' as MCard;
 import '../custom_button.dart';
 import '../locater.dart';
 import '../services/auth.dart';
@@ -44,6 +46,13 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
   }
 
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  getData() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    var data = sharedPref.getBool('showQuestionDialog');
+    if (data == null) {
+      showMessageDialog();
+    }
+  }
 
   @override
   void initState() {
@@ -85,6 +94,7 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
         print('widget.categories_list ${category}');
       }
       loading(value: false);
+      getData();
       setState(() {});
     });
   }
@@ -299,6 +309,88 @@ class _TestSettingDialogBox extends State<TestSettingDialogBox> {
     });
   }
 
+  showMessageDialog({bool isTheoryTestGuidance = false}) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => PopScope(
+        canPop: false,
+        child: Dialog(
+          insetPadding: EdgeInsets.all(20),
+          backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                gradient: LinearGradient(
+                  begin: Alignment(0.0, -1.0),
+                  end: Alignment(0.0, 1.0),
+                  colors: [Dark, Light],
+                  stops: [0.0, 1.0],
+                )),
+            child: MCard.Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              elevation: 0.0,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child:
+                            Text("Practice", style: AppTextStyle.titleStyle)),
+                    Container(
+                      //width: constraints.maxWidth,
+                      margin: EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: [
+                          Text(
+                              "This product includes the Driver and Vehicle Standards Agency (DVSA) revision question bank",
+                              textAlign: TextAlign.justify,
+                              style: AppTextStyle.disStyle.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: AppColors.black)),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                                // style: ButtonStyle(
+                                //     visualDensity: VisualDensity.comfortable,
+                                //     padding: MaterialStateProperty.all(
+                                //         EdgeInsets.all(0)),
+                                //     overlayColor:
+                                //         MaterialStateProperty.all(Colors.blue)),
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  var sharedPref =
+                                      await SharedPreferences.getInstance();
+                                  sharedPref.setBool(
+                                      'showQuestionDialog', true);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  color: Colors.transparent,
+                                  child: Text(
+                                    "OK",
+                                    style: AppTextStyle.titleStyle
+                                        .copyWith(fontSize: 16),
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   // Widget? GetPremium(BuildContext context) {
   //   showDialog(
   //       context: context,
