@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
- 
+
 import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
@@ -39,7 +39,6 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
 
   List<Map<String, int>> clickDurationSlot = [];
 
-
   void tapEvent() {
     _onTouch = true;
     setState(() {});
@@ -65,21 +64,20 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
   void checkTapDurationDifference() {
     int totalSlotJet = flagList.length;
     bool isAnyClickRight = false;
-     const List<int> points = [5, 4, 3, 2, 1];
+    const List<int> points = [5, 4, 3, 2, 1];
 
     if (totalSlotJet >= 5) {
+      for (int i = 0; i < clickDurationSlot.length; i++) {
+        var giveSlot = clickDurationSlot[i];
+        flagList.forEach((flag) {
+          if (flag >= giveSlot['start']! && flag <= giveSlot['end']!) {
+            isAnyClickRight = true;
+            maxPoints = points[i] > maxPoints ? points[i] : maxPoints;
+          }
+        });
+      }
 
-     for (int i = 0; i < clickDurationSlot.length; i++) {
-      var giveSlot = clickDurationSlot[i];
-      flagList.forEach((flag) {
-        if (flag >= giveSlot['start']! && flag <= giveSlot['end']!) {
-          isAnyClickRight = true;
-          maxPoints = points[i] > maxPoints ? points[i] : maxPoints;
-        }
-      });
-    }
-
-    rightClick = maxPoints;
+      rightClick = maxPoints;
       // clickDurationSlot.forEach((giveSlot) {
       //   giveSlot as dynamic;
       //   flagList.forEach((flag) {
@@ -93,13 +91,18 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
 
       log(jsonEncode(flagList));
       _localServices.setSelectedFlagsList(flagList);
-      _localServices.setVideoDuration(_betterPlayerController.value.duration.inSeconds);
+      _localServices
+          .setVideoDuration(_betterPlayerController.value.duration.inSeconds);
       setState(() {
         _betterPlayerController.pause().then((value) {
-          var params = {'pattern_out': true, 'flagList': flagList , 'rightClick' : rightClick ,  'isAnyClickRight' : isAnyClickRight};
+          var params = {
+            'pattern_out': true,
+            'flagList': flagList,
+            'rightClick': rightClick,
+            'isAnyClickRight': isAnyClickRight
+          };
           _navigationService.navigateToReplacement(
-              routes
-                  .HazardPerceptionTestResultRoute,
+              routes.HazardPerceptionTestResultRoute,
               arguments: params);
         });
       });
@@ -131,7 +134,7 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
   initializeVideoPlayer(String videoPath) {
     _betterPlayerController = VideoPlayerController.file(File(videoPath))
       ..initialize().then((value) {
-        setState(() {}); 
+        setState(() {});
         _betterPlayerController.play();
         _betterPlayerController.addListener(() {
           if (_betterPlayerController.value.position >=
@@ -167,8 +170,6 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.black,
@@ -176,11 +177,12 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
           ValueListenableBuilder(
               valueListenable: _betterPlayerController,
               builder: (context, snapshot, _) {
-
                 if (snapshot.position >= snapshot.duration &&
                     snapshot.isInitialized) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Map params = {'pattern_out': true};
+                    Map params = {'pattern_out': false};
+                    _localServices.setVideoDuration(
+                        _betterPlayerController.value.duration.inSeconds);
                     _navigationService.navigateToReplacement(
                       routes.HazardPerceptionTestResultRoute,
                       arguments: params,
