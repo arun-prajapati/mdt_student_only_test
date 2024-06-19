@@ -93,7 +93,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => HazardPerceptionTest());
     case routes.HazardPerceptionTestReplayRoute:
       return MaterialPageRoute(
-          builder: (context) => HazardPerceptionTestReplay());
+          builder: (context) => HazardPerceptionTestReplay() , settings: settings);
     case routes.HazardPerceptionConfirmationRoute:
       return MaterialPageRoute(
           builder: (context) => HazardPerceptionConfirmation());

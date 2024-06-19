@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:Smart_Theory_Test/Constants/app_colors.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
 import 'package:Smart_Theory_Test/utils/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -81,20 +80,19 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
   @override
   void didChangeDependencies() {
     final arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    print('************=============== $gainedRating');
     try {
-      this.testComplete = arguments['pattern_out'] == false ? true : false;
-      num missedRatingPoint = 5 - 2;
+      this.testComplete = arguments['pattern_out'];
+      num missedRatingPoint = 5 - arguments['rightClick'];
       setState(() {
-        this.setResultMessage(2);
+        this.setResultMessage(arguments['rightClick']);
       });
       rattingAnimation = Timer.periodic(Duration(milliseconds: 700), (timer) {
         if (gainedRating == (5 - missedRatingPoint)) {
           timer.cancel();
         } else {
-          // setState(() {
+          setState(() {
           gainedRating -= 1;
-          // });
+          });
         }
       });
     } catch (e) {
@@ -126,12 +124,28 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
         break;
     }
   }
+  Color getColorBasedOnScore(int resultScore) {
+  switch (resultScore) {
+    case 0:
+      return Colors.red;
+    case 1:
+    case 2:
+      return Colors.orange;
+    case 3:
+    case 4:
+      return Colors.yellow;
+    case 5:
+      return Colors.green;
+    default:
+      return Colors.white;
+  }
+}
 
   // final TWO_PI = 3.2 * 2;
   @override
   Widget build(BuildContext context) {
     final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
-    
+    final arguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
         key: _scaffoldKey,
         resizeToAvoidBottomInset: false,
@@ -214,7 +228,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                             decoration: new BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
-                                border: Border.all(width: 10, color: Dark)),
+                                border: Border.all(width: 10, color:  getColorBasedOnScore(arguments['rightClick']),)),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -273,7 +287,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                                     Future.delayed(Duration(milliseconds: 300),
                                         () {
                                       _navigationService.navigateTo(routes
-                                          .HazardPerceptionTestReplayRoute);
+                                          .HazardPerceptionTestReplayRoute ,arguments: {'isCorrectButton' : true});
                                     });
                                   });
                                 },
@@ -291,7 +305,7 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                                     .then((_) {
                                   _localServices.getRevVideosList();
                                   _navigationService.navigateTo(
-                                      routes.HazardPerceptionTestReplayRoute);
+                                      routes.HazardPerceptionTestReplayRoute , arguments: {'isCorrectButton' : false});
                                   // _navigationService.navigateTo(
                                   //     routes.HazardPerceptionTestRoute);
                                 });
