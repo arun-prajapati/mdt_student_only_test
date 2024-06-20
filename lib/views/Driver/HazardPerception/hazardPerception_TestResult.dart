@@ -40,7 +40,8 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
 
   @override
   void initState() {
-    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+    final videoIndexProvider =
+        Provider.of<VideoIndexProvider>(context, listen: false);
 
     videoIndex = videoIndexProvider.indexOfVideo;
     // initializeGifAnimation();
@@ -86,15 +87,18 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
       setState(() {
         this.setResultMessage(arguments['rightClick']);
       });
-      rattingAnimation = Timer.periodic(Duration(milliseconds: 700), (timer) {
-        if (gainedRating == (5 - missedRatingPoint)) {
-          timer.cancel();
-        } else {
-          setState(() {
-          gainedRating -= 1;
-          });
-        }
-      });
+      gainedRating = (5 - missedRatingPoint).toInt();
+      setState(() {});
+      // rattingAnimation = Timer.periodic(Duration(milliseconds: 700), (timer) {
+      //   // gainedRating = (missedRatingPoint - 1).toInt();
+      //   if (gainedRating == (5 - missedRatingPoint)) {
+      //     timer.cancel();
+      //   } else {
+      //     setState(() {
+      //       gainedRating -= 1;
+      //     });
+      //   }
+      // });
     } catch (e) {
       print("Exception...: $e");
     } finally {
@@ -124,27 +128,29 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
         break;
     }
   }
+
   Color getColorBasedOnScore(int resultScore) {
-  switch (resultScore) {
-    case 0:
-      return Colors.red;
-    case 1:
-    case 2:
-      return Colors.orange;
-    case 3:
-    case 4:
-      return Colors.yellow;
-    case 5:
-      return Colors.green;
-    default:
-      return Colors.white;
+    switch (resultScore) {
+      case 0:
+        return Colors.red;
+      case 1:
+      case 2:
+        return Colors.orange;
+      case 3:
+      case 4:
+        return Colors.yellow;
+      case 5:
+        return Colors.green;
+      default:
+        return Colors.white;
+    }
   }
-}
 
   // final TWO_PI = 3.2 * 2;
   @override
   Widget build(BuildContext context) {
-    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+    final videoIndexProvider =
+        Provider.of<VideoIndexProvider>(context, listen: false);
     final arguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
         key: _scaffoldKey,
@@ -166,16 +172,15 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                   onTapRightbtn: () {
                     int totalVideos = _localServices.getVideosList().length;
                     if (videoIndexProvider.indexOfVideo < (totalVideos - 1))
-                      videoIndexProvider.setIndexOfVideo(
-                          videoIndexProvider.indexOfVideo + 1);
+                      videoIndexProvider
+                          .setIndexOfVideo(videoIndexProvider.indexOfVideo + 1);
                     else
-                    videoIndexProvider.setIndexOfVideo(0);
+                      videoIndexProvider.setIndexOfVideo(0);
                     SystemChrome.setPreferredOrientations(
                         [DeviceOrientation.landscapeLeft]).then((_) {
                       _navigationService.navigateToReplacement(
                           routes.HazardPerceptionTestRoute);
                     });
-              
                   }),
               Container(
                   alignment: Alignment.topCenter,
@@ -228,7 +233,11 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                             decoration: new BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
-                                border: Border.all(width: 10, color:  getColorBasedOnScore(arguments['rightClick']),)),
+                                border: Border.all(
+                                  width: 10,
+                                  color: getColorBasedOnScore(
+                                      arguments['rightClick']),
+                                )),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -286,8 +295,10 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                                       .then((_) {
                                     Future.delayed(Duration(milliseconds: 300),
                                         () {
-                                      _navigationService.navigateTo(routes
-                                          .HazardPerceptionTestReplayRoute ,arguments: {'isCorrectButton' : true});
+                                      _navigationService.navigateTo(
+                                          routes
+                                              .HazardPerceptionTestReplayRoute,
+                                          arguments: {'isCorrectButton': true});
                                     });
                                   });
                                 },
@@ -305,7 +316,8 @@ class _HazardPerceptionTestResult extends State<HazardPerceptionTestResult>
                                     .then((_) {
                                   _localServices.getRevVideosList();
                                   _navigationService.navigateTo(
-                                      routes.HazardPerceptionTestReplayRoute , arguments: {'isCorrectButton' : false});
+                                      routes.HazardPerceptionTestReplayRoute,
+                                      arguments: {'isCorrectButton': false});
                                   // _navigationService.navigateTo(
                                   //     routes.HazardPerceptionTestRoute);
                                 });

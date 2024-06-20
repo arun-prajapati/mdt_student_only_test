@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-
 import 'package:Smart_Theory_Test/provider/VideoProvider.dart';
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +53,8 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
 
   @override
   void initState() {
-    final videoIndexProvider = Provider.of<VideoIndexProvider>(context , listen: false);
+    final videoIndexProvider =
+        Provider.of<VideoIndexProvider>(context, listen: false);
 
     videoPaths = _localServices.getRevVideosList();
     videoIndex = videoIndexProvider.indexOfVideo;
@@ -102,21 +102,17 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
       });
     }
 
-
     double slotWithOneMicorSecond =
         progressBarLength / (videoDurationInSeconds * 1000);
     for (int i = 0; i < clickDurationSlot.length; i++) {
-
       double widthStart =
           (clickDurationSlot[i]['micro_time']! * slotWithOneMicorSecond) +
               cursorPosition;
-              
+
       setState(() {
         clickDurationSlot[i]['width_start'] = widthStart;
       });
     }
-
-
 
     startCursor();
     initializeVideoPlayer(videoPaths[videoIndex]);
@@ -336,15 +332,15 @@ class _HazardPerceptionTestReplay extends State<HazardPerceptionTestReplay>
                       ),
                     ))
                 .toList(),
-              if(arguments['isCorrectButton'] ?? false)
-               ...clickDurationSlot
-                .map((flag) => Container(
-                    transform: Matrix4.translationValues(
-                        Responsive.width(flag['width_start']!, context),
-                        Responsive.height(38, context),
-                        0),
-                    child: Icon(Icons.flag, size: 27, color: Colors.red)))
-                .toList(),
+            if (arguments['isCorrectButton'] ?? false)
+              ...clickDurationSlot
+                  .map((flag) => Container(
+                      transform: Matrix4.translationValues(
+                          Responsive.width(flag['width_start']!, context),
+                          Responsive.height(38, context),
+                          0),
+                      child: Icon(Icons.flag, size: 27, color: Colors.red)))
+                  .toList(),
             GestureDetector(
               onTap: moveVideo,
               child: Container(

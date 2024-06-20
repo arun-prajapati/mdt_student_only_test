@@ -61,35 +61,22 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
     }
   }
 
-  void checkTapDurationDifference() {
+  void checkTapDurationDifference({bool isListen = false}) {
     int totalSlotJet = flagList.length;
     bool isAnyClickRight = false;
     const List<int> points = [5, 4, 3, 2, 1];
+    for (int i = 0; i < clickDurationSlot.length; i++) {
+      var giveSlot = clickDurationSlot[i];
+      flagList.forEach((flag) {
+        if (flag >= giveSlot['start']! && flag <= giveSlot['end']!) {
+          isAnyClickRight = true;
+          maxPoints = points[i] > maxPoints ? points[i] : maxPoints;
+        }
+      });
+    }
 
+    rightClick = maxPoints;
     if (totalSlotJet >= 5) {
-      for (int i = 0; i < clickDurationSlot.length; i++) {
-        var giveSlot = clickDurationSlot[i];
-        flagList.forEach((flag) {
-          if (flag >= giveSlot['start']! && flag <= giveSlot['end']!) {
-            isAnyClickRight = true;
-            maxPoints = points[i] > maxPoints ? points[i] : maxPoints;
-          }
-        });
-      }
-
-      rightClick = maxPoints;
-      // clickDurationSlot.forEach((giveSlot) {
-      //   giveSlot as dynamic;
-      //   flagList.forEach((flag) {
-      //     if (flag >= giveSlot['start']! &&
-      //         flag <= giveSlot['end']!) {
-      //       isAnyClickRight = true;
-      //       rightClick += 1;
-      //     }
-      //   });
-      // });
-
-      log(jsonEncode(flagList));
       _localServices.setSelectedFlagsList(flagList);
       _localServices
           .setVideoDuration(_betterPlayerController.value.duration.inSeconds);
@@ -177,10 +164,17 @@ class _HazardPerceptionTest extends State<HazardPerceptionTest> {
           ValueListenableBuilder(
               valueListenable: _betterPlayerController,
               builder: (context, snapshot, _) {
+                log(snapshot.position.inMilliseconds.toString());
+
                 if (snapshot.position >= snapshot.duration &&
                     snapshot.isInitialized) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Map params = {'pattern_out': false};
+                    Map params = {
+                      'pattern_out': true,
+                      'rightClick': rightClick,
+                    };
+                    print("********** $rightClick");
+                    _localServices.setSelectedFlagsList(flagList);
                     _localServices.setVideoDuration(
                         _betterPlayerController.value.duration.inSeconds);
                     _navigationService.navigateToReplacement(
