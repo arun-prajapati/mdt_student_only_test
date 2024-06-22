@@ -16,9 +16,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 #  --IOS version--
-version: 1.0.10+4
+# version: 1.0.10+5
 #  --Android version --
-# version: 1.0.5+38
+version: 1.0.8+41
 environment:
   sdk: '>=2.19.0 <3.0.0'
 
