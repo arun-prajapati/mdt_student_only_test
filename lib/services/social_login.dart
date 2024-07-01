@@ -226,28 +226,9 @@ class SocialLoginService {
   Future<void> sendErrorLogs(String msg) async {
     final url = Uri.parse("$api/api/error-logs");
     Map<String, String> body = {"message": msg};
-    await http.post(url, body: body);
-  }
-
-  showValidationDialog(BuildContext context, String message) {
-    //print("valid");
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Smart Theory Test'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Ok'),
-              ),
-            ],
-          );
-        });
+    await http.post(url, body: body, headers: {
+      'App-Version': appVersion,
+    });
   }
 
   //social_type = facebook, google, apple
@@ -260,7 +241,9 @@ class SocialLoginService {
         params['social_site_id'] +
         "&email=" +
         params['email']);
-    final response = await http.get(url);
+    final response = await http.get(url, headers: {
+      'App-Version': appVersion,
+    });
     Map data = json.decode(response.body);
     print("data....");
     print(data);

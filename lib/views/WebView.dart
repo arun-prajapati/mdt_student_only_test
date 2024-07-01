@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:Smart_Theory_Test/constants/global.dart';
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
@@ -38,6 +40,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(
             PlatformWebViewControllerCreationParams());
@@ -89,6 +92,10 @@ Page resource error:
     print('_________________________--- ${_url}');
 
     _controller = controller;
+  }
+
+  getData() async {
+    await context.read<UserProvider>().getUserData(context);
   }
 
   @override

@@ -5,7 +5,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui' as ui;
+import 'package:launch_review/launch_review.dart';
 
+import 'package:Smart_Theory_Test/Constants/global.dart';
 import 'package:Smart_Theory_Test/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +32,6 @@ import '../../services/methods.dart';
 import '../../services/navigation_service.dart';
 import '../../services/password_services.dart';
 import '../../services/validator.dart';
-import '../../utils/appImages.dart';
 import '../../utils/app_colors.dart';
 
 class Register extends StatefulWidget {
@@ -687,48 +688,4 @@ class RegisterHeaderPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-}
-
-showValidationDialog(BuildContext context, String message) {
-  //print("valid");
-  return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
-          content: Text(
-            message,
-            style: AppTextStyle.disStyle.copyWith(
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0.5,
-                color: AppColors.black,
-                height: 1.3),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                if (Provider.of<UserProvider>(context, listen: false)
-                        .notification
-                        .text ==
-                    'Registration successful, please Login into your account.') {
-                  // Navigator.of(context).pop();
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                  );
-                } else {
-                  Navigator.of(context).pop();
-                }
-              },
-              child: Text(
-                'Ok',
-                style: AppTextStyle.textStyle.copyWith(
-                    fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
-        );
-      });
 }

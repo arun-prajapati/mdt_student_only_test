@@ -108,6 +108,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     if (data == null) {
       showMessageDialog();
     }
+    await context.read<UserProvider>().getUserData(context);
     showLoader(loaderMessage);
     // getUserDetail().then((user_id) async {
     // fetch dvsa subscription status from db.
@@ -138,7 +139,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
           }
           closeLoader();
         }
-      });
+      }).catchError((e) {});
       print("Status : $readContentTheory");
     });
     // await callApiGetRecommendatedTheory().then((data) { //fetch all theory content.
@@ -172,29 +173,34 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
 
   //Fetch topics with description
   getTheoryContent(String isFree) async {
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
-    final url = Uri.parse('$api/api/ai_get_theory_content/$isFree');
-    final response = await http.get(url, headers: header);
-    print("URL +++++++ $url");
-    if (response.statusCode == 200) {
-      var parsedData = jsonDecode(response.body);
-      if (parsedData['success'] == true) {
-        theoryContent.clear();
-        List<TheoryContentModel> data = (parsedData["message"] as List)
-            .map((e) => TheoryContentModel.fromJson(e))
-            .toList();
-        theoryContent.addAll(data);
-        print("RESPONESE +++++++ $parsedData");
+    try {
+      SharedPreferences storage = await SharedPreferences.getInstance();
+      String token = storage.getString('token').toString();
+      Map<String, String> header = {
+        'token': token,
+        'App-Version': appVersion,
+      };
+      final url = Uri.parse('$api/api/ai_get_theory_content/$isFree');
+      final response = await http.get(url, headers: header);
+      print("URL +++++++ $url");
+      if (response.statusCode == 200) {
+        var parsedData = jsonDecode(response.body);
+        if (parsedData['success'] == true) {
+          theoryContent.clear();
+          List<TheoryContentModel> data = (parsedData["message"] as List)
+              .map((e) => TheoryContentModel.fromJson(e))
+              .toList();
+          theoryContent.addAll(data);
+          print("RESPONESE +++++++ $parsedData");
+        }
+      } else {
+        log('ERORRRR ${response.body}');
       }
-    } else {
-      log('ERORRRR ${response.body}');
-    }
 
-    return jsonDecode(response.body);
+      return jsonDecode(response.body);
+    } catch (e) {
+      print(e);
+    }
   }
 
   // purchasePackage(Package package, BuildContext context) async {
@@ -234,6 +240,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final url = Uri.parse('$api/api/ai_provideAI_data/${topic}');
     print("URL +++++++ TOPIC $url");
@@ -256,6 +263,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final url = Uri.parse('$api/api/update/progress');
 
@@ -275,6 +283,7 @@ class _TheoryRecommendations extends State<TheoryRecommendations> {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final url =
         Uri.parse('$api/api/fetch/progress/${AppConstant.userModel?.userId}');

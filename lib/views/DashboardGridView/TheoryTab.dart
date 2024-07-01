@@ -133,8 +133,8 @@ class _TheoryTabState extends State<TheoryTab> {
   ];
 
   Future<Map> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response = await Provider.of<UserProvider>(context, listen: false)
+        .getUserData(context);
 
     return response;
   }
@@ -242,28 +242,39 @@ class _TheoryTabState extends State<TheoryTab> {
   //   CustomSpinner.showLoadingDialog(context, _keyLoader, message);
   // }
   Future<List> getCategoriesFromApi() async {
-    loading(value: true);
-    categories = await test_api_services.getCategories(context);
+    try {
+      loading(value: true);
+      categories = await test_api_services.getCategories(context);
 
-    // http.Response.
-    print('RESPONSE DATA :: $categories');
-    loading(value: false);
-    return categories;
+      // http.Response.
+      print('RESPONSE DATA :: $categories');
+      loading(value: false);
+      return categories;
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
   Future<Map> fetchUserTheoryProgress() async {
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
-    final url =
-        Uri.parse('$api/api/fetch/progress/${AppConstant.userModel?.userId}');
-    //print("URL : $url");
-    final response = await http.get(url, headers: header);
-    print("fetchUserTheoryProgress URL $url");
-    log("RESPONSE fetchUserTheoryProgress ++++++++++++++++ ${response.body}");
-    return jsonDecode(response.body);
+    try {
+      SharedPreferences storage = await SharedPreferences.getInstance();
+      String token = storage.getString('token').toString();
+      Map<String, String> header = {
+        'token': token,
+        'App-Version': appVersion,
+      };
+      final url =
+          Uri.parse('$api/api/fetch/progress/${AppConstant.userModel?.userId}');
+      //print("URL : $url");
+      final response = await http.get(url, headers: header);
+      print("fetchUserTheoryProgress URL $url");
+      log("RESPONSE fetchUserTheoryProgress ++++++++++++++++ ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print(e);
+      return {};
+    }
   }
 
   // void closeLoader() {

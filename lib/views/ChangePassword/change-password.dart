@@ -34,8 +34,8 @@ class _ChangePassword extends State<ChangePassword> {
 
   //Call APi Services
   Future<int> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response = await Provider.of<UserProvider>(context, listen: false)
+        .getUserData(context);
     _userId = response['id'];
     return _userId;
   }

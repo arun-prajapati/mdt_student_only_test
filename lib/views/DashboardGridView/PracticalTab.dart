@@ -51,7 +51,7 @@ class _PracticalTabState extends State<PracticalTab> {
     super.initState();
     //showLoader("Fetching courses");
     Provider.of<UserProvider>(context, listen: false)
-        .getUserData()
+        .getUserData(context)
         .then((res) => {userId = res['id']});
     _bookingService.getCoursesNameList('').then((courseList) {
       getProgress().then((res) {
@@ -80,6 +80,7 @@ class _PracticalTabState extends State<PracticalTab> {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.get(url, headers: header);
     print(json.decode(response.body));

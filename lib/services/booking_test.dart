@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,9 +30,7 @@ class BookingService {
         filterType);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
     if (data['success'] == true) {
@@ -49,9 +48,7 @@ class BookingService {
         filterType);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
     if (data['success'] == true) {
@@ -131,9 +128,7 @@ class BookingService {
         parms['course_id']);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     print("getDynamicRate.." + url.toString());
     final response = await http.get(url, headers: header);
     print("getDynamicRate......");
@@ -146,9 +141,7 @@ class BookingService {
     final url = Uri.parse("$api/api/get-instructor");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.get(url, headers: header);
     data = json.decode(response.body);
     if (data['success'] == true) {
@@ -164,9 +157,7 @@ class BookingService {
     final url = Uri.parse("$api/api/courses");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.get(url, headers: header);
     data = json.decode(response.body);
     if (data['success'] == true) {
@@ -182,7 +173,7 @@ class BookingService {
     final url = Uri.parse("$api/api/save-lesson");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {'token': token};
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     print("request data..");
     print(formData);
     final response = await http.post(url, headers: header, body: formData);
@@ -194,7 +185,7 @@ class BookingService {
     final url = Uri.parse("$api/api/save-test");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {'token': token};
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
     return data;
@@ -204,7 +195,7 @@ class BookingService {
     final url = Uri.parse("$api/api/save-pass-assist-lesson");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {'token': token};
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
     return data;
@@ -214,7 +205,7 @@ class BookingService {
     final url = Uri.parse("$api/api/pay-lesson-fee");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {'token': token};
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
     return data;
@@ -224,7 +215,7 @@ class BookingService {
     final url = Uri.parse("$api/api/pay-test-fee");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {'token': token};
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
     print("Booking res: $data");
@@ -235,7 +226,7 @@ class BookingService {
     final url = Uri.parse("$api/api/check-code");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {'token': token};
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
     return data;
@@ -247,10 +238,11 @@ class BookingService {
         "$api/calender-booking-count?from=" + startDate + "&to=" + endDate);
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
-    final response = await http.get(url, headers: header);
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
+    final response = await http.get(
+      url,
+      headers: header,
+    );
     data = json.decode(response.body);
     if (data['success'] == true) {
       List addresses = data["data"];

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
@@ -30,6 +31,7 @@ class PaymentService {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
@@ -51,6 +53,7 @@ class PaymentService {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.get(url, headers: header);
     _status = Status.Loaded;
@@ -65,6 +68,7 @@ class PaymentService {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.post(url, headers: header, body: body);
     _status = Status.Loaded;

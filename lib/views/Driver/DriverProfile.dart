@@ -75,8 +75,8 @@ class _driverProfile extends State<DriverProfile> {
 
   //Call APi Services
   Future<int> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response = await Provider.of<UserProvider>(context, listen: false)
+        .getUserData(context);
     _userId = response['id'];
     print('USER ID *************************  $_userId');
     print('USER ID *************************  ${response['user_type']}');

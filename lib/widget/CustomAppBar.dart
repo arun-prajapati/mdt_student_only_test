@@ -1,10 +1,12 @@
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../responsive/percentage_mediaquery.dart';
 import '../responsive/size_config.dart';
 import '../utils/app_colors.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatefulWidget {
 //  final double preferedHeight;
 //  final String title;
 //  CustomAppBar({this.preferedHeight, this.title});
@@ -37,13 +39,36 @@ class CustomAppBar extends StatelessWidget {
   final VoidCallback? onTapRightbtn;
 
   @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+
+    super.initState();
+  }
+
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      getData();
+    }
+  }
+
+  getData() async {
+    await context.read<UserProvider>().getUserData(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
     return Container(
       child: Container(
           width: Responsive.width(100, context),
-          height: preferedHeight! + MediaQuery.of(context).padding.top,
+          height: widget.preferedHeight! + MediaQuery.of(context).padding.top,
           decoration: BoxDecoration(
             // borderRadius: BorderRadius.only(
             //   bottomLeft: Radius.circular(Responsive.height(3.5, context)),
@@ -86,10 +111,10 @@ class CustomAppBar extends StatelessWidget {
                                 color: Colors.black12),
                             child: GestureDetector(
                               onTap: () {
-                                this.onTap1!();
+                                this.widget.onTap1!();
                               },
                               child: Icon(
-                                iconLeft,
+                                widget.iconLeft,
                                 color: Colors.black,
                                 size: currentOrientation == Orientation.portrait
                                     ? (3.4 * SizeConfig.blockSizeVertical)
@@ -114,13 +139,13 @@ class CustomAppBar extends StatelessWidget {
                             //     0.0),
                             alignment: Alignment.topLeft,
                             child: Text(
-                              '${title}',
+                              '${widget.title}',
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyle.appBarStyle,
                             ),
                           ),
                         ),
-                        if (isRightBtn)
+                        if (widget.isRightBtn)
                           Expanded(
                             flex: 0,
                             child: Align(
@@ -153,7 +178,7 @@ class CustomAppBar extends StatelessWidget {
                                           elevation: 5.0,
                                           child: MaterialButton(
                                             onPressed: () =>
-                                                {this.onTapRightbtn!()},
+                                                {this.widget.onTapRightbtn!()},
                                             child: LayoutBuilder(
                                               builder: (context, constraints) {
                                                 return Container(
@@ -167,7 +192,7 @@ class CustomAppBar extends StatelessWidget {
                                                           constraints.maxWidth *
                                                               1,
                                                       child: Text(
-                                                        rightBtnText!,
+                                                        widget.rightBtnText!,
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Poppins',
@@ -188,7 +213,7 @@ class CustomAppBar extends StatelessWidget {
                                             EdgeInsets.only(top: 3, right: 10),
                                         width: constraints.maxWidth * 0.70,
                                         child: Text(
-                                          rightBtnLabel!,
+                                          widget.rightBtnLabel!,
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontSize: 11,
@@ -199,7 +224,7 @@ class CustomAppBar extends StatelessWidget {
                                   )),
                             ),
                           ),
-                        if (!isRightBtn)
+                        if (!widget.isRightBtn)
                           Expanded(
                             flex: 1,
                             child: Align(
@@ -213,9 +238,9 @@ class CustomAppBar extends StatelessWidget {
                                 //     top: Responsive.width(2, context)),
                                 child: GestureDetector(
                                   onTap: () {
-                                    this.onTapRightbtn!();
+                                    this.widget.onTapRightbtn!();
                                   },
-                                  child: hasIcon == true
+                                  child: widget.hasIcon == true
                                       ? Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
@@ -228,7 +253,7 @@ class CustomAppBar extends StatelessWidget {
                                             ),
                                             SizedBox(width: 10),
                                             Icon(
-                                              iconRight,
+                                              widget.iconRight,
                                               color: Colors.black,
                                               size: currentOrientation ==
                                                       Orientation.portrait
@@ -242,7 +267,7 @@ class CustomAppBar extends StatelessWidget {
                                           ],
                                         )
                                       : Icon(
-                                          iconRight,
+                                          widget.iconRight,
                                           color: Colors.black,
                                           size: currentOrientation ==
                                                   Orientation.portrait

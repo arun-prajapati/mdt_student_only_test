@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:Smart_Theory_Test/routing/route.dart';
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:Smart_Theory_Test/services/subsciption_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class PractiseTheoryTestServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     print('URL getCategories ****************** $url');
     final response = await http.get(url, headers: header);
@@ -33,6 +35,7 @@ class PractiseTheoryTestServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final url = Uri.parse('$api/api/ai_get_theory_content/yes');
     final response = await http.get(url, headers: header);
@@ -56,6 +59,7 @@ class PractiseTheoryTestServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
@@ -78,6 +82,7 @@ class PractiseTheoryTestServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
@@ -99,6 +104,7 @@ class PractiseTheoryTestServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     Map<String, String> formData = {
       'responses': jsonEncode(test_question),
@@ -118,6 +124,7 @@ class PractiseTheoryTestServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
 
     print("Test reset... $URL");

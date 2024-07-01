@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:Smart_Theory_Test/Constants/global.dart';
 import 'package:Smart_Theory_Test/views/Login/otp_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,9 +81,9 @@ class _SignInFormState extends State<SignInForm> {
   TextEditingController password = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  // TextEditingController password = TextEditingController(text: "123456");
+  // TextEditingController password = TextEditingController(text: "12345678");
   // TextEditingController emailController =
-  //     TextEditingController(text: "d@gmail.com");
+  //     TextEditingController(text: "y@gmail.com");
 
   // Future<String?> getId() async {
   //   //  deviceId = await PlatformDeviceId.getDeviceId;
@@ -102,38 +103,6 @@ class _SignInFormState extends State<SignInForm> {
   //
   //   return deviceId;
   // }
-
-  showValidationDialog(BuildContext context, String message) {
-    //print("valid");
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Smart Theory Test', style: AppTextStyle.appBarStyle),
-            content: Text(
-              message,
-              style: AppTextStyle.disStyle.copyWith(
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.5,
-                  color: AppColors.black,
-                  height: 1.3),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Ok',
-                  style: AppTextStyle.textStyle.copyWith(
-                      fontSize: 16, color: Dark, fontWeight: FontWeight.w600),
-                ),
-              ),
-            ],
-          );
-        });
-  }
 
   Future<void> submit() async {
     FocusManager.instance.primaryFocus?.unfocus();

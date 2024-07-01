@@ -175,6 +175,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     print('URL getCategories ****************** $url');
     final response = await http.get(url, headers: header);
@@ -200,6 +201,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final url = Uri.parse('$api/api/ai_get_theory_content/$isFree');
     final response = await http.get(url, headers: header);
@@ -237,6 +239,7 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.get(url, headers: header);
     var data = jsonDecode(response.body);
@@ -301,6 +304,8 @@ class _practiceTheoryTest extends State<PracticeTheoryTest> {
   PageController scrollController = PageController();
 
   initializeApi(String loaderMessage) async {
+    await context.read<UserProvider>().getUserData(context);
+
     // auth_services.changeView = false;
     // setState(() {});
     // await context.read<SubscriptionProvider>().fetchOffer();

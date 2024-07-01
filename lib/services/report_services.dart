@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +15,7 @@ class ReportServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     print("Printing form data.....$formData");
     final response = await http
@@ -34,6 +36,7 @@ class ReportServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     print("Printing form data.....$formData");
     final response = await http
@@ -54,6 +57,7 @@ class ReportServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);

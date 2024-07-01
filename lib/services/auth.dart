@@ -29,6 +29,8 @@ import '../locater.dart';
 import 'navigation_service.dart';
 import 'notification_text/notification_text.dart';
 
+String appVersion = "1.0.0";
+
 class UserProvider with ChangeNotifier {
   final NavigationService _navigationService = locator<NavigationService>();
   Status _status = Status.Uninitialized;
@@ -99,10 +101,9 @@ class UserProvider with ChangeNotifier {
 
     print(jsonEncode(body));
 
-    final response = await http.post(
-      url,
-      body: body,
-    );
+    final response = await http.post(url, body: body, headers: {
+      'App-Version': appVersion,
+    });
     _deviceId = deviceId;
     if (response.statusCode == 200) {
       Map<String, dynamic> apiResponse = json.decode(response.body);
@@ -196,7 +197,7 @@ class UserProvider with ChangeNotifier {
       );
     print("SOCIAL LOGIN URL $url");
     _deviceId = params['device_id'];
-    final response = await http.get(url);
+    final response = await http.get(url, headers: {'App-Version': appVersion});
     final responseParse = json.decode(response.body);
 
     if (responseParse['success'] == false) {
@@ -278,10 +279,8 @@ class UserProvider with ChangeNotifier {
     };
     print("-------- REGISTER BODY ---------- ${jsonEncode(body)}");
     print("-------- REGISTER URL ---------- $api/api/register");
-    final response = await http.post(
-      url,
-      body: body,
-    );
+    final response =
+        await http.post(url, body: body, headers: {'App-Version': appVersion});
     Map apiResponse = json.decode(response.body);
     print("Registration: $apiResponse");
     if (apiResponse["success"] == true) {
@@ -312,10 +311,8 @@ class UserProvider with ChangeNotifier {
     Map<String, String> body = {
       'email': email,
     };
-    final response = await http.post(
-      url,
-      body: body,
-    );
+    final response =
+        await http.post(url, body: body, headers: {'App-Version': appVersion});
     if (response.statusCode == 200) {
       _notification =
           NotificationText('Reset sent. Please check your inbox.', 'info');
@@ -333,10 +330,8 @@ class UserProvider with ChangeNotifier {
     };
     print('UPDATE DEVICE_ID URL $url');
     print('UPDATE DEVICE_ID ${jsonEncode(body)}');
-    final response = await http.post(
-      url,
-      body: body,
-    );
+    final response =
+        await http.post(url, body: body, headers: {'App-Version': appVersion});
     if (response.statusCode == 200) {
       print('UPDATE ${response.body}');
       var data = jsonDecode(response.body);
@@ -349,18 +344,20 @@ class UserProvider with ChangeNotifier {
     return false;
   }
 
-  Future<Map> getUserData() async {
+  Future<Map> getUserData(BuildContext context) async {
     final url = Uri.parse('$api/api/user');
     SharedPreferences storage = await SharedPreferences.getInstance();
     String? token = storage.getString('token');
     Map<String, String> header = {
       'token': token.toString(),
+      'App-Version': appVersion
     };
     final response = await http.get(
       url,
       headers: header,
     );
-    // log('Response....... ${response.body}');
+    log('Response....... ${url}');
+    log('Response....... ${response.body} ${response.statusCode}');
     Map data = jsonDecode(response.body);
     try {
       if (response.statusCode == 200) {
@@ -380,9 +377,13 @@ class UserProvider with ChangeNotifier {
             '.....200............ ${jsonEncode(AppConstant.userModel?.toJson())}');
         return userDetails;
       } else {
-        _navigationService.goBack();
-        logOut();
-        print('.....500............');
+        if (data['success'] == false) {
+          showValidationDialog(context, data['message']);
+        } else {
+          _navigationService.goBack();
+          logOut();
+        }
+
         return {};
       }
     } catch (e) {
@@ -568,7 +569,7 @@ class UserProvider with ChangeNotifier {
     SharedPreferences storage = await SharedPreferences.getInstance();
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
-    _navigationService.navigatorKey.currentState?.pop();
+    // _navigationService.navigatorKey.currentState?.pop();
     _navigationService.navigateToRemoveUntil('/Authorization');
     await storage.clear();
   }
@@ -650,9 +651,7 @@ class UserProvider with ChangeNotifier {
     final url = Uri.parse("$api/api/delete-account");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.post(url, headers: header);
     log("++++++++++++++++= $url");
     log("++++++++++++++++= ${response.body} $header");

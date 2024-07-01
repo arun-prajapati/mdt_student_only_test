@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,9 +21,7 @@ class DriverProfileServices {
     print('TOKEN ******************  $token');
     print('PROFILE DETAIL  $URL');
 
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
     final response = await http.get(url, headers: header);
     data = jsonDecode(response.body);
     Map recordData = data["data"];
@@ -35,6 +34,7 @@ class DriverProfileServices {
     String token = storage.getString('token').toString();
     Map<String, String> header = {
       'token': token,
+      'App-Version': appVersion,
     };
     final response = await http.post(url, headers: header, body: formData);
     data = jsonDecode(response.body);
@@ -47,7 +47,10 @@ class DriverProfileServices {
     final url = Uri.parse("$api/api/save-password");
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
-    Map<String, String> header = {'token': token};
+    Map<String, String> header = {
+      'token': token,
+      'App-Version': appVersion,
+    };
     final response = await http.post(url, headers: header, body: formData);
     print('---- BODY ---- ${jsonEncode(formData)}');
     print('---- URL ---- $api/api/save-password');

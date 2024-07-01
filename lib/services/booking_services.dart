@@ -23,9 +23,7 @@ class Service with ChangeNotifier {
     SharedPreferences storage = await SharedPreferences.getInstance();
     String token = storage.getString('token').toString();
 
-    Map<String, String> header = {
-      'token': token,
-    };
+    Map<String, String> header = {'token': token, 'App-Version': appVersion};
 
     final response = await http.get(url, headers: header);
     apiResponse = json.decode(response.body);

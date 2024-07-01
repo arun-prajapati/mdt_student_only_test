@@ -2393,8 +2393,8 @@ class _bookTestForm extends State<BookTestForm> {
 
   //Call APi Services
   Future<Map> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response = await Provider.of<UserProvider>(context, listen: false)
+        .getUserData(context);
     licenceHttpPath = response['img_url'];
     _userId = response['id'];
     return response;

@@ -49,8 +49,8 @@ class _LessonRecommendationState extends State<LessonRecommendation> {
   }
 
   Future<Map> getUserDetail() async {
-    Map response =
-        await Provider.of<UserProvider>(context, listen: false).getUserData();
+    Map response = await Provider.of<UserProvider>(context, listen: false)
+        .getUserData(context);
     return response;
   }
 

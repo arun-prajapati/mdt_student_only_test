@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:Smart_Theory_Test/Constants/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,27 +77,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   // int secondsRemaining = 1 * 60;
   // bool enableResend = false;
   // Timer? timer;
-
-  showValidationDialog(BuildContext context, String message) {
-    //print("valid");
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Smart Theory Test'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Ok'),
-              ),
-            ],
-          );
-        });
-  }
 
   // showSuccessDialog(BuildContext context, String message) {
   //   return showDialog(

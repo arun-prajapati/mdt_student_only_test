@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:Smart_Theory_Test/Constants/global.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
@@ -52,27 +53,6 @@ class _ForgotNextScreenState extends State<ForgotNextScreen> {
   FocusNode _newPasswordFocusNode = FocusNode();
 
   FocusNode _confirmNewPasswordFocusNode = FocusNode();
-
-  showValidationDialog(BuildContext context, String message) {
-    //print("valid");
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Smart Theory Test'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Ok'),
-              ),
-            ],
-          );
-        });
-  }
 
   showSuccessDialog(BuildContext context, String message) {
     return showDialog(

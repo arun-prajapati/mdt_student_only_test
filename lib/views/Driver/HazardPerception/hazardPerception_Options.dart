@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:Smart_Theory_Test/Constants/app_colors.dart';
+import 'package:Smart_Theory_Test/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/src/material/card.dart' as MCard;
 // import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:Smart_Theory_Test/routing/route_names.dart' as routes;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../locater.dart';
@@ -143,6 +145,7 @@ class _HazardPerceptionOptions extends State<HazardPerceptionOptions>
     if (data == null) {
       showMessageDialog();
     }
+    await context.read<UserProvider>().getUserData(context);
   }
 
   @override
